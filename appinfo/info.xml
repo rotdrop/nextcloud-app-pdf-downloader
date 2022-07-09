@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+  <id>pdf-downloader</id>
+  <name>PDF Downloader</name>
+  <summary>Recursive PDF Downloader</summary>
+  <description><![CDATA[Recusively convert entire directory trees to PDF and provide the resulting document as download]]></description>
+  <version>0.0.1</version>
+  <licence>agpl</licence>
+  <author mail="himself@claus-justus-heine.de" >Claus-Justus Heine</author>
+  <namespace>PdfDownloader</namespace>
+  <category>office</category>
+  <bugs>https://github.com/rotdrop/nextcloud-app-pdf-downloader.git</bugs>
+  <dependencies>
+    <nextcloud min-version="23" max-version="24"/>
+    <php min-version="7.4" max-version="8.1" />
+  </dependencies>
+  <settings>
+    <admin>OCA\PdfDownloader\Settings\Admin</admin>
+    <admin-section>OCA\PdfDownloader\Settings\AdminSection</admin-section>
+    <personal>OCA\PdfDownloader\Settings\Personal</personal>
+    <personal-section>OCA\PdfDownloader\Settings\PersonalSection</personal-section>
+  </settings>
+</info>
