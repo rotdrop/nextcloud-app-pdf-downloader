@@ -1,0 +1,518 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Nextcloud package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nextcloud 3.14159\n"
+"Report-Msgid-Bugs-To: translations\\@example.com\n"
+"POT-Creation-Date: 2022-07-10 01:05+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lib/Controller/CatchAllController.php:55
+#, php-format
+msgid "Post to end-point \"%s\" not implemented."
+msgstr ""
+
+#: lib/Controller/CatchAllController.php:58
+#, php-format
+msgid "Post to base-url of app \"%s\" not allowed."
+msgstr ""
+
+#: lib/Controller/CatchAllController.php:71
+#, php-format
+msgid "Get from end-point \"%s\" not implemented."
+msgstr ""
+
+#: lib/Controller/SettingsController.php:82
+#: lib/Controller/SettingsController.php:106
+#, php-format
+msgid "Unknown admin setting: \"%1$s\""
+msgstr ""
+
+#: lib/Controller/SettingsController.php:125
+#, php-format
+msgid "Unknown app setting: \"%1$s\""
+msgstr ""
+
+#: lib/Service/AnyToPdf.php:128
+#, php-format
+msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
+msgstr ""
+
+#: lib/Service/AnyToPdf.php:243
+#, php-format
+msgid "Please install the \"%s\" program on the server."
+msgstr ""
+
+#: lib/Service/AssetService.php:75
+#, php-format
+msgid ""
+"Installation problem; the required %s-resource \"%s\" is not installed on "
+"the server, please contact the system administrator!"
+msgstr ""
+
+#: lib/Service/PdfCombiner.php:287
+#: lib/Service/PdfCombiner.php:310
+msgid "Combining PDFs failed"
+msgstr ""
+
+#: lib/Settings/AdminSection.php:69
+#: lib/Settings/PersonalSection.php:69
+#: specialAppInfoFakeDummyForL10nScript.php:2
+msgid "PDF Downloader"
+msgstr ""
+
+#: lib/Traits/ResponseTrait.php:73
+msgid "Error, caught an exception."
+msgstr ""
+
+#: lib/Traits/ResponseTrait.php:74
+msgid "Caused by previous exception"
+msgstr ""
+
+#: specialAppInfoFakeDummyForL10nScript.php:3
+msgid "Recursive PDF Downloader"
+msgstr ""
+
+#: specialAppInfoFakeDummyForL10nScript.php:4
+msgid ""
+"Recusively convert entire directory trees to PDF and provide the resulting "
+"document as download"
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:25
+#: specialVueFakeDummyForL10nScript.js:2
+msgid "Recursive Pdf Downloader, Admin Settings"
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:28
+#: specialVueFakeDummyForL10nScript.js:4
+msgid "Example setting"
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:29
+#: specialVueFakeDummyForL10nScript.js:6
+msgid "Just to have something to show ..."
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:75
+#: specialVueFakeDummyForL10nScript.js:8
+msgid "Confirmation Required"
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:80
+#: specialVueFakeDummyForL10nScript.js:10
+msgid "Unconfirmed, reverting to old value."
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:86
+#: specialVueFakeDummyForL10nScript.js:12
+msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:90
+#: specialVueFakeDummyForL10nScript.js:14
+msgid "reason unknown"
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:95
+#: specialVueFakeDummyForL10nScript.js:16
+msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:25
+#: specialVueFakeDummyForL10nScript.js:18
+msgid "Recursive Pdf Downloader, Personal Settings"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:29
+#: specialVueFakeDummyForL10nScript.js:20
+msgid "Test Input"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:30
+#: specialVueFakeDummyForL10nScript.js:22
+msgid "Test Hint"
+msgstr ""
+
+#: src/files-action.js:39
+#: src/files-action.js:40
+msgid "Download PDF"
+msgstr ""
+
+#: src/util/ajax.js:35
+msgid "OK"
+msgstr ""
+
+#: src/util/ajax.js:36
+msgid "Created"
+msgstr ""
+
+#: src/util/ajax.js:37
+msgid "Accepted"
+msgstr ""
+
+#: src/util/ajax.js:38
+msgid "Non-Authoritative Information"
+msgstr ""
+
+#: src/util/ajax.js:39
+msgid "No Content"
+msgstr ""
+
+#: src/util/ajax.js:40
+msgid "Reset Content"
+msgstr ""
+
+#: src/util/ajax.js:41
+msgid "Partial Content"
+msgstr ""
+
+#: src/util/ajax.js:42
+msgid "Multi-Status (WebDAV)"
+msgstr ""
+
+#: src/util/ajax.js:43
+msgid "Already Reported (WebDAV)"
+msgstr ""
+
+#: src/util/ajax.js:44
+msgid "IM Used"
+msgstr ""
+
+#: src/util/ajax.js:45
+msgid "Multiple Choices"
+msgstr ""
+
+#: src/util/ajax.js:46
+msgid "Moved Permanently"
+msgstr ""
+
+#: src/util/ajax.js:47
+msgid "Found"
+msgstr ""
+
+#: src/util/ajax.js:48
+msgid "See Other"
+msgstr ""
+
+#: src/util/ajax.js:49
+msgid "Not Modified"
+msgstr ""
+
+#: src/util/ajax.js:50
+msgid "Use Proxy"
+msgstr ""
+
+#: src/util/ajax.js:51
+msgid "(Unused)"
+msgstr ""
+
+#: src/util/ajax.js:52
+msgid "Temporary Redirect"
+msgstr ""
+
+#: src/util/ajax.js:53
+msgid "Permanent Redirect (experimental)"
+msgstr ""
+
+#: src/util/ajax.js:54
+msgid "Bad Request"
+msgstr ""
+
+#: src/util/ajax.js:55
+msgid "Unauthorized"
+msgstr ""
+
+#: src/util/ajax.js:56
+msgid "Payment Required"
+msgstr ""
+
+#: src/util/ajax.js:57
+msgid "Forbidden"
+msgstr ""
+
+#: src/util/ajax.js:58
+msgid "Not Found"
+msgstr ""
+
+#: src/util/ajax.js:59
+msgid "Method Not Allowed"
+msgstr ""
+
+#: src/util/ajax.js:60
+msgid "Not Acceptable"
+msgstr ""
+
+#: src/util/ajax.js:61
+msgid "Proxy Authentication Required"
+msgstr ""
+
+#: src/util/ajax.js:62
+msgid "Request Timeout"
+msgstr ""
+
+#: src/util/ajax.js:63
+msgid "Conflict"
+msgstr ""
+
+#: src/util/ajax.js:64
+msgid "Gone"
+msgstr ""
+
+#: src/util/ajax.js:65
+msgid "Length Required"
+msgstr ""
+
+#: src/util/ajax.js:66
+msgid "Precondition Failed"
+msgstr ""
+
+#: src/util/ajax.js:67
+msgid "Request Entity Too Large"
+msgstr ""
+
+#: src/util/ajax.js:68
+msgid "Request-URI Too Long"
+msgstr ""
+
+#: src/util/ajax.js:69
+msgid "Unsupported Media Type"
+msgstr ""
+
+#: src/util/ajax.js:70
+msgid "Requested Range Not Satisfiable"
+msgstr ""
+
+#: src/util/ajax.js:71
+msgid "Expectation Failed"
+msgstr ""
+
+#: src/util/ajax.js:72
+msgid "I'm a teapot (RFC 2324)"
+msgstr ""
+
+#: src/util/ajax.js:73
+msgid "Enhance Your Calm (Twitter)"
+msgstr ""
+
+#: src/util/ajax.js:74
+msgid "Unprocessable Entity (WebDAV)"
+msgstr ""
+
+#: src/util/ajax.js:75
+msgid "Locked (WebDAV)"
+msgstr ""
+
+#: src/util/ajax.js:76
+msgid "Failed Dependency (WebDAV)"
+msgstr ""
+
+#: src/util/ajax.js:77
+msgid "Reserved for WebDAV"
+msgstr ""
+
+#: src/util/ajax.js:78
+msgid "Upgrade Required"
+msgstr ""
+
+#: src/util/ajax.js:79
+msgid "Precondition Required"
+msgstr ""
+
+#: src/util/ajax.js:80
+msgid "Too Many Requests"
+msgstr ""
+
+#: src/util/ajax.js:81
+msgid "Request Header Fields Too Large"
+msgstr ""
+
+#: src/util/ajax.js:82
+msgid "No Response (Nginx)"
+msgstr ""
+
+#: src/util/ajax.js:83
+msgid "Retry With (Microsoft)"
+msgstr ""
+
+#: src/util/ajax.js:84
+msgid "Blocked by Windows Parental Controls (Microsoft)"
+msgstr ""
+
+#: src/util/ajax.js:85
+msgid "Unavailable For Legal Reasons"
+msgstr ""
+
+#: src/util/ajax.js:86
+msgid "Client Closed Request (Nginx)"
+msgstr ""
+
+#: src/util/ajax.js:87
+msgid "Internal Server Error"
+msgstr ""
+
+#: src/util/ajax.js:88
+msgid "Not Implemented"
+msgstr ""
+
+#: src/util/ajax.js:89
+msgid "Bad Gateway"
+msgstr ""
+
+#: src/util/ajax.js:90
+msgid "Service Unavailable"
+msgstr ""
+
+#: src/util/ajax.js:91
+msgid "Gateway Timeout"
+msgstr ""
+
+#: src/util/ajax.js:92
+msgid "HTTP Version Not Supported"
+msgstr ""
+
+#: src/util/ajax.js:93
+msgid "Variant Also Negotiates (Experimental)"
+msgstr ""
+
+#: src/util/ajax.js:94
+msgid "Insufficient Storage (WebDAV)"
+msgstr ""
+
+#: src/util/ajax.js:95
+msgid "Loop Detected (WebDAV)"
+msgstr ""
+
+#: src/util/ajax.js:96
+msgid "Bandwidth Limit Exceeded (Apache)"
+msgstr ""
+
+#: src/util/ajax.js:97
+msgid "Not Extended"
+msgstr ""
+
+#: src/util/ajax.js:98
+msgid "Network Authentication Required"
+msgstr ""
+
+#: src/util/ajax.js:99
+msgid "Network read timeout error"
+msgstr ""
+
+#: src/util/ajax.js:100
+msgid "Network connect timeout error"
+msgstr ""
+
+#: src/util/ajax.js:157
+msgid "Operation cancelled by user."
+msgstr ""
+
+#: src/util/ajax.js:160
+msgid "Aborted"
+msgstr ""
+
+#: src/util/ajax.js:173
+#: src/util/ajax.js:354
+msgid "Error"
+msgstr ""
+
+#: src/util/ajax.js:198
+msgid "System Administrator"
+msgstr ""
+
+#: src/util/ajax.js:223
+msgid "Feedback email: {AutoReport}"
+msgstr ""
+
+#: src/util/ajax.js:247
+msgid "Something went wrong."
+msgstr ""
+
+#: src/util/ajax.js:249
+msgid ""
+"If it should be the case that you are already logged in for a long time "
+"without interacting with the web-app, then the reason for this error is "
+"probably a simple timeout."
+msgstr ""
+
+#: src/util/ajax.js:254
+msgid ""
+"I any case it may help to logoff and logon again, as a temporary work-"
+"around. You will be redirected to the log-in page when you close this window."
+msgstr ""
+
+#: src/util/ajax.js:302
+msgid ""
+"Unrecoverable unknown internal error, no further information available, "
+"sorry."
+msgstr ""
+
+#: src/util/ajax.js:304
+msgid "Internal Error"
+msgstr ""
+
+#: src/util/ajax.js:311
+msgid "Field {RequiredField} not present in AJAX response."
+msgstr ""
+
+#: src/util/ajax.js:320
+msgid "Missing data"
+msgstr ""
+
+#: src/util/ajax.js:332
+msgid ""
+"The submitted data \"{stringValue}\" seems to be a plain string, but we need "
+"an object where the data is provided through above listed properties."
+msgstr ""
+
+#: src/util/ajax.js:335
+msgid "Error: plain string received"
+msgstr ""
+
+#: src/util/ajax.js:340
+msgid ""
+"The submitted data is not a plain object, and does not provide the "
+"properties listed above."
+msgstr ""
+
+#: src/util/ajax.js:343
+msgid "Error: not a plain object"
+msgstr ""
+
+#: src/util/ajax.js:382
+msgid "Unknown JSON error response to AJAX call: {status} / {error}"
+msgstr ""
+
+#: src/util/ajax.js:389
+msgid "HTTP error response to AJAX call: {code} / {error}"
+msgstr ""
+
+#: src/util/dialogs.js:69
+msgid "No"
+msgstr ""
+
+#: src/util/dialogs.js:70
+msgid "Yes"
+msgstr ""
+
+#: src/util/dialogs.js:105
+msgid "Debug Information"
+msgstr ""
+
+#: src/util/file-download.js:49
+msgid "unknown error"
+msgstr ""
+
+#: src/util/file-download.js:52
+msgid "Unable to download data from \"{url}\": {message}"
+msgstr ""

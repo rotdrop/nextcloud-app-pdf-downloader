@@ -4,18 +4,21 @@
     "Get from end-point \"%s\" not implemented." : "GET-Anfragen an \"%s\" sind nicht implementiert.",
     "Unknown admin setting: \"%1$s\"" : "Unbekannte Administrator-Einstellung: \"%1$s\"",
     "Unknown app setting: \"%1$s\"" : "Unbekannte App-Einstellung: \"%1$s\"",
-    "Camerata DB Members" : "Camerata DB Mitglieder",
     "Error, caught an exception." : "Fehler, \"Ausnahme\" \"aufgefangen\".",
     "Caused by previous exception" : "Verursacht durch eine vorhergehende Ausnahme",
-    "Recursive Pdf Downloader, Admin Settings" : "CAFeVDB Datenbank Integration, Administrator-Einstellungen",
-    "Example setting" : "Beispiel-Einstellungen",
+    "Recursive Pdf Downloader, Admin Settings" : "Rekursiver PDF Lader, Administrator-Einstellungen",
+    "Example setting" : "Beispiel-Einstellung",
     "Confirmation Required" : "Bestätigung erforderlich!",
     "Unconfirmed, reverting to old value." : "Bestätigung nicht erteilt, setze auf den alten Wert zurück.",
     "Successfully set value for \"{settingsKey}\" to \"{value}\"" : "Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf \"{value}\" gesetzt",
     "reason unknown" : "Grund unbekannt",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert \"{value}\" setzen: {message}",
-    "Recursive Pdf Downloader, Personal Settings" : "CAFeVDB Datenbank Integration, Administrator-Einstellungen",
+    "Recursive Pdf Downloader, Personal Settings" : "Rekursiver PDF Lader, Persönliche Einstellungen",
     "Test Input" : "Test-Eingabe",
-    "Test Hint" : "Test-Hinweis"
+    "Test Hint" : "Test-Hinweis",
+    "Proxy Authentication Required" : "Bestätigung erforderlich!",
+    "Length Required" : "Bestätigung erforderlich!",
+    "Precondition Required" : "Bestätigung erforderlich!",
+    "Network Authentication Required" : "Bestätigung erforderlich!"
 },"pluralForm" :""
 }
