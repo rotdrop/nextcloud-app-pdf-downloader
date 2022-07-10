@@ -10,6 +10,7 @@
     }
   ],
   "require": {
+    "mikehaertl/php-pdftk": "^0.12.1"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
