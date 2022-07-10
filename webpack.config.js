@@ -1,31 +1,121 @@
-const path = require('path')
-const webpack = require('webpack')
-const webpackConfig = require('@nextcloud/webpack-vue-config')
-const fs = require('fs')
-const xml2js = require('xml2js')
+const path = require('path');
+const webpack = require('webpack');
+const webpackConfig = require('@nextcloud/webpack-vue-config');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssoWebpackPlugin = require('csso-webpack-plugin').default;
+const fs = require('fs');
+const xml2js = require('xml2js');
 
-const infoFile = path.join(__dirname, 'appinfo/info.xml')
-let appInfo
+const infoFile = path.join(__dirname, 'appinfo/info.xml');
+let appInfo;
 xml2js.parseString(fs.readFileSync(infoFile), function(err, result) {
   if (err) {
-    throw err
+    throw err;
   }
-  appInfo = result
-})
-const appName = appInfo.info.id[0]
+  appInfo = result;
+});
+const appName = appInfo.info.id[0];
+const productionMode = process.env.NODE_ENV === 'production';
 
 webpackConfig.entry = {
   'admin-settings': path.join(__dirname, 'src', 'admin-settings.js'),
   'personal-settings': path.join(__dirname, 'src', 'personal-settings.js'),
-}
+  'files-action': path.join(__dirname, 'src', 'files-action.js'),
+};
 
-webpackConfig.plugins.push(new webpack.DefinePlugin({
-  APP_NAME: JSON.stringify(appName),
-}))
+webpackConfig.output = {
+  // path: path.resolve(__dirname, 'js'),
+  path: path.resolve(__dirname, '.'),
+  publicPath: '',
+  filename: 'js/[name]-[contenthash].js',
+  assetModuleFilename: 'js/assets/[name]-[hash][ext][query]',
+  chunkFilename: 'js/chunks/[name]-[contenthash].js',
+  clean: false,
+  compareBeforeEmit: true, // true would break the Makefile
+};
 
-webpackConfig.module.rules.push({
-  test: /\.xml$/i,
-  use: 'xml-loader',
-})
+webpackConfig.plugins = webpackConfig.plugins.concat([
+  new webpack.DefinePlugin({
+    APP_NAME: JSON.stringify(appName),
+  }),
+  new HtmlWebpackPlugin({
+    inject: false,
+    filename: 'js/asset-meta.json',
+    minify: false,
+    templateContent(arg) {
+      return JSON.stringify(arg.htmlWebpackPlugin.files, null, 2);
+    },
+  }),
+  new MiniCssExtractPlugin({
+    filename: 'css/[name]-[contenthash].css',
+  }),
+  new CssoWebpackPlugin(
+    {
+      pluginOutputPostfix: productionMode ? null : 'min',
+    },
+    productionMode ? /\.css$/ : /^$/
+  ),
+]);
 
-module.exports = webpackConfig
+// webpackConfig.module.rules = webpackConfig.module.rules.concat([
+webpackConfig.module.rules = [
+  {
+    test: /\.xml$/i,
+    use: 'xml-loader',
+  },
+  {
+    test: /\.css$/,
+    use: [
+      // 'style-loader',
+      MiniCssExtractPlugin.loader,
+      'css-loader',
+    ],
+  },
+  {
+    test: /\.s(a|c)ss$/,
+    use: [
+      // 'style-loader',
+      MiniCssExtractPlugin.loader,
+      'css-loader',
+      {
+        loader: 'sass-loader',
+        options: {
+          // Prefer `dart-sass`
+          implementation: require('sass'),
+          additionalData: '$appName: ' + appName + '; $cssPrefix: ' + appName + '-;',
+        },
+      },
+    ],
+  },
+  {
+    test: /\.(jpe?g|png|gif)$/i,
+    type: 'asset', // 'asset/resource',
+    generator: {
+      filename: './css/img/[name]-[hash][ext]',
+      publicPath: '../',
+    },
+  },
+  {
+    test: /\.svg$/i,
+    use: 'svgo-loader',
+    type: 'asset', // 'asset/resource',
+    generator: {
+      filename: './css/img/[name]-[hash][ext]',
+      publicPath: '../',
+    },
+  },
+  {
+    test: /\.vue$/,
+    loader: 'vue-loader',
+  },
+];
+
+webpackConfig.resolve.modules = [
+  path.resolve(__dirname, 'node_modules'),
+  path.resolve(__dirname, 'style'),
+  path.resolve(__dirname, 'src'),
+  path.resolve(__dirname, '.'),
+];
+
+module.exports = webpackConfig;

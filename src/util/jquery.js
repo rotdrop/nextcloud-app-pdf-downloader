@@ -20,18 +20,33 @@
  *
  */
 
-import { appName } from './config.js';
-import { generateFilePath } from '@nextcloud/router';
+// jQuery stuff
 
-import Vue from 'vue';
-import PersonalSettings from './PersonalSettings';
+import { appName } from '../config.js';
+import { getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth';
+let jQuery = require('jquery');
 
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath(appName, '', 'js/');
+if (window.jQuery && window.jQuery !== jQuery) {
+  console.info(appName + ': JQUERY VERSIONS W / A', window.jQuery.fn.jquery, jQuery.fn.jquery);
+  if (window.jQuery.fn.jquery === jQuery.fn.jquery) {
+    console.info(appName + ': using matching window.jQuery version');
+    jQuery = window.jQuery;
+  }
+}
 
-Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
+let requestToken = getRequestToken() || '';
 
-export default new Vue({
-  el: '#personal-settings',
-  render: h => h(PersonalSettings),
+jQuery.ajaxSetup({
+  beforeSend(xhr) {
+    xhr.setRequestHeader('requesttoken', requestToken);
+  },
 });
+
+onRequestTokenUpdate(token => { requestToken = token; });
+
+export default jQuery;
+
+// Local Variables: ***
+// js-indent-level: 2 ***
+// indent-tabs-mode: nil ***
+// End: ***

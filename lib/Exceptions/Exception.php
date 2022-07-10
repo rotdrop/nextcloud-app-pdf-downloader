@@ -1,8 +1,7 @@
+<?php
 /**
  * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,21 +16,10 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-import { appName } from './config.js';
-import { generateFilePath } from '@nextcloud/router';
+namespace OCA\PdfDownloader\Exceptions;
 
-import Vue from 'vue';
-import PersonalSettings from './PersonalSettings';
-
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath(appName, '', 'js/');
-
-Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
-
-export default new Vue({
-  el: '#personal-settings',
-  render: h => h(PersonalSettings),
-});
+class Exception extends \Exception
+{
+}

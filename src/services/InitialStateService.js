@@ -19,14 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { appName } from '../config.js'
+import { appName } from '../config.js';
 
-import { loadState } from '@nextcloud/initial-state'
+import { loadState } from '@nextcloud/initial-state';
 
 export const getInitialState = () => {
   try {
-    return loadState(appName, 'config')
+    return loadState(appName, 'config');
   } catch (err) {
-    return console.error('error in loadState: ', err)
+    return console.error('error in loadState: ', err);
   }
-}
+};

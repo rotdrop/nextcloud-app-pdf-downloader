@@ -16,6 +16,8 @@ COMPOSER_OPTIONS=--prefer-dist
 
 all: dev-setup lint build-js-production test
 
+dev: dev-setup lint build-js test
+
 # Dev env management
 dev-setup: clean clean-dev composer npm-init
 

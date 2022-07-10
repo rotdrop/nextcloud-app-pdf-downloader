@@ -27,6 +27,11 @@ return [
       'url' => '/settings/personal/{setting}',
       'verb' => 'GET',
     ],
+    [
+      'name' => 'multi_pdf_download#get',
+      'url' => '/download/pdf/{folder}',
+      'verb' => 'GET',
+    ],
     /**
      * Attempt a catch all ...
      */

@@ -8,9 +8,7 @@
     "php-path-list": [
       ".",
       "../../3rdparty",
-      "../../lib",
-      "../cafevdb",
-      "../groupfolders"
+      "../../lib"
     ],
     "ignore-ruleset": [
       "# like .gitignore file ",

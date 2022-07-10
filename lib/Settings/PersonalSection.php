@@ -66,7 +66,7 @@ class PersonalSection implements IIconSection
    */
   public function getName()
   {
-    return $this->l->t('Camerata DB Members');
+    return $this->l->t('PDF Downloader');
   }
 
   /**
@@ -84,7 +84,7 @@ class PersonalSection implements IIconSection
    */
   public function getIcon()
   {
-    return $this->urlGenerator->imagePath($this->appName, $this->appName . '.svg');
+    return $this->urlGenerator->imagePath($this->appName, 'app-dark.svg');
   }
 }
 

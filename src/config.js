@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +18,9 @@
  *
  */
 
-const appInfo = require('../appinfo/info.xml')
-const appName = appInfo.info.id[0]
+const appInfo = require('../appinfo/info.xml');
+const appName = appInfo.info.id[0];
 
 export {
   appName,
-}
+};

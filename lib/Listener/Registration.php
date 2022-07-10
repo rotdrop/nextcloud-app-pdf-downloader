@@ -1,8 +1,7 @@
+<?php
 /**
  * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,21 +16,30 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-import { appName } from './config.js';
-import { generateFilePath } from '@nextcloud/router';
+namespace OCA\PdfDownloader\Listener;
 
-import Vue from 'vue';
-import PersonalSettings from './PersonalSettings';
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath(appName, '', 'js/');
+class Registration
+{
+  public static function register(IRegistrationContext $context) {
+    self::registerListener($context, FilesActionListener::class);
+  }
 
-Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
+  private static function registerListener(IRegistrationContext $context, $class) {
+    $events = $class::EVENT;
+    if (!is_array($events)) {
+      $events = [ $events ];
+    }
+    foreach ($events as $event) {
+      $context->registerEventListener($event, $class);
+    }
+  }
+}
 
-export default new Vue({
-  el: '#personal-settings',
-  render: h => h(PersonalSettings),
-});
+// Local Variables: ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: nil ***
+// End: ***
