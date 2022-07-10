@@ -47,6 +47,13 @@ webpackConfig.plugins = webpackConfig.plugins.concat([
       return JSON.stringify(arg.htmlWebpackPlugin.files, null, 2);
     },
   }),
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    jquery: 'jquery',
+    'window.$': 'jquery',
+    'window.jQuery': 'jquery',
+  }),
   new MiniCssExtractPlugin({
     filename: 'css/[name]-[contenthash].css',
   }),

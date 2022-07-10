@@ -24,14 +24,14 @@
 
 import { appName } from '../config.js';
 import { getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth';
-let jQuery = require('jquery');
+const jQuery = require('jquery');
 
 if (window.jQuery && window.jQuery !== jQuery) {
   console.info(appName + ': JQUERY VERSIONS W / A', window.jQuery.fn.jquery, jQuery.fn.jquery);
-  if (window.jQuery.fn.jquery === jQuery.fn.jquery) {
-    console.info(appName + ': using matching window.jQuery version');
-    jQuery = window.jQuery;
-  }
+  // if (window.jQuery.fn.jquery === jQuery.fn.jquery) {
+  //   console.info(appName + ': using matching window.jQuery version');
+  //   jQuery = window.jQuery;
+  // }
 }
 
 let requestToken = getRequestToken() || '';
