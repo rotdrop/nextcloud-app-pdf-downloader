@@ -20,6 +20,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-script($appName, $appName . '-admin-settings');
+
+script($appName, $assets['js']['asset']);
+style($appName, $assets['css']['asset']);
+
 ?>
 <div id="admin-settings"></div>

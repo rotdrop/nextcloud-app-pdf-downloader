@@ -26,6 +26,8 @@ namespace OCA\PdfDownloader\Settings;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 
+use OCA\PdfDownloader\Service\AssetService;
+
 class Personal implements ISettings
 {
   const TEMPLATE = "personal-settings";
@@ -33,10 +35,15 @@ class Personal implements ISettings
   /** @var string */
   private $appName;
 
+  /** @var AssetService */
+  private $assetService;
+
   public function __construct(
     string $appName
+    , AssetService $assetService
   ) {
     $this->appName = $appName;
+    $this->assetService = $assetService;
   }
 
   public function getForm() {
@@ -44,6 +51,10 @@ class Personal implements ISettings
       $this->appName,
       self::TEMPLATE, [
         'appName' => $this->appName,
+        'assets' => [
+          AssetService::JS => $this->assetService->getJSAsset(self::TEMPLATE),
+          AssetService::CSS => $this->assetService->getCSSAsset(self::TEMPLATE),
+        ],
       ]);
   }
 
