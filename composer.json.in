@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "mikehaertl/php-pdftk": "^0.12.1"
+    "mikehaertl/php-pdftk": "^0.12.1",
+    "tecnickcom/tcpdf": "^6.3"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
