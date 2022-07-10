@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-07-10 01:05+0200\n"
+"POT-Creation-Date: 2022-07-10 11:59+0200\n"
 "PO-Revision-Date: 2022-07-09 16:33+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,11 +45,13 @@ msgstr "Unbekannte App-Einstellung: \"%1$s\""
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
+"Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
+"nicht konvertieren"
 
 #: lib/Service/AnyToPdf.php:243
 #, php-format
 msgid "Please install the \"%s\" program on the server."
-msgstr ""
+msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
 
 #: lib/Service/AssetService.php:75
 #, php-format
@@ -57,15 +59,17 @@ msgid ""
 "Installation problem; the required %s-resource \"%s\" is not installed on "
 "the server, please contact the system administrator!"
 msgstr ""
+"Installationsproblem; die benötigte %s-Ressource \"%s\" ist auf dem Server "
+"nicht installiert, bitte den System-Administrator kontaktiern."
 
 #: lib/Service/PdfCombiner.php:287 lib/Service/PdfCombiner.php:310
 msgid "Combining PDFs failed"
-msgstr ""
+msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 
 #: lib/Settings/AdminSection.php:69 lib/Settings/PersonalSection.php:69
 #: specialAppInfoFakeDummyForL10nScript.php:2
 msgid "PDF Downloader"
-msgstr ""
+msgstr "PDF Download-App"
 
 #: lib/Traits/ResponseTrait.php:73
 msgid "Error, caught an exception."
@@ -77,13 +81,15 @@ msgstr "Verursacht durch eine vorhergehende Ausnahme"
 
 #: specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Recursive PDF Downloader"
-msgstr ""
+msgstr "Rekursive PDF-Download Anwendung"
 
 #: specialAppInfoFakeDummyForL10nScript.php:4
 msgid ""
 "Recusively convert entire directory trees to PDF and provide the resulting "
 "document as download"
 msgstr ""
+"Konvertiert die Dateien ganzer Verzeichnisbäume in das PDF-Format und "
+"präsentiert das Ergebnis als PDF-Download."
 
 #. TRANSLATORS src/AdminSettings.vue:25
 #: specialVueFakeDummyForL10nScript.js:2
@@ -98,7 +104,7 @@ msgstr "Beispiel-Einstellung"
 #. TRANSLATORS src/AdminSettings.vue:29
 #: specialVueFakeDummyForL10nScript.js:6
 msgid "Just to have something to show ..."
-msgstr ""
+msgstr "Nur, um irgendwas zu zeigen..."
 
 #. TRANSLATORS src/AdminSettings.vue:75
 #: specialVueFakeDummyForL10nScript.js:8
@@ -144,305 +150,297 @@ msgstr "Test-Eingabe"
 msgid "Test Hint"
 msgstr "Test-Hinweis"
 
-#: src/files-action.js:39 src/files-action.js:40
+#: src/files-action.js:41 src/files-action.js:42
 msgid "Download PDF"
-msgstr ""
+msgstr "PDF herunter laden"
 
 #: src/util/ajax.js:35
 msgid "OK"
-msgstr ""
+msgstr "Fein"
 
 #: src/util/ajax.js:36
 msgid "Created"
-msgstr ""
+msgstr "Erzeugt"
 
 #: src/util/ajax.js:37
 msgid "Accepted"
-msgstr ""
+msgstr "Akzeptiert"
 
 #: src/util/ajax.js:38
 msgid "Non-Authoritative Information"
-msgstr ""
+msgstr "Unverbindliche Information"
 
 #: src/util/ajax.js:39
 msgid "No Content"
-msgstr ""
+msgstr "Antwort enthält keine Daten"
 
 #: src/util/ajax.js:40
 msgid "Reset Content"
-msgstr ""
+msgstr "Inhalt zurückgesetzt"
 
 #: src/util/ajax.js:41
 msgid "Partial Content"
-msgstr ""
+msgstr "Unvollständige Antwort"
 
 #: src/util/ajax.js:42
 msgid "Multi-Status (WebDAV)"
-msgstr ""
+msgstr "Multi-Status (WebDAV)"
 
 #: src/util/ajax.js:43
 msgid "Already Reported (WebDAV)"
-msgstr ""
+msgstr "Bereits berichtet (WebDAV)"
 
 #: src/util/ajax.js:44
 msgid "IM Used"
-msgstr ""
+msgstr "IM verwendet"
 
 #: src/util/ajax.js:45
 msgid "Multiple Choices"
-msgstr ""
+msgstr "Mehrere Wahlmöglichkeiten"
 
 #: src/util/ajax.js:46
 msgid "Moved Permanently"
-msgstr ""
+msgstr "Permanent verschoben"
 
 #: src/util/ajax.js:47
 msgid "Found"
-msgstr ""
+msgstr "Gefunden"
 
 #: src/util/ajax.js:48
 msgid "See Other"
-msgstr ""
+msgstr "Siehe andere Web-Adresse"
 
 #: src/util/ajax.js:49
 msgid "Not Modified"
-msgstr ""
+msgstr "Unverändert"
 
 #: src/util/ajax.js:50
 msgid "Use Proxy"
-msgstr ""
+msgstr "Benutze einen Proxy"
 
 #: src/util/ajax.js:51
 msgid "(Unused)"
-msgstr ""
+msgstr "(Unbenutzt)"
 
 #: src/util/ajax.js:52
 msgid "Temporary Redirect"
-msgstr ""
+msgstr "Zeitweilige Umleitung"
 
 #: src/util/ajax.js:53
 msgid "Permanent Redirect (experimental)"
-msgstr ""
+msgstr "Permanente Umleitung"
 
 #: src/util/ajax.js:54
 msgid "Bad Request"
-msgstr ""
+msgstr "Ungültige Anfrage"
 
 #: src/util/ajax.js:55
 msgid "Unauthorized"
-msgstr ""
+msgstr "Nicht autorisiert"
 
 #: src/util/ajax.js:56
 msgid "Payment Required"
-msgstr ""
+msgstr "Bezahlung erforderlich"
 
 #: src/util/ajax.js:57
 msgid "Forbidden"
-msgstr ""
+msgstr "Verboten"
 
 #: src/util/ajax.js:58
 msgid "Not Found"
-msgstr ""
+msgstr "Unauffindbar"
 
 #: src/util/ajax.js:59
 msgid "Method Not Allowed"
-msgstr ""
+msgstr "Anfragemethode nicht zulässig"
 
 #: src/util/ajax.js:60
 msgid "Not Acceptable"
-msgstr ""
+msgstr "Nicht akzeptabel"
 
 #: src/util/ajax.js:61
-#, fuzzy
-#| msgid "Confirmation Required"
 msgid "Proxy Authentication Required"
-msgstr "Bestätigung erforderlich!"
+msgstr "Proxy-Authentifizierung erforderlich"
 
 #: src/util/ajax.js:62
 msgid "Request Timeout"
-msgstr ""
+msgstr "Anfrage-Zeitüberschreitung"
 
 #: src/util/ajax.js:63
 msgid "Conflict"
-msgstr ""
+msgstr "Konflikt"
 
 #: src/util/ajax.js:64
 msgid "Gone"
-msgstr ""
+msgstr "Weg"
 
 #: src/util/ajax.js:65
-#, fuzzy
-#| msgid "Confirmation Required"
 msgid "Length Required"
-msgstr "Bestätigung erforderlich!"
+msgstr "Länge benötigt"
 
 #: src/util/ajax.js:66
 msgid "Precondition Failed"
-msgstr ""
+msgstr "Vorbedingung nicht erfüllt"
 
 #: src/util/ajax.js:67
 msgid "Request Entity Too Large"
-msgstr ""
+msgstr "Anfrage-Daten zu groß"
 
 #: src/util/ajax.js:68
 msgid "Request-URI Too Long"
-msgstr ""
+msgstr "Anfrage-URI zu lang"
 
 #: src/util/ajax.js:69
 msgid "Unsupported Media Type"
-msgstr ""
+msgstr "Nicht unterstützter Medien-Typ"
 
 #: src/util/ajax.js:70
 msgid "Requested Range Not Satisfiable"
-msgstr ""
+msgstr "Angeforderter Bereich nicht möglich"
 
 #: src/util/ajax.js:71
 msgid "Expectation Failed"
-msgstr ""
+msgstr "Erwartete Operation Fehlgeschlagen"
 
 #: src/util/ajax.js:72
 msgid "I'm a teapot (RFC 2324)"
-msgstr ""
+msgstr "Ich bin eine Teekanne (RFC 2324)"
 
 #: src/util/ajax.js:73
 msgid "Enhance Your Calm (Twitter)"
-msgstr ""
+msgstr "Verstärke Deine Ruhe (Twitter)"
 
 #: src/util/ajax.js:74
 msgid "Unprocessable Entity (WebDAV)"
-msgstr ""
+msgstr "Nicht-verarbeitbarer Entrag (WebDAV)"
 
 #: src/util/ajax.js:75
 msgid "Locked (WebDAV)"
-msgstr ""
+msgstr "Gesperrt (WebDAV)"
 
 #: src/util/ajax.js:76
 msgid "Failed Dependency (WebDAV)"
-msgstr ""
+msgstr "Abhängigkeit fehlgeschlagen (WebDAV)"
 
 #: src/util/ajax.js:77
 msgid "Reserved for WebDAV"
-msgstr ""
+msgstr "Reserviert für WebDAV"
 
 #: src/util/ajax.js:78
 msgid "Upgrade Required"
-msgstr ""
+msgstr "Aufwertung benötigt"
 
 #: src/util/ajax.js:79
-#, fuzzy
-#| msgid "Confirmation Required"
 msgid "Precondition Required"
-msgstr "Bestätigung erforderlich!"
+msgstr "Vorbedingung erforderlich"
 
 #: src/util/ajax.js:80
 msgid "Too Many Requests"
-msgstr ""
+msgstr "Zu viele Anfragen."
 
 #: src/util/ajax.js:81
 msgid "Request Header Fields Too Large"
-msgstr ""
+msgstr "Anfrage-Kopfzeilen zu lang"
 
 #: src/util/ajax.js:82
 msgid "No Response (Nginx)"
-msgstr ""
+msgstr "Keine Antwort (Nginx)"
 
 #: src/util/ajax.js:83
 msgid "Retry With (Microsoft)"
-msgstr ""
+msgstr "Wiederholen mit (Microsoft)"
 
 #: src/util/ajax.js:84
 msgid "Blocked by Windows Parental Controls (Microsoft)"
-msgstr ""
+msgstr "Blockiert von Windows-Kindersicherung (Microsoft)"
 
 #: src/util/ajax.js:85
 msgid "Unavailable For Legal Reasons"
-msgstr ""
+msgstr "Nicht verfügbar aus rechtlichen Gründen"
 
 #: src/util/ajax.js:86
 msgid "Client Closed Request (Nginx)"
-msgstr ""
+msgstr "Anwender-Programm hat die Anfrage beendet (Nginx)"
 
 #: src/util/ajax.js:87
 msgid "Internal Server Error"
-msgstr ""
+msgstr "Interner Server-Fehler"
 
 #: src/util/ajax.js:88
 msgid "Not Implemented"
-msgstr ""
+msgstr "Nicht implementiert"
 
 #: src/util/ajax.js:89
 msgid "Bad Gateway"
-msgstr ""
+msgstr "Schlechte Netzübergangseinheit"
 
 #: src/util/ajax.js:90
 msgid "Service Unavailable"
-msgstr ""
+msgstr "Dienst nicht verfügbar"
 
 #: src/util/ajax.js:91
 msgid "Gateway Timeout"
-msgstr ""
+msgstr "Zeitüberschreitung bei der Netzübergangseinheit"
 
 #: src/util/ajax.js:92
 msgid "HTTP Version Not Supported"
-msgstr ""
+msgstr "HTTP-Version nicht unterstützt"
 
 #: src/util/ajax.js:93
 msgid "Variant Also Negotiates (Experimental)"
-msgstr ""
+msgstr "Variante handelt außerdem aus (Experimenmtell)"
 
 #: src/util/ajax.js:94
 msgid "Insufficient Storage (WebDAV)"
-msgstr ""
+msgstr "Zu wenig Speicherplatz (WebDAV)"
 
 #: src/util/ajax.js:95
 msgid "Loop Detected (WebDAV)"
-msgstr ""
+msgstr "Zirkel entdeckt (WebDAV)"
 
 #: src/util/ajax.js:96
 msgid "Bandwidth Limit Exceeded (Apache)"
-msgstr ""
+msgstr "Bandbreiten-Beschränkung überschritten (Apache)"
 
 #: src/util/ajax.js:97
 msgid "Not Extended"
-msgstr ""
+msgstr "Nicht erweitert"
 
 #: src/util/ajax.js:98
-#, fuzzy
-#| msgid "Confirmation Required"
 msgid "Network Authentication Required"
-msgstr "Bestätigung erforderlich!"
+msgstr "Netzwerk-Authentifizierung erforderlich"
 
 #: src/util/ajax.js:99
 msgid "Network read timeout error"
-msgstr ""
+msgstr "Netzwerk Lese-Zeitüberschreitung"
 
 #: src/util/ajax.js:100
 msgid "Network connect timeout error"
-msgstr ""
+msgstr "Netzwerk Verbindungs-Zeitüberschreitung"
 
 #: src/util/ajax.js:157
 msgid "Operation cancelled by user."
-msgstr ""
+msgstr "Benutzer:in hat den Vorgang abgebrochen"
 
 #: src/util/ajax.js:160
 msgid "Aborted"
-msgstr ""
+msgstr "Abgebrochen"
 
-#: src/util/ajax.js:173 src/util/ajax.js:354
+#: src/util/ajax.js:173 src/util/ajax.js:356
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: src/util/ajax.js:198
 msgid "System Administrator"
-msgstr ""
+msgstr "System-Administrator"
 
 #: src/util/ajax.js:223
 msgid "Feedback email: {AutoReport}"
-msgstr ""
+msgstr "Rückmeldung per Email: {AutoReport}"
 
 #: src/util/ajax.js:247
 msgid "Something went wrong."
-msgstr ""
+msgstr "Irgendetwas ist schief gelaufen."
 
 #: src/util/ajax.js:249
 msgid ""
@@ -450,78 +448,88 @@ msgid ""
 "without interacting with the web-app, then the reason for this error is "
 "probably a simple timeout."
 msgstr ""
+"Falls Du bereits längere Zeit angemeldet bist, ohne mit der Web-App zu\n"
+"interagieren, dann ist das der Grund für den Fehler."
 
 #: src/util/ajax.js:254
 msgid ""
 "I any case it may help to logoff and logon again, as a temporary work-"
 "around. You will be redirected to the log-in page when you close this window."
 msgstr ""
+"Als einstweiligen `Work-Around' kann man in jedem Fall versuchen, sich\n"
+"ab- und wieder an zu melden und den Vorgang zu wiederholen. Wenn Du\n"
+"dieses Fenster schließt, wirst Du zur Login-Seite weiter geleitet."
 
-#: src/util/ajax.js:302
+#: src/util/ajax.js:304
 msgid ""
 "Unrecoverable unknown internal error, no further information available, "
 "sorry."
 msgstr ""
+"Tut uns leid, unbekannte interner Fehler, weitere Informationen sind\n"
+"leider nicht verfügbar."
 
-#: src/util/ajax.js:304
+#: src/util/ajax.js:306
 msgid "Internal Error"
-msgstr ""
+msgstr "Irgendein Fehler"
 
-#: src/util/ajax.js:311
+#: src/util/ajax.js:313
 msgid "Field {RequiredField} not present in AJAX response."
-msgstr ""
+msgstr "In der AJAX-Antwort fehlt das Feld {RequiredField}."
 
-#: src/util/ajax.js:320
+#: src/util/ajax.js:322
 msgid "Missing data"
-msgstr ""
+msgstr "Fehlende Daten"
 
-#: src/util/ajax.js:332
+#: src/util/ajax.js:334
 msgid ""
 "The submitted data \"{stringValue}\" seems to be a plain string, but we need "
 "an object where the data is provided through above listed properties."
 msgstr ""
+"Die übermittelten Daten \"{stringValue}\" scheinen eine einfache "
+"Zeichenkette zu sein, benötigt wird jedoch ein JavaScript-Obekt, das die "
+"Daten über die oben aufgeführten (fehlenden) Objekt-Eigenschaften zu "
+"Verfügung stellt."
 
-#: src/util/ajax.js:335
+#: src/util/ajax.js:337
 msgid "Error: plain string received"
-msgstr ""
+msgstr "Fehler: einfache Zeichenkette empfangen"
 
-#: src/util/ajax.js:340
+#: src/util/ajax.js:342
 msgid ""
 "The submitted data is not a plain object, and does not provide the "
 "properties listed above."
 msgstr ""
+"Die übermittelten DAten sind kein einfaches Objekt und beinhalteten nicht "
+"die oben aufgeführten benötigten Eigentschaften."
 
-#: src/util/ajax.js:343
+#: src/util/ajax.js:345
 msgid "Error: not a plain object"
-msgstr ""
+msgstr "Fehler: kein einfaches Objekt"
 
-#: src/util/ajax.js:382
+#: src/util/ajax.js:384
 msgid "Unknown JSON error response to AJAX call: {status} / {error}"
-msgstr ""
+msgstr "Unbekannte JSON Fehler-Antwort auf AJAX-Anfrage: {status} / {error}"
 
-#: src/util/ajax.js:389
+#: src/util/ajax.js:391
 msgid "HTTP error response to AJAX call: {code} / {error}"
-msgstr ""
+msgstr "HTTP Fehler-Antwort auf AJAX-Anfrage: {code} / {error}"
 
 #: src/util/dialogs.js:69
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 #: src/util/dialogs.js:70
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: src/util/dialogs.js:105
 msgid "Debug Information"
-msgstr ""
+msgstr "Debug Informationen"
 
-#: src/util/file-download.js:49
+#: src/util/file-download.js:50
 msgid "unknown error"
-msgstr ""
+msgstr "unbekannter Fehler"
 
-#: src/util/file-download.js:52
+#: src/util/file-download.js:53
 msgid "Unable to download data from \"{url}\": {message}"
-msgstr ""
-
-#~ msgid "Camerata DB Members"
-#~ msgstr "Camerata DB Mitglieder"
+msgstr "Kann die Daten nicht von \"{url}\" laden: {message}"

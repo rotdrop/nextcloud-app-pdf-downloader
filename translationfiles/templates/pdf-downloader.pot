@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-07-10 01:05+0200\n"
+"POT-Creation-Date: 2022-07-10 11:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,8 +144,8 @@ msgstr ""
 msgid "Test Hint"
 msgstr ""
 
-#: src/files-action.js:39
-#: src/files-action.js:40
+#: src/files-action.js:41
+#: src/files-action.js:42
 msgid "Download PDF"
 msgstr ""
 
@@ -422,7 +422,7 @@ msgid "Aborted"
 msgstr ""
 
 #: src/util/ajax.js:173
-#: src/util/ajax.js:354
+#: src/util/ajax.js:356
 msgid "Error"
 msgstr ""
 
@@ -451,49 +451,49 @@ msgid ""
 "around. You will be redirected to the log-in page when you close this window."
 msgstr ""
 
-#: src/util/ajax.js:302
+#: src/util/ajax.js:304
 msgid ""
 "Unrecoverable unknown internal error, no further information available, "
 "sorry."
 msgstr ""
 
-#: src/util/ajax.js:304
+#: src/util/ajax.js:306
 msgid "Internal Error"
 msgstr ""
 
-#: src/util/ajax.js:311
+#: src/util/ajax.js:313
 msgid "Field {RequiredField} not present in AJAX response."
 msgstr ""
 
-#: src/util/ajax.js:320
+#: src/util/ajax.js:322
 msgid "Missing data"
 msgstr ""
 
-#: src/util/ajax.js:332
+#: src/util/ajax.js:334
 msgid ""
 "The submitted data \"{stringValue}\" seems to be a plain string, but we need "
 "an object where the data is provided through above listed properties."
 msgstr ""
 
-#: src/util/ajax.js:335
+#: src/util/ajax.js:337
 msgid "Error: plain string received"
 msgstr ""
 
-#: src/util/ajax.js:340
+#: src/util/ajax.js:342
 msgid ""
 "The submitted data is not a plain object, and does not provide the "
 "properties listed above."
 msgstr ""
 
-#: src/util/ajax.js:343
+#: src/util/ajax.js:345
 msgid "Error: not a plain object"
 msgstr ""
 
-#: src/util/ajax.js:382
+#: src/util/ajax.js:384
 msgid "Unknown JSON error response to AJAX call: {status} / {error}"
 msgstr ""
 
-#: src/util/ajax.js:389
+#: src/util/ajax.js:391
 msgid "HTTP error response to AJAX call: {code} / {error}"
 msgstr ""
 
@@ -509,10 +509,10 @@ msgstr ""
 msgid "Debug Information"
 msgstr ""
 
-#: src/util/file-download.js:49
+#: src/util/file-download.js:50
 msgid "unknown error"
 msgstr ""
 
-#: src/util/file-download.js:52
+#: src/util/file-download.js:53
 msgid "Unable to download data from \"{url}\": {message}"
 msgstr ""
