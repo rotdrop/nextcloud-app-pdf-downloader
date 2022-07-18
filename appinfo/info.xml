@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-  <id>pdf-downloader</id>
+  <id>pdf_downloader</id>
   <name>PDF Downloader</name>
   <summary>Recursive PDF Downloader</summary>
   <description><![CDATA[Recusively convert entire directory trees to PDF and provide the resulting document as download]]></description>
