@@ -13,19 +13,26 @@ else
 COMPOSER_TOOL=$(COMPOSER_SYSTEM)
 endif
 COMPOSER_OPTIONS=--prefer-dist
+PHP = $(shell which php 2> /dev/null)
 
-all: dev-setup lint build-js-production test
+all: build lint test
+.PHONY: all
 
-dev: dev-setup lint build-js test
+build: dev-setup npm-build
+.PHONY: build
+
+dev: dev-setup npm-dev
+.PHONY: dev
 
 # Dev env management
-dev-setup: clean clean-dev composer npm-init
+dev-setup: composer build-fonts
+.PHONY: dev-setup
 
 composer.json: composer.json.in
 	cp composer.json.in composer.json
 
 stamp.composer-core-versions: composer.lock
-	date > stamp.composer-core-versions
+	date > $@
 
 composer.lock: DRY:=
 composer.lock: composer.json composer.json.in
@@ -48,31 +55,57 @@ composer-download:
 composer: stamp.composer-core-versions
 	$(COMPOSER_TOOL) install $(COMPOSER_OPTIONS)
 
+
+
 .PHONY: composer-suggest
 composer-suggest:
 	@echo -e "\n*** Regular Composer Suggestions ***\n"
 	$(COMPOSER_TOOL) suggest --all
 
-npm-init: package.json webpack.config.js Makefile
+CSS_FILES = $(shell find $(ABSSRCDIR)/style -name "*.css" -o -name "*.scss")
+JS_FILES = $(shell find $(ABSSRCDIR)/src -name "*.js" -o -name "*.vue")
+
+NPM_INIT_DEPS =\
+ Makefile package-lock.json package.json webpack.config.js .eslintrc.js
+
+WEBPACK_DEPS =\
+ $(NPM_INIT_DEPS)\
+ $(CSS_FILES) $(JS_FILES)
+
+WEBPACK_TARGETS = $(ABSSRCDIR)/js/asset-meta.json
+
+package-lock.json: package.json webpack.config.js Makefile
 	{ [ -d package-lock.json ] && [ test -d node_modules ]; } || npm install
-	npm ci
+	npm update
 	touch package-lock.json
 
-npm-update:
-	npm update
+BUILD_FLAVOUR_FILE = $(ABSSRCDIR)/build-flavour
+PREV_BUILD_FLAVOUR = $(shell cat $(BUILD_FLAVOUR_FILE) 2> /dev/null || echo)
 
-# Building
-build-js:
-	npm run dev
+.PHONY: build-flavour-dev
+build-flavour-dev:
+ifneq ($(PREV_BUILD_FLAVOUR), dev)
+	make clean
+	echo dev > $(BUILD_FLAVOUR_FILE)
+endif
 
-build-js-production:
-	npm run build
+.PHONY: build-flavour-build
+build-flavour-build:
+ifneq ($(PREV_BUILD_FLAVOUR), build)
+	make clean
+	echo build > $(BUILD_FLAVOUR_FILE)
+endif
 
-watch-js:
-	npm run watch
+$(WEBPACK_TARGETS): $(WEBPACK_DEPS) $(BUILD_FLAVOUR_FILE)
+	make webpack-clean
+	npm run $(shell cat $(BUILD_FLAVOUR_FILE)) || rm -f $(WEBPACK_TARGETS)
+	npm run lint
 
-serve-js:
-	npm run serve
+.PHONY: npm-dev
+npm-dev: build-flavour-dev $(WEBPACK_TARGETS)
+
+.PHONY: npm-build
+npm-build: build-flavour-build $(WEBPACK_TARGETS)
 
 # Linting
 lint:
@@ -87,6 +120,27 @@ stylelint:
 
 stylelint-fix:
 	npm run stylelint:fix
+
+# rebuild some fonts which seemingly are shipped in a broken or too
+# old version by tcpdf
+build-fonts: build-fonts-dejavu
+.PHONY: build-fonts
+
+build-fonts-dejavu: stamp.tcpdf-dejavu-fonts
+.PHONY: build-fonts-dejavu
+
+FONTS_SRC_DIR = fonts
+FONTS_DST_DIR = vendor/tecnickcom/tcpdf/fonts
+TCPDF_ADDFONT = $(ABSSRCDIR)/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php
+
+stamp.tcpdf-dejavu-fonts: composer.lock Makefile
+	rm -f $(FONTS_DST_DIR)/dejavu*.php
+	rm -f $(FONTS_DST_DIR)/dejavu*.z
+	cd $(FONTS_SRC_DIR); $(PHP) $(TCPDF_ADDFONT) -b -t TrueTypeUnicode -f 32 -i DejaVuSans.ttf,DejaVuSans-Bold.ttf,DejaVuSansCondensed.ttf,DejaVuSansCondensed-Bold.ttf,DejaVuSans-ExtraLight.ttf,DejaVuSerif.ttf,DejaVuSerif-Bold.ttf,DejaVuSerifCondensed.ttf,DejaVuSerifCondensed-Bold.ttf
+	cd $(FONTS_SRC_DIR); $(PHP) $(TCPDF_ADDFONT) -b -t TrueTypeUnicode -f 33 -i DejaVuSansMono.ttf,DejaVuSansMono-Bold.ttf
+	cd $(FONTS_SRC_DIR); $(PHP) $(TCPDF_ADDFONT) -b -t TrueTypeUnicode -f 96 -i DejaVuSans-BoldOblique.ttf,DejaVuSansCondensed-BoldOblique.ttf,DejaVuSansCondensed-Oblique.ttf,DejaVuSerifCondensed-BoldItalic.ttf,DejaVuSerifCondensed-Italic.ttf,DejaVuSerif-Italic.ttf,DejaVuSerif-BoldItalic.ttf,DejaVuSans-Oblique.ttf
+	cd $(FONTS_SRC_DIR); $(PHP) $(TCPDF_ADDFONT) -b -t TrueTypeUnicode -f 97 -i DejaVuSansMono-BoldOblique.ttf,DejaVuSansMono-Oblique.ttf
+	date > $@
 
 #@@ Removes WebPack builds
 webpack-clean:
