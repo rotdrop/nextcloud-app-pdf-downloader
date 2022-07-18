@@ -132,7 +132,18 @@ class SettingsController extends Controller
   public function setPersonal(string $setting, $value)
   {
     $oldValue = $this->config->getUserValue($this->userId, $this->appName, $setting);
-    $this->config->setUserValue($this->userId, $this->appName, $setting, $value);
+    switch ($setting) {
+      case 'pageLabels':
+        $realValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
+        if ($realValue === null) {
+          return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));
+        }
+        $realValue = (int)$realValue;
+        break;
+      default:
+        return self::grumble($this->l->t('Unknown personal setting: "%s".', [ $setting ]));
+    }
+    $this->config->setUserValue($this->userId, $this->appName, $setting, $realValue);
     return new DataResponse([
       'oldValue' => $oldValue,
     ]);

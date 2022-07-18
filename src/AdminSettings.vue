@@ -27,7 +27,8 @@
       v-model="example"
       :label="t(appName, 'Example setting')"
       :hint="t(appName, 'Just to have something to show ...')"
-      @update="saveTextInput(...arguments, 'example')" />
+      @update="saveTextInput(...arguments, 'example')"
+    />
   </SettingsSection>
 </template>
 

@@ -22,6 +22,8 @@ module.exports = {
         tryExtensions: ['.js', '.json', '.node', '.css', '.scss', '.xml', '.vue'],
       },
     ],
+    // Do allow line-break before closing brackets
+    'vue/html-closing-bracket-newline': ['error', { singleline: 'never', multiline: 'always' }],
   },
   overrides: [
     {

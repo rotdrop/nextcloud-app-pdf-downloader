@@ -28,11 +28,13 @@
              type="text"
              :value="inputVal"
              :disabled="disabled"
-             @input="$emit('input', $event.target.value)">
+             @input="$emit('input', $event.target.value)"
+      >
       <input type="submit"
              class="icon-confirm"
              value=""
-             @click="$emit('update', inputVal)">
+             @click="$emit('update', inputVal)"
+      >
     </div>
     <p v-if="hint !== ''" class="hint">
       {{ hint }}

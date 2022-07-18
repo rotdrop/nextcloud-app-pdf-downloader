@@ -22,13 +22,23 @@
  */
 </script>
 <template>
-  <SettingsSection :title="t(appName, 'Recursive Pdf Downloader, Personal Settings')">
-    <SettingsInputText
+  <SettingsSection :class="appName" :title="t(appName, 'Recursive Pdf Downloader, Personal Settings')">
+    <div class="flex-container flex-center">
+      <input id="page-labels"
+             v-model="pageLabels"
+             type="checkbox"
+             @change="saveSetting('pageLabels')"
+      >
+      <label for="page-labels">
+        {{ t(appName, 'Label output pages with file-name and page-number') }}
+      </label>
+    </div>
+    <!-- <SettingsInputText
       :id="'test-input'"
       v-model="example"
       :label="t(appName, 'Test Input')"
       :hint="t(appName, 'Test Hint')"
-      @update="saveInputExample" />
+      @update="saveInputExample" /> -->
   </SettingsSection>
 </template>
 
@@ -37,6 +47,7 @@ import { appName } from './config.js'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import SettingsInputText from './components/SettingsInputText'
 import { generateUrl } from '@nextcloud/router'
+import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 
 export default {
@@ -47,37 +58,78 @@ export default {
   },
   data() {
     return {
-      example: '',
+      pageLabels: true,
+      old: {},
     }
+  },
+  watch: {
+    pageLabels(newValue, oldValue) {
+      this.old.pageLabels = oldValue
+    },
   },
   created() {
     this.getData()
   },
   methods: {
     async getData() {
-      const response = await axios.get(generateUrl('apps/' + appName + '/settings/personal/example'), {})
+      const response = await axios.get(generateUrl('apps/' + appName + '/settings/personal/pageLabels'), {})
       console.info('RESPONSE', response)
-      this.example = response.data.value
-      console.info('VALUE', this.example)
+      this.pageLables = response.data.value
+      console.info('VALUE', this.pageLables)
     },
-    async saveInputExample() {
-      console.info('SAVE INPUTTEST', this.example)
-      const response = await axios.post(generateUrl('apps/' + appName + '/settings/personal/example'), { value: this.example })
-      console.info('RESPONSE', response)
+    async saveSetting(setting) {
+      console.info('SAVE SETTING', this[setting])
+      const value = this[setting]
+      const printValue = value === true ? t(appName, 'true') : '' + value;
+      console.info('VALUE', value)
+      try {
+        const response = await axios.post(generateUrl('apps/' + appName + '/settings/personal/' + setting), { value })
+        if (value) {
+          showInfo(t(appName, 'Successfully set "{setting}" to {value}.', { setting, value: printValue }))
+        } else {
+          showInfo(t(appName, 'Setting "{setting}" has been unset successfully.', { setting }))
+        }
+      } catch (e) {
+        console.info('RESPONSE', e)
+        let message = t(appName, 'reason unknown')
+        if (e.response && e.response.data && e.response.data.message) {
+          message = e.response.data.message;
+        }
+        if (value) {
+          showError(t(appName, 'Unable to set "{setting}" to {value}: {message}.', {
+            setting,
+            value: printValue,
+            message,
+          }));
+        } else {
+          showError(t(appName, 'Unable to unset "{setting}": {message}', {
+            setting,
+            value: this[setting] || t(appName, 'false'),
+            message,
+          }));
+        }
+        this[setting] = this.old[setting]
+      }
     },
   },
 }
 </script>
 <style lang="scss" scoped>
-  .settings-section {
-    :deep(&__title) {
-      padding-left:60px;
-      background-image:url('../img/app.svg');
-      background-repeat:no-repeat;
-      background-origin:border-box;
-      background-size:45px;
-      background-position:left center;
-      height:30px;
+.settings-section {
+  :deep(&__title) {
+    padding-left:60px;
+    background-image:url('../img/app.svg');
+    background-repeat:no-repeat;
+    background-origin:border-box;
+    background-size:45px;
+    background-position:left center;
+    height:30px;
+  }
+  .flex-container {
+    display:flex;
+    &.flex-center {
+      align-items:center;
     }
   }
+}
 </style>
