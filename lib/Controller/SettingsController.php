@@ -36,7 +36,7 @@ class SettingsController extends Controller
   use \OCA\PdfDownloader\Traits\ResponseTrait;
   use \OCA\PdfDownloader\Traits\LoggerTrait;
 
-  const EXAMPLE_SETTING_KEY = 'example';
+  const PERSONAL_PAGE_LABELS = 'pageLabels';
 
   /** @var IConfig */
   private $config;
@@ -133,7 +133,7 @@ class SettingsController extends Controller
   {
     $oldValue = $this->config->getUserValue($this->userId, $this->appName, $setting);
     switch ($setting) {
-      case 'pageLabels':
+      case self::PERSONAL_PAGE_LABELS:
         $realValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
         if ($realValue === null) {
           return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));

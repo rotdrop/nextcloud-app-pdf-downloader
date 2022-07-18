@@ -26,6 +26,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
 use OCP\IL10N;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface as ILogger;
 
 use OCP\IUser;
@@ -64,8 +65,14 @@ class MultiPdfDownloadController extends Controller
   /** @var IMimeTypeDetector */
   private $mimeTypeDetector;
 
+  /** @var IConfig */
+  private $cloudConfig;
+
   /** @var Folder */
   private $userFolder;
+
+  /** @var string */
+  private $userId;
 
   public function __construct(
     string $appName
@@ -73,6 +80,7 @@ class MultiPdfDownloadController extends Controller
     , IL10N $l
     , ILogger $logger
     , IUserSession $userSession
+    , IConfig $cloudConfig
     , IRootFolder $rootFolder
     , IMimeTypeDetector $mimeTypeDetector
     , PdfCombiner $pdfCombiner
@@ -82,6 +90,7 @@ class MultiPdfDownloadController extends Controller
     $this->l = $l;
     $this->logger = $logger;
     $this->rootFolder = $rootFolder;
+    $this->cloudConfig = $cloudConfig;
     $this->mimeTypeDetector = $mimeTypeDetector;
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
@@ -89,6 +98,7 @@ class MultiPdfDownloadController extends Controller
     $user = $userSession->getUser();
     if (!empty($user)) {
       $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
+      $this->userId = $user->getUID();
     }
   }
 
@@ -147,6 +157,8 @@ __EOF__;
    */
   public function get(string $folder):Response
   {
+    $pageLabels = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS);
+    $this->pdfCombiner->addPageLabels($pageLabels);
     $folderPath = urldecode($folder);
 
     $folder = $this->userFolder->get($folderPath);

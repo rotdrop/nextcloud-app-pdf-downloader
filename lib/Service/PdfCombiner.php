@@ -55,17 +55,43 @@ class PdfCombiner
    */
   private $documents = [];
 
+  /**
+   * @var array
+   * The document-data in a tree resembling the folder structure
+   */
   private $documentTree = [];
+
+  /** @var bool */
+  private $addPageLabels;
 
   public function __construct(
     ITempManager $tempManager
     , ILogger $logger
     , IL10N $l
+    , bool $addPageLabels = true
   ) {
     $this->tempManager = $tempManager;
     $this->logger = $logger;
     $this->l = $l;
     $this->initializeDocumentTree();
+    $this->addPageLabels = $addPageLabels;
+  }
+
+  /**
+   * Set or get whether a pagination is added to the top of each page.
+   *
+   * @param bool|null If non-null configure this setting, other the function
+   * just returns the current state.
+   *
+   * @return bool The previous state of the setting.
+   */
+  public function addPageLabels(?bool $addPageLables = null):bool
+  {
+    $oldState = $this->addPageLabels;
+    if ($addPageLables !== null) {
+      $this->addPageLabels = $addPageLables;
+    }
+    return $oldState;
   }
 
   private function initializePdfGenerator():\TCPDF
@@ -260,13 +286,15 @@ class PdfCombiner
       $pdfTk2 = new PdfTk($fileName);
       $pdfTk2->updateInfo($pdfData);
 
-      $stampData = $this->makePageLabel($fileNode, $folderPageCounter, $numberOfFolderPages);
-      $folderPageCounter += $pdfData['NumberOfPages'];
+      if ($this->addPageLabels) {
+        $stampData = $this->makePageLabel($fileNode, $folderPageCounter, $numberOfFolderPages);
+        $folderPageCounter += $pdfData['NumberOfPages'];
 
-      $pdfTk2 = new PdfTk($pdfTk2);
-      $pdfTk2->multiStamp('-');
-      $command = $pdfTk2->getCommand();
-      $command->setStdIn($stampData);
+        $pdfTk2 = new PdfTk($pdfTk2);
+        $pdfTk2->multiStamp('-');
+        $command = $pdfTk2->getCommand();
+        $command->setStdIn($stampData);
+      }
       $pdfTk2->saveAs($fileName);
 
       $bookmarks = []; // only the first file gets the directory bookmarks
