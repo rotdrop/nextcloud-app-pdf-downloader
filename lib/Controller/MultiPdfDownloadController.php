@@ -104,6 +104,12 @@ class MultiPdfDownloadController extends Controller
     if (!empty($user)) {
       $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
       $this->userId = $user->getUID();
+      $pdfCombiner->setOverlayFont(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT)
+      );
+      $this->setErrorPagesFont(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT)
+      );
     }
   }
 
