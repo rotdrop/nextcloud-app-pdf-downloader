@@ -2,6 +2,7 @@
 *.iml
 /vendor/
 /build/
+/downloads/
 node_modules/
 /.php_cs.cache
 js/*hot-update.*
