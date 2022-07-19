@@ -35,7 +35,7 @@
     </span>
     <div class="page-label-font-select-container">
       <div class="label-container">
-        <label>{{ t(appName, 'Base-font for generated PDF page-annotations') }}</label>
+        <label>{{ t(appName, 'Font for generated PDF page-annotations') }}</label>
       </div>
       <div class="multiselect-wrapper">
         <MultiSelect id="page-label-font-select"
@@ -70,12 +70,12 @@
         <div v-show="loading" class="loading" />
       </div>
       <span class="hint">
-        {{ t(appName, 'The font to use for the page-labels: {pageLabelsFont}.', { pageLabelsFont }) }}
+        {{ t(appName, 'The font to use for the page-labels: {pageLabelsFont}', { pageLabelsFont }) }}
       </span>
     </div>
     <div class="generated-page-font-select-container">
       <div class="label-container">
-        <label>{{ t(appName, 'Base-font for generated PDF (error-)pages') }}</label>
+        <label>{{ t(appName, 'Font for generated PDF (error-)pages') }}</label>
       </div>
       <div class="multiselect-wrapper">
         <MultiSelect id="generated-page-font-select"
@@ -92,7 +92,7 @@
                      label="fontName"
                      :multiple="false"
                      :tag-width="60"
-                     :disabled="!pageLabels || loading"
+                     :disabled="loading"
         >
           <template #option="optionData">
             <EllipsisedFontOption :name="$refs.generatedPagesFontSelect.getOptionLabel(optionData.option)"
@@ -110,7 +110,7 @@
         <div v-show="loading" class="loading" />
       </div>
       <span class="hint">
-        {{ t(appName, 'The font to use for generated pages: {generatedPagesFont}.', { generatedPagesFont }) }}
+        {{ t(appName, 'The font to use for generated pages: {generatedPagesFont}', { generatedPagesFont }) }}
       </span>
     </div>
     <!-- <SettingsInputText
@@ -272,9 +272,9 @@ export default {
     background-image:url('../img/app-dark.svg');
     background-repeat:no-repeat;
     background-origin:border-box;
-    background-size:45px;
+    background-size:32px;
     background-position:left center;
-    height:30px;
+    height:32px;
   }
   .flex-container {
     display:flex;
