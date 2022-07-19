@@ -44,31 +44,40 @@ ifeq ($(WGET),)
 $(error WGET binary is needed, but could not be found and was not specified on the command-line)
 endif
 
+MAKE_HELP_DIR = $(SRCDIR)/dev-scripts/MakeHelp
+include $(MAKE_HELP_DIR)/MakeHelp.mk
 
 APPSTORE_BUILD_DIR = $(BUILDDIR)/artifacts/appstore
 APPSTORE_PACKAGE_DIR = $(APPSTORE_BUILD_DIR)/$(APP_NAME)x
 APPSTORE_SIGN_DIR = $(APPSTORE_BUILD_DIR)/sign
 
-all: build lint test
+#@@ The default rule.
+all: help
 .PHONY: all
 
-build: dev-setup npm-build
+#@@ Build the distribution assets (minified, without debugging info)
+build: dev-setup npm-build lint test
 .PHONY: build
 
-dev: dev-setup npm-dev
+#@@ Build the development assets (include debugging information)
+dev: dev-setup npm-dev lint test
 .PHONY: dev
 
-# Dev env management
+#@private
 dev-setup: composer build-fonts
 .PHONY: dev-setup
 
+#@private
 composer.json: composer.json.in
 	cp composer.json.in composer.json
 
+#@private
 stamp.composer-core-versions: composer.lock
 	date > $@
 
+#@private
 composer.lock: DRY:=
+#@private
 composer.lock: composer.json composer.json.in
 	rm -f composer.lock
 	$(COMPOSER) install $(COMPOSER_OPTIONS)
@@ -77,22 +86,24 @@ composer.lock: composer.json composer.json.in
  $(COMPOSER) install $(COMPOSER_OPTIONS);\
 }
 
-.PHONY: comoser-download
+#@private
 composer-download:
 	mkdir -p $(BUILD_TOOLS_DIRECTORY)
 	curl -sS https://getcomposer.org/installer | php
 	mv composer.phar $(BUILD_TOOLS_DIRECTORY)
+.PHONY: comoser-download
 
-# Installs and updates the composer dependencies. If composer is not installed
-# a copy is fetched from the web
-.PHONY: composer
+#@@ Installs and updates the composer dependencies. If composer is not installed
+#@@ a copy is fetched from the web
 composer: stamp.composer-core-versions
 	$(COMPOSER) install $(COMPOSER_OPTIONS)
+.PHONY: composer
 
-.PHONY: composer-suggest
+#@@ Display the composer suggestions
 composer-suggest:
 	@echo -e "\n*** Regular Composer Suggestions ***\n"
 	$(COMPOSER) suggest --all
+.PHONY: composer-suggest
 
 CSS_FILES = $(shell find $(ABSSRCDIR)/style -name "*.css" -o -name "*.scss")
 JS_FILES = $(shell find $(ABSSRCDIR)/src -name "*.js" -o -name "*.vue")
@@ -106,6 +117,7 @@ WEBPACK_DEPS =\
 
 WEBPACK_TARGETS = $(ABSSRCDIR)/js/asset-meta.json
 
+#@private
 package-lock.json: package.json webpack.config.js Makefile
 	{ [ -d package-lock.json ] && [ test -d node_modules ]; } || $(NPM) install
 	$(NPM) update
@@ -114,50 +126,63 @@ package-lock.json: package.json webpack.config.js Makefile
 BUILD_FLAVOUR_FILE = $(ABSSRCDIR)/build-flavour
 PREV_BUILD_FLAVOUR = $(shell cat $(BUILD_FLAVOUR_FILE) 2> /dev/null || echo)
 
-.PHONY: build-flavour-dev
+#@private
 build-flavour-dev:
 ifneq ($(PREV_BUILD_FLAVOUR), dev)
 	make clean
 	echo dev > $(BUILD_FLAVOUR_FILE)
 endif
+.PHONY: build-flavour-dev
 
-.PHONY: build-flavour-build
+#@private
 build-flavour-build:
 ifneq ($(PREV_BUILD_FLAVOUR), build)
 	make clean
 	echo build > $(BUILD_FLAVOUR_FILE)
 endif
+.PHONY: build-flavour-build
 
+#@private
 $(WEBPACK_TARGETS): $(WEBPACK_DEPS) $(BUILD_FLAVOUR_FILE)
 	make webpack-clean
 	$(NPM) run $(shell cat $(BUILD_FLAVOUR_FILE)) || rm -f $(WEBPACK_TARGETS)
 	$(NPM) run lint
 
-.PHONY: npm-dev
+#@private
 npm-dev: build-flavour-dev $(WEBPACK_TARGETS)
+.PHONY: npm-dev
 
-.PHONY: npm-build
+#@private
 npm-build: build-flavour-build $(WEBPACK_TARGETS)
+.PHONY: npm-build
 
-# Linting
+#@@ Linting
 lint:
 	$(NPM) run lint
+.PHONY: lint
 
+#@@ Lint and fix (be careful!)
 lint-fix:
 	$(NPM) run lint:fix
+.PHONY: lint-fix
 
-# Style linting
+#@@ Style linting
 stylelint:
 	$(NPM) run stylelint
+.PHONY: stylelint
 
+#@@ Style linting and apply fixes (be carful!)
 stylelint-fix:
 	$(NPM) run stylelint:fix
+.PHONY: stylelint-fix
 
 # rebuild some fonts which seemingly are shipped in a broken or too
 # old version by tcpdf
+#@private
 build-fonts: build-fonts-dejavu
 .PHONY: build-fonts
 
+#@private
 build-fonts-dejavu: stamp.tcpdf-dejavu-fonts
 .PHONY: build-fonts-dejavu
 
@@ -173,6 +198,7 @@ DEJAVU_SRC_DIR = $(FONTS_SRC_DIR)/$(DEJAVU_ARCHIVE_BASE)-$(DEJAVU_VERSION)/ttf
 FONTS_DST_DIR = vendor/tecnickcom/tcpdf/fonts
 TCPDF_ADDFONT = $(ABSSRCDIR)/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php
 
+#@private
 stamp.tcpdf-dejavu-fonts: composer.lock Makefile $(DEJAVU_SRC_DIR)
 	rm -f $(FONTS_DST_DIR)/dejavu*.php
 	rm -f $(FONTS_DST_DIR)/dejavu*.z
@@ -182,20 +208,22 @@ stamp.tcpdf-dejavu-fonts: composer.lock Makefile $(DEJAVU_SRC_DIR)
 	cd $(DEJAVU_SRC_DIR); $(PHP) $(TCPDF_ADDFONT) -b -t TrueTypeUnicode -f 97 -i DejaVuSansMono-BoldOblique.ttf,DejaVuSansMono-Oblique.ttf
 	date > $@
 
+#@private
 $(DEJAVU_SRC_DIR): $(DOWNLOADS_DIR)/$(DEJAVU_ARCHIVE)
 	mkdir -p $(FONTS_SRC_DIR)
 	tar -C $(FONTS_SRC_DIR) -x -f $(ABSSRCDIR)/$(DOWNLOADS_DIR)/$(DEJAVU_ARCHIVE)
 	touch $@
 
+#@private
 $(DOWNLOADS_DIR)/$(DEJAVU_ARCHIVE):
 	mkdir -p $(DOWNLOADS_DIR)
 	cd $(DOWNLOADS_DIR); $(WGET) $(DEJAVU_DOWNLOAD_URL)
 
-#@@ prepare appstore archive
+#@private
 appstore: COMPOSER_OPTIONS := $(COMPOSER_OPTIONS) --no-dev
+#@@ Prepare appstore archive
 appstore: clean dev-setup npm-build
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
-
 .PHONY: appstore
 
 #@@ Removes WebPack builds
@@ -231,11 +259,18 @@ realclean: mostlyclean downloadsclean
 #@@ Remove non-npm non-composer downloads
 downloadsclean:
 	rm -rf $(DOWNLOADS_DIR)
+.PHONY: downloadsclean
 
-clean-dev:
-	rm -rf node_modules
+#@@ Run the test-suite
+test: unit-tests integration-tests
+.PHONY: test
 
-# Tests
-test:
+#@@ Run the unit tests
+unit-tests:
 	./vendor/phpunit/phpunit/phpunit -c phpunit.xml
+.PHONY: unit-tests
+
+#@@ Run the integration tests
+integration-tests:
 	./vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
+.PHONY: integration-tests
