@@ -53,7 +53,7 @@ class Admin implements IDelegatedSettings
         'appName' => $this->appName,
         'assets' => [
           AssetService::JS => $this->assetService->getJSAsset(self::TEMPLATE),
-          AssetService::CSS => $this->assetService->getCSSAsset(self::TEMPLATE),
+          // AssetService::CSS => $this->assetService->getCSSAsset(self::TEMPLATE),
         ],
       ],
       'blank');

@@ -20,8 +20,22 @@
 
 namespace OCA\PdfDownloader\Service;
 
+use Symfony\Component\Finder\Finder as FileNodeFinder;
+
 class PdfGenerator extends \TCPDF
 {
+  const FONT_FLAG_MONOSPACE = (1 << 0);
+  const FONT_FLAG_SYMBOLIC = (1 << 2);
+  const FONT_FLAG_NORMAL = (1 << 5);
+  const FONT_FLAG_ITALIC = (1 << 6);
+
+
+  /**
+   * @var array
+   * Per request cache of the list of distributed fonts.
+   */
+  private $distributedFonts = [];
+
   public function __construct($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false, $pdfa=false)
   {
     parent::__construct(
@@ -33,5 +47,29 @@ class PdfGenerator extends \TCPDF
       , diskcache: $diskcache
       , pdfa: $pdfa
     );
+  }
+
+  /**
+   * Return the array of available fonts
+   */
+  public function getFonts():array
+  {
+    if (empty($this->distributedFonts)) {
+      $fontPath = \TCPDF_FONTS::_getfontpath();
+      $finder = new FileNodeFinder;
+      /** @var \SplFileInfo $finderFile */
+      foreach ($finder->in($fontPath)->files()->name('*.php') as $finderFile) {
+        include($finderFile->getRealPath());
+        $family = $finderFile->getBasename('.php');
+        $this->distributedFonts[] = [
+          'family' => $family,
+          'type' => $type,
+          'fontName' => $name,
+          'flags' => $desc['Flags'],
+        ];
+      }
+      usort($this->distributedFonts, fn($a, $b) => strcmp($a['fontName'], $b['fontName']));
+    }
+    return $this->distributedFonts;
   }
 };

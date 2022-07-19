@@ -64,6 +64,9 @@ class PdfCombiner
   /** @var bool */
   private $addPageLabels;
 
+  /** @var string */
+  private $overlayFont = self::OVERLAY_FONT;
+
   public function __construct(
     ITempManager $tempManager
     , ILogger $logger
@@ -94,11 +97,21 @@ class PdfCombiner
     return $oldState;
   }
 
+  public function getOverlayFont():?string
+  {
+    return $this->overlayFont ?? self::OVERLAY_FONT;
+  }
+
+  public function setOverlayFont(?string $overlayFont)
+  {
+    $this->overlayFont = empty($overlayFont) ? self::OVERLAY_FONT : $overlayFont;
+  }
+
   private function initializePdfGenerator():PdfGenerator
   {
     $pdf = new PdfGenerator;
     $pdf->setPageUnit('pt');
-    $pdf->setFont(self::OVERLAY_FONT);
+    $pdf->setFont($this->getOverlayFont());
     $margin = 0; // self::OVERLAY_FONTSIZE;
     $pdf->setMargins($margin, $margin, $margin, $margin);
     $pdf->setAutoPageBreak(false);

@@ -24,12 +24,12 @@ namespace OCA\PdfDownloader\Controller;
 use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
 use OCP\IConfig;
 use OCP\IL10N;
 
-use OCA\PdfDownloader\Service\GroupFoldersService;
-use OCA\PdfDownloader\Service\ProjectGroupService;
+use OCA\PdfDownloader\Service\PdfCombiner;
 
 class SettingsController extends Controller
 {
@@ -37,6 +37,11 @@ class SettingsController extends Controller
   use \OCA\PdfDownloader\Traits\LoggerTrait;
 
   const PERSONAL_PAGE_LABELS = 'pageLabels';
+  const PERSONAL_PAGE_LABELS_FONT = 'pageLabelsFont';
+  const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
+
+  /** @var IAppContainer */
+  private $appContainer;
 
   /** @var IConfig */
   private $config;
@@ -54,12 +59,14 @@ class SettingsController extends Controller
     , LoggerInterface $logger
     , IL10N $l10n
     , IConfig $config
+    , IAppContainer $appContainer
   ) {
     parent::__construct($appName, $request);
     $this->logger = $logger;
     $this->l = $l10n;
     $this->config = $config;
     $this->userId = $userId;
+    $this->appContainer = $appContainer;
   }
 
   /**
@@ -138,12 +145,25 @@ class SettingsController extends Controller
         if ($realValue === null) {
           return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));
         }
-        $realValue = (int)$realValue;
+        if (enpty($realValue)) {
+          $realValue = null;
+        }
+        break;
+      case self::PERSONAL_GENERATED_PAGES_FONT:
+      case self::PERSONAL_PAGE_LABELS_FONT:
+        $realValue = $value;
+        if (empty($realValue)) {
+          $realValue = null;
+        }
         break;
       default:
         return self::grumble($this->l->t('Unknown personal setting: "%s".', [ $setting ]));
     }
-    $this->config->setUserValue($this->userId, $this->appName, $setting, $realValue);
+    if ($realValue === null) {
+      $this->config->deleteUserValue($this->userId, $this->appName, $setting);
+    } else {
+      $this->config->setUserValue($this->userId, $this->appName, $setting, $realValue);
+    }
     return new DataResponse([
       'oldValue' => $oldValue,
     ]);
@@ -154,8 +174,25 @@ class SettingsController extends Controller
    */
   public function getPersonal(string $setting)
   {
+    $value = $this->config->getUserValue($this->userId, $this->appName, $setting);
+    switch ($setting) {
+      case self::PERSONAL_GENERATED_PAGES_FONT:
+        if (empty($value)) {
+          /** @var MultiPdfDownloadController $downloadController */
+          $downloadController = $this->appContainer->get(MultiPdfDownloadController::class);
+          $value = $downloadController->getErrorPagesFont();
+        }
+        break;
+      case self::PERSONAL_PAGE_LABELS_FONT:
+        if (empty($value)) {
+          /** @var PdfCombiner $pdfCombiner */
+          $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
+          $value = $pdfCombiner->getOverlayFont();
+        }
+        break;
+    }
     return new DataResponse([
-      'value' => $this->config->getUserValue($this->userId, $this->appName, $setting),
+      'value' => $value,
     ]);
   }
 }

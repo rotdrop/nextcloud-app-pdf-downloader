@@ -11,11 +11,12 @@
   ],
   "require": {
     "mikehaertl/php-pdftk": "^0.12.1",
+    "symfony/finder": "^6.0",
     "tecnickcom/tcpdf": "^6.3"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
-    "nextcloud/coding-standard": "^0.5.0"
+    "nextcloud/coding-standard": "*"
   },
   "config": {
     "optimize-autoloader": true,
