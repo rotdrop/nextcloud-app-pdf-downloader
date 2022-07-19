@@ -72,4 +72,28 @@ class PdfGenerator extends \TCPDF
     }
     return $this->distributedFonts;
   }
+
+  public static function generateTextSample(string $sampleText, string $font, int $fontSize = 12)
+  {
+    $pdf = new PdfGenerator;
+    $pdf->setPageUnit('pt');
+    $pdf->setFont($font);
+    $pdf->setFontSize($fontSize);
+    $margin = 0;
+    $pdf->setMargins($margin, $margin, $margin, $margin);
+    $pdf->setAutoPageBreak(false);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+
+    $stringWidth = $pdf->GetStringWidth($sampleText);
+    $padding = 0.25 * $fontSize;
+    $pdf->setCellPaddings($padding, $padding, $padding, $padding);
+    $pageWidth = 2.0 * $padding + $stringWidth;
+    $pageHeight = 2.0 * $padding + $fontSize;
+    $pdf->startPage('P', [ $pageWidth, $pageHeight ]);
+    $pdf->Cell($pageWidth, $pageHeight, $sampleText, calign: 'A', valign: 'T', align: 'R', fill: false);
+    $pdf->endPage();
+    return $pdf->Oputut(str_replace(' ', '_', $sampleText) . '.pdf', 'S');
+  }
+
 };
