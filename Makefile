@@ -15,17 +15,18 @@ APP_NAME = $(notdir $(CURDIR))
 endif
 BUILDDIR = ./build
 ABSBUILDDIR = $(CURDIR)/build
-BUILD_TOOLS_DIRECTORY = $(BUILDDIR)/tools
+BUILD_TOOLS_DIR = $(BUILDDIR)/tools
 DOWNLOADS_DIR = ./downloads
 
 # make these overridable from the command line
 PHP = $(shell which php 2> /dev/null)
 NPM = $(shell which npm 2> /dev/null)
 WGET = $(shell which wget 2> /dev/null)
+OPENSSL = $(shell which openssl 2> /dev/null)
 
 COMPOSER_SYSTEM = $(shell which composer 2> /dev/null)
 ifeq (, $(COMPOSER_SYSTEM))
-COMPOSER = $(PHP) $(BUILD_TOOLS_DIRECTORY)/composer.phar
+COMPOSER = $(PHP) $(BUILD_TOOLS_DIR)/composer.phar
 else
 COMPOSER = $(COMPOSER_SYSTEM)
 endif
@@ -48,8 +49,17 @@ MAKE_HELP_DIR = $(SRCDIR)/dev-scripts/MakeHelp
 include $(MAKE_HELP_DIR)/MakeHelp.mk
 
 APPSTORE_BUILD_DIR = $(BUILDDIR)/artifacts/appstore
-APPSTORE_PACKAGE_DIR = $(APPSTORE_BUILD_DIR)/$(APP_NAME)x
+APPSTORE_COMPRESSION = z
+APPSTORE_PACKAGE_FILE := $(APPSTORE_BUILD_DIR)/$(APP_NAME).tar
+ifeq ($(APPSTORE_COMPRESSION),z)
+  APPSTORE_PACKAGE_FILE := $(APPSTORE_PACKAGE_FILE).gz
+else ifeq ($(APPSTORE_COMPRESSION),J)
+  APPSTORE_PACKAGE_FILE := $(APPSTORE_PACKAGE_FILE).xz
+endif
 APPSTORE_SIGN_DIR = $(APPSTORE_BUILD_DIR)/sign
+BUILD_CERT_DIR = $(BUILD_TOOLS_DIR)/certificates
+CERT_DIR = $(HOME)/.nextcloud/certificates
+OCC = $(CURDIR)/../../occ
 
 #@@ The default rule.
 all: help
@@ -88,9 +98,9 @@ composer.lock: composer.json composer.json.in
 
 #@private
 composer-download:
-	mkdir -p $(BUILD_TOOLS_DIRECTORY)
+	mkdir -p $(BUILD_TOOLS_DIR)
 	curl -sS https://getcomposer.org/installer | php
-	mv composer.phar $(BUILD_TOOLS_DIRECTORY)
+	mv composer.phar $(BUILD_TOOLS_DIR)
 .PHONY: comoser-download
 
 #@@ Installs and updates the composer dependencies. If composer is not installed
@@ -219,11 +229,55 @@ $(DOWNLOADS_DIR)/$(DEJAVU_ARCHIVE):
 	mkdir -p $(DOWNLOADS_DIR)
 	cd $(DOWNLOADS_DIR); $(WGET) $(DEJAVU_DOWNLOAD_URL)
 
+# what has to be copied to the appstore archive
+APPSTORE_FILES =\
+ appinfo\
+ css\
+ js\
+ img\
+ l10n\
+ templates\
+ lib\
+ vendor\
+ CHANGELOG.md\
+ COPYING\
+ README.md
+
 #@private
 appstore: COMPOSER_OPTIONS := $(COMPOSER_OPTIONS) --no-dev
 #@@ Prepare appstore archive
 appstore: clean dev-setup npm-build
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
+	cp -r $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
+	mkdir -p $(BUILD_CERT_DIR)
+	@if [ -n "$$APP_PRIVATE_KEY" ]; then\
+  echo "$$APP_PRIVATE_KEY" > $(BUILD_CERT_DIR)/$(APP_NAME).key;\
+elif [ -f "$(CERT_DIR)/$(APP_NAME).key" ]; then\
+  cp $(CERT_DIR)/$(APP_NAME).key $(BUILD_CERT_DIR)/$(APP_NAME).key;\
+fi
+	@if [ -f $(BUILD_CERT_DIR)/$(APP_NAME).key ] && [ ! -f $(BUILD_CERT_DIR)/$(APP_NAME).crt ]; then\
+  curl -o $(BUILD_CERT_DIR)/$(APP_NAME).crt\
+ "https://github.com/nextcloud/app-certificate-requests/raw/master/$(APP_NAME)/$(APP_NAME).crt";\
+  $(OPENSSL) x509 -in $(BUILD_CERT_DIR)/$(APP_NAME).crt -noout -text > /dev/null 2>&1 || rm -f $(BUILD_CERT_DIR)/$(APP_NAME).crt;\
+fi
+	@if [ -f $(BUILD_CERT_DIR)/$(APP_NAME).key ] && [ -f $(BUILD_CERT_DIR)/$(APP_NAME).crt ]; then\
+  echo "Signing app files ...";\
+  $(PHP) $(OCC) integrity:sign-app\
+ --privateKey=$(BUILD_CERT_DIR)/$(APP_NAME).key\
+ --certificate=$(BUILD_CERT_DIR)/$(APP_NAME).crt\
+ --path=$(APPSTORE_SIGN_DIR)/$(APP_NAME);\
+  echo "... signing app files done";\
+else\
+  echo 'Cannot sign app-files, certificate "$(BUILD_CERT_DIR)/$(APP_NAME).crt" or private key "$(BUILD_CERT_DIR)/$(APP_NAME).key" not available.' 1>&2;\
+fi
+	tar -c$(APPSTORE_COMPRESSION)f $(APPSTORE_PACKAGE_FILE) -C $(APPSTORE_SIGN_DIR) $(APP_NAME)
+	@if [ -f $(BUILD_CERT_DIR)/$(APP_NAME).key ] && [ -f $(BUILD_CERT_DIR)/$(APP_NAME).crt ]; then\
+  echo "Signing package ...";\
+  $(OPENSSL) dgst -sha512 -sign $(CERT_DIR)/$(APP_NAME).key $(APPSTORE_PACKAGE_FILE) | openssl base64; \
+else\
+  echo 'Cannot sign app-store package, certificate "$(BUILD_CERT_DIR)/$(APP_NAME).crt" or private key "$(BUILD_CERT_DIR)/$(APP_NAME).key" not available.' 1>&2;\
+fi
+
 .PHONY: appstore
 
 #@@ Removes WebPack builds
