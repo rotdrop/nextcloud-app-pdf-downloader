@@ -17,13 +17,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { appName } from '../config.js';
+// import { appName } from '../config.js';
 
 export default {
   methods: {
     fontInfoPopup(fontOption) {
       // console.info('INFO POPUP', fontOption, appName);
-      const content = fontOption.fontName + appName;
+      const content = fontOption.fontName;
       return {
         content,
         preventOverflow: false,
