@@ -51,9 +51,9 @@ class MultiPdfDownloadController extends Controller
   use \OCA\PdfDownloader\Traits\LoggerTrait;
   use \OCA\PdfDownloader\Traits\ResponseTrait;
 
-  const ERROR_PAGE_FONT = 'dejavusans';
-  const ERROR_PAGE_FONTSIZE = '12';
-  const ERROR_PAGE_PAPER = 'A4';
+  const ERROR_PAGES_FONT = 'dejavusans';
+  const ERROR_PAGES_FONTSIZE = '12';
+  const ERROR_PAGES_PAPER = 'A4';
 
   /** @var PdfCombiner */
   private $pdfCombiner;
@@ -75,6 +75,9 @@ class MultiPdfDownloadController extends Controller
 
   /** @var string */
   private $userId;
+
+  /** @var string */
+  private $errorPagesFont = self::ERROR_PAGES_FONT;
 
   public function __construct(
     string $appName
@@ -104,12 +107,21 @@ class MultiPdfDownloadController extends Controller
     }
   }
 
+  public function getErrorPagesFont():?string
+  {
+    return $this->errorPagesFont ?? self::ERROR_PAGES_FONT;
+  }
+
+  public function setErrorPagesFont(?string $errorPagesFont)
+  {
+    $this->errorPagesFont = empty($errorPagesFont) ? self::ERROR_PAGES_FONT : $errorPagesFont;
+  }
+
   private function generateErrorPage(string $fileData, string $path, \Throwable $throwable)
   {
-    $pdf = new PdfGenerator(orienmtation: 'P', unit: 'mm', format: self::ERROR_PAGE_PAPER);
-    $pdf->setFont(self::ERROR_PAGE_FONT);
-    $pdf->setFontSize(self::ERROR_PAGE_FONTSIZE);
-
+    $pdf = new PdfGenerator(orienmtation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
+    $pdf->setFont($this->getErrorPagesFont());
+    $pdf->setFontSize(self::ERROR_PAGES_FONTSIZE);
 
     $mimeType = $this->mimeTypeDetector->detectString($fileData);
 
@@ -171,6 +183,19 @@ __EOF__;
     $fileName = basename($folderPath) . '.pdf';
 
     return self::dataDownloadResponse($this->pdfCombiner->combine(), $fileName, 'application/pdf');
+  }
+
+  /**
+   * Get the list of available fonts.
+   *
+   * @NoAdminRequired
+   * @return Response
+   */
+  public function getFonts():Response
+  {
+    $pdf = new PdfGenerator;
+    $fonts = $pdf->getFonts();
+    return self::dataResponse($fonts);
   }
 
 }

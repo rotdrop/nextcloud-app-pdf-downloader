@@ -32,6 +32,11 @@ return [
       'url' => '/download/pdf/{folder}',
       'verb' => 'GET',
     ],
+    [
+      'name' => 'multi_pdf_download#get_fonts',
+      'url' => '/pdf/fonts',
+      'verb' => 'GET',
+    ],
     /**
      * Attempt a catch all ...
      */
