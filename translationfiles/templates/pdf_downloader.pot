@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-07-19 08:07+0200\n"
+"POT-Creation-Date: 2022-07-20 01:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,23 +32,23 @@ msgstr ""
 msgid "Get from end-point \"%s\" not implemented."
 msgstr ""
 
-#: lib/Controller/SettingsController.php:82
-#: lib/Controller/SettingsController.php:106
+#: lib/Controller/SettingsController.php:89
+#: lib/Controller/SettingsController.php:113
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
 msgstr ""
 
-#: lib/Controller/SettingsController.php:125
+#: lib/Controller/SettingsController.php:132
 #, php-format
 msgid "Unknown app setting: \"%1$s\""
 msgstr ""
 
-#: lib/Controller/SettingsController.php:139
+#: lib/Controller/SettingsController.php:146
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 
-#: lib/Controller/SettingsController.php:144
+#: lib/Controller/SettingsController.php:162
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr ""
@@ -70,8 +70,8 @@ msgid ""
 "the server, please contact the system administrator!"
 msgstr ""
 
-#: lib/Service/PdfCombiner.php:315
-#: lib/Service/PdfCombiner.php:338
+#: lib/Service/PdfCombiner.php:328
+#: lib/Service/PdfCombiner.php:351
 msgid "Combining PDFs failed"
 msgstr ""
 
@@ -130,9 +130,11 @@ msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
 msgstr ""
 
 #. TRANSLATORS src/AdminSettings.vue:91
-#. TRANSLATORS src/PersonalSettings.vue:94
+#. TRANSLATORS src/PersonalSettings.vue:199
 #: specialVueFakeDummyForL10nScript.js:14
-#: specialVueFakeDummyForL10nScript.js:32
+#: specialVueFakeDummyForL10nScript.js:40
+#: specialVueFakeDummyForL10nScript.js:44
+#: specialVueFakeDummyForL10nScript.js:54
 msgid "reason unknown"
 msgstr ""
 
@@ -141,53 +143,94 @@ msgstr ""
 msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:25
+#. TRANSLATORS src/PersonalSettings.vue:22
 #: specialVueFakeDummyForL10nScript.js:18
 msgid "Recursive Pdf Downloader, Personal Settings"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:33
+#. TRANSLATORS src/PersonalSettings.vue:30
 #: specialVueFakeDummyForL10nScript.js:20
 msgid "Label output pages with file-name and page-number"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:39
+#. TRANSLATORS src/PersonalSettings.vue:34
 #: specialVueFakeDummyForL10nScript.js:22
+msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:38
+#: specialVueFakeDummyForL10nScript.js:24
+msgid "Font for generated PDF page-annotations"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:45
+#: specialVueFakeDummyForL10nScript.js:26
+#: specialVueFakeDummyForL10nScript.js:32
+msgid "Select a Font"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:73
+#: specialVueFakeDummyForL10nScript.js:28
+msgid "The font to use for the page-labels: {pageLabelsFont}"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:78
+#: specialVueFakeDummyForL10nScript.js:30
+msgid "Font for generated PDF (error-)pages"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:113
+#: specialVueFakeDummyForL10nScript.js:34
+msgid "The font to use for generated pages: {generatedPagesFont}"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:119
+#: specialVueFakeDummyForL10nScript.js:36
 msgid "Test Input"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:40
-#: specialVueFakeDummyForL10nScript.js:24
+#. TRANSLATORS src/PersonalSettings.vue:120
+#: specialVueFakeDummyForL10nScript.js:38
 msgid "Test Hint"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:83
-#: specialVueFakeDummyForL10nScript.js:26
+#. TRANSLATORS src/PersonalSettings.vue:203
+#: specialVueFakeDummyForL10nScript.js:42
+msgid "Unable to query the initial value of {setting}: {message}"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:219
+#: specialVueFakeDummyForL10nScript.js:46
+msgid "Unable to obtain the list of available fonts: {message}"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:234
+#: specialVueFakeDummyForL10nScript.js:48
 msgid "true"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:88
-#: specialVueFakeDummyForL10nScript.js:28
+#. TRANSLATORS src/PersonalSettings.vue:239
+#: specialVueFakeDummyForL10nScript.js:50
 msgid "Successfully set \"{setting}\" to {value}."
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:90
-#: specialVueFakeDummyForL10nScript.js:30
+#. TRANSLATORS src/PersonalSettings.vue:241
+#: specialVueFakeDummyForL10nScript.js:52
 msgid "Setting \"{setting}\" has been unset successfully."
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:99
-#: specialVueFakeDummyForL10nScript.js:34
+#. TRANSLATORS src/PersonalSettings.vue:250
+#: specialVueFakeDummyForL10nScript.js:56
 msgid "Unable to set \"{setting}\" to {value}: {message}."
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:105
-#: specialVueFakeDummyForL10nScript.js:36
+#. TRANSLATORS src/PersonalSettings.vue:256
+#: specialVueFakeDummyForL10nScript.js:58
 msgid "Unable to unset \"{setting}\": {message}"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:107
-#: specialVueFakeDummyForL10nScript.js:38
+#. TRANSLATORS src/PersonalSettings.vue:258
+#: specialVueFakeDummyForL10nScript.js:60
 msgid "false"
 msgstr ""
 
