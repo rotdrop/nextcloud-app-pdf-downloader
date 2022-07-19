@@ -53,7 +53,6 @@
                      :multiple="false"
                      :tag-width="60"
                      :disabled="!pageLabels || loading"
-                     @input="saveSetting('pageLabelsFont', pageLabelsFontObject)"
         >
           <template #option="optionData">
             <EllipsisedFontOption :name="$refs.pageLabelsFontSelect.getOptionLabel(optionData.option)"
@@ -94,7 +93,6 @@
                      :multiple="false"
                      :tag-width="60"
                      :disabled="!pageLabels || loading"
-                     @input="saveSetting('generatedPagesFont', generatedPagesFontObject)"
         >
           <template #option="optionData">
             <EllipsisedFontOption :name="$refs.generatedPagesFontSelect.getOptionLabel(optionData.option)"
@@ -146,13 +144,16 @@ export default {
   data() {
     return {
       pageLabels: true,
-      old: {},
       fontsList: [],
       loading: true,
       pageLabelsFont: '',
       pageLabelsFontObject: null,
       generatedPagesFont: '',
       generatedPagesFontObject: null,
+      old: {
+        pageLabelsFont: 'unset',
+        generatedPagesFont: 'unset',
+      }
     }
   },
   mixins: [
@@ -163,10 +164,24 @@ export default {
       this.old.pageLabels = oldValue
     },
     pageLabelsFontObject(newValue, oldValue) {
+      const skip = this.old.pageLabelsFont === 'unset'
       console.info('PAGE LABEL FONT', newValue, oldValue)
       this.old.pageLabelsFont = oldValue ? oldValue.family : null
       this.pageLabelsFont = newValue ? newValue.family : null
       this.old.pageLabelsFontObject = oldValue
+      if (!skip) {
+        this.saveSetting('pageLabelsFont')
+      }
+    },
+    generatedPagesFontObject(newValue, oldValue) {
+      const skip = this.old.generatedPagesFont === 'unset'
+      console.info('GENERATED PAGES FONT', newValue, oldValue)
+      this.old.generatedPagesFont = oldValue ? oldValue.family : null
+      this.generatedPagesFont = newValue ? newValue.family : null
+      this.old.generatedPagesFontObject = oldValue
+      if (!skip) {
+        this.saveSetting('generatedPagesFont')
+      }
     },
   },
   created() {
