@@ -1,19 +1,21 @@
 # This file is licensed under the Affero General Public License version 3 or
 # later. See the COPYING file.
-app_name=$(notdir $(CURDIR))
-SRCDIR=.
-ABSSRCDIR=$(CURDIR)
-BUILDDIR=./build
-ABSBUILDDIR=$(CURDIR)/build
-build_tools_directory=$(BUILDDIR)/tools
-COMPOSER_SYSTEM=$(shell which composer 2> /dev/null)
+APP_NAME = $(notdir $(CURDIR))
+SRCDIR = .
+ABSSRCDIR = $(CURDIR)
+BUILDDIR = ./build
+ABSBUILDDIR = $(CURDIR)/build
+BUILD_TOOLS_DIRECTORY = $(BUILDDIR)/tools
+COMPOSER_SYSTEM = $(shell which composer 2> /dev/null)
 ifeq (, $(COMPOSER_SYSTEM))
-COMPOSER_TOOL=php $(build_tools_directory)/composer.phar
+COMPOSER_TOOL = php $(BUILD_TOOLS_DIRECTORY)/composer.phar
 else
-COMPOSER_TOOL=$(COMPOSER_SYSTEM)
+COMPOSER_TOOL = $(COMPOSER_SYSTEM)
 endif
-COMPOSER_OPTIONS=--prefer-dist
+COMPOSER_OPTIONS = --prefer-dist
 PHP = $(shell which php 2> /dev/null)
+
+APPSTORE_BUILD_DIRECTORY = $(BUILDDIR)/artifacts/appstore
 
 all: build lint test
 .PHONY: all
@@ -45,9 +47,9 @@ composer.lock: composer.json composer.json.in
 
 .PHONY: comoser-download
 composer-download:
-	mkdir -p $(build_tools_directory)
+	mkdir -p $(BUILD_TOOLS_DIRECTORY)
 	curl -sS https://getcomposer.org/installer | php
-	mv composer.phar $(build_tools_directory)
+	mv composer.phar $(BUILD_TOOLS_DIRECTORY)
 
 # Installs and updates the composer dependencies. If composer is not installed
 # a copy is fetched from the web
