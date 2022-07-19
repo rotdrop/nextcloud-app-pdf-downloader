@@ -145,8 +145,10 @@ class SettingsController extends Controller
         if ($realValue === null) {
           return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));
         }
-        if (enpty($realValue)) {
+        if (empty($realValue)) {
           $realValue = null;
+        } else {
+          $realValue = (int)$realValue;
         }
         break;
       case self::PERSONAL_GENERATED_PAGES_FONT:
