@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-07-10 11:59+0200\n"
-"PO-Revision-Date: 2022-07-09 16:33+0200\n"
+"POT-Creation-Date: 2022-07-19 08:01+0200\n"
+"PO-Revision-Date: 2022-07-19 08:07+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -41,6 +41,16 @@ msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
 msgid "Unknown app setting: \"%1$s\""
 msgstr "Unbekannte App-Einstellung: \"%1$s\""
 
+#: lib/Controller/SettingsController.php:139
+#, php-format
+msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
+msgstr "Der Wert \"%1$s\" für die Einstellung \"%2$s\" kann nicht in einen Wahrheitswert konvertiert werden."
+
+#: lib/Controller/SettingsController.php:144
+#, php-format
+msgid "Unknown personal setting: \"%s\"."
+msgstr "Unbekannte perönliche Einstellung: \"%1$s\""
+
 #: lib/Service/AnyToPdf.php:128
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
@@ -62,7 +72,7 @@ msgstr ""
 "Installationsproblem; die benötigte %s-Ressource \"%s\" ist auf dem Server "
 "nicht installiert, bitte den System-Administrator kontaktiern."
 
-#: lib/Service/PdfCombiner.php:287 lib/Service/PdfCombiner.php:310
+#: lib/Service/PdfCombiner.php:315 lib/Service/PdfCombiner.php:338
 msgid "Combining PDFs failed"
 msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 
@@ -106,29 +116,31 @@ msgstr "Beispiel-Einstellung"
 msgid "Just to have something to show ..."
 msgstr "Nur, um irgendwas zu zeigen..."
 
-#. TRANSLATORS src/AdminSettings.vue:75
+#. TRANSLATORS src/AdminSettings.vue:76
 #: specialVueFakeDummyForL10nScript.js:8
 msgid "Confirmation Required"
 msgstr "Bestätigung erforderlich!"
 
-#. TRANSLATORS src/AdminSettings.vue:80
+#. TRANSLATORS src/AdminSettings.vue:81
 #: specialVueFakeDummyForL10nScript.js:10
 msgid "Unconfirmed, reverting to old value."
 msgstr "Bestätigung nicht erteilt, setze auf den alten Wert zurück."
 
-#. TRANSLATORS src/AdminSettings.vue:86
+#. TRANSLATORS src/AdminSettings.vue:87
 #: specialVueFakeDummyForL10nScript.js:12
 msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
 msgstr ""
 "Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf "
 "\"{value}\" gesetzt"
 
-#. TRANSLATORS src/AdminSettings.vue:90
+#. TRANSLATORS src/AdminSettings.vue:91
+#. TRANSLATORS src/PersonalSettings.vue:94
 #: specialVueFakeDummyForL10nScript.js:14
+#: specialVueFakeDummyForL10nScript.js:32
 msgid "reason unknown"
 msgstr "Grund unbekannt"
 
-#. TRANSLATORS src/AdminSettings.vue:95
+#. TRANSLATORS src/AdminSettings.vue:96
 #: specialVueFakeDummyForL10nScript.js:16
 msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 msgstr ""
@@ -140,15 +152,50 @@ msgstr ""
 msgid "Recursive Pdf Downloader, Personal Settings"
 msgstr "Rekursiver PDF Lader, Persönliche Einstellungen"
 
-#. TRANSLATORS src/PersonalSettings.vue:29
+#. TRANSLATORS src/PersonalSettings.vue:33
 #: specialVueFakeDummyForL10nScript.js:20
+msgid "Label output pages with file-name and page-number"
+msgstr "Kopfzeile mit ursprünglichem Dateinamen und Seitennummer einfügen."
+
+#. TRANSLATORS src/PersonalSettings.vue:39
+#: specialVueFakeDummyForL10nScript.js:22
 msgid "Test Input"
 msgstr "Test-Eingabe"
 
-#. TRANSLATORS src/PersonalSettings.vue:30
-#: specialVueFakeDummyForL10nScript.js:22
+#. TRANSLATORS src/PersonalSettings.vue:40
+#: specialVueFakeDummyForL10nScript.js:24
 msgid "Test Hint"
 msgstr "Test-Hinweis"
+
+#. TRANSLATORS src/PersonalSettings.vue:83
+#: specialVueFakeDummyForL10nScript.js:26
+msgid "true"
+msgstr "wahr"
+
+#. TRANSLATORS src/PersonalSettings.vue:88
+#: specialVueFakeDummyForL10nScript.js:28
+msgid "Successfully set \"{setting}\" to {value}."
+msgstr "Der Wert für die Einstellung \"{setting}\" wurde erfolgreich auf \"{value}\" gesetzt."
+
+#. TRANSLATORS src/PersonalSettings.vue:90
+#: specialVueFakeDummyForL10nScript.js:30
+msgid "Setting \"{setting}\" has been unset successfully."
+msgstr "Die Einstellung \"{setting}\" wurde erfolgreich gelöscht."
+
+#. TRANSLATORS src/PersonalSettings.vue:99
+#: specialVueFakeDummyForL10nScript.js:34
+msgid "Unable to set \"{setting}\" to {value}: {message}."
+msgstr "Konnte den Wert für die Einstellung \"{setting}\" nicht auf den Wert \"{value}\" setzen: {message}"
+
+#. TRANSLATORS src/PersonalSettings.vue:105
+#: specialVueFakeDummyForL10nScript.js:36
+msgid "Unable to unset \"{setting}\": {message}"
+msgstr "Kann die Einstellung {setting} nicht löschen: {message}>\n"
+
+#. TRANSLATORS src/PersonalSettings.vue:107
+#: specialVueFakeDummyForL10nScript.js:38
+msgid "false"
+msgstr "falsch"
 
 #: src/files-action.js:41 src/files-action.js:42
 msgid "Download PDF"
