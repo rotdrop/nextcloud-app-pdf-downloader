@@ -40,6 +40,7 @@ use OCP\Files\IMimeTypeDetector;
 
 use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\PdfCombiner;
+use OCA\PdfDownloader\Service\PdfGenerator;
 
 /**
  * Walk throught a directory tree, convert all files to PDF and combine the
@@ -50,6 +51,7 @@ class MultiPdfDownloadController extends Controller
   use \OCA\PdfDownloader\Traits\LoggerTrait;
   use \OCA\PdfDownloader\Traits\ResponseTrait;
 
+  const ERROR_PAGE_FONT = 'dejavusans';
   const ERROR_PAGE_FONTSIZE = '12';
   const ERROR_PAGE_PAPER = 'A4';
 
@@ -104,8 +106,10 @@ class MultiPdfDownloadController extends Controller
 
   private function generateErrorPage(string $fileData, string $path, \Throwable $throwable)
   {
-    $pdf = new \TCPDF('P', 'mm', self::ERROR_PAGE_PAPER);
+    $pdf = new PdfGenerator(orienmtation: 'P', unit: 'mm', format: self::ERROR_PAGE_PAPER);
+    $pdf->setFont(self::ERROR_PAGE_FONT);
     $pdf->setFontSize(self::ERROR_PAGE_FONTSIZE);
+
 
     $mimeType = $this->mimeTypeDetector->detectString($fileData);
 

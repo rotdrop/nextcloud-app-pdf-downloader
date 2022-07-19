@@ -94,9 +94,9 @@ class PdfCombiner
     return $oldState;
   }
 
-  private function initializePdfGenerator():\TCPDF
+  private function initializePdfGenerator():PdfGenerator
   {
-    $pdf = new \TCPDF();
+    $pdf = new PdfGenerator;
     $pdf->setPageUnit('pt');
     $pdf->setFont(self::OVERLAY_FONT);
     $margin = 0; // self::OVERLAY_FONTSIZE;
