@@ -61,11 +61,24 @@ class PdfGenerator extends \TCPDF
       foreach ($finder->in($fontPath)->files()->name('*.php') as $finderFile) {
         include($finderFile->getRealPath());
         $family = $finderFile->getBasename('.php');
+        // uppercase font-style s.t. it is understood again bei TCPDF
+        $flags = $desc['Flags'];
+        $style = '';
+        if (substr($family, -1) == 'i' && ($flags & self::FONT_FLAG_ITALIC)) {
+          $style = 'I';
+          $family = substr($family, 0, -1);
+        }
+        if (substr($family, -1) == 'b') {
+          $style = 'B' . $style;
+          $family = substr($family, 0, -1);
+        }
+        $family .= $style;
+
         $this->distributedFonts[] = [
           'family' => $family,
           'type' => $type,
           'fontName' => $name,
-          'flags' => $desc['Flags'],
+          'flags' => $flags,
         ];
       }
       usort($this->distributedFonts, fn($a, $b) => strcmp($a['fontName'], $b['fontName']));
