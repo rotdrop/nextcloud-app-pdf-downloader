@@ -179,7 +179,7 @@ __EOF__;
    */
   public function get(string $folder):Response
   {
-    $pageLabels = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS);
+    $pageLabels = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
     $this->pdfCombiner->addPageLabels($pageLabels);
     $folderPath = urldecode($folder);
 

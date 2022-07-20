@@ -145,10 +145,10 @@ class SettingsController extends Controller
         if ($realValue === null) {
           return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));
         }
-        if (empty($realValue)) {
+        if ($realValue === false) {
           $realValue = null;
         } else {
-          $realValue = (int)$realValue;
+          $realValue = 0;
         }
         break;
       case self::PERSONAL_GENERATED_PAGES_FONT:
@@ -178,6 +178,12 @@ class SettingsController extends Controller
   {
     $value = $this->config->getUserValue($this->userId, $this->appName, $setting);
     switch ($setting) {
+      case self::PERSONAL_PAGE_LABELS:
+        if ($value === '' || $value === null) {
+          $value = true;
+        }
+        $value= (int)$value;
+        break;
       case self::PERSONAL_GENERATED_PAGES_FONT:
         if (empty($value)) {
           /** @var MultiPdfDownloadController $downloadController */
