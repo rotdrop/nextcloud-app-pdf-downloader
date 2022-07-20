@@ -145,7 +145,7 @@ class SettingsController extends Controller
         if ($realValue === null) {
           return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));
         }
-        if ($realValue === false) {
+        if ($realValue === true) {
           $realValue = null;
         } else {
           $realValue = 0;

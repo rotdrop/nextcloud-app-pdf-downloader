@@ -24,6 +24,7 @@
       <input id="page-labels"
              v-model="pageLabels"
              type="checkbox"
+             :disabled="loading"
              @change="saveSetting('pageLabels')"
       >
       <label for="page-labels">
