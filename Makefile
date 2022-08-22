@@ -21,6 +21,7 @@ DOWNLOADS_DIR = ./downloads
 SILENT = @
 
 # make these overridable from the command line
+RSYNC = $(shell which rsync 2> /dev/null)
 PHP = $(shell which php 2> /dev/null)
 NPM = $(shell which npm 2> /dev/null)
 WGET = $(shell which wget 2> /dev/null)
@@ -245,12 +246,15 @@ APPSTORE_FILES =\
  COPYING\
  README.md
 
+# .htaccess is blacklisted by the app-store installer, so we have to remove it
+APPSTORE_BLACKLISTED = foobar .htaccess
+
 #@private
 appstore: COMPOSER_OPTIONS := $(COMPOSER_OPTIONS) --no-dev
 #@@ Prepare appstore archive
 appstore: clean dev-setup npm-build
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
-	cp -r $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
+	$(RSYNC) -a $(APPSTORE_BLACKLISTED:%=--exclude %) $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	mkdir -p $(BUILD_CERT_DIR)
 	$(SILENT)if [ -n "$$APP_PRIVATE_KEY" ]; then\
   echo "$$APP_PRIVATE_KEY" > $(BUILD_CERT_DIR)/$(APP_NAME).key;\
