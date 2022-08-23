@@ -133,6 +133,7 @@ import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import fontInfoPopup from './mixins/font-info-popup'
+import saveSettings from './mixins/save-settings.js'
 
 export default {
   name: 'PersonalSettings',
@@ -159,6 +160,7 @@ export default {
   },
   mixins: [
     fontInfoPopup,
+    saveSettings,
   ],
   watch: {
     pageLabels(newValue, oldValue) {
@@ -196,7 +198,7 @@ export default {
           const response = await axios.get(generateUrl('apps/' + appName + '/settings/personal/' + setting), {})
           this[setting] = response.data.value
         } catch (e) {
-          console.info('RESPONSE', e)
+          console.info('ERROR', e)
           let message = t(appName, 'reason unknown')
           if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
@@ -229,39 +231,7 @@ export default {
       this.loading = false
     },
     async saveSetting(setting) {
-      console.info('ARGUMENTS', setting,  arguments)
-      console.info('SAVE SETTING', setting, this[setting])
-      const value = this[setting]
-      const printValue = value === true ? t(appName, 'true') : '' + value;
-      console.info('VALUE', value)
-      try {
-        const response = await axios.post(generateUrl('apps/' + appName + '/settings/personal/' + setting), { value })
-        if (value) {
-          showInfo(t(appName, 'Successfully set "{setting}" to {value}.', { setting, value: printValue }))
-        } else {
-          showInfo(t(appName, 'Setting "{setting}" has been unset successfully.', { setting }))
-        }
-      } catch (e) {
-        console.info('RESPONSE', e)
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data && e.response.data.message) {
-          message = e.response.data.message;
-        }
-        if (value) {
-          showError(t(appName, 'Unable to set "{setting}" to {value}: {message}.', {
-            setting,
-            value: printValue,
-            message,
-          }));
-        } else {
-          showError(t(appName, 'Unable to unset "{setting}": {message}', {
-            setting,
-            value: this[setting] || t(appName, 'false'),
-            message,
-          }));
-        }
-        this[setting] = this.old[setting]
-      }
+      this.saveSimpleSetting(setting, 'personal')
     },
   },
 }

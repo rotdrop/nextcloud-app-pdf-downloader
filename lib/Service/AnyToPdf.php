@@ -39,6 +39,8 @@ class AnyToPdf
 {
   use \OCA\PdfDownloader\Traits\LoggerTrait;
 
+  const PASS_THROUGH = 'pass-through';
+
   /**
    * @var string Array of available converters per mime-type. These form a
    * chain. If part of the chain is again an error then the first succeeding
@@ -48,7 +50,7 @@ class AnyToPdf
     'message/rfc822' => [ 'mhonarc', [ 'wkhtmltopdf', 'unoconv', ], ],
     'application/postscript' => [ 'ps2pdf', ],
     'image/tiff' => [ 'tiff2pdf' ],
-    'application/pdf' => [ 'passthrough' ],
+    'application/pdf' => [ self::PASS_THROUGH ],
     'default' => [ 'unoconv', ],
   ];
 
@@ -89,6 +91,40 @@ class AnyToPdf
     $this->executableFinder = $executableFinder;
     $this->logger = $logger;
     $this->l = $l;
+  }
+
+  /**
+   * Diagnose the state of the builtin-converter chains, i.e. try to find the
+   * binaries.
+   *
+   * @return array
+   */
+  public function findBuiltinConverters()
+  {
+    $result = [];
+
+    foreach (self::CONVERTERS as $mimeType => $converterChain) {
+      $result[$mimeType] = [];
+      foreach ($converterChain as $converters) {
+        if (!is_array($converters)) {
+          $converters = [ $converters ];
+        }
+        $probedConverters = [];
+        foreach ($converters as $converter) {
+          if ($converter == self::PASS_THROUGH) {
+            $probedConverters[$converter] = $this->l->t('pass through');
+            continue;
+          }
+          $executable = $this->executableFinder->find($converter);
+          if (empty($executable)) {
+            $executable = $this->l->t('not found');
+          }
+          $probedConverters[$converter] = $executable;
+        }
+        $result[$mimeType][] = $probedConverters;
+      }
+    }
+    return $result;
   }
 
   /**

@@ -16,8 +16,8 @@
     <php min-version="7.4" max-version="8.1" />
   </dependencies>
   <settings>
-    <!-- <admin>OCA\PdfDownloader\Settings\Admin</admin> -->
-    <!-- <admin-section>OCA\PdfDownloader\Settings\AdminSection</admin-section> -->
+    <admin>OCA\PdfDownloader\Settings\Admin</admin>
+    <admin-section>OCA\PdfDownloader\Settings\AdminSection</admin-section>
     <personal>OCA\PdfDownloader\Settings\Personal</personal>
     <personal-section>OCA\PdfDownloader\Settings\PersonalSection</personal-section>
   </settings>

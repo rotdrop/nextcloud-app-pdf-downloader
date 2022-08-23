@@ -30,11 +30,17 @@ use OCP\IConfig;
 use OCP\IL10N;
 
 use OCA\PdfDownloader\Service\PdfCombiner;
+use OCA\PdfDownloader\Service\AnyToPdf;
 
 class SettingsController extends Controller
 {
   use \OCA\PdfDownloader\Traits\ResponseTrait;
   use \OCA\PdfDownloader\Traits\LoggerTrait;
+
+  const ADMIN_DISABLE_BUILTIN_CONVERTERS = 'disableBuiltinConverters';
+  const ADMIN_FALLBACK_CONVERTER = 'fallbackConverter';
+  const ADMIN_UNIVERSAL_CONVERTER = 'universalConverter';
+  const ADMIN_CONVERTERS = 'converters';
 
   const PERSONAL_PAGE_LABELS = 'pageLabels';
   const PERSONAL_PAGE_LABELS_FONT = 'pageLabelsFont';
@@ -83,7 +89,9 @@ class SettingsController extends Controller
     $newValue = $value;
     $oldValue = $this->config->getAppValue($this->appName, $setting);
     switch ($setting) {
-      case self::EXAMPLE_SETTING_KEY:
+      case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
+      case self::ADMIN_FALLBACK_CONVERTER:
+      case self::ADMIN_UNIVERSAL_CONVERTER:
         break;
       default:
         return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));
@@ -105,12 +113,22 @@ class SettingsController extends Controller
   {
     $result = null;
     switch ($setting) {
-      case self::EXAMPLE_SETTING_KEY:
-        return new DataResponse([
-          'value' => $this->config->getAppValue($this->appName, $setting),
-        ]);
+      case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
+      case self::ADMIN_FALLBACK_CONVERTER:
+      case self::ADMIN_UNIVERSAL_CONVERTER:
+        $value = $this->config->getAppValue($this->appName, $setting);
+        break;
+      case self::ADMIN_CONVERTERS:
+        /** @var AnyToPdf $anyToPdf */
+        $anyToPdf = $this->appContainer->get(AnyToPdf::class);
+        $value = $anyToPdf->findBuiltinConverters();
+        break;
+      default:
+        return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));
     }
-    return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));
+    return new DataResponse([
+      'value' => $value,
+    ]);
   }
 
 
@@ -126,8 +144,6 @@ class SettingsController extends Controller
   public function getApp(string $setting):DataResponse
   {
     switch ($setting) {
-      case self::EXAMPLE_SETTING_KEY:
-        return $this->getAdmin($setting);
       default:
         return self::grumble($this->l->t('Unknown app setting: "%1$s"', $setting));
     }

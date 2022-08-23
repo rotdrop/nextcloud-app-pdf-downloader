@@ -23,12 +23,50 @@
 </script>
 <template>
   <SettingsSection :title="t(appName, 'Recursive Pdf Downloader, Admin Settings')">
+    <div :class="['flex-container', 'flex-center']">
+      <input id="disable-builtin-converters"
+             v-model="disableBuiltinConverters"
+             type="checkbox"
+             :disabled="loading"
+             @change="saveSetting('disableBuiltinConverters')"
+      >
+      <label for="disable-builtin-converters">
+        {{ t(appName, 'Disable the builtin-converters.') }}
+      </label>
+    </div>
     <SettingsInputText
-      v-model="example"
-      :label="t(appName, 'Example setting')"
-      :hint="t(appName, 'Just to have something to show ...')"
-      @update="saveTextInput(...arguments, 'example')"
+      v-model="universalConverter"
+      :label="t(appName, 'Universal Converter')"
+      :hint="t(appName, 'Full path to a filter-program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
+      :disabled="loading"
+      @update="saveTextInput(...arguments, 'universalConverter')"
     />
+    <SettingsInputText
+      v-model="fallbackConverter"
+      :label="t(appName, 'Fallback Converter')"
+      :hint="t(appName, 'Full path to a filter-program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
+      :disabled="loading"
+      @update="saveTextInput(...arguments, 'fallbackConverter')"
+    />
+    <div class="converter-status">
+      <div><label>{{ t(appName, 'Status of the Builtin-Converters') }}</label></div>
+      <dl>
+        <template v-for="(value, mimeType) in converters">
+          <dt :key="`dt-${ mimeType }`">
+            {{ mimeType }}
+          </dt>
+          <dd :key="`dd-${ mimeType }`">
+            <ul>
+              <li v-for="(items, index) in value" :key="index">
+                <span v-for="(executable, converter) in items" :key="converter">
+                  {{ converter }}: {{ executable }}
+                </span>
+              </li>
+            </ul>
+          </dd>
+        </template>
+      </dl>
+    </div>
   </SettingsSection>
 </template>
 
@@ -39,6 +77,7 @@ import SettingsInputText from './components/SettingsInputText'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
+import saveSettings from './mixins/save-settings.js'
 
 export default {
   name: 'AdminSettings',
@@ -48,9 +87,16 @@ export default {
   },
   data() {
     return {
-      example: '',
+      disableBuiltinConverters: false,
+      universalConverter: '',
+      fallbackConverter: '',
+      converters: {},
+      loading: true,
     }
   },
+  mixins: [
+    saveSettings,
+  ],
   created() {
     this.getData()
   },
@@ -58,58 +104,51 @@ export default {
   },
   methods: {
     async getData() {
-      let response = await axios.get(generateUrl('apps/' + appName + '/settings/admin/example'), {})
-      this.example = response.data.value
-      console.info('EXAMPLE', this.example)
+      const settings = ['disableBuiltinConverters', 'universalConverter', 'fallbackConverter', 'converters']
+      for (const setting of settings) {
+        try {
+          let response = await axios.get(generateUrl('apps/' + appName + '/settings/admin/' + setting), {})
+          this[setting] = response.data.value
+          console.info('SETTING', setting, this[setting])
+        } catch (e) {
+          console.error('ERROR', e)
+          let message = t(appName, 'reason unknown')
+          if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+          }
+          showError(t(appName, 'Unable to query the initial value of "{setting}": {message}', {
+            setting,
+            message,
+          }))
+        }
+      }
+      this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
-      const self = this
-      console.info('ARGS', arguments)
-      console.info('SAVE INPUTTEST', this.memberRootFolder)
-      console.info('THIS', this)
-      try {
-        const response = await axios.post(generateUrl('apps/' + appName + '/settings/admin/' + settingsKey), { value, force })
-        const responseData = response.data;
-        if (responseData.status == 'unconfirmed') {
-          OC.dialogs.confirm(
-            responseData.feedback,
-            t(appName, 'Confirmation Required'),
-            function(answer) {
-              if (answer) {
-                self.saveTextInput(value, settingsKey, true);
-              } else {
-                showInfo(t(appName, 'Unconfirmed, reverting to old value.'))
-                self.getData()
-              }
-            },
-            true)
-        } else {
-          showSuccess(t(appName, 'Successfully set value for "{settingsKey}" to "{value}"', { settingsKey, value }))
-        }
-        console.info('RESPONSE', response)
-      } catch (e) {
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data && e.response.data.message) {
-          message = e.response.data.message
-          console.info('RESPONSE', e.response)
-        }
-        showError(t(appName, 'Could not set value for "{settingsKey}" to "{value}": {message}', { settingsKey, value, message }), { timeout: TOAST_PERMANENT_TIMEOUT })
-        self.getData()
-      }
+      this.saveConfirmedSetting(value, 'admin', settingsKey, force)
+    },
+    async saveSetting(setting) {
+      this.saveSimpleSetting(setting, 'admin')
     },
   },
 }
 </script>
 <style lang="scss" scoped>
-  .settings-section {
-    :deep(&__title) {
-      padding-left:60px;
-      background-image:url('../img/app.svg');
-      background-repeat:no-repeat;
-      background-origin:border-box;
-      background-size:45px;
-      background-position:left center;
-      height:30px;
+.settings-section {
+  .flex-container {
+    display:flex;
+    &.flex-center {
+      align-items:center;
     }
   }
+  :deep(&__title) {
+    padding-left:60px;
+    background-image:url('../img/app.svg');
+    background-repeat:no-repeat;
+    background-origin:border-box;
+    background-size:45px;
+    background-position:left center;
+    height:30px;
+  }
+}
 </style>
