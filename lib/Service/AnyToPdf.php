@@ -39,7 +39,11 @@ class AnyToPdf
 {
   use \OCA\PdfDownloader\Traits\LoggerTrait;
 
-  const PASS_THROUGH = 'pass-through';
+  const UNIVERSAL = '[universal]';
+  const FALLBACK = '[fallback]';
+  const PASS_THROUGH = '[pass-through]';
+
+  const DEFAULT_FALLBACK_CONVERTER = 'unoconv';
 
   /**
    * @var string Array of available converters per mime-type. These form a
@@ -47,11 +51,10 @@ class AnyToPdf
    * sub-converter wins.
    */
   const CONVERTERS = [
-    'message/rfc822' => [ 'mhonarc', [ 'wkhtmltopdf', 'unoconv', ], ],
+    'message/rfc822' => [ 'mhonarc', [ 'wkhtmltopdf', self::FALLBACK, ], ],
     'application/postscript' => [ 'ps2pdf', ],
     'image/tiff' => [ 'tiff2pdf' ],
     'application/pdf' => [ self::PASS_THROUGH ],
-    'default' => [ 'unoconv', ],
   ];
 
   /** @var IMimeTypeDetector */
@@ -73,6 +76,15 @@ class AnyToPdf
   /** @var ExecutableFinder */
   protected $executableFinder;
 
+  /** @var string */
+  protected $fallbackConverter;
+
+  /** @var string */
+  protected $universalConverter;
+
+  /** @var bool */
+  protected $builtinConvertersDisabled;
+
   /**
    * @var array
    * Cache of found executables for the current request.
@@ -91,6 +103,41 @@ class AnyToPdf
     $this->executableFinder = $executableFinder;
     $this->logger = $logger;
     $this->l = $l;
+
+    $this->fallbackConverter = self::DEFAULT_FALLBACK_CONVERTER;
+  }
+
+  public function setFallbackConverter(?string $converter)
+  {
+    if (empty($converter)) {
+      $converter = self::DEFAULT_FALLBACK_CONVERTER;
+    }
+    $this->fallbackConverter = $converter;
+  }
+
+  public function getFallbackConverter():string
+  {
+    return $this->fallbackConverter;
+  }
+
+  public function setUniversalConverter(?string $converter)
+  {
+    $this->universalConverter = $converter;
+  }
+
+  public function getUniversalConverter():?string
+  {
+    return $this->universalConverter;
+  }
+
+  public function disableBuiltinConverters(bool $state = true)
+  {
+    $this->builtinConvertersDisabled = $state;
+  }
+
+  public function builtinConvertersDisabled():bool
+  {
+    return !empty($this->builtinConvertersDisabled);
   }
 
   /**
@@ -99,10 +146,20 @@ class AnyToPdf
    *
    * @return array
    */
-  public function findBuiltinConverters()
+  public function findConverters()
   {
     $result = [];
 
+    if (!empty($this->universalConverter)) {
+      $executable = $this->executableFinder->find($this->universalConverter);
+      if (empty($executable)) {
+        $executable = $this->l->t('not found');
+      }
+      $result[self::UNIVERSAL] = [ [ $this->universalConverter => $executable ] ];
+    }
+    if ($this->builtinConvertersDisabled) {
+      return $result;
+    }
     foreach (self::CONVERTERS as $mimeType => $converterChain) {
       $result[$mimeType] = [];
       foreach ($converterChain as $converters) {
@@ -114,6 +171,9 @@ class AnyToPdf
           if ($converter == self::PASS_THROUGH) {
             $probedConverters[$converter] = $this->l->t('pass through');
             continue;
+          }
+          if ($converter == self::FALLBACK) {
+            $converter = $this->fallbackConverter;
           }
           $executable = $this->executableFinder->find($converter);
           if (empty($executable)) {
@@ -143,7 +203,19 @@ class AnyToPdf
       $mimeType = $this->mimeTypeDetector->detectString($data);
     }
 
-    $converters = self::CONVERTERS[$mimeType] ?? self::CONVERTERS['default'];
+    if (!empty($this->universalConverter)) {
+      try {
+        $data = $this->genericConvert($data, $mimeType, $this->universalConverter);
+      } catch (\Throwable $t) {
+        if ($this->builtinConvertersDisabled) {
+          throw new \RuntimeException($this->l->t('Universal converter "%1$s" fas failed trying to convert mime-type "%2$s"', [ $this->universalConverter, $mimeType ]));
+        } else {
+          $this->logException($t, 'Ignoring failed universal converter ' . $this->universalConverter);
+        }
+      }
+    }
+
+    $converters = self::CONVERTERS[$mimeType] ?? [ self::FALLBACK ];
 
     foreach ($converters as $converter) {
       if (!is_array($converter)) {
@@ -152,9 +224,16 @@ class AnyToPdf
 
       $convertedData = null;
       foreach  ($converter as $tryConverter) {
+        if ($tryConverter == self::FALLBACK) {
+          $tryConverter == $this->fallbackConverter;
+        }
         try {
           $method = $tryConverter . 'Convert';
-          $convertedData = $this->$method($data);
+          if (method_exists($this, $method)) {
+            $convertedData = $this->$method($data);
+          } else {
+            $convertedData = $this->genericConvert($data, $mimeType, $tryConverter);
+          }
           break;
         } catch (\Throwable $t) {
           $this->logException($t, 'Ignoring failed converter ' . $tryConverter);
@@ -173,6 +252,17 @@ class AnyToPdf
   protected function passthroughConvert(string $data):string
   {
     return $data;
+  }
+
+  protected function genericConvert(string $data, string $mimeType, string $converterName):string
+  {
+    $converter = $this->findExecutable($converterName);
+    $process = new Process([
+      $converter,
+      '--mime-type=' . $mimeType,
+    ]);
+    $process->setInput($data)->run();
+    return $process->getOutput();
   }
 
   protected function unoconvConvert(string $data):string

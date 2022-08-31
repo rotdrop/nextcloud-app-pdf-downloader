@@ -84,7 +84,7 @@ class SettingsController extends Controller
    *
    * @return DataResponse
    */
-  public function setAdmin(string $setting, ?string $value, bool $force = false):DataResponse
+  public function setAdmin(string $setting, $value, bool $force = false):DataResponse
   {
     $newValue = $value;
     $oldValue = $this->config->getAppValue($this->appName, $setting);
@@ -121,7 +121,12 @@ class SettingsController extends Controller
       case self::ADMIN_CONVERTERS:
         /** @var AnyToPdf $anyToPdf */
         $anyToPdf = $this->appContainer->get(AnyToPdf::class);
-        $value = $anyToPdf->findBuiltinConverters();
+
+        $anyToPdf->disableBuiltinConverters($this->config->getAppValue($this->appName, self::ADMIN_DISABLE_BUILTIN_CONVERTERS, false));
+        $anyToPdf->setFallbackConverter($this->config->getAppValue($this->appName, self::ADMIN_FALLBACK_CONVERTER, null));
+        $anyToPdf->setUniversalConverter($this->config->getAppValue($this->appName, self::ADMIN_UNIVERSAL_CONVERTER, null));
+
+        $value = $anyToPdf->findConverters();
         break;
       default:
         return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));

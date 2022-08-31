@@ -111,6 +111,13 @@ class MultiPdfDownloadController extends Controller
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT)
       );
     }
+
+    $this->anyToPdf->disableBuiltinConverters(
+      $this->config->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false));
+    $this->anyToPdf->setFallbackConverter(
+      $this->config->getAppValue($this->appName, SettingsController::ADMIN_FALLBACK_CONVERTER, null));
+    $this->anyToPdf->setUniversalConverter(
+      $this->config->getAppValue($this->appName, SettingsController::ADMIN_UNIVERSAL_CONVERTER, null));
   }
 
   public function getErrorPagesFont():?string
