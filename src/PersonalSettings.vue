@@ -133,7 +133,7 @@ import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import fontInfoPopup from './mixins/font-info-popup'
-import saveSettings from './mixins/save-settings.js'
+import settingsSync from './mixins/settings-sync'
 
 export default {
   name: 'PersonalSettings',
@@ -160,7 +160,7 @@ export default {
   },
   mixins: [
     fontInfoPopup,
-    saveSettings,
+    settingsSync,
   ],
   watch: {
     pageLabels(newValue, oldValue) {
@@ -194,20 +194,7 @@ export default {
     async getData() {
       const settings = ['pageLabels', 'pageLabelsFont', 'generatedPagesFont']
       for (const setting of settings) {
-        try {
-          const response = await axios.get(generateUrl('apps/' + appName + '/settings/personal/' + setting), {})
-          this[setting] = response.data.value
-        } catch (e) {
-          console.info('ERROR', e)
-          let message = t(appName, 'reason unknown')
-          if (e.response && e.response.data && e.response.data.message) {
-            message = e.response.data.message;
-          }
-          showError(t(appName, 'Unable to query the initial value of {setting}: {message}', {
-            setting,
-            message,
-          }))
-        }
+        this.fetchSetting(setting, 'personal')
       }
       try {
         const response = await axios.get(generateUrl('apps/' + appName + '/pdf/fonts'))

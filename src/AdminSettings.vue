@@ -22,66 +22,89 @@
  */
 </script>
 <template>
-  <SettingsSection :title="t(appName, 'Recursive Pdf Downloader, Admin Settings')">
-    <div :class="['flex-container', 'flex-center']">
-      <input id="disable-builtin-converters"
-             v-model="disableBuiltinConverters"
-             type="checkbox"
-             :disabled="loading"
-             @change="saveSetting('disableBuiltinConverters')"
-      >
-      <label for="disable-builtin-converters">
-        {{ t(appName, 'Disable the builtin-converters.') }}
-      </label>
-    </div>
-    <SettingsInputText
-      v-model="universalConverter"
-      :label="t(appName, 'Universal Converter')"
-      :hint="t(appName, 'Full path to a filter-program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
-      :disabled="loading"
-      @update="saveTextInput(...arguments, 'universalConverter')"
-    />
-    <SettingsInputText
-      v-model="fallbackConverter"
-      :label="t(appName, 'Fallback Converter')"
-      :hint="t(appName, 'Full path to a filter-program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
-      :disabled="loading"
-      @update="saveTextInput(...arguments, 'fallbackConverter')"
-    />
-    <div class="converter-status">
-      <div><label>{{ t(appName, 'Status of the Builtin-Converters') }}</label></div>
-      <dl>
-        <template v-for="(value, mimeType) in converters">
-          <dt :key="`dt-${ mimeType }`">
-            {{ mimeType }}
-          </dt>
-          <dd :key="`dd-${ mimeType }`">
-            <ul>
-              <li v-for="(items, index) in value" :key="index">
-                <span v-for="(executable, converter) in items" :key="converter">
-                  {{ converter }}: {{ executable }}
-                </span>
-              </li>
-            </ul>
-          </dd>
-        </template>
-      </dl>
-    </div>
+  <SettingsSection :title="t(appName, 'Recursive PDF Downloader')">
+    <AppSettingsSection :title="t(appName, 'Admin Settings')">
+      <div :class="['flex-container', 'flex-center']">
+        <input id="disable-builtin-converters"
+               v-model="disableBuiltinConverters"
+               type="checkbox"
+               :disabled="loading"
+               @change="saveSetting('disableBuiltinConverters')"
+        >
+        <label for="disable-builtin-converters">
+          {{ t(appName, 'Disable the builtin-converters.') }}
+        </label>
+      </div>
+      <SettingsInputText
+        v-model="universalConverter"
+        :label="t(appName, 'Universal Converter')"
+        :hint="t(appName, 'Full path to a filter-program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
+        :disabled="loading"
+        @update="saveTextInput(...arguments, 'universalConverter')"
+      />
+      <SettingsInputText
+        v-model="fallbackConverter"
+        :label="t(appName, 'Fallback Converter')"
+        :hint="t(appName, 'Full path to a filter-program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
+        :disabled="loading || builtinConvertersDisabled"
+        @update="saveTextInput(...arguments, 'fallbackConverter')"
+      />
+    </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Converters')">
+      <div class="converter-status">
+        <div><label>{{ t(appName, 'Status of the configured Converters') }}</label></div>
+        <ul>
+          <ListItem v-for="(value, mimeType) in converters"
+                    :key="mimeType"
+                    :title="mimeType"
+                    :details="value.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
+                    :bold="true"
+          >
+            <template #subtitle>
+              <ul>
+                <ListItem v-for="(items, index) in value"
+                          :key="index"
+                          :title="Object.values(items).length > 1 ? t(appName, 'alternatives') : t(appName, 'converter')"
+                          :show-counter="value.length > 1"
+                          :counter-number="value.length > 1 ? index + 1 : 0"
+                >
+                  <template #subtitle>
+                    <ListItem v-for="(executable, converter) in items"
+                              :key="converter"
+                              title=""
+                              :details="items.length > 1 ? t(appName, 'converter') : ''"
+                    >
+                      <template #subtitle>
+                        <span>{{ converter }}: {{ executable }}</span>
+                      </template>
+                    </ListItem>
+                  </template>
+                </ListItem>
+              </ul>
+            </template>
+          </ListItem>
+        </ul>
+      </div>
+    </AppSettingsSection>
   </SettingsSection>
 </template>
 
 <script>
 import { appName } from './config.js'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import SettingsInputText from './components/SettingsInputText'
+import ListItem from './components/ListItem'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import saveSettings from './mixins/save-settings.js'
+import settingsSync from './mixins/settings-sync'
 
 export default {
   name: 'AdminSettings',
   components: {
+    AppSettingsSection,
+    ListItem,
     SettingsSection,
     SettingsInputText,
   },
@@ -95,40 +118,35 @@ export default {
     }
   },
   mixins: [
-    saveSettings,
+    settingsSync,
   ],
   created() {
     this.getData()
   },
   computed: {
+    builtinConvertersDisabled() {
+      return !!this.disableBuiltinConverters
+    },
+  },
+  watch: {
   },
   methods: {
     async getData() {
       const settings = ['disableBuiltinConverters', 'universalConverter', 'fallbackConverter', 'converters']
       for (const setting of settings) {
-        try {
-          let response = await axios.get(generateUrl('apps/' + appName + '/settings/admin/' + setting), {})
-          this[setting] = response.data.value
-          console.info('SETTING', setting, this[setting])
-        } catch (e) {
-          console.error('ERROR', e)
-          let message = t(appName, 'reason unknown')
-          if (e.response && e.response.data && e.response.data.message) {
-            message = e.response.data.message;
-          }
-          showError(t(appName, 'Unable to query the initial value of "{setting}": {message}', {
-            setting,
-            message,
-          }))
-        }
+        this.fetchSetting(setting, 'admin');
       }
       this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
-      this.saveConfirmedSetting(value, 'admin', settingsKey, force)
+      if (await this.saveConfirmedSetting(value, 'admin', settingsKey, force)) {
+        this.fetchSetting('converters', 'admin')
+      }
     },
     async saveSetting(setting) {
-      this.saveSimpleSetting(setting, 'admin')
+      if (await this.saveSimpleSetting(setting, 'admin')) {
+        this.fetchSetting('converters', 'admin')
+      }
     },
   },
 }

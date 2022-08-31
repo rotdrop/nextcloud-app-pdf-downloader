@@ -24,6 +24,24 @@ import { generateUrl } from '@nextcloud/router';
 
 export default {
   methods: {
+    async fetchSetting(setting, settingsSection) {
+      try {
+        const response = await axios.get(generateUrl('apps/' + appName + '/settings/' + settingsSection + '/' + setting), {});
+        this[setting] = response.data.value;
+        return true;
+      } catch (e) {
+        console.info('ERROR', e);
+        let message = t(appName, 'reason unknown');
+        if (e.response && e.response.data && e.response.data.message) {
+          message = e.response.data.message;
+        }
+        showError(t(appName, 'Unable to query the initial value of {setting}: {message}', {
+          setting,
+          message,
+        }));
+        return false;
+      }
+    },
     async saveSimpleSetting(setting, settingsSection) {
       console.info('ARGUMENTS', setting, arguments);
       console.info('SAVE SETTING', setting, this[setting]);
@@ -37,6 +55,7 @@ export default {
         } else {
           showInfo(t(appName, 'Setting "{setting}" has been unset successfully.', { setting }));
         }
+        return true;
       } catch (e) {
         console.info('RESPONSE', e);
         let message = t(appName, 'reason unknown');
@@ -57,6 +76,7 @@ export default {
           }));
         }
         this[setting] = this.old[setting];
+        return false;
       }
     },
     async saveConfirmedSetting(value, settingsSection, settingsKey, force) {
@@ -82,6 +102,7 @@ export default {
           showSuccess(t(appName, 'Successfully set value for "{settingsKey}" to "{value}"', { settingsKey, value }));
         }
         console.info('RESPONSE', response);
+        return true;
       } catch (e) {
         let message = t(appName, 'reason unknown');
         if (e.response && e.response.data && e.response.data.message) {
@@ -90,6 +111,7 @@ export default {
         }
         showError(t(appName, 'Could not set value for "{settingsKey}" to "{value}": {message}', { settingsKey, value, message }), { timeout: TOAST_PERMANENT_TIMEOUT });
         self.getData();
+        return false;
       }
     },
   },
