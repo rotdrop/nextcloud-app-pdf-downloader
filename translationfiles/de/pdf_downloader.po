@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-07-20 01:43+0200\n"
-"PO-Revision-Date: 2022-07-20 01:48+0200\n"
+"POT-Creation-Date: 2022-08-24 10:33+0200\n"
+"PO-Revision-Date: 2022-08-24 10:33+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -30,37 +30,53 @@ msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 msgid "Get from end-point \"%s\" not implemented."
 msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
-#: lib/Controller/SettingsController.php:89
-#: lib/Controller/SettingsController.php:113
+#: lib/Controller/SettingsController.php:97
+#: lib/Controller/SettingsController.php:132
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
 msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
 
-#: lib/Controller/SettingsController.php:132
+#: lib/Controller/SettingsController.php:153
 #, php-format
 msgid "Unknown app setting: \"%1$s\""
 msgstr "Unbekannte App-Einstellung: \"%1$s\""
 
-#: lib/Controller/SettingsController.php:146
+#: lib/Controller/SettingsController.php:167
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 "Der Wert \"%1$s\" für die Einstellung \"%2$s\" kann nicht in einen "
 "Wahrheitswert konvertiert werden."
 
-#: lib/Controller/SettingsController.php:162
+#: lib/Controller/SettingsController.php:183
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr "Unbekannte perönliche Einstellung: \"%1$s\""
 
-#: lib/Service/AnyToPdf.php:128
+#: lib/Service/AnyToPdf.php:156 lib/Service/AnyToPdf.php:180
+msgid "not found"
+msgstr "unauffindbar"
+
+#: lib/Service/AnyToPdf.php:172
+msgid "pass through"
+msgstr "durchwinken"
+
+#: lib/Service/AnyToPdf.php:211
+#, php-format
+msgid ""
+"Universal converter \"%1$s\" fas failed trying to convert mime-type \"%2$s\""
+msgstr ""
+"Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
+"nicht konvertieren"
+
+#: lib/Service/AnyToPdf.php:243
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
 "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
 "nicht konvertieren"
 
-#: lib/Service/AnyToPdf.php:243
+#: lib/Service/AnyToPdf.php:369
 #, php-format
 msgid "Please install the \"%s\" program on the server."
 msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
@@ -91,7 +107,9 @@ msgstr "Fehler, \"Ausnahme\" \"aufgefangen\"."
 msgid "Caused by previous exception"
 msgstr "Verursacht durch eine vorhergehende Ausnahme"
 
+#. TRANSLATORS src/AdminSettings.vue:25
 #: specialAppInfoFakeDummyForL10nScript.php:3
+#: specialVueFakeDummyForL10nScript.js:2
 msgid "Recursive PDF Downloader"
 msgstr "Rekursive PDF-Download Anwendung"
 
@@ -103,152 +121,196 @@ msgstr ""
 "Konvertiert die Dateien ganzer Verzeichnisbäume in das PDF-Format und "
 "präsentiert das Ergebnis als PDF-Download."
 
-#. TRANSLATORS src/AdminSettings.vue:25
-#: specialVueFakeDummyForL10nScript.js:2
-msgid "Recursive Pdf Downloader, Admin Settings"
-msgstr "Rekursiver PDF Lader, Administrator-Einstellungen"
-
-#. TRANSLATORS src/AdminSettings.vue:28
+#. TRANSLATORS src/AdminSettings.vue:26
 #: specialVueFakeDummyForL10nScript.js:4
-msgid "Example setting"
-msgstr "Beispiel-Einstellung"
+msgid "Admin Settings"
+msgstr "Administrative Einstellungen"
 
-#. TRANSLATORS src/AdminSettings.vue:29
+#. TRANSLATORS src/AdminSettings.vue:35
 #: specialVueFakeDummyForL10nScript.js:6
-msgid "Just to have something to show ..."
-msgstr "Nur, um irgendwas zu zeigen..."
+msgid "Disable the builtin-converters."
+msgstr "Voreingestellte Konverter deaktivieren"
 
-#. TRANSLATORS src/AdminSettings.vue:76
+#. TRANSLATORS src/AdminSettings.vue:40
 #: specialVueFakeDummyForL10nScript.js:8
-msgid "Confirmation Required"
-msgstr "Bestätigung erforderlich!"
+msgid "Universal Converter"
+msgstr "Universeller Konverter"
 
-#. TRANSLATORS src/AdminSettings.vue:81
+#. TRANSLATORS src/AdminSettings.vue:41
 #: specialVueFakeDummyForL10nScript.js:10
-msgid "Unconfirmed, reverting to old value."
-msgstr "Bestätigung nicht erteilt, setze auf den alten Wert zurück."
+msgid ""
+"Full path to a filter-program to be executed first for all files. If it "
+"fails, the other converters will be tried in turn."
+msgstr ""
+"Der vollständige Dateisystempfad zu einem Filter-Programm, dass zuerst auf "
+"jede Datei angewendet wird. Falls das fehlschlägt, werden die internen "
+"Konverter ausgeführt."
 
-#. TRANSLATORS src/AdminSettings.vue:87
+#. TRANSLATORS src/AdminSettings.vue:47
 #: specialVueFakeDummyForL10nScript.js:12
-msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
-msgstr ""
-"Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf "
-"\"{value}\" gesetzt"
+msgid "Fallback Converter"
+msgstr "Rückfall-Konverter"
 
-#. TRANSLATORS src/AdminSettings.vue:91
-#. TRANSLATORS src/PersonalSettings.vue:199
+#. TRANSLATORS src/AdminSettings.vue:48
 #: specialVueFakeDummyForL10nScript.js:14
-#: specialVueFakeDummyForL10nScript.js:40
-#: specialVueFakeDummyForL10nScript.js:44
-#: specialVueFakeDummyForL10nScript.js:54
-msgid "reason unknown"
-msgstr "Grund unbekannt"
-
-#. TRANSLATORS src/AdminSettings.vue:96
-#: specialVueFakeDummyForL10nScript.js:16
-msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
+msgid ""
+"Full path to a filter-program to be run when all other filters have failed. "
+"If it fails an error page will be substituted for the failing document."
 msgstr ""
-"Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert "
-"\"{value}\" setzen: {message}"
+"Der vollständige Dateisystempfad zu einem Filter-Programm, das\n"
+"ausgeführt wird, wenn kein anderer Konverter passt. Falls das\n"
+"fehlschägt, wird eine Fehlerseite angezeit."
+
+#. TRANSLATORS src/AdminSettings.vue:53
+#: specialVueFakeDummyForL10nScript.js:16
+msgid "Converters"
+msgstr "Konverter"
+
+#. TRANSLATORS src/AdminSettings.vue:55
+#: specialVueFakeDummyForL10nScript.js:18
+msgid "Status of the configured Converters"
+msgstr "Status der konfigurierten Konverter"
+
+#. TRANSLATORS src/AdminSettings.vue:60
+#: specialVueFakeDummyForL10nScript.js:20
+msgid "converter chain"
+msgstr "Konvertierungs-Pipeline"
+
+#: specialVueFakeDummyForL10nScript.js:20
+msgid "single converter"
+msgstr "Einzelkonverter"
+
+#. TRANSLATORS src/AdminSettings.vue:67
+#: specialVueFakeDummyForL10nScript.js:22
+msgid "alternatives"
+msgstr "Alternativen"
+
+#. TRANSLATORS src/AdminSettings.vue:75
+#: specialVueFakeDummyForL10nScript.js:22
+#: specialVueFakeDummyForL10nScript.js:24
+msgid "converter"
+msgstr "Konverter"
 
 #. TRANSLATORS src/PersonalSettings.vue:22
-#: specialVueFakeDummyForL10nScript.js:18
+#: specialVueFakeDummyForL10nScript.js:26
 msgid "Recursive Pdf Downloader, Personal Settings"
 msgstr "Rekursiver PDF Lader, Persönliche Einstellungen"
 
-#. TRANSLATORS src/PersonalSettings.vue:30
-#: specialVueFakeDummyForL10nScript.js:20
+#. TRANSLATORS src/PersonalSettings.vue:31
+#: specialVueFakeDummyForL10nScript.js:28
 msgid "Label output pages with file-name and page-number"
 msgstr "Kopfzeile mit ursprünglichem Dateinamen und Seitennummer einfügen."
 
-#. TRANSLATORS src/PersonalSettings.vue:34
-#: specialVueFakeDummyForL10nScript.js:22
+#. TRANSLATORS src/PersonalSettings.vue:35
+#: specialVueFakeDummyForL10nScript.js:30
 msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
-msgstr "Format der Seiten-Paginierung: DATEINAME_OHNE_ENDUNG #SEITE/#DATEI_SEITEN"
+msgstr ""
+"Format der Seiten-Paginierung: DATEINAME_OHNE_ENDUNG #SEITE/#DATEI_SEITEN"
 
-#. TRANSLATORS src/PersonalSettings.vue:38
-#: specialVueFakeDummyForL10nScript.js:24
+#. TRANSLATORS src/PersonalSettings.vue:39
+#: specialVueFakeDummyForL10nScript.js:32
 msgid "Font for generated PDF page-annotations"
 msgstr "Schriftart für die Paginierung"
 
-#. TRANSLATORS src/PersonalSettings.vue:45
-#: specialVueFakeDummyForL10nScript.js:26
-#: specialVueFakeDummyForL10nScript.js:32
+#. TRANSLATORS src/PersonalSettings.vue:46
+#: specialVueFakeDummyForL10nScript.js:34
+#: specialVueFakeDummyForL10nScript.js:40
 msgid "Select a Font"
 msgstr "Wähle eine Schriftart!"
 
-#. TRANSLATORS src/PersonalSettings.vue:73
-#: specialVueFakeDummyForL10nScript.js:28
+#. TRANSLATORS src/PersonalSettings.vue:74
+#: specialVueFakeDummyForL10nScript.js:36
 msgid "The font to use for the page-labels: {pageLabelsFont}"
 msgstr "Schriftart für die Paginierung: {pageLabelsFont}"
 
-#. TRANSLATORS src/PersonalSettings.vue:78
-#: specialVueFakeDummyForL10nScript.js:30
+#. TRANSLATORS src/PersonalSettings.vue:79
+#: specialVueFakeDummyForL10nScript.js:38
 msgid "Font for generated PDF (error-)pages"
 msgstr "Schriftart für die erzeugten PDF-(Fehler-)Seiten"
 
-#. TRANSLATORS src/PersonalSettings.vue:113
-#: specialVueFakeDummyForL10nScript.js:34
+#. TRANSLATORS src/PersonalSettings.vue:114
+#: specialVueFakeDummyForL10nScript.js:42
 msgid "The font to use for generated pages: {generatedPagesFont}"
 msgstr "Akutelle Schriftart für erzeugte PDF-Seiten: {generatedPagesFont}"
 
-#. TRANSLATORS src/PersonalSettings.vue:119
-#: specialVueFakeDummyForL10nScript.js:36
+#. TRANSLATORS src/PersonalSettings.vue:120
+#: specialVueFakeDummyForL10nScript.js:44
 msgid "Test Input"
 msgstr "Test-Eingabe"
 
-#. TRANSLATORS src/PersonalSettings.vue:120
-#: specialVueFakeDummyForL10nScript.js:38
+#. TRANSLATORS src/PersonalSettings.vue:121
+#: specialVueFakeDummyForL10nScript.js:46
 msgid "Test Hint"
 msgstr "Test-Hinweis"
 
-#. TRANSLATORS src/PersonalSettings.vue:203
-#: specialVueFakeDummyForL10nScript.js:42
-msgid "Unable to query the initial value of {setting}: {message}"
-msgstr "Kann die anfänglichen Wert der Einstellung {setting} nicht erfragen: {message}"
+#. TRANSLATORS src/PersonalSettings.vue:205
+#: specialVueFakeDummyForL10nScript.js:48 src/mixins/settings-sync.js:34
+#: src/mixins/settings-sync.js:61 src/mixins/settings-sync.js:107
+msgid "reason unknown"
+msgstr "Grund unbekannt"
 
-#. TRANSLATORS src/PersonalSettings.vue:219
-#: specialVueFakeDummyForL10nScript.js:46
+#. TRANSLATORS src/PersonalSettings.vue:209
+#: specialVueFakeDummyForL10nScript.js:50
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr "Kann die Schriftarten-Liste nicht erfragen: {message}"
 
-#. TRANSLATORS src/PersonalSettings.vue:234
-#: specialVueFakeDummyForL10nScript.js:48
+#: src/files-action.js:41 src/files-action.js:42
+msgid "Download PDF"
+msgstr "PDF herunter laden"
+
+#: src/mixins/settings-sync.js:38
+msgid "Unable to query the initial value of {setting}: {message}"
+msgstr ""
+"Kann die anfänglichen Wert der Einstellung {setting} nicht erfragen: "
+"{message}"
+
+#: src/mixins/settings-sync.js:49
 msgid "true"
 msgstr "wahr"
 
-#. TRANSLATORS src/PersonalSettings.vue:239
-#: specialVueFakeDummyForL10nScript.js:50
+#: src/mixins/settings-sync.js:54
 msgid "Successfully set \"{setting}\" to {value}."
 msgstr ""
 "Der Wert für die Einstellung \"{setting}\" wurde erfolgreich auf \"{value}\" "
 "gesetzt."
 
-#. TRANSLATORS src/PersonalSettings.vue:241
-#: specialVueFakeDummyForL10nScript.js:52
+#: src/mixins/settings-sync.js:56
 msgid "Setting \"{setting}\" has been unset successfully."
 msgstr "Die Einstellung \"{setting}\" wurde erfolgreich gelöscht."
 
-#. TRANSLATORS src/PersonalSettings.vue:250
-#: specialVueFakeDummyForL10nScript.js:56
+#: src/mixins/settings-sync.js:66
 msgid "Unable to set \"{setting}\" to {value}: {message}."
 msgstr ""
 "Konnte den Wert für die Einstellung \"{setting}\" nicht auf den Wert "
 "\"{value}\" setzen: {message}"
 
-#. TRANSLATORS src/PersonalSettings.vue:256
-#: specialVueFakeDummyForL10nScript.js:58
-msgid "Unable to unset \"{setting}\": {message}"
-msgstr "Kann die Einstellung {setting} nicht löschen: {message}>\n"
-
-#. TRANSLATORS src/PersonalSettings.vue:258
-#: specialVueFakeDummyForL10nScript.js:60
+#: src/mixins/settings-sync.js:74
 msgid "false"
 msgstr "falsch"
 
-#: src/files-action.js:41 src/files-action.js:42
-msgid "Download PDF"
-msgstr "PDF herunter laden"
+#: src/mixins/settings-sync.js:72
+msgid "Unable to unset \"{setting}\": {message}"
+msgstr "Kann die Einstellung {setting} nicht löschen: {message}>\n"
+
+#: src/mixins/settings-sync.js:91
+msgid "Confirmation Required"
+msgstr "Bestätigung erforderlich!"
+
+#: src/mixins/settings-sync.js:96
+msgid "Unconfirmed, reverting to old value."
+msgstr "Bestätigung nicht erteilt, setze auf den alten Wert zurück."
+
+#: src/mixins/settings-sync.js:102
+msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
+msgstr ""
+"Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf "
+"\"{value}\" gesetzt"
+
+#: src/mixins/settings-sync.js:112
+msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
+msgstr ""
+"Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert "
+"\"{value}\" setzen: {message}"
 
 #: src/util/ajax.js:35
 msgid "OK"
@@ -629,3 +691,15 @@ msgstr "unbekannter Fehler"
 #: src/util/file-download.js:53
 msgid "Unable to download data from \"{url}\": {message}"
 msgstr "Kann die Daten nicht von \"{url}\" laden: {message}"
+
+#~ msgid "Recursive Pdf Downloader"
+#~ msgstr "Rekursive PDF-Download Anwendung"
+
+#~ msgid "Recursive Pdf Downloader, Admin Settings"
+#~ msgstr "Rekursiver PDF Lader, Administrator-Einstellungen"
+
+#~ msgid "Example setting"
+#~ msgstr "Beispiel-Einstellung"
+
+#~ msgid "Just to have something to show ..."
+#~ msgstr "Nur, um irgendwas zu zeigen..."

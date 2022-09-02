@@ -22,94 +22,151 @@
  */
 </script>
 <template>
-  <SettingsSection :title="t(appName, 'Recursive Pdf Downloader, Admin Settings')">
-    <SettingsInputText
-      v-model="example"
-      :label="t(appName, 'Example setting')"
-      :hint="t(appName, 'Just to have something to show ...')"
-      @update="saveTextInput(...arguments, 'example')"
-    />
+  <SettingsSection :title="t(appName, 'Recursive PDF Downloader')">
+    <AppSettingsSection :title="t(appName, 'Admin Settings')">
+      <div :class="['flex-container', 'flex-center']">
+        <input id="disable-builtin-converters"
+               v-model="disableBuiltinConverters"
+               type="checkbox"
+               :disabled="loading"
+               @change="saveSetting('disableBuiltinConverters')"
+        >
+        <label for="disable-builtin-converters">
+          {{ t(appName, 'Disable the builtin-converters.') }}
+        </label>
+      </div>
+      <SettingsInputText
+        v-model="universalConverter"
+        :label="t(appName, 'Universal Converter')"
+        :hint="t(appName, 'Full path to a filter-program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
+        :disabled="loading"
+        @update="saveTextInput(...arguments, 'universalConverter')"
+      />
+      <SettingsInputText
+        v-model="fallbackConverter"
+        :label="t(appName, 'Fallback Converter')"
+        :hint="t(appName, 'Full path to a filter-program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
+        :disabled="loading || builtinConvertersDisabled"
+        @update="saveTextInput(...arguments, 'fallbackConverter')"
+      />
+    </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Converters')">
+      <div class="converter-status">
+        <div><label>{{ t(appName, 'Status of the configured Converters') }}</label></div>
+        <ul>
+          <ListItem v-for="(value, mimeType) in converters"
+                    :key="mimeType"
+                    :title="mimeType"
+                    :details="value.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
+                    :bold="true"
+          >
+            <template #subtitle>
+              <ul>
+                <ListItem v-for="(items, index) in value"
+                          :key="index"
+                          :title="Object.values(items).length > 1 ? t(appName, 'alternatives') : t(appName, 'converter')"
+                          :show-counter="value.length > 1"
+                          :counter-number="value.length > 1 ? index + 1 : 0"
+                >
+                  <template #subtitle>
+                    <ListItem v-for="(executable, converter) in items"
+                              :key="converter"
+                              title=""
+                              :details="items.length > 1 ? t(appName, 'converter') : ''"
+                    >
+                      <template #subtitle>
+                        <span>{{ converter }}: {{ executable }}</span>
+                      </template>
+                    </ListItem>
+                  </template>
+                </ListItem>
+              </ul>
+            </template>
+          </ListItem>
+        </ul>
+      </div>
+    </AppSettingsSection>
   </SettingsSection>
 </template>
 
 <script>
 import { appName } from './config.js'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import SettingsInputText from './components/SettingsInputText'
+import ListItem from './components/ListItem'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
+import settingsSync from './mixins/settings-sync'
 
 export default {
   name: 'AdminSettings',
   components: {
+    AppSettingsSection,
+    ListItem,
     SettingsSection,
     SettingsInputText,
   },
   data() {
     return {
-      example: '',
+      disableBuiltinConverters: false,
+      universalConverter: '',
+      fallbackConverter: '',
+      converters: {},
+      loading: true,
     }
   },
+  mixins: [
+    settingsSync,
+  ],
   created() {
     this.getData()
   },
   computed: {
+    builtinConvertersDisabled() {
+      return !!this.disableBuiltinConverters
+    },
+  },
+  watch: {
   },
   methods: {
     async getData() {
-      let response = await axios.get(generateUrl('apps/' + appName + '/settings/admin/example'), {})
-      this.example = response.data.value
-      console.info('EXAMPLE', this.example)
+      const settings = ['disableBuiltinConverters', 'universalConverter', 'fallbackConverter', 'converters']
+      for (const setting of settings) {
+        this.fetchSetting(setting, 'admin');
+      }
+      this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
-      const self = this
-      console.info('ARGS', arguments)
-      console.info('SAVE INPUTTEST', this.memberRootFolder)
-      console.info('THIS', this)
-      try {
-        const response = await axios.post(generateUrl('apps/' + appName + '/settings/admin/' + settingsKey), { value, force })
-        const responseData = response.data;
-        if (responseData.status == 'unconfirmed') {
-          OC.dialogs.confirm(
-            responseData.feedback,
-            t(appName, 'Confirmation Required'),
-            function(answer) {
-              if (answer) {
-                self.saveTextInput(value, settingsKey, true);
-              } else {
-                showInfo(t(appName, 'Unconfirmed, reverting to old value.'))
-                self.getData()
-              }
-            },
-            true)
-        } else {
-          showSuccess(t(appName, 'Successfully set value for "{settingsKey}" to "{value}"', { settingsKey, value }))
-        }
-        console.info('RESPONSE', response)
-      } catch (e) {
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data && e.response.data.message) {
-          message = e.response.data.message
-          console.info('RESPONSE', e.response)
-        }
-        showError(t(appName, 'Could not set value for "{settingsKey}" to "{value}": {message}', { settingsKey, value, message }), { timeout: TOAST_PERMANENT_TIMEOUT })
-        self.getData()
+      if (await this.saveConfirmedSetting(value, 'admin', settingsKey, force)) {
+        this.fetchSetting('converters', 'admin')
+      }
+    },
+    async saveSetting(setting) {
+      if (await this.saveSimpleSetting(setting, 'admin')) {
+        this.fetchSetting('converters', 'admin')
       }
     },
   },
 }
 </script>
 <style lang="scss" scoped>
-  .settings-section {
-    :deep(&__title) {
-      padding-left:60px;
-      background-image:url('../img/app.svg');
-      background-repeat:no-repeat;
-      background-origin:border-box;
-      background-size:45px;
-      background-position:left center;
-      height:30px;
+.settings-section {
+  .flex-container {
+    display:flex;
+    &.flex-center {
+      align-items:center;
     }
   }
+  :deep(&__title) {
+    padding-left:60px;
+    background-image:url('../img/app.svg');
+    background-repeat:no-repeat;
+    background-origin:border-box;
+    background-size:45px;
+    background-position:left center;
+    height:30px;
+  }
+}
 </style>

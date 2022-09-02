@@ -106,7 +106,7 @@ class PdfGenerator extends \TCPDF
     $pdf->startPage('P', [ $pageWidth, $pageHeight ]);
     $pdf->Cell($pageWidth, $pageHeight, $sampleText, calign: 'A', valign: 'T', align: 'R', fill: false);
     $pdf->endPage();
-    return $pdf->Oputut(str_replace(' ', '_', $sampleText) . '.pdf', 'S');
+    return $pdf->Output(str_replace(' ', '_', $sampleText) . '.pdf', 'S');
   }
 
 };
