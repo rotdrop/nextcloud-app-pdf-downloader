@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fix duplicate bookmarks for folders which contain both, plain files
   and sub-directories.
 
+### Added
+
+- admin-customizable custom conversion scripts (default and fallback), including
+  the possibility to disable the builtin converters.
+ 
+- display the found converter executables on the admin settings page.
+
 ## [1.0.3] - 2022-09-02
 
 ### Fixed
