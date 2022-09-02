@@ -288,7 +288,13 @@ class PdfCombiner
         'Level' => 1,
         'PageNumber' => 1,
       ];
-      $bookmarks[] = $nodeBookmark;
+      if ($first) {
+        // only the first node gets the directory bookmarks
+        $bookmarks[] = $nodeBookmark;
+        $first = false;
+      } else {
+        $bookmarks = [ $nodeBookmark ];
+      }
 
       // merge the file-start bookmarks with any existing bookmarks
       $pdfData['Bookmark'] = $pdfData['Bookmark'] ?? [];
@@ -309,8 +315,6 @@ class PdfCombiner
         $command->setStdIn($stampData);
       }
       $pdfTk2->saveAs($fileName);
-
-      $bookmarks = []; // only the first file gets the directory bookmarks
 
       // then add the bookmared file to the outer pdftk instance
       $pdfTk->addFile($fileName);
