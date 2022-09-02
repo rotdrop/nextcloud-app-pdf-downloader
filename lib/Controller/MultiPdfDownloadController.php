@@ -125,7 +125,7 @@ class MultiPdfDownloadController extends Controller
 
   private function generateErrorPage(string $fileData, string $path, \Throwable $throwable)
   {
-    $pdf = new PdfGenerator(orienmtation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
+    $pdf = new PdfGenerator(orientation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
     $pdf->setFont($this->getErrorPagesFont());
     $pdf->setFontSize(self::ERROR_PAGES_FONTSIZE);
 
