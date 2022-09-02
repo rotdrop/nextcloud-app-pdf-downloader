@@ -53,12 +53,6 @@ class AnyToPdf
     'default' => [ 'unoconv', ],
   ];
 
-  const DEFAULT_BLACKLIST = [
-    'application/x-gzip',
-    'application/zip',
-
-  ];
-
   /**
    * @var int
    * Unoconv sometimes failes for no good reason and succeeds on the second try ...
@@ -170,11 +164,10 @@ class AnyToPdf
         $process->run();
         $retry = false;
       } catch (ProcessExceptions\ProcessTimedOutException $timedOutException) {
-        $this->logException($timedOutException);
+        $this->logException($timedOutException, 'Unrecoverable exception');
         $retry = false;
       } catch (\Throwable $t) {
-        $this->logException($t);
-        $this->logError('RETRY');
+        $this->logException($t, 'Retry after exception, trial number ' . ($count + 1));
         $retry = true;
       }
     } while ($retry && $count++ < self::UNOCONV_RETRIES);
