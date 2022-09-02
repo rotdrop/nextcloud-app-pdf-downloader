@@ -22,6 +22,7 @@ namespace OCA\PdfDownloader\Service;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Process\Exception as ProcessExceptions;
 
 use Psr\Log\LoggerInterface as ILogger;
 use OCP\IL10N;
@@ -51,6 +52,18 @@ class AnyToPdf
     'application/pdf' => [ 'passthrough' ],
     'default' => [ 'unoconv', ],
   ];
+
+  const DEFAULT_BLACKLIST = [
+    'application/x-gzip',
+    'application/zip',
+
+  ];
+
+  /**
+   * @var int
+   * Unoconv sometimes failes for no good reason and succeeds on the second try ...
+   */
+  private const UNOCONV_RETRIES = 3;
 
   /** @var IMimeTypeDetector */
   protected $mimeTypeDetector;
@@ -144,6 +157,7 @@ class AnyToPdf
     $converterName = 'unoconv';
     $converter = $this->findExecutable($converterName);
     $retry = false;
+    $count = 0;
     do {
       $process = new Process([
         $converter,
@@ -155,12 +169,15 @@ class AnyToPdf
       try  {
         $process->run();
         $retry = false;
+      } catch (ProcessExceptions\ProcessTimedOutException $timedOutException) {
+        $this->logException($timedOutException);
+        $retry = false;
       } catch (\Throwable $t) {
         $this->logException($t);
         $this->logError('RETRY');
         $retry = true;
       }
-    } while ($retry);
+    } while ($retry && $count++ < self::UNOCONV_RETRIES);
 
     return $process->getOutput();
   }
