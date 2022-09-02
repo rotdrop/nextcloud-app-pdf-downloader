@@ -38,9 +38,11 @@ use OCP\Files\Folder;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 
+use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
+use OCA\PdfDownloader\Service\ArchiveService;
 
 /**
  * Walk throught a directory tree, convert all files to PDF and combine the
@@ -60,6 +62,9 @@ class MultiPdfDownloadController extends Controller
 
   /** @var AnyToPdf */
   private $anyToPdf;
+
+  /** @var ArchiveService */
+  private $archiveService;
 
   /** @var IRootFolder */
   private $rootFolder;
@@ -90,6 +95,7 @@ class MultiPdfDownloadController extends Controller
     , IMimeTypeDetector $mimeTypeDetector
     , PdfCombiner $pdfCombiner
     , AnyToPdf $anyToPdf
+    , ArchiveService $archiveService
   ) {
     parent::__construct($appName, $request);
     $this->l = $l;
@@ -99,6 +105,7 @@ class MultiPdfDownloadController extends Controller
     $this->mimeTypeDetector = $mimeTypeDetector;
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
+    $this->archiveService = $archiveService;
     /** @var IUser $user */
     $user = $userSession->getUser();
     if (!empty($user)) {
@@ -123,13 +130,13 @@ class MultiPdfDownloadController extends Controller
     $this->errorPagesFont = empty($errorPagesFont) ? self::ERROR_PAGES_FONT : $errorPagesFont;
   }
 
-  private function generateErrorPage(string $fileData, string $path, \Throwable $throwable)
+  private function generateErrorPage(?string $fileData, string $path, \Throwable $throwable)
   {
-    $pdf = new PdfGenerator(orienmtation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
+    $pdf = new PdfGenerator(orientation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
     $pdf->setFont($this->getErrorPagesFont());
     $pdf->setFontSize(self::ERROR_PAGES_FONTSIZE);
 
-    $mimeType = $this->mimeTypeDetector->detectString($fileData);
+    $mimeType = $fileData ? $this->mimeTypeDetector->detectString($fileData) : $this->l->t('unknown');
 
     $message = $throwable->getMessage();
     $trace = $throwable->getTraceAsString();
@@ -157,11 +164,45 @@ __EOF__;
       } else {
         /** @var File $node */
         $path = $parentName . '/' . $node->getName();
+
+        try {
+          $this->archiveService->open($node);
+
+          $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
+          $topLevelFolder = $this->archiveService->getTopLevelFolder();
+          $stripRoot = $topLevelFolder !== null ? strlen($topLevelFolder) + 1 : 0;
+
+          foreach ($this->archiveService->getFiles() as $archiveFile) {
+            $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
+            try {
+              $fileData = $this->archiveService->getFileContent($archiveFile);
+              $mimeType = $this->mimeTypeDetector->detectString($fileData);
+              $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
+            } catch (\Throwable $t) {
+              $this->logException($t);
+              $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
+            }
+            $this->pdfCombiner->addDocument($pdfData, $path);
+          }
+
+          continue;
+
+        } catch (Exceptions\ArchiveCannotOpenException $oe) {
+          $this->logException($oe);
+        } catch (Exceptions\ArchiveBombException $be) {
+          $pdfData = $this->generateErrorPage($fileData, $path, $be);
+          $this->pdfCombiner->addDocument($pdfData, $path);
+          continue;
+        } catch (Exceptions\ArchiveTooLargeException $se) {
+          $pdfData = $this->generateErrorPage($fileData, $path, $be);
+          $this->pdfCombiner->addDocument($pdfData, $path);
+          continue;
+        }
+
         $fileData = $node->getContent();
         try {
           $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
         } catch (\Throwable $t) {
-          // @todo add an error page to the output
           $this->logException($t);
           $pdfData = $this->generateErrorPage($fileData, $path, $t);
         }
