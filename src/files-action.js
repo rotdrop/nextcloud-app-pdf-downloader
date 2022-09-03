@@ -18,70 +18,86 @@
  */
 
 import { appName } from './config.js';
-import $ from './util/jquery.js';
 import { imagePath } from '@nextcloud/router';
 import generateUrl from './util/generate-url.js';
 import fileDownload from './util/file-download.js';
 import { attachDialogHandlers } from './util/dialogs.js';
+import { getInitialState } from 'services/InitialStateService.js';
 
-$(function() {
-  attachDialogHandlers();
-});
+const initialState = getInitialState();
+
+const mimeTypes = [
+  'httpd/unix-directory',
+];
+
+// a menu entry in order to download a folder as multi-page pdf
+const fileActionTemplate = {
+  name: 'download-pdf',
+  displayName: t(appName, 'Download PDF'),
+  altText: t(appName, 'Download PDF'),
+  // mime: 'httpd/unix-directory',
+  // type: OCA.Files.FileActions.TYPE_DROPDOWN,
+  // permissions: OC.PERMISSION_READ,
+  // shouldRender(context) {}, is not invoked for TYPE_DROPDOWN
+  icon() {
+    return imagePath('core', 'filetypes/application-pdf');
+  },
+  // render(actionSpec, isDefault, context) {}, is not invoked for TYPE_DROPDOWN
+  /**
+   * Handle multi-page PDF download request. Stolen from the
+   * files-app download action handler.
+   *
+   * @param {string} dirName TBD.
+   * @param {object} context TBD.
+   */
+  actionHandler(dirName, context) {
+    const fullPath = encodeURIComponent([
+      context.fileList.dirInfo.path,
+      context.fileList.dirInfo.name,
+      dirName,
+    ].join('/'));
+
+    const url = generateUrl('download/pdf/{fullPath}', { fullPath });
+
+    // $file is a jQuery object, change that if the files-app gets overhauled
+    const downloadFileaction = context.$file.find('.fileactions .action-download-pdf');
+
+    // don't allow a second click on the download action
+    if (downloadFileaction.hasClass('disabled')) {
+      return;
+    }
+
+    if (url) {
+      const disableLoadingState = function() {
+        context.fileList.showFileBusyState(dirName, false);
+      };
+
+      context.fileList.showFileBusyState(dirName, true);
+      // OCA.Files.Files.handleDownload(url, disableLoadingState);
+      fileDownload(url, false, { always: disableLoadingState });
+    }
+  },
+};
 
 window.addEventListener('DOMContentLoaded', () => {
 
   attachDialogHandlers();
 
+  console.info('INITIAL STATE', initialState);
+
   if (OCA.Files && OCA.Files.fileActions) {
     const fileActions = OCA.Files.fileActions;
 
-    // a menu entry in order to download a folder as multi-page pdf
-    fileActions.registerAction({
-      name: 'download-pdf',
-      displayName: t(appName, 'Download PDF'),
-      altText: t(appName, 'Download PDF'),
-      mime: 'httpd/unix-directory',
-      type: OCA.Files.FileActions.TYPE_DROPDOWN,
-      permissions: OC.PERMISSION_READ,
-      // shouldRender(context) {}, is not invoked for TYPE_DROPDOWN
-      icon() {
-        return imagePath('core', 'filetypes/application-pdf');
-      },
-      // render(actionSpec, isDefault, context) {}, is not invoked for TYPE_DROPDOWN
-      /**
-       * Handle multi-page PDF download request. Stolen from the
-       * files-app download action handler.
-       *
-       * @param {string} dirName TBD.
-       * @param {object} context TBD.
-       */
-      actionHandler(dirName, context) {
-        const fullPath = encodeURIComponent([
-          context.fileList.dirInfo.path,
-          context.fileList.dirInfo.name,
-          dirName,
-        ].join('/'));
+    if (initialState.extractArchiveFiles && initialState.extractArchiveFilesAdmin) {
+      mimeTypes.splice(1, ...initialState.archiveMimeTypes);
+      console.info('MIME TYPES', mimeTypes);
+    }
 
-        const url = generateUrl('download/pdf/{fullPath}', { fullPath });
-
-        // $file is a jQuery object, change that if the files-app gets overhauled
-        const downloadFileaction = context.$file.find('.fileactions .action-download-pdf');
-
-        // don't allow a second click on the download action
-        if (downloadFileaction.hasClass('disabled')) {
-          return;
-        }
-
-        if (url) {
-          const disableLoadingState = function() {
-            context.fileList.showFileBusyState(dirName, false);
-          };
-
-          context.fileList.showFileBusyState(dirName, true);
-          // OCA.Files.Files.handleDownload(url, disableLoadingState);
-          fileDownload(url, false, { always: disableLoadingState });
-        }
-      },
-    });
+    fileActionTemplate.type = OCA.Files.FileActions.TYPE_DROPDOWN;
+    fileActionTemplate.permissions = OC.PERMISSION_READ;
+    for (const mimeType of mimeTypes) {
+      const fileAction = Object.assign({ mime: mimeType }, fileActionTemplate);
+      fileActions.registerAction(fileAction);
+    }
   }
 });

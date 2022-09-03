@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -26,10 +26,13 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IUserSession;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\IConfig as CloudConfig;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent as HandledEvent;
 
 use OCA\PdfDownloader\Service\AssetService;
+use OCA\PdfDownloader\Controller\SettingsController;
+use OCA\PdfDownloader\Service\ArchiveService;
 
 class FilesActionListener implements IEventListener
 {
@@ -43,6 +46,7 @@ class FilesActionListener implements IEventListener
   /** @var IAppContainer */
   private $appContainer;
 
+  /** @var bool */
   private $handled = false;
 
   public function __construct(IAppContainer $appContainer)
@@ -75,6 +79,9 @@ class FilesActionListener implements IEventListener
 
     $appName = $this->appContainer->get('appName');
 
+    /** @var CloudConfig $cloudConfig */
+    $cloudConfig = $this->appContainer->get(CloudConfig::class);
+
     /** @var IInitialState $initialState */
     $initialState = $this->appContainer->get(IInitialState::class);
 
@@ -83,7 +90,14 @@ class FilesActionListener implements IEventListener
     $groupManager = $this->appContainer->get(\OCP\IGroupManager::class);
     $initialState->provideInitialState('config', [
       'adminContact' => $this->getCloudAdminContacts($groupManager, implode: true),
-      'phpUserAgent' => $_SERVER['HTTP_USER_AGENT'], // @@todo get in javescript from request
+      'phpUserAgent' => $_SERVER['HTTP_USER_AGENT'], // @@todo get in javascript from request
+      SettingsController::EXTRACT_ARCHIVE_FILES => $cloudConfig->getUserValue(
+        $userId, $appName, SettingsController::EXTRACT_ARCHIVE_FILES, false
+      ),
+      SettingsController::EXTRACT_ARCHIVE_FILES_ADMIN => $cloudConfig->getAppValue(
+        $appName, SettingsController::EXTRACT_ARCHIVE_FILES, false
+      ),
+      'archiveMimeTypes' => ArchiveService::getSupportedMimeTypes(),
     ]);
 
     /** @var AssetService $assetService */

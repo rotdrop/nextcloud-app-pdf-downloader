@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -51,6 +51,9 @@ class ArchiveService
 
   /** @var array */
   private $archiveFiles;
+
+  /* @var array */
+  static private $mimeTypes;
 
   public function __construct(
     ILogger $logger
@@ -179,5 +182,20 @@ class ArchiveService
       throw new Exceptions\ArchiveNotOpenException($this->l->t('There is no archive file associated with this archiver instance.'));
     }
     return $this->archiver->getFileContent($fileName);
+  }
+
+  /**
+   * Return a list of mime-types we can handle.
+   */
+  static public function getSupportedMimeTypes()
+  {
+    if (empty(self::$mimeTypes)) {
+      $formats = ArchiveFormats::getSupportedDriverFormats();
+      self::$mimeTypes = [];
+      foreach ($formats as $format => $status) {
+        self::$mimeTypes = array_merge(self::$mimeTypes, ArchiveFormats::getFormatMimeTypes($format));
+      }
+    }
+    return self::$mimeTypes;
   }
 }

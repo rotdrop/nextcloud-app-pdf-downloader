@@ -1,8 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
- * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @license AGPL-3.0-or-later
+ * Recursive PDF Downloader App for Nextcloud
+ *
+ * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -91,20 +93,20 @@ class MultiPdfDownloadController extends Controller
   private $archiveSizeLimit = null;
 
   public function __construct(
-    string $appName
-    , IRequest $request
-    , IL10N $l
-    , ILogger $logger
-    , IUserSession $userSession
-    , IConfig $cloudConfig
-    , IRootFolder $rootFolder
-    , IMimeTypeDetector $mimeTypeDetector
-    , PdfCombiner $pdfCombiner
-    , AnyToPdf $anyToPdf
-    , ArchiveService $archiveService
+    string $appName,
+    IRequest $request,
+    IL10N $l10n,
+    ILogger $logger,
+    IUserSession $userSession,
+    IConfig $cloudConfig,
+    IRootFolder $rootFolder,
+    IMimeTypeDetector $mimeTypeDetector,
+    Pdfcombiner $pdfCombiner,
+    AnyToPdf $anyToPdf,
+    ArchiveService $archiveService,
   ) {
     parent::__construct($appName, $request);
-    $this->l = $l;
+    $this->l = $l10n;
     $this->logger = $logger;
     $this->rootFolder = $rootFolder;
     $this->cloudConfig = $cloudConfig;
@@ -120,8 +122,10 @@ class MultiPdfDownloadController extends Controller
     $this->anyToPdf->setUniversalConverter(
       $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_UNIVERSAL_CONVERTER, null));
 
-    $this->extractArchiveFiles = $this->cloudConfig->getAppValue($this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, false);
-    $this->archiveSizeLimit = $this->cloudConfig->getAppValue($this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
+    $this->extractArchiveFiles = $this->cloudConfig->getAppValue(
+      $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, false);
+    $this->archiveSizeLimit = $this->cloudConfig->getAppValue(
+      $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
 
     /** @var IUser $user */
     $user = $userSession->getUser();
@@ -132,10 +136,11 @@ class MultiPdfDownloadController extends Controller
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT)
       );
       $this->setErrorPagesFont(
-        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT)
-      );
+        $this->cloudConfig->getUserValue(
+          $this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT));
       $this->extractArchiveFiles =
-        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, $this->extractArchiveFiles);
+        $this->cloudConfig->getUserValue(
+          $this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, $this->extractArchiveFiles);
       $userSizeLimit =
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
       if ($userSizeLimit !== null && $this->archiveSizeLimit !== null) {
@@ -170,6 +175,8 @@ class MultiPdfDownloadController extends Controller
     $trace = $throwable->getTraceAsString();
     $html =<<<__EOF__
 <h1>Error converting $path to PDF</h1>
+<h2>Mime-Type</h2>
+<span>$mimeType</span>
 <h2>Error Message</h2>
 <span>$message</span>
 <h2>Trace</h2>
@@ -182,61 +189,87 @@ __EOF__;
     return $pdf->Output($path, 'S');
   }
 
+  const ARCHIVE_HANDLED = 0;
+  const ARCHIVE_IGNORED = 2;
+
+  /**
+   * Try to handle an archive file, actgually any file.
+   *
+   * @return self::ARCHIVE_HANDLED or self::ARCHIVE_IGNORED
+   */
+  private function addArchiveMembers(File $fileNode, string $parentName = '')
+  {
+    $path = $parentName . '/' . $fileNode->getName();
+
+    try {
+      $this->archiveService->open($fileNode);
+
+      $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
+      $topLevelFolder = $this->archiveService->getTopLevelFolder();
+      $stripRoot = $topLevelFolder !== null ? strlen($topLevelFolder) + 1 : 0;
+
+      foreach ($this->archiveService->getFiles() as $archiveFile) {
+        $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
+        try {
+          $fileData = $this->archiveService->getFileContent($archiveFile);
+          $mimeType = $this->mimeTypeDetector->detectString($fileData);
+          $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
+        } catch (\Throwable $t) {
+          $this->logException($t);
+          $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
+        }
+        $this->pdfCombiner->addDocument($pdfData, $path);
+      }
+
+      return self::ARCHIVE_HANDLED; // success
+    } catch (Exceptions\ArchiveCannotOpenException $oe) {
+      $this->logException($oe);
+
+      return self::ARCHIVE_IGNORED; // process as ordinary file
+    } catch (Exceptions\ArchiveBombException $be) {
+      $pdfData = $this->generateErrorPage($fileData, $path, $be);
+      $this->pdfCombiner->addDocument($pdfData, $path);
+
+      return self::ARCHIVE_HANDLED;
+    } catch (Exceptions\ArchiveTooLargeException $se) {
+      $pdfData = $this->generateErrorPage($fileData, $path, $be);
+      $this->pdfCombiner->addDocument($pdfData, $path);
+      return self::ARCHIVE_HANDLED;
+    }
+  }
+
   private function addFilesRecursively(Folder $folder, string $parentName = '')
   {
     $parentName .= (!empty($parentName) ? '/' : '') . $folder->getName();
     /** @var FileSystemNode $node */
     foreach ($folder->getDirectoryListing() as $node) {
-      if ($node->getType() != FileInfo::TYPE_FILE) {
-        $this->addFilesRecursively($node, $parentName);
-      } else {
-        /** @var File $node */
-        $path = $parentName . '/' . $node->getName();
-
-        if ($this->extractArchiveFiles) {
-          try {
-            $this->archiveService->open($node);
-
-            $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
-            $topLevelFolder = $this->archiveService->getTopLevelFolder();
-            $stripRoot = $topLevelFolder !== null ? strlen($topLevelFolder) + 1 : 0;
-
-            foreach ($this->archiveService->getFiles() as $archiveFile) {
-              $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
-              try {
-                $fileData = $this->archiveService->getFileContent($archiveFile);
-                $mimeType = $this->mimeTypeDetector->detectString($fileData);
-                $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
-              } catch (\Throwable $t) {
-                $this->logException($t);
-                $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
-              }
-              $this->pdfCombiner->addDocument($pdfData, $path);
-            }
-
-            continue;
-
-          } catch (Exceptions\ArchiveCannotOpenException $oe) {
-            $this->logException($oe);
-          } catch (Exceptions\ArchiveBombException $be) {
-            $pdfData = $this->generateErrorPage($fileData, $path, $be);
-            $this->pdfCombiner->addDocument($pdfData, $path);
-            continue;
-          } catch (Exceptions\ArchiveTooLargeException $se) {
-            $pdfData = $this->generateErrorPage($fileData, $path, $be);
-            $this->pdfCombiner->addDocument($pdfData, $path);
+      switch ($node->getType()) {
+        case FileInfo::TYPE_FOLDER:
+          $this->addFilesRecursively($node, $parentName);
+          break;
+        case FileInfo::TYPE_FILE:
+          /** @var File $node */
+          if ($this->extractArchiveFile
+              && $this->addArchiveMembers($node, $parentName) === self::ARCHIVE_HANDLED) {
             continue;
           }
-        }
 
-        $fileData = $node->getContent();
-        try {
-          $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
-        } catch (\Throwable $t) {
-          $this->logException($t);
-          $pdfData = $this->generateErrorPage($fileData, $path, $t);
-        }
-        $this->pdfCombiner->addDocument($pdfData, $path);
+          $path = $parentName . '/' . $node->getName();
+          $fileData = $node->getContent();
+          try {
+            $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
+          } catch (\Throwable $t) {
+            $this->logException($t);
+            $pdfData = $this->generateErrorPage($fileData, $path, $t);
+          }
+          $this->pdfCombiner->addDocument($pdfData, $path);
+          break;
+        default:
+          throw new Exceptions\Exception(
+            $this->l->t(
+              'Internal error, unknown file-system node-type: "%s".',
+              $node->getType()
+            ));
       }
     }
   }
@@ -248,16 +281,29 @@ __EOF__;
    * @NoAdminRequired
    * @return Response
    */
-  public function get(string $folder):Response
+  public function get(string $nodePath):Response
   {
-    $pageLabels = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
+    $pageLabels = $this->cloudConfig->getUserValue(
+      $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
     $this->pdfCombiner->addPageLabels($pageLabels);
-    $folderPath = urldecode($folder);
+    $nodePath = urldecode($nodePath);
 
-    $folder = $this->userFolder->get($folderPath);
-    $this->addFilesRecursively($folder);
+    /** @var FileSystemNode $node */
+    $node = $this->userFolder->get($nodePath);
+    if ($node->getType() === FileInfo::TYPE_FOLDER) {
+      $this->addFilesRecursively($node);
+    } elseif (!$this->extractArchiveFiles
+               || $this->addArchiveMembers($node) !== self::ARCHIVE_HANDLED) {
+      if (!$this->extractArchiveFiles) {
+        return self::grumble(
+          $this->l->t('"%s" is not a folder and archive extraction is disabled.', $nodePath));
+      } else {
+        return self::grumble(
+          $this->l->t('"%s" is not a folder and cannot be processed by archive extraction.', $nodePath));
+      }
+    }
 
-    $fileName = basename($folderPath) . '.pdf';
+    $fileName = basename($nodePath) . '.pdf';
 
     return self::dataDownloadResponse($this->pdfCombiner->combine(), $fileName, 'application/pdf');
   }
@@ -274,7 +320,6 @@ __EOF__;
     $fonts = $pdf->getFonts();
     return self::dataResponse($fonts);
   }
-
 }
 
 // Local Variables: ***
