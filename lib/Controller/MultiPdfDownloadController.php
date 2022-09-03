@@ -84,6 +84,12 @@ class MultiPdfDownloadController extends Controller
   /** @var string */
   private $errorPagesFont = self::ERROR_PAGES_FONT;
 
+  /* @var bool */
+  private $extractArchiveFiles = false;
+
+  /** @var null|int */
+  private $archiveSizeLimit = null;
+
   public function __construct(
     string $appName
     , IRequest $request
@@ -106,6 +112,17 @@ class MultiPdfDownloadController extends Controller
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
     $this->archiveService = $archiveService;
+
+    $this->anyToPdf->disableBuiltinConverters(
+      $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false));
+    $this->anyToPdf->setFallbackConverter(
+      $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_FALLBACK_CONVERTER, null));
+    $this->anyToPdf->setUniversalConverter(
+      $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_UNIVERSAL_CONVERTER, null));
+
+    $this->extractArchiveFiles = $this->cloudConfig->getAppValue($this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, false);
+    $this->archiveSizeLimit = $this->cloudConfig->getAppValue($this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
+
     /** @var IUser $user */
     $user = $userSession->getUser();
     if (!empty($user)) {
@@ -117,14 +134,18 @@ class MultiPdfDownloadController extends Controller
       $this->setErrorPagesFont(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT)
       );
+      $this->extractArchiveFiles =
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, $this->extractArchiveFiles);
+      $userSizeLimit =
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
+      if ($userSizeLimit !== null && $this->archiveSizeLimit !== null) {
+        $this->archiveSizeLimit = min($this->archiveSizeLimit, $userSizeLimit);
+      } else {
+        $this->archiveSizeLimit = $userSizeLimit;
+      }
     }
 
-    $this->anyToPdf->disableBuiltinConverters(
-      $this->config->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false));
-    $this->anyToPdf->setFallbackConverter(
-      $this->config->getAppValue($this->appName, SettingsController::ADMIN_FALLBACK_CONVERTER, null));
-    $this->anyToPdf->setUniversalConverter(
-      $this->config->getAppValue($this->appName, SettingsController::ADMIN_UNIVERSAL_CONVERTER, null));
+    $this->archiveService->setSizeLimit($this->archiveSizeLimit);
   }
 
   public function getErrorPagesFont():?string
@@ -172,38 +193,40 @@ __EOF__;
         /** @var File $node */
         $path = $parentName . '/' . $node->getName();
 
-        try {
-          $this->archiveService->open($node);
+        if ($this->extractArchiveFiles) {
+          try {
+            $this->archiveService->open($node);
 
-          $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
-          $topLevelFolder = $this->archiveService->getTopLevelFolder();
-          $stripRoot = $topLevelFolder !== null ? strlen($topLevelFolder) + 1 : 0;
+            $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
+            $topLevelFolder = $this->archiveService->getTopLevelFolder();
+            $stripRoot = $topLevelFolder !== null ? strlen($topLevelFolder) + 1 : 0;
 
-          foreach ($this->archiveService->getFiles() as $archiveFile) {
-            $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
-            try {
-              $fileData = $this->archiveService->getFileContent($archiveFile);
-              $mimeType = $this->mimeTypeDetector->detectString($fileData);
-              $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
-            } catch (\Throwable $t) {
-              $this->logException($t);
-              $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
+            foreach ($this->archiveService->getFiles() as $archiveFile) {
+              $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
+              try {
+                $fileData = $this->archiveService->getFileContent($archiveFile);
+                $mimeType = $this->mimeTypeDetector->detectString($fileData);
+                $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
+              } catch (\Throwable $t) {
+                $this->logException($t);
+                $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
+              }
+              $this->pdfCombiner->addDocument($pdfData, $path);
             }
+
+            continue;
+
+          } catch (Exceptions\ArchiveCannotOpenException $oe) {
+            $this->logException($oe);
+          } catch (Exceptions\ArchiveBombException $be) {
+            $pdfData = $this->generateErrorPage($fileData, $path, $be);
             $this->pdfCombiner->addDocument($pdfData, $path);
+            continue;
+          } catch (Exceptions\ArchiveTooLargeException $se) {
+            $pdfData = $this->generateErrorPage($fileData, $path, $be);
+            $this->pdfCombiner->addDocument($pdfData, $path);
+            continue;
           }
-
-          continue;
-
-        } catch (Exceptions\ArchiveCannotOpenException $oe) {
-          $this->logException($oe);
-        } catch (Exceptions\ArchiveBombException $be) {
-          $pdfData = $this->generateErrorPage($fileData, $path, $be);
-          $this->pdfCombiner->addDocument($pdfData, $path);
-          continue;
-        } catch (Exceptions\ArchiveTooLargeException $se) {
-          $pdfData = $this->generateErrorPage($fileData, $path, $be);
-          $this->pdfCombiner->addDocument($pdfData, $path);
-          continue;
         }
 
         $fileData = $node->getContent();

@@ -24,10 +24,36 @@ import { generateUrl } from '@nextcloud/router';
 
 export default {
   methods: {
-    async fetchSetting(setting, settingsSection) {
+    async fetchSettings(settingsSection, storageObject) {
+      if (storageObject === undefined) {
+        storageObject = this;
+      }
+      try {
+        const response = await axios.get(generateUrl('apps/' + appName + '/settings/' + settingsSection), {});
+        console.info('DATA', response.data);
+        for (const [key, value] of Object.entries(response.data)) {
+          storageObject[key] = value;
+        }
+        return true;
+      } catch (e) {
+        console.info('ERROR', e);
+        let message = t(appName, 'reason unknown');
+        if (e.response && e.response.data && e.response.data.message) {
+          message = e.response.data.message;
+        }
+        showError(t(appName, 'Unable to query the initial value of all settings: {message}', {
+          message,
+        }));
+        return false;
+      }
+    },
+    async fetchSetting(setting, settingsSection, storageObject) {
+      if (storageObject === undefined) {
+        storageObject = this;
+      }
       try {
         const response = await axios.get(generateUrl('apps/' + appName + '/settings/' + settingsSection + '/' + setting), {});
-        this[setting] = response.data.value;
+        storageObject[setting] = response.data.value;
         return true;
       } catch (e) {
         console.info('ERROR', e);
@@ -50,7 +76,7 @@ export default {
       console.info('VALUE', value);
       try {
         await axios.post(generateUrl('apps/' + appName + '/settings/' + settingsSection + '/' + setting), { value });
-        if (value) {
+        if (value && value !== '') {
           showInfo(t(appName, 'Successfully set "{setting}" to {value}.', { setting, value: printValue }));
         } else {
           showInfo(t(appName, 'Setting "{setting}" has been unset successfully.', { setting }));
@@ -99,7 +125,11 @@ export default {
             },
             true);
         } else {
-          showSuccess(t(appName, 'Successfully set value for "{settingsKey}" to "{value}"', { settingsKey, value }));
+          if (value && value !== '') {
+            showSuccess(t(appName, 'Successfully set value for "{settingsKey}" to "{value}"', { settingsKey, value }));
+          } else {
+            showInfo(t(appName, 'Setting "{setting}" has been unset successfully.', { setting: settingsKey }));
+          }
         }
         console.info('RESPONSE', response);
         return true;

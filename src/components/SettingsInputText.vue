@@ -1,7 +1,9 @@
 <!--
   - @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
+  - @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
   -
   - @author Julius Härtl <jus@bitgrid.net>
+  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -33,6 +35,7 @@
       <input type="submit"
              class="icon-confirm"
              value=""
+             :disabled="disabled"
              @click="$emit('update', inputVal)"
       >
     </div>

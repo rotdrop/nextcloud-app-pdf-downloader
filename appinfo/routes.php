@@ -11,11 +11,15 @@ return [
       'name' => 'settings#get_admin',
       'url' => '/settings/admin/{setting}',
       'verb' => 'GET',
+      'requirements' => [
+        'setting' => '^.+$',
+      ],
     ],
     [
-      'name' => 'settings#get_app',
-      'url' => '/settings/app/{setting}',
+      'name' => 'settings#get_admin',
+      'url' => '/settings/admin',
       'verb' => 'GET',
+      'postfix' => '.all',
     ],
     [
       'name' => 'settings#set_personal',
@@ -26,6 +30,15 @@ return [
       'name' => 'settings#get_personal',
       'url' => '/settings/personal/{setting}',
       'verb' => 'GET',
+      'requirements' => [
+        'setting' => '^.+$',
+      ],
+    ],
+    [
+      'name' => 'settings#get_personal',
+      'url' => '/settings/personal',
+      'verb' => 'GET',
+      'postfix' => '.all',
     ],
     [
       'name' => 'multi_pdf_download#get',
