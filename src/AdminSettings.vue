@@ -23,7 +23,27 @@
 </script>
 <template>
   <SettingsSection :title="t(appName, 'Recursive PDF Downloader')">
-    <AppSettingsSection :title="t(appName, 'Admin Settings')">
+    <AppSettingsSection :title="t(appName, 'Archive Extraction')">
+      <div :class="['flex-container', 'flex-center', { extractArchiveFiles }]">
+        <input id="extract-archive-files"
+               v-model="extractArchiveFiles"
+               type="checkbox"
+               :disabled="loading"
+               @change="saveSetting('extractArchiveFiles')"
+        >
+        <label for="extract-archive-files">
+          {{ t(appName, 'On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis.') }}
+        </label>
+      </div>
+      <SettingsInputText
+        v-model="archiveSizeLimit"
+        :label="t(appName, 'Archive Size Limit')"
+        :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+        :disabled="loading || !extractArchiveFiles"
+        @update="saveTextInput(...arguments, 'archiveSizeLimit')"
+      />
+    </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Custom Converter Scripts')">
       <div :class="['flex-container', 'flex-center']">
         <input id="disable-builtin-converters"
                v-model="disableBuiltinConverters"
@@ -110,6 +130,8 @@ export default {
   },
   data() {
     return {
+      extractArchiveFiles: false,
+      archiveSizeLimit: '',
       disableBuiltinConverters: false,
       universalConverter: '',
       fallbackConverter: '',
@@ -132,10 +154,8 @@ export default {
   },
   methods: {
     async getData() {
-      const settings = ['disableBuiltinConverters', 'universalConverter', 'fallbackConverter', 'converters']
-      for (const setting of settings) {
-        this.fetchSetting(setting, 'admin');
-      }
+      // slurp in all settings
+      this.fetchSettings('admin');
       this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
@@ -144,6 +164,7 @@ export default {
       }
     },
     async saveSetting(setting) {
+      console.info('SAVE SETTING', setting)
       if (await this.saveSimpleSetting(setting, 'admin')) {
         this.fetchSetting('converters', 'admin')
       }
@@ -167,6 +188,9 @@ export default {
     background-size:45px;
     background-position:left center;
     height:30px;
+  }
+  :deep(.app-settings-section) {
+    margin-bottom: 40px;
   }
 }
 </style>

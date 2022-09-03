@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-08-24 10:33+0200\n"
-"PO-Revision-Date: 2022-08-24 10:33+0200\n"
+"POT-Creation-Date: 2022-09-03 12:46+0200\n"
+"PO-Revision-Date: 2022-09-03 12:46+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -30,38 +30,62 @@ msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 msgid "Get from end-point \"%s\" not implemented."
 msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
-#: lib/Controller/SettingsController.php:97
-#: lib/Controller/SettingsController.php:132
-#, php-format
-msgid "Unknown admin setting: \"%1$s\""
-msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
+#: lib/Controller/MultiPdfDownloadController.php:167
+msgid "unknown"
+msgstr "unbekannt"
 
-#: lib/Controller/SettingsController.php:153
+#: lib/Controller/SettingsController.php:127
+#: lib/Controller/SettingsController.php:233
+#: lib/Controller/SettingsController.php:285
+#: lib/Controller/SettingsController.php:327
 #, php-format
-msgid "Unknown app setting: \"%1$s\""
-msgstr "Unbekannte App-Einstellung: \"%1$s\""
+msgid "Unknown personal setting: \"%1$s\""
+msgstr "Unbekannte persönliche Einstellung: \"%1$s\""
 
-#: lib/Controller/SettingsController.php:167
+#: lib/Controller/SettingsController.php:130
+#, php-format
+msgid "The personal setting \"%1$s\" is read-only"
+msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
+
+#: lib/Controller/SettingsController.php:138
+#: lib/Controller/SettingsController.php:244
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 "Der Wert \"%1$s\" für die Einstellung \"%2$s\" kann nicht in einen "
 "Wahrheitswert konvertiert werden."
 
-#: lib/Controller/SettingsController.php:183
+#: lib/Controller/SettingsController.php:154
+#: lib/Controller/SettingsController.php:213
+#, php-format
+msgid "Unknown admin setting: \"%1$s\""
+msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
+
+#: lib/Controller/SettingsController.php:236
+#, php-format
+msgid "Thge personal setting \"%1$s\" is read-only"
+msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
+
+#: lib/Controller/SettingsController.php:263
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr "Unbekannte perönliche Einstellung: \"%1$s\""
 
-#: lib/Service/AnyToPdf.php:156 lib/Service/AnyToPdf.php:180
+#: lib/Controller/SettingsController.php:350
+#, php-format
+msgid "Unable to parse memory size limit \"%s\""
+msgstr "Kann das Speicher-Limit nicht interpretieren: \"%s\""
+
+#: lib/Service/AnyToPdf.php:163 lib/Service/AnyToPdf.php:187
+#: lib/Service/AnyToPdf.php:196
 msgid "not found"
 msgstr "unauffindbar"
 
-#: lib/Service/AnyToPdf.php:172
+#: lib/Service/AnyToPdf.php:179
 msgid "pass through"
 msgstr "durchwinken"
 
-#: lib/Service/AnyToPdf.php:211
+#: lib/Service/AnyToPdf.php:223
 #, php-format
 msgid ""
 "Universal converter \"%1$s\" fas failed trying to convert mime-type \"%2$s\""
@@ -69,17 +93,38 @@ msgstr ""
 "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
 "nicht konvertieren"
 
-#: lib/Service/AnyToPdf.php:243
+#: lib/Service/AnyToPdf.php:257
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
 "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
 "nicht konvertieren"
 
-#: lib/Service/AnyToPdf.php:369
+#: lib/Service/AnyToPdf.php:386
 #, php-format
 msgid "Please install the \"%s\" program on the server."
 msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
+
+#: lib/Service/ArchiveService.php:97 lib/Service/ArchiveService.php:103
+#, php-format
+msgid "Unable to open archive file %s (%s)"
+msgstr "Kann die Archive Datei %s (%s) nicht öffnen"
+
+#: lib/Service/ArchiveService.php:113
+#, php-format
+msgid "Uncompressed size of archive \"%1$s\" is too large: %2$d > %3$d"
+msgstr ""
+"Die Größe des dekomprimierten Archivs \"%1$s\" ist zo groß:  %2$d > %3$d"
+
+#: lib/Service/ArchiveService.php:120
+#, php-format
+msgid "Archive \"%1$s\" is a potential zip bomp, size %2$d > %3$d"
+msgstr "Das Archiv \"%1$s\" ist eine potentielle ZIP-Bombe, Größe  %2$d > %3$d"
+
+#: lib/Service/ArchiveService.php:170 lib/Service/ArchiveService.php:179
+msgid "There is no archive file associated with this archiver instance."
+msgstr ""
+"Mit dieser Archivierungs-Service-Instanz ist keine Archiv-Datei assoziiert."
 
 #: lib/Service/AssetService.php:75
 #, php-format
@@ -90,7 +135,7 @@ msgstr ""
 "Installationsproblem; die benötigte %s-Ressource \"%s\" ist auf dem Server "
 "nicht installiert, bitte den System-Administrator kontaktiern."
 
-#: lib/Service/PdfCombiner.php:328 lib/Service/PdfCombiner.php:351
+#: lib/Service/PdfCombiner.php:332 lib/Service/PdfCombiner.php:355
 msgid "Combining PDFs failed"
 msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 
@@ -122,22 +167,54 @@ msgstr ""
 "präsentiert das Ergebnis als PDF-Download."
 
 #. TRANSLATORS src/AdminSettings.vue:26
-#: specialVueFakeDummyForL10nScript.js:4
-msgid "Admin Settings"
-msgstr "Administrative Einstellungen"
+#. TRANSLATORS src/PersonalSettings.vue:125
+#: specialVueFakeDummyForL10nScript.js:4 specialVueFakeDummyForL10nScript.js:58
+msgid "Archive Extraction"
+msgstr "Archiv-Dateien-Behandlung"
 
 #. TRANSLATORS src/AdminSettings.vue:35
 #: specialVueFakeDummyForL10nScript.js:6
+msgid ""
+"On-the-fly extraction of archive files. If enabled users can control this "
+"setting on a per-user basis."
+msgstr ""
+"Transparentes extrahieren von Archiv-Dateien. Falls aktiviert, können die "
+"einzelnen Benutzer die Einstellung für sich selbst ändern."
+
+#. TRANSLATORS src/AdminSettings.vue:40
+#. TRANSLATORS src/PersonalSettings.vue:143
+#: specialVueFakeDummyForL10nScript.js:8 specialVueFakeDummyForL10nScript.js:64
+msgid "Archive Size Limit"
+msgstr "Archiv-Größen-Limitierung"
+
+#. TRANSLATORS src/AdminSettings.vue:41
+#. TRANSLATORS src/PersonalSettings.vue:144
+#: specialVueFakeDummyForL10nScript.js:10
+#: specialVueFakeDummyForL10nScript.js:66
+msgid ""
+"Disallow archive extraction for archives with decompressed size larger than "
+"this limit."
+msgstr ""
+"Verbiete das Entpacken für Archivdateien, deren Größe nach Dekomprimierung "
+"größer als diese Grenze ist."
+
+#. TRANSLATORS src/AdminSettings.vue:46
+#: specialVueFakeDummyForL10nScript.js:12
+msgid "Custom Converter Scripts"
+msgstr "Eigene Konvertierungs-Skripte"
+
+#. TRANSLATORS src/AdminSettings.vue:55
+#: specialVueFakeDummyForL10nScript.js:14
 msgid "Disable the builtin-converters."
 msgstr "Voreingestellte Konverter deaktivieren"
 
-#. TRANSLATORS src/AdminSettings.vue:40
-#: specialVueFakeDummyForL10nScript.js:8
+#. TRANSLATORS src/AdminSettings.vue:60
+#: specialVueFakeDummyForL10nScript.js:16
 msgid "Universal Converter"
 msgstr "Universeller Konverter"
 
-#. TRANSLATORS src/AdminSettings.vue:41
-#: specialVueFakeDummyForL10nScript.js:10
+#. TRANSLATORS src/AdminSettings.vue:61
+#: specialVueFakeDummyForL10nScript.js:18
 msgid ""
 "Full path to a filter-program to be executed first for all files. If it "
 "fails, the other converters will be tried in turn."
@@ -146,13 +223,13 @@ msgstr ""
 "jede Datei angewendet wird. Falls das fehlschlägt, werden die internen "
 "Konverter ausgeführt."
 
-#. TRANSLATORS src/AdminSettings.vue:47
-#: specialVueFakeDummyForL10nScript.js:12
+#. TRANSLATORS src/AdminSettings.vue:67
+#: specialVueFakeDummyForL10nScript.js:20
 msgid "Fallback Converter"
 msgstr "Rückfall-Konverter"
 
-#. TRANSLATORS src/AdminSettings.vue:48
-#: specialVueFakeDummyForL10nScript.js:14
+#. TRANSLATORS src/AdminSettings.vue:68
+#: specialVueFakeDummyForL10nScript.js:22
 msgid ""
 "Full path to a filter-program to be run when all other filters have failed. "
 "If it fails an error page will be substituted for the failing document."
@@ -161,96 +238,120 @@ msgstr ""
 "ausgeführt wird, wenn kein anderer Konverter passt. Falls das\n"
 "fehlschägt, wird eine Fehlerseite angezeit."
 
-#. TRANSLATORS src/AdminSettings.vue:53
-#: specialVueFakeDummyForL10nScript.js:16
+#. TRANSLATORS src/AdminSettings.vue:73
+#: specialVueFakeDummyForL10nScript.js:24
 msgid "Converters"
 msgstr "Konverter"
 
-#. TRANSLATORS src/AdminSettings.vue:55
-#: specialVueFakeDummyForL10nScript.js:18
+#. TRANSLATORS src/AdminSettings.vue:75
+#: specialVueFakeDummyForL10nScript.js:26
 msgid "Status of the configured Converters"
 msgstr "Status der konfigurierten Konverter"
 
-#. TRANSLATORS src/AdminSettings.vue:60
-#: specialVueFakeDummyForL10nScript.js:20
+#. TRANSLATORS src/AdminSettings.vue:80
+#: specialVueFakeDummyForL10nScript.js:28
 msgid "converter chain"
 msgstr "Konvertierungs-Pipeline"
 
-#: specialVueFakeDummyForL10nScript.js:20
+#: specialVueFakeDummyForL10nScript.js:28
 msgid "single converter"
 msgstr "Einzelkonverter"
 
-#. TRANSLATORS src/AdminSettings.vue:67
-#: specialVueFakeDummyForL10nScript.js:22
+#. TRANSLATORS src/AdminSettings.vue:87
+#: specialVueFakeDummyForL10nScript.js:30
 msgid "alternatives"
 msgstr "Alternativen"
 
-#. TRANSLATORS src/AdminSettings.vue:75
-#: specialVueFakeDummyForL10nScript.js:22
-#: specialVueFakeDummyForL10nScript.js:24
+#. TRANSLATORS src/AdminSettings.vue:95
+#: specialVueFakeDummyForL10nScript.js:30
+#: specialVueFakeDummyForL10nScript.js:32
 msgid "converter"
 msgstr "Konverter"
 
 #. TRANSLATORS src/PersonalSettings.vue:22
-#: specialVueFakeDummyForL10nScript.js:26
+#: specialVueFakeDummyForL10nScript.js:34
 msgid "Recursive Pdf Downloader, Personal Settings"
 msgstr "Rekursiver PDF Lader, Persönliche Einstellungen"
 
-#. TRANSLATORS src/PersonalSettings.vue:31
-#: specialVueFakeDummyForL10nScript.js:28
+#. TRANSLATORS src/PersonalSettings.vue:23
+#: specialVueFakeDummyForL10nScript.js:36
+msgid "Decorations and Fonts"
+msgstr "Seiten-Dekorierung und Schriftarten"
+
+#. TRANSLATORS src/PersonalSettings.vue:32
+#: specialVueFakeDummyForL10nScript.js:38
 msgid "Label output pages with file-name and page-number"
 msgstr "Kopfzeile mit ursprünglichem Dateinamen und Seitennummer einfügen."
 
-#. TRANSLATORS src/PersonalSettings.vue:35
-#: specialVueFakeDummyForL10nScript.js:30
+#. TRANSLATORS src/PersonalSettings.vue:36
+#: specialVueFakeDummyForL10nScript.js:40
 msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 msgstr ""
 "Format der Seiten-Paginierung: DATEINAME_OHNE_ENDUNG #SEITE/#DATEI_SEITEN"
 
-#. TRANSLATORS src/PersonalSettings.vue:39
-#: specialVueFakeDummyForL10nScript.js:32
+#. TRANSLATORS src/PersonalSettings.vue:40
+#: specialVueFakeDummyForL10nScript.js:42
 msgid "Font for generated PDF page-annotations"
 msgstr "Schriftart für die Paginierung"
 
-#. TRANSLATORS src/PersonalSettings.vue:46
-#: specialVueFakeDummyForL10nScript.js:34
-#: specialVueFakeDummyForL10nScript.js:40
+#. TRANSLATORS src/PersonalSettings.vue:47
+#: specialVueFakeDummyForL10nScript.js:44
+#: specialVueFakeDummyForL10nScript.js:50
 msgid "Select a Font"
 msgstr "Wähle eine Schriftart!"
 
-#. TRANSLATORS src/PersonalSettings.vue:74
-#: specialVueFakeDummyForL10nScript.js:36
+#. TRANSLATORS src/PersonalSettings.vue:75
+#: specialVueFakeDummyForL10nScript.js:46
 msgid "The font to use for the page-labels: {pageLabelsFont}"
 msgstr "Schriftart für die Paginierung: {pageLabelsFont}"
 
-#. TRANSLATORS src/PersonalSettings.vue:79
-#: specialVueFakeDummyForL10nScript.js:38
+#. TRANSLATORS src/PersonalSettings.vue:80
+#: specialVueFakeDummyForL10nScript.js:48
 msgid "Font for generated PDF (error-)pages"
 msgstr "Schriftart für die erzeugten PDF-(Fehler-)Seiten"
 
-#. TRANSLATORS src/PersonalSettings.vue:114
-#: specialVueFakeDummyForL10nScript.js:42
+#. TRANSLATORS src/PersonalSettings.vue:115
+#: specialVueFakeDummyForL10nScript.js:52
 msgid "The font to use for generated pages: {generatedPagesFont}"
 msgstr "Akutelle Schriftart für erzeugte PDF-Seiten: {generatedPagesFont}"
 
-#. TRANSLATORS src/PersonalSettings.vue:120
-#: specialVueFakeDummyForL10nScript.js:44
+#. TRANSLATORS src/PersonalSettings.vue:121
+#: specialVueFakeDummyForL10nScript.js:54
 msgid "Test Input"
 msgstr "Test-Eingabe"
 
-#. TRANSLATORS src/PersonalSettings.vue:121
-#: specialVueFakeDummyForL10nScript.js:46
+#. TRANSLATORS src/PersonalSettings.vue:122
+#: specialVueFakeDummyForL10nScript.js:56
 msgid "Test Hint"
 msgstr "Test-Hinweis"
 
-#. TRANSLATORS src/PersonalSettings.vue:205
-#: specialVueFakeDummyForL10nScript.js:48 src/mixins/settings-sync.js:34
-#: src/mixins/settings-sync.js:61 src/mixins/settings-sync.js:107
+#. TRANSLATORS src/PersonalSettings.vue:134
+#: specialVueFakeDummyForL10nScript.js:60
+msgid "On-the-fly extraction of archive files."
+msgstr "Transparentes extrahieren von Archiv-Dateien."
+
+#. TRANSLATORS src/PersonalSettings.vue:137
+#: specialVueFakeDummyForL10nScript.js:62
+msgid ""
+"On-the-fly extraction of archive files is disabled by the administrator."
+msgstr ""
+"Transparentes extrahieren von Archiv-Dateien wurde von Administrator*innen "
+"deaktiviert."
+
+#. TRANSLATORS src/PersonalSettings.vue:149
+#: specialVueFakeDummyForL10nScript.js:68
+msgid "Administrative size limit: {archiveSizeLimit}"
+msgstr "Größenbegrenzen durch Administrator*innen: {archiveSizeLimit}"
+
+#. TRANSLATORS src/PersonalSettings.vue:238
+#: specialVueFakeDummyForL10nScript.js:70 src/mixins/settings-sync.js:40
+#: src/mixins/settings-sync.js:60 src/mixins/settings-sync.js:87
+#: src/mixins/settings-sync.js:137
 msgid "reason unknown"
 msgstr "Grund unbekannt"
 
-#. TRANSLATORS src/PersonalSettings.vue:209
-#: specialVueFakeDummyForL10nScript.js:50
+#. TRANSLATORS src/PersonalSettings.vue:242
+#: specialVueFakeDummyForL10nScript.js:72
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr "Kann die Schriftarten-Liste nicht erfragen: {message}"
 
@@ -258,55 +359,58 @@ msgstr "Kann die Schriftarten-Liste nicht erfragen: {message}"
 msgid "Download PDF"
 msgstr "PDF herunter laden"
 
-#: src/mixins/settings-sync.js:38
+#: src/mixins/settings-sync.js:44
+msgid "Unable to query the initial value of all settings: {message}"
+msgstr "Kann die anfänglichen Werte der Einstellungen nicht abrufen: {message}"
+
+#: src/mixins/settings-sync.js:64
 msgid "Unable to query the initial value of {setting}: {message}"
 msgstr ""
-"Kann die anfänglichen Wert der Einstellung {setting} nicht erfragen: "
-"{message}"
+"Kann die anfänglichen Wert der Einstellung {setting} nicht abrufen: {message}"
 
-#: src/mixins/settings-sync.js:49
+#: src/mixins/settings-sync.js:75
 msgid "true"
 msgstr "wahr"
 
-#: src/mixins/settings-sync.js:54
+#: src/mixins/settings-sync.js:80
 msgid "Successfully set \"{setting}\" to {value}."
 msgstr ""
 "Der Wert für die Einstellung \"{setting}\" wurde erfolgreich auf \"{value}\" "
 "gesetzt."
 
-#: src/mixins/settings-sync.js:56
+#: src/mixins/settings-sync.js:82 src/mixins/settings-sync.js:131
 msgid "Setting \"{setting}\" has been unset successfully."
 msgstr "Die Einstellung \"{setting}\" wurde erfolgreich gelöscht."
 
-#: src/mixins/settings-sync.js:66
+#: src/mixins/settings-sync.js:92
 msgid "Unable to set \"{setting}\" to {value}: {message}."
 msgstr ""
 "Konnte den Wert für die Einstellung \"{setting}\" nicht auf den Wert "
 "\"{value}\" setzen: {message}"
 
-#: src/mixins/settings-sync.js:74
+#: src/mixins/settings-sync.js:100
 msgid "false"
 msgstr "falsch"
 
-#: src/mixins/settings-sync.js:72
+#: src/mixins/settings-sync.js:98
 msgid "Unable to unset \"{setting}\": {message}"
 msgstr "Kann die Einstellung {setting} nicht löschen: {message}>\n"
 
-#: src/mixins/settings-sync.js:91
+#: src/mixins/settings-sync.js:117
 msgid "Confirmation Required"
 msgstr "Bestätigung erforderlich!"
 
-#: src/mixins/settings-sync.js:96
+#: src/mixins/settings-sync.js:122
 msgid "Unconfirmed, reverting to old value."
 msgstr "Bestätigung nicht erteilt, setze auf den alten Wert zurück."
 
-#: src/mixins/settings-sync.js:102
+#: src/mixins/settings-sync.js:129
 msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
 msgstr ""
 "Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf "
 "\"{value}\" gesetzt"
 
-#: src/mixins/settings-sync.js:112
+#: src/mixins/settings-sync.js:142
 msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 msgstr ""
 "Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert "
@@ -691,6 +795,13 @@ msgstr "unbekannter Fehler"
 #: src/util/file-download.js:53
 msgid "Unable to download data from \"{url}\": {message}"
 msgstr "Kann die Daten nicht von \"{url}\" laden: {message}"
+
+#, php-format
+#~ msgid "Unknown app setting: \"%1$s\""
+#~ msgstr "Unbekannte App-Einstellung: \"%1$s\""
+
+#~ msgid "Admin Settings"
+#~ msgstr "Administrative Einstellungen"
 
 #~ msgid "Recursive Pdf Downloader"
 #~ msgstr "Rekursive PDF-Download Anwendung"

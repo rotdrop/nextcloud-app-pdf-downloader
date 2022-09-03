@@ -20,111 +20,141 @@
 </script>
 <template>
   <SettingsSection :class="appName" :title="t(appName, 'Recursive Pdf Downloader, Personal Settings')">
-    <div :class="['flex-container', 'flex-center', { pageLabels }]">
-      <input id="page-labels"
-             v-model="pageLabels"
-             type="checkbox"
-             :disabled="loading"
-             @change="saveSetting('pageLabels')"
-      >
-      <label for="page-labels">
-        {{ t(appName, 'Label output pages with file-name and page-number') }}
-      </label>
-    </div>
-    <span class="hint">
-      {{ t(appName, 'Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
-    </span>
-    <div class="page-label-font-select-container">
-      <div class="label-container">
-        <label>{{ t(appName, 'Font for generated PDF page-annotations') }}</label>
-      </div>
-      <div class="multiselect-wrapper">
-        <MultiSelect id="page-label-font-select"
-                     ref="pageLabelsFontSelect"
-                     v-model="pageLabelsFontObject"
-                     class="fonts-select multiselect-vue"
-                     :placeholder="t(appName, 'Select a Font')"
-                     :show-labels="true"
-                     :allow-empty="true"
-                     :searchable="true"
-                     :options="fontsList"
-                     :close-on-select="true"
-                     track-by="family"
-                     label="fontName"
-                     :multiple="false"
-                     :tag-width="60"
-                     :disabled="!pageLabels || loading"
+    <AppSettingsSection :title="t(appName, 'Decorations and Fonts')">
+      <div :class="['flex-container', 'flex-center', { pageLabels }]">
+        <input id="page-labels"
+               v-model="pageLabels"
+               type="checkbox"
+               :disabled="loading"
+               @change="saveSetting('pageLabels')"
         >
-          <template #option="optionData">
-            <EllipsisedFontOption :name="$refs.pageLabelsFontSelect.getOptionLabel(optionData.option)"
-                                  :option="optionData.option"
-                                  :search="optionData.search"
-                                  :label="$refs.pageLabelsFontSelect.label"
-            />
-          </template>
-          <template #singleLabel="singleLabelData">
-            <span v-tooltip="fontInfoPopup(singleLabelData.option)">
-              {{ $refs.pageLabelsFontSelect.$refs.VueMultiselect.currentOptionLabel }}
-            </span>
-          </template>
-        </MultiSelect>
-        <div v-show="loading" class="loading" />
+        <label for="page-labels">
+          {{ t(appName, 'Label output pages with file-name and page-number') }}
+        </label>
       </div>
       <span class="hint">
-        {{ t(appName, 'The font to use for the page-labels: {pageLabelsFont}', { pageLabelsFont }) }}
+        {{ t(appName, 'Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
       </span>
-    </div>
-    <div class="generated-page-font-select-container">
-      <div class="label-container">
-        <label>{{ t(appName, 'Font for generated PDF (error-)pages') }}</label>
+      <div class="page-label-font-select-container">
+        <div class="label-container">
+          <label>{{ t(appName, 'Font for generated PDF page-annotations') }}</label>
+        </div>
+        <div class="multiselect-wrapper">
+          <MultiSelect id="page-label-font-select"
+                       ref="pageLabelsFontSelect"
+                       v-model="pageLabelsFontObject"
+                       class="fonts-select multiselect-vue"
+                       :placeholder="t(appName, 'Select a Font')"
+                       :show-labels="true"
+                       :allow-empty="true"
+                       :searchable="true"
+                       :options="fontsList"
+                       :close-on-select="true"
+                       track-by="family"
+                       label="fontName"
+                       :multiple="false"
+                       :tag-width="60"
+                       :disabled="!pageLabels || loading"
+          >
+            <template #option="optionData">
+              <EllipsisedFontOption :name="$refs.pageLabelsFontSelect.getOptionLabel(optionData.option)"
+                                    :option="optionData.option"
+                                    :search="optionData.search"
+                                    :label="$refs.pageLabelsFontSelect.label"
+              />
+            </template>
+            <template #singleLabel="singleLabelData">
+              <span v-tooltip="fontInfoPopup(singleLabelData.option)">
+                {{ $refs.pageLabelsFontSelect.$refs.VueMultiselect.currentOptionLabel }}
+              </span>
+            </template>
+          </MultiSelect>
+          <div v-show="loading" class="loading" />
+        </div>
+        <span class="hint">
+          {{ t(appName, 'The font to use for the page-labels: {pageLabelsFont}', { pageLabelsFont }) }}
+        </span>
       </div>
-      <div class="multiselect-wrapper">
-        <MultiSelect id="generated-page-font-select"
-                     ref="generatedPagesFontSelect"
-                     v-model="generatedPagesFontObject"
-                     class="fonts-select multiselect-vue"
-                     :placeholder="t(appName, 'Select a Font')"
-                     :show-labels="true"
-                     :allow-empty="true"
-                     :searchable="true"
-                     :options="fontsList"
-                     :close-on-select="true"
-                     track-by="family"
-                     label="fontName"
-                     :multiple="false"
-                     :tag-width="60"
-                     :disabled="loading"
+      <div class="generated-page-font-select-container">
+        <div class="label-container">
+          <label>{{ t(appName, 'Font for generated PDF (error-)pages') }}</label>
+        </div>
+        <div class="multiselect-wrapper">
+          <MultiSelect id="generated-page-font-select"
+                       ref="generatedPagesFontSelect"
+                       v-model="generatedPagesFontObject"
+                       class="fonts-select multiselect-vue"
+                       :placeholder="t(appName, 'Select a Font')"
+                       :show-labels="true"
+                       :allow-empty="true"
+                       :searchable="true"
+                       :options="fontsList"
+                       :close-on-select="true"
+                       track-by="family"
+                       label="fontName"
+                       :multiple="false"
+                       :tag-width="60"
+                       :disabled="loading"
+          >
+            <template #option="optionData">
+              <EllipsisedFontOption :name="$refs.generatedPagesFontSelect.getOptionLabel(optionData.option)"
+                                    :option="optionData.option"
+                                    :search="optionData.search"
+                                    :label="$refs.generatedPagesFontSelect.label"
+              />
+            </template>
+            <template #singleLabel="singleLabelData">
+              <span v-tooltip="fontInfoPopup(singleLabelData.option)">
+                {{ $refs.generatedPagesFontSelect.$refs.VueMultiselect.currentOptionLabel }}
+              </span>
+            </template>
+          </MultiSelect>
+          <div v-show="loading" class="loading" />
+        </div>
+        <span class="hint">
+          {{ t(appName, 'The font to use for generated pages: {generatedPagesFont}', { generatedPagesFont }) }}
+        </span>
+      </div>
+      <!-- <SettingsInputText
+           :id="'test-input'"
+           v-model="example"
+           :label="t(appName, 'Test Input')"
+           :hint="t(appName, 'Test Hint')"
+           @update="saveInputExample" /> -->
+    </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Archive Extraction')">
+      <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
+        <input id="extract-archive-files"
+               v-model="extractArchiveFiles"
+               type="checkbox"
+               :disabled="loading || !extractArchiveFilesAdmin"
+               @change="saveSetting('extractArchiveFiles')"
         >
-          <template #option="optionData">
-            <EllipsisedFontOption :name="$refs.generatedPagesFontSelect.getOptionLabel(optionData.option)"
-                                  :option="optionData.option"
-                                  :search="optionData.search"
-                                  :label="$refs.generatedPagesFontSelect.label"
-            />
-          </template>
-          <template #singleLabel="singleLabelData">
-            <span v-tooltip="fontInfoPopup(singleLabelData.option)">
-              {{ $refs.generatedPagesFontSelect.$refs.VueMultiselect.currentOptionLabel }}
-            </span>
-          </template>
-        </MultiSelect>
-        <div v-show="loading" class="loading" />
+        <label v-if="extractArchiveFilesAdmin" for="extract-archive-files">
+          {{ t(appName, 'On-the-fly extraction of archive files.') }}
+        </label>
+        <label v-else for="extract-archive-files">
+          {{ t(appName, 'On-the-fly extraction of archive files is disabled by the administrator.') }}
+        </label>
       </div>
-      <span class="hint">
-        {{ t(appName, 'The font to use for generated pages: {generatedPagesFont}', { generatedPagesFont }) }}
+      <SettingsInputText
+        v-show="extractArchiveFiles && extractArchiveFilesAdmin"
+        v-model="archiveSizeLimit"
+        :label="t(appName, 'Archive Size Limit')"
+        :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+        :disabled="loading || !extractArchiveFiles || !extractArchiveFilesAdmin"
+        @update="saveTextInput(...arguments, 'archiveSizeLimit')"
+      />
+      <span v-if="archiveSizeLimitAdmin > 0" class="hint">
+        {{ t(appName, 'Administrative size limit: {archiveSizeLimit}', admin) }}
       </span>
-    </div>
-    <!-- <SettingsInputText
-      :id="'test-input'"
-      v-model="example"
-      :label="t(appName, 'Test Input')"
-      :hint="t(appName, 'Test Hint')"
-      @update="saveInputExample" /> -->
+    </AppSettingsSection>
   </SettingsSection>
 </template>
 
 <script>
 import { appName } from './config.js'
+import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import SettingsInputText from './components/SettingsInputText'
 import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
@@ -138,6 +168,7 @@ import settingsSync from './mixins/settings-sync'
 export default {
   name: 'PersonalSettings',
   components: {
+    AppSettingsSection,
     SettingsSection,
     SettingsInputText,
     MultiSelect,
@@ -155,7 +186,11 @@ export default {
       old: {
         pageLabelsFont: 'unset',
         generatedPagesFont: 'unset',
-      }
+      },
+      extractArchiveFiles: false,
+      archiveSizeLimit: '',
+      extractArchiveFilesAdmin: false,
+      archiveSizeLimitAdmin: '',
     }
   },
   mixins: [
@@ -192,10 +227,8 @@ export default {
   },
   methods: {
     async getData() {
-      const settings = ['pageLabels', 'pageLabelsFont', 'generatedPagesFont']
-      for (const setting of settings) {
-        this.fetchSetting(setting, 'personal')
-      }
+      // slurp in all personal settings
+      this.fetchSettings('personal');
       try {
         const response = await axios.get(generateUrl('apps/' + appName + '/pdf/fonts'))
         this.fontsList = response.data

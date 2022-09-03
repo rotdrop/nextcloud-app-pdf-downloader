@@ -97,4 +97,98 @@ trait UtilTrait
     setlocale(LC_CTYPE, $oldlocale);
     return $result;
   }
+
+  /**
+   * Try to parse a floating point value.
+   *
+   * @param string $value Input value. Maybe a percentage.
+   *
+   * @return bool|float
+   */
+  public function floatValue(string $value, string $locale = null)
+  {
+    $amount = preg_replace('/\s+/u', '', $value);
+    empty($locale) && $locale = $this->getLocale();
+    $locales = [ $locale, 'en_US_POSIX' ];
+    $parsed = false;
+    foreach ($locales as $locale) {
+      $fmt = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+
+      $decimalSeparator = $fmt->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
+      $groupingSeparator = $fmt->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
+
+      $decPos = strpos($amount, $decimalSeparator);
+      $grpPos = strpos($amount, $groupingSeparator);
+
+      if ($grpPos !== false && $decPos === false) {
+        // unlikely: 1,000, we assume 1,000.00 would be used
+        continue;
+      } else if ($decPos < $grpPos) {
+        // unlikely: 1.000,00 in en_US
+        continue;
+      }
+
+      $parsed = $fmt->parse($amount);
+      if ($parsed !== false) {
+        $percent = $fmt->getSymbol(\NumberFormatter::PERCENT_SYMBOL);
+        if (preg_match('/'.$percent.'/u', $amount)) {
+            $parsed /= 100.0;
+        }
+        break;
+      }
+    }
+    return $parsed !== false ? (float)$parsed : $parsed;
+  }
+
+  /**
+   * Parse a storage user input value and return its value in bytes.
+   *
+   * @param null|string $value Input value.
+   *
+   * @param null|string $locale Locale or null for the user's default locale.
+   *
+   * @return int
+   *
+   * - if the passed value is null or the empty string then the function
+   * returns null.
+   * - if otherwise an error occurs during parsing, null is returned
+   * - otherwise the storage value in bytes is returned
+   */
+  public function storageValue(?string $value, ?string $locale = null)
+  {
+    if ($value === null || $value === '') {
+      return null;
+    }
+    $factor = [
+      'b' => 1,
+      'kb' => 1000, 'kib' => (1 << 10),
+      'mb' => 1000000, 'mib' => (1 << 20),
+      'gb' => 1000000000, 'gib' => (1 << 30),
+      'tb' => 1000000000000, 'tib' => (1 << 40),
+      'pb' => 1000000000000000, 'pib' => (1 << 50),
+    ];
+    $value = preg_replace('/\s+/u', '', $value);
+    $value = strtolower(
+      str_ireplace(
+        [ 'bytes', 'kilo', 'kibi', 'mega', 'mebi', 'giga', 'gibi', 'tera', 'tibi', 'peta', 'pebi' ],
+        [ 'b', 'k', 'ki', 'm', 'mi', 'g', 'gi', 't', 'ti', 'p', 'pi' ],
+        $value));
+
+    if (preg_match('/([-0-9,.]+)([kmgtp]?i?b?)?$/', $value, $matches)) {
+      $this->logInfo('MATCHES ' . print_r($matches, true));
+      $value = $this->floatValue($matches[1], $locale);
+      if (empty($value)) {
+        return null;
+      }
+      if (!empty($matches[2])) {
+        if (empty($factor[$matches[2]])) {
+          return null;
+        }
+        $value *= $factor[$matches[2]];
+      }
+      return $value;
+    } else {
+      return null;
+    }
+  }
 }

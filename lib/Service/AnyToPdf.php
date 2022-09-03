@@ -58,12 +58,6 @@ class AnyToPdf
     'application/pdf' => [ self::PASS_THROUGH ],
   ];
 
-  const DEFAULT_BLACKLIST = [
-    'application/x-gzip',
-    'application/zip',
-
-  ];
-
   /**
    * @var int
    * Unoconv sometimes failes for no good reason and succeeds on the second try ...
@@ -197,6 +191,11 @@ class AnyToPdf
         $result[$mimeType][] = $probedConverters;
       }
     }
+    $executable =  $this->executableFinder->find($this->fallbackConverter);
+    if (empty($executable)) {
+      $executable = $this->l->t('not found');
+    }
+    $result[self::FALLBACK] = [ [ $this->fallbackConverter => $executable ] ];
     return $result;
   }
 
@@ -239,6 +238,8 @@ class AnyToPdf
       foreach  ($converter as $tryConverter) {
         if ($tryConverter == self::FALLBACK) {
           $tryConverter == $this->fallbackConverter;
+        } else if ($tryConverter == self::PASS_THROUGH) {
+          $tryConverter = 'passThrough';
         }
         try {
           $method = $tryConverter . 'Convert';
@@ -262,7 +263,7 @@ class AnyToPdf
     return $data;
   }
 
-  protected function passthroughConvert(string $data):string
+  protected function passThroughConvert(string $data):string
   {
     return $data;
   }
@@ -296,11 +297,10 @@ class AnyToPdf
         $process->run();
         $retry = false;
       } catch (ProcessExceptions\ProcessTimedOutException $timedOutException) {
-        $this->logException($timedOutException);
+        $this->logException($timedOutException, 'Unrecoverable exception');
         $retry = false;
       } catch (\Throwable $t) {
-        $this->logException($t);
-        $this->logError('RETRY');
+        $this->logException($t, 'Retry after exception, trial number ' . ($count + 1));
         $retry = true;
       }
     } while ($retry && $count++ < self::UNOCONV_RETRIES);
@@ -383,7 +383,7 @@ class AnyToPdf
       $executable = $this->executableFinder->find($program);
       if (empty($executable)) {
         $this->executables[$program] = [
-          'exception' => throw new Exceptions\EnduserNotificationException($this->l->t('Please install the "%s" program on the server.', $converterName)),
+          'exception' => throw new Exceptions\EnduserNotificationException($this->l->t('Please install the "%s" program on the server.', $program)),
           'path' => null,
         ];
       } else {

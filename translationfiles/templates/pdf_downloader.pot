@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-08-24 10:33+0200\n"
+"POT-Creation-Date: 2022-09-03 12:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,50 +32,95 @@ msgstr ""
 msgid "Get from end-point \"%s\" not implemented."
 msgstr ""
 
-#: lib/Controller/SettingsController.php:97
-#: lib/Controller/SettingsController.php:132
-#, php-format
-msgid "Unknown admin setting: \"%1$s\""
+#: lib/Controller/MultiPdfDownloadController.php:167
+msgid "unknown"
 msgstr ""
 
-#: lib/Controller/SettingsController.php:153
+#: lib/Controller/SettingsController.php:127
+#: lib/Controller/SettingsController.php:233
+#: lib/Controller/SettingsController.php:285
+#: lib/Controller/SettingsController.php:327
 #, php-format
-msgid "Unknown app setting: \"%1$s\""
+msgid "Unknown personal setting: \"%1$s\""
 msgstr ""
 
-#: lib/Controller/SettingsController.php:167
+#: lib/Controller/SettingsController.php:130
+#, php-format
+msgid "The personal setting \"%1$s\" is read-only"
+msgstr ""
+
+#: lib/Controller/SettingsController.php:138
+#: lib/Controller/SettingsController.php:244
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 
-#: lib/Controller/SettingsController.php:183
+#: lib/Controller/SettingsController.php:154
+#: lib/Controller/SettingsController.php:213
+#, php-format
+msgid "Unknown admin setting: \"%1$s\""
+msgstr ""
+
+#: lib/Controller/SettingsController.php:236
+#, php-format
+msgid "Thge personal setting \"%1$s\" is read-only"
+msgstr ""
+
+#: lib/Controller/SettingsController.php:263
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr ""
 
-#: lib/Service/AnyToPdf.php:156
-#: lib/Service/AnyToPdf.php:180
+#: lib/Controller/SettingsController.php:350
+#, php-format
+msgid "Unable to parse memory size limit \"%s\""
+msgstr ""
+
+#: lib/Service/AnyToPdf.php:163
+#: lib/Service/AnyToPdf.php:187
+#: lib/Service/AnyToPdf.php:196
 msgid "not found"
 msgstr ""
 
-#: lib/Service/AnyToPdf.php:172
+#: lib/Service/AnyToPdf.php:179
 msgid "pass through"
 msgstr ""
 
-#: lib/Service/AnyToPdf.php:211
+#: lib/Service/AnyToPdf.php:223
 #, php-format
 msgid ""
 "Universal converter \"%1$s\" fas failed trying to convert mime-type \"%2$s\""
 msgstr ""
 
-#: lib/Service/AnyToPdf.php:243
+#: lib/Service/AnyToPdf.php:257
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
 
-#: lib/Service/AnyToPdf.php:369
+#: lib/Service/AnyToPdf.php:386
 #, php-format
 msgid "Please install the \"%s\" program on the server."
+msgstr ""
+
+#: lib/Service/ArchiveService.php:97
+#: lib/Service/ArchiveService.php:103
+#, php-format
+msgid "Unable to open archive file %s (%s)"
+msgstr ""
+
+#: lib/Service/ArchiveService.php:113
+#, php-format
+msgid "Uncompressed size of archive \"%1$s\" is too large: %2$d > %3$d"
+msgstr ""
+
+#: lib/Service/ArchiveService.php:120
+#, php-format
+msgid "Archive \"%1$s\" is a potential zip bomp, size %2$d > %3$d"
+msgstr ""
+
+#: lib/Service/ArchiveService.php:170
+#: lib/Service/ArchiveService.php:179
+msgid "There is no archive file associated with this archiver instance."
 msgstr ""
 
 #: lib/Service/AssetService.php:75
@@ -85,8 +130,8 @@ msgid ""
 "the server, please contact the system administrator!"
 msgstr ""
 
-#: lib/Service/PdfCombiner.php:328
-#: lib/Service/PdfCombiner.php:351
+#: lib/Service/PdfCombiner.php:332
+#: lib/Service/PdfCombiner.php:355
 msgid "Combining PDFs failed"
 msgstr ""
 
@@ -117,130 +162,182 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS src/AdminSettings.vue:26
+#. TRANSLATORS src/PersonalSettings.vue:125
 #: specialVueFakeDummyForL10nScript.js:4
-msgid "Admin Settings"
+#: specialVueFakeDummyForL10nScript.js:58
+msgid "Archive Extraction"
 msgstr ""
 
 #. TRANSLATORS src/AdminSettings.vue:35
 #: specialVueFakeDummyForL10nScript.js:6
-msgid "Disable the builtin-converters."
+msgid ""
+"On-the-fly extraction of archive files. If enabled users can control this "
+"setting on a per-user basis."
 msgstr ""
 
 #. TRANSLATORS src/AdminSettings.vue:40
+#. TRANSLATORS src/PersonalSettings.vue:143
 #: specialVueFakeDummyForL10nScript.js:8
-msgid "Universal Converter"
+#: specialVueFakeDummyForL10nScript.js:64
+msgid "Archive Size Limit"
 msgstr ""
 
 #. TRANSLATORS src/AdminSettings.vue:41
+#. TRANSLATORS src/PersonalSettings.vue:144
 #: specialVueFakeDummyForL10nScript.js:10
+#: specialVueFakeDummyForL10nScript.js:66
+msgid ""
+"Disallow archive extraction for archives with decompressed size larger than "
+"this limit."
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:46
+#: specialVueFakeDummyForL10nScript.js:12
+msgid "Custom Converter Scripts"
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:55
+#: specialVueFakeDummyForL10nScript.js:14
+msgid "Disable the builtin-converters."
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:60
+#: specialVueFakeDummyForL10nScript.js:16
+msgid "Universal Converter"
+msgstr ""
+
+#. TRANSLATORS src/AdminSettings.vue:61
+#: specialVueFakeDummyForL10nScript.js:18
 msgid ""
 "Full path to a filter-program to be executed first for all files. If it "
 "fails, the other converters will be tried in turn."
 msgstr ""
 
-#. TRANSLATORS src/AdminSettings.vue:47
-#: specialVueFakeDummyForL10nScript.js:12
+#. TRANSLATORS src/AdminSettings.vue:67
+#: specialVueFakeDummyForL10nScript.js:20
 msgid "Fallback Converter"
 msgstr ""
 
-#. TRANSLATORS src/AdminSettings.vue:48
-#: specialVueFakeDummyForL10nScript.js:14
+#. TRANSLATORS src/AdminSettings.vue:68
+#: specialVueFakeDummyForL10nScript.js:22
 msgid ""
 "Full path to a filter-program to be run when all other filters have failed. "
 "If it fails an error page will be substituted for the failing document."
 msgstr ""
 
-#. TRANSLATORS src/AdminSettings.vue:53
-#: specialVueFakeDummyForL10nScript.js:16
+#. TRANSLATORS src/AdminSettings.vue:73
+#: specialVueFakeDummyForL10nScript.js:24
 msgid "Converters"
 msgstr ""
 
-#. TRANSLATORS src/AdminSettings.vue:55
-#: specialVueFakeDummyForL10nScript.js:18
+#. TRANSLATORS src/AdminSettings.vue:75
+#: specialVueFakeDummyForL10nScript.js:26
 msgid "Status of the configured Converters"
 msgstr ""
 
-#. TRANSLATORS src/AdminSettings.vue:60
-#: specialVueFakeDummyForL10nScript.js:20
+#. TRANSLATORS src/AdminSettings.vue:80
+#: specialVueFakeDummyForL10nScript.js:28
 msgid "converter chain"
 msgstr ""
 
-#: specialVueFakeDummyForL10nScript.js:20
+#: specialVueFakeDummyForL10nScript.js:28
 msgid "single converter"
 msgstr ""
 
-#. TRANSLATORS src/AdminSettings.vue:67
-#: specialVueFakeDummyForL10nScript.js:22
+#. TRANSLATORS src/AdminSettings.vue:87
+#: specialVueFakeDummyForL10nScript.js:30
 msgid "alternatives"
 msgstr ""
 
-#. TRANSLATORS src/AdminSettings.vue:75
-#: specialVueFakeDummyForL10nScript.js:22
-#: specialVueFakeDummyForL10nScript.js:24
+#. TRANSLATORS src/AdminSettings.vue:95
+#: specialVueFakeDummyForL10nScript.js:30
+#: specialVueFakeDummyForL10nScript.js:32
 msgid "converter"
 msgstr ""
 
 #. TRANSLATORS src/PersonalSettings.vue:22
-#: specialVueFakeDummyForL10nScript.js:26
+#: specialVueFakeDummyForL10nScript.js:34
 msgid "Recursive Pdf Downloader, Personal Settings"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:31
-#: specialVueFakeDummyForL10nScript.js:28
+#. TRANSLATORS src/PersonalSettings.vue:23
+#: specialVueFakeDummyForL10nScript.js:36
+msgid "Decorations and Fonts"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:32
+#: specialVueFakeDummyForL10nScript.js:38
 msgid "Label output pages with file-name and page-number"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:35
-#: specialVueFakeDummyForL10nScript.js:30
+#. TRANSLATORS src/PersonalSettings.vue:36
+#: specialVueFakeDummyForL10nScript.js:40
 msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:39
-#: specialVueFakeDummyForL10nScript.js:32
+#. TRANSLATORS src/PersonalSettings.vue:40
+#: specialVueFakeDummyForL10nScript.js:42
 msgid "Font for generated PDF page-annotations"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:46
-#: specialVueFakeDummyForL10nScript.js:34
-#: specialVueFakeDummyForL10nScript.js:40
+#. TRANSLATORS src/PersonalSettings.vue:47
+#: specialVueFakeDummyForL10nScript.js:44
+#: specialVueFakeDummyForL10nScript.js:50
 msgid "Select a Font"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:74
-#: specialVueFakeDummyForL10nScript.js:36
+#. TRANSLATORS src/PersonalSettings.vue:75
+#: specialVueFakeDummyForL10nScript.js:46
 msgid "The font to use for the page-labels: {pageLabelsFont}"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:79
-#: specialVueFakeDummyForL10nScript.js:38
+#. TRANSLATORS src/PersonalSettings.vue:80
+#: specialVueFakeDummyForL10nScript.js:48
 msgid "Font for generated PDF (error-)pages"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:114
-#: specialVueFakeDummyForL10nScript.js:42
+#. TRANSLATORS src/PersonalSettings.vue:115
+#: specialVueFakeDummyForL10nScript.js:52
 msgid "The font to use for generated pages: {generatedPagesFont}"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:120
-#: specialVueFakeDummyForL10nScript.js:44
+#. TRANSLATORS src/PersonalSettings.vue:121
+#: specialVueFakeDummyForL10nScript.js:54
 msgid "Test Input"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:121
-#: specialVueFakeDummyForL10nScript.js:46
+#. TRANSLATORS src/PersonalSettings.vue:122
+#: specialVueFakeDummyForL10nScript.js:56
 msgid "Test Hint"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:205
-#: specialVueFakeDummyForL10nScript.js:48
-#: src/mixins/settings-sync.js:34
-#: src/mixins/settings-sync.js:61
-#: src/mixins/settings-sync.js:107
+#. TRANSLATORS src/PersonalSettings.vue:134
+#: specialVueFakeDummyForL10nScript.js:60
+msgid "On-the-fly extraction of archive files."
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:137
+#: specialVueFakeDummyForL10nScript.js:62
+msgid ""
+"On-the-fly extraction of archive files is disabled by the administrator."
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:149
+#: specialVueFakeDummyForL10nScript.js:68
+msgid "Administrative size limit: {archiveSizeLimit}"
+msgstr ""
+
+#. TRANSLATORS src/PersonalSettings.vue:238
+#: specialVueFakeDummyForL10nScript.js:70
+#: src/mixins/settings-sync.js:40
+#: src/mixins/settings-sync.js:60
+#: src/mixins/settings-sync.js:87
+#: src/mixins/settings-sync.js:137
 msgid "reason unknown"
 msgstr ""
 
-#. TRANSLATORS src/PersonalSettings.vue:209
-#: specialVueFakeDummyForL10nScript.js:50
+#. TRANSLATORS src/PersonalSettings.vue:242
+#: specialVueFakeDummyForL10nScript.js:72
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr ""
 
@@ -249,47 +346,52 @@ msgstr ""
 msgid "Download PDF"
 msgstr ""
 
-#: src/mixins/settings-sync.js:38
+#: src/mixins/settings-sync.js:44
+msgid "Unable to query the initial value of all settings: {message}"
+msgstr ""
+
+#: src/mixins/settings-sync.js:64
 msgid "Unable to query the initial value of {setting}: {message}"
 msgstr ""
 
-#: src/mixins/settings-sync.js:49
+#: src/mixins/settings-sync.js:75
 msgid "true"
 msgstr ""
 
-#: src/mixins/settings-sync.js:54
+#: src/mixins/settings-sync.js:80
 msgid "Successfully set \"{setting}\" to {value}."
 msgstr ""
 
-#: src/mixins/settings-sync.js:56
+#: src/mixins/settings-sync.js:82
+#: src/mixins/settings-sync.js:131
 msgid "Setting \"{setting}\" has been unset successfully."
 msgstr ""
 
-#: src/mixins/settings-sync.js:66
+#: src/mixins/settings-sync.js:92
 msgid "Unable to set \"{setting}\" to {value}: {message}."
 msgstr ""
 
-#: src/mixins/settings-sync.js:74
+#: src/mixins/settings-sync.js:100
 msgid "false"
 msgstr ""
 
-#: src/mixins/settings-sync.js:72
+#: src/mixins/settings-sync.js:98
 msgid "Unable to unset \"{setting}\": {message}"
 msgstr ""
 
-#: src/mixins/settings-sync.js:91
+#: src/mixins/settings-sync.js:117
 msgid "Confirmation Required"
 msgstr ""
 
-#: src/mixins/settings-sync.js:96
+#: src/mixins/settings-sync.js:122
 msgid "Unconfirmed, reverting to old value."
 msgstr ""
 
-#: src/mixins/settings-sync.js:102
+#: src/mixins/settings-sync.js:129
 msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
 msgstr ""
 
-#: src/mixins/settings-sync.js:112
+#: src/mixins/settings-sync.js:142
 msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 msgstr ""
 
