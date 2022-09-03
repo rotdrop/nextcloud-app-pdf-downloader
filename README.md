@@ -21,6 +21,10 @@ That is:
 - optionally places a "Folder PAGE/MAX_PAGES" label to top of each page
 - finally presents the generated PDF as download
 
+## Compatibility
+The app currently requires PHP >= 8.0. It should be usable with
+Nextcloud v23 and probably also with v24.
+
 ## Working Conversions
 
 ### Builtin Converters
@@ -68,7 +72,7 @@ as archive handling backend. Please see there for a list of supported
 archive formats and how to support further archive formats.
 
 ## Performance
-Unfortunately, the app is not the fastest horse one could think
-of. Conversion time increases linearly with the number of files to be
-converted. In particular the unvconv (Libreoffice) converter tends to
-be somewhat slow.
+Unfortunately, the app is not the fastest horse one could think of. In
+particular the unvconv (Libreoffice) converter tends to be somewhat
+slow. Conversion time increases linearly with the number of files to
+be converted, of course.

@@ -187,7 +187,15 @@ stylelint:
 #@@ Style linting and apply fixes (be carful!)
 stylelint-fix:
 	$(NPM) run stylelint:fix
-.PHONY: stylelint-fix
+.PHONY: stylelint-
+
+#@@ Run phpcs on the PHP code
+phpcs: composer
+	vendor/bin/phpcs -s --report=emacs --standard=$(SRCDIR)/.phpcs.xml lib/ appinfo/ templates/
+
+#@@ Run phpmd on the PHP code
+phpmd: composer
+	vendor/bin/phpmd lib/,appinfo/,templates/ text $(SRCDIR)/.phpmd.xml
 
 # rebuild some fonts which seemingly are shipped in a broken or too
 # old version by tcpdf

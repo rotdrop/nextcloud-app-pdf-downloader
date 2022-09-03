@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
- * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @license AGPL-3.0-or-later
+ * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,10 +22,14 @@ namespace OCA\PdfDownloader\Controller;
 
 use OCA\PdfDownloader\AppInfo\Application;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IL10N;
 
+/**
+ * Catch-all controller in order to generate usable error messages.
+ */
 class CatchAllController extends Controller
 {
   use \OCA\PdfDownloader\Traits\ResponseTrait;
@@ -33,20 +37,31 @@ class CatchAllController extends Controller
   /** @var IL10N */
   private $l;
 
+  /**
+   * @param string $appName
+   *
+   * @param IRequest $request
+   *
+   * @param IL10N $l10n
+   */
   public function __construct(
-    string $appName
-    , IRequest $request
-    , IL10N $l10n
+    string $appName,
+    IRequest $request,
+    IL10N $l10n,
   ) {
     parent::__construct($this->appName, $request);
     $this->l = $l10n;
   }
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.MissingParamTag
   /**
+   * @SuppressWarnings(PHPMD.ShortVariable)
    * @NoAdminRequired
    * @NoCSRFRequired
+   *
+   * @return Response
    */
-  public function post($a, $b, $c, $d, $e, $f, $g)
+  public function post($a, $b, $c, $d, $e, $f, $g):Response
   {
     $parts = [ $a, $b, $c, $d, $e, $f, $g ];
     $request = implode('/', array_filter($parts));
@@ -59,11 +74,15 @@ class CatchAllController extends Controller
     }
   }
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.MissingParamTag
   /**
+   * @SuppressWarnings(PHPMD.ShortVariable)
    * @NoAdminRequired
    * @NoCSRFRequired
+   *
+   * @return Response
    */
-  public function get($a, $b, $c, $d, $e, $f, $g)
+  public function get($a, $b, $c, $d, $e, $f, $g):Response
   {
     $parts = [ $a, $b, $c, $d, $e, $f, $g ];
     $request = implode('/', array_filter($parts));

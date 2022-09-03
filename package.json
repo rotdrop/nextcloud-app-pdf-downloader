@@ -1,7 +1,7 @@
 {
   "name": "pdf-downloader",
   "description": "Recusively convert entire directory trees to PDF and provide the resulting document as download",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Claus-Justus Heine <himself@claus-justus-heine.de>",
   "bugs": {
     "url": "https://github.com/rotdrop/nextcloud-app-pdf-downloader.git"
@@ -21,7 +21,9 @@
     "lint": "eslint --ext .js,.vue src",
     "lint:fix": "eslint --ext .js,.vue src --fix",
     "stylelint": "stylelint css/*.css css/*.scss src/**/*.scss src/**/*.vue",
-    "stylelint:fix": "stylelint css/*.css css/*.scss src/**/*.scss src/**/*.vue --fix"
+    "stylelint:fix": "stylelint css/*.css css/*.scss src/**/*.scss src/**/*.vue --fix",
+    "cs:check": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+    "cs:fix": "vendor/bin/php-cs-fixer fix"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"

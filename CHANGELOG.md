@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.0.4] - unreleased
+## [1.0.4] - 2022-09-03
 
 ### Fixed
 
@@ -13,9 +13,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- optional on-the-fly extraction of archive files by means of
+
 - admin-customizable custom conversion scripts (default and fallback), including
   the possibility to disable the builtin converters.
- 
+
 - display the found converter executables on the admin settings page.
 
 ## [1.0.3] - 2022-09-02

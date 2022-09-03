@@ -16,3 +16,4 @@ js/**
 css/**
 lib/Database/ORM/Proxies/**
 build-flavour
+.php-cs-fixer.cache
