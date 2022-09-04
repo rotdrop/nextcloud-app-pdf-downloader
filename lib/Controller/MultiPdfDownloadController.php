@@ -268,7 +268,7 @@ __EOF__;
           break 1;
         case FileInfo::TYPE_FILE:
           /** @var File $node */
-          if ($this->extractArchiveFile
+          if ($this->extractArchiveFiles
               && $this->addArchiveMembers($node, $parentName) === self::ARCHIVE_HANDLED) {
             continue 2;
           }
