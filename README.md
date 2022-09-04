@@ -72,7 +72,18 @@ as archive handling backend. Please see there for a list of supported
 archive formats and how to support further archive formats.
 
 ## Performance
-Unfortunately, the app is not the fastest horse one could think of. In
-particular the unvconv (Libreoffice) converter tends to be somewhat
-slow. Conversion time increases linearly with the number of files to
-be converted, of course.
+- unfortunately, the app is not the fastest horse one could think
+  of. In particular the unvconv (Libreoffice) converter tends to be
+  somewhat slow. Conversion time increases linearly with the number of
+  files to be converted, of course.
+- it might be necessary to tweak your web-server to allow for larger
+  execution times (several minutes).
+
+## Todo, some problems I am aware of
+- please feel free to submit issues!
+- perhaps execution time problems could be leveraged by implementing a
+  sort-of streaming context, or by accumulating the results in the
+  javascript font-end. The JS frontend would then receive the results
+  for each individual file conversion.
+- ZIP-bomb detection might need improvement
+- There is no test-suite. This is really an issue.

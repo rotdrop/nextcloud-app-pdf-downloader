@@ -1,6 +1,8 @@
 <?php
 /**
- * @author Claus-Justus Heine
+ * Recursive PDF Downloader App for Nextcloud
+ *
+ * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -22,12 +24,20 @@ namespace OCA\PdfDownloader\Traits;
 
 use OCP\IGroupManager;
 
+/**
+ * Utitlity trait in order to get the addresses of the cloud admins.
+ */
 trait CloudAdminTrait
 {
   /**
    * Contact information for the overall admins.
+   *
+   * @param IGroupManager $groupManager
+   * @param bool $implode
+   *
+   * @return array
    */
-  protected function getCloudAdminContacts(IGroupManager $groupManager, bool $implode = false)
+  protected function getCloudAdminContacts(IGroupManager $groupManager, bool $implode = false):string
   {
     $adminGroup = $groupManager->get('admin');
     $adminUsers = $adminGroup->getUsers();

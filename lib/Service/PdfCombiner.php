@@ -1,6 +1,8 @@
 <?php
 /**
- * @author Claus-Justus Heine
+ * Recursive PDF Downloader App for Nextcloud
+ *
+ * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -19,6 +21,8 @@
  */
 
 namespace OCA\PdfDownloader\Service;
+
+use \RuntimeException;
 
 use Psr\Log\LoggerInterface as ILogger;
 use OCP\IL10N;
@@ -51,12 +55,6 @@ class PdfCombiner
 
   /**
    * @var array
-   * The documents-data to be combined into one document.
-   */
-  private $documents = [];
-
-  /**
-   * @var array
    * The document-data in a tree resembling the folder structure
    */
   private $documentTree = [];
@@ -67,11 +65,12 @@ class PdfCombiner
   /** @var string */
   private $overlayFont = self::OVERLAY_FONT;
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(
-    ITempManager $tempManager
-    , ILogger $logger
-    , IL10N $l
-    , bool $addPageLabels = true
+    ITempManager $tempManager,
+    ILogger $logger,
+    IL10N $l,
+    bool $addPageLabels = true,
   ) {
     $this->tempManager = $tempManager;
     $this->logger = $logger;
@@ -83,28 +82,44 @@ class PdfCombiner
   /**
    * Set or get whether a pagination is added to the top of each page.
    *
-   * @param bool|null If non-null configure this setting, other the function
-   * just returns the current state.
+   * @param bool|null $addPageLabels If non-null configure this setting, other
+   * the function just returns the current state.
    *
    * @return bool The previous state of the setting.
    */
-  public function addPageLabels(?bool $addPageLables = null):bool
+  public function addPageLabels(?bool $addPageLabels = null):bool
   {
     $oldState = $this->addPageLabels;
-    if ($addPageLables !== null) {
-      $this->addPageLabels = $addPageLables;
+    if ($addPageLabels !== null) {
+      $this->addPageLabels = $addPageLabels;
     }
     return $oldState;
   }
 
+  /**
+   * Return the name of the currently installed overlay font. The overlay font
+   * is used to generated page decorations. ATM only page labels (i.e PAGE X
+   * of Y) are implemented.
+   *
+   * @return string
+   */
   public function getOverlayFont():?string
   {
     return $this->overlayFont ?? self::OVERLAY_FONT;
   }
 
-  public function setOverlayFont(?string $overlayFont)
+  /**
+   * Configure the overlay font for page labels (in particular).
+   *
+   * @param string|null $overlayFont The font name, or null to restore the
+   * default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayFont(?string $overlayFont):PdfCombiner
   {
     $this->overlayFont = empty($overlayFont) ? self::OVERLAY_FONT : $overlayFont;
+    return $this;
   }
 
   private function initializePdfGenerator():PdfGenerator
@@ -131,7 +146,14 @@ class PdfCombiner
 
     $numberOfPages = $fileNode[self::META_KEY]['NumberOfPages'];
     $pageMedia = $fileNode[self::META_KEY]['PageMedia'];
-    for ($pageNumber = $startingPage, $mediaNumber = 0; $pageNumber < $startingPage + $numberOfPages; ++$pageNumber, ++$mediaNumber) {
+    // phpcs:ignore PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace
+    for (
+      // phpcs:ignore Squiz.ControlStructures.ForLoopDeclaration.SpacingAfterFirst
+      $pageNumber = $startingPage, $mediaNumber = 0;
+      // phpcs:ignore Squiz.ControlStructures.ForLoopDeclaration.SpacingAfterSecond
+      $pageNumber < $startingPage + $numberOfPages;
+      ++$pageNumber, ++$mediaNumber
+    ) {
       list($pageWidth, $pageHeight) = explode(' ', $pageMedia[$mediaNumber]['Dimensions']);
       $orientation = $pageHeight > $pageWidth ? 'P' : 'L';
 
@@ -201,7 +223,7 @@ class PdfCombiner
     if (empty($pathChain)) {
       // leaf element -- always a plain file
       $fileName = $this->tempManager->getTemporaryFile();
-      file_put_contents($fileName,  $data);
+      file_put_contents($fileName, $data);
       $pdfData = (array)(new PdfTk($fileName))->getData();
       $tree[self::FILES_KEY][$nodeName] = [
         self::NAME_KEY => $nodeName,
@@ -224,7 +246,16 @@ class PdfCombiner
     }
   }
 
-  public function addDocument(string $data, string $name)
+  /**
+   * Add the given file data with the given file-system path.
+   *
+   * @param string $data
+   *
+   * @param string $name
+   *
+   * @return void
+   */
+  public function addDocument(string $data, string $name):void
   {
     $name = trim(preg_replace('|//+|', '/', $name), '/');
     $pathChain = explode('/', $name);
@@ -251,7 +282,7 @@ class PdfCombiner
     $level = $tree[self::LEVEL_KEY];
 
     // first walk down the directories
-    usort($tree[self::FOLDERS_KEY], fn($a, $b) => strcmp($a['name'], $b['name']));
+    usort($tree[self::FOLDERS_KEY], fn($dirA, $dirB) => strcmp($dirA['name'], $dirB['name']));
     $first = true;
     foreach ($tree[self::FOLDERS_KEY] as $folderNode) {
       $nodeName = $folderNode['name'];
@@ -269,7 +300,7 @@ class PdfCombiner
       $first = false;
     }
     // then add the files from this level
-    usort($tree[self::FILES_KEY], fn($a, $b) => strcmp($a['name'], $b['name']));
+    usort($tree[self::FILES_KEY], fn($fileA, $fileB) => strcmp($fileA['name'], $fileB['name']));
 
     // first pass: compute the total number of pages at this level
     $numberOfFolderPages = 0;
@@ -321,6 +352,12 @@ class PdfCombiner
     }
   }
 
+  /**
+   * The work-horse. Combine all added documents and decorate them. Return the
+   * resulting PDF document as a "blob".
+   *
+   * @return string The combined PDF data.
+   */
   public function combine():string
   {
     $pdfTk = new PdfTk;
@@ -328,7 +365,7 @@ class PdfCombiner
     $result = $pdfTk->cat()->toString();
 
     if ($result === false) {
-      throw new \RuntimeException(
+      throw new RuntimeException(
         $this->l->t('Combining PDFs failed')
         . $pdfTk->getCommand()->getStdErr()
       );
@@ -351,7 +388,7 @@ class PdfCombiner
     $result = $pdfTk->updateInfo($pdfData)->toString();
 
     if ($result === false) {
-      throw new \RuntimeException(
+      throw new RuntimeException(
         $this->l->t('Combining PDFs failed')
         . $pdfTk->getCommand()->getStdErr()
       );

@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,9 +32,10 @@ class ArchiveFormats extends \wapmorgan\UnifiedArchive\Formats
    * Fetch all known mime-types for the given format.
    *
    * @param $format
+   *
    * @return array
    */
-  public static function getFormatMimeTypes($format)
+  public static function getFormatMimeTypes($format):array
   {
     return array_keys(array_filter(static::$mimeTypes, fn($value) => $value === $format));
   }

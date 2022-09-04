@@ -13,10 +13,12 @@
   <rule ref="rulesets/cleancode.xml">
     <exclude name="ElseExpression"/>
     <exclude name="StaticAccess"/>
+    <!-- What is this shit? I mean ... -->
+    <exclude name="BooleanArgumentFlag" />
   </rule>
   <rule ref="rulesets/cleancode.xml/StaticAccess">
     <properties>
-      <property name="exceptions" value="\OCA\PdfDownloader\Listener\Registration"/>
+      <property name="exceptions" value="\OCA\PdfDownloader\Listener\Registration,\OCA\PdfDownloader\Service\ArchiveFormats,\OCP\Util,\wapmorgan\UnifiedArchive\UnifiedArchive,\TCPDF_FONTS,\OCA\PdfDownloader\Service\ArchiveService"/>
     </properties>
   </rule>
 
@@ -26,10 +28,17 @@
 
   <rule ref="rulesets/naming.xml">
     <exclude name="ShortVariable"/>
+    <exclude name="LongVariable"/>
   </rule>
   <rule ref="rulesets/naming.xml/ShortVariable">
     <properties>
-      <property name="exceptions" value="l"/>
+      <property name="exceptions" value="l,fp"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/naming.xml/LongVariable">
+    <properties>
+      <property name="subtract-suffixes" value="Disabled,Enalbed"/>
+      <property name="maximum" value="32"/>
     </properties>
   </rule>
 

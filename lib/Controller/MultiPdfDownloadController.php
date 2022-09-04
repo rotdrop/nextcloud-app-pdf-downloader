@@ -49,6 +49,8 @@ use OCA\PdfDownloader\Service\ArchiveService;
 /**
  * Walk throught a directory tree, convert all files to PDF and combine the
  * resulting PDFs into a single PDF. Present this as download response.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class MultiPdfDownloadController extends Controller
 {
@@ -92,6 +94,7 @@ class MultiPdfDownloadController extends Controller
   /** @var null|int */
   private $archiveSizeLimit = null;
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
     IRequest $request,
@@ -115,8 +118,11 @@ class MultiPdfDownloadController extends Controller
     $this->anyToPdf = $anyToPdf;
     $this->archiveService = $archiveService;
 
-    $this->anyToPdf->disableBuiltinConverters(
-      $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false));
+    if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
+      $this->anyToPdf->disableBuiltinConverters();
+    } else {
+      $this->anyToPdf->enableBuiltinConverters();
+    }
     $this->anyToPdf->setFallbackConverter(
       $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_FALLBACK_CONVERTER, null));
     $this->anyToPdf->setUniversalConverter(
@@ -153,14 +159,27 @@ class MultiPdfDownloadController extends Controller
     $this->archiveService->setSizeLimit($this->archiveSizeLimit);
   }
 
+  /**
+   * Return the current error-pages font-name.
+   *
+   * @return null|string The font-name.
+   */
   public function getErrorPagesFont():?string
   {
     return $this->errorPagesFont ?? self::ERROR_PAGES_FONT;
   }
 
-  public function setErrorPagesFont(?string $errorPagesFont)
+  /**
+   * Set the current error-pages font-name.
+   *
+   * @param null|string $errorPagesFont
+   *
+   * @return MultiPdfDownloadController Return $this for chaining setters.
+   */
+  public function setErrorPagesFont(?string $errorPagesFont):MultiPdfDownloadController
   {
     $this->errorPagesFont = empty($errorPagesFont) ? self::ERROR_PAGES_FONT : $errorPagesFont;
+    return $this;
   }
 
   private function generateErrorPage(?string $fileData, string $path, \Throwable $throwable)
@@ -246,12 +265,12 @@ __EOF__;
       switch ($node->getType()) {
         case FileInfo::TYPE_FOLDER:
           $this->addFilesRecursively($node, $parentName);
-          break;
+          break 1;
         case FileInfo::TYPE_FILE:
           /** @var File $node */
           if ($this->extractArchiveFile
               && $this->addArchiveMembers($node, $parentName) === self::ARCHIVE_HANDLED) {
-            continue;
+            continue 2;
           }
 
           $path = $parentName . '/' . $node->getName();
@@ -278,8 +297,12 @@ __EOF__;
    * Download the contents (plain-files only, non-recursive) of the given
    * folder as multi-page PDF after converting everything to PDF.
    *
-   * @NoAdminRequired
+   * @param string $nodePath The path to the file-system node to convert to
+   * PDF.
+   *
    * @return Response
+   *
+   * @NoAdminRequired
    */
   public function get(string $nodePath):Response
   {

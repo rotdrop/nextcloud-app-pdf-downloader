@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,12 +55,13 @@ class ArchiveService
   private $archiveFiles;
 
   /* @var array */
-  static private $mimeTypes;
+  private static $mimeTypes;
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(
-    ILogger $logger
-    , IL10N $l
-    , ?int $sizeLimit = null
+    ILogger $logger,
+    IL10N $l,
+    ?int $sizeLimit = null
   ) {
     $this->logger = $logger;
     $this->l = $l;
@@ -67,11 +70,25 @@ class ArchiveService
     $this->fileNode = null;
   }
 
-  public function setSizeLimit(?int $sizeLimit)
+  /**
+   * Set the size limit for the uncompressed size of the archives. Archives
+   * with larger uncompressed size will not be handled.
+   *
+   * @param null|int $sizeLimit Size-limit. Pass null to disable.
+   *
+   * @return ArchiveService Return $this for chaining.
+   */
+  public function setSizeLimit(?int $sizeLimit):ArchiveService
   {
     $this->sizeLimit = $sizeLimit;
+    return $this;
   }
 
+  /**
+   * Return the currently configured size-limit.
+   *
+   * @return null|int
+   */
   public function getSizeLimit():?int
   {
     return $this->sizeLimit;
@@ -82,18 +99,38 @@ class ArchiveService
     return $fileNode->getStorage()->getLocalFile($fileNode->getInternalPath());
   }
 
+  /**
+   * Check whether the given file can be opened.
+   *
+   * @param File $fileNode
+   *
+   * @return bool
+   */
   public function canOpen(File $fileNode):bool
   {
     return ArchiveBackend::canOpen(self::getLocalPath($fileNode));
   }
 
-  public function close()
+  /**
+   * Close, i.e. unconfigure. This method is error agnostic, it simply unsets
+   * the initial state variables.
+   *
+   * @return void
+   */
+  public function close():void
   {
     $this->archiver = null;
     $this->fileNode = null;
     $this->archiveFiles = null;
   }
 
+  /**
+   * @param File $fileNode
+   *
+   * @param null|int $sizeLimit
+   *
+   * @return null|ArchiveService
+   */
   public function open(File $fileNode, ?int $sizeLimit = null):?ArchiveService
   {
     if (!$this->canOpen($fileNode)) {
@@ -113,9 +150,10 @@ class ArchiveService
     $archiveSize = $this->archiver->getOriginalSize();
     if ($sizeLimit !== null && $archiveSize > $sizeLimit) {
       $this->archiver = null;
-      throw new Exceptions\ArchiveTooLargeException($this->l->t('Uncompressed size of archive "%1$s" is too large: %2$d > %3$d', [
-        $fileNode->getPath(), $archiveSize, $sizeLimit
-      ]));
+      throw new Exceptions\ArchiveTooLargeException(
+        $this->l->t('Uncompressed size of archive "%1$s" is too large: %2$d > %3$d', [
+          $fileNode->getPath(), $archiveSize, $sizeLimit,
+        ]));
     }
     if ($archiveSize > Exceptions\ArchiveBombException::BOMB_LIMIT) {
       $this->archiver = null;
@@ -131,6 +169,12 @@ class ArchiveService
     return $this;
   }
 
+  /**
+   * Return a proposal for the extraction destination. Currently, this simply
+   * strips double extensions like FOO.tag.N -> FOO.
+   *
+   * @return string
+   */
   public function getArchiveFolderName():?string
   {
     if (empty($this->fileNode)) {
@@ -143,13 +187,15 @@ class ArchiveService
   /**
    * Return the name of the top-level folder for the case that there is only a
    * single folder at folder nesting level 0.
+   *
+   * @return null|string
    */
   public function getTopLevelFolder():?string
   {
     $archiveFiles = $this->getFiles();
     $dirName = null;
     foreach ($archiveFiles as $archiveFile) {
-      list($rootParent, $subPath) = strpos($archiveFile, '/') !== false
+      list($rootParent,) = strpos($archiveFile, '/') !== false
         ? explode('/', $archiveFile, 2)
         : [ null, $archiveFile ];
       if ($rootParent === null) {
@@ -167,33 +213,49 @@ class ArchiveService
     return $dirName;
   }
 
+  /**
+   * Get a flat array of all files contained in the archive with their full
+   * archive-relative path.
+   *
+   * @return array
+   */
   public function getFiles():array
   {
     if (empty($this->archiver)) {
-      throw new Exceptions\ArchiveNotOpenException($this->l->t('There is no archive file associated with this archiver instance.'));
+      throw new Exceptions\ArchiveNotOpenException(
+        $this->l->t('There is no archive file associated with this archiver instance.'));
     }
     $this->archiveFiles = $this->archiver->getFileNames();
     return $this->archiveFiles;
   }
 
-  public function getFileContent($fileName):?string
+  /**
+   * @param string $fileName
+   *
+   * @return null|string
+   */
+  public function getFileContent(string $fileName):?string
   {
     if (empty($this->archiver)) {
-      throw new Exceptions\ArchiveNotOpenException($this->l->t('There is no archive file associated with this archiver instance.'));
+      throw new Exceptions\ArchiveNotOpenException(
+        $this->l->t('There is no archive file associated with this archiver instance.'));
     }
     return $this->archiver->getFileContent($fileName);
   }
 
   /**
    * Return a list of mime-types we can handle.
+   *
+   * @return array
    */
-  static public function getSupportedMimeTypes()
+  public static function getSupportedMimeTypes():array
   {
     if (empty(self::$mimeTypes)) {
       $formats = ArchiveFormats::getSupportedDriverFormats();
       self::$mimeTypes = [];
       foreach ($formats as $format => $status) {
-        self::$mimeTypes = array_merge(self::$mimeTypes, ArchiveFormats::getFormatMimeTypes($format));
+        $formatMimeTypes = ArchiveFormats::getFormatMimeTypes($format);
+        self::$mimeTypes = array_merge(self::$mimeTypes, $formatMimeTypes);
       }
     }
     return self::$mimeTypes;

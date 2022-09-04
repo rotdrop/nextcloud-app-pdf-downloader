@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 namespace OCA\PdfDownloader\Settings;
@@ -28,6 +27,9 @@ use OCP\Settings\ISettings;
 
 use OCA\PdfDownloader\Service\AssetService;
 
+/**
+ * Render the personal per-user settings for this app.
+ */
 class Personal implements ISettings
 {
   const TEMPLATE = "personal-settings";
@@ -38,15 +40,22 @@ class Personal implements ISettings
   /** @var AssetService */
   private $assetService;
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(
-    string $appName
-    , AssetService $assetService
+    string $appName,
+    AssetService $assetService,
   ) {
     $this->appName = $appName;
     $this->assetService = $assetService;
   }
 
-  public function getForm() {
+  /**
+   * Return the HTML-template in order to render the personal settings.
+   *
+   * @return TemplateResponse
+   */
+  public function getForm():TemplateResponse
+  {
     return new TemplateResponse(
       $this->appName,
       self::TEMPLATE, [
@@ -60,9 +69,11 @@ class Personal implements ISettings
 
   /**
    * @return string the section ID, e.g. 'sharing'
+   *
    * @since 9.1
    */
-  public function getSection() {
+  public function getSection()
+  {
     return $this->appName;
   }
 
@@ -74,8 +85,8 @@ class Personal implements ISettings
    * E.g.: 70
    * @since 9.1
    */
-  public function getPriority() {
-    // @@todo could be made a configure option.
+  public function getPriority()
+  {
     return 50;
   }
 }

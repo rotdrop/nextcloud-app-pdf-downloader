@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,6 +21,8 @@
  */
 
 namespace OCA\PdfDownloader\Service;
+
+use \RuntimeException;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ExecutableFinder;
@@ -98,50 +102,108 @@ class AnyToPdf
    */
   protected $executables = [];
 
+  /**
+   * @param IMimeTypeDetector $mimeTypeDetector
+   * @param ITempManager $tempManager
+   * @param ExecutableFinder $executableFinder
+   * @param ILogger $logger
+   * @param IL10N $l10n
+   */
   public function __construct(
-    IMimeTypeDetector $mimeTypeDetector
-    , ITempManager $tempManager
-    , ExecutableFinder $executableFinder
-    , ILogger $logger
-    , IL10N $l
+    IMimeTypeDetector $mimeTypeDetector,
+    ITempManager $tempManager,
+    ExecutableFinder $executableFinder,
+    ILogger $logger,
+    IL10N $l10n
   ) {
     $this->mimeTypeDetector = $mimeTypeDetector;
     $this->tempManager = $tempManager;
     $this->executableFinder = $executableFinder;
     $this->logger = $logger;
-    $this->l = $l;
+    $this->l = $l10n;
 
     $this->fallbackConverter = self::DEFAULT_FALLBACK_CONVERTER;
   }
 
-  public function setFallbackConverter(?string $converter)
+  /**
+   * Install a fall-back converter script.
+   *
+   * @param null|string $converter The full path to the converter executatble
+   *                               or null in order to reinstall the default.
+   *
+   * @return AnyToPdf Return $this for chainging.
+   */
+  public function setFallbackConverter(?string $converter):AnyToPdf
   {
     if (empty($converter)) {
       $converter = self::DEFAULT_FALLBACK_CONVERTER;
     }
     $this->fallbackConverter = $converter;
+    return $this;
   }
 
+  /**
+   * Return the currently installed fallback-converter.
+   *
+   * @return string
+   */
   public function getFallbackConverter():string
   {
     return $this->fallbackConverter;
   }
 
-  public function setUniversalConverter(?string $converter)
+  /**
+   * Set an "universal" converter executable to try before all others.
+   *
+   * @param null|string $converter The full path to the converter executable
+   * or null in order to disable it.
+   *
+   * @return AnyToPdf Return $this for chaining purposes.
+   */
+  public function setUniversalConverter(?string $converter):AnyToPdf
   {
     $this->universalConverter = $converter;
+    return $this;
   }
 
+  /**
+   * Return the currently installed universal converter executable (maybe
+   * null).
+   *
+   * @return null|string
+   */
   public function getUniversalConverter():?string
   {
     return $this->universalConverter;
   }
 
-  public function disableBuiltinConverters(bool $state = true)
+  /**
+   * Disable the builtin converters.
+   *
+   * @return AnyToPdf Return $this for chaining purposes.
+   */
+  public function disableBuiltinConverters():AnyToPdf
   {
-    $this->builtinConvertersDisabled = $state;
+    $this->builtinConvertersDisabled = true;
+    return $this;
   }
 
+  /**
+   * Enable the builtin converters.
+   *
+   * @return AnyToPdf Return $this for chaining purposes.
+   */
+  public function enableBuiltinConverters():AnyToPdf
+  {
+    $this->builtinConvertersDisabled = false;
+    return $this;
+  }
+
+  /**
+   * Return the current state of using the builtin converters.
+   *
+   * @return bool The disabled state of the builtin-converters.
+   */
   public function builtinConvertersDisabled():bool
   {
     return !empty($this->builtinConvertersDisabled);
@@ -153,7 +215,7 @@ class AnyToPdf
    *
    * @return array
    */
-  public function findConverters()
+  public function findConverters():array
   {
     $result = [];
 
@@ -208,6 +270,8 @@ class AnyToPdf
    *
    * @param string|null $mimeType If null or 'application/octet-stream' the
    * cloud's mime-type detector is used to detect the mime-type.
+   *
+   * @return string The converted data.
    */
   public function convertData(string $data, ?string $mimeType = null):string
   {
@@ -220,7 +284,10 @@ class AnyToPdf
         $data = $this->genericConvert($data, $mimeType, $this->universalConverter);
       } catch (\Throwable $t) {
         if ($this->builtinConvertersDisabled) {
-          throw new \RuntimeException($this->l->t('Universal converter "%1$s" fas failed trying to convert mime-type "%2$s"', [ $this->universalConverter, $mimeType ]));
+          throw new RuntimeException(
+            $this->l->t('Universal converter "%1$s" fas failed trying to convert mime-type "%2$s"', [
+              $this->universalConverter, $mimeType,
+            ]));
         } else {
           $this->logException($t, 'Ignoring failed universal converter ' . $this->universalConverter);
         }
@@ -235,10 +302,10 @@ class AnyToPdf
       }
 
       $convertedData = null;
-      foreach  ($converter as $tryConverter) {
+      foreach ($converter as $tryConverter) {
         if ($tryConverter == self::FALLBACK) {
-          $tryConverter == $this->fallbackConverter;
-        } else if ($tryConverter == self::PASS_THROUGH) {
+          $tryConverter = $this->fallbackConverter;
+        } elseif ($tryConverter == self::PASS_THROUGH) {
           $tryConverter = 'passThrough';
         }
         try {
@@ -254,7 +321,10 @@ class AnyToPdf
         }
       }
       if (empty($convertedData)) {
-        throw new \RuntimeException($this->l->t('Converter "%1$s" has failed trying to convert mime-type "%2$s"', [ print_r($converter, true), $mimeType ]));
+        throw new RuntimeException(
+          $this->l->t('Converter "%1$s" has failed trying to convert mime-type "%2$s"', [
+            print_r($converter, true), $mimeType,
+          ]));
       }
       $data = $convertedData;
       $convertedData = null;
@@ -263,11 +333,30 @@ class AnyToPdf
     return $data;
   }
 
+  /**
+   * Do-nothing pass-through converter.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
   protected function passThroughConvert(string $data):string
   {
     return $data;
   }
 
+  /**
+   * Generic conversion for given mime-type and converter script.
+   *
+   * @param string $data Original data.
+   *
+   * @param string $mimeType The detected mime-type of the data.
+   *
+   * @param string $converterName The name of the executable. Must be either
+   * the full path or contained in the search-path for executables.
+   *
+   * @return string Converted-to-PDF data.
+   */
   protected function genericConvert(string $data, string $mimeType, string $converterName):string
   {
     $converter = $this->findExecutable($converterName);
@@ -279,6 +368,13 @@ class AnyToPdf
     return $process->getOutput();
   }
 
+  /**
+   * Convert using unoconv service (based on LibreOffice).
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
   protected function unoconvConvert(string $data):string
   {
     $converterName = 'unoconv';
@@ -293,7 +389,7 @@ class AnyToPdf
         '-e', 'ExportNotes=False'
       ]);
       $process->setInput($data);
-      try  {
+      try {
         $process->run();
         $retry = false;
       } catch (ProcessExceptions\ProcessTimedOutException $timedOutException) {
@@ -308,6 +404,13 @@ class AnyToPdf
     return $process->getOutput();
   }
 
+  /**
+   * Convert using mhonarc.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
   protected function mhonarcConvert(string $data):string
   {
     $converterName = 'mhonarc';
@@ -320,6 +423,13 @@ class AnyToPdf
     return $process->getOutput();
   }
 
+  /**
+   * Convert using ps2pdf.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
   protected function ps2pdfConvert(string $data):string
   {
     $converterName = 'ps2pdf';
@@ -332,6 +442,13 @@ class AnyToPdf
     return $process->getOutput();
   }
 
+  /**
+   * Convert using wkhtmltopdf.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
   protected function wkhtmltopdfConvert(string $data):string
   {
     $converterName = 'wkhtmltopdf';
@@ -344,6 +461,13 @@ class AnyToPdf
     return $process->getOutput();
   }
 
+  /**
+   * Convert using tiff2pdf.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
   protected function tiff2pdfConvert(string $data):string
   {
     $converterName = 'tiff2pdf';
@@ -383,7 +507,8 @@ class AnyToPdf
       $executable = $this->executableFinder->find($program);
       if (empty($executable)) {
         $this->executables[$program] = [
-          'exception' => throw new Exceptions\EnduserNotificationException($this->l->t('Please install the "%s" program on the server.', $program)),
+          'exception' => throw new Exceptions\EnduserNotificationException(
+            $this->l->t('Please install the "%s" program on the server.', $program)),
           'path' => null,
         ];
       } else {

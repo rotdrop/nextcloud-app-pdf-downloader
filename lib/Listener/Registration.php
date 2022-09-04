@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +24,25 @@ namespace OCA\PdfDownloader\Listener;
 
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
+/**
+ * Static listener registration class.
+ */
 class Registration
 {
-  public static function register(IRegistrationContext $context) {
+  /**
+   * Register all listeners.
+   *
+   * @param IRegistrationContext $context
+   *
+   * @return void
+   */
+  public static function register(IRegistrationContext $context):void
+  {
     self::registerListener($context, FilesActionListener::class);
   }
 
-  private static function registerListener(IRegistrationContext $context, $class) {
+  private static function registerListener(IRegistrationContext $context, $class):void
+  {
     $events = $class::EVENT;
     if (!is_array($events)) {
       $events = [ $events ];

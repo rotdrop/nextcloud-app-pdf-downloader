@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,8 +22,12 @@
 
 namespace OCA\PdfDownloader\Service;
 
+use \TCPDF_FONTS;
 use Symfony\Component\Finder\Finder as FileNodeFinder;
 
+/**
+ * Abstraction for currently used PDF generator PHP class.
+ */
 class PdfGenerator extends \TCPDF
 {
   const FONT_FLAG_MONOSPACE = (1 << 0);
@@ -36,21 +42,35 @@ class PdfGenerator extends \TCPDF
    */
   private $distributedFonts = [];
 
-  public function __construct($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false, $pdfa=false)
-  {
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  public function __construct(
+    $orientation = 'P',
+    $unit = 'mm',
+    $format = 'A4',
+    $unicode = true,
+    $encoding = 'UTF-8',
+    $diskcache = false,
+    $pdfa = false,
+  ) {
     parent::__construct(
-      orientation: $orientation
-      , unit: $unit
-      , format: $format
-      , unicode: $unicode
-      , encoding: $encoding
-      , diskcache: $diskcache
-      , pdfa: $pdfa
+      orientation: $orientation,
+      unit: $unit,
+      format: $format,
+      unicode: $unicode,
+      encoding: $encoding,
+      diskcache: $diskcache,
+      pdfa: $pdfa,
     );
   }
 
   /**
    * Return the array of available fonts
+   *
+   * @return array
+   *
+   * @SuppressWarnings(PHPMD.UndefinedVariable)
+   * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+)
    */
   public function getFonts():array
   {
@@ -81,12 +101,21 @@ class PdfGenerator extends \TCPDF
           'flags' => $flags,
         ];
       }
-      usort($this->distributedFonts, fn($a, $b) => strcmp($a['fontName'], $b['fontName']));
+      usort($this->distributedFonts, fn($fontA, $fontB) => strcmp($fontA['fontName'], $fontB['fontName']));
     }
     return $this->distributedFonts;
   }
 
-  public static function generateTextSample(string $sampleText, string $font, int $fontSize = 12)
+  /**
+   * @param string $sampleText
+   *
+   * @param string $font
+   *
+   * @param int $fontSize
+   *
+   * @return string
+   */
+  public static function generateTextSample(string $sampleText, string $font, int $fontSize = 12):string
   {
     $pdf = new PdfGenerator;
     $pdf->setPageUnit('pt');
@@ -108,5 +137,4 @@ class PdfGenerator extends \TCPDF
     $pdf->endPage();
     return $pdf->Output(str_replace(' ', '_', $sampleText) . '.pdf', 'S');
   }
-
-};
+}

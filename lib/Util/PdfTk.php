@@ -1,6 +1,8 @@
 <?php
 /**
- * @author Claus-Justus Heine
+ * Recursive PDF Downloader App for Nextcloud
+ *
+ * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -61,7 +63,8 @@ class PdfTk extends PdfTkUpstream
    *
    * @param string|array $data either a InfoFile filename or an array with
    * form field data (name => value)
-   * @param string the encoding of the data. Default is 'UTF-8'.
+   * @param string $encoding the encoding of the data. Default is 'UTF-8'.
+   *
    * @return Pdf the pdf instance for method chaining
    *
    * @note This is here because the upstream version as of now is not able to

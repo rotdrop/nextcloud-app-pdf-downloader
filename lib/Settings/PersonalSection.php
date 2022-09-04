@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 namespace OCA\PdfDownloader\Settings;
@@ -27,6 +26,9 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
+/**
+ * Define the configuration section for the personal per-user settings.
+ */
 class PersonalSection implements IIconSection
 {
   /** @var string */
@@ -38,10 +40,11 @@ class PersonalSection implements IIconSection
   /** @var IURLGenerator */
   private $urlGenerator;
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(
-    string $appName
-    , IL10N $l10n
-    , IURLGenerator $urlGenerator
+    string $appName,
+    IL10N $l10n,
+    IURLGenerator $urlGenerator,
   ) {
     $this->appName = $appName;
     $this->l = $l10n;
@@ -49,9 +52,9 @@ class PersonalSection implements IIconSection
   }
 
   /**
-   * returns the ID of the section. It is supposed to be a lower case string
+   * Return the ID of the section. It is supposed to be a lower case string
    *
-   * @returns string
+   * @return string
    */
   public function getID()
   {
@@ -59,7 +62,7 @@ class PersonalSection implements IIconSection
   }
 
   /**
-   * returns the translated name as it should be displayed, e.g. 'LDAP / AD
+   * Return the translated name as it should be displayed, e.g. 'LDAP / AD
    * integration'. Use the L10N service to translate it.
    *
    * @return string

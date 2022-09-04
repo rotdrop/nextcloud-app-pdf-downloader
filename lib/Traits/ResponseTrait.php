@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,16 +18,20 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 namespace OCA\PdfDownloader\Traits;
+
+use \ReflectionClass;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
+/**
+ * Utility class to ease constructing HTTP responses.
+ */
 trait ResponseTrait
 {
   use UtilTrait;
@@ -67,7 +73,7 @@ trait ResponseTrait
   private function exceptionChainData(\Throwable $throwable, bool $top = true)
   {
     $previous = $throwable->getPrevious();
-    $shortException = (new \ReflectionClass($throwable))->getShortName();
+    $shortException = (new ReflectionClass($throwable))->getShortName();
     return [
       'message' => ($top
                     ? $this->l->t('Error, caught an exception.')
@@ -79,7 +85,7 @@ trait ResponseTrait
     ];
   }
 
-  static private function dataResponse($data, $status = Http::STATUS_OK)
+  private static function dataResponse($data, $status = Http::STATUS_OK)
   {
     $response = new DataResponse($data, $status);
     $policy = $response->getContentSecurityPolicy();
@@ -87,17 +93,17 @@ trait ResponseTrait
     return $response;
   }
 
-  static private function valueResponse($value, $message = '', $status = Http::STATUS_OK)
+  private static function valueResponse($value, $message = '', $status = Http::STATUS_OK)
   {
     return self::dataResponse(['message' => $message, 'value' => $value], $status);
   }
 
-  static private function response($message, $status = Http::STATUS_OK)
+  private static function response($message, $status = Http::STATUS_OK)
   {
     return self::dataResponse(['message' => $message], $status);
   }
 
-  static private function grumble($message, $value = null, $status = Http::STATUS_BAD_REQUEST)
+  private static function grumble($message, $value = null, $status = Http::STATUS_BAD_REQUEST)
   {
     $trace = debug_backtrace();
     $caller = array_shift($trace);
@@ -114,7 +120,6 @@ trait ResponseTrait
     }
     return self::dataResponse($data, $status);
   }
-
 }
 
 // Local Variables: ***

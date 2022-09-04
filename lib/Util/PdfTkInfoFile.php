@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,20 +22,19 @@
 
 namespace OCA\PdfDownloader\Util;
 
+use \Exception;
+
 use mikehaertl\tmp\File;
 
 /**
  * InfoFile
  *
- * This class represents a temporary dump_data compatible file that can be used to update meta data of PDF
- * with valid unicode characters.
- *
- * @author Burak Usgurlu <burak@uskur.com.tr>
- * @license http://www.opensource.org/licenses/MIT
+ * This class represents a temporary dump_data compatible file that can be
+ * used to update meta data of PDF with valid unicode characters.
  */
 class PdfTkInfoFile extends File
 {
-  static private function encode(string $value, $encoding)
+  private static function encode(string $value, $encoding)
   {
     // Always convert to UTF-8
     if ($encoding !== 'UTF-8' && function_exists('mb_convert_encoding')) {
@@ -48,7 +49,7 @@ class PdfTkInfoFile extends File
    *
    * @param array $data the form data as name => value
    * @param string|null $suffix the optional suffix for the tmp file
-   * @param string|null $suffix the optional prefix for the tmp file. If null 'php_tmpfile_' is used.
+   * @param string|null $prefix the optional prefix for the tmp file. If null 'php_tmpfile_' is used.
    * @param string|null $directory directory where the file should be created. Autodetected if not provided.
    * @param string|null $encoding of the data. Default is 'UTF-8'.
    */
@@ -66,7 +67,7 @@ class PdfTkInfoFile extends File
     $this->_fileName = $newName;
 
     if (!function_exists('mb_convert_encoding')) {
-      throw new \Exception('MB extension required.');
+      throw new Exception('MB extension required.');
     }
 
     $fields = '';
@@ -93,7 +94,7 @@ class PdfTkInfoFile extends File
             $fields .= "${key}${subKey}: ${subValue}\n";
           }
         }
-      } else{
+      } else {
         $fields .= "${key}: ${value}\n";
       }
     }

@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const fileActions = OCA.Files.fileActions;
 
     if (initialState.extractArchiveFiles && initialState.extractArchiveFilesAdmin) {
-      mimeTypes.splice(1, ...initialState.archiveMimeTypes);
+      mimeTypes.splice(0, 0, ...initialState.archiveMimeTypes);
       console.info('MIME TYPES', mimeTypes);
     }
 

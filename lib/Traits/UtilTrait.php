@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +24,11 @@ namespace OCA\PdfDownloader\Traits;
 
 use OCP\IL10N;
 
+use \NumberFormatter;
+
+/**
+ * Trait for some general nice-to-have functions.
+ */
 trait UtilTrait
 {
   /** @var IL10N */
@@ -36,8 +43,10 @@ trait UtilTrait
    * @param bool $capitalizeFirstCharacter self explaining.
    *
    * @param string $dashes Characters to replace.
+   *
+   * @return string
    */
-  protected static function dashesToCamelCase($string, $capitalizeFirstCharacter = false, $dashes = '_-')
+  protected static function dashesToCamelCase($string, $capitalizeFirstCharacter = false, $dashes = '_-'):string
   {
     $str = str_replace(str_split($dashes), '', ucwords($string, $dashes));
 
@@ -56,16 +65,16 @@ trait UtilTrait
    * @param string $string String to work on.
    *
    * @param string $separator Separator to use, defaults to '-'.
+   *
+   * @return string
    */
-  protected static function camelCaseToDashes($string, $separator = '-')
+  protected static function camelCaseToDashes($string, $separator = '-'):string
   {
     return strtolower(preg_replace('/([A-Z])/', $separator.'$1', lcfirst($string)));
   }
 
   /**
    * Return the locale as string, e.g. de_DE.UTF-8.
-   *
-   * @param string|null $lang
    *
    * @return string
    */
@@ -85,8 +94,11 @@ trait UtilTrait
   /**
    * Transliterate the given string to the given or default locale.
    *
-   * @todo We should define a user-independent locale based on the
-   * location of the orchestra.
+   * @param string $string
+   *
+   * @param string $locale
+   *
+   * @return string
    */
   protected function transliterate(string $string, string $locale = null):string
   {
@@ -103,16 +115,18 @@ trait UtilTrait
    *
    * @param string $value Input value. Maybe a percentage.
    *
+   * @param null|string $locale
+   *
    * @return bool|float
    */
-  public function floatValue(string $value, string $locale = null)
+  public function floatValue(string $value, ?string $locale = null)
   {
     $amount = preg_replace('/\s+/u', '', $value);
     empty($locale) && $locale = $this->getLocale();
     $locales = [ $locale, 'en_US_POSIX' ];
     $parsed = false;
     foreach ($locales as $locale) {
-      $fmt = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+      $fmt = new NumberFormatter($locale, \NumberFormatter::DECIMAL);
 
       $decimalSeparator = $fmt->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
       $groupingSeparator = $fmt->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
@@ -123,7 +137,7 @@ trait UtilTrait
       if ($grpPos !== false && $decPos === false) {
         // unlikely: 1,000, we assume 1,000.00 would be used
         continue;
-      } else if ($decPos < $grpPos) {
+      } elseif ($decPos < $grpPos) {
         // unlikely: 1.000,00 in en_US
         continue;
       }

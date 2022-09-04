@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +47,7 @@ class AssetService
   /** @var array */
   private $assets = [];
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(IL10N $l10n, ILogger $logger)
   {
     $this->logger = $logger;
@@ -69,21 +72,43 @@ class AssetService
     }
   }
 
-  public function getAsset($type, $baseName)
+
+  /**
+   * @param string $type js or css
+   *
+   * @param string $baseName
+   *
+   * @return array
+   */
+  public function getAsset($type, $baseName):array
   {
     if (empty($this->assets[$type][$baseName])) {
-      throw new Exceptions\EnduserNotificationException($this->l->t('Installation problem; the required %s-resource "%s" is not installed on the server, please contact the system administrator!', [ $type, $baseName ]));
+      throw new Exceptions\EnduserNotificationException(
+        $this->l->t('Installation problem; the required %s-resource "%s" is not installed on the server,
+ please contact the system administrator!', [
+          $type, $baseName,
+        ]));
     }
     return $this->assets[$type][$baseName];
   }
 
+  /**
+   * @param string $baseName
+   *
+   * @return string
+   */
   public function getJSAsset($baseName)
   {
     return $this->getAsset(self::JS, $baseName);
   }
 
+  /**
+   * @param string $baseName
+   *
+   * @return string
+   */
   public function getCSSAsset($baseName)
   {
     return $this->getAsset(self::CSS, $baseName);
   }
-};
+}

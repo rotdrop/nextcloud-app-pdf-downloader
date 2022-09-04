@@ -33,7 +33,7 @@
     <!-- Allow empty lines between param -->
     <exclude name="Generic.Commenting.DocComment.ParamGroup" />
   </rule>
-
+PEAR.Commenting.FunctionComment.ParamCommentAlignment
   <rule ref="PEAR.Commenting">
     <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag"/>
     <exclude name="PEAR.Commenting.FileComment.MissingPackageTag"/>
@@ -47,6 +47,8 @@
     <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag"/>
     <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment"/>
     <exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamType"/>
+    <exclude name="PEAR.Commenting.FunctionComment.ParamCommentAlignment"/>
+    <exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamName"/>
     <properties>
       <property name="indent" value="2"/>
       <property name="minimumVisibility" value="protected"/>

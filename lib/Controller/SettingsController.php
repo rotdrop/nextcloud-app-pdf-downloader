@@ -1,14 +1,16 @@
 <?php
 /**
- * @copyright Copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * Recursive PDF Downloader App for Nextcloud
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- *
+ *"
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -16,13 +18,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 namespace OCA\PdfDownloader\Controller;
 
 use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
@@ -32,6 +34,9 @@ use OCP\IL10N;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\AnyToPdf;
 
+/**
+ * Settings-controller for both, personal and admin, settings.
+ */
 class SettingsController extends Controller
 {
   use \OCA\PdfDownloader\Traits\ResponseTrait;
@@ -95,14 +100,15 @@ class SettingsController extends Controller
   /** @var string */
   private $userId;
 
+  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(
-    string $appName
-    , IRequest $request
-    , $userId
-    , LoggerInterface $logger
-    , IL10N $l10n
-    , IConfig $config
-    , IAppContainer $appContainer
+    string $appName,
+    IRequest $request,
+    $userId,
+    LoggerInterface $logger,
+    IL10N $l10n,
+    IConfig $config,
+    IAppContainer $appContainer,
   ) {
     parent::__construct($appName, $request);
     $this->logger = $logger;
@@ -113,15 +119,18 @@ class SettingsController extends Controller
   }
 
   /**
-   * @AuthorizedAdminSetting(settings=OCA\GroupFolders\Settings\Admin)
-   *
    * @param string $setting
    *
    * @param null|string $value
    *
+   * @param bool $force
+   *
    * @return DataResponse
+   *
+   * @AuthorizedAdminSetting(settings=OCA\GroupFolders\Settings\Admin)
+   * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
    */
-  public function setAdmin(string $setting, $value, bool $force = false):DataResponse
+  public function setAdmin(string $setting, ?string $value, bool $force = false):DataResponse
   {
     if (!isset(self::ADMIN_SETTINGS[$setting])) {
       return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $setting));
@@ -135,7 +144,10 @@ class SettingsController extends Controller
       case self::EXTRACT_ARCHIVE_FILES:
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
         if ($newValue === null) {
-          return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));
+          return self::grumble($this->l->t(
+            'Value "%1$s" for setting "%2$s" is not convertible to boolean.', [
+              $value, $setting,
+            ]));
         }
         if ($newValue === (self::ADMIN_SETTINGS[$setting]['default'] ?? false)) {
           $newValue = null;
@@ -167,11 +179,11 @@ class SettingsController extends Controller
   }
 
   /**
-   * @AuthorizedAdminSetting(settings=OCA\GroupFolders\Settings\Admin)
-   *
    * @param string $setting
    *
    * @return DataResponse
+   *
+   * @AuthorizedAdminSetting(settings=OCA\GroupFolders\Settings\Admin)
    */
   public function getAdmin(?string $setting = null):DataResponse
   {
@@ -181,7 +193,7 @@ class SettingsController extends Controller
       $allSettings = [ $setting ];
     }
     $results = [];
-    foreach ($allSettings as $oneSetting => $info) {
+    foreach (array_keys($allSettings) as $oneSetting) {
       switch ($oneSetting) {
         case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
         case self::EXTRACT_ARCHIVE_FILES:
@@ -203,9 +215,15 @@ class SettingsController extends Controller
           /** @var AnyToPdf $anyToPdf */
           $anyToPdf = $this->appContainer->get(AnyToPdf::class);
 
-          $anyToPdf->disableBuiltinConverters($this->config->getAppValue($this->appName, self::ADMIN_DISABLE_BUILTIN_CONVERTERS, false));
-          $anyToPdf->setFallbackConverter($this->config->getAppValue($this->appName, self::ADMIN_FALLBACK_CONVERTER, null));
-          $anyToPdf->setUniversalConverter($this->config->getAppValue($this->appName, self::ADMIN_UNIVERSAL_CONVERTER, null));
+          if ($this->config->getAppValue($this->appName, self::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
+            $anyToPdf->disableBuiltinConverters();
+          } else {
+            $anyToPdf->enableBuiltinConverters();
+          }
+          $anyToPdf->setFallbackConverter(
+            $this->config->getAppValue($this->appName, self::ADMIN_FALLBACK_CONVERTER, null));
+          $anyToPdf->setUniversalConverter(
+            $this->config->getAppValue($this->appName, self::ADMIN_UNIVERSAL_CONVERTER, null));
 
           $value = $anyToPdf->findConverters();
           break;
@@ -225,9 +243,17 @@ class SettingsController extends Controller
   }
 
   /**
+   * Set a personal setting value.
+   *
+   * @param string $setting
+   *
+   * @param null|string $value
+   *
+   * @return Response
+   *
    * @NoAdminRequired
    */
-  public function setPersonal(string $setting, $value)
+  public function setPersonal(string $setting, ?string $value):Response
   {
     if (!isset(self::PERSONAL_SETTINGS[$setting])) {
       return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $setting));
@@ -241,7 +267,10 @@ class SettingsController extends Controller
       case self::PERSONAL_PAGE_LABELS:
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
         if ($newValue === null) {
-          return self::grumble($this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [ $value, $setting ]));
+          return self::grumble(
+            $this->l->t('Value "%1$s" for setting "%2$s" is not convertible to boolean.', [
+              $value, $setting,
+            ]));
         }
         if ($newValue === (self::PERSONAL_SETTINGS[$setting]['default'] ?? false)) {
           $newValue = null;
@@ -274,9 +303,16 @@ class SettingsController extends Controller
   }
 
   /**
+   * Get one or all personal settings.
+   *
+   * @param null|string $setting If null get all settings, otherwise just the
+   * requested one.
+   *
+   * @return Response
+   *
    * @NoAdminRequired
    */
-  public function getPersonal(?string $setting = null)
+  public function getPersonal(?string $setting = null):Response
   {
     if ($setting === null) {
       $allSettings = self::PERSONAL_SETTINGS;
@@ -287,7 +323,7 @@ class SettingsController extends Controller
       $allSettings = [ $setting => self::PERSONAL_SETTINGS[$setting] ];
     }
     $results = [];
-    foreach ($allSettings as $oneSetting => $info) {
+    foreach (array_keys($allSettings) as $oneSetting) {
       if (str_ends_with($oneSetting, self::ADMIN_SETTING)) {
         $value = $this->config->getAppValue($this->appName, substr($oneSetting, 0, -strlen(self::ADMIN_SETTING)));
       } else {
@@ -304,7 +340,8 @@ class SettingsController extends Controller
           if ($value === '' || $value === null) {
             $value = self::PERSONAL_SETTINGS[$oneSetting]['default'] ?? false;
             if ($value === self::ADMIN_SETTING) {
-              $value = $this->config->getAppValue($this->appName, $oneSetting, self::ADMIN_SETTINGS[$oneSetting]['default'] ?? false);
+              $value = $this->config->getAppValue(
+                $this->appName, $oneSetting, self::ADMIN_SETTINGS[$oneSetting]['default'] ?? false);
             }
           }
           $value= (int)$value;
