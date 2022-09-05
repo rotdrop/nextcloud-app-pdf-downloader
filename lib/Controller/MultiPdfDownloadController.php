@@ -144,9 +144,13 @@ class MultiPdfDownloadController extends Controller
       $this->setErrorPagesFont(
         $this->cloudConfig->getUserValue(
           $this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT));
-      $this->extractArchiveFiles =
-        $this->cloudConfig->getUserValue(
-          $this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, $this->extractArchiveFiles);
+      if ($this->extractArchiveFiles) {
+        $this->extractArchiveFiles =
+          $this->cloudConfig->getUserValue(
+            $this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, true);
+        $this->logInfo('USER EXTRACT_ARCHIVE_FILES ' . $this->extractArchiveFiles);
+      }
+
       $userSizeLimit =
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
       if ($userSizeLimit !== null && $this->archiveSizeLimit !== null) {

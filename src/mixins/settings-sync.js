@@ -35,7 +35,6 @@ async function fetchSettings(settingsSection, storageObject) {
   }
   try {
     const response = await axios.get(generateUrl('apps/' + appName + '/settings/' + settingsSection), {});
-    console.info('DATA', response.data);
     for (const [key, value] of Object.entries(response.data)) {
       storageObject[key] = value;
     }
@@ -96,9 +95,12 @@ async function saveSimpleSetting(setting, settingsSection) {
   console.info('SAVE SETTING', setting, this[setting]);
   const value = this[setting];
   const printValue = value === true ? t(appName, 'true') : '' + value;
-  console.info('VALUE', value);
   try {
-    await axios.post(generateUrl('apps/' + appName + '/settings/' + settingsSection + '/' + setting), { value });
+    const response = await axios.post(generateUrl('apps/' + appName + '/settings/' + settingsSection + '/' + setting), { value });
+    console.info('RESPSONSE', response.data);
+    if (response.data && response.data.newValue !== undefined) {
+      this[setting] = response.data.newValue;
+    }
     if (value && value !== '') {
       showInfo(t(appName, 'Successfully set "{setting}" to {value}.', { setting, value: printValue }));
     } else {
@@ -160,6 +162,9 @@ async function saveConfirmedSetting(value, settingsSection, settingsKey, force) 
         },
         true);
     } else {
+      if (responseData && responseData.newValue !== undefined) {
+        this[settingsKey] = responseData.newValue;
+      }
       if (value && value !== '') {
         showSuccess(t(appName, 'Successfully set value for "{settingsKey}" to "{value}"', { settingsKey, value }));
       } else {

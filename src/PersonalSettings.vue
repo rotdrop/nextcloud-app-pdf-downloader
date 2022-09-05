@@ -250,6 +250,9 @@ export default {
       this.generatedPagesFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
       this.loading = false
     },
+    async saveTextInput(value, settingsKey, force) {
+      this.saveConfirmedSetting(value, 'personal', settingsKey, force);
+    },
     async saveSetting(setting) {
       this.saveSimpleSetting(setting, 'personal')
     },

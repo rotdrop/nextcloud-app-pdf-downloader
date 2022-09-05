@@ -121,7 +121,7 @@ class SettingsController extends Controller
   /**
    * @param string $setting
    *
-   * @param null|string $value
+   * @param mixed $value
    *
    * @param bool $force
    *
@@ -130,7 +130,7 @@ class SettingsController extends Controller
    * @AuthorizedAdminSetting(settings=OCA\GroupFolders\Settings\Admin)
    * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
    */
-  public function setAdmin(string $setting, ?string $value, bool $force = false):DataResponse
+  public function setAdmin(string $setting, $value, bool $force = false):DataResponse
   {
     if (!isset(self::ADMIN_SETTINGS[$setting])) {
       return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $setting));
@@ -190,7 +190,10 @@ class SettingsController extends Controller
     if ($setting === null) {
       $allSettings = self::ADMIN_SETTINGS;
     } else {
-      $allSettings = [ $setting ];
+      if (!isset(self::ADMIN_SETTINGS[$setting])) {
+        return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));
+      }
+      $allSettings = [ $setting => self::ADMIN_SETTINGS[$setting] ];
     }
     $results = [];
     foreach (array_keys($allSettings) as $oneSetting) {
@@ -247,13 +250,13 @@ class SettingsController extends Controller
    *
    * @param string $setting
    *
-   * @param null|string $value
+   * @param mixed $value
    *
    * @return Response
    *
    * @NoAdminRequired
    */
-  public function setPersonal(string $setting, ?string $value):Response
+  public function setPersonal(string $setting, $value):Response
   {
     if (!isset(self::PERSONAL_SETTINGS[$setting])) {
       return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $setting));
