@@ -58,6 +58,7 @@ class AnyToPdf
   const CONVERTERS = [
     'message/rfc822' => [ 'mhonarc', [ 'wkhtmltopdf', self::FALLBACK, ], ],
     'application/postscript' => [ 'ps2pdf', ],
+    'image/jpeg' => [ [ 'img2pdf', self::FALLBACK, ] ],
     'image/tiff' => [ 'tiff2pdf' ],
     'application/pdf' => [ self::PASS_THROUGH ],
   ];
@@ -489,6 +490,26 @@ class AnyToPdf
     unlink($inputFile);
     unlink($outputFile);
     return $data;
+  }
+
+  /**
+   * Convert using img2pdf.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function img2pdfConvert(string $data):string
+  {
+    putenv('LC_ALL=C');
+    $converterName = 'img2pdf';
+    $converter = $this->findExecutable($converterName);
+    $process = new Process([
+      $converter,
+      '-', // from stdin
+    ]);
+    $process->setInput($data)->run();
+    return $process->getOutput();
   }
 
   /**
