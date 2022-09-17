@@ -30,6 +30,7 @@ use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface as ILogger;
+use Psr\Log\LogLevel;
 
 use OCP\IUser;
 use OCP\IUserSession;
@@ -246,7 +247,7 @@ __EOF__;
 
       return self::ARCHIVE_HANDLED; // success
     } catch (Exceptions\ArchiveCannotOpenException $oe) {
-      $this->logException($oe);
+      $this->logException($oe, level: LogLevel::DEBUG);
 
       return self::ARCHIVE_IGNORED; // process as ordinary file
     } catch (Exceptions\ArchiveBombException $be) {

@@ -125,7 +125,10 @@ trait LoggerTrait
     string $message = null,
     int $shift = 0,
     bool $showTrace = false,
-  ):void {
+    $level = LogLevel::ERROR,
+  ) :void {
+    $level = $this->mapLogLevels($level);
+
     $trace = debug_backtrace();
     $caller = $trace[$shift];
     $file = $caller['file']??'unknown';
@@ -137,7 +140,7 @@ trait LoggerTrait
     $prefix = $file.':'.$line.': '.$class.'::'.$method.': ';
 
     empty($message) && ($message = "Caught an Exception");
-    $this->logger->error($prefix . $message, [ 'exception' => $exception ]);
+    $this->logger->log($level, $prefix . $message, [ 'exception' => $exception ]);
   }
 
   /**
