@@ -155,6 +155,22 @@ class PdfCombiner
       ++$pageNumber, ++$mediaNumber
     ) {
       list($pageWidth, $pageHeight) = explode(' ', $pageMedia[$mediaNumber]['Dimensions']);
+
+      // page media dimensions may be formatted with thousands separators ... hopefully in LANG=C
+      $pageWidth = (float)str_replace(',', '', $pageWidth);
+      $pageHeight = (float)str_replace(',', '', $pageHeight);
+
+      switch ($pageMedia[$mediaNumber]['Rotation'] ?? '') {
+        case '90':
+        case '270':
+          $tmp = $pageWidth;
+          $pageWidth = $pageHeight;
+          $pageHeight = $tmp;
+          break;
+        default:
+          break;
+      }
+
       $orientation = $pageHeight > $pageWidth ? 'P' : 'L';
 
       $text = sprintf("%s %' " . $maxDigits . "d/%d", $tag, $pageNumber, $pageMax);
