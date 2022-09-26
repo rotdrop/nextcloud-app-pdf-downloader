@@ -262,7 +262,6 @@ export default {
 <style lang="scss" scoped>
 .settings-section {
   :deep(.settings-section__title) {
-    padding-left:60px;
     background-image:url('../img/app-dark.svg');
     background-repeat:no-repeat;
     background-origin:border-box;
