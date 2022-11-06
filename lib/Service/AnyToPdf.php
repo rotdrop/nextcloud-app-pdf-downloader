@@ -507,6 +507,7 @@ class AnyToPdf
     $process = new Process([
       $converter,
       '-', // from stdin
+      '--rotation=ifvalid', // ignore broken rotation settings in EXIF meta data
     ]);
     $process->setInput($data)->run();
     return $process->getOutput();
