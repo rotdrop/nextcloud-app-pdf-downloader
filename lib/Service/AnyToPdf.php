@@ -60,6 +60,8 @@ class AnyToPdf
     'application/postscript' => [ 'ps2pdf', ],
     'image/jpeg' => [ [ 'img2pdf', self::FALLBACK, ] ],
     'image/tiff' => [ 'tiff2pdf' ],
+    'text/html' =>  [ [ 'wkhtmltopdf', self::FALLBACK, ], ],
+    'text/markdown' => [ 'pandoc', [ 'wkhtmltopdf', self::FALLBACK, ], ],
     'application/pdf' => [ self::PASS_THROUGH ],
   ];
 
@@ -457,6 +459,25 @@ class AnyToPdf
     $process = new Process([
       $converter,
       '-', '-',
+    ]);
+    $process->setInput($data)->run();
+    return $process->getOutput();
+  }
+
+  /**
+   * Convert to html using pandoc
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function pandocConvert(string $data):string
+  {
+    $converterName = 'pandoc';
+    $converter = $this->findExecutable($converterName);
+    $process = new Process([
+      $converter,
+      '-t', 'html'
     ]);
     $process->setInput($data)->run();
     return $process->getOutput();

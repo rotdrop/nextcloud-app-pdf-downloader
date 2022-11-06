@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - optionally group files first instead of starting with the folders
+- add pandoc to convert markdown to html
 
 ## [1.0.6] - 2022-09-17
 
