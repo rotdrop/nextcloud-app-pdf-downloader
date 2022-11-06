@@ -14,8 +14,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- optionally group files first instead of starting with the folders
-- add pandoc to convert markdown to html
+- Add pandoc to convert markdown to html. This means in particular the
+  the "rich workspace" "Readme.md" files are formatted. This needs
+  "pandoc" to be installed.
+- Optionally group files first instead of starting with the
+  folders. This may be beneficial if a directory contains a Readme.md
+  as this causes the description file to show up in front of any
+  sub-folders.
+- Post-process mhonarc converter and replace any image urls with
+  data-uris. This make attachments with "content-disposition: inline"
+  work as expected. Any non-inline attachments are still detached.
 
 ## [1.0.6] - 2022-09-17
 

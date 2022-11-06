@@ -412,18 +412,36 @@ class AnyToPdf
    *
    * @param string $data Original data.
    *
-   * @return string Converted-to-PDF data.
+   * @return string Converted-to-HTML data.
    */
   protected function mhonarcConvert(string $data):string
   {
     $converterName = 'mhonarc';
     $converter = $this->findExecutable($converterName);
+    $attachmentFolder = $this->tempManager->getTemporaryFolder();
     $process = new Process([
       $converter,
       '-single',
+      '-attachmentdir', $attachmentFolder,
     ]);
     $process->setInput($data)->run();
-    return $process->getOutput();
+    $htmlData = $process->getOutput();
+    $replacements = [];
+    foreach (scandir($attachmentFolder) as $dirEntry) {
+      if (str_starts_with($dirEntry, '.')) {
+        continue;
+      }
+      $attachmentData = file_get_contents($attachmentFolder . '/' . $dirEntry);
+      $mimeType = $this->mimeTypeDetector->detectString($attachmentData);
+      $dataUri = 'data:' . $mimeType . ';base64,' . base64_encode($attachmentData);
+      $replacements[$dirEntry] = $dataUri;
+      // $this->logInfo('ATTACHMENT ' . $dirEntry . ' -> ' . $dataUri);
+      //
+      // src="./jpg6CyWjpSPxE.jpg"
+    }
+    $htmlData = str_replace(array_keys($replacements), array_values($replacements), $htmlData);
+
+    return $htmlData;
   }
 
   /**
