@@ -139,7 +139,7 @@ class MultiPdfDownloadController extends Controller
     if (!empty($user)) {
       $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
       $this->userId = $user->getUID();
-      $pdfCombiner->setOverlayFont(
+      $this->pdfCombiner->setOverlayFont(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT)
       );
       $this->setErrorPagesFont(
@@ -151,6 +151,8 @@ class MultiPdfDownloadController extends Controller
             $this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, true);
         $this->logInfo('USER EXTRACT_ARCHIVE_FILES ' . $this->extractArchiveFiles);
       }
+      $grouping = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GROUPING, PdfCombiner::GROUP_FOLDERS_FIRST);
+      $this->pdfCombiner->setGrouping($grouping);
 
       $userSizeLimit =
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
@@ -299,8 +301,8 @@ __EOF__;
   }
 
   /**
-   * Download the contents (plain-files only, non-recursive) of the given
-   * folder as multi-page PDF after converting everything to PDF.
+   * Download the contents of the given folder as multi-page PDF after
+   * converting everything to PDF.
    *
    * @param string $nodePath The path to the file-system node to convert to
    * PDF.

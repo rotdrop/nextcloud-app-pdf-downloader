@@ -122,6 +122,46 @@
            :hint="t(appName, 'Test Hint')"
            @update="saveInputExample" /> -->
     </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Sorting Options')">
+      <div :class="['flex-container', 'flex-center']">
+        <span :class="['grouping-option', 'flex-container', 'flex-center']">
+          <input id="group-folders-first"
+                 v-model="grouping"
+                 type="radio"
+                 value="folders-first"
+                 :disabled="loading"
+                 @change="saveSetting('grouping')"
+          >
+          <label for="group-folders-first">
+            {{ t(appName, 'Group Folders First') }}
+          </label>
+        </span>
+        <span :class="['grouping-option', 'flex-container', 'flex-center']">
+          <input id="group-files-first"
+                 v-model="grouping"
+                 type="radio"
+                 value="files-first"
+                 :disabled="loading"
+                 @change="saveSetting('grouping')"
+          >
+          <label for="group-files-first">
+            {{ t(appName, 'Group Files First') }}
+          </label>
+        </span>
+        <span v-if="false" :class="['grouping-option', 'flex-container', 'flex-center']">
+          <input id="group-ungrouped"
+                 v-model="grouping"
+                 type="radio"
+                 value="ungrouped"
+                 :disabled="loading"
+                 @change="saveSetting('grouping')"
+          >
+          <label for="group-ungrouped">
+            {{ t(appName, 'Do Not Group') }}
+          </label>
+        </span>
+      </div>
+    </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
         <input id="extract-archive-files"
@@ -177,6 +217,8 @@ export default {
   data() {
     return {
       pageLabels: true,
+      grouping: 'folders-first',
+      sorting: 'ascending',
       fontsList: [],
       loading: true,
       pageLabelsFont: '',
@@ -281,6 +323,9 @@ export default {
     display:flex;
     align-items:center;
     justify-content:left;
+  }
+  .grouping-option {
+    padding-right: 0.5em;
   }
   .multiselect-wrapper {
     position:relative;
