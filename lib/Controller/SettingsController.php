@@ -138,7 +138,7 @@ class SettingsController extends Controller
     if (!(self::ADMIN_SETTINGS[$setting]['rw'] ?? false)) {
       return self::grumble($this->l->t('The personal setting "%1$s" is read-only', $setting));
     }
-    $oldValue = $this->config->getAppValue($this->appName, $setting);
+    $oldValue = $this->config->getAppValue($this->appName, $setting, self::ADMIN_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
       case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
       case self::EXTRACT_ARCHIVE_FILES:
@@ -171,7 +171,9 @@ class SettingsController extends Controller
     } else {
       $this->config->setAppValue($this->appName, $setting, $newValue);
     }
-
+    if ($newValue === null) {
+      $newValue = self::ADMIN_SETTINGS[$setting]['default'] ?? null;
+    }
     return new DataResponse([
       'newValue' => $newValue,
       'oldValue' => $oldValue,
@@ -264,7 +266,7 @@ class SettingsController extends Controller
     if (!(self::PERSONAL_SETTINGS[$setting]['rw'] ?? false)) {
       return self::grumble($this->l->t('Thge personal setting "%1$s" is read-only', $setting));
     }
-    $oldValue = $this->config->getUserValue($this->userId, $this->appName, $setting);
+    $oldValue = $this->config->getUserValue($this->userId, $this->appName, $setting, self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
@@ -298,6 +300,9 @@ class SettingsController extends Controller
       $this->config->deleteUserValue($this->userId, $this->appName, $setting);
     } else {
       $this->config->setUserValue($this->userId, $this->appName, $setting, $newValue);
+    }
+    if ($newValue === null) {
+      $newValue = self::PERSONAL_SETTINGS[$setting]['default'] ?? null;
     }
     return new DataResponse([
       'newValue' => $newValue,
