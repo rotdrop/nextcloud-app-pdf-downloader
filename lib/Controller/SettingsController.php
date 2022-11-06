@@ -272,7 +272,11 @@ class SettingsController extends Controller
     if (!(self::PERSONAL_SETTINGS[$setting]['rw'] ?? false)) {
       return self::grumble($this->l->t('Thge personal setting "%1$s" is read-only', $setting));
     }
-    $oldValue = $this->config->getUserValue($this->userId, $this->appName, $setting, self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
+    $oldValue = $this->config->getUserValue(
+      $this->userId,
+      $this->appName,
+      $setting,
+      self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
