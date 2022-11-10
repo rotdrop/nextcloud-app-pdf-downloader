@@ -30,6 +30,7 @@ use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface as ILogger;
+use Psr\Log\LogLevel;
 
 use OCP\IUser;
 use OCP\IUserSession;
@@ -138,7 +139,7 @@ class MultiPdfDownloadController extends Controller
     if (!empty($user)) {
       $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
       $this->userId = $user->getUID();
-      $pdfCombiner->setOverlayFont(
+      $this->pdfCombiner->setOverlayFont(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT)
       );
       $this->setErrorPagesFont(
@@ -150,6 +151,8 @@ class MultiPdfDownloadController extends Controller
             $this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, true);
         $this->logInfo('USER EXTRACT_ARCHIVE_FILES ' . $this->extractArchiveFiles);
       }
+      $grouping = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GROUPING, PdfCombiner::GROUP_FOLDERS_FIRST);
+      $this->pdfCombiner->setGrouping($grouping);
 
       $userSizeLimit =
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
@@ -246,7 +249,7 @@ __EOF__;
 
       return self::ARCHIVE_HANDLED; // success
     } catch (Exceptions\ArchiveCannotOpenException $oe) {
-      $this->logException($oe);
+      $this->logException($oe, level: LogLevel::DEBUG);
 
       return self::ARCHIVE_IGNORED; // process as ordinary file
     } catch (Exceptions\ArchiveBombException $be) {
@@ -298,8 +301,8 @@ __EOF__;
   }
 
   /**
-   * Download the contents (plain-files only, non-recursive) of the given
-   * folder as multi-page PDF after converting everything to PDF.
+   * Download the contents of the given folder as multi-page PDF after
+   * converting everything to PDF.
    *
    * @param string $nodePath The path to the file-system node to convert to
    * PDF.

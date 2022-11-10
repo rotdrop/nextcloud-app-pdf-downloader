@@ -47,6 +47,10 @@ class PdfCombiner
   const FOLDERS_KEY = 'folders';
   const META_KEY = 'meta';
 
+  const GROUP_FOLDERS_FIRST = 'folders-first';
+  const GROUP_FILES_FIRST = 'files-first';
+  const UNGROUPED = 'ungrouped';
+
   /** @var ITempManager */
   protected $tempManager;
 
@@ -65,18 +69,23 @@ class PdfCombiner
   /** @var string */
   private $overlayFont = self::OVERLAY_FONT;
 
+  /** @var string */
+  private $grouping = self::GROUP_FOLDERS_FIRST;
+
   // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
   public function __construct(
     ITempManager $tempManager,
     ILogger $logger,
     IL10N $l,
     bool $addPageLabels = true,
+    string $grouping = self::GROUP_FOLDERS_FIRST,
   ) {
     $this->tempManager = $tempManager;
     $this->logger = $logger;
     $this->l = $l;
     $this->initializeDocumentTree();
     $this->addPageLabels = $addPageLabels;
+    $this->grouping = $grouping;
   }
 
   /**
@@ -94,6 +103,24 @@ class PdfCombiner
       $this->addPageLabels = $addPageLabels;
     }
     return $oldState;
+  }
+
+  /**
+   * @param string $grouping
+   *
+   * @return PdfCombiner
+   */
+  public function setGrouping(string $grouping):PdfCombiner
+  {
+    $this->grouping = $grouping;
+
+    return $this;
+  }
+
+  /** @return string */
+  public function getGrouping():string
+  {
+    return $this->grouping;
   }
 
   /**
@@ -155,6 +182,22 @@ class PdfCombiner
       ++$pageNumber, ++$mediaNumber
     ) {
       list($pageWidth, $pageHeight) = explode(' ', $pageMedia[$mediaNumber]['Dimensions']);
+
+      // page media dimensions may be formatted with thousands separators ... hopefully in LANG=C
+      $pageWidth = (float)str_replace(',', '', $pageWidth);
+      $pageHeight = (float)str_replace(',', '', $pageHeight);
+
+      switch ($pageMedia[$mediaNumber]['Rotation'] ?? '') {
+        case '90':
+        case '270':
+          $tmp = $pageWidth;
+          $pageWidth = $pageHeight;
+          $pageHeight = $tmp;
+          break;
+        default:
+          break;
+      }
+
       $orientation = $pageHeight > $pageWidth ? 'P' : 'L';
 
       $text = sprintf("%s %' " . $maxDigits . "d/%d", $tag, $pageNumber, $pageMax);
@@ -268,6 +311,8 @@ class PdfCombiner
    * is traversed with folders first. Nodes of the same level or traversed in
    * alphabetical order.
    *
+   * @param PdfTk $pdfTk
+   *
    * @param array $tree The root of the current sub-tree:
    * ```
    * [
@@ -275,15 +320,32 @@ class PdfCombiner
    *   'level' => TREE_LEVEL,
    *   'files' => FILE_NODE_ARRAY,
    *   'folders' => FOLDER_NODE_ARRAY,
-   * ],
+   * ]
+   * ```.
+   *
+   * @param array $bookmarks
    */
   private function addFromDocumentTree(PdfTk $pdfTk, array $tree, array $bookmarks = [])
+  {
+    $first = true;
+    switch ($this->grouping) {
+      case self::GROUP_FOLDERS_FIRST:
+        $this->addFoldersFromDocumentTree($pdfTk, $tree, $bookmarks, $first);
+        $this->addFilesFromDocumentTree($pdfTk, $tree, $bookmarks, $first);
+        break;
+      case self::GROUP_FILES_FIRST:
+        $this->addFilesFromDocumentTree($pdfTk, $tree, $bookmarks, $first);
+        $this->addFoldersFromDocumentTree($pdfTk, $tree, $bookmarks, $first);
+        break;
+    }
+  }
+
+  private function addFoldersFromDocumentTree(PdfTk $pdfTk, array &$tree, array &$bookmarks, bool &$first)
   {
     $level = $tree[self::LEVEL_KEY];
 
     // first walk down the directories
     usort($tree[self::FOLDERS_KEY], fn($dirA, $dirB) => strcmp($dirA['name'], $dirB['name']));
-    $first = true;
     foreach ($tree[self::FOLDERS_KEY] as $folderNode) {
       $nodeName = $folderNode['name'];
       $folderBookmarks = [
@@ -299,6 +361,12 @@ class PdfCombiner
       $this->addFromDocumentTree($pdfTk, $folderNode, $folderBookmarks);
       $first = false;
     }
+  }
+
+  private function addFilesFromDocumentTree(PdfTk $pdfTk, array &$tree, array &$bookmarks, bool &$first)
+  {
+    $level = $tree[self::LEVEL_KEY];
+
     // then add the files from this level
     usort($tree[self::FILES_KEY], fn($fileA, $fileB) => strcmp($fileA['name'], $fileB['name']));
 

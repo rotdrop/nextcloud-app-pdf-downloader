@@ -59,6 +59,11 @@ class SettingsController extends Controller
   const EXTRACT_ARCHIVE_FILES_ADMIN = self::EXTRACT_ARCHIVE_FILES . self::ADMIN_SETTING;
   const ARCHIVE_SIZE_LIMIT_ADMIN = self::ARCHIVE_SIZE_LIMIT . self::ADMIN_SETTING;
 
+  const PERSONAL_GROUPING = 'grouping';
+  const PERSONAL_GROUP_FOLDERS_FIRST = PdfCombiner::GROUP_FOLDERS_FIRST;
+  const PERSONAL_GROUP_FILES_FIRST = PdfCombiner::GROUP_FILES_FIRST;
+  const PERSONAL_UNGROUPED = PdfCombiner::UNGROUPED;
+
   /**
    * @var array<string, array>
    *
@@ -86,6 +91,7 @@ class SettingsController extends Controller
     self::PERSONAL_PAGE_LABELS => [ 'rw' => true, 'default' => true ],
     self::PERSONAL_PAGE_LABELS_FONT => [ 'rw' => true, ],
     self::PERSONAL_GENERATED_PAGES_FONT => [ 'rw' => true, ],
+    self::PERSONAL_GROUPING => [ 'rw' => true, 'default' => self::PERSONAL_GROUP_FOLDERS_FIRST, ],
   ];
 
   /** @var IAppContainer */
@@ -138,7 +144,7 @@ class SettingsController extends Controller
     if (!(self::ADMIN_SETTINGS[$setting]['rw'] ?? false)) {
       return self::grumble($this->l->t('The personal setting "%1$s" is read-only', $setting));
     }
-    $oldValue = $this->config->getAppValue($this->appName, $setting);
+    $oldValue = $this->config->getAppValue($this->appName, $setting, self::ADMIN_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
       case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
       case self::EXTRACT_ARCHIVE_FILES:
@@ -171,7 +177,9 @@ class SettingsController extends Controller
     } else {
       $this->config->setAppValue($this->appName, $setting, $newValue);
     }
-
+    if ($newValue === null) {
+      $newValue = self::ADMIN_SETTINGS[$setting]['default'] ?? null;
+    }
     return new DataResponse([
       'newValue' => $newValue,
       'oldValue' => $oldValue,
@@ -264,7 +272,11 @@ class SettingsController extends Controller
     if (!(self::PERSONAL_SETTINGS[$setting]['rw'] ?? false)) {
       return self::grumble($this->l->t('Thge personal setting "%1$s" is read-only', $setting));
     }
-    $oldValue = $this->config->getUserValue($this->userId, $this->appName, $setting);
+    $oldValue = $this->config->getUserValue(
+      $this->userId,
+      $this->appName,
+      $setting,
+      self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
@@ -283,6 +295,7 @@ class SettingsController extends Controller
         break;
       case self::PERSONAL_GENERATED_PAGES_FONT:
       case self::PERSONAL_PAGE_LABELS_FONT:
+      case self::PERSONAL_GROUPING:
         $newValue = $value;
         if (empty($newValue)) {
           $newValue = null;
@@ -298,6 +311,9 @@ class SettingsController extends Controller
       $this->config->deleteUserValue($this->userId, $this->appName, $setting);
     } else {
       $this->config->setUserValue($this->userId, $this->appName, $setting, $newValue);
+    }
+    if ($newValue === null) {
+      $newValue = self::PERSONAL_SETTINGS[$setting]['default'] ?? null;
     }
     return new DataResponse([
       'newValue' => $newValue,
@@ -328,9 +344,10 @@ class SettingsController extends Controller
     $results = [];
     foreach (array_keys($allSettings) as $oneSetting) {
       if (str_ends_with($oneSetting, self::ADMIN_SETTING)) {
-        $value = $this->config->getAppValue($this->appName, substr($oneSetting, 0, -strlen(self::ADMIN_SETTING)));
+        $oneAdminSetting = substr($oneSetting, 0, -strlen(self::ADMIN_SETTING));
+        $value = $this->config->getAppValue($this->appName, $oneAdminSetting, self::ADMIN_SETTINGS[$oneAdminSetting]['default'] ?? null);
       } else {
-        $value = $this->config->getUserValue($this->userId, $this->appName, $oneSetting);
+        $value = $this->config->getUserValue($this->userId, $this->appName, $oneSetting, self::PERSONAL_SETTINGS[$oneSetting]['default'] ?? null);
       }
       switch ($oneSetting) {
         case self::ARCHIVE_SIZE_LIMIT:
@@ -362,6 +379,8 @@ class SettingsController extends Controller
             $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
             $value = $pdfCombiner->getOverlayFont();
           }
+          break;
+        case self::PERSONAL_GROUPING:
           break;
         default:
           return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $oneSetting));

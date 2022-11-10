@@ -58,7 +58,10 @@ class AnyToPdf
   const CONVERTERS = [
     'message/rfc822' => [ 'mhonarc', [ 'wkhtmltopdf', self::FALLBACK, ], ],
     'application/postscript' => [ 'ps2pdf', ],
+    'image/jpeg' => [ [ 'img2pdf', self::FALLBACK, ] ],
     'image/tiff' => [ 'tiff2pdf' ],
+    'text/html' =>  [ [ 'wkhtmltopdf', self::FALLBACK, ], ],
+    'text/markdown' => [ 'pandoc', [ 'wkhtmltopdf', self::FALLBACK, ], ],
     'application/pdf' => [ self::PASS_THROUGH ],
   ];
 
@@ -409,18 +412,36 @@ class AnyToPdf
    *
    * @param string $data Original data.
    *
-   * @return string Converted-to-PDF data.
+   * @return string Converted-to-HTML data.
    */
   protected function mhonarcConvert(string $data):string
   {
     $converterName = 'mhonarc';
     $converter = $this->findExecutable($converterName);
+    $attachmentFolder = $this->tempManager->getTemporaryFolder();
     $process = new Process([
       $converter,
       '-single',
+      '-attachmentdir', $attachmentFolder,
     ]);
     $process->setInput($data)->run();
-    return $process->getOutput();
+    $htmlData = $process->getOutput();
+    $replacements = [];
+    foreach (scandir($attachmentFolder) as $dirEntry) {
+      if (str_starts_with($dirEntry, '.')) {
+        continue;
+      }
+      $attachmentData = file_get_contents($attachmentFolder . '/' . $dirEntry);
+      $mimeType = $this->mimeTypeDetector->detectString($attachmentData);
+      $dataUri = 'data:' . $mimeType . ';base64,' . base64_encode($attachmentData);
+      $replacements[$dirEntry] = $dataUri;
+      // $this->logInfo('ATTACHMENT ' . $dirEntry . ' -> ' . $dataUri);
+      //
+      // src="./jpg6CyWjpSPxE.jpg"
+    }
+    $htmlData = str_replace(array_keys($replacements), array_values($replacements), $htmlData);
+
+    return $htmlData;
   }
 
   /**
@@ -462,6 +483,25 @@ class AnyToPdf
   }
 
   /**
+   * Convert to html using pandoc
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function pandocConvert(string $data):string
+  {
+    $converterName = 'pandoc';
+    $converter = $this->findExecutable($converterName);
+    $process = new Process([
+      $converter,
+      '-t', 'html'
+    ]);
+    $process->setInput($data)->run();
+    return $process->getOutput();
+  }
+
+  /**
    * Convert using tiff2pdf.
    *
    * @param string $data Original data.
@@ -489,6 +529,27 @@ class AnyToPdf
     unlink($inputFile);
     unlink($outputFile);
     return $data;
+  }
+
+  /**
+   * Convert using img2pdf.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function img2pdfConvert(string $data):string
+  {
+    putenv('LC_ALL=C');
+    $converterName = 'img2pdf';
+    $converter = $this->findExecutable($converterName);
+    $process = new Process([
+      $converter,
+      '-', // from stdin
+      '--rotation=ifvalid', // ignore broken rotation settings in EXIF meta data
+    ]);
+    $process->setInput($data)->run();
+    return $process->getOutput();
   }
 
   /**
