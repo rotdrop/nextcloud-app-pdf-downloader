@@ -4,13 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.0.7] - unreleased
+## [1.0.7] - 2022-11-10
 
 ### Fixed
 
 - handling of default values in app-settings page
 - add `--rotation-ifvalid` option to `img2pdf` converter in order to
-  ignore broken rotation settings in JPEG files
+  ignore broken rotation settings in JPEG files. **This requires img2pdf >= v0.4.4**
 
 ### Added
 
