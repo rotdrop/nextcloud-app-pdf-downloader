@@ -3,38 +3,46 @@
 # This file is distributed under the same license as the Nextcloud package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# nautilusx, 2022
+# Joachim Sokolowski, 2022
+# Markus Eckstein, 2022
+# Claus-Justus Heine, 2022
+# Joas Schilling, 2022
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-11 12:50+0000\n"
+"POT-Creation-Date: 2022-11-11 13:57+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
-"Language-Team: German (Germany) (https://www.transifex.com/nextcloud/teams/64236/de_DE/)\n"
+"Last-Translator: Joas Schilling, 2022\n"
+"Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de_DE\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: /app/lib/Controller/CatchAllController.php:70
 #, php-format
 msgid "Post to end-point \"%s\" not implemented."
-msgstr ""
+msgstr "POST-Anfragen an \"%s\" sind nicht implementiert."
 
 #: /app/lib/Controller/CatchAllController.php:73
 #, php-format
 msgid "Post to base-url of app \"%s\" not allowed."
-msgstr ""
+msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 
 #: /app/lib/Controller/CatchAllController.php:90
 #, php-format
 msgid "Get from end-point \"%s\" not implemented."
-msgstr ""
+msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:198
 msgid "unknown"
-msgstr ""
+msgstr "unbekannt"
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:296
 #, php-format
@@ -57,85 +65,92 @@ msgstr ""
 #: /app/lib/Controller/SettingsController.php:386
 #, php-format
 msgid "Unknown personal setting: \"%1$s\""
-msgstr ""
+msgstr "Unbekannte persönliche Einstellung: \"%1$s\""
 
 #: /app/lib/Controller/SettingsController.php:145
 #, php-format
 msgid "The personal setting \"%1$s\" is read-only"
-msgstr ""
+msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
 
 #: /app/lib/Controller/SettingsController.php:154
 #: /app/lib/Controller/SettingsController.php:286
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
+"Der Wert \"%1$s\" für die Einstellung \"%2$s\" kann nicht in einen "
+"Wahrheitswert konvertiert werden."
 
 #: /app/lib/Controller/SettingsController.php:172
 #: /app/lib/Controller/SettingsController.php:202
 #: /app/lib/Controller/SettingsController.php:242
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
-msgstr ""
+msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
 
 #: /app/lib/Controller/SettingsController.php:273
 #, php-format
 msgid "Thge personal setting \"%1$s\" is read-only"
-msgstr ""
+msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
 
 #: /app/lib/Controller/SettingsController.php:308
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
-msgstr ""
+msgstr "Unbekannte perönliche Einstellung: \"%s\""
 
 #: /app/lib/Controller/SettingsController.php:409
 #, php-format
 msgid "Unable to parse memory size limit \"%s\""
-msgstr ""
+msgstr "Kann das Speicher-Limit nicht interpretieren: \"%s\""
 
 #: /app/lib/Service/AnyToPdf.php:228 /app/lib/Service/AnyToPdf.php:252
 #: /app/lib/Service/AnyToPdf.php:261
 msgid "not found"
-msgstr ""
+msgstr "unauffindbar"
 
 #: /app/lib/Service/AnyToPdf.php:244
 msgid "pass through"
-msgstr ""
+msgstr "durchwinken"
 
 #: /app/lib/Service/AnyToPdf.php:291
 #, php-format
 msgid "Universal converter \"%1$s\" fas failed trying to convert mime-type \"%2$s\""
 msgstr ""
+"Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
+"nicht konvertieren"
 
 #: /app/lib/Service/AnyToPdf.php:328
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
+"Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
+"nicht konvertieren"
 
 #: /app/lib/Service/AnyToPdf.php:572
 #, php-format
 msgid "Please install the \"%s\" program on the server."
-msgstr ""
+msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
 
 #: /app/lib/Service/ArchiveService.php:137
 #: /app/lib/Service/ArchiveService.php:143
 #, php-format
 msgid "Unable to open archive file %s (%s)"
-msgstr ""
+msgstr "Kann die Archive Datei %s (%s) nicht öffnen"
 
 #: /app/lib/Service/ArchiveService.php:154
 #, php-format
 msgid "Uncompressed size of archive \"%1$s\" is too large: %2$d > %3$d"
-msgstr ""
+msgstr "Die Größe des dekomprimierten Archivs \"%1$s\" ist zo groß:  %2$d > %3$d"
 
 #: /app/lib/Service/ArchiveService.php:161
 #, php-format
 msgid "Archive \"%1$s\" is a potential zip bomp, size %2$d > %3$d"
-msgstr ""
+msgstr "Das Archiv \"%1$s\" ist eine potentielle ZIP-Bombe, Größe  %2$d > %3$d"
 
 #: /app/lib/Service/ArchiveService.php:226
 #: /app/lib/Service/ArchiveService.php:241
 msgid "There is no archive file associated with this archiver instance."
 msgstr ""
+"Mit dieser Archivierungs-Service-Instanz ist keine Archiv-Datei assoziiert."
 
 #: /app/lib/Service/AssetService.php:87
 #, php-format
@@ -143,43 +158,47 @@ msgid ""
 "Installation problem; the required %s-resource \"%s\" is not installed on the server,\n"
 " please contact the system administrator!"
 msgstr ""
+"Installationsproblem; die benötigte %s-Ressource \"%s\" ist auf dem Server "
+"nicht installiert, bitte den System-Administrator kontaktieren."
 
 #: /app/lib/Service/PdfCombiner.php:437 /app/lib/Service/PdfCombiner.php:460
 msgid "Combining PDFs failed"
-msgstr ""
+msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 
 #: /app/lib/Settings/AdminSection.php:72
 #: /app/lib/Settings/PersonalSection.php:72
 #: /app/specialAppInfoFakeDummyForL10nScript.php:2
 msgid "PDF Downloader"
-msgstr ""
+msgstr "PDF Download-App"
 
 #: /app/lib/Traits/ResponseTrait.php:79
 msgid "Error, caught an exception."
-msgstr ""
+msgstr "Fehler, \"Ausnahme\" \"aufgefangen\"."
 
 #: /app/lib/Traits/ResponseTrait.php:80
 msgid "Caused by previous exception"
-msgstr ""
+msgstr "Verursacht durch eine vorhergehende Ausnahme"
 
 #. TRANSLATORS ettings.vue:25
 #: /app/specialAppInfoFakeDummyForL10nScript.php:3
 #: /app/specialVueFakeDummyForL10nScript.js:2
 msgid "Recursive PDF Downloader"
-msgstr ""
+msgstr "Rekursive PDF-Download Anwendung"
 
 #: /app/specialAppInfoFakeDummyForL10nScript.php:4
 msgid ""
 "Recusively convert entire directory trees to PDF and provide the resulting "
 "document as download"
 msgstr ""
+"Konvertiert die Dateien ganzer Verzeichnisbäume in das PDF-Format und "
+"präsentiert das Ergebnis als PDF-Download."
 
 #. TRANSLATORS ettings.vue:26
 #. TRANSLATORS alSettings.vue:165
 #: /app/specialVueFakeDummyForL10nScript.js:4
 #: /app/specialVueFakeDummyForL10nScript.js:66
 msgid "Archive Extraction"
-msgstr ""
+msgstr "Archiv-Dateien-Behandlung"
 
 #. TRANSLATORS ettings.vue:35
 #: /app/specialVueFakeDummyForL10nScript.js:6
@@ -187,13 +206,15 @@ msgid ""
 "On-the-fly extraction of archive files. If enabled users can control this "
 "setting on a per-user basis."
 msgstr ""
+"Transparentes extrahieren von Archiv-Dateien. Falls aktiviert, können die "
+"einzelnen Benutzer die Einstellung für sich selbst ändern."
 
 #. TRANSLATORS ettings.vue:40
 #. TRANSLATORS alSettings.vue:183
 #: /app/specialVueFakeDummyForL10nScript.js:8
 #: /app/specialVueFakeDummyForL10nScript.js:72
 msgid "Archive Size Limit"
-msgstr ""
+msgstr "Archiv-Größen-Limitierung"
 
 #. TRANSLATORS ettings.vue:41
 #. TRANSLATORS alSettings.vue:184
@@ -203,21 +224,23 @@ msgid ""
 "Disallow archive extraction for archives with decompressed size larger than "
 "this limit."
 msgstr ""
+"Verbiete das Entpacken für Archivdateien, deren Größe nach Dekomprimierung "
+"größer als diese Grenze ist."
 
 #. TRANSLATORS ettings.vue:46
 #: /app/specialVueFakeDummyForL10nScript.js:12
 msgid "Custom Converter Scripts"
-msgstr ""
+msgstr "Eigene Konvertierungs-Skripte"
 
 #. TRANSLATORS ettings.vue:55
 #: /app/specialVueFakeDummyForL10nScript.js:14
 msgid "Disable the builtin-converters."
-msgstr ""
+msgstr "Voreingestellte Konverter deaktivieren"
 
 #. TRANSLATORS ettings.vue:60
 #: /app/specialVueFakeDummyForL10nScript.js:16
 msgid "Universal Converter"
-msgstr ""
+msgstr "Universeller Konverter"
 
 #. TRANSLATORS ettings.vue:61
 #: /app/specialVueFakeDummyForL10nScript.js:18
@@ -225,11 +248,14 @@ msgid ""
 "Full path to a filter-program to be executed first for all files. If it "
 "fails, the other converters will be tried in turn."
 msgstr ""
+"Der vollständige Dateisystempfad zu einem Filter-Programm, dass zuerst auf "
+"jede Datei angewendet wird. Falls das fehlschlägt, werden die internen "
+"Konverter ausgeführt."
 
 #. TRANSLATORS ettings.vue:67
 #: /app/specialVueFakeDummyForL10nScript.js:20
 msgid "Fallback Converter"
-msgstr ""
+msgstr "Rückfall-Konverter"
 
 #. TRANSLATORS ettings.vue:68
 #: /app/specialVueFakeDummyForL10nScript.js:22
@@ -237,92 +263,96 @@ msgid ""
 "Full path to a filter-program to be run when all other filters have failed. "
 "If it fails an error page will be substituted for the failing document."
 msgstr ""
+"Der vollständige Dateisystempfad zu einem Filter-Programm, das\n"
+"ausgeführt wird, wenn kein anderer Konverter passt. Falls das\n"
+"fehlschägt, wird eine Fehlerseite angezeit."
 
 #. TRANSLATORS ettings.vue:73
 #: /app/specialVueFakeDummyForL10nScript.js:24
 msgid "Converters"
-msgstr ""
+msgstr "Konverter"
 
 #. TRANSLATORS ettings.vue:75
 #: /app/specialVueFakeDummyForL10nScript.js:26
 msgid "Status of the configured Converters"
-msgstr ""
+msgstr "Status der konfigurierten Konverter"
 
 #. TRANSLATORS ettings.vue:80
 #: /app/specialVueFakeDummyForL10nScript.js:28
 msgid "converter chain"
-msgstr ""
+msgstr "Konvertierungs-Pipeline"
 
 #: /app/specialVueFakeDummyForL10nScript.js:28
 msgid "single converter"
-msgstr ""
+msgstr "Einzelkonverter"
 
 #. TRANSLATORS ettings.vue:87
 #: /app/specialVueFakeDummyForL10nScript.js:30
 msgid "alternatives"
-msgstr ""
+msgstr "Alternativen"
 
 #. TRANSLATORS ettings.vue:95
 #: /app/specialVueFakeDummyForL10nScript.js:30
 #: /app/specialVueFakeDummyForL10nScript.js:32
 msgid "converter"
-msgstr ""
+msgstr "Konverter"
 
 #. TRANSLATORS alSettings.vue:22
 #: /app/specialVueFakeDummyForL10nScript.js:34
 msgid "Recursive Pdf Downloader, Personal Settings"
-msgstr ""
+msgstr "Rekursiver PDF Lader, Persönliche Einstellungen"
 
 #. TRANSLATORS alSettings.vue:23
 #: /app/specialVueFakeDummyForL10nScript.js:36
 msgid "Decorations and Fonts"
-msgstr ""
+msgstr "Seiten-Dekorierung und Schriftarten"
 
 #. TRANSLATORS alSettings.vue:32
 #: /app/specialVueFakeDummyForL10nScript.js:38
 msgid "Label output pages with file-name and page-number"
-msgstr ""
+msgstr "Kopfzeile mit ursprünglichem Dateinamen und Seitennummer einfügen."
 
 #. TRANSLATORS alSettings.vue:36
 #: /app/specialVueFakeDummyForL10nScript.js:40
 msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 msgstr ""
+"Format der Seiten-Paginierung: DATEINAME_OHNE_ENDUNG #SEITE/#DATEI_SEITEN"
 
 #. TRANSLATORS alSettings.vue:40
 #: /app/specialVueFakeDummyForL10nScript.js:42
 msgid "Font for generated PDF page-annotations"
-msgstr ""
+msgstr "Schriftart für die Paginierung"
 
 #. TRANSLATORS alSettings.vue:47
 #: /app/specialVueFakeDummyForL10nScript.js:44
 #: /app/specialVueFakeDummyForL10nScript.js:50
 msgid "Select a Font"
-msgstr ""
+msgstr "Wähle eine Schriftart!"
 
 #. TRANSLATORS alSettings.vue:75
 #: /app/specialVueFakeDummyForL10nScript.js:46
 msgid "The font to use for the page-labels: {pageLabelsFont}"
-msgstr ""
+msgstr "Schriftart für die Paginierung: {pageLabelsFont}"
 
 #. TRANSLATORS alSettings.vue:80
 #: /app/specialVueFakeDummyForL10nScript.js:48
 msgid "Font for generated PDF (error-)pages"
-msgstr ""
+msgstr "Schriftart für die erzeugten PDF-(Fehler-)Seiten"
 
 #. TRANSLATORS alSettings.vue:115
 #: /app/specialVueFakeDummyForL10nScript.js:52
 msgid "The font to use for generated pages: {generatedPagesFont}"
-msgstr ""
+msgstr "Akutelle Schriftart für erzeugte PDF-Seiten: {generatedPagesFont}"
 
 #. TRANSLATORS alSettings.vue:121
 #: /app/specialVueFakeDummyForL10nScript.js:54
 msgid "Test Input"
-msgstr ""
+msgstr "Test-Eingabe"
 
 #. TRANSLATORS alSettings.vue:122
 #: /app/specialVueFakeDummyForL10nScript.js:56
 msgid "Test Hint"
-msgstr ""
+msgstr "Test-Hinweis"
 
 #. TRANSLATORS alSettings.vue:125
 #: /app/specialVueFakeDummyForL10nScript.js:58
@@ -347,370 +377,383 @@ msgstr ""
 #. TRANSLATORS alSettings.vue:174
 #: /app/specialVueFakeDummyForL10nScript.js:68
 msgid "On-the-fly extraction of archive files."
-msgstr ""
+msgstr "Transparentes extrahieren von Archiv-Dateien."
 
 #. TRANSLATORS alSettings.vue:177
 #: /app/specialVueFakeDummyForL10nScript.js:70
 msgid ""
 "On-the-fly extraction of archive files is disabled by the administrator."
 msgstr ""
+"Transparentes extrahieren von Archiv-Dateien wurde von Administrator*innen "
+"deaktiviert."
 
 #. TRANSLATORS alSettings.vue:189
 #: /app/specialVueFakeDummyForL10nScript.js:76
 msgid "Administrative size limit: {archiveSizeLimit}"
-msgstr ""
+msgstr "Größenbegrenzen durch Administrator*innen: {archiveSizeLimit}"
 
 #. TRANSLATORS alSettings.vue:280
 #: /app/specialVueFakeDummyForL10nScript.js:78
 #: /app/src/mixins/settings-sync.js:44 /app/src/mixins/settings-sync.js:74
 #: /app/src/mixins/settings-sync.js:112 /app/src/mixins/settings-sync.js:177
 msgid "reason unknown"
-msgstr ""
+msgstr "Grund unbekannt"
 
 #. TRANSLATORS alSettings.vue:284
 #: /app/specialVueFakeDummyForL10nScript.js:80
 msgid "Unable to obtain the list of available fonts: {message}"
-msgstr ""
+msgstr "Kann die Schriftarten-Liste nicht erfragen: {message}"
 
 #: /app/src/files-action.js:36 /app/src/files-action.js:37
 msgid "Download PDF"
-msgstr ""
+msgstr "PDF herunter laden"
 
 #: /app/src/mixins/settings-sync.js:48
 msgid "Unable to query the initial value of all settings: {message}"
 msgstr ""
+"Kann die anfänglichen Werte der Einstellungen nicht abrufen: {message}"
 
 #: /app/src/mixins/settings-sync.js:78
 msgid "Unable to query the initial value of {setting}: {message}"
 msgstr ""
+"Kann die anfänglichen Wert der Einstellung {setting} nicht abrufen: "
+"{message}"
 
 #: /app/src/mixins/settings-sync.js:97
 msgid "true"
-msgstr ""
+msgstr "wahr"
 
 #: /app/src/mixins/settings-sync.js:105
 msgid "Successfully set \"{setting}\" to {value}."
 msgstr ""
+"Der Wert für die Einstellung \"{setting}\" wurde erfolgreich auf \"{value}\""
+" gesetzt."
 
 #: /app/src/mixins/settings-sync.js:107 /app/src/mixins/settings-sync.js:171
 msgid "Setting \"{setting}\" has been unset successfully."
-msgstr ""
+msgstr "Die Einstellung \"{setting}\" wurde erfolgreich gelöscht."
 
 #: /app/src/mixins/settings-sync.js:117
 msgid "Unable to set \"{setting}\" to {value}: {message}."
 msgstr ""
+"Konnte den Wert für die Einstellung \"{setting}\" nicht auf den Wert "
+"\"{value}\" setzen: {message}"
 
 #: /app/src/mixins/settings-sync.js:125
 msgid "false"
-msgstr ""
+msgstr "falsch"
 
 #: /app/src/mixins/settings-sync.js:123
 msgid "Unable to unset \"{setting}\": {message}"
-msgstr ""
+msgstr "Kann die Einstellung {setting} nicht löschen: {message}"
 
 #: /app/src/mixins/settings-sync.js:154
 msgid "Confirmation Required"
-msgstr ""
+msgstr "Bestätigung erforderlich!"
 
 #: /app/src/mixins/settings-sync.js:159
 msgid "Unconfirmed, reverting to old value."
-msgstr ""
+msgstr "Bestätigung nicht erteilt, setze auf den alten Wert zurück."
 
 #: /app/src/mixins/settings-sync.js:169
 msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
 msgstr ""
+"Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf "
+"\"{value}\" gesetzt"
 
 #: /app/src/mixins/settings-sync.js:182
 msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 msgstr ""
+"Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert "
+"\"{value}\" setzen: {message}"
 
 #: /app/src/util/ajax.js:35
 msgid "OK"
-msgstr ""
+msgstr "Fein"
 
 #: /app/src/util/ajax.js:36
 msgid "Created"
-msgstr ""
+msgstr "Erzeugt"
 
 #: /app/src/util/ajax.js:37
 msgid "Accepted"
-msgstr ""
+msgstr "Akzeptiert"
 
 #: /app/src/util/ajax.js:38
 msgid "Non-Authoritative Information"
-msgstr ""
+msgstr "Unverbindliche Information"
 
 #: /app/src/util/ajax.js:39
 msgid "No Content"
-msgstr ""
+msgstr "Antwort enthält keine Daten"
 
 #: /app/src/util/ajax.js:40
 msgid "Reset Content"
-msgstr ""
+msgstr "Inhalt zurückgesetzt"
 
 #: /app/src/util/ajax.js:41
 msgid "Partial Content"
-msgstr ""
+msgstr "Unvollständige Antwort"
 
 #: /app/src/util/ajax.js:42
 msgid "Multi-Status (WebDAV)"
-msgstr ""
+msgstr "Multi-Status (WebDAV)"
 
 #: /app/src/util/ajax.js:43
 msgid "Already Reported (WebDAV)"
-msgstr ""
+msgstr "Bereits berichtet (WebDAV)"
 
 #: /app/src/util/ajax.js:44
 msgid "IM Used"
-msgstr ""
+msgstr "IM verwendet"
 
 #: /app/src/util/ajax.js:45
 msgid "Multiple Choices"
-msgstr ""
+msgstr "Mehrere Wahlmöglichkeiten"
 
 #: /app/src/util/ajax.js:46
 msgid "Moved Permanently"
-msgstr ""
+msgstr "Permanent verschoben"
 
 #: /app/src/util/ajax.js:47
 msgid "Found"
-msgstr ""
+msgstr "Gefunden"
 
 #: /app/src/util/ajax.js:48
 msgid "See Other"
-msgstr ""
+msgstr "Siehe andere Web-Adresse"
 
 #: /app/src/util/ajax.js:49
 msgid "Not Modified"
-msgstr ""
+msgstr "Unverändert"
 
 #: /app/src/util/ajax.js:50
 msgid "Use Proxy"
-msgstr ""
+msgstr "Benutze einen Proxy"
 
 #: /app/src/util/ajax.js:51
 msgid "(Unused)"
-msgstr ""
+msgstr "(Unbenutzt)"
 
 #: /app/src/util/ajax.js:52
 msgid "Temporary Redirect"
-msgstr ""
+msgstr "Zeitweilige Umleitung"
 
 #: /app/src/util/ajax.js:53
 msgid "Permanent Redirect (experimental)"
-msgstr ""
+msgstr "Permanente Umleitung"
 
 #: /app/src/util/ajax.js:54
 msgid "Bad Request"
-msgstr ""
+msgstr "Ungültige Anfrage"
 
 #: /app/src/util/ajax.js:55
 msgid "Unauthorized"
-msgstr ""
+msgstr "Nicht autorisiert"
 
 #: /app/src/util/ajax.js:56
 msgid "Payment Required"
-msgstr ""
+msgstr "Bezahlung erforderlich"
 
 #: /app/src/util/ajax.js:57
 msgid "Forbidden"
-msgstr ""
+msgstr "Verboten"
 
 #: /app/src/util/ajax.js:58
 msgid "Not Found"
-msgstr ""
+msgstr "Unauffindbar"
 
 #: /app/src/util/ajax.js:59
 msgid "Method Not Allowed"
-msgstr ""
+msgstr "Anfragemethode nicht zulässig"
 
 #: /app/src/util/ajax.js:60
 msgid "Not Acceptable"
-msgstr ""
+msgstr "Nicht akzeptabel"
 
 #: /app/src/util/ajax.js:61
 msgid "Proxy Authentication Required"
-msgstr ""
+msgstr "Proxy-Authentifizierung erforderlich"
 
 #: /app/src/util/ajax.js:62
 msgid "Request Timeout"
-msgstr ""
+msgstr "Anfrage-Zeitüberschreitung"
 
 #: /app/src/util/ajax.js:63
 msgid "Conflict"
-msgstr ""
+msgstr "Konflikt"
 
 #: /app/src/util/ajax.js:64
 msgid "Gone"
-msgstr ""
+msgstr "Weg"
 
 #: /app/src/util/ajax.js:65
 msgid "Length Required"
-msgstr ""
+msgstr "Länge benötigt"
 
 #: /app/src/util/ajax.js:66
 msgid "Precondition Failed"
-msgstr ""
+msgstr "Vorbedingung nicht erfüllt"
 
 #: /app/src/util/ajax.js:67
 msgid "Request Entity Too Large"
-msgstr ""
+msgstr "Anfrage-Daten zu groß"
 
 #: /app/src/util/ajax.js:68
 msgid "Request-URI Too Long"
-msgstr ""
+msgstr "Anfrage-URI zu lang"
 
 #: /app/src/util/ajax.js:69
 msgid "Unsupported Media Type"
-msgstr ""
+msgstr "Nicht unterstützter Medien-Typ"
 
 #: /app/src/util/ajax.js:70
 msgid "Requested Range Not Satisfiable"
-msgstr ""
+msgstr "Angeforderter Bereich nicht möglich"
 
 #: /app/src/util/ajax.js:71
 msgid "Expectation Failed"
-msgstr ""
+msgstr "Erwartete Operation Fehlgeschlagen"
 
 #: /app/src/util/ajax.js:72
 msgid "I'm a teapot (RFC 2324)"
-msgstr ""
+msgstr "Ich bin eine Teekanne (RFC 2324)"
 
 #: /app/src/util/ajax.js:73
 msgid "Enhance Your Calm (Twitter)"
-msgstr ""
+msgstr "Verstärke Deine Ruhe (Twitter)"
 
 #: /app/src/util/ajax.js:74
 msgid "Unprocessable Entity (WebDAV)"
-msgstr ""
+msgstr "Nicht-verarbeitbarer Entrag (WebDAV)"
 
 #: /app/src/util/ajax.js:75
 msgid "Locked (WebDAV)"
-msgstr ""
+msgstr "Gesperrt (WebDAV)"
 
 #: /app/src/util/ajax.js:76
 msgid "Failed Dependency (WebDAV)"
-msgstr ""
+msgstr "Abhängigkeit fehlgeschlagen (WebDAV)"
 
 #: /app/src/util/ajax.js:77
 msgid "Reserved for WebDAV"
-msgstr ""
+msgstr "Reserviert für WebDAV"
 
 #: /app/src/util/ajax.js:78
 msgid "Upgrade Required"
-msgstr ""
+msgstr "Aufwertung benötigt"
 
 #: /app/src/util/ajax.js:79
 msgid "Precondition Required"
-msgstr ""
+msgstr "Vorbedingung erforderlich"
 
 #: /app/src/util/ajax.js:80
 msgid "Too Many Requests"
-msgstr ""
+msgstr "Zu viele Anfragen."
 
 #: /app/src/util/ajax.js:81
 msgid "Request Header Fields Too Large"
-msgstr ""
+msgstr "Anfrage-Kopfzeilen zu lang"
 
 #: /app/src/util/ajax.js:82
 msgid "No Response (Nginx)"
-msgstr ""
+msgstr "Keine Antwort (Nginx)"
 
 #: /app/src/util/ajax.js:83
 msgid "Retry With (Microsoft)"
-msgstr ""
+msgstr "Wiederholen mit (Microsoft)"
 
 #: /app/src/util/ajax.js:84
 msgid "Blocked by Windows Parental Controls (Microsoft)"
-msgstr ""
+msgstr "Blockiert von Windows-Kindersicherung (Microsoft)"
 
 #: /app/src/util/ajax.js:85
 msgid "Unavailable For Legal Reasons"
-msgstr ""
+msgstr "Nicht verfügbar aus rechtlichen Gründen"
 
 #: /app/src/util/ajax.js:86
 msgid "Client Closed Request (Nginx)"
-msgstr ""
+msgstr "Anwender-Programm hat die Anfrage beendet (Nginx)"
 
 #: /app/src/util/ajax.js:87
 msgid "Internal Server Error"
-msgstr ""
+msgstr "Interner Server-Fehler"
 
 #: /app/src/util/ajax.js:88
 msgid "Not Implemented"
-msgstr ""
+msgstr "Nicht implementiert"
 
 #: /app/src/util/ajax.js:89
 msgid "Bad Gateway"
-msgstr ""
+msgstr "Schlechte Netzübergangseinheit"
 
 #: /app/src/util/ajax.js:90
 msgid "Service Unavailable"
-msgstr ""
+msgstr "Dienst nicht verfügbar"
 
 #: /app/src/util/ajax.js:91
 msgid "Gateway Timeout"
-msgstr ""
+msgstr "Zeitüberschreitung bei der Netzübergangseinheit"
 
 #: /app/src/util/ajax.js:92
 msgid "HTTP Version Not Supported"
-msgstr ""
+msgstr "HTTP-Version nicht unterstützt"
 
 #: /app/src/util/ajax.js:93
 msgid "Variant Also Negotiates (Experimental)"
-msgstr ""
+msgstr "Variante handelt außerdem aus (Experimenmtell)"
 
 #: /app/src/util/ajax.js:94
 msgid "Insufficient Storage (WebDAV)"
-msgstr ""
+msgstr "Zu wenig Speicherplatz (WebDAV)"
 
 #: /app/src/util/ajax.js:95
 msgid "Loop Detected (WebDAV)"
-msgstr ""
+msgstr "Zirkel entdeckt (WebDAV)"
 
 #: /app/src/util/ajax.js:96
 msgid "Bandwidth Limit Exceeded (Apache)"
-msgstr ""
+msgstr "Bandbreiten-Beschränkung überschritten (Apache)"
 
 #: /app/src/util/ajax.js:97
 msgid "Not Extended"
-msgstr ""
+msgstr "Nicht erweitert"
 
 #: /app/src/util/ajax.js:98
 msgid "Network Authentication Required"
-msgstr ""
+msgstr "Netzwerk-Authentifizierung erforderlich"
 
 #: /app/src/util/ajax.js:99
 msgid "Network read timeout error"
-msgstr ""
+msgstr "Netzwerk Lese-Zeitüberschreitung"
 
 #: /app/src/util/ajax.js:100
 msgid "Network connect timeout error"
-msgstr ""
+msgstr "Netzwerk Verbindungs-Zeitüberschreitung"
 
 #: /app/src/util/ajax.js:157
 msgid "Operation cancelled by user."
-msgstr ""
+msgstr "Benutzer:in hat den Vorgang abgebrochen"
 
 #: /app/src/util/ajax.js:160
 msgid "Aborted"
-msgstr ""
+msgstr "Abgebrochen"
 
 #: /app/src/util/ajax.js:173 /app/src/util/ajax.js:356
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: /app/src/util/ajax.js:198
 msgid "System Administrator"
-msgstr ""
+msgstr "System-Administrator"
 
 #: /app/src/util/ajax.js:223
 msgid "Feedback email: {AutoReport}"
-msgstr ""
+msgstr "Rückmeldung per Email: {AutoReport}"
 
 #: /app/src/util/ajax.js:247
 msgid "Something went wrong."
-msgstr ""
+msgstr "Irgendetwas ist schief gelaufen."
 
 #: /app/src/util/ajax.js:249
 msgid ""
@@ -718,6 +761,8 @@ msgid ""
 "without interacting with the web-app, then the reason for this error is "
 "probably a simple timeout."
 msgstr ""
+"Falls Du bereits längere Zeit angemeldet bist, ohne mit der Web-App zu\n"
+"interagieren, dann ist das der Grund für den Fehler."
 
 #: /app/src/util/ajax.js:254
 msgid ""
@@ -725,69 +770,80 @@ msgid ""
 "around. You will be redirected to the log-in page when you close this "
 "window."
 msgstr ""
+"Als einstweiligen `Work-Around' kann man in jedem Fall versuchen, sich\n"
+"ab- und wieder an zu melden und den Vorgang zu wiederholen. Wenn Du\n"
+"dieses Fenster schließt, wirst Du zur Login-Seite weiter geleitet."
 
 #: /app/src/util/ajax.js:304
 msgid ""
 "Unrecoverable unknown internal error, no further information available, "
 "sorry."
 msgstr ""
+"Tut uns leid, unbekannte interner Fehler, weitere Informationen sind\n"
+"leider nicht verfügbar."
 
 #: /app/src/util/ajax.js:306
 msgid "Internal Error"
-msgstr ""
+msgstr "Irgendein Fehler"
 
 #: /app/src/util/ajax.js:313
 msgid "Field {RequiredField} not present in AJAX response."
-msgstr ""
+msgstr "In der AJAX-Antwort fehlt das Feld {RequiredField}."
 
 #: /app/src/util/ajax.js:322
 msgid "Missing data"
-msgstr ""
+msgstr "Fehlende Daten"
 
 #: /app/src/util/ajax.js:334
 msgid ""
 "The submitted data \"{stringValue}\" seems to be a plain string, but we need"
 " an object where the data is provided through above listed properties."
 msgstr ""
+"Die übermittelten Daten \"{stringValue}\" scheinen eine einfache "
+"Zeichenkette zu sein, benötigt wird jedoch ein JavaScript-Obekt, das die "
+"Daten über die oben aufgeführten (fehlenden) Objekt-Eigenschaften zu "
+"Verfügung stellt."
 
 #: /app/src/util/ajax.js:337
 msgid "Error: plain string received"
-msgstr ""
+msgstr "Fehler: einfache Zeichenkette empfangen"
 
 #: /app/src/util/ajax.js:342
 msgid ""
 "The submitted data is not a plain object, and does not provide the "
 "properties listed above."
 msgstr ""
+"Die übermittelten DAten sind kein einfaches Objekt und beinhalteten nicht "
+"die oben aufgeführten benötigten Eigentschaften."
 
 #: /app/src/util/ajax.js:345
 msgid "Error: not a plain object"
-msgstr ""
+msgstr "Fehler: kein einfaches Objekt"
 
 #: /app/src/util/ajax.js:384
 msgid "Unknown JSON error response to AJAX call: {status} / {error}"
-msgstr ""
+msgstr "Unbekannte JSON Fehler-Antwort auf AJAX-Anfrage: {status} / {error}"
 
 #: /app/src/util/ajax.js:391
 msgid "HTTP error response to AJAX call: {code} / {error}"
-msgstr ""
+msgstr "HTTP Fehler-Antwort auf AJAX-Anfrage: {code} / {error}"
 
 #: /app/src/util/dialogs.js:69
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 #: /app/src/util/dialogs.js:70
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: /app/src/util/dialogs.js:105
 msgid "Debug Information"
-msgstr ""
+msgstr "Debug Informationen"
 
 #: /app/src/util/file-download.js:50
 msgid "unknown error"
-msgstr ""
+msgstr "unbekannter Fehler"
 
 #: /app/src/util/file-download.js:53
 msgid "Unable to download data from \"{url}\": {message}"
-msgstr ""
+msgstr "Kann die Daten nicht von \"{url}\" laden: {message}"

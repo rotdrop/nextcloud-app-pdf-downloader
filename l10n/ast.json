@@ -1,0 +1,12 @@
+{ "translations": {
+    "unknown" : "desconocí­u",
+    "OK" : "Aceutar",
+    "Created" : "Creóse",
+    "Not Found" : "Nun s'alcontró",
+    "Conflict" : "Conflictu",
+    "Internal Server Error" : "Fallu internu del sirvidor",
+    "Error" : "Fallu",
+    "No" : "Non",
+    "Yes" : "Sí"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
