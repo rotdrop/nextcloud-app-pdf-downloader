@@ -1,0 +1,5 @@
+{ "translations": {
+    "Unauthorized" : "未授權",
+    "Internal Server Error" : "內部伺服器錯誤"
+},"pluralForm" :"nplurals=1; plural=0;"
+}
