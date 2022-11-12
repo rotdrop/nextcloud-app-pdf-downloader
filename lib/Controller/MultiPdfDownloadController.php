@@ -22,6 +22,8 @@
 
 namespace OCA\PdfDownloader\Controller;
 
+use Throwable;
+
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\Response;
@@ -46,6 +48,7 @@ use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
 use OCA\PdfDownloader\Service\ArchiveService;
+use OCA\PdfDownloader\Constants;
 
 /**
  * Walk throught a directory tree, convert all files to PDF and combine the
@@ -61,6 +64,9 @@ class MultiPdfDownloadController extends Controller
   const ERROR_PAGES_FONT = 'dejavusans';
   const ERROR_PAGES_FONTSIZE = '12';
   const ERROR_PAGES_PAPER = 'A4';
+
+  private const ARCHIVE_HANDLED = 0;
+  private const ARCHIVE_IGNORED = 2;
 
   /** @var PdfCombiner */
   private $pdfCombiner;
@@ -95,7 +101,10 @@ class MultiPdfDownloadController extends Controller
   /** @var null|int */
   private $archiveSizeLimit = null;
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  /** @var int */
+  private $archiveBombLimit = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
+
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
     IRequest $request,
@@ -131,8 +140,12 @@ class MultiPdfDownloadController extends Controller
 
     $this->extractArchiveFiles = $this->cloudConfig->getAppValue(
       $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, false);
-    $this->archiveSizeLimit = $this->cloudConfig->getAppValue(
-      $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
+
+    $this->archiveBombLimit = $cloudConfig->getAppValue(
+      $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT);
+
+    $this->archiveSizeLimit = $cloudConfig->getUserValue(
+      $this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
 
     /** @var IUser $user */
     $user = $userSession->getUser();
@@ -149,21 +162,13 @@ class MultiPdfDownloadController extends Controller
         $this->extractArchiveFiles =
           $this->cloudConfig->getUserValue(
             $this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, true);
-        $this->logInfo('USER EXTRACT_ARCHIVE_FILES ' . $this->extractArchiveFiles);
+        // $this->logInfo('USER EXTRACT_ARCHIVE_FILES ' . $this->extractArchiveFiles);
       }
       $grouping = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GROUPING, PdfCombiner::GROUP_FOLDERS_FIRST);
       $this->pdfCombiner->setGrouping($grouping);
-
-      $userSizeLimit =
-        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
-      if ($userSizeLimit !== null && $this->archiveSizeLimit !== null) {
-        $this->archiveSizeLimit = min($this->archiveSizeLimit, $userSizeLimit);
-      } else {
-        $this->archiveSizeLimit = $userSizeLimit;
-      }
     }
 
-    $this->archiveService->setSizeLimit($this->archiveSizeLimit);
+    $this->archiveService->setSizeLimit($this->actualArchiveSizeLimit());
   }
 
   /**
@@ -189,7 +194,16 @@ class MultiPdfDownloadController extends Controller
     return $this;
   }
 
-  private function generateErrorPage(?string $fileData, string $path, \Throwable $throwable)
+  /**
+   * @param null|string $fileData
+   *
+   * @param string $path
+   *
+   * @param Throwable $throwable
+   *
+   * @return string
+   */
+  private function generateErrorPage(?string $fileData, string $path, Throwable $throwable):string
   {
     $pdf = new PdfGenerator(orientation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
     $pdf->setFont($this->getErrorPagesFont());
@@ -215,15 +229,16 @@ __EOF__;
     return $pdf->Output($path, 'S');
   }
 
-  const ARCHIVE_HANDLED = 0;
-  const ARCHIVE_IGNORED = 2;
-
   /**
    * Try to handle an archive file, actgually any file.
    *
-   * @return self::ARCHIVE_HANDLED or self::ARCHIVE_IGNORED
+   * @param File $fileNode
+   *
+   * @param string $parentName
+   *
+   * @return int self::ARCHIVE_HANDLED or self::ARCHIVE_IGNORED
    */
-  private function addArchiveMembers(File $fileNode, string $parentName = '')
+  private function addArchiveMembers(File $fileNode, string $parentName = ''):int
   {
     $path = $parentName . '/' . $fileNode->getName();
 
@@ -231,16 +246,18 @@ __EOF__;
       $this->archiveService->open($fileNode);
 
       $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
-      $topLevelFolder = $this->archiveService->getTopLevelFolder();
-      $stripRoot = $topLevelFolder !== null ? strlen($topLevelFolder) + 1 : 0;
+      $topLevelFolder = $this->archiveService->getCommonDirectoryPrefix();
+      $this->logInfo('COMMON PREFIX ' . $topLevelFolder);
+      $stripRoot = !empty($topLevelFolder) ? strlen($topLevelFolder) : 0;
 
-      foreach ($this->archiveService->getFiles() as $archiveFile) {
+      foreach (array_keys($this->archiveService->getFiles()) as $archiveFile) {
+        $this->logInfo('ARCHIVE FILE ' . $archiveFile);
         $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
         try {
           $fileData = $this->archiveService->getFileContent($archiveFile);
           $mimeType = $this->mimeTypeDetector->detectString($fileData);
           $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
           $this->logException($t);
           $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
         }
@@ -252,19 +269,21 @@ __EOF__;
       $this->logException($oe, level: LogLevel::DEBUG);
 
       return self::ARCHIVE_IGNORED; // process as ordinary file
-    } catch (Exceptions\ArchiveBombException $be) {
-      $pdfData = $this->generateErrorPage($fileData, $path, $be);
-      $this->pdfCombiner->addDocument($pdfData, $path);
-
-      return self::ARCHIVE_HANDLED;
     } catch (Exceptions\ArchiveTooLargeException $se) {
-      $pdfData = $this->generateErrorPage($fileData, $path, $be);
+      $pdfData = $this->generateErrorPage($fileData, $path, $se);
       $this->pdfCombiner->addDocument($pdfData, $path);
       return self::ARCHIVE_HANDLED;
     }
   }
 
-  private function addFilesRecursively(Folder $folder, string $parentName = '')
+  /**
+   * @param Folder $folder
+   *
+   * @param $string $parentName
+   *
+   * @return void
+   */
+  private function addFilesRecursively(Folder $folder, string $parentName = ''):void
   {
     $parentName .= (!empty($parentName) ? '/' : '') . $folder->getName();
     /** @var FileSystemNode $node */
@@ -284,7 +303,7 @@ __EOF__;
           $fileData = $node->getContent();
           try {
             $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
-          } catch (\Throwable $t) {
+          } catch (Throwable $t) {
             $this->logException($t);
             $pdfData = $this->generateErrorPage($fileData, $path, $t);
           }
@@ -349,6 +368,12 @@ __EOF__;
     $pdf = new PdfGenerator;
     $fonts = $pdf->getFonts();
     return self::dataResponse($fonts);
+  }
+
+  /** @return int */
+  private function actualArchiveSizeLimit():int
+  {
+    return min($this->archiveBombLimit, $this->archiveSizeLimit ?? PHP_INT_MAX);
   }
 }
 

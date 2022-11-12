@@ -22,6 +22,8 @@
 
 namespace OCA\PdfDownloader\Controller;
 
+use InvalidArgumentException;
+
 use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
@@ -34,6 +36,8 @@ use OCP\IL10N;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\AnyToPdf;
 
+use OCA\PdfDownloader\Constants;
+
 /**
  * Settings-controller for both, personal and admin, settings.
  */
@@ -43,26 +47,28 @@ class SettingsController extends Controller
   use \OCA\PdfDownloader\Traits\LoggerTrait;
   use \OCA\PdfDownloader\Traits\UtilTrait;
 
-  const ADMIN_DISABLE_BUILTIN_CONVERTERS = 'disableBuiltinConverters';
-  const ADMIN_FALLBACK_CONVERTER = 'fallbackConverter';
-  const ADMIN_UNIVERSAL_CONVERTER = 'universalConverter';
-  const ADMIN_CONVERTERS = 'converters';
+  public const ADMIN_DISABLE_BUILTIN_CONVERTERS = 'disableBuiltinConverters';
+  public const ADMIN_FALLBACK_CONVERTER = 'fallbackConverter';
+  public const ADMIN_UNIVERSAL_CONVERTER = 'universalConverter';
+  public const ADMIN_CONVERTERS = 'converters';
 
-  const EXTRACT_ARCHIVE_FILES = 'extractArchiveFiles';
-  const ARCHIVE_SIZE_LIMIT = 'archiveSizeLimit';
+  public const EXTRACT_ARCHIVE_FILES = 'extractArchiveFiles';
+  public const ARCHIVE_SIZE_LIMIT = 'archiveSizeLimit';
 
-  const PERSONAL_PAGE_LABELS = 'pageLabels';
-  const PERSONAL_PAGE_LABELS_FONT = 'pageLabelsFont';
-  const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
+  public const PERSONAL_PAGE_LABELS = 'pageLabels';
+  public const PERSONAL_PAGE_LABELS_FONT = 'pageLabelsFont';
+  public const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
 
-  const ADMIN_SETTING = 'Admin';
-  const EXTRACT_ARCHIVE_FILES_ADMIN = self::EXTRACT_ARCHIVE_FILES . self::ADMIN_SETTING;
-  const ARCHIVE_SIZE_LIMIT_ADMIN = self::ARCHIVE_SIZE_LIMIT . self::ADMIN_SETTING;
+  public const DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
 
-  const PERSONAL_GROUPING = 'grouping';
-  const PERSONAL_GROUP_FOLDERS_FIRST = PdfCombiner::GROUP_FOLDERS_FIRST;
-  const PERSONAL_GROUP_FILES_FIRST = PdfCombiner::GROUP_FILES_FIRST;
-  const PERSONAL_UNGROUPED = PdfCombiner::UNGROUPED;
+  public const ADMIN_SETTING = 'Admin';
+  public const EXTRACT_ARCHIVE_FILES_ADMIN = self::EXTRACT_ARCHIVE_FILES . self::ADMIN_SETTING;
+  public const ARCHIVE_SIZE_LIMIT_ADMIN = self::ARCHIVE_SIZE_LIMIT . self::ADMIN_SETTING;
+
+  public const PERSONAL_GROUPING = 'grouping';
+  public const PERSONAL_GROUP_FOLDERS_FIRST = PdfCombiner::GROUP_FOLDERS_FIRST;
+  public const PERSONAL_GROUP_FILES_FIRST = PdfCombiner::GROUP_FILES_FIRST;
+  public const PERSONAL_UNGROUPED = PdfCombiner::UNGROUPED;
 
   /**
    * @var array<string, array>
@@ -70,9 +76,9 @@ class SettingsController extends Controller
    * Admin settings with r/w flag and default value (booleans)
    */
   const ADMIN_SETTINGS = [
-    self::EXTRACT_ARCHIVE_FILES => [  'rw' => true, 'default' => false ],
-    self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, ],
-    self::ADMIN_DISABLE_BUILTIN_CONVERTERS => [  'rw' => true, 'default' => false ],
+    self::EXTRACT_ARCHIVE_FILES => [  'rw' => true, 'default' => false, ],
+    self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
+    self::ADMIN_DISABLE_BUILTIN_CONVERTERS => [  'rw' => true, 'default' => false, ],
     self::ADMIN_FALLBACK_CONVERTER => [ 'rw' => true, ],
     self::ADMIN_UNIVERSAL_CONVERTER => [ 'rw' => true, ],
     self::ADMIN_CONVERTERS => [ 'rw' => false, ],
@@ -84,11 +90,11 @@ class SettingsController extends Controller
    * Personal settings with r/w flag and default value (booleans)
    */
   const PERSONAL_SETTINGS = [
-    self::EXTRACT_ARCHIVE_FILES => [ 'rw' => true, 'default' => self::ADMIN_SETTING ],
+    self::EXTRACT_ARCHIVE_FILES => [ 'rw' => true, 'default' => self::ADMIN_SETTING, ],
     self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, ],
-    self::EXTRACT_ARCHIVE_FILES_ADMIN => [ 'rw' => false, 'default' => false ],
-    self::ARCHIVE_SIZE_LIMIT_ADMIN => [ 'rw' => false, ],
-    self::PERSONAL_PAGE_LABELS => [ 'rw' => true, 'default' => true ],
+    self::EXTRACT_ARCHIVE_FILES_ADMIN => [ 'rw' => false, 'default' => false, ],
+    self::ARCHIVE_SIZE_LIMIT_ADMIN => [ 'rw' => false, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
+    self::PERSONAL_PAGE_LABELS => [ 'rw' => true, 'default' => true, ],
     self::PERSONAL_PAGE_LABELS_FONT => [ 'rw' => true, ],
     self::PERSONAL_GENERATED_PAGES_FONT => [ 'rw' => true, ],
     self::PERSONAL_GROUPING => [ 'rw' => true, 'default' => self::PERSONAL_GROUP_FOLDERS_FIRST, ],
@@ -106,7 +112,7 @@ class SettingsController extends Controller
   /** @var string */
   private $userId;
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
     IRequest $request,
@@ -136,15 +142,19 @@ class SettingsController extends Controller
    * @AuthorizedAdminSetting(settings=OCA\GroupFolders\Settings\Admin)
    * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
    */
-  public function setAdmin(string $setting, $value, bool $force = false):DataResponse
+  public function setAdmin(string $setting, mixed $value, bool $force = false):DataResponse
   {
     if (!isset(self::ADMIN_SETTINGS[$setting])) {
-      return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $setting));
+      return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));
     }
     if (!(self::ADMIN_SETTINGS[$setting]['rw'] ?? false)) {
-      return self::grumble($this->l->t('The personal setting "%1$s" is read-only', $setting));
+      return self::grumble($this->l->t('The admin setting "%1$s" is read-only', $setting));
     }
-    $oldValue = $this->config->getAppValue($this->appName, $setting, self::ADMIN_SETTINGS[$setting]['default'] ?? null);
+    $oldValue = $this->config->getAppValue(
+      $this->appName,
+      $setting,
+      self::ADMIN_SETTINGS[$setting]['default'] ?? null,
+    );
     switch ($setting) {
       case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
       case self::EXTRACT_ARCHIVE_FILES:
@@ -166,7 +176,11 @@ class SettingsController extends Controller
         $newValue = $value;
         break;
       case self::ARCHIVE_SIZE_LIMIT:
-        $newValue = $this->parseMemorySize($value);
+        try {
+          $newValue = $this->parseMemorySize($value);
+        } catch (InvalidArgumentException $t) {
+          return self::grumble($t->getMessage());
+        }
         break;
       default:
         return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));
@@ -174,15 +188,24 @@ class SettingsController extends Controller
 
     if ($newValue === null) {
       $this->config->deleteAppValue($this->appName, $setting);
+      $newValue = self::ADMIN_SETTINGS[$setting]['default'] ?? null;
     } else {
       $this->config->setAppValue($this->appName, $setting, $newValue);
     }
-    if ($newValue === null) {
-      $newValue = self::ADMIN_SETTINGS[$setting]['default'] ?? null;
+
+    switch ($setting) {
+      case self::ARCHIVE_SIZE_LIMIT:
+        $humanValue = $newValue === null ? '' : $this->formatStorageValue($newValue);
+        break;
+      default:
+        $humanValue = $value;
+        break;
     }
+
     return new DataResponse([
       'newValue' => $newValue,
       'oldValue' => $oldValue,
+      'humanValue' => $humanValue,
     ]);
   }
 
@@ -208,19 +231,35 @@ class SettingsController extends Controller
       switch ($oneSetting) {
         case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
         case self::EXTRACT_ARCHIVE_FILES:
-          $value = $this->config->getAppValue($this->appName, $oneSetting);
-          if ($value === '' || $value === null) {
-            $value = self::ADMIN_SETTING[$oneSetting]['default'] ?? false;
-          }
+          $value = $this->config->getAppValue(
+            $this->appName,
+            $oneSetting,
+            self::ADMIN_SETTINGS[$oneSetting]['default'] ?? false,
+          );
           $value = (int)$value;
+          $humanValue = $value;
           break;
         case self::ARCHIVE_SIZE_LIMIT:
-          $value = $this->config->getAppValue($this->appName, $oneSetting, null);
-          $value = $value ? (int)$value : '';
+          $value = $this->config->getAppValue(
+            $this->appName,
+            $oneSetting,
+            self::ADMIN_SETTINGS[$oneSetting]['default'] ?? null,
+          );
+          if ($value !== null) {
+            $value = (int)$value;
+            $humanValue = $this->formatStorageValue($value);
+          } else {
+            $humanValue = '';
+          }
           break;
         case self::ADMIN_FALLBACK_CONVERTER:
         case self::ADMIN_UNIVERSAL_CONVERTER:
-          $value = $this->config->getAppValue($this->appName, $oneSetting);
+          $value = $this->config->getAppValue(
+            $this->appName,
+            $oneSetting,
+            self::ADMIN_SETTINGS[$oneSetting]['default'] ?? null,
+          );
+          $humanValue = $value;
           break;
         case self::ADMIN_CONVERTERS:
           /** @var AnyToPdf $anyToPdf */
@@ -237,11 +276,13 @@ class SettingsController extends Controller
             $this->config->getAppValue($this->appName, self::ADMIN_UNIVERSAL_CONVERTER, null));
 
           $value = $anyToPdf->findConverters();
+          $humanValue = $value;
           break;
         default:
           return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $oneSetting));
       }
       $results[$oneSetting] = $value;
+      $results['human' . ucfirst($oneSetting)] = $humanValue;
     }
 
     if ($setting === null) {
@@ -249,6 +290,7 @@ class SettingsController extends Controller
     } else {
       return new DataResponse([
         'value' => $results[$setting],
+        'humanValue' => $results['human' . ucfirst($setting)],
       ]);
     }
   }
@@ -264,7 +306,7 @@ class SettingsController extends Controller
    *
    * @NoAdminRequired
    */
-  public function setPersonal(string $setting, $value):Response
+  public function setPersonal(string $setting, mixed $value):Response
   {
     if (!isset(self::PERSONAL_SETTINGS[$setting])) {
       return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $setting));
@@ -302,22 +344,35 @@ class SettingsController extends Controller
         }
         break;
       case self::ARCHIVE_SIZE_LIMIT:
-        $newValue = $this->parseMemorySize($value);
+        try {
+          $newValue = $this->parseMemorySize($value);
+        } catch (InvalidArgumentException $t) {
+          return self::grumble($t->getMessage());
+        }
         break;
       default:
         return self::grumble($this->l->t('Unknown personal setting: "%s".', [ $setting ]));
     }
     if ($newValue === null) {
       $this->config->deleteUserValue($this->userId, $this->appName, $setting);
+      $newValue = self::PERSONAL_SETTINGS[$setting]['default'] ?? null;
     } else {
       $this->config->setUserValue($this->userId, $this->appName, $setting, $newValue);
     }
-    if ($newValue === null) {
-      $newValue = self::PERSONAL_SETTINGS[$setting]['default'] ?? null;
+
+    switch ($setting) {
+      case self::ARCHIVE_SIZE_LIMIT:
+        $humanValue = $newValue === null ? '' : $this->formatStorageValue($newValue);
+        break;
+      default:
+        $humanValue = $value;
+        break;
     }
+
     return new DataResponse([
       'newValue' => $newValue,
       'oldValue' => $oldValue,
+      'humanValue' => $humanValue,
     ]);
   }
 
@@ -345,14 +400,29 @@ class SettingsController extends Controller
     foreach (array_keys($allSettings) as $oneSetting) {
       if (str_ends_with($oneSetting, self::ADMIN_SETTING)) {
         $oneAdminSetting = substr($oneSetting, 0, -strlen(self::ADMIN_SETTING));
-        $value = $this->config->getAppValue($this->appName, $oneAdminSetting, self::ADMIN_SETTINGS[$oneAdminSetting]['default'] ?? null);
+        $value = $this->config->getAppValue(
+          $this->appName,
+          $oneAdminSetting,
+          self::ADMIN_SETTINGS[$oneAdminSetting]['default'] ?? null,
+        );
       } else {
-        $value = $this->config->getUserValue($this->userId, $this->appName, $oneSetting, self::PERSONAL_SETTINGS[$oneSetting]['default'] ?? null);
+        $value = $this->config->getUserValue(
+          $this->userId,
+          $this->appName,
+          $oneSetting,
+          self::PERSONAL_SETTINGS[$oneSetting]['default'] ?? null,
+        );
       }
+      $humanValue = $value;
       switch ($oneSetting) {
         case self::ARCHIVE_SIZE_LIMIT:
         case self::ARCHIVE_SIZE_LIMIT_ADMIN:
-          $value = $value ? (int)$value : '';
+          if ($value !== null) {
+            $value = (int)$value;
+            $humanValue = $this->formatStorageValue($value);
+          } else {
+            $humanValue = '';
+          }
           break;
         case self::EXTRACT_ARCHIVE_FILES_ADMIN:
         case self::EXTRACT_ARCHIVE_FILES:
@@ -386,6 +456,7 @@ class SettingsController extends Controller
           return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $oneSetting));
       }
       $results[$oneSetting] = $value;
+      $results['human' . ucfirst($oneSetting)] = $humanValue;
     }
 
     if ($setting === null) {
@@ -393,24 +464,32 @@ class SettingsController extends Controller
     } else {
       return new DataResponse([
         'value' => $results[$setting],
+        'humanValue' => $results['human' . ucfirst($setting)],
       ]);
     }
   }
 
+  /**
+   * @param string $stringValue
+   *
+   * @return null|string
+   *
+   * @throws InvalidArgumentException
+   */
   private function parseMemorySize(string $stringValue):?string
   {
     if ($stringValue === '') {
       $stringValue = null;
     }
-    if ($stringValue !== null) {
-      $newValue = $this->storageValue($stringValue);
-      $newValue = filter_var($newValue, FILTER_VALIDATE_INT, [ 'min_range' => 0 ]);
-      if ($newValue === false) {
-        return self::grumble($this->l->t('Unable to parse memory size limit "%s"', $stringValue));
-      }
-      if ($newValue === 0) {
-        $newValue = null;
-      }
+    if ($stringValue === null) {
+      return $stringValue;
+    }
+    $newValue = $this->storageValue($stringValue);
+    if (!is_int($newValue) && !is_float($newValue)) {
+      throw new InvalidArgumentException($this->l->t('Unable to parse memory size limit "%s"', $stringValue));
+    }
+    if (empty($newValue)) {
+      $newValue = null;
     }
     return $newValue;
   }

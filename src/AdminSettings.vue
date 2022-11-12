@@ -36,7 +36,7 @@
         </label>
       </div>
       <SettingsInputText
-        v-model="archiveSizeLimit"
+        v-model="humanArchiveSizeLimit"
         :label="t(appName, 'Archive Size Limit')"
         :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
         :disabled="loading || !extractArchiveFiles"
@@ -131,7 +131,8 @@ export default {
   data() {
     return {
       extractArchiveFiles: false,
-      archiveSizeLimit: '',
+      archiveSizeLimit: null,
+      humanArchiveSizeLimit: '',
       disableBuiltinConverters: false,
       universalConverter: '',
       fallbackConverter: '',
@@ -160,13 +161,16 @@ export default {
     },
     async saveTextInput(value, settingsKey, force) {
       if (await this.saveConfirmedSetting(value, 'admin', settingsKey, force)) {
-        this.fetchSetting('converters', 'admin')
+        if (settingsKey.endsWith('Converter')) {
+          this.fetchSetting('converters', 'admin')
+        }
       }
     },
     async saveSetting(setting) {
-      console.info('SAVE SETTING', setting)
       if (await this.saveSimpleSetting(setting, 'admin')) {
-        this.fetchSetting('converters', 'admin')
+        if (setting === 'disableBuiltinConverters') {
+          this.fetchSetting('converters', 'admin')
+        }
       }
     },
   },

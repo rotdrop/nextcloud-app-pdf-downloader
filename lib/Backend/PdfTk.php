@@ -24,7 +24,7 @@ namespace OCA\PdfDownloader\Backend;
 
 use mikehaertl\pdftk\Pdf as PdfTkUpstream;
 
-use PdfTkInfoFile as InfoFile;
+use OCA\PdfDownloader\Backend\PdfTkInfoFile as InfoFile;
 
 /**
  * Tweak vanilla php-pdftk to suit our needs.
