@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-11 13:57+0000\n"
+"POT-Creation-Date: 2022-11-12 03:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,6 +60,7 @@ msgid "Unknown personal setting: \"%1$s\""
 msgstr ""
 
 #: /app/lib/Controller/SettingsController.php:145
+#: /app/lib/Controller/SettingsController.php:273
 #, php-format
 msgid "The personal setting \"%1$s\" is read-only"
 msgstr ""
@@ -75,11 +76,6 @@ msgstr ""
 #: /app/lib/Controller/SettingsController.php:242
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
-msgstr ""
-
-#: /app/lib/Controller/SettingsController.php:273
-#, php-format
-msgid "Thge personal setting \"%1$s\" is read-only"
 msgstr ""
 
 #: /app/lib/Controller/SettingsController.php:308
@@ -104,7 +100,7 @@ msgstr ""
 #: /app/lib/Service/AnyToPdf.php:291
 #, php-format
 msgid ""
-"Universal converter \"%1$s\" fas failed trying to convert mime-type \"%2$s\""
+"Universal converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
 
 #: /app/lib/Service/AnyToPdf.php:328

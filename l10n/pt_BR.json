@@ -1,5 +1,12 @@
 { "translations": {
     "unknown" : "desconhecido",
+    "Combining PDFs failed" : "Falha ao combinar PDFs",
+    "PDF Downloader" : "PDF Downloader",
+    "Caused by previous exception" : "Causado por uma exceção anterior",
+    "Recursive PDF Downloader" : "Download de PDF recursivo",
+    "Recusively convert entire directory trees to PDF and provide the resulting document as download" : "Coverte recursivamente árvores de diretório para PDF e provê o resultado em PDF para download",
+    "Archive Extraction" : "Extrair armazenamento",
+    "Archive Size Limit" : "Tamanho limite de armazenamento",
     "true" : "verdadeiro ",
     "false" : "falso",
     "OK" : "OK",
