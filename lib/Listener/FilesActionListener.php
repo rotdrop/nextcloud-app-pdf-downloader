@@ -22,6 +22,7 @@
 
 namespace OCA\PdfDownloader\Listener;
 
+use Psr\Log\LoggerInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\AppFramework\IAppContainer;
@@ -35,6 +36,7 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent as HandledEvent;
 use OCA\PdfDownloader\Service\AssetService;
 use OCA\PdfDownloader\Controller\SettingsController;
 use OCA\PdfDownloader\Service\ArchiveService;
+use OCA\PdfDownloader\Service\MimeTypeService;
 
 /**
  * In particular listen to the asset-loading events.
@@ -54,7 +56,7 @@ class FilesActionListener implements IEventListener
   /** @var bool */
   private $handled = false;
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(IAppContainer $appContainer)
   {
     $this->appContainer = $appContainer;
@@ -92,6 +94,8 @@ class FilesActionListener implements IEventListener
 
     $appName = $this->appContainer->get('appName');
 
+    $this->logger = $this->appContainer->get(LoggerInterface::class);
+
     /** @var CloudConfig $cloudConfig */
     $cloudConfig = $this->appContainer->get(CloudConfig::class);
 
@@ -105,6 +109,10 @@ class FilesActionListener implements IEventListener
       $userId, $appName, SettingsController::EXTRACT_ARCHIVE_FILES, $extractArchiveFilesAdmin
     );
 
+    /** @var MimeTypeService $mimeTypeService */
+    $mimeTypeService = $this->appContainer->get(MimeTypeService::class);
+    $archiveMimeTypes = $mimeTypeService->getSupportedMimeTypes();
+
     // just admin contact and stuff to make the ajax error handlers work.
     $groupManager = $this->appContainer->get(\OCP\IGroupManager::class);
     $initialState->provideInitialState('config', [
@@ -112,10 +120,10 @@ class FilesActionListener implements IEventListener
       'phpUserAgent' => $_SERVER['HTTP_USER_AGENT'], // @@todo get in javascript from request
       SettingsController::EXTRACT_ARCHIVE_FILES => $extractArchiveFilesUser,
       SettingsController::EXTRACT_ARCHIVE_FILES_ADMIN => $extractArchiveFilesAdmin,
-      'archiveMimeTypes' => ArchiveService::getSupportedMimeTypes(),
+      'archiveMimeTypes' => $archiveMimeTypes,
     ]);
 
-    // \OCP\Util::writeLog($appName, 'MIME ' . print_r(ArchiveService::getSupportedMimeTypes(), true), \OCP\Util::INFO);
+    // $this->logInfo('MIME ' . print_r($archiveMimeTypes, true));
 
     /** @var AssetService $assetService */
     $assetService = $this->appContainer->get(AssetService::class);

@@ -22,8 +22,6 @@
 
 namespace OCA\PdfDownloader\AppInfo;
 
-use SimpleXMLElement;
-
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -34,23 +32,19 @@ use Psr\Container\ContainerInterface;
 
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Exceptions;
+use OCA\FilesArchive\Service\MimeTypeService;
 
 /**
  * App entry point.
  */
 class Application extends App implements IBootstrap
 {
-  const DEFAULT_LOCALE_KEY = 'DefaultLocale';
-  const DEFAULT_LOCALE = 'en_US';
-
-  /** @var string */
-  protected $appName;
+  use \OCA\PdfDownloader\Traits\AppNameTrait;
 
   /** Constructor. */
   public function __construct()
   {
-    $infoXml = new SimpleXMLElement(file_get_contents(__DIR__ . '/../../appinfo/info.xml'));
-    $this->appName = (string)$infoXml->id;
+    $this->appName = $this->getAppInfoAppName();
     parent::__construct($this->appName);
   }
 
@@ -63,6 +57,9 @@ class Application extends App implements IBootstrap
    */
   public function boot(IBootContext $context): void
   {
+    $context->injectFn(function(MimeTypeService $mimeTypeService) {
+      $mimeTypeService->registerMimeTypeMappings();
+    });
   }
 
   /**
@@ -78,10 +75,6 @@ class Application extends App implements IBootstrap
     if ((include_once __DIR__ . '/../../vendor/autoload.php') === false) {
       throw new Exceptions\Exception('Cannot include autoload. Did you run install dependencies using composer?');
     }
-    $context->registerService(ucfirst(self::DEFAULT_LOCALE_KEY), function (ContainerInterface $container) {
-      return self::DEFAULT_LOCALE;
-    });
-    $context->registerServiceAlias(lcfirst(self::DEFAULT_LOCALE), ucfirst(self::DEFAULT_LOCALE));
 
     // Register listeners
     ListenerRegistration::register($context);
