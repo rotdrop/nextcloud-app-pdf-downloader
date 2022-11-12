@@ -1,5 +1,22 @@
 # Recursive PDF Downloader
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Recursive PDF Downloader](#recursive-pdf-downloader)
+    - [Intro](#intro)
+    - [Compatibility](#compatibility)
+    - [Working Conversions](#working-conversions)
+        - [Builtin Converters](#builtin-converters)
+        - [Custom Converters](#custom-converters)
+    - [On-the-fly Extraction of Archive Files](#on-the-fly-extraction-of-archive-files)
+        - [Security](#security)
+        - [Implementation](#implementation)
+    - [Performance](#performance)
+    - [Todo, some problems I am aware of](#todo-some-problems-i-am-aware-of)
+
+<!-- markdown-toc end -->
+
 ## Intro
 This is an app for the Nextcloud cloud software. It adds a new menu
 entry to the actions menu in the files view which lets you download
