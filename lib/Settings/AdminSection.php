@@ -40,7 +40,7 @@ class AdminSection implements IIconSection
   /** @var IURLGenerator */
   private $urlGenerator;
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
     IL10N $l10n,

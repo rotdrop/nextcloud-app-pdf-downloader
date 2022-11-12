@@ -42,7 +42,7 @@ class PdfGenerator extends \TCPDF
    */
   private $distributedFonts = [];
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     $orientation = 'P',
     $unit = 'mm',

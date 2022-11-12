@@ -47,7 +47,7 @@ class AssetService
   /** @var array */
   private $assets = [];
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(IL10N $l10n, ILogger $logger)
   {
     $this->logger = $logger;

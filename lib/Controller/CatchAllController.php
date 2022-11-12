@@ -53,7 +53,7 @@ class CatchAllController extends Controller
     $this->l = $l10n;
   }
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.MissingParamTag
+  // phpcs:ignore Squiz.Commenting.FunctionComment.MissingParamTag
   /**
    * @SuppressWarnings(PHPMD.ShortVariable)
    * @NoAdminRequired
@@ -74,7 +74,7 @@ class CatchAllController extends Controller
     }
   }
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.MissingParamTag
+  // phpcs:ignore Squiz.Commenting.FunctionComment.MissingParamTag
   /**
    * @SuppressWarnings(PHPMD.ShortVariable)
    * @NoAdminRequired

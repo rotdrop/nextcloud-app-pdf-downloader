@@ -31,7 +31,7 @@ class ArchiveTooLargeException extends ArchiveException
 
   private int $actualSize;
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(string $message, int $limit, int $actualSize, ?\Throwable $previous = null)
   {
     parent::__construct($message, 0, $previous);

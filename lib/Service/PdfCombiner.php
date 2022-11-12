@@ -72,7 +72,7 @@ class PdfCombiner
   /** @var string */
   private $grouping = self::GROUP_FOLDERS_FIRST;
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     ITempManager $tempManager,
     ILogger $logger,

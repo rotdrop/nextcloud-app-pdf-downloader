@@ -40,7 +40,7 @@ class Personal implements ISettings
   /** @var AssetService */
   private $assetService;
 
-  // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+  // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
     AssetService $assetService,
