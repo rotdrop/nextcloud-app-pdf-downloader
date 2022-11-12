@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface as ILogger;
 use OCP\IL10N;
 use OCP\ITempManager;
 
-use OCA\PdfDownloader\Util\PdfTk;
+use OCA\PdfDownloader\Backend\PdfTk;
 
 /**
  * A class which combines several PDFs into one.
