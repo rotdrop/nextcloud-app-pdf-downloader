@@ -269,6 +269,7 @@ for FONT_FILE in $$( echo -n "$$FONTS_LIST"); do\
   else\
     echo;\
   fi;\
+  INDEX=$$(( $$INDEX + 1 ));\
 done;\
 echo '}'; ) > $(FONTS_LIST_FILE)
 
