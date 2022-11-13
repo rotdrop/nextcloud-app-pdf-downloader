@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "non connotu",
+    "bytes" : "bytes",
     "OK" : "AB",
     "Created" : "Creadu",
     "Unauthorized" : "No autorizadu",

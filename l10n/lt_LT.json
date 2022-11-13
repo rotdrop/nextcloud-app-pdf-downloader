@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "nežinomas",
+    "bytes" : "baitų",
     "OK" : "Gerai",
     "Created" : "Sukurta",
     "Unauthorized" : "Nesankcionuota",

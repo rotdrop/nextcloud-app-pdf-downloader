@@ -7,17 +7,17 @@
 # nautilusx, 2022
 # Joachim Sokolowski, 2022
 # Markus Eckstein, 2022
-# Joas Schilling, 2022
 # Claus-Justus Heine, 2022
+# Joas Schilling, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-12 03:18+0000\n"
+"POT-Creation-Date: 2022-11-13 03:15+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
-"Last-Translator: Claus-Justus Heine, 2022\n"
+"Last-Translator: Joas Schilling, 2022\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,63 +40,67 @@ msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 msgid "Get from end-point \"%s\" not implemented."
 msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:198
+#: /app/lib/Controller/MultiPdfDownloadController.php:212
 msgid "unknown"
 msgstr "unbekannt"
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:296
+#: /app/lib/Controller/MultiPdfDownloadController.php:315
 #, php-format
 msgid "Internal error, unknown file-system node-type: \"%s\"."
 msgstr "Server-Fehler, unbekannter Dateisystem Eintrag: \"%s\"."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:329
+#: /app/lib/Controller/MultiPdfDownloadController.php:348
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr ""
 "\"%s\" ist kein Ordner und automatische entpacken von Archiv-Dateien ist "
 "deaktiviert."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:332
+#: /app/lib/Controller/MultiPdfDownloadController.php:351
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
 "\"%s\" ist keine Ordner und kann nicht als Datei-Archive extrahiert werden."
 
-#: /app/lib/Controller/SettingsController.php:142
-#: /app/lib/Controller/SettingsController.php:270
-#: /app/lib/Controller/SettingsController.php:340
-#: /app/lib/Controller/SettingsController.php:386
+#: /app/lib/Controller/SettingsController.php:148
+#: /app/lib/Controller/SettingsController.php:186
+#: /app/lib/Controller/SettingsController.php:225
+#: /app/lib/Controller/SettingsController.php:282
 #, php-format
-msgid "Unknown personal setting: \"%1$s\""
-msgstr "Unbekannte persönliche Einstellung: \"%1$s\""
+msgid "Unknown admin setting: \"%1$s\""
+msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
 
-#: /app/lib/Controller/SettingsController.php:145
-#: /app/lib/Controller/SettingsController.php:273
+#: /app/lib/Controller/SettingsController.php:151
 #, php-format
-msgid "The personal setting \"%1$s\" is read-only"
-msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
+msgid "The admin setting \"%1$s\" is read-only"
+msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:154
-#: /app/lib/Controller/SettingsController.php:286
+#: /app/lib/Controller/SettingsController.php:164
+#: /app/lib/Controller/SettingsController.php:328
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 "Der Wert \"%1$s\" für die Einstellung \"%2$s\" kann nicht in einen "
 "Wahrheitswert konvertiert werden."
 
-#: /app/lib/Controller/SettingsController.php:172
-#: /app/lib/Controller/SettingsController.php:202
-#: /app/lib/Controller/SettingsController.php:242
+#: /app/lib/Controller/SettingsController.php:312
+#: /app/lib/Controller/SettingsController.php:395
+#: /app/lib/Controller/SettingsController.php:456
 #, php-format
-msgid "Unknown admin setting: \"%1$s\""
-msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
+msgid "Unknown personal setting: \"%1$s\""
+msgstr "Unbekannte persönliche Einstellung: \"%1$s\""
 
-#: /app/lib/Controller/SettingsController.php:308
+#: /app/lib/Controller/SettingsController.php:315
+#, php-format
+msgid "The personal setting \"%1$s\" is read-only"
+msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
+
+#: /app/lib/Controller/SettingsController.php:354
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr "Unbekannte perönliche Einstellung: \"%s\""
 
-#: /app/lib/Controller/SettingsController.php:409
+#: /app/lib/Controller/SettingsController.php:489
 #, php-format
 msgid "Unable to parse memory size limit \"%s\""
 msgstr "Kann das Speicher-Limit nicht interpretieren: \"%s\""
@@ -127,24 +131,21 @@ msgstr ""
 msgid "Please install the \"%s\" program on the server."
 msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
 
-#: /app/lib/Service/ArchiveService.php:137
-#: /app/lib/Service/ArchiveService.php:143
+#: /app/lib/Service/ArchiveService.php:231
+#: /app/lib/Service/ArchiveService.php:237
 #, php-format
 msgid "Unable to open archive file %s (%s)"
 msgstr "Kann die Archive Datei %s (%s) nicht öffnen"
 
-#: /app/lib/Service/ArchiveService.php:154
+#: /app/lib/Service/ArchiveService.php:251
 #, php-format
-msgid "Uncompressed size of archive \"%1$s\" is too large: %2$d > %3$d"
-msgstr "Die Größe des dekomprimierten Archivs \"%1$s\" ist zo groß:  %2$d > %3$d"
+msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
+msgstr "Die Größe des dekomprimierten Archivs \"%1$s\" ist zu groß:  %2$s > %3$s"
 
-#: /app/lib/Service/ArchiveService.php:161
-#, php-format
-msgid "Archive \"%1$s\" is a potential zip bomp, size %2$d > %3$d"
-msgstr "Das Archiv \"%1$s\" ist eine potentielle ZIP-Bombe, Größe  %2$d > %3$d"
-
-#: /app/lib/Service/ArchiveService.php:226
-#: /app/lib/Service/ArchiveService.php:241
+#: /app/lib/Service/ArchiveService.php:267
+#: /app/lib/Service/ArchiveService.php:335
+#: /app/lib/Service/ArchiveService.php:357
+#: /app/lib/Service/ArchiveService.php:371
 msgid "There is no archive file associated with this archiver instance."
 msgstr ""
 "Mit dieser Archivierungs-Service-Instanz ist keine Archiv-Datei assoziiert."
@@ -175,6 +176,10 @@ msgstr "Fehler, \"Ausnahme\" \"aufgefangen\"."
 #: /app/lib/Traits/ResponseTrait.php:80
 msgid "Caused by previous exception"
 msgstr "Verursacht durch eine vorhergehende Ausnahme"
+
+#: /app/lib/Traits/UtilTrait.php:257 /app/lib/Traits/UtilTrait.php:259
+msgid "bytes"
+msgstr "Bytes"
 
 #. TRANSLATORS ettings.vue:25
 #: /app/specialAppInfoFakeDummyForL10nScript.php:3
@@ -386,17 +391,17 @@ msgstr ""
 
 #. TRANSLATORS alSettings.vue:189
 #: /app/specialVueFakeDummyForL10nScript.js:76
-msgid "Administrative size limit: {archiveSizeLimit}"
-msgstr "Größenbegrenzen durch Administrator*innen: {archiveSizeLimit}"
+msgid "Administrative size limit: {value}"
+msgstr ""
 
-#. TRANSLATORS alSettings.vue:280
+#. TRANSLATORS alSettings.vue:282
 #: /app/specialVueFakeDummyForL10nScript.js:78
 #: /app/src/mixins/settings-sync.js:44 /app/src/mixins/settings-sync.js:74
-#: /app/src/mixins/settings-sync.js:112 /app/src/mixins/settings-sync.js:177
+#: /app/src/mixins/settings-sync.js:124 /app/src/mixins/settings-sync.js:199
 msgid "reason unknown"
 msgstr "Grund unbekannt"
 
-#. TRANSLATORS alSettings.vue:284
+#. TRANSLATORS alSettings.vue:286
 #: /app/specialVueFakeDummyForL10nScript.js:80
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr "Kann die Schriftarten-Liste nicht erfragen: {message}"
@@ -411,54 +416,56 @@ msgstr ""
 "Kann die anfänglichen Werte der Einstellungen nicht abrufen: {message}"
 
 #: /app/src/mixins/settings-sync.js:78
-msgid "Unable to query the initial value of {setting}: {message}"
+msgid "Unable to query the initial value of {settingsKey}: {message}"
 msgstr ""
-"Kann die anfänglichen Wert der Einstellung {setting} nicht abrufen: "
-"{message}"
 
-#: /app/src/mixins/settings-sync.js:97
+#: /app/src/mixins/settings-sync.js:114 /app/src/mixins/settings-sync.js:131
 msgid "true"
 msgstr "wahr"
 
-#: /app/src/mixins/settings-sync.js:105
-msgid "Successfully set \"{setting}\" to {value}."
-msgstr ""
-"Der Wert für die Einstellung \"{setting}\" wurde erfolgreich auf \"{value}\""
-" gesetzt."
-
-#: /app/src/mixins/settings-sync.js:107 /app/src/mixins/settings-sync.js:171
-msgid "Setting \"{setting}\" has been unset successfully."
-msgstr "Die Einstellung \"{setting}\" wurde erfolgreich gelöscht."
-
 #: /app/src/mixins/settings-sync.js:117
-msgid "Unable to set \"{setting}\" to {value}: {message}."
+msgid "Successfully set \"{settingsKey}\" to {value}."
 msgstr ""
-"Konnte den Wert für die Einstellung \"{setting}\" nicht auf den Wert "
+"Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf "
+"\"{value}\" gesetzt."
+
+#: /app/src/mixins/settings-sync.js:119
+msgid "Setting \"{settingsKey}\" has been unset successfully."
+msgstr ""
+
+#: /app/src/mixins/settings-sync.js:129
+msgid "Unable to set \"{settingsKey}\" to {value}: {message}."
+msgstr ""
+"Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert "
 "\"{value}\" setzen: {message}"
 
-#: /app/src/mixins/settings-sync.js:125
+#: /app/src/mixins/settings-sync.js:137
 msgid "false"
 msgstr "falsch"
 
-#: /app/src/mixins/settings-sync.js:123
-msgid "Unable to unset \"{setting}\": {message}"
-msgstr "Kann die Einstellung {setting} nicht löschen: {message}"
+#: /app/src/mixins/settings-sync.js:135
+msgid "Unable to unset \"{settingsKey}\": {message}"
+msgstr "Kann die Einstellung \"{settingsKey}\" nicht löschen: {message}>\n"
 
-#: /app/src/mixins/settings-sync.js:154
+#: /app/src/mixins/settings-sync.js:166
 msgid "Confirmation Required"
 msgstr "Bestätigung erforderlich!"
 
-#: /app/src/mixins/settings-sync.js:159
+#: /app/src/mixins/settings-sync.js:171
 msgid "Unconfirmed, reverting to old value."
 msgstr "Bestätigung nicht erteilt, setze auf den alten Wert zurück."
 
-#: /app/src/mixins/settings-sync.js:169
-msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
+#: /app/src/mixins/settings-sync.js:191
+msgid "Successfully set value for \"{settingsKey}\" to \"{displayValue}\""
 msgstr ""
 "Der Wert für die Einstellung \"{settingsKey}\" wurde erfolgreich auf "
-"\"{value}\" gesetzt"
+"\"{displayValue}\" gesetzt"
 
-#: /app/src/mixins/settings-sync.js:182
+#: /app/src/mixins/settings-sync.js:193
+msgid "Setting \"{setting}\" has been unset successfully."
+msgstr "Die Einstellung \"{setting}\" wurde erfolgreich gelöscht."
+
+#: /app/src/mixins/settings-sync.js:207
 msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 msgstr ""
 "Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert "

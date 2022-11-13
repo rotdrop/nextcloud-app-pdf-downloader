@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "unknown",
+    "bytes" : "bytes",
     "OK" : "OK",
     "Created" : "Created",
     "Forbidden" : "Forbidden",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-12 03:18+0000\n"
+"POT-Creation-Date: 2022-11-13 03:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,58 +32,62 @@ msgstr ""
 msgid "Get from end-point \"%s\" not implemented."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:198
+#: /app/lib/Controller/MultiPdfDownloadController.php:212
 msgid "unknown"
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:296
+#: /app/lib/Controller/MultiPdfDownloadController.php:315
 #, php-format
 msgid "Internal error, unknown file-system node-type: \"%s\"."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:329
+#: /app/lib/Controller/MultiPdfDownloadController.php:348
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:332
+#: /app/lib/Controller/MultiPdfDownloadController.php:351
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:142
-#: /app/lib/Controller/SettingsController.php:270
-#: /app/lib/Controller/SettingsController.php:340
-#: /app/lib/Controller/SettingsController.php:386
-#, php-format
-msgid "Unknown personal setting: \"%1$s\""
-msgstr ""
-
-#: /app/lib/Controller/SettingsController.php:145
-#: /app/lib/Controller/SettingsController.php:273
-#, php-format
-msgid "The personal setting \"%1$s\" is read-only"
-msgstr ""
-
-#: /app/lib/Controller/SettingsController.php:154
-#: /app/lib/Controller/SettingsController.php:286
-#, php-format
-msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
-msgstr ""
-
-#: /app/lib/Controller/SettingsController.php:172
-#: /app/lib/Controller/SettingsController.php:202
-#: /app/lib/Controller/SettingsController.php:242
+#: /app/lib/Controller/SettingsController.php:148
+#: /app/lib/Controller/SettingsController.php:186
+#: /app/lib/Controller/SettingsController.php:225
+#: /app/lib/Controller/SettingsController.php:282
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:308
+#: /app/lib/Controller/SettingsController.php:151
+#, php-format
+msgid "The admin setting \"%1$s\" is read-only"
+msgstr ""
+
+#: /app/lib/Controller/SettingsController.php:164
+#: /app/lib/Controller/SettingsController.php:328
+#, php-format
+msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
+msgstr ""
+
+#: /app/lib/Controller/SettingsController.php:312
+#: /app/lib/Controller/SettingsController.php:395
+#: /app/lib/Controller/SettingsController.php:456
+#, php-format
+msgid "Unknown personal setting: \"%1$s\""
+msgstr ""
+
+#: /app/lib/Controller/SettingsController.php:315
+#, php-format
+msgid "The personal setting \"%1$s\" is read-only"
+msgstr ""
+
+#: /app/lib/Controller/SettingsController.php:354
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:409
+#: /app/lib/Controller/SettingsController.php:489
 #, php-format
 msgid "Unable to parse memory size limit \"%s\""
 msgstr ""
@@ -113,24 +117,21 @@ msgstr ""
 msgid "Please install the \"%s\" program on the server."
 msgstr ""
 
-#: /app/lib/Service/ArchiveService.php:137
-#: /app/lib/Service/ArchiveService.php:143
+#: /app/lib/Service/ArchiveService.php:231
+#: /app/lib/Service/ArchiveService.php:237
 #, php-format
 msgid "Unable to open archive file %s (%s)"
 msgstr ""
 
-#: /app/lib/Service/ArchiveService.php:154
+#: /app/lib/Service/ArchiveService.php:251
 #, php-format
-msgid "Uncompressed size of archive \"%1$s\" is too large: %2$d > %3$d"
+msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
 msgstr ""
 
-#: /app/lib/Service/ArchiveService.php:161
-#, php-format
-msgid "Archive \"%1$s\" is a potential zip bomp, size %2$d > %3$d"
-msgstr ""
-
-#: /app/lib/Service/ArchiveService.php:226
-#: /app/lib/Service/ArchiveService.php:241
+#: /app/lib/Service/ArchiveService.php:267
+#: /app/lib/Service/ArchiveService.php:335
+#: /app/lib/Service/ArchiveService.php:357
+#: /app/lib/Service/ArchiveService.php:371
 msgid "There is no archive file associated with this archiver instance."
 msgstr ""
 
@@ -158,6 +159,10 @@ msgstr ""
 
 #: /app/lib/Traits/ResponseTrait.php:80
 msgid "Caused by previous exception"
+msgstr ""
+
+#: /app/lib/Traits/UtilTrait.php:257 /app/lib/Traits/UtilTrait.php:259
+msgid "bytes"
 msgstr ""
 
 #. TRANSLATORS ettings.vue:25
@@ -355,17 +360,17 @@ msgstr ""
 
 #. TRANSLATORS alSettings.vue:189
 #: /app/specialVueFakeDummyForL10nScript.js:76
-msgid "Administrative size limit: {archiveSizeLimit}"
+msgid "Administrative size limit: {value}"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:280
+#. TRANSLATORS alSettings.vue:282
 #: /app/specialVueFakeDummyForL10nScript.js:78
 #: /app/src/mixins/settings-sync.js:44 /app/src/mixins/settings-sync.js:74
-#: /app/src/mixins/settings-sync.js:112 /app/src/mixins/settings-sync.js:177
+#: /app/src/mixins/settings-sync.js:124 /app/src/mixins/settings-sync.js:199
 msgid "reason unknown"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:284
+#. TRANSLATORS alSettings.vue:286
 #: /app/specialVueFakeDummyForL10nScript.js:80
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr ""
@@ -379,46 +384,50 @@ msgid "Unable to query the initial value of all settings: {message}"
 msgstr ""
 
 #: /app/src/mixins/settings-sync.js:78
-msgid "Unable to query the initial value of {setting}: {message}"
+msgid "Unable to query the initial value of {settingsKey}: {message}"
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:97
+#: /app/src/mixins/settings-sync.js:114 /app/src/mixins/settings-sync.js:131
 msgid "true"
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:105
-msgid "Successfully set \"{setting}\" to {value}."
-msgstr ""
-
-#: /app/src/mixins/settings-sync.js:107 /app/src/mixins/settings-sync.js:171
-msgid "Setting \"{setting}\" has been unset successfully."
-msgstr ""
-
 #: /app/src/mixins/settings-sync.js:117
-msgid "Unable to set \"{setting}\" to {value}: {message}."
+msgid "Successfully set \"{settingsKey}\" to {value}."
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:125
+#: /app/src/mixins/settings-sync.js:119
+msgid "Setting \"{settingsKey}\" has been unset successfully."
+msgstr ""
+
+#: /app/src/mixins/settings-sync.js:129
+msgid "Unable to set \"{settingsKey}\" to {value}: {message}."
+msgstr ""
+
+#: /app/src/mixins/settings-sync.js:137
 msgid "false"
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:123
-msgid "Unable to unset \"{setting}\": {message}"
+#: /app/src/mixins/settings-sync.js:135
+msgid "Unable to unset \"{settingsKey}\": {message}"
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:154
+#: /app/src/mixins/settings-sync.js:166
 msgid "Confirmation Required"
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:159
+#: /app/src/mixins/settings-sync.js:171
 msgid "Unconfirmed, reverting to old value."
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:169
-msgid "Successfully set value for \"{settingsKey}\" to \"{value}\""
+#: /app/src/mixins/settings-sync.js:191
+msgid "Successfully set value for \"{settingsKey}\" to \"{displayValue}\""
 msgstr ""
 
-#: /app/src/mixins/settings-sync.js:182
+#: /app/src/mixins/settings-sync.js:193
+msgid "Setting \"{setting}\" has been unset successfully."
+msgstr ""
+
+#: /app/src/mixins/settings-sync.js:207
 msgid "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 msgstr ""
 

@@ -2,6 +2,7 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "unknown" : "ezezaguna",
+    "bytes" : "byte",
     "true" : "egia",
     "OK" : "Ados",
     "Created" : "Sortua",

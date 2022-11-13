@@ -2,6 +2,7 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "unknown" : "nezināms",
+    "bytes" : "baiti",
     "OK" : "Labi",
     "Created" : "Izveidots",
     "Forbidden" : "Pieeja liegta",

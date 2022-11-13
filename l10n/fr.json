@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "Inconnu",
+    "bytes" : "octets",
     "true" : "vrai",
     "false" : "faux",
     "OK" : "OK",

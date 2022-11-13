@@ -2,6 +2,7 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "unknown" : "未知",
+    "bytes" : "字节",
     "true" : "真",
     "false" : "假",
     "OK" : "确定",

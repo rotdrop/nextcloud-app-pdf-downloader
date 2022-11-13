@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "непознато",
+    "bytes" : "бајтова",
     "OK" : "У реду",
     "Created" : "Направљен",
     "Unauthorized" : "Неовлашћено",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "unknown" : "non connotu",
+    "bytes" : "bytes",
     "OK" : "AB",
     "Created" : "Creadu",
     "Unauthorized" : "No autorizadu",

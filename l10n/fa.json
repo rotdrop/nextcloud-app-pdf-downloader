@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "نامشخص",
+    "bytes" : "بایت",
     "OK" : "تایید",
     "Created" : "ایجاد شده",
     "Unauthorized" : "غیرمجاز",

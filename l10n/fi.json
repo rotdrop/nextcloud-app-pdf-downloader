@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "tuntematon",
+    "bytes" : "tavua",
     "OK" : "OK",
     "Created" : "Luotu",
     "Unauthorized" : "Ei valtuuksia",

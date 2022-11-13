@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "უცნობი",
+    "bytes" : "ბაიტები",
     "OK" : "კარგი",
     "Created" : "შექმნილია",
     "Forbidden" : "აკრძალულია",

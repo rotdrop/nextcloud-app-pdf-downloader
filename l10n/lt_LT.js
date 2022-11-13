@@ -2,6 +2,7 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "unknown" : "nežinomas",
+    "bytes" : "baitų",
     "OK" : "Gerai",
     "Created" : "Sukurta",
     "Unauthorized" : "Nesankcionuota",

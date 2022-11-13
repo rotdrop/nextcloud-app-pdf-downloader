@@ -1,5 +1,6 @@
 { "translations": {
     "unknown" : "bilinmiyor",
+    "bytes" : "bayt",
     "true" : "doğru",
     "false" : "yanlış",
     "OK" : "Tamam",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "unknown" : "bilinmiyor",
+    "bytes" : "bayt",
     "true" : "doğru",
     "false" : "yanlış",
     "OK" : "Tamam",
