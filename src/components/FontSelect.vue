@@ -87,7 +87,7 @@ export default {
   props: {
     value: {
       type: Object,
-      default: {},
+      default: () => {},
     },
     disabled: {
       type: Boolean,
@@ -126,6 +126,10 @@ export default {
       default: 'svg',
     },
   },
+  emits: [
+    'update:modelValue',
+    'input',
+  ],
   mixins: [
     fontInfoPopup,
   ],
@@ -149,7 +153,12 @@ export default {
     },
   },
   watch: {
+    fontObject(newValue) {
+      this.$emit('input', newValue) // Vue 2
+      this.$emit('update:modelValue', newValue) // Vue 3
+    },
     value(newVal) {
+      console.info('VALUE CHANGED', newVal)
       this.fontObject = newVal
     },
   },
