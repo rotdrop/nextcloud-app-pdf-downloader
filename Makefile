@@ -17,6 +17,9 @@ BUILDDIR = ./build
 ABSBUILDDIR = $(CURDIR)/build
 BUILD_TOOLS_DIR = $(BUILDDIR)/tools
 DOWNLOADS_DIR = ./downloads
+CONFIG_DIR = ./config
+
+FONTS_LIST_FILE = $(CONFIG_DIR)/fonts-list.json
 
 SILENT = @
 
@@ -77,7 +80,7 @@ dev: dev-setup npm-dev lint test
 .PHONY: dev
 
 #@private
-dev-setup: composer build-fonts
+dev-setup: composer build-fonts $(FONTS_LIST_FILE)
 .PHONY: dev-setup
 
 #@private
@@ -197,11 +200,18 @@ phpcs: composer
 phpmd: composer
 	vendor/bin/phpmd lib/,appinfo/,templates/ text $(SRCDIR)/.phpmd.xml
 
+###############################################################################
+#
+# START FONT STUFF
+
 # rebuild some fonts which seemingly are shipped in a broken or too
 # old version by tcpdf
 #@private
-build-fonts: build-fonts-dejavu
+build-fonts: stamp.tcpdf-fonts
 .PHONY: build-fonts
+
+stamp.tcpdf-fonts: stamp.tcpdf-dejavu-fonts
+	date > $@
 
 #@private
 build-fonts-dejavu: stamp.tcpdf-dejavu-fonts
@@ -240,6 +250,34 @@ $(DOWNLOADS_DIR)/$(DEJAVU_ARCHIVE):
 	mkdir -p $(DOWNLOADS_DIR)
 	cd $(DOWNLOADS_DIR); $(WGET) $(DEJAVU_DOWNLOAD_URL)
 
+# generate static MD5-checksums for the distributed fonts in order to
+# invalidate cached font-sample respectively keep them as long as
+# possible.
+
+#@private
+$(FONTS_LIST_FILE): $(wildcard $(FONTS_DEST_DIR)/*.php)
+	( echo '{';\
+FONTS_LIST="$$(ls -C1 $(FONTS_DST_DIR)/*.php)";\
+FONTS_COUNT=$$(echo -n "$$FONTS_LIST"|wc -l);\
+INDEX=0;\
+for FONT_FILE in $$( echo -n "$$FONTS_LIST"); do\
+  MD5=$$(md5sum "$$FONT_FILE"|awk '{ print $$1; }');\
+  BASENAME=$$(basename $$FONT_FILE .php);\
+  echo -n "  \"$$BASENAME\": \"$$MD5\"";\
+  if [ "$$INDEX" -lt "$$FONTS_COUNT" ]; then\
+    echo ',';\
+  else\
+    echo;\
+  fi;\
+done;\
+echo '}'; ) > $(FONTS_LIST_FILE)
+
+#echo '  "__comment": "END OF FONTS LIST"';
+
+# END FONT STUFF
+#
+###############################################################################
+
 # what has to be copied to the appstore archive
 APPSTORE_FILES =\
  appinfo\
@@ -250,6 +288,7 @@ APPSTORE_FILES =\
  templates\
  lib\
  vendor\
+ config\
  contrib\
  CHANGELOG.md\
  COPYING\
@@ -320,6 +359,7 @@ mostlyclean: webpack-clean distclean
 	rm -f package-lock.json
 	rm -f *.html
 	rm -f stats.json
+	rm -f $(FONTS_LIST_FILE)
 
 #@@ Really delete everything but the bare source files
 realclean: mostlyclean downloadsclean

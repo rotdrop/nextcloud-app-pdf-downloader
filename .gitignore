@@ -17,3 +17,4 @@ css/**
 lib/Database/ORM/Proxies/**
 build-flavour
 .php-cs-fixer.cache
+config/fonts-list.json
