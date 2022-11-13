@@ -35,92 +35,22 @@
       <span class="hint">
         {{ t(appName, 'Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
       </span>
-      <div class="page-label-font-select-container">
-        <div class="label-container">
-          <label>{{ t(appName, 'Font for generated PDF page-annotations') }}</label>
-        </div>
-        <div class="multiselect-wrapper">
-          <MultiSelect id="page-label-font-select"
-                       ref="pageLabelsFontSelect"
-                       v-model="pageLabelsFontObject"
-                       class="fonts-select multiselect-vue"
-                       :placeholder="t(appName, 'Select a Font')"
-                       :show-labels="true"
-                       :allow-empty="true"
-                       :searchable="true"
-                       :options="fontsList"
-                       :close-on-select="true"
-                       track-by="family"
-                       label="fontName"
-                       :multiple="false"
-                       :tag-width="60"
-                       :disabled="!pageLabels || loading"
-          >
-            <template #option="optionData">
-              <EllipsisedFontOption :name="$refs.pageLabelsFontSelect.getOptionLabel(optionData.option)"
-                                    :option="optionData.option"
-                                    :search="optionData.search"
-                                    :label="$refs.pageLabelsFontSelect.label"
-              />
-            </template>
-            <template #singleLabel="singleLabelData">
-              <span v-tooltip="fontInfoPopup(singleLabelData.option)">
-                {{ $refs.pageLabelsFontSelect.$refs.VueMultiselect.currentOptionLabel }}
-              </span>
-            </template>
-          </MultiSelect>
-          <div v-show="loading" class="loading" />
-        </div>
-        <span class="hint">
-          {{ t(appName, 'The font to use for the page-labels: {pageLabelsFont}', { pageLabelsFont }) }}
-        </span>
-      </div>
-      <div class="generated-page-font-select-container">
-        <div class="label-container">
-          <label>{{ t(appName, 'Font for generated PDF (error-)pages') }}</label>
-        </div>
-        <div class="multiselect-wrapper">
-          <MultiSelect id="generated-page-font-select"
-                       ref="generatedPagesFontSelect"
-                       v-model="generatedPagesFontObject"
-                       class="fonts-select multiselect-vue"
-                       :placeholder="t(appName, 'Select a Font')"
-                       :show-labels="true"
-                       :allow-empty="true"
-                       :searchable="true"
-                       :options="fontsList"
-                       :close-on-select="true"
-                       track-by="family"
-                       label="fontName"
-                       :multiple="false"
-                       :tag-width="60"
-                       :disabled="loading"
-          >
-            <template #option="optionData">
-              <EllipsisedFontOption :name="$refs.generatedPagesFontSelect.getOptionLabel(optionData.option)"
-                                    :option="optionData.option"
-                                    :search="optionData.search"
-                                    :label="$refs.generatedPagesFontSelect.label"
-              />
-            </template>
-            <template #singleLabel="singleLabelData">
-              <span v-tooltip="fontInfoPopup(singleLabelData.option)">
-                {{ $refs.generatedPagesFontSelect.$refs.VueMultiselect.currentOptionLabel }}
-              </span>
-            </template>
-          </MultiSelect>
-          <div v-show="loading" class="loading" />
-        </div>
-        <span class="hint">
-          {{ t(appName, 'The font to use for generated pages: {generatedPagesFont}', { generatedPagesFont }) }}
-        </span>
-      </div>
-      <!-- <SettingsInputText
-           :id="'test-input'"
-           v-model="example"
-           :label="t(appName, 'Test Input')"
-           :hint="t(appName, 'Test Hint')"
-           @update="saveInputExample" /> -->
+      <FontSelect v-model="pageLabelsFontObject"
+                  :placeholder="t(appName, 'Select a Font')"
+                  :fonts-list="fontsList"
+                  :label="t(appName, 'Font for generated PDF page-annotations')"
+                  :hint="t(appName, 'The font to use for the page-labels: {pageLabelsFont}', { pageLabelsFont })"
+                  :disabled="!pageLabels || loading"
+                  :loading="loading"
+      />
+      <FontSelect v-model="generatedPagesFontObject"
+                  :placeholder="t(appName, 'Select a Font')"
+                  :fonts-list="fontsList"
+                  :label="t(appName, 'Font for generated PDF (error-)pages')"
+                  :hint="t(appName, 'The font to use for generated pages: {generatedPagesFont}', { generatedPagesFont })"
+                  :disabled="loading"
+                  :loading="loading"
+      />
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Sorting Options')">
       <div :class="['flex-container', 'flex-center']">
@@ -199,7 +129,8 @@ import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import SettingsInputText from './components/SettingsInputText'
 import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
 import EllipsisedFontOption from './components/EllipsisedFontOption'
-import { generateUrl } from '@nextcloud/router'
+import FontSelect from './components/FontSelect'
+import generateUrl from './util/generate-url.js'
 import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import fontInfoPopup from './mixins/font-info-popup'
@@ -213,6 +144,7 @@ export default {
     SettingsInputText,
     MultiSelect,
     EllipsisedFontOption,
+    FontSelect,
   },
   data() {
     return {
@@ -220,6 +152,8 @@ export default {
       grouping: 'folders-first',
       sorting: 'ascending',
       fontsList: [],
+      fontSamples: [],
+      fontSampleText: t(appName, 'The quick brown fox jumps over the lazy dog.'),
       loading: true,
       pageLabelsFont: '',
       pageLabelsFontObject: null,
@@ -235,12 +169,26 @@ export default {
       extractArchiveFilesAdmin: false,
       archiveSizeLimitAdmin: null,
       humanArchiveSizeLimitAdmin: '',
+      sampleFontSize: 18, // should be pt, but actually is rendered as px it seems
     }
   },
   mixins: [
     fontInfoPopup,
     settingsSync,
   ],
+  computed: {
+    pageLabelsFontSampleSource() {
+      return generateUrl(
+        'pdf/fonts/sample/{text}/{font}/{fontSize}', {
+          text: encodeURIComponent(this.fontSampleText),
+          font: encodeURIComponent(this.pageLabelsFont),
+          fontSize: this.sampleFontSize,
+          format: 'svg',
+          output: 'blob',
+        },
+      )
+    },
+  },
   watch: {
     pageLabels(newValue, oldValue) {
       this.old.pageLabels = oldValue
@@ -274,9 +222,13 @@ export default {
       // slurp in all personal settings
       this.fetchSettings('personal');
       try {
-        const response = await axios.get(generateUrl('apps/' + appName + '/pdf/fonts'))
+        const response = await axios.get(generateUrl('pdf/fonts'))
         this.fontsList = response.data
         console.info('FONTS', this.fontsList)
+        /* for (const font of this.fontsList) {
+         *   console.info('FONT', font)
+         *   this.getFontSample(this.fontSampleText, font.family, this.sampleFontSize)
+         * } */
       } catch (e) {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
@@ -299,6 +251,33 @@ export default {
     },
     async saveSetting(setting) {
       this.saveSimpleSetting(setting, 'personal')
+    },
+    async getFontSample(text, font, fontSize) {
+      fontSize = fontSize || this.sampleFontSize
+
+      try {
+        const response = await axios.get(generateUrl(
+          'pdf/fonts/sample/{text}/{font}/{fontSize}', {
+            text: encodeURIComponent(text),
+            font: encodeURIComponent(font),
+            fontSize,
+        }))
+        this.fontSamples[font] = response.data
+        this.fontSamples[font].data = atob(this.fontSamples[font].data)
+        console.info('FONTSAMPLE', this.fontSamples[font].data)
+      } catch (e) {
+        console.info('RESPONSE', e)
+        let message = t(appName, 'reason unknown')
+        if (e.response && e.response.data && e.response.data.message) {
+          message = e.response.data.message;
+        }
+        showError(t(appName, 'Unable to obtain the font-sample "{text}" for the font {font}: {message}', {
+          text,
+          font,
+          message,
+        }))
+      }
+
     },
   },
 }
