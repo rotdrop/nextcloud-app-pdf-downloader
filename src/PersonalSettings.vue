@@ -133,7 +133,6 @@ import FontSelect from './components/FontSelect'
 import generateUrl from './util/generate-url.js'
 import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import fontInfoPopup from './mixins/font-info-popup'
 import settingsSync from './mixins/settings-sync'
 
 export default {
@@ -173,22 +172,8 @@ export default {
     }
   },
   mixins: [
-    fontInfoPopup,
     settingsSync,
   ],
-  computed: {
-    pageLabelsFontSampleSource() {
-      return generateUrl(
-        'pdf/fonts/sample/{text}/{font}/{fontSize}', {
-          text: encodeURIComponent(this.fontSampleText),
-          font: encodeURIComponent(this.pageLabelsFont),
-          fontSize: this.sampleFontSize,
-          format: 'svg',
-          output: 'blob',
-        },
-      )
-    },
-  },
   watch: {
     pageLabels(newValue, oldValue) {
       this.old.pageLabels = oldValue
@@ -225,10 +210,6 @@ export default {
         const response = await axios.get(generateUrl('pdf/fonts'))
         this.fontsList = response.data
         console.info('FONTS', this.fontsList)
-        /* for (const font of this.fontsList) {
-         *   console.info('FONT', font)
-         *   this.getFontSample(this.fontSampleText, font.family, this.sampleFontSize)
-         * } */
       } catch (e) {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
@@ -251,33 +232,6 @@ export default {
     },
     async saveSetting(setting) {
       this.saveSimpleSetting(setting, 'personal')
-    },
-    async getFontSample(text, font, fontSize) {
-      fontSize = fontSize || this.sampleFontSize
-
-      try {
-        const response = await axios.get(generateUrl(
-          'pdf/fonts/sample/{text}/{font}/{fontSize}', {
-            text: encodeURIComponent(text),
-            font: encodeURIComponent(font),
-            fontSize,
-        }))
-        this.fontSamples[font] = response.data
-        this.fontSamples[font].data = atob(this.fontSamples[font].data)
-        console.info('FONTSAMPLE', this.fontSamples[font].data)
-      } catch (e) {
-        console.info('RESPONSE', e)
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data && e.response.data.message) {
-          message = e.response.data.message;
-        }
-        showError(t(appName, 'Unable to obtain the font-sample "{text}" for the font {font}: {message}', {
-          text,
-          font,
-          message,
-        }))
-      }
-
     },
   },
 }
