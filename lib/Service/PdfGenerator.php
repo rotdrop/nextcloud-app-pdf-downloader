@@ -90,6 +90,8 @@ class PdfGenerator extends \TCPDF
    *
    * @return array
    *
+   * @todo This should be done offline
+   *
    * @SuppressWarnings(PHPMD.UndefinedVariable)
    * @SuppressWarnings(PHPMD.UnusedLocalVariable)
    */
@@ -120,6 +122,7 @@ class PdfGenerator extends \TCPDF
           'type' => $type,
           'fontName' => $name,
           'flags' => $flags,
+          'fontHash' => md5(file_get_contents($finderFile->getRealPath())),
         ];
       }
       usort($this->distributedFonts, fn($fontA, $fontB) => strcmp($fontA['fontName'], $fontB['fontName']));

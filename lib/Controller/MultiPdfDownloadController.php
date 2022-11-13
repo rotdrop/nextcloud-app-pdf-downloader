@@ -418,6 +418,8 @@ __EOF__;
    * @param string $output The output format.
    * @see FONT_SAMPLE_OUTPUT_FORMATS
    *
+   * @param string $hash MD5 checksum of font-data, used for cache-invalidation.
+   *
    * @return Response
    *
    * @NoAdminRequired
@@ -429,6 +431,7 @@ __EOF__;
     int $fontSize = 12,
     string $format = FontService::FONT_SAMPLE_FORMAT_SVG,
     string $output = self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
+    ?string $hash = null,
   ):Response {
     $metaData = null;
     $sampleData = $this->fontService->generateFontSample(
@@ -436,16 +439,15 @@ __EOF__;
       urldecode($font),
       $fontSize,
       $format,
-      $metaData,
+      hash: $hash,
+      sampleMetaData: $metaData,
     );
     switch ($output) {
       case self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT:
-        return self::dataResponse([
-          'text' => $text,
-          'font' => $font,
-          'fontSize' => $fontSize,
+        $data = array_merge($metaData, [
           'data' => base64_encode($sampleData),
         ]);
+        return self::dataResponse($data);
       case self::FONT_SAMPLE_OUTPUT_FORMAT_BLOB:
         return self::dataDownloadResponse($sampleData, $metaData['fileName'], $metaData['mimeType']);
     }

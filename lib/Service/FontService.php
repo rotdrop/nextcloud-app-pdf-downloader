@@ -128,7 +128,9 @@ class FontService
    */
   public function getFonts():array
   {
-    return (new PdfGenerator)->getFonts();
+    $fonts = (new PdfGenerator)->getFonts();
+
+    return $fonts;
   }
 
   /**
@@ -139,6 +141,9 @@ class FontService
    * @param int $fontSize Font size in pt, default to 12.
    *
    * @param string $format One of PdfGenerator::FONT_SAMPLE_FORMATS.
+   *
+   * @param string $hash Hash of the font-file. If given invalidates existing
+   * cache values on mismatch.
    *
    * @param null|array $sampleMetaData Optionally an array is filled with
    * ```
@@ -158,6 +163,7 @@ class FontService
     string $font,
     int $fontSize = 12,
     string $format = self::FONT_SAMPLE_FORMAT_SVG,
+    string $hash = null,
     ?array &$sampleMetaData = null,
   ):string {
     $fontFolder = $this->getSampleFolder($font);
@@ -174,7 +180,25 @@ class FontService
       'fontSize' => $fontSize,
       'fileName' => $fontFileBaseName . '.' . $format,
       'mimeType' => $mimeType,
+      'hash' => $hash,
     ];
+
+    if (!empty($hash)) {
+      $hashFileName = $fontFileBaseName . '.md5';
+      try {
+        $fontFileHash = $fontFolder->getFile($hashFileName);
+        $cacheHash = $fontFileHash->getContent();
+      } catch (FileNotFoundException $e) {
+        // fall through
+      }
+      if (empty($cacheHash) || $cacheHash !== $hash) {
+        /** @var ISimpleFile $file */
+        foreach ($fontFolder->getDirectoryListing() as $file) {
+          $file->delete();
+        }
+        $fontFolder->newFile($hashFileName, $hash);
+      }
+    }
 
     try {
       /** @var ISimpleFile $fontFileFormat */
