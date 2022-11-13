@@ -1,5 +1,5 @@
 <!--
-   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+   - @copyright Copyright (c) 2018, 2022 John Molakvoæ <skjnldsv@protonmail.com>
    - @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
    -
    - @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -75,6 +75,10 @@ export default {
       type: String,
       default: '',
     },
+    sampleUri: {
+      type: String,
+      default: '',
+    },
   },
 
   computed: {
@@ -135,7 +139,7 @@ export default {
      * @return {string}
      */
     tooltip() {
-      return this.fontInfoPopup(this.option)
+      return this.fontInfoPopup(this.option, this.sampleUri)
     },
   },
 }

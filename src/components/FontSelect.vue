@@ -47,10 +47,11 @@
                                 :option="optionData.option"
                                 :search="optionData.search"
                                 :label="$refs.fontSelect.label"
+                                :sample-uri="getFontSampleUri(optionData.option)"
           />
         </template>
         <template #singleLabel="singleLabelData">
-          <span v-tooltip="fontInfoPopup(singleLabelData.option)">
+          <span v-tooltip="fontInfoPopup(singleLabelData.option, getFontSampleUri(singleLabelData.option))">
             {{ $refs.fontSelect.$refs.VueMultiselect.currentOptionLabel }}
           </span>
         </template>
@@ -141,15 +142,7 @@ export default {
       if (!this.fontObject) {
         return ''
       }
-      return generateUrl(
-        'pdf/fonts/sample/{text}/{font}/{fontSize}', {
-          text: encodeURIComponent(this.fontSampleText),
-          font: encodeURIComponent(this.fontObject.family),
-          fontSize: this.fontSampleSize,
-          format: this.fontSampleFormat,
-          output: 'blob',
-        },
-      )
+      return this.getFontSampleUri(this.fontObject)
     },
   },
   watch: {
@@ -167,15 +160,17 @@ export default {
     this.fontObject = this.value
   },
   methods: {
-    emitInput() {
-      this.emit('input')
-      this.emitUpdate()
-    },
-    emitUpdate() {
-      this.emit('update')
-    },
-    emit(event) {
-      this.$emit(event, this.fontObject)
+    getFontSampleUri(fontObject) {
+      return generateUrl(
+        'pdf/fonts/sample/{text}/{font}/{fontSize}', {
+          text: encodeURIComponent(this.fontSampleText),
+          font: encodeURIComponent(fontObject.family),
+          fontSize: this.fontSampleSize,
+          format: this.fontSampleFormat,
+          output: 'blob',
+          hash: fontObject.fontHash,
+        },
+      )
     },
   },
 }
@@ -223,6 +218,13 @@ export default {
   .hint {
     color: var(--color-text-lighter);
     font-size: 80%;
+  }
+}
+</style>
+<style lang="scss">
+.vue-tooltip.vue-tooltip-font-info-popup {
+  &, .tooltip-inner {
+    max-width:unset!important;
   }
 }
 </style>
