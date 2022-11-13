@@ -22,10 +22,9 @@
 
 namespace OCA\PdfDownloader\Service;
 
-use \RuntimeException;
+use RuntimeException;
 
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Exception as ProcessExceptions;
 
 use Psr\Log\LoggerInterface as ILogger;
@@ -223,7 +222,7 @@ class AnyToPdf
     $result = [];
 
     if (!empty($this->universalConverter)) {
-      $executable = $this->executableFinder->find($this->universalConverter);
+      $executable = $this->executableFinder->find($this->universalConverter, force: true);
       if (empty($executable)) {
         $executable = $this->l->t('not found');
       }
@@ -247,7 +246,7 @@ class AnyToPdf
           if ($converter == self::FALLBACK) {
             $converter = $this->fallbackConverter;
           }
-          $executable = $this->executableFinder->find($converter);
+          $executable = $this->executableFinder->find($converter, force: true);
           if (empty($executable)) {
             $executable = $this->l->t('not found');
           }
@@ -256,7 +255,7 @@ class AnyToPdf
         $result[$mimeType][] = $probedConverters;
       }
     }
-    $executable =  $this->executableFinder->find($this->fallbackConverter);
+    $executable =  $this->executableFinder->find($this->fallbackConverter, force: true);
     if (empty($executable)) {
       $executable = $this->l->t('not found');
     }
@@ -562,26 +561,8 @@ class AnyToPdf
    *
    * @throws Exceptions\EnduserNotificationException
    */
-  protected function findExecutable(string $program)
+  protected function findExecutable(string $program):string
   {
-    if (empty($this->executables[$program])) {
-      $executable = $this->executableFinder->find($program);
-      if (empty($executable)) {
-        $this->executables[$program] = [
-          'exception' => throw new Exceptions\EnduserNotificationException(
-            $this->l->t('Please install the "%s" program on the server.', $program)),
-          'path' => null,
-        ];
-      } else {
-        $this->executables[$program] = [
-          'exception' => null,
-          'path' => $executable,
-        ];
-      }
-    }
-    if (empty($this->executables[$program]['path'])) {
-      throw $this->executables[$program]['exception'];
-    }
-    return $this->executables[$program]['path'];
+    return $this->executableFinder->find($program, force: false);
   }
 }

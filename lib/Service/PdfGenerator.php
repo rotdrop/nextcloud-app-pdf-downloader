@@ -22,19 +22,41 @@
 
 namespace OCA\PdfDownloader\Service;
 
-use \TCPDF_FONTS;
+use Imagick;
+use TCPDF_FONTS;
 use Symfony\Component\Finder\Finder as FileNodeFinder;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Process\Exception as ProcessExceptions;
 
 /**
  * Abstraction for currently used PDF generator PHP class.
  */
 class PdfGenerator extends \TCPDF
 {
-  const FONT_FLAG_MONOSPACE = (1 << 0);
-  const FONT_FLAG_SYMBOLIC = (1 << 2);
-  const FONT_FLAG_NORMAL = (1 << 5);
-  const FONT_FLAG_ITALIC = (1 << 6);
+  /** @var int */
+  public const FONT_FLAG_MONOSPACE = (1 << 0);
 
+  /** @var int */
+  public const FONT_FLAG_SYMBOLIC = (1 << 2);
+
+  /** @var int */
+  public const FONT_FLAG_NORMAL = (1 << 5);
+
+  /** @var int */
+  public const FONT_FLAG_ITALIC = (1 << 6);
+
+  /**
+   * @var array
+   *
+   * Supported font flags.
+   */
+  public const FONT_FLAGS = [
+    self::FONT_FLAG_MONOSPACE,
+    self::FONT_FLAG_SYMBOLIC,
+    self::FONT_FLAG_NORMAL,
+    self::FONT_FLAG_ITALIC,
+  ];
 
   /**
    * @var array
@@ -70,7 +92,6 @@ class PdfGenerator extends \TCPDF
    *
    * @SuppressWarnings(PHPMD.UndefinedVariable)
    * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-)
    */
   public function getFonts():array
   {
@@ -104,37 +125,5 @@ class PdfGenerator extends \TCPDF
       usort($this->distributedFonts, fn($fontA, $fontB) => strcmp($fontA['fontName'], $fontB['fontName']));
     }
     return $this->distributedFonts;
-  }
-
-  /**
-   * @param string $sampleText
-   *
-   * @param string $font
-   *
-   * @param int $fontSize
-   *
-   * @return string
-   */
-  public static function generateTextSample(string $sampleText, string $font, int $fontSize = 12):string
-  {
-    $pdf = new PdfGenerator;
-    $pdf->setPageUnit('pt');
-    $pdf->setFont($font);
-    $pdf->setFontSize($fontSize);
-    $margin = 0;
-    $pdf->setMargins($margin, $margin, $margin, $margin);
-    $pdf->setAutoPageBreak(false);
-    $pdf->setPrintHeader(false);
-    $pdf->setPrintFooter(false);
-
-    $stringWidth = $pdf->GetStringWidth($sampleText);
-    $padding = 0.25 * $fontSize;
-    $pdf->setCellPaddings($padding, $padding, $padding, $padding);
-    $pageWidth = 2.0 * $padding + $stringWidth;
-    $pageHeight = 2.0 * $padding + $fontSize;
-    $pdf->startPage('P', [ $pageWidth, $pageHeight ]);
-    $pdf->Cell($pageWidth, $pageHeight, $sampleText, calign: 'A', valign: 'T', align: 'R', fill: false);
-    $pdf->endPage();
-    return $pdf->Output(str_replace(' ', '_', $sampleText) . '.pdf', 'S');
   }
 }

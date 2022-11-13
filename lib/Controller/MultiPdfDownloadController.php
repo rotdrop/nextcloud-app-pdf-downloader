@@ -48,6 +48,7 @@ use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
 use OCA\PdfDownloader\Service\ArchiveService;
+use OCA\PdfDownloader\Service\FontService;
 use OCA\PdfDownloader\Constants;
 
 /**
@@ -61,12 +62,39 @@ class MultiPdfDownloadController extends Controller
   use \OCA\PdfDownloader\Traits\LoggerTrait;
   use \OCA\PdfDownloader\Traits\ResponseTrait;
 
-  const ERROR_PAGES_FONT = 'dejavusans';
-  const ERROR_PAGES_FONTSIZE = '12';
-  const ERROR_PAGES_PAPER = 'A4';
+  public const ERROR_PAGES_FONT = 'dejavusans';
+  public const ERROR_PAGES_FONTSIZE = '12';
+  public const ERROR_PAGES_PAPER = 'A4';
 
   private const ARCHIVE_HANDLED = 0;
   private const ARCHIVE_IGNORED = 2;
+
+  /**
+   * @var string
+   *
+   * Present the font-sample as image blob.
+   */
+  public const FONT_SAMPLE_OUTPUT_FORMAT_BLOB = 'blob';
+
+  /**
+   * @var string
+   *
+   * Present the font-sample as object with meta information:
+   * ```
+   * [
+   *   'text' => SAMPLE_TEXT,
+   *   'font' => FONT_FAMILY,
+   *   'fontSize' => FONT_SIZE_IN_PT,
+   *   'data' => BASE_64_RENDERED_FONT_DATA,
+   * ]
+   * ```
+   */
+  public const FONT_SAMPLE_OUTPUT_FORMAT_OBJECT = 'object';
+
+  public const FONT_SAMPLE_OUTPUT_FORMATS = [
+    self::FONT_SAMPLE_OUTPUT_FORMAT_BLOB,
+    self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
+  ];
 
   /** @var PdfCombiner */
   private $pdfCombiner;
@@ -88,6 +116,9 @@ class MultiPdfDownloadController extends Controller
 
   /** @var Folder */
   private $userFolder;
+
+  /** @var FontService */
+  private $fontService;
 
   /** @var string */
   private $userId;
@@ -117,6 +148,7 @@ class MultiPdfDownloadController extends Controller
     Pdfcombiner $pdfCombiner,
     AnyToPdf $anyToPdf,
     ArchiveService $archiveService,
+    FontService $fontService,
   ) {
     parent::__construct($appName, $request);
     $this->l = $l10n;
@@ -127,6 +159,7 @@ class MultiPdfDownloadController extends Controller
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
     $this->archiveService = $archiveService;
+    $this->fontService = $fontService;
 
     if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
       $this->anyToPdf->disableBuiltinConverters();
@@ -360,14 +393,62 @@ __EOF__;
   /**
    * Get the list of available fonts.
    *
-   * @NoAdminRequired
    * @return Response
+   *
+   * @NoAdminRequired
+   * @NoCSRFRequired
    */
   public function getFonts():Response
   {
-    $pdf = new PdfGenerator;
-    $fonts = $pdf->getFonts();
+    $fonts = $this->fontService->getFonts();
     return self::dataResponse($fonts);
+  }
+
+  /**
+   * Get a font sample
+   *
+   * @param string $text
+   *
+   * @param string $font
+   *
+   * @param int $fontSize
+   *
+   * @param string $format
+   *
+   * @param string $output The output format.
+   * @see FONT_SAMPLE_OUTPUT_FORMATS
+   *
+   * @return Response
+   *
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+  public function getFontSample(
+    string $text,
+    string $font,
+    int $fontSize = 12,
+    string $format = FontService::FONT_SAMPLE_FORMAT_SVG,
+    string $output = self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
+  ):Response {
+    $metaData = null;
+    $sampleData = $this->fontService->generateFontSample(
+      urldecode($text),
+      urldecode($font),
+      $fontSize,
+      $format,
+      $metaData,
+    );
+    switch ($output) {
+      case self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT:
+        return self::dataResponse([
+          'text' => $text,
+          'font' => $font,
+          'fontSize' => $fontSize,
+          'data' => base64_encode($sampleData),
+        ]);
+      case self::FONT_SAMPLE_OUTPUT_FORMAT_BLOB:
+        return self::dataDownloadResponse($sampleData, $metaData['fileName'], $metaData['mimeType']);
+    }
   }
 
   /** @return int */
@@ -376,8 +457,3 @@ __EOF__;
     return min($this->archiveBombLimit, $this->archiveSizeLimit ?? PHP_INT_MAX);
   }
 }
-
-// Local Variables: ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***

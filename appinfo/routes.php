@@ -70,6 +70,14 @@ return [
       'url' => '/pdf/fonts',
       'verb' => 'GET',
     ],
+    [
+      'name' => 'multi_pdf_download#get_font_sample',
+      'url' => '/pdf/fonts/sample/{text}/{font}/{fontSize}',
+      'verb' => 'GET',
+      'defaults' => [
+        'fontSize' => '12',
+      ],
+    ],
     /**
      * Attempt a catch all ...
      */
