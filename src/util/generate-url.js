@@ -22,6 +22,7 @@
 
 import { appName } from '../config.js';
 import { generateUrl as nextcloudGenerateUrl } from '@nextcloud/router';
+import { getRequestToken } from '@nextcloud/auth';
 
 /**
  * Generate an absolute URL for this app.
@@ -50,7 +51,10 @@ const generateUrl = function(url, urlParams, urlOptions) {
     delete queryParams[urlParam[1]];
   }
   const queryArray = [];
-  for (const [key, value] of Object.entries(queryParams)) {
+  for (let [key, value] of Object.entries(queryParams)) {
+    if (key === 'requesttoken') {
+      value = getRequestToken();
+    }
     queryArray.push(key + '=' + encodeURIComponent(value.toString()));
   }
   if (queryArray.length > 0) {
