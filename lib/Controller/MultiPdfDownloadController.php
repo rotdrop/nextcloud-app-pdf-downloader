@@ -433,15 +433,33 @@ __EOF__;
     string $output = self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
     ?string $hash = null,
   ):Response {
+    $cache = true;
     $metaData = null;
-    $sampleData = $this->fontService->generateFontSample(
-      urldecode($text),
-      urldecode($font),
-      $fontSize,
-      $format,
-      hash: $hash,
-      sampleMetaData: $metaData,
-    );
+    try {
+      $sampleData = $this->fontService->generateFontSample(
+        urldecode($text),
+        urldecode($font),
+        $fontSize,
+        $format,
+        hash: $hash,
+        sampleMetaData: $metaData,
+      );
+    } catch (Exceptions\EnduserNotificationException $e) {
+      $message = $e->getMessage();
+      $fontSize = 12;
+      $width = $fontSize * strlen($message);
+      $padding = $fontSize / 4;
+      $height = 2 * $padding + $fontSize;
+      $left = $padding;
+      $top = $fontSize + $padding;
+      $sampleData =<<<EOF
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="$height" width="$width" version="1.0" viewBox="0 0 $width $height">
+<text x="$left" y="$top" font-family="sans" font-size="$fontSize">$message</text>
+</svg>
+EOF;
+      $cache = false;
+    }
     switch ($output) {
       case self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT:
         $data = array_merge($metaData, [
@@ -449,7 +467,11 @@ __EOF__;
         ]);
         return self::dataResponse($data);
       case self::FONT_SAMPLE_OUTPUT_FORMAT_BLOB:
-        return self::dataDownloadResponse($sampleData, $metaData['fileName'], $metaData['mimeType']);
+        $downloadResponse = self::dataDownloadResponse($sampleData, $metaData['fileName'], $metaData['mimeType']);
+        if ($cache) {
+          $downloadResponse->cacheFor(1800, public: true, immutable: true);
+        }
+        return $downloadResponse;
     }
   }
 
