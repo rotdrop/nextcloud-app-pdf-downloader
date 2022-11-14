@@ -23,6 +23,7 @@
 namespace OCA\PdfDownloader\Service;
 
 use Imagick;
+use Throwable;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception as ProcessExceptions;
@@ -217,6 +218,7 @@ class FontService
       $fontFolder->newFile($fontFileBaseName . '.pdf', $pdfData);
     }
 
+    $endUserException = null;
     switch ($format) {
       case self::FONT_SAMPLE_FORMAT_PDF:
         return $pdfData;
@@ -225,9 +227,10 @@ class FontService
           try {
             $converter = $this->executableFinder->find(self::PDF_TO_SVG);
           } catch (Exceptions\EnduserNotificationException $e) {
-            throw new Exceptions\EnduserNotificationException(
+            $endUserException = new Exceptions\EnduserNotificationException(
               $this->l->t('Font-sample could not be generated: %s', $e->getMessage())
             );
+            throw $endUserException;
           }
           $inputFile = $this->tempManager->getTemporaryFile();
           $outputFile = $this->tempManager->getTemporaryFile();
@@ -240,6 +243,12 @@ class FontService
           ]);
           $process->run();
           $data = file_get_contents($outputFile);
+          if (empty($data)) {
+            $endUserException = new Exceptions\EnduserNotificationException(
+              $this->l->t('Font-sample could not be generated with "%s".', self::PDF_TO_SVG)
+            );
+            throw $endUserException;
+          }
           unlink($inputFile);
           unlink($outputFile);
           break;
@@ -248,13 +257,30 @@ class FontService
         }
         // fallthrough
       default:
-        // Just pipe through Imagick and see what happens ;)
-        $imagick = new Imagick;
-        $imagick->readImageBlob($pdfData);
-        $imagick->setResolution(self::FONT_SAMPLE_PIXEL_RESOLUTION, self::FONT_SAMPLE_PIXEL_RESOLUTION);
-        $imagick->setImageFormat($format);
-        $data = (string)$imagick;
+        try {
+          // Just pipe through Imagick and see what happens ;)
+          $imagick = new Imagick;
+          $imagick->readImageBlob($pdfData);
+          $imagick->setResolution(self::FONT_SAMPLE_PIXEL_RESOLUTION, self::FONT_SAMPLE_PIXEL_RESOLUTION);
+          $imagick->setImageFormat($format);
+          $data = $imagick->getImageBlob();
+        } catch (Throwable $t) {
+          $this->logException($t, 'Unable to convert to SVG with "ImageMagick".');
+          $data = null;
+        }
+        if (empty($data)) {
+          $this->logInfo('Font-sample could not be generated with "ImageMagick".');
+          if (empty($endUserException)) {
+            $endUserException = new Exceptions\EnduserNotificationException(
+              $this->l->t('Font-sample could not be generated with "%s".', 'ImageMagick')
+            );
+          }
+        }
         break;
+    }
+
+    if (!empty($endUserException)) {
+      throw $endUserException;
     }
 
     $fontFolder->newFile($fontFileBaseName . '.' . $format, $data);
