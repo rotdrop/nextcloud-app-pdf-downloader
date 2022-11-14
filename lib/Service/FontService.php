@@ -222,7 +222,13 @@ class FontService
         return $pdfData;
       case self::FONT_SAMPLE_FORMAT_SVG:
         try {
-          $converter = $this->executableFinder->find(self::PDF_TO_SVG);
+          try {
+            $converter = $this->executableFinder->find(self::PDF_TO_SVG);
+          } catch (Exceptions\EnduserNotificationException $e) {
+            throw new Exceptions\EnduserNotificationException(
+              $this->l->t('Font-sample could not be generated: %s', $e->getMessage())
+            );
+          }
           $inputFile = $this->tempManager->getTemporaryFile();
           $outputFile = $this->tempManager->getTemporaryFile();
           file_put_contents($inputFile, $pdfData);
