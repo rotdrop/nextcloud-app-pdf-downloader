@@ -58,7 +58,7 @@
       </MultiSelect>
       <div v-show="loading" class="loading" />
     </div>
-    <div v-if="fontObject" class="font-sample flex flex-center">
+    <div v-if="fontObject" class="font-sample flex-container flex-center">
       <img :src="fontSampleSource">
     </div>
     <div v-if="hint !== undefined" class="hint">
@@ -120,7 +120,7 @@ export default {
     },
     fontSampleSize: {
       type: Number,
-      default: 18,
+      default: 12,
     },
     fontSampleFormat: {
       type: String,
@@ -146,13 +146,19 @@ export default {
     },
   },
   watch: {
-    fontObject(newValue) {
-      this.$emit('input', newValue) // Vue 2
-      this.$emit('update:modelValue', newValue) // Vue 3
+    fontObject: {
+      handler(newValue) {
+        this.$emit('input', newValue) // Vue 2
+        // this.$emit('update:modelValue', newValue) // Vue 3
+      },
+      deep: true,
     },
-    value(newVal) {
-      console.info('VALUE CHANGED', newVal)
-      this.fontObject = newVal
+    value: {
+      handler(newVal) {
+        console.info('VALUE CHANGED', newVal)
+        this.fontObject = newVal
+      },
+      deep: true,
     },
   },
   created() {
