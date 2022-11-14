@@ -94,7 +94,7 @@ class MimeTypeService
     $this->supportedMimeTypes = [];
     foreach ($mimeTypeMapping as $extension => $mimeType) {
       $format = ArchiveFormats::detectArchiveFormat('FOO.' . $extension);
-      if (!empty($supportedFormats[$format]))  {
+      if (!empty($supportedFormats[$format])) {
         $this->supportedMimeTypes[] = $mimeType[0];
       }
     }
