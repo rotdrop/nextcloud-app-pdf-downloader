@@ -32,7 +32,7 @@ use Psr\Container\ContainerInterface;
 
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Exceptions;
-use OCA\PdfDownaloder\Service\MimeTypeService;
+use OCA\PdfDownloader\Service\MimeTypeService;
 
 /**
  * App entry point.
