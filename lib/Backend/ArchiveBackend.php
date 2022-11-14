@@ -26,7 +26,7 @@ use InvalidArgumentException;
 use wapmorgan\UnifiedArchive;
 use wapmorgan\UnifiedArchive\Drivers\BasicDriver;
 
-use OCA\FilesArchive\Backend\ArchiveFormats as Formats;
+use OCA\PdfDownloader\Backend\ArchiveFormats as Formats;
 
 /**
  * Overload UnifiedArchive\UnifiedArchive with the goal to tweak the driver

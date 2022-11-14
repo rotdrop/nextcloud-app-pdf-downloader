@@ -28,12 +28,12 @@ use Psr\Log\LoggerInterface;
 
 use OCP\Files\IMimeTypeDetector;
 
-use OCA\FilesArchive\Backend\ArchiveFormats;
+use OCA\PdfDownloader\Backend\ArchiveFormats;
 
 /** Tweak the Nextcloud server to support all MIME-types needed by this app. */
 class MimeTypeService
 {
-  use \OCA\FilesArchive\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Traits\LoggerTrait;
 
   const MIME_TYPE_MAPPING_DATA_FILE = __DIR__ . '/../../config/nextcloud/mimetypemapping.json';
   const MIME_TYPE_ALIASES_DATA_FILE = __DIR__ . '/../../config/nextcloud/mimetypealiases.json';

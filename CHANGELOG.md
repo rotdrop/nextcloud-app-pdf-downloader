@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.10] - 2022-11-14
+
+### Fixed
+
+- erroneous usage of classes defined in [Archive Explorer](https://github.com/rotdrop/nextcloud-app-files-archive)
+
 ## [1.0.9] - 2022-11-13
 
 ### Added

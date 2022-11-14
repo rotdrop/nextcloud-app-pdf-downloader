@@ -26,7 +26,7 @@ use Throwable;
 
 use SimpleXMLElement;
 
-use OCA\FilesArchive\Constants;
+use OCA\PdfDownloader\Constants;
 
 /**
  * Trait which extracts the app-name from the info.xml file for cases where it
