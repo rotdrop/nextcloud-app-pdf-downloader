@@ -126,7 +126,7 @@
 import { appName } from './config.js'
 import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import SettingsInputText from './components/SettingsInputText'
+import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
 import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
 import EllipsisedFontOption from './components/EllipsisedFontOption'
 import FontSelect from './components/FontSelect'
