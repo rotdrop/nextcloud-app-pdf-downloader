@@ -66,7 +66,7 @@ class ExecutableFinder
    *
    * @param ExecutableFinderBackend $executableFinder
    *
-   * @param IMemcacheTTL $memoryCache
+   * @param ICacheFactory $cacheFactory
    *
    * @param ILogger $logger
    *
@@ -82,8 +82,39 @@ class ExecutableFinder
     $this->appName = $appName;
     $this->executableFinder = $executableFinder;
     $this->memoryCache = $cacheFactory->createLocking();
+    if (!($this->memoryCache instanceof IMemcacheTTL)) {
+      $this->memoryCache = $cacheFactory->createLocal();
+    }
     $this->logger = $logger;
     $this->l = $l10n;
+  }
+
+  /**
+   * @param string $key
+   *
+   * @param mixed $value
+   *
+   * @return void
+   */
+  private function setCacheValue(string $key, mixed $value):void
+  {
+    $this->memoryCache->set($key, $value);
+    if ($this->memoryCache instanceof IMemcacheTTL) {
+      $this->memoryCache->setTTL($key, self::CACHE_TTL);
+    }
+  }
+
+  /**
+   * @param string $key
+   *
+   * @return mixed
+   */
+  private function getCacheValue(string $key):mixed
+  {
+    if ($this->memoryCache->hasKey($key)) {
+      return $this->memoryCache->get($key);
+    }
+    return null;
   }
 
   /**
@@ -104,9 +135,7 @@ class ExecutableFinder
     if (empty($this->executables[$program])) {
       $cacheKey = $this->cacheKey($program);
       if (!$force) {
-        if ($this->memoryCache->hasKey($cacheKey)) {
-          $this->executables[$program] = $this->memoryCache->get($cacheKey);
-        }
+        $this->executables[$program] = $this->getCacheValue($cacheKey);
       }
       if (empty($this->executables[$program])) {
         $executable = $this->executableFinder->find($program);
@@ -122,8 +151,7 @@ class ExecutableFinder
             'exception' => null,
             'path' => $executable,
           ];
-          $this->memoryCache->set($cacheKey, $this->executables[$program]);
-          $this->memoryCache->setTTL($cacheKey, self::CACHE_TTL);
+          $this->setCacheValue($cacheKey, $this->executables[$program]);
         }
       }
     }
