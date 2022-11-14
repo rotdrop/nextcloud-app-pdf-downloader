@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-13 03:15+0000\n"
+"POT-Creation-Date: 2022-11-14 03:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,21 +32,21 @@ msgstr ""
 msgid "Get from end-point \"%s\" not implemented."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:212
+#: /app/lib/Controller/MultiPdfDownloadController.php:245
 msgid "unknown"
-msgstr ""
-
-#: /app/lib/Controller/MultiPdfDownloadController.php:315
-#, php-format
-msgid "Internal error, unknown file-system node-type: \"%s\"."
 msgstr ""
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:348
 #, php-format
+msgid "Internal error, unknown file-system node-type: \"%s\"."
+msgstr ""
+
+#: /app/lib/Controller/MultiPdfDownloadController.php:381
+#, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:351
+#: /app/lib/Controller/MultiPdfDownloadController.php:384
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
@@ -92,29 +92,24 @@ msgstr ""
 msgid "Unable to parse memory size limit \"%s\""
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:228 /app/lib/Service/AnyToPdf.php:252
-#: /app/lib/Service/AnyToPdf.php:261
+#: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:251
+#: /app/lib/Service/AnyToPdf.php:260
 msgid "not found"
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:244
+#: /app/lib/Service/AnyToPdf.php:243
 msgid "pass through"
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:291
+#: /app/lib/Service/AnyToPdf.php:290
 #, php-format
 msgid ""
 "Universal converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:328
+#: /app/lib/Service/AnyToPdf.php:327
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
-msgstr ""
-
-#: /app/lib/Service/AnyToPdf.php:572
-#, php-format
-msgid "Please install the \"%s\" program on the server."
 msgstr ""
 
 #: /app/lib/Service/ArchiveService.php:231
@@ -143,6 +138,11 @@ msgid ""
 " please contact the system administrator!"
 msgstr ""
 
+#: /app/lib/Service/ExecutableFinder.php:116
+#, php-format
+msgid "Please install the \"%s\" program on the server."
+msgstr ""
+
 #: /app/lib/Service/PdfCombiner.php:437 /app/lib/Service/PdfCombiner.php:460
 msgid "Combining PDFs failed"
 msgstr ""
@@ -153,11 +153,11 @@ msgstr ""
 msgid "PDF Downloader"
 msgstr ""
 
-#: /app/lib/Traits/ResponseTrait.php:79
+#: /app/lib/Traits/ResponseTrait.php:118
 msgid "Error, caught an exception."
 msgstr ""
 
-#: /app/lib/Traits/ResponseTrait.php:80
+#: /app/lib/Traits/ResponseTrait.php:119
 msgid "Caused by previous exception"
 msgstr ""
 
@@ -178,9 +178,9 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS ettings.vue:26
-#. TRANSLATORS alSettings.vue:165
+#. TRANSLATORS alSettings.vue:95
 #: /app/specialVueFakeDummyForL10nScript.js:4
-#: /app/specialVueFakeDummyForL10nScript.js:66
+#: /app/specialVueFakeDummyForL10nScript.js:62
 msgid "Archive Extraction"
 msgstr ""
 
@@ -192,16 +192,16 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS ettings.vue:40
-#. TRANSLATORS alSettings.vue:183
+#. TRANSLATORS alSettings.vue:113
 #: /app/specialVueFakeDummyForL10nScript.js:8
-#: /app/specialVueFakeDummyForL10nScript.js:72
+#: /app/specialVueFakeDummyForL10nScript.js:68
 msgid "Archive Size Limit"
 msgstr ""
 
 #. TRANSLATORS ettings.vue:41
-#. TRANSLATORS alSettings.vue:184
+#. TRANSLATORS alSettings.vue:114
 #: /app/specialVueFakeDummyForL10nScript.js:10
-#: /app/specialVueFakeDummyForL10nScript.js:74
+#: /app/specialVueFakeDummyForL10nScript.js:70
 msgid ""
 "Disallow archive extraction for archives with decompressed size larger than "
 "this limit."
@@ -291,87 +291,86 @@ msgstr ""
 msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:40
+#. TRANSLATORS alSettings.vue:39
+#. TRANSLATORS ents/FontSelect.vue:111
 #: /app/specialVueFakeDummyForL10nScript.js:42
-msgid "Font for generated PDF page-annotations"
-msgstr ""
-
-#. TRANSLATORS alSettings.vue:47
-#: /app/specialVueFakeDummyForL10nScript.js:44
-#: /app/specialVueFakeDummyForL10nScript.js:50
+#: /app/specialVueFakeDummyForL10nScript.js:48
+#: /app/specialVueFakeDummyForL10nScript.js:80
 msgid "Select a Font"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:75
+#. TRANSLATORS alSettings.vue:41
+#: /app/specialVueFakeDummyForL10nScript.js:44
+msgid "Font for generated PDF page-annotations"
+msgstr ""
+
+#. TRANSLATORS alSettings.vue:42
 #: /app/specialVueFakeDummyForL10nScript.js:46
 msgid "The font to use for the page-labels: {pageLabelsFont}"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:80
-#: /app/specialVueFakeDummyForL10nScript.js:48
+#. TRANSLATORS alSettings.vue:49
+#: /app/specialVueFakeDummyForL10nScript.js:50
 msgid "Font for generated PDF (error-)pages"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:115
+#. TRANSLATORS alSettings.vue:50
 #: /app/specialVueFakeDummyForL10nScript.js:52
 msgid "The font to use for generated pages: {generatedPagesFont}"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:121
+#. TRANSLATORS alSettings.vue:55
 #: /app/specialVueFakeDummyForL10nScript.js:54
-msgid "Test Input"
-msgstr ""
-
-#. TRANSLATORS alSettings.vue:122
-#: /app/specialVueFakeDummyForL10nScript.js:56
-msgid "Test Hint"
-msgstr ""
-
-#. TRANSLATORS alSettings.vue:125
-#: /app/specialVueFakeDummyForL10nScript.js:58
 msgid "Sorting Options"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:136
-#: /app/specialVueFakeDummyForL10nScript.js:60
+#. TRANSLATORS alSettings.vue:66
+#: /app/specialVueFakeDummyForL10nScript.js:56
 msgid "Group Folders First"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:148
-#: /app/specialVueFakeDummyForL10nScript.js:62
+#. TRANSLATORS alSettings.vue:78
+#: /app/specialVueFakeDummyForL10nScript.js:58
 msgid "Group Files First"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:160
-#: /app/specialVueFakeDummyForL10nScript.js:64
+#. TRANSLATORS alSettings.vue:90
+#: /app/specialVueFakeDummyForL10nScript.js:60
 msgid "Do Not Group"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:174
-#: /app/specialVueFakeDummyForL10nScript.js:68
+#. TRANSLATORS alSettings.vue:104
+#: /app/specialVueFakeDummyForL10nScript.js:64
 msgid "On-the-fly extraction of archive files."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:177
-#: /app/specialVueFakeDummyForL10nScript.js:70
+#. TRANSLATORS alSettings.vue:107
+#: /app/specialVueFakeDummyForL10nScript.js:66
 msgid ""
 "On-the-fly extraction of archive files is disabled by the administrator."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:189
-#: /app/specialVueFakeDummyForL10nScript.js:76
+#. TRANSLATORS alSettings.vue:119
+#: /app/specialVueFakeDummyForL10nScript.js:72
 msgid "Administrative size limit: {value}"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:282
-#: /app/specialVueFakeDummyForL10nScript.js:78
+#. TRANSLATORS alSettings.vue:155
+#. TRANSLATORS ents/FontSelect.vue:119
+#: /app/specialVueFakeDummyForL10nScript.js:74
+#: /app/specialVueFakeDummyForL10nScript.js:82
+msgid "The quick brown fox jumps over the lazy dog."
+msgstr ""
+
+#. TRANSLATORS alSettings.vue:215
+#: /app/specialVueFakeDummyForL10nScript.js:76
 #: /app/src/mixins/settings-sync.js:44 /app/src/mixins/settings-sync.js:74
 #: /app/src/mixins/settings-sync.js:124 /app/src/mixins/settings-sync.js:199
 msgid "reason unknown"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:286
-#: /app/specialVueFakeDummyForL10nScript.js:80
+#. TRANSLATORS alSettings.vue:219
+#: /app/specialVueFakeDummyForL10nScript.js:78
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr ""
 

@@ -7,17 +7,17 @@
 # nautilusx, 2022
 # Joachim Sokolowski, 2022
 # Markus Eckstein, 2022
-# Claus-Justus Heine, 2022
 # Joas Schilling, 2022
+# Claus-Justus Heine, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-13 03:15+0000\n"
+"POT-Creation-Date: 2022-11-14 03:16+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
-"Last-Translator: Joas Schilling, 2022\n"
+"Last-Translator: Claus-Justus Heine, 2022\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,23 +40,23 @@ msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 msgid "Get from end-point \"%s\" not implemented."
 msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:212
+#: /app/lib/Controller/MultiPdfDownloadController.php:245
 msgid "unknown"
 msgstr "unbekannt"
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:315
+#: /app/lib/Controller/MultiPdfDownloadController.php:348
 #, php-format
 msgid "Internal error, unknown file-system node-type: \"%s\"."
 msgstr "Server-Fehler, unbekannter Dateisystem Eintrag: \"%s\"."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:348
+#: /app/lib/Controller/MultiPdfDownloadController.php:381
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr ""
 "\"%s\" ist kein Ordner und automatische entpacken von Archiv-Dateien ist "
 "deaktiviert."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:351
+#: /app/lib/Controller/MultiPdfDownloadController.php:384
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
@@ -73,7 +73,7 @@ msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
 #: /app/lib/Controller/SettingsController.php:151
 #, php-format
 msgid "The admin setting \"%1$s\" is read-only"
-msgstr ""
+msgstr "Die Administrationseinstellung \"%1$s\" kann nur gelesen werden"
 
 #: /app/lib/Controller/SettingsController.php:164
 #: /app/lib/Controller/SettingsController.php:328
@@ -105,31 +105,28 @@ msgstr "Unbekannte perönliche Einstellung: \"%s\""
 msgid "Unable to parse memory size limit \"%s\""
 msgstr "Kann das Speicher-Limit nicht interpretieren: \"%s\""
 
-#: /app/lib/Service/AnyToPdf.php:228 /app/lib/Service/AnyToPdf.php:252
-#: /app/lib/Service/AnyToPdf.php:261
+#: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:251
+#: /app/lib/Service/AnyToPdf.php:260
 msgid "not found"
 msgstr "unauffindbar"
 
-#: /app/lib/Service/AnyToPdf.php:244
+#: /app/lib/Service/AnyToPdf.php:243
 msgid "pass through"
 msgstr "durchwinken"
 
-#: /app/lib/Service/AnyToPdf.php:291
+#: /app/lib/Service/AnyToPdf.php:290
 #, php-format
 msgid "Universal converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
+"Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
+"nicht konvertieren"
 
-#: /app/lib/Service/AnyToPdf.php:328
+#: /app/lib/Service/AnyToPdf.php:327
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
 "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
 "nicht konvertieren"
-
-#: /app/lib/Service/AnyToPdf.php:572
-#, php-format
-msgid "Please install the \"%s\" program on the server."
-msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
 
 #: /app/lib/Service/ArchiveService.php:231
 #: /app/lib/Service/ArchiveService.php:237
@@ -159,6 +156,11 @@ msgstr ""
 "Installationsproblem; die benötigte %s-Ressource \"%s\" ist auf dem Server "
 "nicht installiert, bitte den System-Administrator kontaktieren."
 
+#: /app/lib/Service/ExecutableFinder.php:116
+#, php-format
+msgid "Please install the \"%s\" program on the server."
+msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
+
 #: /app/lib/Service/PdfCombiner.php:437 /app/lib/Service/PdfCombiner.php:460
 msgid "Combining PDFs failed"
 msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
@@ -169,11 +171,11 @@ msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 msgid "PDF Downloader"
 msgstr "PDF Download-App"
 
-#: /app/lib/Traits/ResponseTrait.php:79
+#: /app/lib/Traits/ResponseTrait.php:118
 msgid "Error, caught an exception."
 msgstr "Fehler, \"Ausnahme\" \"aufgefangen\"."
 
-#: /app/lib/Traits/ResponseTrait.php:80
+#: /app/lib/Traits/ResponseTrait.php:119
 msgid "Caused by previous exception"
 msgstr "Verursacht durch eine vorhergehende Ausnahme"
 
@@ -196,9 +198,9 @@ msgstr ""
 "präsentiert das Ergebnis als PDF-Download."
 
 #. TRANSLATORS ettings.vue:26
-#. TRANSLATORS alSettings.vue:165
+#. TRANSLATORS alSettings.vue:95
 #: /app/specialVueFakeDummyForL10nScript.js:4
-#: /app/specialVueFakeDummyForL10nScript.js:66
+#: /app/specialVueFakeDummyForL10nScript.js:62
 msgid "Archive Extraction"
 msgstr "Archiv-Dateien-Behandlung"
 
@@ -212,16 +214,16 @@ msgstr ""
 "einzelnen Benutzer die Einstellung für sich selbst ändern."
 
 #. TRANSLATORS ettings.vue:40
-#. TRANSLATORS alSettings.vue:183
+#. TRANSLATORS alSettings.vue:113
 #: /app/specialVueFakeDummyForL10nScript.js:8
-#: /app/specialVueFakeDummyForL10nScript.js:72
+#: /app/specialVueFakeDummyForL10nScript.js:68
 msgid "Archive Size Limit"
 msgstr "Archiv-Größen-Limitierung"
 
 #. TRANSLATORS ettings.vue:41
-#. TRANSLATORS alSettings.vue:184
+#. TRANSLATORS alSettings.vue:114
 #: /app/specialVueFakeDummyForL10nScript.js:10
-#: /app/specialVueFakeDummyForL10nScript.js:74
+#: /app/specialVueFakeDummyForL10nScript.js:70
 msgid ""
 "Disallow archive extraction for archives with decompressed size larger than "
 "this limit."
@@ -320,89 +322,88 @@ msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 msgstr ""
 "Format der Seiten-Paginierung: DATEINAME_OHNE_ENDUNG #SEITE/#DATEI_SEITEN"
 
-#. TRANSLATORS alSettings.vue:40
+#. TRANSLATORS alSettings.vue:39
+#. TRANSLATORS ents/FontSelect.vue:111
 #: /app/specialVueFakeDummyForL10nScript.js:42
-msgid "Font for generated PDF page-annotations"
-msgstr "Schriftart für die Paginierung"
-
-#. TRANSLATORS alSettings.vue:47
-#: /app/specialVueFakeDummyForL10nScript.js:44
-#: /app/specialVueFakeDummyForL10nScript.js:50
+#: /app/specialVueFakeDummyForL10nScript.js:48
+#: /app/specialVueFakeDummyForL10nScript.js:80
 msgid "Select a Font"
 msgstr "Wähle eine Schriftart!"
 
-#. TRANSLATORS alSettings.vue:75
+#. TRANSLATORS alSettings.vue:41
+#: /app/specialVueFakeDummyForL10nScript.js:44
+msgid "Font for generated PDF page-annotations"
+msgstr "Schriftart für die Paginierung"
+
+#. TRANSLATORS alSettings.vue:42
 #: /app/specialVueFakeDummyForL10nScript.js:46
 msgid "The font to use for the page-labels: {pageLabelsFont}"
 msgstr "Schriftart für die Paginierung: {pageLabelsFont}"
 
-#. TRANSLATORS alSettings.vue:80
-#: /app/specialVueFakeDummyForL10nScript.js:48
+#. TRANSLATORS alSettings.vue:49
+#: /app/specialVueFakeDummyForL10nScript.js:50
 msgid "Font for generated PDF (error-)pages"
 msgstr "Schriftart für die erzeugten PDF-(Fehler-)Seiten"
 
-#. TRANSLATORS alSettings.vue:115
+#. TRANSLATORS alSettings.vue:50
 #: /app/specialVueFakeDummyForL10nScript.js:52
 msgid "The font to use for generated pages: {generatedPagesFont}"
 msgstr "Akutelle Schriftart für erzeugte PDF-Seiten: {generatedPagesFont}"
 
-#. TRANSLATORS alSettings.vue:121
+#. TRANSLATORS alSettings.vue:55
 #: /app/specialVueFakeDummyForL10nScript.js:54
-msgid "Test Input"
-msgstr "Test-Eingabe"
-
-#. TRANSLATORS alSettings.vue:122
-#: /app/specialVueFakeDummyForL10nScript.js:56
-msgid "Test Hint"
-msgstr "Test-Hinweis"
-
-#. TRANSLATORS alSettings.vue:125
-#: /app/specialVueFakeDummyForL10nScript.js:58
 msgid "Sorting Options"
 msgstr "Sortier-Einstellungen"
 
-#. TRANSLATORS alSettings.vue:136
-#: /app/specialVueFakeDummyForL10nScript.js:60
+#. TRANSLATORS alSettings.vue:66
+#: /app/specialVueFakeDummyForL10nScript.js:56
 msgid "Group Folders First"
 msgstr "Gruppiere Ordner zuerst"
 
-#. TRANSLATORS alSettings.vue:148
-#: /app/specialVueFakeDummyForL10nScript.js:62
+#. TRANSLATORS alSettings.vue:78
+#: /app/specialVueFakeDummyForL10nScript.js:58
 msgid "Group Files First"
 msgstr "Gruppiere Dateien zuerst"
 
-#. TRANSLATORS alSettings.vue:160
-#: /app/specialVueFakeDummyForL10nScript.js:64
+#. TRANSLATORS alSettings.vue:90
+#: /app/specialVueFakeDummyForL10nScript.js:60
 msgid "Do Not Group"
 msgstr "Nicht gruppieren"
 
-#. TRANSLATORS alSettings.vue:174
-#: /app/specialVueFakeDummyForL10nScript.js:68
+#. TRANSLATORS alSettings.vue:104
+#: /app/specialVueFakeDummyForL10nScript.js:64
 msgid "On-the-fly extraction of archive files."
 msgstr "Transparentes extrahieren von Archiv-Dateien."
 
-#. TRANSLATORS alSettings.vue:177
-#: /app/specialVueFakeDummyForL10nScript.js:70
+#. TRANSLATORS alSettings.vue:107
+#: /app/specialVueFakeDummyForL10nScript.js:66
 msgid ""
 "On-the-fly extraction of archive files is disabled by the administrator."
 msgstr ""
 "Transparentes extrahieren von Archiv-Dateien wurde von Administrator*innen "
 "deaktiviert."
 
-#. TRANSLATORS alSettings.vue:189
-#: /app/specialVueFakeDummyForL10nScript.js:76
+#. TRANSLATORS alSettings.vue:119
+#: /app/specialVueFakeDummyForL10nScript.js:72
 msgid "Administrative size limit: {value}"
+msgstr "Größenbegrenzen durch Administrator*innen: {value}"
+
+#. TRANSLATORS alSettings.vue:155
+#. TRANSLATORS ents/FontSelect.vue:119
+#: /app/specialVueFakeDummyForL10nScript.js:74
+#: /app/specialVueFakeDummyForL10nScript.js:82
+msgid "The quick brown fox jumps over the lazy dog."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:282
-#: /app/specialVueFakeDummyForL10nScript.js:78
+#. TRANSLATORS alSettings.vue:215
+#: /app/specialVueFakeDummyForL10nScript.js:76
 #: /app/src/mixins/settings-sync.js:44 /app/src/mixins/settings-sync.js:74
 #: /app/src/mixins/settings-sync.js:124 /app/src/mixins/settings-sync.js:199
 msgid "reason unknown"
 msgstr "Grund unbekannt"
 
-#. TRANSLATORS alSettings.vue:286
-#: /app/specialVueFakeDummyForL10nScript.js:80
+#. TRANSLATORS alSettings.vue:219
+#: /app/specialVueFakeDummyForL10nScript.js:78
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr "Kann die Schriftarten-Liste nicht erfragen: {message}"
 
@@ -418,6 +419,8 @@ msgstr ""
 #: /app/src/mixins/settings-sync.js:78
 msgid "Unable to query the initial value of {settingsKey}: {message}"
 msgstr ""
+"Kann die anfänglichen Wert der Einstellung {settingsKey} nicht abrufen: "
+"{message}"
 
 #: /app/src/mixins/settings-sync.js:114 /app/src/mixins/settings-sync.js:131
 msgid "true"
@@ -431,7 +434,7 @@ msgstr ""
 
 #: /app/src/mixins/settings-sync.js:119
 msgid "Setting \"{settingsKey}\" has been unset successfully."
-msgstr ""
+msgstr "Die Einstellung \"{settingsKey}\" wurde erfolgreich gelöscht."
 
 #: /app/src/mixins/settings-sync.js:129
 msgid "Unable to set \"{settingsKey}\" to {value}: {message}."
