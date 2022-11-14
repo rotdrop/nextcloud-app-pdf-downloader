@@ -82,6 +82,11 @@ extraction of archive files.
 - if enable users may decide by themselves whether to enable this
   feature or not
 
+### Overlay Font Selection
+
+- the fonts can be customized from the list of fonts shopped with `tcpdf`
+- font-sample generation for the preferences pages needs the external program `pdf2svn`
+
 ### Implementation
 This package relies on
 [`wapmorgan/unified-archive`](https://github.com/wapmorgan/UnifiedArchive)
