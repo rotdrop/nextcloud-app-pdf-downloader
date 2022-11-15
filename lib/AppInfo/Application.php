@@ -22,24 +22,26 @@
 
 namespace OCA\PdfDownloader\AppInfo;
 
+use Exception;
+
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\IConfig;
 
-use Psr\Container\ContainerInterface;
-
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Service\MimeTypeService;
+
+include_once __DIR__ . '/../../vendor/autoload.php';
 
 /**
  * App entry point.
  */
 class Application extends App implements IBootstrap
 {
-  use \OCA\PdfDownloader\Traits\AppNameTrait;
+  use \OCA\RotDrop\Toolkit\Traits\AppNameTrait;
 
   /** Constructor. */
   public function __construct()
@@ -72,9 +74,7 @@ class Application extends App implements IBootstrap
    */
   public function register(IRegistrationContext $context): void
   {
-    if ((include_once __DIR__ . '/../../vendor/autoload.php') === false) {
-      throw new Exceptions\Exception('Cannot include autoload. Did you run install dependencies using composer?');
-    }
+    include_once __DIR__ . '/../../vendor/autoload.php';
 
     // Register listeners
     ListenerRegistration::register($context);

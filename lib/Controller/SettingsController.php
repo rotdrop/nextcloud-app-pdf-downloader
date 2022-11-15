@@ -43,9 +43,9 @@ use OCA\PdfDownloader\Constants;
  */
 class SettingsController extends Controller
 {
-  use \OCA\PdfDownloader\Traits\ResponseTrait;
-  use \OCA\PdfDownloader\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Traits\UtilTrait;
+  use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
 
   public const ADMIN_DISABLE_BUILTIN_CONVERTERS = 'disableBuiltinConverters';
   public const ADMIN_FALLBACK_CONVERTER = 'fallbackConverter';

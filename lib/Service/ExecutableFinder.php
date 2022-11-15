@@ -36,7 +36,7 @@ use OCA\PdfDownloader\Exceptions;
  */
 class ExecutableFinder
 {
-  use \OCA\PdfDownloader\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   /**
    * @var int

@@ -59,8 +59,8 @@ use OCA\PdfDownloader\Constants;
  */
 class MultiPdfDownloadController extends Controller
 {
-  use \OCA\PdfDownloader\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Traits\ResponseTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
   public const ERROR_PAGES_FONTSIZE = '12';

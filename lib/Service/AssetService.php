@@ -33,7 +33,7 @@ use OCA\PdfDownloader\Exceptions;
  */
 class AssetService
 {
-  use \OCA\PdfDownloader\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   const ASSET_META = __DIR__ . '/../../js/asset-meta.json';
   const JS = 'js';

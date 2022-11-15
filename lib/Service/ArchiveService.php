@@ -42,8 +42,8 @@ use OCA\PdfDownloader\Exceptions;
  */
 class ArchiveService
 {
-  use \OCA\PdfDownloader\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Traits\UtilTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
 
   /**
    * @var string

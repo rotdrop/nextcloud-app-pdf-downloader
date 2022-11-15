@@ -43,8 +43,8 @@ use OCA\PdfDownloader\Service\MimeTypeService;
  */
 class FilesActionListener implements IEventListener
 {
-  use \OCA\PdfDownloader\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Traits\CloudAdminTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\CloudAdminTrait;
 
   const EVENT = HandledEvent::class;
 

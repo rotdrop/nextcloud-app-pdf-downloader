@@ -42,7 +42,7 @@ use OCA\PdfDownloader\Exceptions;
 /** Some font stuff support things. */
 class FontService
 {
-  use \OCA\PdfDownloader\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   private const PDF_TO_SVG = 'pdf2svg';
 
