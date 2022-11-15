@@ -35,7 +35,6 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent as HandledEvent;
 
 use OCA\PdfDownloader\Service\AssetService;
 use OCA\PdfDownloader\Controller\SettingsController;
-use OCA\RotDrop\Toolkit\Service\ArchiveService;
 use OCA\RotDrop\Toolkit\Service\MimeTypeService;
 
 /**

@@ -30,9 +30,9 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\IConfig;
 
-use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
-use OCA\PdfDownloader\Exceptions;
 use OCA\RotDrop\Toolkit\Service\MimeTypeService;
+
+use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 
 include_once __DIR__ . '/../../vendor/autoload.php';
 
