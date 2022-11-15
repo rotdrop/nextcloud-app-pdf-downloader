@@ -63,6 +63,7 @@ OC.L10N.register(
     "On-the-fly extraction of archive files." : "即時解壓縮封存檔。",
     "On-the-fly extraction of archive files is disabled by the administrator." : "管理員停用了封存檔的即時解壓縮。",
     "Administrative size limit: {value}" : "管理大小限制：{value}",
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog.",
     "reason unknown" : "未知理由",
     "Unable to obtain the list of available fonts: {message}" : "無法擷取可用字型清單：{message}",
     "Download PDF" : "下載 PDF",

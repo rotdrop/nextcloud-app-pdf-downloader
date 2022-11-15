@@ -63,6 +63,7 @@ OC.L10N.register(
     "On-the-fly extraction of archive files." : "Transparentes extrahieren von Archiv-Dateien.",
     "On-the-fly extraction of archive files is disabled by the administrator." : "Transparentes extrahieren von Archiv-Dateien wurde von Administrator*innen deaktiviert.",
     "Administrative size limit: {value}" : "Größenbegrenzen durch Administrator*innen: {value}",
+    "The quick brown fox jumps over the lazy dog." : "Der schnelle braune Fuchs springt über den faulen Hund.",
     "reason unknown" : "Grund unbekannt",
     "Unable to obtain the list of available fonts: {message}" : "Kann die Schriftarten-Liste nicht erfragen: {message}",
     "Download PDF" : "PDF herunter laden",
