@@ -130,10 +130,10 @@ import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/
 import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
 import EllipsisedFontOption from './components/EllipsisedFontOption'
 import FontSelect from './components/FontSelect'
-import generateUrl from './util/generate-url.js'
+import generateUrl from './toolkit/util/generate-url.js'
 import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import settingsSync from './mixins/settings-sync'
+import settingsSync from './toolkit/mixins/settings-sync'
 
 export default {
   name: 'PersonalSettings',
@@ -213,8 +213,11 @@ export default {
       } catch (e) {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data && e.response.data.message) {
-          message = e.response.data.message;
+        if (e.response && e.response.data) {
+          const responseData = e.response.data;
+          if (Array.isArray(responseData.messages)) {
+            message = responseData.messages.join(' ');
+          }
         }
         showError(t(appName, 'Unable to obtain the list of available fonts: {message}', {
           message,

@@ -118,7 +118,7 @@ import ListItem from '@rotdrop/nextcloud-vue-components/lib/components/ListItem'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import settingsSync from './mixins/settings-sync'
+import settingsSync from './toolkit/mixins/settings-sync'
 
 export default {
   name: 'AdminSettings',

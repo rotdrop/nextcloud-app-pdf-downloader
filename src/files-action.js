@@ -19,10 +19,10 @@
 
 import { appName } from './config.js';
 import { imagePath } from '@nextcloud/router';
-import generateUrl from './util/generate-url.js';
-import fileDownload from './util/file-download.js';
-import { attachDialogHandlers } from './util/dialogs.js';
-import { getInitialState } from 'services/InitialStateService.js';
+import generateUrl from './toolkit/util/generate-url.js';
+import fileDownload from './toolkit/util/file-download.js';
+import { attachDialogHandlers } from './toolkit/util/dialogs.js';
+import { getInitialState } from './toolkit/services/InitialStateService.js';
 
 const initialState = getInitialState();
 

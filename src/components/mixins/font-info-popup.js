@@ -1,8 +1,6 @@
 /**
  * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,36 +15,22 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-// jQuery stuff
+// import { appName } from '../../config.js';
 
-import { appName } from '../config.js';
-import { getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth';
-const jQuery = require('jquery');
-
-if (window.jQuery && window.jQuery !== jQuery) {
-  console.info(appName + ': JQUERY VERSIONS W / A', window.jQuery.fn.jquery, jQuery.fn.jquery);
-  // if (window.jQuery.fn.jquery === jQuery.fn.jquery) {
-  //   console.info(appName + ': using matching window.jQuery version');
-  //   jQuery = window.jQuery;
-  // }
-}
-
-let requestToken = getRequestToken() || '';
-
-jQuery.ajaxSetup({
-  beforeSend(xhr) {
-    xhr.setRequestHeader('requesttoken', requestToken);
+export default {
+  methods: {
+    fontInfoPopup(fontOption, sampleUri) {
+      // console.info('FONT OPTION', fontOption, sampleUri);
+      const content = `<div class="font-family">${fontOption.fontName}</div><div class="font-name"><img src="${sampleUri}"></div>`;
+      return {
+        content,
+        preventOverflow: false,
+        boundariesElement: 'viewport',
+        html: true,
+        classes: ['vue-tooltip-font-info-popup'],
+      };
+    },
   },
-});
-
-onRequestTokenUpdate(token => { requestToken = token; });
-
-export default jQuery;
-
-// Local Variables: ***
-// js-indent-level: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***
+};

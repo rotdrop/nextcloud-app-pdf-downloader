@@ -43,8 +43,8 @@
 </template>
 <script>
 import Highlight from '@nextcloud/vue/dist/Components/Highlight'
-import FindRanges from '../util/FindRanges'
-import fontInfoPopup from '../mixins/font-info-popup'
+import FindRanges from './util/FindRanges'
+import fontInfoPopup from './mixins/font-info-popup'
 
 export default {
   name: 'EllipsisedFontOption',

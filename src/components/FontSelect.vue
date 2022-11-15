@@ -70,8 +70,8 @@
 import { appName } from '../config.js'
 import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
 import EllipsisedFontOption from './EllipsisedFontOption'
-import fontInfoPopup from '../mixins/font-info-popup'
-import generateUrl from '../util/generate-url.js'
+import fontInfoPopup from './mixins/font-info-popup'
+import generateUrl from '../toolkit/util/generate-url.js'
 
 export default {
   name: 'FontSelect',
