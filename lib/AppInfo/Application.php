@@ -32,7 +32,7 @@ use OCP\IConfig;
 
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Exceptions;
-use OCA\PdfDownloader\Service\MimeTypeService;
+use OCA\RotDrop\Toolkit\Service\MimeTypeService;
 
 include_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -60,7 +60,7 @@ class Application extends App implements IBootstrap
   public function boot(IBootContext $context): void
   {
     $context->injectFn(function(MimeTypeService $mimeTypeService) {
-      $mimeTypeService->registerMimeTypeMappings();
+      $mimeTypeService->setAppPath(__DIR__ . '/../../')->registerMimeTypeMappings();
     });
   }
 

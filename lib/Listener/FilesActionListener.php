@@ -35,8 +35,8 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent as HandledEvent;
 
 use OCA\PdfDownloader\Service\AssetService;
 use OCA\PdfDownloader\Controller\SettingsController;
-use OCA\PdfDownloader\Service\ArchiveService;
-use OCA\PdfDownloader\Service\MimeTypeService;
+use OCA\RotDrop\Toolkit\Service\ArchiveService;
+use OCA\RotDrop\Toolkit\Service\MimeTypeService;
 
 /**
  * In particular listen to the asset-loading events.
@@ -111,7 +111,7 @@ class FilesActionListener implements IEventListener
 
     /** @var MimeTypeService $mimeTypeService */
     $mimeTypeService = $this->appContainer->get(MimeTypeService::class);
-    $archiveMimeTypes = $mimeTypeService->getSupportedMimeTypes();
+    $archiveMimeTypes = $mimeTypeService->setAppPath(__DIR__ . '/../../')->getSupportedMimeTypes();
 
     // just admin contact and stuff to make the ajax error handlers work.
     $groupManager = $this->appContainer->get(\OCP\IGroupManager::class);

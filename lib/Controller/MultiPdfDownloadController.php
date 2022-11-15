@@ -47,7 +47,7 @@ use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
-use OCA\PdfDownloader\Service\ArchiveService;
+use OCA\RotDrop\Toolkit\Service\ArchiveService;
 use OCA\PdfDownloader\Service\FontService;
 use OCA\PdfDownloader\Constants;
 
