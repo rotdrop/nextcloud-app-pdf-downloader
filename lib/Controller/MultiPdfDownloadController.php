@@ -43,11 +43,13 @@ use OCP\Files\Folder;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 
+use OCA\RotDrop\Toolkit\Service\ArchiveService;
+use OCA\RotDrop\Toolkit\Exceptions as ToolkitExceptions;
+
 use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
-use OCA\RotDrop\Toolkit\Service\ArchiveService;
 use OCA\PdfDownloader\Service\FontService;
 use OCA\PdfDownloader\Constants;
 
@@ -158,8 +160,9 @@ class MultiPdfDownloadController extends Controller
     $this->mimeTypeDetector = $mimeTypeDetector;
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
-    $this->archiveService = $archiveService;
     $this->fontService = $fontService;
+    $this->archiveService = $archiveService;
+    $this->archiveService->setL10N($l10n);
 
     if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
       $this->anyToPdf->disableBuiltinConverters();
@@ -298,11 +301,11 @@ __EOF__;
       }
 
       return self::ARCHIVE_HANDLED; // success
-    } catch (Exceptions\ArchiveCannotOpenException $oe) {
+    } catch (ToolkitExceptions\ArchiveCannotOpenException $oe) {
       $this->logException($oe, level: LogLevel::DEBUG);
 
       return self::ARCHIVE_IGNORED; // process as ordinary file
-    } catch (Exceptions\ArchiveTooLargeException $se) {
+    } catch (ToolkitExceptions\ArchiveTooLargeException $se) {
       $pdfData = $this->generateErrorPage($fileData, $path, $se);
       $this->pdfCombiner->addDocument($pdfData, $path);
       return self::ARCHIVE_HANDLED;
