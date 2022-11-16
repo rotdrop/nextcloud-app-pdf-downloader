@@ -65,7 +65,7 @@ class MultiPdfDownloadController extends Controller
   use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
-  public const ERROR_PAGES_FONTSIZE = '12';
+  public const ERROR_PAGES_FONT_SIZE = '12';
   public const ERROR_PAGES_PAPER = 'A4';
 
   private const ARCHIVE_HANDLED = 0;
@@ -127,6 +127,9 @@ class MultiPdfDownloadController extends Controller
 
   /** @var string */
   private $errorPagesFont = self::ERROR_PAGES_FONT;
+
+  /** @var int */
+  private $errorPagesFontSize = self::ERROR_PAGES_FONT_SIZE;
 
   /* @var bool */
   private $extractArchiveFiles = false;
@@ -210,9 +213,9 @@ class MultiPdfDownloadController extends Controller
   /**
    * Return the current error-pages font-name.
    *
-   * @return null|string The font-name.
+   * @return string The font-name.
    */
-  public function getErrorPagesFont():?string
+  public function getErrorPagesFont():string
   {
     return $this->errorPagesFont ?? self::ERROR_PAGES_FONT;
   }
@@ -220,13 +223,38 @@ class MultiPdfDownloadController extends Controller
   /**
    * Set the current error-pages font-name.
    *
-   * @param null|string $errorPagesFont
+   * @param null|string $errorPagesFont Specify `null` to reset to the default.
    *
    * @return MultiPdfDownloadController Return $this for chaining setters.
    */
   public function setErrorPagesFont(?string $errorPagesFont):MultiPdfDownloadController
   {
     $this->errorPagesFont = empty($errorPagesFont) ? self::ERROR_PAGES_FONT : $errorPagesFont;
+
+    return $this;
+  }
+
+  /**
+   * Return the current error-pages font-size.
+   *
+   * @return int The font-size
+   */
+  public function getErrorPagesFontSize():int
+  {
+    return $this->errorPagesFontSize ?? self::ERROR_PAGES_FONT_SIZE;
+  }
+
+  /**
+   * Set the current error-pages font-size.
+   *
+   * @param null|int $errorPagesFontSize The font-size in [pt]. Use null to reset to default.
+   *
+   * @return MultiPdfDownloadController Return $this for chaining setters.
+   */
+  public function setErrorPagesFontSize(?int $errorPagesFontSize):MultiPdfDownloadController
+  {
+    $this->errorPagesFontSize = $errorPagesFontSize === null ? self::ERROR_PAGES_FONT_SIZE : $errorPagesFontSize;
+
     return $this;
   }
 
@@ -243,7 +271,7 @@ class MultiPdfDownloadController extends Controller
   {
     $pdf = new PdfGenerator(orientation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
     $pdf->setFont($this->getErrorPagesFont());
-    $pdf->setFontSize(self::ERROR_PAGES_FONTSIZE);
+    $pdf->setFontSize($this->getErrorPagesFontSize());
 
     $mimeType = $fileData ? $this->mimeTypeDetector->detectString($fileData) : $this->l->t('unknown');
 
@@ -416,6 +444,8 @@ __EOF__;
    *
    * @param int $fontSize
    *
+   * @param string $color RGB text-color to use in #RRGGBB format (hex), defaults to black #000000.
+   *
    * @param string $format
    *
    * @param string $output The output format.
@@ -432,10 +462,12 @@ __EOF__;
     string $text,
     string $font,
     int $fontSize = 12,
+    string $textColor = '#FF0000',
     string $format = FontService::FONT_SAMPLE_FORMAT_SVG,
     string $output = self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
     ?string $hash = null,
   ):Response {
+    $this->logInfo('TEXT COLOR ' . $textColor);
     $cache = true;
     $metaData = null;
     try {
@@ -443,7 +475,8 @@ __EOF__;
         urldecode($text),
         urldecode($font),
         $fontSize,
-        $format,
+        rgbTextColor: $textColor,
+        format: $format,
         hash: $hash,
         sampleMetaData: $metaData,
       );

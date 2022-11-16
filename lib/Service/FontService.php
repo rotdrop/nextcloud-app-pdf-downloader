@@ -141,6 +141,8 @@ class FontService
    *
    * @param int $fontSize Font size in pt, default to 12.
    *
+   * @param string $rgbTextColor Text-color to use, default black "#000000".
+   *
    * @param string $format One of PdfGenerator::FONT_SAMPLE_FORMATS.
    *
    * @param string $hash Hash of the font-file. If given invalidates existing
@@ -163,12 +165,16 @@ class FontService
     string $sampleText,
     string $font,
     int $fontSize = 12,
+    string $rgbTextColor = '#000000',
     string $format = self::FONT_SAMPLE_FORMAT_SVG,
     string $hash = null,
     ?array &$sampleMetaData = null,
   ):string {
     $fontFolder = $this->getSampleFolder($font);
     $fontFileBaseName = urlencode(trim($sampleText, '.')) . '-' . $fontSize;
+    if ($rgbTextColor !== '#000000') {
+      $fontFileBaseName .= '-' . trim($rgbTextColor, '#');
+    }
 
     $mimeType = self::FONTS_SAMPLE_MIME_TYPES[$format] ?? null;
     if (empty($mimeType)) {
@@ -214,7 +220,7 @@ class FontService
       $fontFilePdf = $fontFolder->getFile($fontFileBaseName . '.pdf');
       $pdfData = $fontFilePdf->getContent();
     } catch (FileNotFoundException $e) {
-      $pdfData = $this->generateFontSamplePdf($sampleText, $font, $fontSize);
+      $pdfData = $this->generateFontSamplePdf($sampleText, $font, $fontSize, $rgbTextColor);
       $fontFolder->newFile($fontFileBaseName . '.pdf', $pdfData);
     }
 
@@ -290,9 +296,11 @@ class FontService
   /**
    * @param string $sampleText Sample text to render.
    *
-   * @param string $font Font family as returned by getFonts()
+   * @param string $font Font family as returned by getFonts().
    *
    * @param int $fontSize Font size in pt, default to 12.
+   *
+   * @param string $rgbTextColor Text-color "#RRGGBB" to use, default black "#000000".
    *
    * @return string
    */
@@ -300,6 +308,7 @@ class FontService
     string $sampleText,
     string $font,
     int $fontSize = 12,
+    string $rgbTextColor = '#000000',
   ):string {
     $pdf = new PdfGenerator;
     $pdf->setPageUnit('pt');
@@ -323,7 +332,13 @@ class FontService
     $pdf->startPage($orientation, [ $pageWidth, $pageHeight ]);
     $pdf->setXY(0, $padding);
     $pdf->SetAlpha(1, 'Normal', 1.0);
-    $pdf->setColor('text', 0, 0, 0);
+
+    $color = trim($rgbTextColor, '#');
+    $red = hexdec(substr($color, 0, 2));
+    $green = hexdec(substr($color, 2, 2));
+    $blue = hexdec(substr($color, 4, 2));
+    $pdf->setColor('text', $red, $green, $blue);
+    $this->logInfo('SET COLOR ' . $red . ' ' . $green . ' ' . $blue);
     $pdf->Cell($pageWidth, $pageHeight, $sampleText, calign: 'A', valign: 'T', align: 'R', fill: false);
     $pdf->endPage();
 
