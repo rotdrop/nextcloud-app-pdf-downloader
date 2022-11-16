@@ -17,18 +17,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import Vue from 'vue';
 import { appName } from './config.js';
-import { imagePath } from '@nextcloud/router';
-import generateUrl from './toolkit/util/generate-url.js';
+import generateAppUrl from './toolkit/util/generate-url.js';
 import fileDownload from './toolkit/util/file-download.js';
 import { attachDialogHandlers } from './toolkit/util/dialogs.js';
+import { generateFilePath, imagePath, generateUrl } from '@nextcloud/router';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
+import FilesTab from './views/FilesTab.vue';
+import { Tooltip } from '@nextcloud/vue';
+
+require('dialogs.scss');
+require('pdf-downloader.scss');
+
+Vue.directive('tooltip', Tooltip);
+
+// eslint-disable-next-line
+__webpack_public_path__ = generateFilePath(appName, '', 'js');
+Vue.mixin({ data() { return { appName }; }, methods: { t, n, generateUrl } });
+
+const View = Vue.extend(FilesTab);
+let TabInstance = null;
 
 const initialState = getInitialState();
 
 const mimeTypes = [
   'httpd/unix-directory',
 ];
+
+if (initialState.extractArchiveFiles && initialState.extractArchiveFilesAdmin) {
+  mimeTypes.splice(0, 0, ...initialState.archiveMimeTypes);
+  console.info('MIME TYPES', mimeTypes);
+}
 
 // a menu entry in order to download a folder as multi-page pdf
 const fileActionTemplate = {
@@ -57,7 +77,7 @@ const fileActionTemplate = {
       dirName,
     ].join('/'));
 
-    const url = generateUrl('download/pdf/{fullPath}', { fullPath });
+    const url = generateAppUrl('download/pdf/{fullPath}', { fullPath });
 
     // $file is a jQuery object, change that if the files-app gets overhauled
     const downloadFileaction = context.$file.find('.fileactions .action-download-pdf');
@@ -85,13 +105,48 @@ window.addEventListener('DOMContentLoaded', () => {
 
   console.info('INITIAL STATE', initialState);
 
+  /**
+   * Register a new tab in the sidebar
+   */
+  if (OCA.Files && OCA.Files.Sidebar) {
+    OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
+      id: appName,
+      name: t(appName, 'PDF Download'),
+      icon: 'icon-pdf-downloader',
+
+      enabled(fileInfo) {
+        return mimeTypes.indexOf(fileInfo.mimetype) >= 0;
+      },
+
+      async mount(el, fileInfo, context) {
+
+        if (TabInstance) {
+          TabInstance.$destroy();
+        }
+
+        TabInstance = new View({
+          // Better integration with vue parent component
+          parent: context,
+        });
+
+        // Only mount after we have all the info we need
+        await TabInstance.update(fileInfo);
+
+        TabInstance.$mount(el);
+      },
+      update(fileInfo) {
+        console.info('ARGUMENTS', arguments);
+        TabInstance.update(fileInfo);
+      },
+      destroy() {
+        TabInstance.$destroy();
+        TabInstance = null;
+      },
+    }));
+  }
+
   if (OCA.Files && OCA.Files.fileActions) {
     const fileActions = OCA.Files.fileActions;
-
-    if (initialState.extractArchiveFiles && initialState.extractArchiveFilesAdmin) {
-      mimeTypes.splice(0, 0, ...initialState.archiveMimeTypes);
-      console.info('MIME TYPES', mimeTypes);
-    }
 
     fileActionTemplate.type = OCA.Files.FileActions.TYPE_DROPDOWN;
     fileActionTemplate.permissions = OC.PERMISSION_READ;
