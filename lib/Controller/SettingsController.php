@@ -57,7 +57,16 @@ class SettingsController extends Controller
 
   public const PERSONAL_PAGE_LABELS = 'pageLabels';
   public const PERSONAL_PAGE_LABELS_FONT = 'pageLabelsFont';
+  public const PERSONAL_PAGE_LABELS_FONT_DEFAULT = PdfCombiner::OVERLAY_FONT;
+  public const PERSONAL_PAGE_LABELS_FONT_SIZE = 'pageLabelsFontSize';
+  public const PERSONAL_PAGE_LABELS_FONT_SIZE_DEFAULT = PdfCombiner::OVERLAY_FONT_SIZE;
+  public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION = 'pageLabelPageWidthFraction';
+  public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION_DEFAULT = PdfCombiner::OVERLAY_PAGE_WIDTH_FRACTION;
+
   public const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
+  public const PERSONAL_GENERATED_PAGES_FONT_DEFAULT = MultiPdfDownloadController::ERROR_PAGES_FONT;
+  public const PERSONAL_GENERATED_PAGES_FONT_SIZE = 'generatedPagesFontSize';
+  public const PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT = MultiPdfDownloadController::ERROR_PAGES_FONT_SIZE;
 
   public const DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
 
@@ -76,7 +85,7 @@ class SettingsController extends Controller
    * Admin settings with r/w flag and default value (booleans)
    */
   const ADMIN_SETTINGS = [
-    self::EXTRACT_ARCHIVE_FILES => [  'rw' => true, 'default' => false, ],
+    self::EXTRACT_ARCHIVE_FILES => [ 'rw' => true, 'default' => false, ],
     self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
     self::ADMIN_DISABLE_BUILTIN_CONVERTERS => [  'rw' => true, 'default' => false, ],
     self::ADMIN_FALLBACK_CONVERTER => [ 'rw' => true, ],
@@ -95,8 +104,26 @@ class SettingsController extends Controller
     self::EXTRACT_ARCHIVE_FILES_ADMIN => [ 'rw' => false, 'default' => false, ],
     self::ARCHIVE_SIZE_LIMIT_ADMIN => [ 'rw' => false, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
     self::PERSONAL_PAGE_LABELS => [ 'rw' => true, 'default' => true, ],
-    self::PERSONAL_PAGE_LABELS_FONT => [ 'rw' => true, ],
-    self::PERSONAL_GENERATED_PAGES_FONT => [ 'rw' => true, ],
+    self::PERSONAL_PAGE_LABELS_FONT => [
+      'rw' => true,
+      'default' => self::PERSONAL_GENERATED_PAGES_FONT_DEFAULT,
+    ],
+    self::PERSONAL_PAGE_LABELS_FONT_SIZE => [
+      'rw' => true,
+      'default' => self::PERSONAL_PAGE_LABELS_FONT_SIZE_DEFAULT,
+    ],
+    self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION => [
+      'rw' => true,
+      'default' => self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION_DEFAULT,
+    ],
+    self::PERSONAL_GENERATED_PAGES_FONT => [
+      'rw' => true,
+      'default' => self::PERSONAL_GENERATED_PAGES_FONT_DEFAULT,
+    ],
+    self::PERSONAL_GENERATED_PAGES_FONT_SIZE => [
+      'rw' => true,
+      'default' => self::PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT,
+    ],
     self::PERSONAL_GROUPING => [ 'rw' => true, 'default' => self::PERSONAL_GROUP_FOLDERS_FIRST, ],
   ];
 
@@ -335,6 +362,15 @@ class SettingsController extends Controller
           $newValue = (int)$newValue;
         }
         break;
+      case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
+        $newValue = $value;
+        if ($newValue === null || $newValue === '') {
+          // allow empty value in order to request a fixed font-size.
+          $newValue = '';
+        }
+        break;
+      case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
+      case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
       case self::PERSONAL_GENERATED_PAGES_FONT:
       case self::PERSONAL_PAGE_LABELS_FONT:
       case self::PERSONAL_GROUPING:
@@ -436,11 +472,32 @@ class SettingsController extends Controller
           }
           $value= (int)$value;
           break;
+        case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
+          if (empty($value)) {
+            /** @var MultiPdfDownloadController $downloadController */
+            $downloadController = $this->appContainer->get(MultiPdfDownloadController::class);
+            $value = $downloadController->getErrorPagesFontSize();
+          }
+          break;
         case self::PERSONAL_GENERATED_PAGES_FONT:
           if (empty($value)) {
             /** @var MultiPdfDownloadController $downloadController */
             $downloadController = $this->appContainer->get(MultiPdfDownloadController::class);
             $value = $downloadController->getErrorPagesFont();
+          }
+          break;
+        case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
+          if ($value === null) {
+            /** @var PdfCombiner $pdfCombiner */
+            $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
+            $value = $pdfCombiner->getOverlayPageWidthFraction();
+          }
+          break;
+        case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
+          if (empty($value)) {
+            /** @var PdfCombiner $pdfCombiner */
+            $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
+            $value = $pdfCombiner->getOverlayFontSize();
           }
           break;
         case self::PERSONAL_PAGE_LABELS_FONT:

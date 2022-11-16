@@ -35,14 +35,51 @@
       <span class="hint">
         {{ t(appName, 'Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
       </span>
-      <FontSelect v-model="pageLabelsFontObject"
+      <div v-show="pageLabels" class="horizontal-rule" />
+      <SettingsInputText v-show="pageLabels"
+                         v-model="pageLabelTemplate"
+                         :label="t(appName, 'Template for the page-labels')"
+      >
+        <template #hint>
+          <div class="template-example-container flex-container flex-center">
+            <span class="tempalte-exmaple-caption">
+              {{ t(appName, 'Example') }}:
+            </span>
+            <span :class="['template-example-rendered', { 'set-minimum-height': !!pageLabelPageWidthFraction }]">
+              <img :src="pageLabelTemplateFontSampleUri">
+            </span>
+            <span class="template-example-plain-text">
+              "{{ pageLabelTemplateExample }}"
+            </span>
+          </div>
+        </template>
+      </SettingsInputText>
+      <div v-show="pageLabels" class="horizontal-rule" />
+      <SettingsInputText v-show="pageLabels"
+                         v-model="pageLabelPageWidthFraction"
+                         :placeholder="t(appName, 'e.g. 0.4')"
+                         type="number"
+                         min="0.01"
+                         max="1.00"
+                         step="0.01"
+                         :label="t(appName, 'Page-label width fraction')"
+                         :hint="t(appName, 'Page-label width as decimal fraction of the page-width. Leave empty to use a fixed font-size.')"
+                         :disabled="loading || !pageLabels"
+                         @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
+      />
+      <div v-show="pageLabels" class="horizontal-rule" />
+      <FontSelect v-show="pageLabels"
+                  ref="pageLabelsFontSelect"
+                  v-model="pageLabelsFontObject"
                   :placeholder="t(appName, 'Select a Font')"
                   :fonts-list="fontsList"
                   :label="t(appName, 'Font for generated PDF page-annotations')"
                   :hint="t(appName, 'The font to use for the page labels: {pageLabelsFont}', { pageLabelsFont })"
                   :disabled="!pageLabels || loading"
                   :loading="loading"
+                  :font-size-chooser="!pageLabelPageWidthFraction"
       />
+      <div class="horizontal-rule" />
       <FontSelect v-model="generatedPagesFontObject"
                   :placeholder="t(appName, 'Select a Font')"
                   :fonts-list="fontsList"
@@ -92,6 +129,10 @@
         </span>
       </div>
     </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Default Download Options')">
+      <SettingsInputText :label="t(appName, 'File-name template')" />
+      <SettingsInputText :label="t(appName, 'Default destination folder')" />
+    </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
         <input id="extract-archive-files"
@@ -124,10 +165,10 @@
 
 <script>
 import { appName } from './config.js'
+import Vue from 'vue'
 import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
-import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
 import EllipsisedFontOption from './components/EllipsisedFontOption'
 import FontSelect from './components/FontSelect'
 import generateUrl from './toolkit/util/generate-url.js'
@@ -141,26 +182,32 @@ export default {
     AppSettingsSection,
     SettingsSection,
     SettingsInputText,
-    MultiSelect,
-    EllipsisedFontOption,
     FontSelect,
   },
   data() {
     return {
-      pageLabels: true,
       grouping: 'folders-first',
       sorting: 'ascending',
       fontsList: [],
       fontSamples: [],
       fontSampleText: t(appName, 'The quick brown fox jumps over the lazy dog.'),
       loading: true,
+      pageLabels: true,
+      pageLabelTemplate: '{' + t(appName, 'BASENAME') + '} {' + t(appName, 'PAGE_NUMBER') + '}/{' + t(appName, 'TOTAL_PAGES') + '}',
+      pageLabelPageWidthFraction: 0.4,
       pageLabelsFont: '',
+      pageLabelsFontSize: 12,
       pageLabelsFontObject: null,
       generatedPagesFont: '',
+      generatedPagesFontSize: 12,
       generatedPagesFontObject: null,
       old: {
         pageLabelsFont: 'unset',
+        pageLabelsFontSize: 'unset',
+        pageLabelsFontObject: 'unset',
         generatedPagesFont: 'unset',
+        generatedPagesFontSize: 'unset',
+        generatedPagesFontObject: 'unset',
       },
       extractArchiveFiles: false,
       archiveSizeLimit: null,
@@ -174,29 +221,44 @@ export default {
   mixins: [
     settingsSync,
   ],
+  computed: {
+    pageLabelTemplateExample() {
+      const exampleData = {
+        [t(appName, 'BASENAME')]: t(appName, 'invoice.fodt'),
+        [t(appName, 'FILENAME')]: t(appName, 'invoice'),
+        [t(appName, 'EXTENSION')]: t(appName, 'fodt'),
+        [t(appName, 'DIRNAME')]: t(appName, 'invoices/2022'),
+        [t(appName, 'PAGE_NUMBER')]: '013',
+        [t(appName, 'TOTAL_PAGES')]: '197',
+      }
+      return this.pageLabelTemplate.replace(
+        /{([^{}]*)}/g,
+        function(match, capture) {
+          const replacement = exampleData[capture]
+          return replacement || match
+        }
+      )
+    },
+    pageLabelTemplateFontSampleUri() {
+      if (!this.pageLabelsFontObject) {
+        return ''
+      }
+      return this.$refs.pageLabelsFontSelect.getFontSampleUri(this.pageLabelsFontObject, {
+        text: this.pageLabelTemplateExample,
+        textColor: '#FF0000',
+        fontSize: this.pageLabelPageWidthFraction ? undefined : this.pageLabelsFontSize,
+      })
+    }
+  },
   watch: {
     pageLabels(newValue, oldValue) {
       this.old.pageLabels = oldValue
     },
     pageLabelsFontObject(newValue, oldValue) {
-      const skip = this.old.pageLabelsFont === 'unset'
-      console.info('PAGE LABEL FONT', newValue, oldValue)
-      this.old.pageLabelsFont = oldValue ? oldValue.family : null
-      this.pageLabelsFont = newValue ? newValue.family : null
-      this.old.pageLabelsFontObject = oldValue
-      if (!skip) {
-        this.saveSetting('pageLabelsFont')
-      }
+      this.fontObjectWatcher('pageLabels', newValue, oldValue)
     },
     generatedPagesFontObject(newValue, oldValue) {
-      const skip = this.old.generatedPagesFont === 'unset'
-      console.info('GENERATED PAGES FONT', newValue, oldValue)
-      this.old.generatedPagesFont = oldValue ? oldValue.family : null
-      this.generatedPagesFont = newValue ? newValue.family : null
-      this.old.generatedPagesFontObject = oldValue
-      if (!skip) {
-        this.saveSetting('generatedPagesFont')
-      }
+      this.fontObjectWatcher('generatedPages', newValue, oldValue)
     },
   },
   created() {
@@ -223,11 +285,16 @@ export default {
           message,
         }))
       }
-      console.info('SETTINGS', this.pageLabelsFont)
       let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
       this.pageLabelsFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
+      if (this.pageLabelsFontObject) {
+        Vue.set(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
+      }
       fontIndex = this.fontsList.findIndex((x) => x.family === this.generatedPagesFont)
       this.generatedPagesFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
+      if (this.generatedPagesFontObject) {
+        Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
+      }
       this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
@@ -235,6 +302,31 @@ export default {
     },
     async saveSetting(setting) {
       this.saveSimpleSetting(setting, 'personal')
+    },
+    fontObjectWatcher(fontType, newValue, oldValue) {
+      // track the font-object by family and font-size
+      if (newValue && oldValue
+          && newValue.family === oldValue.family
+          && newValue.fontSize === oldValue.fontSize) {
+        return
+      }
+      const fontKey = fontType + 'Font'
+      const sizeKey = fontType + 'FontSize'
+      const objectKey = fontType + 'FontObject'
+      const skipSave = this.loading || this.old[fontKey] === 'unset' || this.old[sizeKey] === 'unset'
+      this.old[fontKey] = oldValue ? oldValue.family : null
+      this.old[sizeKey] = oldValue ? oldValue.fontSize : null
+      this.old[objectKey] = oldValue
+      this[fontKey] = newValue ? newValue.family : null
+      this[sizeKey] = newValue ? newValue.fontSize : null
+      if (!skipSave) {
+        if (this[fontKey] !== this.old[fontKey]) {
+          this.saveSetting(fontKey)
+        }
+        if (this[sizeKey] !== this.old[sizeKey]) {
+          this.saveSetting(sizeKey)
+        }
+      }
     },
   },
 }
@@ -250,10 +342,19 @@ export default {
     background-position:left center;
     height:32px;
   }
+  .horizontal-rule {
+    opacity: 0.1;
+    border-top: black 1px solid;
+    margin-top: 2px;
+    padding-top: 2px;
+  }
   .flex-container {
     display:flex;
     &.flex-center {
       align-items:center;
+    }
+    &.flex-baseline {
+      align-items:baseline;
     }
   }
   .label-container {
@@ -265,34 +366,15 @@ export default {
   .grouping-option {
     padding-right: 0.5em;
   }
-  .multiselect-wrapper {
-    position:relative;
-    .loading {
-      position:absolute;
-      width:0;
-      height:0;
-      top:50%;
-      left:50%;
-    }
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    max-width: 400px;
-    align-items: center;
-    :deep(div.multiselect.multiselect-vue.multiselect--single) {
-      height:34px !important;
-      flex-grow:1;
-      &:hover .multiselect__tags {
-        border-color: var(--color-primary-element);
-        outline: none;
-      }
-     .multiselect__content-wrapper li > span {
-        &::before {
-          background-image: var(--icon-checkmark-000);
-          display:block;
-        }
-        &:not(.multiselect__option--selected):hover::before {
-          visibility:hidden;
+  .template-example-container {
+    .template-example-rendered {
+      display:flex;
+      margin: 0 0.2em;
+      color: red; // same as PdfCombiner
+      background: #C8C8C8; // same as PdfCombiner
+      &.set-minimum-height {
+        img {
+          min-height: var(--default-line-height);
         }
       }
     }

@@ -37,8 +37,9 @@ class PdfCombiner
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
-  const OVERLAY_FONT = 'dejavusansmono';
-  const OVERLAY_FONTSIZE = 16;
+  public const OVERLAY_FONT = 'dejavusansmono';
+  public const OVERLAY_FONT_SIZE = 16;
+  public const OVERLAY_PAGE_WIDTH_FRACTION = 0.4;
 
   const NAME_KEY = 'name';
   const PATH_KEY = 'path';
@@ -47,9 +48,9 @@ class PdfCombiner
   const FOLDERS_KEY = 'folders';
   const META_KEY = 'meta';
 
-  const GROUP_FOLDERS_FIRST = 'folders-first';
-  const GROUP_FILES_FIRST = 'files-first';
-  const UNGROUPED = 'ungrouped';
+  public const GROUP_FOLDERS_FIRST = 'folders-first';
+  public const GROUP_FILES_FIRST = 'files-first';
+  public const UNGROUPED = 'ungrouped';
 
   /** @var ITempManager */
   protected $tempManager;
@@ -68,6 +69,12 @@ class PdfCombiner
 
   /** @var string */
   private $overlayFont = self::OVERLAY_FONT;
+
+  /** @var int */
+  private $overlayFontSize = self::OVERLAY_FONT_SIZE;
+
+  /** @var null|float */
+  private $overlayPageWidthFraction = self::OVERLAY_PAGE_WIDTH_FRACTION;
 
   /** @var string */
   private $grouping = self::GROUP_FOLDERS_FIRST;
@@ -124,13 +131,13 @@ class PdfCombiner
   }
 
   /**
-   * Return the name of the currently installed overlay font. The overlay font
+   * Return the name of the currently configured overlay font-name. The overlay font
    * is used to generated page decorations. ATM only page labels (i.e PAGE X
    * of Y) are implemented.
    *
    * @return string
    */
-  public function getOverlayFont():?string
+  public function getOverlayFont():string
   {
     return $this->overlayFont ?? self::OVERLAY_FONT;
   }
@@ -138,7 +145,7 @@ class PdfCombiner
   /**
    * Configure the overlay font for page labels (in particular).
    *
-   * @param string|null $overlayFont The font name, or null to restore the
+   * @param string|null $overlayFont The font name, or `null` to restore the
    * default.
    *
    * @return PdfCombiner
@@ -146,15 +153,72 @@ class PdfCombiner
   public function setOverlayFont(?string $overlayFont):PdfCombiner
   {
     $this->overlayFont = empty($overlayFont) ? self::OVERLAY_FONT : $overlayFont;
+
     return $this;
   }
 
+  /**
+   * Return the name of the currently configured overlay font-size.
+   *
+   * @return int Font-size in [pt].
+   *
+   * @see getOverlayFont()
+   */
+  public function getOverlayFontSize():int
+  {
+    return $this->overlayFontSize ?? self::OVERLAY_FONT_SIZE;
+  }
+
+  /**
+   * Configure the overlay font-size for page labels (in particular).
+   *
+   * @param null|int $overlayFontSize The font size in [pt] or `null` to
+   * restore the default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayFontSize(?int $overlayFontSize):PdfCombiner
+  {
+    $this->overlayFontSize = empty($overlayFontSize) ? self::OVERLAY_FONT_SIZE : $overlayFontSize;
+
+    return $this;
+  }
+
+  /**
+   * Return the name of the currently configured overlay font-size.
+   *
+   * @return int Font-size in [pt].
+   *
+   * @see getOverlayFont()
+   */
+  public function getOverlayPageWidthFraction():float
+  {
+    return $this->overlayPageWidthFraction;
+  }
+
+  /**
+   * Configure the overlay font-size for page labels (in particular).
+   *
+   * @param null|float $overlayPageWidthFraction The page-width fraction of
+   * the overlay-label or null to request a fixed font size independent from
+   * the page-width.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayPageWidthFraction(?float $overlayPageWidthFraction):PdfCombiner
+  {
+    $this->overlayPageWidthFraction = $overlayPageWidthFraction;
+
+    return $this;
+  }
+
+  /** @return PdfGenerator */
   private function initializePdfGenerator():PdfGenerator
   {
     $pdf = new PdfGenerator;
     $pdf->setPageUnit('pt');
     $pdf->setFont($this->getOverlayFont());
-    $margin = 0; // self::OVERLAY_FONTSIZE;
+    $margin = 0; // $this->getOverlayFontSize();
     $pdf->setMargins($margin, $margin, $margin, $margin);
     $pdf->setAutoPageBreak(false);
     $pdf->setPrintHeader(false);
@@ -162,7 +226,16 @@ class PdfCombiner
     return $pdf;
   }
 
-  private function makePageLabel(array $fileNode, int $startingPage, int $pageMax)
+  /**
+   * @param array $fileNode
+   *
+   * @param int $startingPage
+   *
+   * @param int $pageMax
+   *
+   * @return string PDF data
+   */
+  private function makePageLabel(array $fileNode, int $startingPage, int $pageMax):string
   {
     $path = $fileNode[self::PATH_KEY];
     $tag = basename($path);
@@ -202,16 +275,23 @@ class PdfCombiner
 
       $text = sprintf("%s %' " . $maxDigits . "d/%d", $tag, $pageNumber, $pageMax);
 
-      $pdf->setFontSize(self::OVERLAY_FONTSIZE);
-      $stringWidth = $pdf->GetStringWidth($text);
-      $fontSize = 0.4 * $pageWidth / $stringWidth * self::OVERLAY_FONTSIZE;
+      $fontSize = $this->getOverlayFontSize();
       $pdf->setFontSize($fontSize);
+      $stringWidth = $pdf->GetStringWidth($text);
+
+      $pageFraction = $this->getOverlayPageWidthFraction();
+      if (!empty($pageFraction)) {
+        $currentPageFraction = $stringWidth / $pageWidth;
+        $fontSize = $pageFraction / $currentPageFraction * $fontSize;
+        $pdf->setFontSize($fontSize);
+        $stringWidth = $pageFraction * $pageWidth;
+      }
       $padding = 0.25 * $fontSize;
       $pdf->setCellPaddings($padding, $padding, $padding, $padding);
 
       $pdf->startPage($orientation, [ $pageWidth, $pageHeight ]);
 
-      $cellWidth = 0.4 * $pageWidth + 2.0 * $padding;
+      $cellWidth = $stringWidth + 2.0 * $padding;
       $pdf->SetAlpha(1, 'Normal', 0.2);
       $pdf->Rect($pageWidth - $cellWidth, 0, $cellWidth, 1.5 * $fontSize, style: 'F', fill_color: [ 200 ]);
 
