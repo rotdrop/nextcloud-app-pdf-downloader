@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-15 03:18+0000\n"
+"POT-Creation-Date: 2022-11-16 03:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,21 +32,21 @@ msgstr ""
 msgid "Get from end-point \"%s\" not implemented."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:245
+#: /app/lib/Controller/MultiPdfDownloadController.php:248
 msgid "unknown"
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:348
+#: /app/lib/Controller/MultiPdfDownloadController.php:351
 #, php-format
 msgid "Internal error, unknown file-system node-type: \"%s\"."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:381
+#: /app/lib/Controller/MultiPdfDownloadController.php:384
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr ""
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:384
+#: /app/lib/Controller/MultiPdfDownloadController.php:387
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
@@ -112,24 +112,6 @@ msgstr ""
 msgid "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\""
 msgstr ""
 
-#: /app/lib/Service/ArchiveService.php:231
-#: /app/lib/Service/ArchiveService.php:237
-#, php-format
-msgid "Unable to open archive file %s (%s)"
-msgstr ""
-
-#: /app/lib/Service/ArchiveService.php:251
-#, php-format
-msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
-msgstr ""
-
-#: /app/lib/Service/ArchiveService.php:267
-#: /app/lib/Service/ArchiveService.php:335
-#: /app/lib/Service/ArchiveService.php:357
-#: /app/lib/Service/ArchiveService.php:371
-msgid "There is no archive file associated with this archiver instance."
-msgstr ""
-
 #: /app/lib/Service/AssetService.php:87
 #, php-format
 msgid ""
@@ -161,6 +143,24 @@ msgstr ""
 #: /app/lib/Settings/PersonalSection.php:72
 #: /app/specialAppInfoFakeDummyForL10nScript.php:2
 msgid "PDF Downloader"
+msgstr ""
+
+#: /app/lib/Toolkit/Service/ArchiveService.php:265
+#: /app/lib/Toolkit/Service/ArchiveService.php:271
+#, php-format
+msgid "Unable to open archive file %s (%s)"
+msgstr ""
+
+#: /app/lib/Toolkit/Service/ArchiveService.php:285
+#, php-format
+msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
+msgstr ""
+
+#: /app/lib/Toolkit/Service/ArchiveService.php:301
+#: /app/lib/Toolkit/Service/ArchiveService.php:369
+#: /app/lib/Toolkit/Service/ArchiveService.php:391
+#: /app/lib/Toolkit/Service/ArchiveService.php:405
+msgid "There is no archive file associated with this archiver instance."
 msgstr ""
 
 #: /app/lib/Toolkit/Traits/ResponseTrait.php:118
