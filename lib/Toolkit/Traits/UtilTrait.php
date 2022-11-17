@@ -23,6 +23,7 @@
 namespace OCA\RotDrop\Toolkit\Traits;
 
 use NumberFormatter;
+use DateTimeInterface;
 
 use OCP\IL10N;
 
@@ -350,5 +351,98 @@ trait UtilTrait
   {
     $className = is_string($classOrClassName) ? $classOrClassName : get_class($classOrClassName);
     return substr(strrchr($className, '\\'), 1);
+  }
+
+  /**
+   * Replace braced placeholders in a template string.
+   *
+   * The general syntax of a replacement is {[C[N]|]KEY[@FILTER]} where
+   * where anything in square brackets is optional.
+   *
+   * - 'C' is any character used for optional padding to the left.
+   * - 'N' is th1e padding length. If ommitted, the value of 1 is assumed.
+   * - 'KEY' is the replacement key
+   * - 'FILTER' can be either
+   *
+   *   - a single character which is used to replace occurences of '/' in the
+   *     replacement for KEY
+   *   - two characters, in which the first character is used as replacement for
+   *     the second character in the replacement value of KEY
+   *   - the hash-algo passed to the PHP hash($algo, $data) in which case the replacement value
+   *     is the hash w.r.t. FILTER of the replacement data
+   *
+   * @param string $template
+   *
+   * @param array $templateValues An array of replacement values:
+   * ```
+   * [ KEY1 => VALUE1, KEY2 => [ 'value' => VALUE2, 'padding' => NUMBER|OTHER_KEY ], ... ]
+   * ```
+
+   * where the second varian specifies a default padding either as number or
+   * implicitly as reference to another key in which case the default padding
+   * is the strlen() of the replacement value of the other key. If any value
+   * is a \DateTimeInterface then it will be formatted by interpreting any
+   * FILTER as format string with default 'c'.
+   *
+   * @param null|array $l10nTemplateKeys Optional translated keys as
+   * ```
+   * [
+   *    TRANSLATED_KEY => ORIGINAL_KEY
+   * ]
+   * ```
+   * The template may contain translated keys, but the $templateValues
+   * replacement array must not contain translated keys.
+   *
+   * @return string
+   *
+   * @see \DateTimeInterface::format()
+   */
+  protected function replaceBracedPlaceholders(
+    string $template,
+    array $templateValues,
+    ?array $l10nTemplateKeys = null,
+  ):string {
+    $keys = array_merge(array_keys($templateValues), array_values($l10nTemplateKeys));
+    $keys = array_combine($keys, $keys);
+    $l10nKeys = array_merge($keys, $l10nTemplateKeys ?? $keys);
+    return preg_replace_callback(
+      '/{((.)([0-9]*)\|)?([^{}@]+)(\@([^{}@]+))?}/',
+      function(array $matches) use ($keys, $l10nKeys, $templateValues) {
+        $match = $matches[0];
+        $padChar = $matches[2];
+        $padding = $matches[3] ?: 0;
+        $keyMatch = strtoupper($matches[4]);
+
+        $filter = $matches[6] ?? '';
+        $key = $l10nKeys[$keyMatch] ?? ($keys[$keyMatch] ?? null);
+        $value = !empty($key) ? $templateValues[$key] : $match;
+        if (is_array($value)) {
+          $padding = $padding ?: $value['padding'];
+          if (!is_numeric($padding)) {
+            $padding = $l10nKeys[$padding] ?? ($keys[$padding] ?? null);
+            $padding = strlen($templateValues[$padding] ?? '.');
+          }
+          $value = $value['value'];
+        }
+        if (strlen($padChar) == 1) {
+          $value = str_pad($value, $padding ?: 1, $padChar, STR_PAD_LEFT);
+        }
+        if ($value instanceof DateTimeInterface) {
+          // interprete the filter as format for DateTimeInterface::format()
+          $value = $value->format(empty($filter) ? 'c' : $filter);
+        } elseif (!empty($filter)) {
+          if (strlen($filter) == 1) {
+            $filter .= Constants::PATH_SEPARATOR;
+          }
+          if (strlen($filter) == 2) {
+            $value = str_replace($filter[1], $filter[0], $value);
+          } else {
+            $value = strtoupper(hash(strtolower($filter), $value)); // result in a hex string
+          }
+        }
+        return $value;
+      },
+      $template,
+    );
   }
 }
