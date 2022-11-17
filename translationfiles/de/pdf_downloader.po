@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-11-15 03:18+0000\n"
+"POT-Creation-Date: 2022-11-16 03:18+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: Claus-Justus Heine, 2022\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -40,23 +40,23 @@ msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 msgid "Get from end-point \"%s\" not implemented."
 msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:245
+#: /app/lib/Controller/MultiPdfDownloadController.php:248
 msgid "unknown"
 msgstr "unbekannt"
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:348
+#: /app/lib/Controller/MultiPdfDownloadController.php:351
 #, php-format
 msgid "Internal error, unknown file-system node-type: \"%s\"."
 msgstr "Server-Fehler, unbekannter Dateisystem Eintrag: \"%s\"."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:381
+#: /app/lib/Controller/MultiPdfDownloadController.php:384
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr ""
 "\"%s\" ist kein Ordner und automatische entpacken von Archiv-Dateien ist "
 "deaktiviert."
 
-#: /app/lib/Controller/MultiPdfDownloadController.php:384
+#: /app/lib/Controller/MultiPdfDownloadController.php:387
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
@@ -128,25 +128,6 @@ msgstr ""
 "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit Mime-Typ \"%2$s\" "
 "nicht konvertieren"
 
-#: /app/lib/Service/ArchiveService.php:231
-#: /app/lib/Service/ArchiveService.php:237
-#, php-format
-msgid "Unable to open archive file %s (%s)"
-msgstr "Kann die Archive Datei %s (%s) nicht öffnen"
-
-#: /app/lib/Service/ArchiveService.php:251
-#, php-format
-msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
-msgstr "Die Größe des dekomprimierten Archivs \"%1$s\" ist zu groß:  %2$s > %3$s"
-
-#: /app/lib/Service/ArchiveService.php:267
-#: /app/lib/Service/ArchiveService.php:335
-#: /app/lib/Service/ArchiveService.php:357
-#: /app/lib/Service/ArchiveService.php:371
-msgid "There is no archive file associated with this archiver instance."
-msgstr ""
-"Mit dieser Archivierungs-Service-Instanz ist keine Archiv-Datei assoziiert."
-
 #: /app/lib/Service/AssetService.php:87
 #, php-format
 msgid ""
@@ -180,6 +161,25 @@ msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 #: /app/specialAppInfoFakeDummyForL10nScript.php:2
 msgid "PDF Downloader"
 msgstr "PDF Download-App"
+
+#: /app/lib/Toolkit/Service/ArchiveService.php:265
+#: /app/lib/Toolkit/Service/ArchiveService.php:271
+#, php-format
+msgid "Unable to open archive file %s (%s)"
+msgstr "Kann die Archive Datei %s (%s) nicht öffnen"
+
+#: /app/lib/Toolkit/Service/ArchiveService.php:285
+#, php-format
+msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
+msgstr "Die Größe des dekomprimierten Archivs \"%1$s\" ist zu groß:  %2$s > %3$s"
+
+#: /app/lib/Toolkit/Service/ArchiveService.php:301
+#: /app/lib/Toolkit/Service/ArchiveService.php:369
+#: /app/lib/Toolkit/Service/ArchiveService.php:391
+#: /app/lib/Toolkit/Service/ArchiveService.php:405
+msgid "There is no archive file associated with this archiver instance."
+msgstr ""
+"Mit dieser Archivierungs-Service-Instanz ist keine Archiv-Datei assoziiert."
 
 #: /app/lib/Toolkit/Traits/ResponseTrait.php:118
 msgid "Error, caught an exception."
