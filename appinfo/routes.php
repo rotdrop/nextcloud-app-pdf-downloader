@@ -62,21 +62,31 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#get',
-      'url' => '/download/pdf/{nodePath}',
+      'url' => '/download/{nodePath}',
       'verb' => 'GET',
     ],
     [
       'name' => 'multi_pdf_download#get_fonts',
-      'url' => '/pdf/fonts',
+      'url' => '/fonts',
       'verb' => 'GET',
     ],
     [
       'name' => 'multi_pdf_download#get_font_sample',
-      'url' => '/pdf/fonts/sample/{text}/{font}/{fontSize}',
+      'url' => '/sample/font/{text}/{font}/{fontSize}',
       'verb' => 'GET',
       'defaults' => [
         'fontSize' => '12',
       ],
+    ],
+    [
+      'name' => 'multi_pdf_download#get_page_label_sample',
+      'url' => '/sample/page-label/{template}/{path}/{pageNumber}/{totalPages}',
+      'verb' => 'GET',
+    ],
+    [
+      'name' => 'multi_pdf_download#get_pdf_file_name_sample',
+      'url' => '/sample/pdf-filename/{template}/{path}',
+      'verb' => 'GET',
     ],
     /**
      * Attempt a catch all ...

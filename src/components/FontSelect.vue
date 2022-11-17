@@ -217,7 +217,7 @@ export default {
       const fontSampleColor = options.textColor || this.fontSampleColor
       const fontSampleFormat = options.format || this.fontSampleFormat
       return generateUrl(
-        'pdf/fonts/sample/{text}/{font}/{fontSize}', {
+        'sample/font/{text}/{font}/{fontSize}', {
           text: encodeURIComponent(fontSampleText),
           font: encodeURIComponent(fontObject.family),
           fontSize: fontSampleSize,

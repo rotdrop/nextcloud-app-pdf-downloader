@@ -77,7 +77,7 @@ const fileActionTemplate = {
       dirName,
     ].join('/'));
 
-    const url = generateAppUrl('download/pdf/{fullPath}', { fullPath });
+    const url = generateAppUrl('download/{fullPath}', { fullPath });
 
     // $file is a jQuery object, change that if the files-app gets overhauled
     const downloadFileaction = context.$file.find('.fileactions .action-download-pdf');
