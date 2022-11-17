@@ -36,6 +36,7 @@ use OCA\PdfDownloader\Backend\PdfTk;
 class PdfCombiner
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
 
   public const OVERLAY_FONT = 'dejavusansmono';
   public const OVERLAY_FONT_SIZE = 16;
@@ -54,9 +55,6 @@ class PdfCombiner
 
   /** @var ITempManager */
   protected $tempManager;
-
-  /** @var IL10N */
-  protected $l;
 
   /**
    * @var array
@@ -77,7 +75,13 @@ class PdfCombiner
   private $overlayPageWidthFraction = self::OVERLAY_PAGE_WIDTH_FRACTION;
 
   /** @var string */
+  private $overlayTemplate;
+
+  /** @var string */
   private $grouping = self::GROUP_FOLDERS_FIRST;
+
+  /** @var null|array */
+  private $pageLabelTemplateKeys = null;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
@@ -93,6 +97,7 @@ class PdfCombiner
     $this->initializeDocumentTree();
     $this->addPageLabels = $addPageLabels;
     $this->grouping = $grouping;
+    $this->setOverlayTemplate(null);
   }
 
   /**
@@ -212,6 +217,38 @@ class PdfCombiner
     return $this;
   }
 
+  /**
+   * Return the name of the currently configured overlay template-name. The overlay template
+   * is used to generated page decorations. ATM only page labels (i.e PAGE X
+   * of Y) are implemented.
+   *
+   * @return string
+   */
+  public function getOverlayTemplate():string
+  {
+    return $this->overlayTemplate;
+  }
+
+  /**
+   * Configure the overlay template for page labels (in particular).
+   *
+   * @param string|null $overlayTemplate The template name, or `null` to restore the
+   * default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayTemplate(?string $overlayTemplate):PdfCombiner
+  {
+    if (empty($overlayTemplate)) {
+      $overlayTemplate = '{' . $this->l->t('BASENAME') . '}'
+        . ' {0|' . $this->l->t('PAGE_NUMBER') . '}'
+        . '/{' . $this->l->t('TOTAL_PAGES') . '}';
+    }
+    $this->overlayTemplate = $overlayTemplate;
+
+    return $this;
+  }
+
   /** @return PdfGenerator */
   private function initializePdfGenerator():PdfGenerator
   {
@@ -227,6 +264,59 @@ class PdfCombiner
   }
 
   /**
+   * Generate the page label from its template, file-name and page numbers known.
+   *
+   * The general syntax of a replacement is {[C[N]|]KEY} where
+   * where anything in square brackets is optional.
+   *
+   * - 'C' is any character used for optional padding to the left.
+   * - 'N' is th1e padding length. If ommitted, the value of 1 is assumed with
+   *   the exception when KEY is "PAGE_NUMBER" where N default to the
+   *   strlen($pageMax) if omitted
+   * - 'KEY' is the replacement key which can be one of the keys used in the
+   *   PHP function pathinfo() and in addition to this PAGE_NUMBER of the
+   *   curren page number and TOTAL_PAGES for the total number of pages in the
+   *   PDF converted from $path.
+   *
+   * @param string $path Path of the original file.
+   *
+   * @param int $pageNumber Current page-number.
+   *
+   * @param int $pageMax Maximum page-number.
+   *
+   * @return string
+   */
+  public function makePageLabelFromTemplate(
+    string $path,
+    int $pageNumber,
+    int $pageMax,
+  ):string {
+    if (empty($this->pageLabelTemplateKeys)) {
+      $this->pageLabelTemplateKeys = [
+        'BASENAME' => $this->l->t('BASENAME'),
+        'FILENAME' => $this->l->t('FILENAME'),
+        'EXTENSION' => $this->l->t('EXTENSION'),
+        'DIRNAME' => $this->l->t('DIRNAME'),
+        'PAGE_NUMBER' => $this->l->t('PAGE_NUMBER'),
+        'TOTAL_PAGES' => $this->l->t('TOTAL_PAGES'),
+      ];
+    }
+    $pathInfo = pathinfo($path);
+    $templateValues = [
+      'BASENAME' => $pathInfo['basename'],
+      'FILENAME' => $pathInfo['filename'],
+      'DIRNAME' => $pathInfo['dirname'],
+      'EXTENSION' => $pathInfo['extension'],
+      'PAGE_NUMBER' => [
+        'value' => $pageNumber,
+        'padding' => 'TOTAL_PAGES',
+      ],
+      'TOTAL_PAGES' => $pageMax,
+    ];
+    return $this->replaceBracedPlaceholders($this->getOverlayTemplate(), $templateValues, $this->pageLabelTemplateKeys);
+  }
+
+  /**
    * @param array $fileNode
    *
    * @param int $startingPage
@@ -238,11 +328,8 @@ class PdfCombiner
   private function makePageLabel(array $fileNode, int $startingPage, int $pageMax):string
   {
     $path = $fileNode[self::PATH_KEY];
-    $tag = basename($path);
 
     $pdf = $this->initializePdfGenerator();
-
-    $maxDigits = (int)floor(log10($pageMax)) + 1;
 
     $numberOfPages = $fileNode[self::META_KEY]['NumberOfPages'];
     $pageMedia = $fileNode[self::META_KEY]['PageMedia'];
@@ -273,7 +360,7 @@ class PdfCombiner
 
       $orientation = $pageHeight > $pageWidth ? 'P' : 'L';
 
-      $text = sprintf("%s %' " . $maxDigits . "d/%d", $tag, $pageNumber, $pageMax);
+      $text = $this->makePageLabelFromTemplate($path, $pageNumber, $pageMax);
 
       $fontSize = $this->getOverlayFontSize();
       $pdf->setFontSize($fontSize);
@@ -304,8 +391,12 @@ class PdfCombiner
     return $pdf->Output($path, 'S');
   }
 
-  /** Reset the directory tree to an empty nodes array */
-  private function initializeDocumentTree()
+  /**
+   * Reset the directory tree to an empty nodes array.
+   *
+   * @return void
+   */
+  private function initializeDocumentTree():void
   {
     $this->documentTree = [
       self::NAME_KEY => null,
@@ -322,9 +413,9 @@ class PdfCombiner
    * level of the bookmarks in their title and make an additional fix-up run
    * afterwards.
    *
-   * @param string $data The PDF file data to add
+   * @param string $data The PDF file data to add.
    *
-   * @param array $pathChain The exploded files-system path leading to $data
+   * @param array $pathChain The exploded files-system path leading to $data.
    *
    * @param array $tree The root of the current sub-tree:
    * ```
@@ -333,11 +424,12 @@ class PdfCombiner
    *   'level' => TREE_LEVEL,
    *   'files' => FILE_NODE_ARRAY,
    *   'folders' => FOLDER_NODE_ARRAY,
-   * ],
+   * ]
+   * ```.
    *
-   * @param array $bookmarks Bookmark array corresponding to $pathChain
+   * @return void
    */
-  private function addToDocumentTree(string $data, array $pathChain, array &$tree)
+  private function addToDocumentTree(string $data, array $pathChain, array &$tree):void
   {
     $level = $tree[self::LEVEL_KEY] + 1;
     $path = implode('/', array_filter([ $tree[self::PATH_KEY], $tree[self::NAME_KEY] ]));
@@ -404,8 +496,10 @@ class PdfCombiner
    * ```.
    *
    * @param array $bookmarks
+   *
+   * @return void
    */
-  private function addFromDocumentTree(PdfTk $pdfTk, array $tree, array $bookmarks = [])
+  private function addFromDocumentTree(PdfTk $pdfTk, array $tree, array $bookmarks = []):void
   {
     $first = true;
     switch ($this->grouping) {
@@ -420,8 +514,23 @@ class PdfCombiner
     }
   }
 
-  private function addFoldersFromDocumentTree(PdfTk $pdfTk, array &$tree, array &$bookmarks, bool &$first)
-  {
+  /**
+   * @param PdfTk $pdfTk
+   *
+   * @param array $tree mutable.
+   *
+   * @param array $bookmarks mutable.
+   *
+   * @param bool $first mutable.
+   *
+   * @return void
+   */
+  private function addFoldersFromDocumentTree(
+    PdfTk $pdfTk,
+    array &$tree,
+    array &$bookmarks,
+    bool &$first,
+  ):void {
     $level = $tree[self::LEVEL_KEY];
 
     // first walk down the directories
@@ -443,6 +552,17 @@ class PdfCombiner
     }
   }
 
+  /**
+   * @param PdfTk $pdfTk
+   *
+   * @param array $tree mutable.
+   *
+   * @param array $bookmarks mutable.
+   *
+   * @param bool $first mutable.
+   *
+   * @return void
+   */
   private function addFilesFromDocumentTree(PdfTk $pdfTk, array &$tree, array &$bookmarks, bool &$first)
   {
     $level = $tree[self::LEVEL_KEY];

@@ -23,14 +23,17 @@
 namespace OCA\PdfDownloader\Controller;
 
 use Throwable;
+use DateTimeImmutable;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use Psr\Log\LoggerInterface as ILogger;
 use Psr\Log\LogLevel;
 
@@ -63,6 +66,7 @@ class MultiPdfDownloadController extends Controller
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
   use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
   public const ERROR_PAGES_FONT_SIZE = '12';
@@ -140,6 +144,9 @@ class MultiPdfDownloadController extends Controller
   /** @var int */
   private $archiveBombLimit = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
 
+  /** @var IDateTimeZone */
+  private $dateTimeZone;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
@@ -154,6 +161,7 @@ class MultiPdfDownloadController extends Controller
     AnyToPdf $anyToPdf,
     ArchiveService $archiveService,
     FontService $fontService,
+    IDateTimeZone $dateTimeZone,
   ) {
     parent::__construct($appName, $request);
     $this->l = $l10n;
@@ -166,6 +174,7 @@ class MultiPdfDownloadController extends Controller
     $this->fontService = $fontService;
     $this->archiveService = $archiveService;
     $this->archiveService->setL10N($l10n);
+    $this->dateTimeZone = $dateTimeZone;
 
     if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
       $this->anyToPdf->disableBuiltinConverters();
@@ -436,6 +445,40 @@ __EOF__;
   }
 
   /**
+   * Generate a page label from a user supplied template and and example data-set.
+   *
+   * @param string $template
+   *
+   * @param string $path Example file path, preferrably with non-empty
+   * directory part.
+   *
+   * @param int $pageNumber Current page-number example.
+   *
+   * @param int $totalPages Total number of pages example. $pageNumber should
+   * be smaller or equal.
+   *
+   * @return DataResponse
+   *
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+  public function getPageLabelSample(
+    string $template,
+    string $path,
+    int $pageNumber,
+    int $totalPages,
+  ):DataResponse {
+    $template = urldecode($template);
+    $path = urldecode($path);
+    $this->pdfCombiner->setOverlayTemplate($template);
+    $pageLabel = $this->pdfCombiner->makePageLabelFromTemplate($path, $pageNumber, $totalPages);
+
+    return self::dataResponse([
+      'pageLabel' => $pageLabel,
+    ]);
+  }
+
+  /**
    * Get a font sample
    *
    * @param string $text
@@ -444,16 +487,17 @@ __EOF__;
    *
    * @param int $fontSize
    *
-   * @param string $color RGB text-color to use in #RRGGBB format (hex), defaults to black #000000.
+   * @param string $textColor RGB text-color to use in #RRGGBB format (hex), defaults to black #000000.
    *
    * @param string $format
    *
    * @param string $output The output format.
-   * @see FONT_SAMPLE_OUTPUT_FORMATS
    *
    * @param string $hash MD5 checksum of font-data, used for cache-invalidation.
    *
    * @return Response
+   *
+   * @see FONT_SAMPLE_OUTPUT_FORMATS
    *
    * @NoAdminRequired
    * @NoCSRFRequired
@@ -467,7 +511,6 @@ __EOF__;
     string $output = self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
     ?string $hash = null,
   ):Response {
-    $this->logInfo('TEXT COLOR ' . $textColor);
     $cache = true;
     $metaData = null;
     try {
@@ -515,5 +558,58 @@ EOF;
   private function actualArchiveSizeLimit():int
   {
     return min($this->archiveBombLimit, $this->archiveSizeLimit ?? PHP_INT_MAX);
+  }
+
+  /**
+   * @param IL10N $l
+   *
+   * @return string
+   */
+  public static function getDefaultPdfFileNameTemplate(IL10N $l):string
+  {
+    return '{' . $l->t('DATETIME') . '}-{' . $l->t('DIRNAME') . '@:/' . '}-{' . $l->t('BASENAME') . '}' . '.pdf';
+  }
+
+  /**
+   * Generate a page label from a user supplied template and and example data-set.
+   *
+   * @param string $template
+   *
+   * @param string $path Example file path, preferrably with non-empty
+   * directory part.
+   *
+   * @return DataResponse
+   *
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+  public function getPdfFileNameSample(
+    string $template,
+    string $path,
+  ):DataResponse {
+    $template = urldecode($template);
+    $path = urldecode($path);
+
+    $keys = [
+      'BASENAME' => $this->l->t('BASENAME'),
+      'FILENAME' => $this->l->t('FILENAME'),
+      'EXTENSION' => $this->l->t('EXTENSION'),
+      'DIRNAME' => $this->l->t('DIRNAME'),
+      'DATETIME' => $this->l->t('DATETIME'),
+    ];
+    $pathInfo = pathinfo($path);
+    $templateValues = [
+      'BASENAME' => $pathInfo['basename'],
+      'FILENAME' => $pathInfo['filename'],
+      'DIRNAME' => $pathInfo['dirname'],
+      'EXTENSION' => $pathInfo['extension'] ?? '',
+      'DATETIME' => (new DateTimeImmutable)->setTimezone($this->dateTimeZone->getTimeZone()),
+    ];
+
+    $pdfFileName = $this->replaceBracedPlaceholders($template, $templateValues, $keys);
+
+    return self::dataResponse([
+      'pdfFileName' => $pdfFileName,
+    ]);
   }
 }
