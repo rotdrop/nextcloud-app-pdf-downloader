@@ -338,7 +338,7 @@ class FontService
     $green = hexdec(substr($color, 2, 2));
     $blue = hexdec(substr($color, 4, 2));
     $pdf->setColor('text', $red, $green, $blue);
-    $this->logInfo('SET COLOR ' . $red . ' ' . $green . ' ' . $blue);
+    // $this->logInfo('SET COLOR ' . $red . ' ' . $green . ' ' . $blue);
     $pdf->Cell($pageWidth, $pageHeight, $sampleText, calign: 'A', valign: 'T', align: 'R', fill: false);
     $pdf->endPage();
 
