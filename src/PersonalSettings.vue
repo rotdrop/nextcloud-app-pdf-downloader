@@ -22,13 +22,13 @@
   <SettingsSection :class="appName" :title="t(appName, 'Recursive PDF Downloader, Personal Settings')">
     <AppSettingsSection :title="t(appName, 'Decorations and Fonts')">
       <div :class="['flex-container', 'flex-center', { pageLabels }]">
-        <input id="page labels"
+        <input id="page-labels"
                v-model="pageLabels"
                type="checkbox"
                :disabled="loading"
                @change="saveSetting('pageLabels')"
         >
-        <label for="page labels">
+        <label for="page-labels">
           {{ t(appName, 'Label output pages with file-name and page-number') }}
         </label>
       </div>
@@ -36,14 +36,24 @@
         {{ t(appName, 'Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
       </span>
       <div v-show="pageLabels" class="horizontal-rule" />
+      <!-- avoid v-model here as the update of pageLabelTemplate causes instant font-sample generation -->
       <SettingsInputText v-show="pageLabels"
-                         v-model="pageLabelTemplate"
+                         :value="pageLabelTemplate"
                          :label="t(appName, 'Template for the page-labels')"
+                         @update="(value) => { pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
       >
         <template #hint>
+          <div class="template-example-container flex-container flex-baseline">
+            <span class="template-example-caption">
+              {{ t(appName, 'Example Filename') }}:
+            </span>
+            <span class="template-example-file-path">
+              {{ exampleFilePath }}
+            </span>
+          </div>
           <div class="template-example-container flex-container flex-center">
-            <span class="tempalte-exmaple-caption">
-              {{ t(appName, 'Example') }}:
+            <span class="template-example-caption">
+              {{ t(appName, 'Generated Label') }}:
             </span>
             <span :class="['template-example-rendered', { 'set-minimum-height': !!pageLabelPageWidthFraction }]">
               <img :src="pageLabelTemplateFontSampleUri">
@@ -54,6 +64,18 @@
           </div>
         </template>
       </SettingsInputText>
+      <div v-show="pageLabels" class="horizontal-rule" />
+      <div v-show="pageLabels" class="page-label-colors flex-container flex-center">
+        <div class="label">
+          {{ t(appName, 'Page-label colors') }}:
+        </div>
+        <ColorPicker v-model="pageLabelTextColor">
+          <button>{{ t(appName, 'Text Color') }}</button>
+        </ColorPicker>
+        <ColorPicker v-model="pageLabelBackgroundColor">
+          <button>{{ t(appName, 'Background') }}</button>
+        </ColorPicker>
+      </div>
       <div v-show="pageLabels" class="horizontal-rule" />
       <SettingsInputText v-show="pageLabels"
                          v-model="pageLabelPageWidthFraction"
@@ -130,8 +152,34 @@
       </div>
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Default Download Options')">
-      <SettingsInputText :label="t(appName, 'File-name template')" />
-      <SettingsInputText :label="t(appName, 'Default destination folder')" />
+      <SettingsInputText :value="pdfFileNameTemplate"
+                         :label="t(appName, 'filename template')"
+                         @update="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
+      >
+        <template #hint>
+          <div class="template-example-container flex-container flex-baseline">
+            <span class="template-example-caption">
+              {{ t(appName, 'Example Folder') }}:
+            </span>
+            <span class="template-example-file-path">
+              {{ exampleFilePathParent }}
+            </span>
+          </div>
+          <div class="template-example-container flex-container flex-baseline">
+            <span class="template-example-caption">
+              {{ t(appName, 'Example PDF') }}:
+            </span>
+            <span class="template-example-pdf-filename">
+              {{ pdfFileNameTemplateExample }}
+            </span>
+          </div>
+        </template>
+      </SettingsInputText>
+      <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
+                        :hint="t(appName, 'Choose a default PDF-file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF.')"
+                        :placeholder="t(appName, 'base-name')"
+                        @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
+      />
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
@@ -162,42 +210,56 @@
     </AppSettingsSection>
   </SettingsSection>
 </template>
-
 <script>
 import { appName } from './config.js'
 import Vue from 'vue'
 import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
 import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
 import EllipsisedFontOption from './components/EllipsisedFontOption'
 import FontSelect from './components/FontSelect'
+import FilePrefixPicker from './components/FilePrefixPicker'
 import generateUrl from './toolkit/util/generate-url.js'
+import { getInitialState } from './toolkit/services/InitialStateService.js'
 import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
+import { parse as pathParse } from 'path'
 import settingsSync from './toolkit/mixins/settings-sync'
+
+const initialState = getInitialState()
 
 export default {
   name: 'PersonalSettings',
   components: {
     AppSettingsSection,
+    ColorPicker,
+    FilePrefixPicker,
+    FontSelect,
     SettingsSection,
     SettingsInputText,
-    FontSelect,
   },
   data() {
     return {
+      initialState,
       grouping: 'folders-first',
       sorting: 'ascending',
       fontsList: [],
       fontSamples: [],
+      // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the translated language
       fontSampleText: t(appName, 'The quick brown fox jumps over the lazy dog.'),
       loading: true,
+      //
       pageLabels: true,
-      pageLabelTemplate: '{' + t(appName, 'BASENAME') + '} {' + t(appName, 'PAGE_NUMBER') + '}/{' + t(appName, 'TOTAL_PAGES') + '}',
+      pageLabelTemplate: initialState.defaultPageLabelTemplate,
+      pageLabelTextColor: '#FF0000',
+      pageLabelBackgroundColor: '#C8C8C8',
       pageLabelPageWidthFraction: 0.4,
       pageLabelsFont: '',
       pageLabelsFontSize: 12,
       pageLabelsFontObject: null,
+      pageLabelTemplateExample: null,
+      //
       generatedPagesFont: '',
       generatedPagesFontSize: 12,
       generatedPagesFontObject: null,
@@ -216,39 +278,64 @@ export default {
       archiveSizeLimitAdmin: null,
       humanArchiveSizeLimitAdmin: '',
       sampleFontSize: 18, // should be pt, but actually is rendered as px it seems
+      pdfCloudFolderFileInfo: {
+        dirName: '',
+        baseName: undefined,
+      },
+      pdfFileNameTemplate: initialState.defaultPdfFileNameTemplate,
+      pdfFileNameTemplateExample: null,
+      //
+      exampleFilePath: t(appName, 'invoices/2022/october/invoice.fodt'),
     }
   },
   mixins: [
     settingsSync,
   ],
   computed: {
-    pageLabelTemplateExample() {
-      const exampleData = {
-        [t(appName, 'BASENAME')]: t(appName, 'invoice.fodt'),
-        [t(appName, 'FILENAME')]: t(appName, 'invoice'),
-        [t(appName, 'EXTENSION')]: t(appName, 'fodt'),
-        [t(appName, 'DIRNAME')]: t(appName, 'invoices/2022'),
-        [t(appName, 'PAGE_NUMBER')]: '013',
-        [t(appName, 'TOTAL_PAGES')]: '197',
-      }
-      return this.pageLabelTemplate.replace(
-        /{([^{}]*)}/g,
-        function(match, capture) {
-          const replacement = exampleData[capture]
-          return replacement || match
-        }
-      )
-    },
     pageLabelTemplateFontSampleUri() {
       if (!this.pageLabelsFontObject) {
         return ''
       }
+      const text = this.pageLabelTemplateExample
       return this.$refs.pageLabelsFontSelect.getFontSampleUri(this.pageLabelsFontObject, {
-        text: this.pageLabelTemplateExample,
+        text: text,
         textColor: '#FF0000',
         fontSize: this.pageLabelPageWidthFraction ? undefined : this.pageLabelsFontSize,
       })
-    }
+    },
+    pdfCloudFolderBaseName: {
+      get() {
+        return this.pdfCloudFolderFileInfo.baseName
+      },
+      set(value) {
+        Vue.set(this.pdfCloudFolderFileInfo, 'baseName', value)
+        return value
+      }
+    },
+    pdfCloudFolderDirName: {
+      get() {
+        return this.pdfCloudFolderFileInfo.dirName
+      },
+      set(value) {
+        Vue.set(this.pdfCloudFolderFileInfo, 'dirName', value)
+        return value
+      }
+    },
+    pdfCloudFolderPath: {
+      get() {
+        return this.pdfCloudFolderDirName + (this.pdfCloudFolderBaseName ? '/' + this.pdfCloudFolderBaseName : '')
+      },
+      set(value) {
+        const pathInfo = pathParse(value || '')
+        this.pdfCloudFolderBaseName = pathInfo.base
+        this.pdfCloudFolderDirName = pathInfo.dir
+        return value
+      },
+    },
+    exampleFilePathParent() {
+      const pathInfo = pathParse(this.exampleFilePath || '')
+      return pathInfo.dir
+    },
   },
   watch: {
     pageLabels(newValue, oldValue) {
@@ -260,16 +347,31 @@ export default {
     generatedPagesFontObject(newValue, oldValue) {
       this.fontObjectWatcher('generatedPages', newValue, oldValue)
     },
+    pageLabelTemplate(newValue, oldValue) {
+      this.fetchPageLabelTemplateExample()
+    },
+    pdfFileNameTemplate(newValue, oldValue) {
+      this.fetchPdfFileNameTemplateExample()
+    },
+    pageLabelBackgroundColor(newValue, oldValue) {
+      console.info('BACKGROUND', newValue, oldValue)
+    },
+    pageLabelTextColor(newValue, oldValue) {
+      console.info('TEXT COLOR', newValue, oldValue)
+    },
   },
   created() {
     this.getData()
   },
   methods: {
+    info() {
+      console.info(...arguments)
+    },
     async getData() {
       // slurp in all personal settings
-      this.fetchSettings('personal');
+      this.fetchSettings('personal')
       try {
-        const response = await axios.get(generateUrl('pdf/fonts'))
+        const response = await axios.get(generateUrl('fonts'))
         this.fontsList = response.data
         console.info('FONTS', this.fontsList)
       } catch (e) {
@@ -278,7 +380,7 @@ export default {
         if (e.response && e.response.data) {
           const responseData = e.response.data;
           if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ');
+            message = responseData.messages.join(' ')
           }
         }
         showError(t(appName, 'Unable to obtain the list of available fonts: {message}', {
@@ -295,6 +397,8 @@ export default {
       if (this.generatedPagesFontObject) {
         Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
       }
+      await this.fetchPageLabelTemplateExample()
+      await this.fetchPdfFileNameTemplateExample()
       this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
@@ -326,6 +430,58 @@ export default {
         if (this[sizeKey] !== this.old[sizeKey]) {
           this.saveSetting(sizeKey)
         }
+      }
+    },
+    async fetchPageLabelTemplateExample() {
+      try {
+        const response = await axios.get(generateUrl(
+          'sample/page-label/{template}/{path}/{pageNumber}/{totalPages}', {
+            template: encodeURIComponent(this.pageLabelTemplate),
+            path: encodeURIComponent(this.exampleFilePath),
+            pageNumber: 13,
+            totalPages: 197,
+        }));
+        console.info('PAGE LABEL RESPONSE', response)
+        this.pageLabelTemplateExample = response.data.pageLabel
+      } catch (e) {
+        console.info('RESPONSE', e)
+        let message = t(appName, 'reason unknown')
+        if (e.response && e.response.data) {
+          const responseData = e.response.data;
+          if (Array.isArray(responseData.messages)) {
+            message = responseData.messages.join(' ');
+          }
+        }
+        showError(t(appName, 'Unable to obtain page-label template example: {message}', {
+          message,
+        }))
+        // can't help, just return the unsubstituted template
+        this.pageLabelTemplateExample = this.pageLabelTemplate
+      }
+    },
+    async fetchPdfFileNameTemplateExample() {
+      try {
+        const response = await axios.get(generateUrl(
+          'sample/pdf-filename/{template}/{path}', {
+            template: encodeURIComponent(this.pdfFileNameTemplate),
+            path: encodeURIComponent(this.exampleFilePathParent),
+        }));
+        console.info('PDF FILE RESPONSE', response)
+        this.pdfFileNameTemplateExample = response.data.pdfFileName
+      } catch (e) {
+        console.info('RESPONSE', e)
+        let message = t(appName, 'reason unknown')
+        if (e.response && e.response.data) {
+          const responseData = e.response.data;
+          if (Array.isArray(responseData.messages)) {
+            message = responseData.messages.join(' ');
+          }
+        }
+        showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+          message,
+        }))
+        // can't help, just return the unsubstituted template
+        this.pdfFileNameTemplateExample = this.pdfFileNameTemplate
       }
     },
   },
@@ -366,10 +522,15 @@ export default {
   .grouping-option {
     padding-right: 0.5em;
   }
+  .page-label-colors {
+    .label {
+      padding-right: 0.5em;
+    }
+  }
   .template-example-container {
     .template-example-rendered {
       display:flex;
-      margin: 0 0.2em;
+      margin-right: 0.5em;
       color: red; // same as PdfCombiner
       background: #C8C8C8; // same as PdfCombiner
       &.set-minimum-height {
@@ -377,6 +538,15 @@ export default {
           min-height: var(--default-line-height);
         }
       }
+    }
+    .template-example-caption {
+      padding-right:0.5em;
+    }
+    .template-example-file-path {
+      font-family:monospace;
+    }
+    .template-example-pdf-filename {
+      font-family:monospace;
     }
   }
   .hint {

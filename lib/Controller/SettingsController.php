@@ -62,6 +62,7 @@ class SettingsController extends Controller
   public const PERSONAL_PAGE_LABELS_FONT_SIZE_DEFAULT = PdfCombiner::OVERLAY_FONT_SIZE;
   public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION = 'pageLabelPageWidthFraction';
   public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION_DEFAULT = PdfCombiner::OVERLAY_PAGE_WIDTH_FRACTION;
+  public const PERSONAL_PAGE_LABEL_TEMPLATE = 'pageLabelTemplate';
 
   public const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
   public const PERSONAL_GENERATED_PAGES_FONT_DEFAULT = MultiPdfDownloadController::ERROR_PAGES_FONT;
@@ -78,6 +79,9 @@ class SettingsController extends Controller
   public const PERSONAL_GROUP_FOLDERS_FIRST = PdfCombiner::GROUP_FOLDERS_FIRST;
   public const PERSONAL_GROUP_FILES_FIRST = PdfCombiner::GROUP_FILES_FIRST;
   public const PERSONAL_UNGROUPED = PdfCombiner::UNGROUPED;
+
+  public const PERSONAL_PDF_CLOUD_FOLDER_PATH = 'pdfCloudFolderPath';
+  public const PERSONAL_PDF_FILE_NAME_TEMPLATE = 'pdfFileNameTemplate';
 
   /**
    * @var array<string, array>
@@ -116,6 +120,10 @@ class SettingsController extends Controller
       'rw' => true,
       'default' => self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION_DEFAULT,
     ],
+    self::PERSONAL_PAGE_LABEL_TEMPLATE => [
+      'rw' => true,
+      'default' => null, // dynamic from PdfCombiner
+    ],
     self::PERSONAL_GENERATED_PAGES_FONT => [
       'rw' => true,
       'default' => self::PERSONAL_GENERATED_PAGES_FONT_DEFAULT,
@@ -125,6 +133,14 @@ class SettingsController extends Controller
       'default' => self::PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT,
     ],
     self::PERSONAL_GROUPING => [ 'rw' => true, 'default' => self::PERSONAL_GROUP_FOLDERS_FIRST, ],
+    self::PERSONAL_PDF_CLOUD_FOLDER_PATH => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_PDF_FILE_NAME_TEMPLATE => [
+      'rw' => true,
+      'default' => null,
+    ],
   ];
 
   /** @var IAppContainer */
@@ -139,6 +155,9 @@ class SettingsController extends Controller
   /** @var string */
   private $userId;
 
+  /** @var PdfCombiner */
+  private $pdfCombiner;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
@@ -147,6 +166,7 @@ class SettingsController extends Controller
     LoggerInterface $logger,
     IL10N $l10n,
     IConfig $config,
+    PdfCombiner $pdfCombiner,
     IAppContainer $appContainer,
   ) {
     parent::__construct($appName, $request);
@@ -154,6 +174,7 @@ class SettingsController extends Controller
     $this->l = $l10n;
     $this->config = $config;
     $this->userId = $userId;
+    $this->pdfCombiner = $pdfCombiner;
     $this->appContainer = $appContainer;
   }
 
@@ -369,6 +390,19 @@ class SettingsController extends Controller
           $newValue = '';
         }
         break;
+      case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
+        $newValue = $value;
+        if (empty($value)) {
+          $value = MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l);
+        }
+        break;
+      case self::PERSONAL_PAGE_LABEL_TEMPLATE:
+        $newValue = $value;
+        if (empty($value)) {
+          $value = $this->pdfCombiner->getOverlayTemplate();
+        }
+        break;
+      case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
       case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
       case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
       case self::PERSONAL_GENERATED_PAGES_FONT:
@@ -488,24 +522,30 @@ class SettingsController extends Controller
           break;
         case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
           if ($value === null) {
-            /** @var PdfCombiner $pdfCombiner */
-            $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
-            $value = $pdfCombiner->getOverlayPageWidthFraction();
+            $value = $this->pdfCombiner->getOverlayPageWidthFraction();
           }
           break;
         case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
           if (empty($value)) {
-            /** @var PdfCombiner $pdfCombiner */
-            $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
-            $value = $pdfCombiner->getOverlayFontSize();
+            $value = $this->pdfCombiner->getOverlayFontSize();
           }
           break;
         case self::PERSONAL_PAGE_LABELS_FONT:
           if (empty($value)) {
-            /** @var PdfCombiner $pdfCombiner */
-            $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
-            $value = $pdfCombiner->getOverlayFont();
+            $value = $this->pdfCombiner->getOverlayFont();
           }
+          break;
+        case self::PERSONAL_PAGE_LABEL_TEMPLATE:
+          if (empty($value)) {
+            $value = $this->pdfCombiner->getOverlayTemplate();
+          }
+          break;
+        case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
+          if (empty($value)) {
+            $value = MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l);
+          }
+          break;
+        case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
           break;
         case self::PERSONAL_GROUPING:
           break;
