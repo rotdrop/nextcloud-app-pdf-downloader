@@ -19,7 +19,7 @@
  */
 </script>
 <template>
-  <SettingsSection :class="appName" :title="t(appName, 'Recursive Pdf Downloader, Personal Settings')">
+  <SettingsSection :class="appName" :title="t(appName, 'Recursive PDF Downloader, Personal Settings')">
     <AppSettingsSection :title="t(appName, 'Decorations and Fonts')">
       <div :class="['flex-container', 'flex-center', { pageLabels }]">
         <input id="page-labels"
