@@ -77,9 +77,15 @@
         </div>
         <ColorPicker v-model="pageLabelTextColor"
                      :label="t(appName, 'Text')"
+                     :color-palette="pageLabelTextColorPalette"
+                     @update="saveSetting('pageLabelTextColor')"
+                     @update:color-palette="(palette) => { pageLabelTextColorPalette = palette; saveSetting('pageLabelTextColorPalette'); }"
         />
         <ColorPicker v-model="pageLabelBackgroundColor"
                      :label="t(appName, 'Background')"
+                     :color-palette="pageLabelBackgroundColorPalette"
+                     @update="saveSetting('pageLabelBackgroundColor')"
+                     @update:color-palette="(palette) => { pageLabelBackgroundColorPalette = palette; saveSetting('pageLabelBackgroundColorPalette'); }"
         />
       </div>
       <div v-show="pageLabels" class="horizontal-rule" />
@@ -265,7 +271,9 @@ export default {
       pageLabels: true,
       pageLabelTemplate: initialState.defaultPageLabelTemplate,
       pageLabelTextColor: '#FF0000',
+      pageLabelTextColorPalette: [],
       pageLabelBackgroundColor: '#C8C8C8',
+      pageLabelBackgroundColorPalette: [],
       pageLabelPageWidthFraction: 0.4,
       pageLabelsFont: '',
       pageLabelsFontSize: 12,
@@ -353,7 +361,7 @@ export default {
     },
     exampleFilePathParent() {
       const pathInfo = pathParse(this.exampleFilePath || '')
-      return pathInfo.dir
+      return pathInfo.dir + '/'
     },
   },
   watch: {
@@ -418,9 +426,19 @@ export default {
       this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
+      if (this.loading) {
+        // avoid ping-pong by reactivity
+        console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
+        return
+      }
       this.saveConfirmedSetting(value, 'personal', settingsKey, force);
     },
     async saveSetting(setting) {
+      if (this.loading) {
+        // avoid ping-pong by reactivity
+        console.info('SKIPPING SETTINGS-SAVE DURING LOAD', setting)
+        return
+      }
       this.saveSimpleSetting(setting, 'personal')
     },
     fontObjectWatcher(fontType, newValue, oldValue) {

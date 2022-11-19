@@ -63,6 +63,10 @@ class SettingsController extends Controller
   public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION = 'pageLabelPageWidthFraction';
   public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION_DEFAULT = PdfCombiner::OVERLAY_PAGE_WIDTH_FRACTION;
   public const PERSONAL_PAGE_LABEL_TEMPLATE = 'pageLabelTemplate';
+  public const PERSONAL_PAGE_LABEL_TEXT_COLOR = 'pageLabelTextColor';
+  public const PERSONAL_PAGE_LABEL_BACKGROUND_COLOR = 'pageLabelBackgroundColor';
+  public const PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE = 'pageLabelTextColorPalette';
+  public const PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE = 'pageLabelBackgroundColorPalette';
 
   public const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
   public const PERSONAL_GENERATED_PAGES_FONT_DEFAULT = MultiPdfDownloadController::ERROR_PAGES_FONT;
@@ -140,6 +144,22 @@ class SettingsController extends Controller
     self::PERSONAL_PDF_FILE_NAME_TEMPLATE => [
       'rw' => true,
       'default' => null,
+    ],
+    self::PERSONAL_PAGE_LABEL_TEXT_COLOR => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE => [
+      'rw' => true,
+      'default' => null
+    ],
+    self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE => [
+      'rw' => true,
+      'default' => null
     ],
   ];
 
@@ -402,6 +422,34 @@ class SettingsController extends Controller
           $value = $this->pdfCombiner->getOverlayTemplate();
         }
         break;
+      case self::PERSONAL_PAGE_LABEL_TEXT_COLOR:
+        $newValue = $value;
+        if (empty($value)) {
+          $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_TEXT_COLOR);
+        }
+        break;
+      case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR:
+        $newValue = $value;
+        if (empty($value)) {
+          $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_BACKGROUND_COLOR);
+        }
+        break;
+      case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
+      case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
+        $newValue = $value;
+        if (is_array($newValue)) {
+          $settingsValue = json_encode($newValue);
+        } else {
+          $newValue = null;
+        }
+        if (!empty($oldValue) && is_string($oldValue)) {
+          try {
+            $oldValue = json_decode($oldValue, true);
+          } catch (Throwable $t) {
+            $this->logException($t, 'Unable to decode old palette value "' . $oldValue . '".');
+          }
+        }
+        break;
       case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
       case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
       case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
@@ -427,7 +475,7 @@ class SettingsController extends Controller
       $this->config->deleteUserValue($this->userId, $this->appName, $setting);
       $newValue = self::PERSONAL_SETTINGS[$setting]['default'] ?? null;
     } else {
-      $this->config->setUserValue($this->userId, $this->appName, $setting, $newValue);
+      $this->config->setUserValue($this->userId, $this->appName, $setting, $settingsValue ?? $newValue);
     }
 
     switch ($setting) {
@@ -548,6 +596,23 @@ class SettingsController extends Controller
         case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
           break;
         case self::PERSONAL_GROUPING:
+          break;
+        case self::PERSONAL_PAGE_LABEL_TEXT_COLOR:
+          if (empty($value)) {
+            $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_TEXT_COLOR);
+          }
+          break;
+        case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR:
+          if (empty($value)) {
+            $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_BACKGROUND_COLOR);
+          }
+          break;
+        case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
+        case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
+          if (!empty($value)) {
+            $value = json_decode($value, true);
+          }
+          $humanValue = $value;
           break;
         default:
           return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $oneSetting));

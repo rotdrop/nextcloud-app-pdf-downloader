@@ -270,7 +270,7 @@ trait UtilTrait
     $bytesUnit = $bytesUnit[$format] ?? null;
     $radix = $radix[$format] ?? null;
 
-    if ($units === null || $bytesUnit === null || $radix === null)  {
+    if ($units === null || $bytesUnit === null || $radix === null) {
       // maybe throw InvalidArgumentException
       return null;
     }
@@ -444,5 +444,57 @@ trait UtilTrait
       },
       $template,
     );
+  }
+
+  /**
+   * @param string $rgbaString RGBA color value in the format "#RRGGBBAA". The
+   * "A" (opacity) value is optional.
+   *
+   * @return array Decoded RGBA color array.
+   */
+  protected function rgbaStringToArray(string $rgbaString):array
+  {
+    $inputLength = strlen($rgbaString);
+    if ($inputLength != 7 && $inputLength != 9 || $rgbaString[0] !== '#') {
+      throw new InvalidArgumentException(
+        $this->l->t('The supplied color-string "%s" seems to be invalid.', $rgbaString));
+    }
+    $rgbaArray = [
+      hexdec(substr($rgbaString, 1, 2)),
+      hexdec(substr($rgbaString, 3, 2)),
+      hexdec(substr($rgbaString, 5, 2)),
+    ];
+    if (strlen($rgbaString) === 9) {
+      $rgbaArray[3] = hexdec(substr($rgbaString, 7, 2));
+    }
+    foreach ($rgbaArray as $colorValue) {
+      if ($colorValue === false) {
+        throw new InvalidArgumentException(
+          $this->l->t('The supplied color-string "%s" seems to be invalid.', $rgbaString));
+      }
+    }
+
+    return $rgbaArray;
+  }
+
+  /**
+   * @param array $rgbaArray RGB(A) data with values between 0 and 255 (8-bit
+   * color data). The "A" (opacity) value is optional. The input array is a
+   * flat number array with 3 or 4 components.
+   *
+   * @return string Encoded RGB(A) color string in the format "#RRGGBBAA". The
+   * "AA" is only there if the input array has 4 components.
+   */
+  protected function rgbaArrayToString(array $rgbaArray):string
+  {
+    $rgbaString = '#';
+    foreach ($rgbaArray as $colorValue) {
+      if (!is_numeric($colorValue) || (int)$colorValue != $colorValue || $colorValue < 0 || $colorValue > 255) {
+        throw new InvalidArgumentException(
+          $this->l->t('The input color values are invalid.'));
+      }
+      $rgbaString .= sprintf('%02x', $colorValue);
+    }
+    return $rgbaString;
   }
 }

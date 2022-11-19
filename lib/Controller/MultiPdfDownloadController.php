@@ -200,9 +200,25 @@ class MultiPdfDownloadController extends Controller
     if (!empty($user)) {
       $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
       $this->userId = $user->getUID();
-      $this->pdfCombiner->setOverlayFont(
-        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT)
+      $this->pdfCombiner->setOverlayTemplate(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEMPLATE, null)
       );
+      $this->pdfCombiner->setOverlayFont(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT, null)
+      );
+      $this->pdfCombiner->setOverlayFontSize(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT_SIZE, null)
+      );
+      $this->pdfCombiner->setOverlayPageWidthFraction(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION, null)
+      );
+      $this->pdfCombiner->setOverlayTextColor(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEXT_COLOR, null)
+      );
+      $this->pdfCombiner->setOverlayBackgroundColor(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR, null)
+      );
+
       $this->setErrorPagesFont(
         $this->cloudConfig->getUserValue(
           $this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT));

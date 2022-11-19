@@ -22,7 +22,8 @@
 
 namespace OCA\PdfDownloader\Service;
 
-use \RuntimeException;
+use RuntimeException;
+use InvalidArgumentException;
 
 use Psr\Log\LoggerInterface as ILogger;
 use OCP\IL10N;
@@ -41,6 +42,8 @@ class PdfCombiner
   public const OVERLAY_FONT = 'dejavusansmono';
   public const OVERLAY_FONT_SIZE = 16;
   public const OVERLAY_PAGE_WIDTH_FRACTION = 0.4;
+  public const OVERLAY_TEXT_COLOR = [ 0xFF, 0x00, 0x00 ];
+  public const OVERLAY_BACKGROUND_COLOR = [ 0xC8, 0xC8, 0xC8 ];
 
   const NAME_KEY = 'name';
   const PATH_KEY = 'path';
@@ -76,6 +79,12 @@ class PdfCombiner
 
   /** @var string */
   private $overlayTemplate;
+
+  /** @var array */
+  private $overlayTextColor = self::OVERLAY_TEXT_COLOR;
+
+  /** @var array */
+  private $overlayBackgroundColor = self::OVERLAY_BACKGROUND_COLOR;
 
   /** @var string */
   private $grouping = self::GROUP_FOLDERS_FIRST;
@@ -185,6 +194,72 @@ class PdfCombiner
   public function setOverlayFontSize(?int $overlayFontSize):PdfCombiner
   {
     $this->overlayFontSize = empty($overlayFontSize) ? self::OVERLAY_FONT_SIZE : $overlayFontSize;
+
+    return $this;
+  }
+
+  /**
+   * Return the currently configured overlay text (foreground) color.
+   *
+   * @return array Configured RGB color array.
+   */
+  public function getOverlayTextColor():array
+  {
+    return $this->overlayTextColor ?? self::OVERLAY_TEXT_COLOR;
+  }
+
+  /**
+   * Configure the overlay text (foreground) color
+   *
+   * @param null|string|array $overlayTextColor RGB color values as array or color string
+   * "#RRGGBB". Set to null to restore the default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayTextColor(mixed $overlayTextColor):PdfCombiner
+  {
+    if (is_string($overlayTextColor)) {
+      $overlayTextColor = $this->rgbaStringToArray($overlayTextColor);
+      if (count($overlayTextColor) != 3) {
+        throw new InvalidArgumentException($this->l->t(
+          'Only RGB values without alpha channel are supported.'
+        ));
+      }
+    }
+    $this->overlayTextColor = empty($overlayTextColor) ? self::OVERLAY_TEXT_COLOR : $overlayTextColor;
+
+    return $this;
+  }
+
+  /**
+   * Return the currently configured overlay text (foreground) color.
+   *
+   * @return array Configured RGB color array.
+   */
+  public function getOverlayBackgroundColor():array
+  {
+    return $this->overlayBackgroundColor ?? self::OVERLAY_TEXT_COLOR;
+  }
+
+  /**
+   * Configure the overlay text (foreground) color
+   *
+   * @param null|string|array $overlayBackgroundColor RGB color values as array or color string
+   * "#RRGGBB". Set to null to restore the default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayBackgroundColor(mixed $overlayBackgroundColor):PdfCombiner
+  {
+    if (is_string($overlayBackgroundColor)) {
+      $overlayBackgroundColor = $this->rgbaStringToArray($overlayBackgroundColor);
+      if (count($overlayBackgroundColor) != 3) {
+        throw new InvalidArgumentException($this->l->t(
+          'Only RGB values without alpha channel are supported.'
+        ));
+      }
+    }
+    $this->overlayBackgroundColor = empty($overlayBackgroundColor) ? self::OVERLAY_BACKGROUND_COLOR : $overlayBackgroundColor;
 
     return $this;
   }
@@ -380,11 +455,11 @@ class PdfCombiner
 
       $cellWidth = $stringWidth + 2.0 * $padding;
       $pdf->SetAlpha(1, 'Normal', 0.2);
-      $pdf->Rect($pageWidth - $cellWidth, 0, $cellWidth, 1.5 * $fontSize, style: 'F', fill_color: [ 200 ]);
+      $pdf->Rect($pageWidth - $cellWidth, 0, $cellWidth, 1.5 * $fontSize, style: 'F', fill_color: $this->overlayBackgroundColor);
 
       $pdf->setXY($pageWidth - $cellWidth, 0.25 * $fontSize);
       $pdf->SetAlpha(1, 'Normal', 1.0);
-      $pdf->setColor('text', 255, 0, 0);
+      $pdf->setColorArray('text', $this->overlayTextColor);
       $pdf->Cell($cellWidth, 1.5 * $fontSize, $text, calign: 'A', valign: 'T', align: 'R', fill: false);
       $pdf->endPage();
     }
