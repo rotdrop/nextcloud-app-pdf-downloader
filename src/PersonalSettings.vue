@@ -25,7 +25,7 @@
         <input id="page-labels"
                v-model="pageLabels"
                type="checkbox"
-               :disabled="loading"
+               :disabled="loading > 0"
                @change="saveSetting('pageLabels')"
         >
         <label for="page-labels">
@@ -75,13 +75,15 @@
         <div class="label">
           {{ t(appName, 'Page-label colors') }}:
         </div>
-        <ColorPicker v-model="pageLabelTextColor"
+        <ColorPicker ref="pageLabelTextColorPicker"
+                     v-model="pageLabelTextColor"
                      :label="t(appName, 'Text')"
                      :color-palette="pageLabelTextColorPalette"
                      @update="saveSetting('pageLabelTextColor')"
                      @update:color-palette="(palette) => { pageLabelTextColorPalette = palette; saveSetting('pageLabelTextColorPalette'); }"
         />
-        <ColorPicker v-model="pageLabelBackgroundColor"
+        <ColorPicker ref="pageLabelBackgroundColorPicker"
+                     v-model="pageLabelBackgroundColor"
                      :label="t(appName, 'Background')"
                      :color-palette="pageLabelBackgroundColorPalette"
                      @update="saveSetting('pageLabelBackgroundColor')"
@@ -98,7 +100,7 @@
                          step="0.01"
                          :label="t(appName, 'Page-label width fraction')"
                          :hint="t(appName, 'Page-label width as decimal fraction of the page-width. Leave empty to use a fixed font-size.')"
-                         :disabled="loading || !pageLabels"
+                         :disabled="loading > 0 || !pageLabels"
                          @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
       />
       <div v-show="pageLabels" class="horizontal-rule" />
@@ -109,8 +111,8 @@
                   :fonts-list="fontsList"
                   :label="t(appName, 'Font for generated PDF page-annotations')"
                   :hint="t(appName, 'The font to use for the page labels: {pageLabelsFont}', { pageLabelsFont })"
-                  :disabled="!pageLabels || loading"
-                  :loading="loading"
+                  :disabled="!pageLabels || loading > 0"
+                  :loading="loading > 0"
                   :font-size-chooser="!pageLabelPageWidthFraction"
       />
       <div class="horizontal-rule" />
@@ -119,8 +121,8 @@
                   :fonts-list="fontsList"
                   :label="t(appName, 'Font for generated PDF (error-)pages')"
                   :hint="t(appName, 'The font to use for generated pages: {generatedPagesFont}', { generatedPagesFont })"
-                  :disabled="loading"
-                  :loading="loading"
+                  :disabled="loading > 0"
+                  :loading="loading > 0"
       />
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Sorting Options')">
@@ -130,7 +132,7 @@
                  v-model="grouping"
                  type="radio"
                  value="folders-first"
-                 :disabled="loading"
+                 :disabled="loading > 0"
                  @change="saveSetting('grouping')"
           >
           <label for="group-folders-first">
@@ -142,7 +144,7 @@
                  v-model="grouping"
                  type="radio"
                  value="files-first"
-                 :disabled="loading"
+                 :disabled="loading > 0"
                  @change="saveSetting('grouping')"
           >
           <label for="group-files-first">
@@ -154,7 +156,7 @@
                  v-model="grouping"
                  type="radio"
                  value="ungrouped"
-                 :disabled="loading"
+                 :disabled="loading > 0"
                  @change="saveSetting('grouping')"
           >
           <label for="group-ungrouped">
@@ -198,7 +200,7 @@
         <input id="extract-archive-files"
                v-model="extractArchiveFiles"
                type="checkbox"
-               :disabled="loading || !extractArchiveFilesAdmin"
+               :disabled="loading > 0 || !extractArchiveFilesAdmin"
                @change="saveSetting('extractArchiveFiles')"
         >
         <label v-if="extractArchiveFilesAdmin" for="extract-archive-files">
@@ -213,7 +215,7 @@
         v-model="humanArchiveSizeLimit"
         :label="t(appName, 'Archive Size Limit')"
         :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
-        :disabled="loading || !extractArchiveFiles || !extractArchiveFilesAdmin"
+        :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
         @update="saveTextInput(...arguments, 'archiveSizeLimit')"
       />
       <span v-if="archiveSizeLimitAdmin > 0" :class="{ hint: true, 'admin-limit-exceeded': archiveSizeLimitAdmin < archiveSizeLimit, 'icon-error': archiveSizeLimitAdmin < archiveSizeLimit }">
@@ -266,13 +268,13 @@ export default {
       fontSamples: [],
       // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the translated language
       fontSampleText: t(appName, 'The quick brown fox jumps over the lazy dog.'),
-      loading: true,
+      loading: 1,
       //
       pageLabels: true,
       pageLabelTemplate: initialState.defaultPageLabelTemplate,
-      pageLabelTextColor: '#FF0000',
+      pageLabelTextColor: '#ff0000',
       pageLabelTextColorPalette: [],
-      pageLabelBackgroundColor: '#C8C8C8',
+      pageLabelBackgroundColor: '#c8c8c8',
       pageLabelBackgroundColorPalette: [],
       pageLabelPageWidthFraction: 0.4,
       pageLabelsFont: '',
@@ -380,6 +382,9 @@ export default {
     pdfFileNameTemplate(newValue, oldValue) {
       this.fetchPdfFileNameTemplateExample()
     },
+    pageLabelTextColor(newValue, oldValue) {
+      console.info('TEXT COLOR', newValue, oldValue)
+    },
     pageLabelBackgroundColor(newValue, oldValue) {
       console.info('BACKGROUND', newValue, oldValue)
     },
@@ -387,18 +392,42 @@ export default {
   created() {
     this.getData()
   },
+  mounted() {
+    if (!this.loading) {
+      this.$refs.pageLabelTextColorPicker.saveState()
+      this.$refs.pageLabelBackgroundColorPicker.saveState()
+    }
+  },
   methods: {
     info() {
       console.info(...arguments)
     },
     async getData() {
       // slurp in all personal settings
-      this.fetchSettings('personal')
-      try {
-        const response = await axios.get(generateUrl('fonts'))
-        this.fontsList = response.data
-        console.info('FONTS', this.fontsList)
-      } catch (e) {
+      ++this.loading
+      this.fetchSettings('personal').finally(() => {
+        if (this.$refs.pageLabelTextColorPicker) {
+          this.$refs.pageLabelTextColorPicker.saveState()
+          this.$refs.pageLabelBackgroundColorPicker.saveState()
+        }
+        --this.loading
+      })
+      ++this.loading
+      axios.get(generateUrl('fonts')).then(
+        (response) => {
+          this.fontsList = response.data
+          console.info('FONTS', this.fontsList)
+          let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
+          this.pageLabelsFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
+          if (this.pageLabelsFontObject) {
+            Vue.set(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
+          }
+          fontIndex = this.fontsList.findIndex((x) => x.family === this.generatedPagesFont)
+          this.generatedPagesFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
+          if (this.generatedPagesFontObject) {
+            Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
+          }
+      }).catch((e) => {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
@@ -410,23 +439,21 @@ export default {
         showError(t(appName, 'Unable to obtain the list of available fonts: {message}', {
           message,
         }))
-      }
-      let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
-      this.pageLabelsFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
-      if (this.pageLabelsFontObject) {
-        Vue.set(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
-      }
-      fontIndex = this.fontsList.findIndex((x) => x.family === this.generatedPagesFont)
-      this.generatedPagesFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
-      if (this.generatedPagesFontObject) {
-        Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
-      }
-      await this.fetchPageLabelTemplateExample()
-      await this.fetchPdfFileNameTemplateExample()
-      this.loading = false
+      }).finally(() => {
+        --this.loading
+      })
+      ++this.loading
+      this.fetchPageLabelTemplateExample().finally(() => {
+        --this.loading
+      })
+      ++this.loading
+      this.fetchPdfFileNameTemplateExample().finally(() => {
+        --this.loading
+      })
+      --this.loading
     },
     async saveTextInput(value, settingsKey, force) {
-      if (this.loading) {
+      if (this.loading > 0) {
         // avoid ping-pong by reactivity
         console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
         return
@@ -434,7 +461,7 @@ export default {
       this.saveConfirmedSetting(value, 'personal', settingsKey, force);
     },
     async saveSetting(setting) {
-      if (this.loading) {
+      if (this.loading > 0) {
         // avoid ping-pong by reactivity
         console.info('SKIPPING SETTINGS-SAVE DURING LOAD', setting)
         return
