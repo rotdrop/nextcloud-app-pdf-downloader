@@ -19,7 +19,8 @@
  */
 </script>
 <template>
-  <ColorPickerExtension v-bind="$attrs"
+  <ColorPickerExtension ref="wrappedComponent"
+                        v-bind="$attrs"
                         :label="label"
                         :component-labels="componentLabels"
                         v-on="$listeners"
@@ -55,6 +56,9 @@ export default {
     },
   },
   methods: {
+    saveState() {
+      this.$refs.wrappedComponent.saveState()
+    }
   },
 }
 </script>
