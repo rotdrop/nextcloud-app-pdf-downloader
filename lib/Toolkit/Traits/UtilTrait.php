@@ -495,6 +495,6 @@ trait UtilTrait
       }
       $rgbaString .= sprintf('%02x', $colorValue);
     }
-    return $rgbaString;
+    return strtolower($rgbaString);
   }
 }

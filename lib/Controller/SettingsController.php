@@ -438,13 +438,13 @@ class SettingsController extends Controller
       case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
         $newValue = $value;
         if (is_array($newValue)) {
-          $settingsValue = json_encode($newValue);
+          $settingsValue = strtolower(json_encode($newValue));
         } else {
           $newValue = null;
         }
         if (!empty($oldValue) && is_string($oldValue)) {
           try {
-            $oldValue = json_decode($oldValue, true);
+            $oldValue = json_decode(strtolower($oldValue), true);
           } catch (Throwable $t) {
             $this->logException($t, 'Unable to decode old palette value "' . $oldValue . '".');
           }
@@ -610,7 +610,7 @@ class SettingsController extends Controller
         case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
         case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
           if (!empty($value)) {
-            $value = json_decode($value, true);
+            $value = json_decode(strtolower($value), true);
           }
           $humanValue = $value;
           break;
