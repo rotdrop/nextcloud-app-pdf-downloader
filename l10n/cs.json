@@ -19,6 +19,8 @@
     "Converter \"%1$s\" has failed trying to convert mime-type \"%2$s\"" : "Konvertoru „%1$s“ se nepodař pokus o převedení mime typu „%2$s“",
     "Installation problem; the required %s-resource \"%s\" is not installed on the server,\n please contact the system administrator!" : "Problém s instalací: potřebný %s-prostředek „%s“ není na serveru nainstalovaný,\n obraťte se na jeho správce!",
     "Please install the \"%s\" program on the server." : "Nainstalujte na server program „%s“.",
+    "Font-sample could not be generated: %s" : "Ukázku písma se nepodařilo vytvořit: %s",
+    "Font-sample could not be generated with \"%s\"." : "Ukázku písma se nepodařilo vytvořit s „%s“.",
     "Combining PDFs failed" : "Zkombinování PDF dokumentů se nezdařilo",
     "PDF Downloader" : "Stahování v podobě PDF",
     "Unable to open archive file %s (%s)" : "Nedaří se otevřít soubor s archivem %s (%s)",

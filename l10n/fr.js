@@ -1,12 +1,13 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "Post to end-point \"%s\" not implemented." : "La publication sur l'end-point \"%s\" n'est pas implémentée.",
     "unknown" : "Inconnu",
     "bytes" : "octets",
     "true" : "vrai",
     "false" : "faux",
     "OK" : "OK",
-    "Created" : "Créée",
+    "Created" : "Créé",
     "Unauthorized" : "Interdit",
     "Forbidden" : "Interdit",
     "Not Found" : "Non trouvé",
