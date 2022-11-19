@@ -55,11 +55,17 @@
             <span class="template-example-caption">
               {{ t(appName, 'Generated Label') }}:
             </span>
-            <span :class="['template-example-rendered', { 'set-minimum-height': !!pageLabelPageWidthFraction }]">
-              <img :src="pageLabelTemplateFontSampleUri">
+            <span :class="['template-example-rendered', { 'set-minimum-height': !!pageLabelPageWidthFraction }]"
+                  :style="{ 'background-color': pageLabelBackgroundColor }"
+            >
+              <img :src="pageLabelTemplateFontSampleUri"
+                   :style="{ filter: pageLabelTemplateFontSampleFilter }"
+              >
             </span>
-            <span class="template-example-plain-text">
-              "{{ pageLabelTemplateExample }}"
+            <span class="template-example-plain-text"
+                  :style="{ 'background-color': pageLabelBackgroundColor, 'color': pageLabelTextColor }"
+            >
+              {{ pageLabelTemplateExample }}
             </span>
           </div>
         </template>
@@ -69,12 +75,12 @@
         <div class="label">
           {{ t(appName, 'Page-label colors') }}:
         </div>
-        <ColorPicker v-model="pageLabelTextColor">
-          <button>{{ t(appName, 'Text Color') }}</button>
-        </ColorPicker>
-        <ColorPicker v-model="pageLabelBackgroundColor">
-          <button>{{ t(appName, 'Background') }}</button>
-        </ColorPicker>
+        <ColorPicker v-model="pageLabelTextColor"
+                     :label="t(appName, 'Text')"
+        />
+        <ColorPicker v-model="pageLabelBackgroundColor"
+                     :label="t(appName, 'Background')"
+        />
       </div>
       <div v-show="pageLabels" class="horizontal-rule" />
       <SettingsInputText v-show="pageLabels"
@@ -215,9 +221,11 @@ import { appName } from './config.js'
 import Vue from 'vue'
 import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
 import EllipsisedFontOption from './components/EllipsisedFontOption'
+import ColorPicker from './components/ColorPicker'
 import FontSelect from './components/FontSelect'
 import FilePrefixPicker from './components/FilePrefixPicker'
 import generateUrl from './toolkit/util/generate-url.js'
@@ -226,12 +234,16 @@ import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANEN
 import axios from '@nextcloud/axios'
 import { parse as pathParse } from 'path'
 import settingsSync from './toolkit/mixins/settings-sync'
+import tinycolor from 'tinycolor2'
+import { hexToCSSFilter } from 'hex-to-css-filter'
 
 const initialState = getInitialState()
 
 export default {
   name: 'PersonalSettings',
   components: {
+    ActionButton,
+    Actions,
     AppSettingsSection,
     ColorPicker,
     FilePrefixPicker,
@@ -299,9 +311,16 @@ export default {
       const text = this.pageLabelTemplateExample
       return this.$refs.pageLabelsFontSelect.getFontSampleUri(this.pageLabelsFontObject, {
         text: text,
-        textColor: '#FF0000',
+        textColor: '#000000',
         fontSize: this.pageLabelPageWidthFraction ? undefined : this.pageLabelsFontSize,
       })
+    },
+    pageLabelTemplateFontSampleFilter() {
+      const targetRgbColor = this.pageLabelTextColor
+      const cssFilter = hexToCSSFilter(targetRgbColor)
+      console.info('CSSFILTER', cssFilter)
+      console.info('RETURN',  cssFilter.filter.trimEnd(';'))
+      return cssFilter.filter.replace(/;$/g, '')
     },
     pdfCloudFolderBaseName: {
       get() {
@@ -355,9 +374,6 @@ export default {
     },
     pageLabelBackgroundColor(newValue, oldValue) {
       console.info('BACKGROUND', newValue, oldValue)
-    },
-    pageLabelTextColor(newValue, oldValue) {
-      console.info('TEXT COLOR', newValue, oldValue)
     },
   },
   created() {
@@ -538,6 +554,9 @@ export default {
           min-height: var(--default-line-height);
         }
       }
+    }
+    .template-example-plain-text {
+      padding: 0 0.3em;
     }
     .template-example-caption {
       padding-right:0.5em;
