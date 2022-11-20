@@ -56,6 +56,7 @@ class SettingsController extends Controller
   public const ARCHIVE_SIZE_LIMIT = 'archiveSizeLimit';
 
   public const PERSONAL_PAGE_LABELS = 'pageLabels';
+  public const PERSONAL_PAGE_LABELS_DEFAULT = true;
   public const PERSONAL_PAGE_LABELS_FONT = 'pageLabelsFont';
   public const PERSONAL_PAGE_LABELS_FONT_DEFAULT = PdfCombiner::OVERLAY_FONT;
   public const PERSONAL_PAGE_LABELS_FONT_SIZE = 'pageLabelsFontSize';
@@ -111,7 +112,10 @@ class SettingsController extends Controller
     self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, ],
     self::EXTRACT_ARCHIVE_FILES_ADMIN => [ 'rw' => false, 'default' => false, ],
     self::ARCHIVE_SIZE_LIMIT_ADMIN => [ 'rw' => false, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
-    self::PERSONAL_PAGE_LABELS => [ 'rw' => true, 'default' => true, ],
+    self::PERSONAL_PAGE_LABELS => [
+      'rw' => true,
+      'default' => self::PERSONAL_PAGE_LABELS_DEFAULT,
+    ],
     self::PERSONAL_PAGE_LABELS_FONT => [
       'rw' => true,
       'default' => self::PERSONAL_GENERATED_PAGES_FONT_DEFAULT,

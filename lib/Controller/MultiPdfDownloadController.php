@@ -415,11 +415,14 @@ __EOF__;
    * @param string $nodePath The path to the file-system node to convert to
    * PDF.
    *
+   * @param null|string $downloadFileName The file-name presented to the
+   * http-client. If null defaults to the pre-configured file-name template.
+   *
    * @return Response
    *
    * @NoAdminRequired
    */
-  public function get(string $nodePath):Response
+  public function get(string $nodePath, ?string $downloadFileName):Response
   {
     $pageLabels = $this->cloudConfig->getUserValue(
       $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
@@ -430,18 +433,35 @@ __EOF__;
     $node = $this->userFolder->get($nodePath);
     if ($node->getType() === FileInfo::TYPE_FOLDER) {
       $this->addFilesRecursively($node);
-    } elseif (!$this->extractArchiveFiles
+    } else {
+      if (!$this->extractArchiveFiles
                || $this->addArchiveMembers($node) !== self::ARCHIVE_HANDLED) {
-      if (!$this->extractArchiveFiles) {
-        return self::grumble(
-          $this->l->t('"%s" is not a folder and archive extraction is disabled.', $nodePath));
-      } else {
-        return self::grumble(
-          $this->l->t('"%s" is not a folder and cannot be processed by archive extraction.', $nodePath));
+        if (!$this->extractArchiveFiles) {
+          return self::grumble(
+            $this->l->t('"%s" is not a folder and archive extraction is disabled.', $nodePath));
+        } else {
+          return self::grumble(
+            $this->l->t('"%s" is not a folder and cannot be processed by archive extraction.', $nodePath));
+        }
       }
+      $pathInfo = pathinfo($nodePath);
+      $nodePath = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . basename($pathInfo['filename'], '.tar');
     }
 
-    $fileName = basename($nodePath) . '.pdf';
+    if (empty($downloadFileName)) {
+      $template = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
+        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+      );
+      $this->logInfo('TEMPLATE ' . $template);
+      $fileName = basename($this->getPdfFileName($template, $nodePath), '.pdf') . '.pdf';
+    } else {
+      $fileName = basename($downloadFileName, '.pdf') . '.pdf';
+    }
+
+    $this->logInfo('DOWNLOAD FILENAME ' . $fileName);
 
     return self::dataDownloadResponse($this->pdfCombiner->combine(), $fileName, 'application/pdf');
   }
@@ -606,6 +626,27 @@ EOF;
     $template = urldecode($template);
     $path = urldecode($path);
 
+    $pdfFileName = $this->getPdfFileName($template, $path);
+
+    return self::dataResponse([
+      'pdfFileName' => $pdfFileName,
+    ]);
+  }
+
+  /**
+   * Generate a download file-name from a given template and full path.
+   *
+   * @param string $template
+   *
+   * @param string $path Folder Path.
+   * directory part.
+   *
+   * @return string
+   */
+  private function getPdfFileName(
+    string $template,
+    string $path,
+  ):string {
     $keys = [
       'BASENAME' => $this->l->t('BASENAME'),
       'FILENAME' => $this->l->t('FILENAME'),
@@ -624,8 +665,6 @@ EOF;
 
     $pdfFileName = $this->replaceBracedPlaceholders($template, $templateValues, $keys);
 
-    return self::dataResponse([
-      'pdfFileName' => $pdfFileName,
-    ]);
+    return $pdfFileName;
   }
 }
