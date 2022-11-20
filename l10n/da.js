@@ -11,6 +11,7 @@ OC.L10N.register(
     "Conflict" : "Konflikt",
     "Internal Server Error" : "Intern serverfejl",
     "Error" : "Fejl",
+    "Missing data" : "Manglende data",
     "No" : "Nej",
     "Yes" : "Ja"
 },

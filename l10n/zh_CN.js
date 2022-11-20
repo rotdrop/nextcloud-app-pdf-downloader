@@ -1,8 +1,15 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "Post to end-point \"%s\" not implemented." : "向端点“%s”的POST未实现",
+    "Post to base-url of app \"%s\" not allowed." : "向应用的根路径“%s”的POST不被允许",
+    "Get from end-point \"%s\" not implemented." : "对端点“%s”的GET未实现",
     "unknown" : "未知",
     "bytes" : "字节",
+    "Archive Extraction" : "解压压缩文件",
+    "Archive Size Limit" : "压缩文件大小限制",
+    "Disallow archive extraction for archives with decompressed size larger than this limit." : "禁止解压缩解压后大小超过此限制的压缩文件",
+    "Administrative size limit: {value}" : "管理大小限制： {value}",
     "true" : "真",
     "false" : "假",
     "OK" : "确定",
