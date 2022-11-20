@@ -381,7 +381,7 @@ class PdfCombiner
       'BASENAME' => $pathInfo['basename'],
       'FILENAME' => $pathInfo['filename'],
       'DIRNAME' => $pathInfo['dirname'],
-      'EXTENSION' => $pathInfo['extension'],
+      'EXTENSION' => $pathInfo['extension'] ?? null,
       'PAGE_NUMBER' => [
         'value' => $pageNumber,
         'padding' => 'TOTAL_PAGES',
