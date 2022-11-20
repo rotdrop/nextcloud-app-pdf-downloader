@@ -406,7 +406,7 @@ trait UtilTrait
     $keys = array_combine($keys, $keys);
     $l10nKeys = array_merge($keys, $l10nTemplateKeys ?? $keys);
     return preg_replace_callback(
-      '/{((.)([0-9]*)\|)?([^{}@]+)(\@([^{}@]+))?}/',
+      '/{((.)([0-9]*)\|)?([^{}@]+)(\@([^{}]+))?}/',
       function(array $matches) use ($keys, $l10nKeys, $templateValues) {
         $match = $matches[0];
         $padChar = $matches[2];
