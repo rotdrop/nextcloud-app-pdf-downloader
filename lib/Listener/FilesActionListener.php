@@ -30,12 +30,15 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IUserSession;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\IConfig as CloudConfig;
+use OCP\IL10N;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent as HandledEvent;
 
-use OCA\PdfDownloader\Service\AssetService;
-use OCA\PdfDownloader\Controller\SettingsController;
 use OCA\RotDrop\Toolkit\Service\MimeTypeService;
+
+use OCA\PdfDownloader\Service\AssetService;
+use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
+use OCA\PdfDownloader\Controller\SettingsController;
 
 /**
  * In particular listen to the asset-loading events.
@@ -93,6 +96,8 @@ class FilesActionListener implements IEventListener
 
     $appName = $this->appContainer->get('appName');
 
+    $l10n = $this->appContainer->get(IL10N::class);
+
     $this->logger = $this->appContainer->get(LoggerInterface::class);
 
     /** @var CloudConfig $cloudConfig */
@@ -107,6 +112,24 @@ class FilesActionListener implements IEventListener
     $extractArchiveFilesUser = $cloudConfig->getUserValue(
       $userId, $appName, SettingsController::EXTRACT_ARCHIVE_FILES, $extractArchiveFilesAdmin
     );
+    $pdfFileNameTemplate = $cloudConfig->getUserValue(
+      $userId,
+      $appName,
+      SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
+      MultiPdfDownloadController::getDefaultPdfFileNameTemplate($l10n),
+    );
+    $pdfCloudFolderPath = $cloudConfig->getUserValue(
+      $userId,
+      $appName,
+      SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH,
+      null,
+    );
+    $createPageLabels = $cloudConfig->getUserValue(
+      $userId,
+      $appName,
+      SettingsController::PERSONAL_PAGE_LABELS,
+      SettingsController::PERSONAL_PAGE_LABELS_DEFAULT,
+    );
 
     /** @var MimeTypeService $mimeTypeService */
     $mimeTypeService = $this->appContainer->get(MimeTypeService::class);
@@ -119,6 +142,9 @@ class FilesActionListener implements IEventListener
       'phpUserAgent' => $_SERVER['HTTP_USER_AGENT'], // @@todo get in javascript from request
       SettingsController::EXTRACT_ARCHIVE_FILES => $extractArchiveFilesUser,
       SettingsController::EXTRACT_ARCHIVE_FILES_ADMIN => $extractArchiveFilesAdmin,
+      SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE => $pdfFileNameTemplate,
+      SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH => $pdfCloudFolderPath,
+      SettingsController::PERSONAL_PAGE_LABELS => $createPageLabels,
       'archiveMimeTypes' => $archiveMimeTypes,
     ]);
 

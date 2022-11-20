@@ -53,6 +53,7 @@
         <FilePrefixPicker v-model="cloudDestinationFileInfo"
                           :hint="t(appName, 'Choose a destination in the cloud:')"
                           :placeholder="t(appName, 'base-name')"
+                          :readonly="downloadOptions.useTemplate ? 'basename' : false"
                           @update="() => 0"
         />
       </li>
@@ -73,6 +74,12 @@
                           @update:checked="(value) => downloadOptions.pageLabels = value"
           >
             {{ t(appName, 'page labels') }}
+          </ActionCheckBox>
+          <ActionCheckBox v-tooltip="tooltips.useTemplate"
+                          :checked="!!downloadOptions.useTemplate"
+                          @update:checked="(value) => downloadOptions.useTemplate = value"
+          >
+            {{ t(appName, 'filename template') }}
           </ActionCheckBox>
           <ActionCheckBox v-tooltip="tooltips.offline"
                           :checked="!!downloadOptions.offline"
@@ -117,7 +124,11 @@ import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckBox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import CloudUpload from 'vue-material-design-icons/CloudUpload'
-import settingsSync from '../toolkit/mixins/settings-sync'
+import generateUrl from '../toolkit/util/generate-url.js'
+import axios from '@nextcloud/axios'
+import * as Path from 'path'
+
+const initialState = getInitialState()
 
 export default {
   name: 'FilesTab',
@@ -129,17 +140,17 @@ export default {
     CloudUpload,
   },
   mixins: [
-    settingsSync,
   ],
   data() {
     return {
       fileList: undefined,
       fileInfo: {},
-      fileName: undefined,
-      initialState: {},
+      folderName: undefined,
+      config: initialState,
       downloadOptions: {
         offline: undefined,
         pageLabels: undefined,
+        useTemplate: true,
       },
       showCloudDestination: false,
       cloudDestinationFileInfo: {
@@ -151,6 +162,7 @@ export default {
       tooltips: {
         pageLabels: t(appName, 'Decorate each page with the original file name and the page number within that file. The default is configured in the personal preferences for the app.'),
         offline: t(appName, 'When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web-server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web-server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file-system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time.'),
+        useTemplate: t(appName, 'Auto-generate the download file-name from the given template. The default template can be configured in the personal settings for this app.'),
       },
       personalSettings: {},
     };
@@ -162,6 +174,9 @@ export default {
     // this.getData()
   },
   computed: {
+    folderPath() {
+      return this.fileInfo.path + '/' + this.folderName
+    },
     cloudDestinationBaseName: {
       get() {
         return this.cloudDestinationFileInfo.baseName
@@ -201,30 +216,38 @@ export default {
      * @param {Object} fileInfo the current file FileInfo
      */
     async update(fileInfo) {
+      console.info('PDF DOWNLOADER FILE INFO', fileInfo)
       this.loading = true
 
       this.fileInfo = fileInfo
-      this.fileName = fileInfo.path + '/' + fileInfo.name
 
       this.fileList = OCA.Files.App.currentFileList
       this.fileList.$el.off('updated').on('updated', function(event) {
         console.info('FILE LIST UPDATED, ARGS', arguments)
       })
 
-      this.cloudDestinationBaseName = fileInfo.name.split('.')[0]
-      this.cloudDestinationDirName = fileInfo.path
+      this.cloudDestinationDirName = this.config.pdfCloudFolderPath || fileInfo.path
+      if (this.fileInfo.type === 'dir') {
+        this.folderName = fileInfo.name
+      } else {
+        // archive file, split the relevant extensions
+        const pathInfo = Path.parse(fileInfo.name)
+        this.folderName = Path.basename(pathInfo.name, '.tar')
+      }
+      this.downloadOptions.pageLabels = this.config.pageLabels
 
-      this.getData()
+      this.cloudDestinationBaseName = await this.fetchPdfFileNameFromTemplate(this.folderPath)
+
+      this.loading = false
     },
     /**
      * Fetch some needed data ...
      */
     async getData() {
-      this.initialState = getInitialState()
-      await this.fetchSettings('personal', this.personalSettings)
+      // await this.fetchSettings('personal', this.personalSettings)
       // Vue.set(this.downloadOptions, 'pageLabels', this.personalSettings.pageLabels)
-      this.downloadOptions.pageLabels = this.personalSettings.pageLabels
-      this.loading = false
+      // this.downloadOptions.pageLabels = this.personalSettings.pageLabels
+      // this.loading = false
     },
     toggleOptionsMenu() {
       if (this.$refs.downloadOptions.opened) {
@@ -240,6 +263,30 @@ export default {
         this.showCloudDestination = false;
       } else {
         this.$refs.downloadActions.openMenu()
+      }
+    },
+    async fetchPdfFileNameFromTemplate(folderPath) {
+      try {
+        const response = await axios.get(generateUrl(
+          'sample/pdf-filename/{template}/{path}', {
+            template: encodeURIComponent(this.config.pdfFileNameTemplate),
+            path: encodeURIComponent(folderPath),
+        }));
+        console.info('PDF FILE RESPONSE', response)
+        return response.data.pdfFileName
+      } catch (e) {
+        console.info('RESPONSE', e)
+        let message = t(appName, 'reason unknown')
+        if (e.response && e.response.data) {
+          const responseData = e.response.data;
+          if (Array.isArray(responseData.messages)) {
+            message = responseData.messages.join(' ');
+          }
+        }
+        showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+          message,
+        }))
+        return undefined
       }
     },
   },
