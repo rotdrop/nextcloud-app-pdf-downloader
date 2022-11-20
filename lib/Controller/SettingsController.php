@@ -415,28 +415,28 @@ class SettingsController extends Controller
         }
         break;
       case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
-        $newValue = $value;
         if (empty($value)) {
           $value = MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l);
         }
+        $newValue = $value;
         break;
       case self::PERSONAL_PAGE_LABEL_TEMPLATE:
-        $newValue = $value;
         if (empty($value)) {
           $value = $this->pdfCombiner->getOverlayTemplate();
         }
+        $newValue = $value;
         break;
       case self::PERSONAL_PAGE_LABEL_TEXT_COLOR:
-        $newValue = $value;
         if (empty($value)) {
           $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_TEXT_COLOR);
         }
+        $newValue = $value;
         break;
       case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR:
-        $newValue = $value;
         if (empty($value)) {
           $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_BACKGROUND_COLOR);
         }
+        $newValue = $value;
         break;
       case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
       case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
