@@ -44,7 +44,10 @@
             </template>
             {{ t(appName, 'save to cloud') }}
           </ActionButton>
-          <ActionButton icon="icon-download">
+          <ActionButton icon="icon-download"
+                        :disabled="downLoading"
+                        @click="handleDownload"
+          >
             {{ t(appName, 'download locally') }}
           </ActionButton>
         </Actions>
@@ -54,7 +57,7 @@
                           :hint="t(appName, 'Choose a destination in the cloud:')"
                           :placeholder="t(appName, 'base-name')"
                           :readonly="downloadOptions.useTemplate ? 'basename' : false"
-                          @update="() => 0"
+                          @update="handleSaveToCloud"
         />
       </li>
       <li class="files-tab-entry flex flex-center clickable">
@@ -118,15 +121,16 @@
 
 import { appName } from '../config.js'
 import Vue from 'vue'
-import { getInitialState } from '../toolkit/services/InitialStateService.js'
-import FilePrefixPicker from '../components/FilePrefixPicker'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckBox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import CloudUpload from 'vue-material-design-icons/CloudUpload'
-import generateUrl from '../toolkit/util/generate-url.js'
 import axios from '@nextcloud/axios'
 import * as Path from 'path'
+import generateAppUrl from '../toolkit/util/generate-url.js'
+import { getInitialState } from '../toolkit/services/InitialStateService.js'
+import fileDownload from '../toolkit/util/file-download.js';
+import FilePrefixPicker from '../components/FilePrefixPicker'
 
 const initialState = getInitialState()
 
@@ -159,6 +163,7 @@ export default {
       },
       showBackgroundDownloads: false,
       loading: true,
+      downLoading: false,
       tooltips: {
         pageLabels: t(appName, 'Decorate each page with the original file name and the page number within that file. The default is configured in the personal preferences for the app.'),
         offline: t(appName, 'When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web-server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web-server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file-system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time.'),
@@ -174,8 +179,21 @@ export default {
     // this.getData()
   },
   computed: {
+    /**
+     * @return {string} The folder name to use for downloads. If
+     * this.sourcePath refers to an archive file then this
+     * this.folderPath contains the source file-name without archive
+     * extensions (muli extenaions lik .tar.EXT are also stripped).
+     */
     folderPath() {
       return this.fileInfo.path + '/' + this.folderName
+    },
+    /**
+     * @return {string} The full path to the source file-system object
+     * (folder or archive file).
+     */
+    sourcePath() {
+      return this.fileInfo.path + '/' + this.fileInfo.name
     },
     cloudDestinationBaseName: {
       get() {
@@ -198,7 +216,6 @@ export default {
     cloudDestinationPathName() {
       return this.cloudDestinationDirName + (this.cloudDestinationBaseName ? '/' + this.cloudDestinationBaseName : '')
     },
-
   },
   watch: {
     showCloudDestination(newValue, oldValue) {
@@ -267,7 +284,7 @@ export default {
     },
     async fetchPdfFileNameFromTemplate(folderPath) {
       try {
-        const response = await axios.get(generateUrl(
+        const response = await axios.get(generateAppUrl(
           'sample/pdf-filename/{template}/{path}', {
             template: encodeURIComponent(this.config.pdfFileNameTemplate),
             path: encodeURIComponent(folderPath),
@@ -287,6 +304,46 @@ export default {
           message,
         }))
         return undefined
+      }
+    },
+    async handleDownload() {
+      const url = generateAppUrl('download/{fullPath}', {
+        fullPath: encodeURIComponent(this.sourcePath),
+        downloadFileName: this.cloudDestinationBaseName,
+      });
+
+      this.downLoading = true
+      this.fileList.showFileBusyState(this.fileInfo.name, true)
+
+      fileDownload(url, false, {
+        always: () => {
+          this.downLoading = false
+          this.fileList.showFileBusyState(this.fileInfo.name, false)
+        }
+      })
+    },
+    async handleSaveToCloud() {
+      const sourcePath = encodeURIComponent(this.sourcePath)
+      const destinationPath = encodeURIComponent(this.cloudDestinationPathName)
+      try {
+        const response = await axios.post(generateAppUrl(
+          'save/{sourcePath}/{destinationPath}', {
+            sourcePath,
+            destinationPath,
+        }));
+        console.info('PDF CLOUD SAVE RESPONSE', response)
+      } catch (e) {
+        console.info('RESPONSE', e)
+        let message = t(appName, 'reason unknown')
+        if (e.response && e.response.data) {
+          const responseData = e.response.data;
+          if (Array.isArray(responseData.messages)) {
+            message = responseData.messages.join(' ');
+          }
+        }
+        showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+          message,
+        }))
       }
     },
   },

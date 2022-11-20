@@ -66,6 +66,14 @@ return [
       'verb' => 'GET',
     ],
     [
+      'name' => 'multi_pdf_download#save',
+      'url' => '/save/{sourcePath}/{destinationPath}',
+      'verb' => 'POST',
+      'defaults' => [
+        'destinationPath' => null,
+      ],
+    ],
+    [
       'name' => 'multi_pdf_download#get_fonts',
       'url' => '/fonts',
       'verb' => 'GET',

@@ -340,8 +340,8 @@ __EOF__;
       $stripRoot = !empty($topLevelFolder) ? strlen($topLevelFolder) : 0;
 
       foreach (array_keys($this->archiveService->getFiles()) as $archiveFile) {
-        $this->logInfo('ARCHIVE FILE ' . $archiveFile);
         $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
+        $this->logInfo('ARCHIVE FILE ' . $archiveFile . ' PATH ' . $path);
         try {
           $fileData = $this->archiveService->getFileContent($archiveFile);
           $mimeType = $this->mimeTypeDetector->detectString($fileData);
@@ -422,7 +422,7 @@ __EOF__;
    *
    * @NoAdminRequired
    */
-  public function get(string $nodePath, ?string $downloadFileName):Response
+  public function get(string $nodePath, ?string $downloadFileName = null):Response
   {
     $pageLabels = $this->cloudConfig->getUserValue(
       $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
@@ -458,12 +458,32 @@ __EOF__;
       $this->logInfo('TEMPLATE ' . $template);
       $fileName = basename($this->getPdfFileName($template, $nodePath), '.pdf') . '.pdf';
     } else {
+      $downloadFileName = urldecode($downloadFileName);
       $fileName = basename($downloadFileName, '.pdf') . '.pdf';
     }
 
     $this->logInfo('DOWNLOAD FILENAME ' . $fileName);
 
     return self::dataDownloadResponse($this->pdfCombiner->combine(), $fileName, 'application/pdf');
+  }
+
+  /**
+   * Download the contents of the given folder as multi-page PDF after
+   * converting everything to PDF.
+   *
+   * @param string $sourcePath The path to the file-system node to convert to
+   * PDF.
+   *
+   * @param null|string $destinationPath The distination path in the cloud
+   * where the resulting PDF data should be stored.
+   *
+   * @return Response
+   *
+   * @NoAdminRequired
+   */
+  public function save(string $sourcePath, ?string $destinationPath = null):Response
+  {
+    return self::grumble('UNIMPLEMENTED');
   }
 
   /**
@@ -501,13 +521,21 @@ __EOF__;
   public function getPageLabelSample(
     string $template,
     string $path,
-    int $pageNumber,
-    int $totalPages,
+    int $dirPageNumber,
+    int $dirTotalPages,
+    int $filePageNumber,
+    int $fileTotalPages,
   ):DataResponse {
     $template = urldecode($template);
     $path = urldecode($path);
     $this->pdfCombiner->setOverlayTemplate($template);
-    $pageLabel = $this->pdfCombiner->makePageLabelFromTemplate($path, $pageNumber, $totalPages);
+    $pageLabel = $this->pdfCombiner->makePageLabelFromTemplate(
+      $path,
+      $dirPageNumber,
+      $dirTotalPages,
+      $filePageNumber,
+      $fileTotalPages,
+    );
 
     return self::dataResponse([
       'pageLabel' => $pageLabel,
