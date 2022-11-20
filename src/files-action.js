@@ -111,7 +111,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (OCA.Files && OCA.Files.Sidebar) {
     OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
       id: appName,
-      name: t(appName, 'PDF Download'),
+      name: t(appName, 'PDF'),
       icon: 'icon-pdf-downloader',
 
       enabled(fileInfo) {
