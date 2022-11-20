@@ -499,8 +499,10 @@ export default {
           'sample/page-label/{template}/{path}/{pageNumber}/{totalPages}', {
             template: encodeURIComponent(this.pageLabelTemplate),
             path: encodeURIComponent(this.exampleFilePath),
-            pageNumber: 13,
-            totalPages: 197,
+            dirPageNumber: 13,
+            dirTotalPages: 197,
+            filePageNumber: 3,
+            fileTotalPages: 17,
         }));
         console.info('PAGE LABEL RESPONSE', response)
         this.pageLabelTemplateExample = response.data.pageLabel

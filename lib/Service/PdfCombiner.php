@@ -30,6 +30,7 @@ use OCP\IL10N;
 use OCP\ITempManager;
 
 use OCA\PdfDownloader\Backend\PdfTk;
+use OCA\PdfDownloader\Constants;
 
 /**
  * A class which combines several PDFs into one.
@@ -51,6 +52,7 @@ class PdfCombiner
   const FILES_KEY = 'files';
   const FOLDERS_KEY = 'folders';
   const META_KEY = 'meta';
+  const FILE_KEY = 'file';
 
   public const GROUP_FOLDERS_FIRST = 'folders-first';
   public const GROUP_FILES_FIRST = 'files-first';
@@ -315,9 +317,9 @@ class PdfCombiner
   public function setOverlayTemplate(?string $overlayTemplate):PdfCombiner
   {
     if (empty($overlayTemplate)) {
-      $overlayTemplate = '{' . $this->l->t('BASENAME') . '}'
-        . ' {0|' . $this->l->t('PAGE_NUMBER') . '}'
-        . '/{' . $this->l->t('TOTAL_PAGES') . '}';
+      $overlayTemplate = '{' . $this->l->t('DIR_BASENAME') . '}'
+        . ' {0|' . $this->l->t('DIR_PAGE_NUMBER') . '}'
+        . '/{' . $this->l->t('DIR_TOTAL_PAGES') . '}';
     }
     $this->overlayTemplate = $overlayTemplate;
 
@@ -363,31 +365,46 @@ class PdfCombiner
    */
   public function makePageLabelFromTemplate(
     string $path,
-    int $pageNumber,
-    int $pageMax,
+    int $dirPageNumber,
+    int $dirTotalPages,
+    int $filePageNumber,
+    int $fileTotalPages,
   ):string {
     if (empty($this->pageLabelTemplateKeys)) {
       $this->pageLabelTemplateKeys = [
         'BASENAME' => $this->l->t('BASENAME'),
         'FILENAME' => $this->l->t('FILENAME'),
         'EXTENSION' => $this->l->t('EXTENSION'),
+        'DIR_BASENAME' => $this->l->t('DIR_BASENAME'),
         'DIRNAME' => $this->l->t('DIRNAME'),
-        'PAGE_NUMBER' => $this->l->t('PAGE_NUMBER'),
-        'TOTAL_PAGES' => $this->l->t('TOTAL_PAGES'),
+        'DIR_PAGE_NUMBER' => $this->l->t('DIR_PAGE_NUMBER'),
+        'DIR_TOTAL_PAGES' => $this->l->t('DIR_TOTAL_PAGES'),
+        'FILE_PAGE_NUMBER' => $this->l->t('FILE_PAGE_NUMBER'),
+        'FILE_TOTAL_PAGES' => $this->l->t('FILE_TOTAL_PAGES'),
       ];
     }
     $pathInfo = pathinfo($path);
+    $folderBaseName = pathinfo($pathInfo['dirname'], PATHINFO_BASENAME);
     $templateValues = [
       'BASENAME' => $pathInfo['basename'],
       'FILENAME' => $pathInfo['filename'],
+      'DIR_BASENAME' => $folderBaseName,
       'DIRNAME' => $pathInfo['dirname'],
       'EXTENSION' => $pathInfo['extension'] ?? null,
-      'PAGE_NUMBER' => [
-        'value' => $pageNumber,
-        'padding' => 'TOTAL_PAGES',
+      'DIR_PAGE_NUMBER' => [
+        'value' => $dirPageNumber,
+        'padding' => 'DIR_TOTAL_PAGES',
       ],
-      'TOTAL_PAGES' => $pageMax,
+      'DIR_TOTAL_PAGES' => $dirTotalPages,
+      'FILE_PAGE_NUMBER' => [
+        'value' => $dirPageNumber,
+        'padding' => 'FILE_TOTAL_PAGES',
+      ],
+      'FILE_TOTAL_PAGES' => $dirTotalPages,
     ];
+
+    $this->logInfo('PATH ' . $path . ' ' . print_r($templateValues, true));
+
     return $this->replaceBracedPlaceholders($this->getOverlayTemplate(), $templateValues, $this->pageLabelTemplateKeys);
   }
 
@@ -402,7 +419,8 @@ class PdfCombiner
    */
   private function makePageLabel(array $fileNode, int $startingPage, int $pageMax):string
   {
-    $path = $fileNode[self::PATH_KEY];
+    $this->logInfo('NODE ' . print_r($fileNode, true));
+    $path = $fileNode[self::PATH_KEY] . Constants::PATH_SEPARATOR . $fileNode[self::NAME_KEY];
 
     $pdf = $this->initializePdfGenerator();
 
@@ -411,10 +429,10 @@ class PdfCombiner
     // phpcs:ignore PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace
     for (
       // phpcs:ignore Squiz.ControlStructures.ForLoopDeclaration.SpacingAfterFirst
-      $pageNumber = $startingPage, $mediaNumber = 0;
+      $filePageNumber = 1, $dirPageNumber = $startingPage, $mediaNumber = 0;
       // phpcs:ignore Squiz.ControlStructures.ForLoopDeclaration.SpacingAfterSecond
-      $pageNumber < $startingPage + $numberOfPages;
-      ++$pageNumber, ++$mediaNumber
+      $filePageNumber <= $numberOfPages;
+      ++$filePageNumber, ++$dirPageNumber, ++$mediaNumber
     ) {
       list($pageWidth, $pageHeight) = explode(' ', $pageMedia[$mediaNumber]['Dimensions']);
 
@@ -435,7 +453,7 @@ class PdfCombiner
 
       $orientation = $pageHeight > $pageWidth ? 'P' : 'L';
 
-      $text = $this->makePageLabelFromTemplate($path, $pageNumber, $pageMax);
+      $text = $this->makePageLabelFromTemplate($path, $dirPageNumber, $pageMax, $filePageNumber, $numberOfPages);
 
       $fontSize = $this->getOverlayFontSize();
       $pdf->setFontSize($fontSize);
@@ -519,7 +537,7 @@ class PdfCombiner
         self::NAME_KEY => $nodeName,
         self::PATH_KEY => $path,
         self::LEVEL_KEY => $level,
-        'file' => $fileName,
+        self::FILE_KEY => $fileName,
         self::META_KEY => $pdfData,
       ];
     } else {
@@ -655,7 +673,7 @@ class PdfCombiner
     $folderPageCounter = 1;
     foreach ($tree[self::FILES_KEY] as $fileNode) {
       $nodeName = $fileNode[self::NAME_KEY];
-      $fileName = $fileNode['file'];
+      $fileName = $fileNode[self::FILE_KEY];
       $pdfData = $fileNode[self::META_KEY];
       $nodeBookmark = [
         'Title' => ($level + 1). '|' . $nodeName,
