@@ -356,20 +356,23 @@ trait UtilTrait
   /**
    * Replace braced placeholders in a template string.
    *
-   * The general syntax of a replacement is {[C[N]|]KEY[@FILTER]} where
+   * The general syntax of a replacement is {[C[N]|]KEY[|M[D]][@FILTER]} where
    * where anything in square brackets is optional.
    *
    * - 'C' is any character used for optional padding to the left.
    * - 'N' is th1e padding length. If ommitted, the value of 1 is assumed.
    * - 'KEY' is the replacement key
    * - 'FILTER' can be either
-   *
    *   - a single character which is used to replace occurences of '/' in the
    *     replacement for KEY
    *   - two characters, in which the first character is used as replacement for
    *     the second character in the replacement value of KEY
    *   - the hash-algo passed to the PHP hash($algo, $data) in which case the replacement value
    *     is the hash w.r.t. FILTER of the replacement data
+   *
+   * - 'M' is a number of "path" components to include from the right from the
+   *   expansion of KEY with path-delimiter 'D' (default: "/"). "{KEY|2}" for
+   *   the value "foo/bar/foobar" would result in "bar/foobar".
    *
    * @param string $template
    *
@@ -406,14 +409,18 @@ trait UtilTrait
     $keys = array_combine($keys, $keys);
     $l10nKeys = array_merge($keys, $l10nTemplateKeys ?? $keys);
     return preg_replace_callback(
-      '/{((.)([0-9]*)\|)?([^{}@]+)(\@([^{}]+))?}/',
+      '/{((.)([0-9]*)\|)?([^{}@|]+)(\|([0-9]+)([^{}])?)?(\@([^{}]+))?}/',
       function(array $matches) use ($keys, $l10nKeys, $templateValues) {
+        $this->logInfo('MATCHES ' . print_r($matches, true));
         $match = $matches[0];
         $padChar = $matches[2];
         $padding = $matches[3] ?: 0;
         $keyMatch = strtoupper($matches[4]);
 
-        $filter = $matches[6] ?? '';
+        $tailCount = $matches[6] ?? null;
+        $tailDelimiter = $matches[7] ?? Constants::PATH_SEPARATOR;
+
+        $filter = $matches[9] ?? '';
         $key = $l10nKeys[$keyMatch] ?? ($keys[$keyMatch] ?? null);
         $value = !empty($key) ? $templateValues[$key] : $match;
         if (is_array($value)) {
@@ -430,7 +437,13 @@ trait UtilTrait
         if ($value instanceof DateTimeInterface) {
           // interprete the filter as format for DateTimeInterface::format()
           $value = $value->format(empty($filter) ? 'c' : $filter);
-        } elseif (!empty($filter)) {
+        }
+        if ($tailCount !== null) {
+          $components = explode($tailDelimiter, $value);
+          array_splice($components, 0, -$tailCount);
+          $value = implode($tailDelimiter, $components);
+        }
+        if (!empty($filter)) {
           if (strlen($filter) == 1) {
             $filter .= Constants::PATH_SEPARATOR;
           }
