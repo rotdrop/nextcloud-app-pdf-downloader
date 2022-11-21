@@ -352,7 +352,8 @@ export default {
     },
     pdfCloudFolderPath: {
       get() {
-        return this.pdfCloudFolderDirName + (this.pdfCloudFolderBaseName ? '/' + this.pdfCloudFolderBaseName : '')
+        const result = this.pdfCloudFolderDirName + (this.pdfCloudFolderBaseName ? '/' + this.pdfCloudFolderBaseName : '')
+        return result
       },
       set(value) {
         const pathInfo = pathParse(value || '')
