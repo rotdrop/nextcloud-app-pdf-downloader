@@ -126,6 +126,7 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckBox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import CloudUpload from 'vue-material-design-icons/CloudUpload'
 import axios from '@nextcloud/axios'
+import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
 import * as Path from 'path'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
@@ -233,7 +234,6 @@ export default {
      * @param {Object} fileInfo the current file FileInfo
      */
     async update(fileInfo) {
-      console.info('PDF DOWNLOADER FILE INFO', fileInfo)
       this.loading = true
 
       this.fileInfo = fileInfo
@@ -289,10 +289,8 @@ export default {
             template: encodeURIComponent(this.config.pdfFileNameTemplate),
             path: encodeURIComponent(folderPath),
         }));
-        console.info('PDF FILE RESPONSE', response)
         return response.data.pdfFileName
       } catch (e) {
-        console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
           const responseData = e.response.data;
@@ -302,7 +300,9 @@ export default {
         }
         showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
           message,
-        }))
+        }), {
+          timeout: TOAST_PERMANENT_TIMEOUT,
+        })
         return undefined
       }
     },
@@ -325,15 +325,15 @@ export default {
     async handleSaveToCloud() {
       const sourcePath = encodeURIComponent(this.sourcePath)
       const destinationPath = encodeURIComponent(this.cloudDestinationPathName)
+      this.fileList.showFileBusyState(this.fileInfo.name, true)
       try {
         const response = await axios.post(generateAppUrl(
           'save/{sourcePath}/{destinationPath}', {
             sourcePath,
             destinationPath,
         }));
-        console.info('PDF CLOUD SAVE RESPONSE', response)
+        showSuccess(t(appName, 'PDF saved as {path}.', { path: response.data.pdfFilePath }))
       } catch (e) {
-        console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
           const responseData = e.response.data;
@@ -341,10 +341,14 @@ export default {
             message = responseData.messages.join(' ');
           }
         }
-        showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+        showError(t(appName, 'Unable to save {sourceFile} to the cloud: {message}', {
+          sourceFile: this.sourcePath,
           message,
-        }))
+        }), {
+          timeout: TOAST_PERMANENT_TIMEOUT,
+        })
       }
+      this.fileList.showFileBusyState(this.fileInfo.name, false)
     },
   },
 }

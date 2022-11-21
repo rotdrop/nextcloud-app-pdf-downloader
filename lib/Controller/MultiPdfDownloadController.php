@@ -45,6 +45,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\NotFoundException as FileNotFoundException;
 
 use OCA\RotDrop\Toolkit\Service\ArchiveService;
 use OCA\RotDrop\Toolkit\Exceptions as ToolkitExceptions;
@@ -424,6 +425,90 @@ __EOF__;
    */
   public function get(string $nodePath, ?string $downloadFileName = null):Response
   {
+    if (empty($downloadFileName)) {
+      $template = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
+        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+      );
+      $this->logInfo('TEMPLATE ' . $template);
+      $fileName = basename($this->getPdfFileName($template, $nodePath), '.pdf') . '.pdf';
+    } else {
+      $downloadFileName = urldecode($downloadFileName);
+      $fileName = basename($downloadFileName, '.pdf') . '.pdf';
+    }
+
+    $pdfData = $this->generateDownloadData($nodePath);
+
+    return self::dataDownloadResponse($pdfData, $fileName, 'application/pdf');
+  }
+
+  /**
+   * Download the contents of the given folder as multi-page PDF after
+   * converting everything to PDF.
+   *
+   * @param string $sourcePath The path to the file-system node to convert to
+   * PDF.
+   *
+   * @param null|string $destinationPath The distination path in the cloud
+   * where the resulting PDF data should be stored.
+   *
+   * @return Response
+   *
+   * @NoAdminRequired
+   */
+  public function save(string $sourcePath, ?string $destinationPath = null):Response
+  {
+    $sourcePath = urldecode($sourcePath);
+    $destinationPath = urldecode($destinationPath);
+
+    $pathInfo = pathinfo($destinationPath);
+    $destinationDirName = $pathInfo['dirname'];
+    $destinationBaseName = $pathInfo['basename'];
+    try {
+      $destinationFolder = $this->userFolder->get($destinationDirName);
+      if ($destinationFolder->getType() != FileInfo::TYPE_FOLDER) {
+        return self::grumble($this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
+      }
+    } catch (FileNotFoundException $e) {
+      try {
+        $destinationFolder = $this->userFolder->newFolder($destinationDirName);
+      } catch (Throwable $t) {
+        return self::grumble($this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
+      }
+    }
+
+    $this->logInfo('DESTINATION DIR ' . $destinationDirName);
+
+    $pdfData = $this->generateDownloadData($sourcePath);
+
+    $this->logInfo('PDF DATA READY');
+
+    $nonExistingTarget = $destinationFolder->getNonExistingName($destinationBaseName);
+    if ($nonExistingTarget != $destinationBaseName) {
+      $destinationBaseName = $nonExistingTarget;
+    }
+    $destinationFolder->newFile($destinationBaseName, $pdfData);
+
+    $pdfFilePath = $destinationDirName . Constants::PATH_SEPARATOR . $destinationBaseName;
+
+    $this->logInfo('PDF READY');
+
+    return self::dataResponse([
+      'pdfFilePath' => $pdfFilePath,
+      'messages' => $this->l->t('PDF document saved as "%s".', $pdfFilePath),
+    ]);
+  }
+
+  /**
+   * @param string $nodePath Source directory or archive file name.
+   *
+   * @return string The PDF data from combining the given sources below
+   * $nodePath.
+   */
+  private function generateDownloadData(string $nodePath):string
+  {
     $pageLabels = $this->cloudConfig->getUserValue(
       $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
     $this->pdfCombiner->addPageLabels($pageLabels);
@@ -448,42 +533,7 @@ __EOF__;
       $nodePath = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . basename($pathInfo['filename'], '.tar');
     }
 
-    if (empty($downloadFileName)) {
-      $template = $this->cloudConfig->getUserValue(
-        $this->userId,
-        $this->appName,
-        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
-        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
-      );
-      $this->logInfo('TEMPLATE ' . $template);
-      $fileName = basename($this->getPdfFileName($template, $nodePath), '.pdf') . '.pdf';
-    } else {
-      $downloadFileName = urldecode($downloadFileName);
-      $fileName = basename($downloadFileName, '.pdf') . '.pdf';
-    }
-
-    $this->logInfo('DOWNLOAD FILENAME ' . $fileName);
-
-    return self::dataDownloadResponse($this->pdfCombiner->combine(), $fileName, 'application/pdf');
-  }
-
-  /**
-   * Download the contents of the given folder as multi-page PDF after
-   * converting everything to PDF.
-   *
-   * @param string $sourcePath The path to the file-system node to convert to
-   * PDF.
-   *
-   * @param null|string $destinationPath The distination path in the cloud
-   * where the resulting PDF data should be stored.
-   *
-   * @return Response
-   *
-   * @NoAdminRequired
-   */
-  public function save(string $sourcePath, ?string $destinationPath = null):Response
-  {
-    return self::grumble('UNIMPLEMENTED');
+    return $this->pdfCombiner->combine();
   }
 
   /**
