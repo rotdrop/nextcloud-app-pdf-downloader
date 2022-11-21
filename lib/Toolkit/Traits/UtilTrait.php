@@ -411,7 +411,7 @@ trait UtilTrait
     return preg_replace_callback(
       '/{((.)([0-9]*)\|)?([^{}@|]+)(\|([0-9]+)([^{}])?)?(\@([^{}]+))?}/',
       function(array $matches) use ($keys, $l10nKeys, $templateValues) {
-        $this->logInfo('MATCHES ' . print_r($matches, true));
+        // $this->logInfo('MATCHES ' . print_r($matches, true));
         $match = $matches[0];
         $padChar = $matches[2];
         $padding = $matches[3] ?: 0;
@@ -438,7 +438,7 @@ trait UtilTrait
           // interprete the filter as format for DateTimeInterface::format()
           $value = $value->format(empty($filter) ? 'c' : $filter);
         }
-        if ($tailCount !== null) {
+        if (!empty($tailCount) && $tailCount !== 0) {
           $components = explode($tailDelimiter, $value);
           array_splice($components, 0, -$tailCount);
           $value = implode($tailDelimiter, $components);
