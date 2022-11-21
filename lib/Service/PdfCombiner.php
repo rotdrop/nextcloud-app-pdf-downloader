@@ -273,7 +273,7 @@ class PdfCombiner
    *
    * @see getOverlayFont()
    */
-  public function getOverlayPageWidthFraction():float
+  public function getOverlayPageWidthFraction():?float
   {
     return $this->overlayPageWidthFraction;
   }
