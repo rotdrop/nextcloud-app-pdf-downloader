@@ -437,20 +437,21 @@ trait UtilTrait
         if ($value instanceof DateTimeInterface) {
           // interprete the filter as format for DateTimeInterface::format()
           $value = $value->format(empty($filter) ? 'c' : $filter);
-        }
-        if (!empty($tailCount) && $tailCount !== 0) {
-          $components = explode($tailDelimiter, $value);
-          array_splice($components, 0, -$tailCount);
-          $value = implode($tailDelimiter, $components);
-        }
-        if (!empty($filter)) {
-          if (strlen($filter) == 1) {
-            $filter .= Constants::PATH_SEPARATOR;
+        } else {
+          if (!empty($tailCount) && $tailCount !== 0) {
+            $components = explode($tailDelimiter, $value);
+            array_splice($components, 0, -$tailCount);
+            $value = implode($tailDelimiter, $components);
           }
-          if (strlen($filter) == 2) {
-            $value = str_replace($filter[1], $filter[0], $value);
-          } else {
-            $value = strtoupper(hash(strtolower($filter), $value)); // result in a hex string
+          if (!empty($filter)) {
+            if (strlen($filter) == 1) {
+              $filter .= Constants::PATH_SEPARATOR;
+            }
+            if (strlen($filter) == 2) {
+              $value = str_replace($filter[1], $filter[0], $value);
+            } else {
+              $value = strtoupper(hash(strtolower($filter), $value)); // result in a hex string
+            }
           }
         }
         return $value;
