@@ -6,6 +6,7 @@ OC.L10N.register(
     "Get from end-point \"%s\" not implemented." : "Get do end-point \"%s\" não implementado",
     "unknown" : "desconhecido",
     "Unknown admin setting: \"%1$s\"" : "Configuração administrativa desconhecida: \"%1$s\"",
+    "The admin setting \"%1$s\" is read-only" : "A configuração administrativa \"%1$s\" é apenas-leitura",
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Valor \"%1$s\" para a configuração \"%2$s\" não é convertível para booleano.",
     "Unknown personal setting: \"%1$s\"" : "Configuração pessoal não conhecida: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "A configuração pessoal \"%1$s\" é apenas leitura",
