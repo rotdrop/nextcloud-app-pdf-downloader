@@ -35,6 +35,7 @@ use OCP\IL10N;
 
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\AnyToPdf;
+use OCA\PdfDownloader\Service\FileSystemWalker;
 
 use OCA\PdfDownloader\Constants;
 
@@ -70,9 +71,9 @@ class SettingsController extends Controller
   public const PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE = 'pageLabelBackgroundColorPalette';
 
   public const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
-  public const PERSONAL_GENERATED_PAGES_FONT_DEFAULT = MultiPdfDownloadController::ERROR_PAGES_FONT;
+  public const PERSONAL_GENERATED_PAGES_FONT_DEFAULT = FileSystemWalker::ERROR_PAGES_FONT;
   public const PERSONAL_GENERATED_PAGES_FONT_SIZE = 'generatedPagesFontSize';
-  public const PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT = MultiPdfDownloadController::ERROR_PAGES_FONT_SIZE;
+  public const PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT = FileSystemWalker::ERROR_PAGES_FONT_SIZE;
 
   public const DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
 

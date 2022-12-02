@@ -39,22 +39,16 @@ use Psr\Log\LogLevel;
 
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Files\IRootFolder;
-use OCP\Files\Node as FileSystemNode;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\FileInfo;
-use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException as FileNotFoundException;
 
-use OCA\RotDrop\Toolkit\Service\ArchiveService;
-use OCA\RotDrop\Toolkit\Exceptions as ToolkitExceptions;
-
 use OCA\PdfDownloader\Exceptions;
-use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
 use OCA\PdfDownloader\Service\FontService;
+use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Constants;
 
 /**
@@ -68,13 +62,6 @@ class MultiPdfDownloadController extends Controller
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
   use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
   use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
-
-  public const ERROR_PAGES_FONT = 'dejavusans';
-  public const ERROR_PAGES_FONT_SIZE = '12';
-  public const ERROR_PAGES_PAPER = 'A4';
-
-  private const ARCHIVE_HANDLED = 0;
-  private const ARCHIVE_IGNORED = 2;
 
   /**
    * @var string
@@ -106,44 +93,17 @@ class MultiPdfDownloadController extends Controller
   /** @var PdfCombiner */
   private $pdfCombiner;
 
-  /** @var AnyToPdf */
-  private $anyToPdf;
-
-  /** @var ArchiveService */
-  private $archiveService;
-
-  /** @var IRootFolder */
-  private $rootFolder;
-
-  /** @var IMimeTypeDetector */
-  private $mimeTypeDetector;
-
   /** @var IConfig */
   private $cloudConfig;
-
-  /** @var Folder */
-  private $userFolder;
 
   /** @var FontService */
   private $fontService;
 
+  /** @var FileSystemWalker */
+  private $fileSystemWalker;
+
   /** @var string */
   private $userId;
-
-  /** @var string */
-  private $errorPagesFont = self::ERROR_PAGES_FONT;
-
-  /** @var int */
-  private $errorPagesFontSize = self::ERROR_PAGES_FONT_SIZE;
-
-  /* @var bool */
-  private $extractArchiveFiles = false;
-
-  /** @var null|int */
-  private $archiveSizeLimit = null;
-
-  /** @var int */
-  private $archiveBombLimit = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
 
   /** @var IDateTimeZone */
   private $dateTimeZone;
@@ -156,54 +116,24 @@ class MultiPdfDownloadController extends Controller
     ILogger $logger,
     IUserSession $userSession,
     IConfig $cloudConfig,
-    IRootFolder $rootFolder,
-    IMimeTypeDetector $mimeTypeDetector,
     Pdfcombiner $pdfCombiner,
-    AnyToPdf $anyToPdf,
-    ArchiveService $archiveService,
     FontService $fontService,
     IDateTimeZone $dateTimeZone,
+    FileSystemWalker $fileSystemWalker,
   ) {
     parent::__construct($appName, $request);
     $this->l = $l10n;
     $this->logger = $logger;
-    $this->rootFolder = $rootFolder;
     $this->cloudConfig = $cloudConfig;
-    $this->mimeTypeDetector = $mimeTypeDetector;
     $this->pdfCombiner = $pdfCombiner;
-    $this->anyToPdf = $anyToPdf;
     $this->fontService = $fontService;
-    $this->archiveService = $archiveService;
-    $this->archiveService->setL10N($l10n);
     $this->dateTimeZone = $dateTimeZone;
-
-    if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
-      $this->anyToPdf->disableBuiltinConverters();
-    } else {
-      $this->anyToPdf->enableBuiltinConverters();
-    }
-    $this->anyToPdf->setFallbackConverter(
-      $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_FALLBACK_CONVERTER, null));
-    $this->anyToPdf->setUniversalConverter(
-      $this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_UNIVERSAL_CONVERTER, null));
-
-    $this->extractArchiveFiles = $this->cloudConfig->getAppValue(
-      $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, false);
-
-    $this->archiveBombLimit = $cloudConfig->getAppValue(
-      $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT);
-
-    $this->archiveSizeLimit = $cloudConfig->getUserValue(
-      $this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
+    $this->fileSystemWalker = $fileSystemWalker;
 
     /** @var IUser $user */
     $user = $userSession->getUser();
     if (!empty($user)) {
-      $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
       $this->userId = $user->getUID();
-      $this->pdfCombiner->setOverlayTemplate(
-        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEMPLATE, null)
-      );
       $this->pdfCombiner->setOverlayFont(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT, null)
       );
@@ -219,195 +149,9 @@ class MultiPdfDownloadController extends Controller
       $this->pdfCombiner->setOverlayBackgroundColor(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR, null)
       );
-
-      $this->setErrorPagesFont(
-        $this->cloudConfig->getUserValue(
-          $this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT));
-      if ($this->extractArchiveFiles) {
-        $this->extractArchiveFiles =
-          $this->cloudConfig->getUserValue(
-            $this->userId, $this->appName, SettingsController::EXTRACT_ARCHIVE_FILES, true);
-        // $this->logInfo('USER EXTRACT_ARCHIVE_FILES ' . $this->extractArchiveFiles);
-      }
-      $grouping = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GROUPING, PdfCombiner::GROUP_FOLDERS_FIRST);
-      $this->pdfCombiner->setGrouping($grouping);
-    }
-
-    $this->archiveService->setSizeLimit($this->actualArchiveSizeLimit());
-  }
-
-  /**
-   * Return the current error-pages font-name.
-   *
-   * @return string The font-name.
-   */
-  public function getErrorPagesFont():string
-  {
-    return $this->errorPagesFont ?? self::ERROR_PAGES_FONT;
-  }
-
-  /**
-   * Set the current error-pages font-name.
-   *
-   * @param null|string $errorPagesFont Specify `null` to reset to the default.
-   *
-   * @return MultiPdfDownloadController Return $this for chaining setters.
-   */
-  public function setErrorPagesFont(?string $errorPagesFont):MultiPdfDownloadController
-  {
-    $this->errorPagesFont = empty($errorPagesFont) ? self::ERROR_PAGES_FONT : $errorPagesFont;
-
-    return $this;
-  }
-
-  /**
-   * Return the current error-pages font-size.
-   *
-   * @return int The font-size
-   */
-  public function getErrorPagesFontSize():int
-  {
-    return $this->errorPagesFontSize ?? self::ERROR_PAGES_FONT_SIZE;
-  }
-
-  /**
-   * Set the current error-pages font-size.
-   *
-   * @param null|int $errorPagesFontSize The font-size in [pt]. Use null to reset to default.
-   *
-   * @return MultiPdfDownloadController Return $this for chaining setters.
-   */
-  public function setErrorPagesFontSize(?int $errorPagesFontSize):MultiPdfDownloadController
-  {
-    $this->errorPagesFontSize = $errorPagesFontSize === null ? self::ERROR_PAGES_FONT_SIZE : $errorPagesFontSize;
-
-    return $this;
-  }
-
-  /**
-   * @param null|string $fileData
-   *
-   * @param string $path
-   *
-   * @param Throwable $throwable
-   *
-   * @return string
-   */
-  private function generateErrorPage(?string $fileData, string $path, Throwable $throwable):string
-  {
-    $pdf = new PdfGenerator(orientation: 'P', unit: 'mm', format: self::ERROR_PAGES_PAPER);
-    $pdf->setFont($this->getErrorPagesFont());
-    $pdf->setFontSize($this->getErrorPagesFontSize());
-
-    $mimeType = $fileData ? $this->mimeTypeDetector->detectString($fileData) : $this->l->t('unknown');
-
-    $message = $throwable->getMessage();
-    $trace = $throwable->getTraceAsString();
-    $html =<<<__EOF__
-<h1>Error converting $path to PDF</h1>
-<h2>Mime-Type</h2>
-<span>$mimeType</span>
-<h2>Error Message</h2>
-<span>$message</span>
-<h2>Trace</h2>
-<pre>$trace</pre>
-__EOF__;
-
-    $pdf->addPage();
-    $pdf->writeHTML($html);
-
-    return $pdf->Output($path, 'S');
-  }
-
-  /**
-   * Try to handle an archive file, actgually any file.
-   *
-   * @param File $fileNode
-   *
-   * @param string $parentName
-   *
-   * @return int self::ARCHIVE_HANDLED or self::ARCHIVE_IGNORED
-   */
-  private function addArchiveMembers(File $fileNode, string $parentName = ''):int
-  {
-    $path = $parentName . '/' . $fileNode->getName();
-
-    try {
-      $this->archiveService->open($fileNode);
-
-      $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
-      $topLevelFolder = $this->archiveService->getCommonDirectoryPrefix();
-      $this->logInfo('COMMON PREFIX ' . $topLevelFolder);
-      $stripRoot = !empty($topLevelFolder) ? strlen($topLevelFolder) : 0;
-
-      foreach (array_keys($this->archiveService->getFiles()) as $archiveFile) {
-        $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
-        $this->logInfo('ARCHIVE FILE ' . $archiveFile . ' PATH ' . $path);
-        try {
-          $fileData = $this->archiveService->getFileContent($archiveFile);
-          $mimeType = $this->mimeTypeDetector->detectString($fileData);
-          $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
-        } catch (Throwable $t) {
-          $this->logException($t);
-          $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
-        }
-        $this->pdfCombiner->addDocument($pdfData, $path);
-      }
-
-      return self::ARCHIVE_HANDLED; // success
-    } catch (ToolkitExceptions\ArchiveCannotOpenException $oe) {
-      $this->logException($oe, level: LogLevel::DEBUG);
-
-      return self::ARCHIVE_IGNORED; // process as ordinary file
-    } catch (ToolkitExceptions\ArchiveTooLargeException $se) {
-      $pdfData = $this->generateErrorPage($fileData, $path, $se);
-      $this->pdfCombiner->addDocument($pdfData, $path);
-      return self::ARCHIVE_HANDLED;
     }
   }
-
-  /**
-   * @param Folder $folder
-   *
-   * @param $string $parentName
-   *
-   * @return void
-   */
-  private function addFilesRecursively(Folder $folder, string $parentName = ''):void
-  {
-    $parentName .= (!empty($parentName) ? '/' : '') . $folder->getName();
-    /** @var FileSystemNode $node */
-    foreach ($folder->getDirectoryListing() as $node) {
-      switch ($node->getType()) {
-        case FileInfo::TYPE_FOLDER:
-          $this->addFilesRecursively($node, $parentName);
-          break 1;
-        case FileInfo::TYPE_FILE:
-          /** @var File $node */
-          if ($this->extractArchiveFiles
-              && $this->addArchiveMembers($node, $parentName) === self::ARCHIVE_HANDLED) {
-            continue 2;
-          }
-
-          $path = $parentName . '/' . $node->getName();
-          $fileData = $node->getContent();
-          try {
-            $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
-          } catch (Throwable $t) {
-            $this->logException($t);
-            $pdfData = $this->generateErrorPage($fileData, $path, $t);
-          }
-          $this->pdfCombiner->addDocument($pdfData, $path);
-          break;
-        default:
-          throw new Exceptions\Exception(
-            $this->l->t(
-              'Internal error, unknown file-system node-type: "%s".',
-              $node->getType()
-            ));
-      }
-    }
-  }
+  // phpcs:enable
 
   /**
    * Download the contents of the given folder as multi-page PDF after
@@ -439,7 +183,7 @@ __EOF__;
       $fileName = basename($downloadFileName, '.pdf') . '.pdf';
     }
 
-    $pdfData = $this->generateDownloadData($nodePath);
+    $pdfData = $this->fileSystemWalker->generateDownloadData($nodePath);
 
     return self::dataDownloadResponse($pdfData, $fileName, 'application/pdf');
   }
@@ -463,35 +207,9 @@ __EOF__;
     $sourcePath = urldecode($sourcePath);
     $destinationPath = urldecode($destinationPath);
 
-    $pathInfo = pathinfo($destinationPath);
-    $destinationDirName = $pathInfo['dirname'];
-    $destinationBaseName = $pathInfo['basename'];
-    try {
-      $destinationFolder = $this->userFolder->get($destinationDirName);
-      if ($destinationFolder->getType() != FileInfo::TYPE_FOLDER) {
-        return self::grumble($this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
-      }
-    } catch (FileNotFoundException $e) {
-      try {
-        $destinationFolder = $this->userFolder->newFolder($destinationDirName);
-      } catch (Throwable $t) {
-        return self::grumble($this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
-      }
-    }
+    $pdfFile = $this->fileSystemWalker->save($sourcePath, $destinationPath);
 
-    $this->logInfo('DESTINATION DIR ' . $destinationDirName);
-
-    $pdfData = $this->generateDownloadData($sourcePath);
-
-    $this->logInfo('PDF DATA READY');
-
-    $nonExistingTarget = $destinationFolder->getNonExistingName($destinationBaseName);
-    if ($nonExistingTarget != $destinationBaseName) {
-      $destinationBaseName = $nonExistingTarget;
-    }
-    $destinationFolder->newFile($destinationBaseName, $pdfData);
-
-    $pdfFilePath = $destinationDirName . Constants::PATH_SEPARATOR . $destinationBaseName;
+    $pdfFilePath = $pdfFile->getInternalPath();
 
     $this->logInfo('PDF READY');
 
@@ -499,41 +217,6 @@ __EOF__;
       'pdfFilePath' => $pdfFilePath,
       'messages' => $this->l->t('PDF document saved as "%s".', $pdfFilePath),
     ]);
-  }
-
-  /**
-   * @param string $nodePath Source directory or archive file name.
-   *
-   * @return string The PDF data from combining the given sources below
-   * $nodePath.
-   */
-  private function generateDownloadData(string $nodePath):string
-  {
-    $pageLabels = $this->cloudConfig->getUserValue(
-      $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
-    $this->pdfCombiner->addPageLabels($pageLabels);
-    $nodePath = urldecode($nodePath);
-
-    /** @var FileSystemNode $node */
-    $node = $this->userFolder->get($nodePath);
-    if ($node->getType() === FileInfo::TYPE_FOLDER) {
-      $this->addFilesRecursively($node);
-    } else {
-      if (!$this->extractArchiveFiles
-               || $this->addArchiveMembers($node) !== self::ARCHIVE_HANDLED) {
-        if (!$this->extractArchiveFiles) {
-          return self::grumble(
-            $this->l->t('"%s" is not a folder and archive extraction is disabled.', $nodePath));
-        } else {
-          return self::grumble(
-            $this->l->t('"%s" is not a folder and cannot be processed by archive extraction.', $nodePath));
-        }
-      }
-      $pathInfo = pathinfo($nodePath);
-      $nodePath = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . basename($pathInfo['filename'], '.tar');
-    }
-
-    return $this->pdfCombiner->combine();
   }
 
   /**
@@ -558,9 +241,14 @@ __EOF__;
    * @param string $path Example file path, preferrably with non-empty
    * directory part.
    *
-   * @param int $pageNumber Current page-number example.
+   * @param int $dirPageNumber Example in-directory page-number.
    *
-   * @param int $totalPages Total number of pages example. $pageNumber should
+   * @param int $dirTotalPages Total number of in-directory pages example. $dirPageNumber should
+   * be smaller or equal.
+   *
+   * @param int $filePageNumber Example in-file page-number.
+   *
+   * @param int $fileTotalPages Total number of in-file pages example. $filePageNumber should
    * be smaller or equal.
    *
    * @return DataResponse
@@ -666,12 +354,6 @@ EOF;
         }
         return $downloadResponse;
     }
-  }
-
-  /** @return int */
-  private function actualArchiveSizeLimit():int
-  {
-    return min($this->archiveBombLimit, $this->archiveSizeLimit ?? PHP_INT_MAX);
   }
 
   /**
