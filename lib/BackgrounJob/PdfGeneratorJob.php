@@ -22,8 +22,16 @@
 
 namespace OCA\PdfDownloader\BackgroundJob;
 
+use InvalidArgumentException;
+use Throwable;
+
 use OCP\BackgroundJob\QueuedJob;
 use Psr\Log\LoggerInterface as ILogger;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\ITempManager;
+
+use OCA\PdfDownloader\Service\FileSystemWalker;
+use OCA\PdfDownloader\Service\NotificationService;
 
 /**
  * Background PDF generator job in order to move time-consuming jobs out of
@@ -33,16 +41,88 @@ class PdfGeneratorJob extends QueuedJob
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
+  public const USER_ID_KEY = 'userId';
+  public const SOURCE_PATH_KEY = 'sourcePath';
+  public const DESTINATION_PATH_KEY = 'destinationPath';
+
+  /** @var ITempManager */
+  private $tempManager;
+
+  /** @var FileSystemWalker */
+  private $fileSystemWalker;
+
+  /** @var NotificationService */
+  private $notificationService;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
-    ILogger $logger
+    ITimeFactory $timeFactory,
+    ILogger $logger,
+    ITempManager $tempManager,
+    FileSystemWalker $fileSystemWalker,
+    NotificationService $notificationService,
   ) {
+    parent::__construct($timeFactory);
     $this->logger = $logger;
+    $this->tempManager = $tempManager;
+    $this->fileSystemWalker = $fileSystemWalker;
+    $this->notificationService = $notificationService;
   }
   // phpcs:enable
+
+  /**
+   * @return string
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getUserId():string
+  {
+    $sourcePath = $this->argument[self::USER_ID_KEY];
+    if (empty($sourcePath)) {
+      throw new InvalidArgumentException('User id argument is empty.');
+    }
+    return $sourcePath;
+  }
+
+  /**
+   * @return string
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getSourcePath():string
+  {
+    $sourcePath = $this->argument[self::SOURCE_PATH_KEY];
+    if (empty($sourcePath)) {
+      throw new InvalidArgumentException('Source path argument is empty.');
+    }
+    return $sourcePath;
+  }
+
+  /**
+   * @return string
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getDestinationPath():string
+  {
+    $destinationPath = $this->argument[self::DESTINATION_PATH_KEY];
+    if (empty($destinationPath)) {
+      throw new InvalidArgumentException('Destination path argument is empty.');
+    }
+    return $destinationPath;
+  }
 
   /** {@inheritdoc} */
   protected function run($argument)
   {
+    try {
+      $file = $this->fileSystemWalker->save($this->getSourcePath(), $this->getDestinationPath());
+      $this->notificationService->sendNotificationOnSuccess($this, $file);
+    } catch (Throwable $t) {
+      $this->logger->error('Failed to create composite PDF.', [ 'exception' => $t ]);
+      $this->notificationService->sendNotificationOnFailure($this);
+    } finally {
+      $this->tempManager->clean();
+    }
   }
 }

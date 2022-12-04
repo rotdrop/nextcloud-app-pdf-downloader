@@ -72,6 +72,12 @@ class FileSystemWalker
   /** @var IMimeTypeDetector */
   private $mimeTypeDetector;
 
+  /** @var null|string */
+  protected $userId;
+
+  /** @var IRootFolder */
+  protected $rootFolder;
+
   /** @var Folder */
   private $userFolder;
 
@@ -80,6 +86,9 @@ class FileSystemWalker
 
   /** @var ArchiveService */
   private $archiveService;
+
+  /** @var null|string */
+  private $cloudFolderPath = null;
 
   /** @var null|int */
   private $archiveSizeLimit = null;
@@ -104,6 +113,7 @@ class FileSystemWalker
     $this->l = $l10n;
     $this->logger = $logger;
     $this->cloudConfig = $cloudConfig;
+    $this->rootFolder = $rootFolder;
     $this->mimeTypeDetector = $mimeTypeDetector;
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
@@ -132,7 +142,7 @@ class FileSystemWalker
     /** @var IUser $user */
     $user = $userSession->getUser();
     if (!empty($user)) {
-      $this->userFolder = $rootFolder->getUserFolder($user->getUID());
+      $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
       $this->userId = $user->getUID();
       $this->pdfCombiner->setOverlayTemplate(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEMPLATE, null)
@@ -164,6 +174,8 @@ class FileSystemWalker
       }
       $grouping = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GROUPING, PdfCombiner::GROUP_FOLDERS_FIRST);
       $this->pdfCombiner->setGrouping($grouping);
+
+      $this->cloudFolderPath = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH, null);
     }
 
     $this->archiveService->setSizeLimit($this->actualArchiveSizeLimit());
@@ -364,10 +376,10 @@ __EOF__;
       if (!$this->extractArchiveFiles
                || $this->addArchiveMembers($node) !== self::ARCHIVE_HANDLED) {
         if (!$this->extractArchiveFiles) {
-          self::grumble(
+          throw new EnduserNotificationException(
             $this->l->t('"%s" is not a folder and archive extraction is disabled.', $nodePath));
         } else {
-          self::grumble(
+          throw new EnduserNotificationException(
             $this->l->t('"%s" is not a folder and cannot be processed by archive extraction.', $nodePath));
         }
       }
@@ -385,26 +397,32 @@ __EOF__;
    * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
-   * @param null|string $destinationPath The distination path in the cloud
+   * @param bool|null|string $destinationPath The distination path in the cloud
    * where the resulting PDF data should be stored.
    *
    * @return File File-system object pointing to the new file.
    */
-  public function save(string $sourcePath, ?string $destinationPath = null):File
+  public function save(string $sourcePath, mixed $destinationPath = null):File
   {
+    if ($destinationPath === false) {
+    } elseif ($destinationPath == null) {
+
+    }
     $pathInfo = pathinfo($destinationPath);
     $destinationDirName = $pathInfo['dirname'];
     $destinationBaseName = $pathInfo['basename'];
     try {
       $destinationFolder = $this->userFolder->get($destinationDirName);
       if ($destinationFolder->getType() != FileInfo::TYPE_FOLDER) {
-        self::grumble($this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
+        throw new EnduserNotificationException(
+          $this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
       }
     } catch (FileNotFoundException $e) {
       try {
         $destinationFolder = $this->userFolder->newFolder($destinationDirName);
       } catch (Throwable $t) {
-        self::grumble($this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
+        throw new EnduserNotificationException(
+          $this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
       }
     }
 
@@ -429,14 +447,39 @@ __EOF__;
   }
 
   /**
-   * @param string $message
+   * Generate a download file-name from a given template and full path.
    *
-   * @return void
+   * @param string $template
    *
-   * @throws EnduserNotificationException
+   * @param string $path Folder Path.
+   * directory part.
+   *
+   * @return string
    */
-  private static function grumble(string $message):void
-  {
-    throw new EnduserNotificationException($message);
+  private function getPdfFileName(
+    string $template,
+    string $path,
+  ):string {
+    $keys = [
+      'BASENAME' => $this->l->t('BASENAME'),
+      'FILENAME' => $this->l->t('FILENAME'),
+      'EXTENSION' => $this->l->t('EXTENSION'),
+      'DIRNAME' => $this->l->t('DIRNAME'),
+      'DATETIME' => $this->l->t('DATETIME'),
+    ];
+    $pathInfo = pathinfo($path);
+    $templateValues = [
+      'BASENAME' => $pathInfo['basename'],
+      'FILENAME' => $pathInfo['filename'],
+      'DIRNAME' => $pathInfo['dirname'],
+      'EXTENSION' => $pathInfo['extension'] ?? '',
+      'DATETIME' => (new DateTimeImmutable)->setTimezone($this->dateTimeZone->getTimeZone()),
+    ];
+
+    $pdfFileName = $this->replaceBracedPlaceholders($template, $templateValues, $keys);
+    $pathInfo = pathinfo($pdfFileName);
+    $pdfFileName = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . $pathInfo['filename'] . '.pdf';
+
+    return $pdfFileName;
   }
 }

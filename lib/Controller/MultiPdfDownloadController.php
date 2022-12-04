@@ -43,6 +43,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException as FileNotFoundException;
+use OCP\Files\IRootFolder;
 
 use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Service\PdfCombiner;
@@ -62,6 +63,7 @@ class MultiPdfDownloadController extends Controller
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
   use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
   use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
 
   /**
    * @var string
@@ -103,7 +105,7 @@ class MultiPdfDownloadController extends Controller
   private $fileSystemWalker;
 
   /** @var string */
-  private $userId;
+  protected $userId;
 
   /** @var IDateTimeZone */
   private $dateTimeZone;
@@ -157,7 +159,7 @@ class MultiPdfDownloadController extends Controller
    * Download the contents of the given folder as multi-page PDF after
    * converting everything to PDF.
    *
-   * @param string $nodePath The path to the file-system node to convert to
+   * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
    * @param null|string $downloadFileName The file-name presented to the
@@ -167,7 +169,7 @@ class MultiPdfDownloadController extends Controller
    *
    * @NoAdminRequired
    */
-  public function get(string $nodePath, ?string $downloadFileName = null):Response
+  public function get(string $sourcePath, ?string $downloadFileName = null):Response
   {
     if (empty($downloadFileName)) {
       $template = $this->cloudConfig->getUserValue(
@@ -177,13 +179,13 @@ class MultiPdfDownloadController extends Controller
         MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
       );
       $this->logInfo('TEMPLATE ' . $template);
-      $fileName = basename($this->getPdfFileName($template, $nodePath), '.pdf') . '.pdf';
+      $fileName = basename($this->fileSystemWalker->getPdfFileName($template, $sourcePath));
     } else {
       $downloadFileName = urldecode($downloadFileName);
       $fileName = basename($downloadFileName, '.pdf') . '.pdf';
     }
 
-    $pdfData = $this->fileSystemWalker->generateDownloadData($nodePath);
+    $pdfData = $this->fileSystemWalker->generateDownloadData($sourcePath);
 
     return self::dataDownloadResponse($pdfData, $fileName, 'application/pdf');
   }
@@ -196,7 +198,9 @@ class MultiPdfDownloadController extends Controller
    * PDF.
    *
    * @param null|string $destinationPath The distination path in the cloud
-   * where the resulting PDF data should be stored.
+   * where the resulting PDF data should be stored. If null then the file is
+   * stored with the configured file-name template under the configured
+   * directory.
    *
    * @return Response
    *
@@ -205,7 +209,17 @@ class MultiPdfDownloadController extends Controller
   public function save(string $sourcePath, ?string $destinationPath = null):Response
   {
     $sourcePath = urldecode($sourcePath);
-    $destinationPath = urldecode($destinationPath);
+
+    if ($destinationPath === null) {
+      $destinationPath = urldecode($destinationPath);
+      $template = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
+        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+      );
+      $destinationPath = $this->fileSystemWalker->getPdfFileName($template, $sourcePath);
+    }
 
     $pdfFile = $this->fileSystemWalker->save($sourcePath, $destinationPath);
 
@@ -217,6 +231,39 @@ class MultiPdfDownloadController extends Controller
       'pdfFilePath' => $pdfFilePath,
       'messages' => $this->l->t('PDF document saved as "%s".', $pdfFilePath),
     ]);
+  }
+
+  /**
+   * Schedule PDF generation as background job for either downloading (later,
+   * after being notified) or for direct storing in the file-system.
+   *
+   * @param string $sourcePath The path to the file-system node to convert to
+   * PDF.
+   *
+   * @param bool|null|string $destinationPath The distination path in the
+   * cloud where the resulting PDF data should be stored. If null then the
+   * file is stored with the configured file-name template under the
+   * configured directory. If \false then a temporary file is generated in the
+   * parent of the user's home-folder
+   *
+   * @return Response
+   *
+   * @NoAdminRequired
+   */
+  public function schedule(string $sourcePath, mixed $destinationPath)
+  {
+    if ($destinationPath === false) {
+
+    } elseif ($destinationPath === null) {
+      $destinationPath = urldecode($destinationPath);
+      $template = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
+        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+      );
+      $destinationPath = $this->fileSystemWalker->getPdfFileName($template, $sourcePath);
+    }
   }
 
   /**
@@ -386,45 +433,10 @@ EOF;
     $template = urldecode($template);
     $path = urldecode($path);
 
-    $pdfFileName = $this->getPdfFileName($template, $path);
+    $pdfFileName = $this->fileSystemWalker->getPdfFileName($template, $path);
 
     return self::dataResponse([
       'pdfFileName' => $pdfFileName,
     ]);
-  }
-
-  /**
-   * Generate a download file-name from a given template and full path.
-   *
-   * @param string $template
-   *
-   * @param string $path Folder Path.
-   * directory part.
-   *
-   * @return string
-   */
-  private function getPdfFileName(
-    string $template,
-    string $path,
-  ):string {
-    $keys = [
-      'BASENAME' => $this->l->t('BASENAME'),
-      'FILENAME' => $this->l->t('FILENAME'),
-      'EXTENSION' => $this->l->t('EXTENSION'),
-      'DIRNAME' => $this->l->t('DIRNAME'),
-      'DATETIME' => $this->l->t('DATETIME'),
-    ];
-    $pathInfo = pathinfo($path);
-    $templateValues = [
-      'BASENAME' => $pathInfo['basename'],
-      'FILENAME' => $pathInfo['filename'],
-      'DIRNAME' => $pathInfo['dirname'],
-      'EXTENSION' => $pathInfo['extension'] ?? '',
-      'DATETIME' => (new DateTimeImmutable)->setTimezone($this->dateTimeZone->getTimeZone()),
-    ];
-
-    $pdfFileName = $this->replaceBracedPlaceholders($template, $templateValues, $keys);
-
-    return $pdfFileName;
   }
 }
