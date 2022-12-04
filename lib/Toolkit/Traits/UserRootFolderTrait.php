@@ -35,6 +35,9 @@ use OCP\Files\NotFoundException as FileNotFoundException;
 trait UserRootFolderTrait
 {
   /** @var string */
+  protected $appName;
+
+  /** @var string */
   protected $userId;
 
   /** @var IRootFolder */
@@ -43,17 +46,31 @@ trait UserRootFolderTrait
   /** @var Folder */
   protected $userRootFolder;
 
-  /**
-   * @param string $userId
-   *
-   * @return Folder
-   */
+  /** @var Folder */
+  protected $userFolder;
+
+  /** @return Folder The user-folder*/
+  public function getUserFolder():Folder
+  {
+    if (empty($this->userFolder)) {
+      $this->userFolder = $this->rootFolder->getUserFolder($this->userId);
+    }
+    return $this->userFolder;
+  }
+
+  /** @return Folder The parent of the user-folder. */
   public function getUserRootFolder():Folder
   {
     if (empty($this->userRootFolder)) {
-      $this->userRootFolder = $this->rootFolder->getUserFolder($this->userId)->getParent();
+      $this->userRootFolder = $this->getUserFolder()->getParent();
     }
     return $this->userRootFolder;
+  }
+
+  /** @return Folder The app folder in the user's root-storage */
+  public function getUserAppFolder():Folder
+  {
+    return $this->getUserTopLevelFolder($this->appName);
   }
 
   /**
