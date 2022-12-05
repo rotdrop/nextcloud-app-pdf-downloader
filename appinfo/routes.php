@@ -85,6 +85,11 @@ return [
       ],
     ],
     [
+      'name' => 'multi_pdf_download#list',
+      'url' => '/list/{sourcePath}',
+      'verb' => 'GET',
+    ],
+    [
       'name' => 'multi_pdf_download#get_fonts',
       'url' => '/fonts',
       'verb' => 'GET',
