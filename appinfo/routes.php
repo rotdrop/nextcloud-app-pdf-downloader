@@ -20,6 +20,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
+
 return [
   'routes' => [
     [
@@ -62,7 +64,7 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#get',
-      'url' => '/download/{nodePath}',
+      'url' => '/download/{sourcePath}',
       'verb' => 'GET',
     ],
     [
@@ -71,6 +73,15 @@ return [
       'verb' => 'POST',
       'defaults' => [
         'destinationPath' => null,
+      ],
+    ],
+    [
+      'name' => 'multi_pdf_download#schedule',
+      'url' => '/schedule/{sourcePath}/{destinationPath}/{jobType}',
+      'verb' => 'POST',
+      'defaults' => [
+        'destinationPath' => null,
+        'jobType' => PdfGeneratorJob::TARGET_DOWNLOAD,
       ],
     ],
     [

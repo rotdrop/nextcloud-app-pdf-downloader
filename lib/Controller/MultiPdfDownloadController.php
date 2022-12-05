@@ -36,6 +36,7 @@ use OCP\IConfig;
 use OCP\IDateTimeZone;
 use Psr\Log\LoggerInterface as ILogger;
 use Psr\Log\LogLevel;
+use OCP\BackgroundJob\IJobList;
 
 use OCP\IUser;
 use OCP\IUserSession;
@@ -50,6 +51,8 @@ use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
 use OCA\PdfDownloader\Service\FontService;
 use OCA\PdfDownloader\Service\FileSystemWalker;
+use OCA\PdfDownloader\Service\NotificationService;
+use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
 use OCA\PdfDownloader\Constants;
 
 /**
@@ -92,11 +95,17 @@ class MultiPdfDownloadController extends Controller
     self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
   ];
 
-  /** @var PdfCombiner */
-  private $pdfCombiner;
-
   /** @var IConfig */
   private $cloudConfig;
+
+  /** @var IJobList */
+  private $jobList;
+
+  /** @var NotificationService */
+  private $notificationService;
+
+  /** @var PdfCombiner */
+  private $pdfCombiner;
 
   /** @var FontService */
   private $fontService;
@@ -118,6 +127,9 @@ class MultiPdfDownloadController extends Controller
     ILogger $logger,
     IUserSession $userSession,
     IConfig $cloudConfig,
+    IRootFolder $rootFolder,
+    IJobList $jobList,
+    NotificationService $notificationService,
     Pdfcombiner $pdfCombiner,
     FontService $fontService,
     IDateTimeZone $dateTimeZone,
@@ -127,6 +139,9 @@ class MultiPdfDownloadController extends Controller
     $this->l = $l10n;
     $this->logger = $logger;
     $this->cloudConfig = $cloudConfig;
+    $this->rootFolder = $rootFolder;
+    $this->jobList = $jobList;
+    $this->notificationService = $notificationService;
     $this->pdfCombiner = $pdfCombiner;
     $this->fontService = $fontService;
     $this->dateTimeZone = $dateTimeZone;
@@ -165,27 +180,30 @@ class MultiPdfDownloadController extends Controller
    * @param null|string $downloadFileName The file-name presented to the
    * http-client. If null defaults to the pre-configured file-name template.
    *
+   * @param null|bool $pageLabels Whether to decorate the pages with a label.
+   *
+   * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
+   * the configured filename template.
+   *
    * @return Response
    *
    * @NoAdminRequired
    */
-  public function get(string $sourcePath, ?string $downloadFileName = null):Response
-  {
-    if (empty($downloadFileName)) {
-      $template = $this->cloudConfig->getUserValue(
-        $this->userId,
-        $this->appName,
-        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
-        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
-      );
-      $this->logInfo('TEMPLATE ' . $template);
-      $fileName = basename($this->fileSystemWalker->getPdfFileName($template, $sourcePath));
-    } else {
+  public function get(
+    string $sourcePath,
+    ?string $downloadFileName = null,
+    ?bool $pageLabels = null,
+    ?bool $useTemplate = null,
+  ):Response {
+    $sourcePath = urldecode($sourcePath);
+    if (!empty($downloadFileName)) {
       $downloadFileName = urldecode($downloadFileName);
-      $fileName = basename($downloadFileName, '.pdf') . '.pdf';
     }
+    $downloadFileName = $this->fileSystemWalker->getPdfFilePath($sourcePath, $downloadFileName, $useTemplate);
 
-    $pdfData = $this->fileSystemWalker->generateDownloadData($sourcePath);
+    $fileName = basename($downloadFileName, '.pdf') . '.pdf';
+
+    $pdfData = $this->fileSystemWalker->generateDownloadData($sourcePath, $pageLabels);
 
     return self::dataDownloadResponse($pdfData, $fileName, 'application/pdf');
   }
@@ -202,30 +220,29 @@ class MultiPdfDownloadController extends Controller
    * stored with the configured file-name template under the configured
    * directory.
    *
+   * @param null|bool $pageLabels Whether to decorate the pages with a label.
+   *
+   * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
+   * the configured filename template.
+   *
    * @return Response
    *
    * @NoAdminRequired
    */
-  public function save(string $sourcePath, ?string $destinationPath = null):Response
-  {
+  public function save(
+    string $sourcePath,
+    ?string $destinationPath = null,
+    ?bool $pageLabels = null,
+    ?bool $useTemplate = null,
+  ):Response {
     $sourcePath = urldecode($sourcePath);
-
-    if ($destinationPath === null) {
+    if ($destinationPath !== null) {
       $destinationPath = urldecode($destinationPath);
-      $template = $this->cloudConfig->getUserValue(
-        $this->userId,
-        $this->appName,
-        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
-        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
-      );
-      $destinationPath = $this->fileSystemWalker->getPdfFileName($template, $sourcePath);
     }
 
-    $pdfFile = $this->fileSystemWalker->save($sourcePath, $destinationPath);
+    $pdfFile = $this->fileSystemWalker->save($sourcePath, $destinationPath, $pageLabels, $useTemplate);
 
     $pdfFilePath = $pdfFile->getInternalPath();
-
-    $this->logInfo('PDF READY');
 
     return self::dataResponse([
       'pdfFilePath' => $pdfFilePath,
@@ -240,30 +257,69 @@ class MultiPdfDownloadController extends Controller
    * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
-   * @param bool|null|string $destinationPath The distination path in the
-   * cloud where the resulting PDF data should be stored. If null then the
-   * file is stored with the configured file-name template under the
-   * configured directory. If \false then a temporary file is generated in the
-   * parent of the user's home-folder
+   * @param null|string $destinationPath The distination path in the cloud
+   * where the resulting PDF data should be stored. If null then the file is
+   * stored with the configured file-name template under the configured
+   * directory, or a download with the default configured default name is
+   * prepared.
+   *
+   * @param string $jobType The target, either PdfGeneratorJob::TARGET_DOWNLOAD
+   * or PdfGeneratorJob::TARGET_FILESYSTEM.
+   *
+   * @param null|bool $pageLabels Whether to decorate the pages with a label.
+   *
+   * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
+   * the configured filename template.
    *
    * @return Response
    *
    * @NoAdminRequired
    */
-  public function schedule(string $sourcePath, mixed $destinationPath)
-  {
-    if ($destinationPath === false) {
-
-    } elseif ($destinationPath === null) {
+  public function schedule(
+    string $sourcePath,
+    ?string $destinationPath = null,
+    string $jobType = PdfGeneratorJob::TARGET_DOWNLOAD,
+    ?bool $pageLabels = null,
+    ?bool $useTemplate = null,
+  ):Response {
+    $sourcePath = urldecode($sourcePath);
+    if ($destinationPath !== null) {
       $destinationPath = urldecode($destinationPath);
-      $template = $this->cloudConfig->getUserValue(
-        $this->userId,
-        $this->appName,
-        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
-        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
-      );
-      $destinationPath = $this->fileSystemWalker->getPdfFileName($template, $sourcePath);
     }
+    $destinationPath = $this->fileSystemWalker->getPdfFilePath($sourcePath, $destinationPath);
+    $sourceNode = $this->getUserFolder()->get($sourcePath);
+    $sourceNodeId = $sourceNode->getId();
+    if ($jobType == PdfGeneratorJob::TARGET_DOWNLOAD) {
+      $userAppFolder = $this->getUserAppFolder();
+      /** @var Folder $destinationFolder */
+      try {
+        $destinationFolder = $userAppFolder->get((string)$sourceNodeId);
+      } catch (FileNotFoundException $e) {
+        $destinationFolder = $userAppFolder->newFolder((string)$sourceNodeId);
+      }
+      $destinationPath = $destinationFolder->getInternalPath() . Constants::PATH_SEPARATOR . basename($destinationPath);
+      $useTemplate = false;
+    } else {
+      $destinationPath = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR . $destinationPath;
+    }
+
+    $this->jobList->add(PdfGeneratorJob::class, [
+      PdfGeneratorJob::TARGET_KEY => $jobType,
+      PdfGeneratorJob::USER_ID_KEY => $this->userId,
+      PdfGeneratorJob::SOURCE_ID_KEY => $sourceNodeId,
+      PdfGeneratorJob::SOURCE_PATH_KEY => $sourcePath,
+      PdfGeneratorJob::DESTINATION_PATH_KEY => $destinationPath,
+      PdfGeneratorJob::PAGE_LABELS_KEY =>  $pageLabels,
+      PdfGeneratorJob::USE_TEMPLATE_KEY => $useTemplate,
+    ]);
+
+    $this->notificationService->sendNotificationOnPending($this->userId, $sourceNode, $destinationPath, $jobType);
+
+    return self::dataResponse([
+      'jobType' => $jobType,
+      'pdfFilePath' => $destinationPath,
+      'messages' => $this->l->t('PDF generation background job scheduled successfully'),
+    ]);
   }
 
   /**
@@ -433,7 +489,7 @@ EOF;
     $template = urldecode($template);
     $path = urldecode($path);
 
-    $pdfFileName = $this->fileSystemWalker->getPdfFileName($template, $path);
+    $pdfFileName = $this->fileSystemWalker->getPdfFileName($path, $template);
 
     return self::dataResponse([
       'pdfFileName' => $pdfFileName,

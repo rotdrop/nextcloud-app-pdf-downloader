@@ -22,13 +22,16 @@
 
 namespace OCA\PdfDownloader\Service;
 
+use Throwable;
+use DateTimeImmutable;
+
 use OCP\IL10N;
 use OCP\IConfig;
 use OCP\IUser;
 use Psr\Log\LoggerInterface as ILogger;
-
 use OCP\Files\IMimeTypeDetector;
 use OCP\IUserSession;
+use OCP\IDateTimeZone;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node as FileSystemNode;
 use OCP\Files\File;
@@ -39,6 +42,7 @@ use OCP\Files\NotFoundException as FileNotFoundException;
 use OCA\RotDrop\Toolkit\Service\ArchiveService;
 use OCA\RotDrop\Toolkit\Exceptions as ToolkitExceptions;
 
+use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Constants;
 use OCA\PdfDownloader\Controller\SettingsController;
 use OCA\PdfDownloader\Exceptions\EnduserNotificationException;
@@ -49,6 +53,8 @@ use OCA\PdfDownloader\Exceptions\EnduserNotificationException;
 class FileSystemWalker
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
   public const ERROR_PAGES_FONT_SIZE = '12';
@@ -56,9 +62,6 @@ class FileSystemWalker
 
   private const ARCHIVE_HANDLED = 0;
   private const ARCHIVE_IGNORED = 2;
-
-  /** @var string */
-  private $appName;
 
   /** @var string */
   private $errorPagesFont = self::ERROR_PAGES_FONT;
@@ -72,14 +75,14 @@ class FileSystemWalker
   /** @var IMimeTypeDetector */
   private $mimeTypeDetector;
 
+  /** @var IDateTimeZone */
+  private $dateTimeZone;
+
   /** @var null|string */
   protected $userId;
 
   /** @var IRootFolder */
   protected $rootFolder;
-
-  /** @var Folder */
-  private $userFolder;
 
   /** @var PdfCombiner */
   private $pdfCombiner;
@@ -105,7 +108,8 @@ class FileSystemWalker
     IRootFolder $rootFolder,
     IMimeTypeDetector $mimeTypeDetector,
     IUserSession $userSession,
-    Pdfcombiner $pdfCombiner,
+    IDateTimeZone $dateTimeZone,
+    PdfCombiner $pdfCombiner,
     AnyToPdf $anyToPdf,
     ArchiveService $archiveService,
   ) {
@@ -115,6 +119,7 @@ class FileSystemWalker
     $this->cloudConfig = $cloudConfig;
     $this->rootFolder = $rootFolder;
     $this->mimeTypeDetector = $mimeTypeDetector;
+    $this->dateTimeZone = $dateTimeZone;
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
     $this->archiveService = $archiveService;
@@ -142,7 +147,6 @@ class FileSystemWalker
     /** @var IUser $user */
     $user = $userSession->getUser();
     if (!empty($user)) {
-      $this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
       $this->userId = $user->getUID();
       $this->pdfCombiner->setOverlayTemplate(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEMPLATE, null)
@@ -245,7 +249,7 @@ class FileSystemWalker
     $pdf->setFont($this->getErrorPagesFont());
     $pdf->setFontSize($this->getErrorPagesFontSize());
 
-    $mimeType = $fileData ? $this->mimeTypeDetector->detectString($fileData) : $this->l->t('unknown');
+    $mimeType = $this->detectMimeType($path, $fileData);
 
     $message = $throwable->getMessage();
     $trace = $throwable->getTraceAsString();
@@ -291,7 +295,7 @@ __EOF__;
         $this->logInfo('ARCHIVE FILE ' . $archiveFile . ' PATH ' . $path);
         try {
           $fileData = $this->archiveService->getFileContent($archiveFile);
-          $mimeType = $this->mimeTypeDetector->detectString($fileData);
+          $mimeType = $this->detectMimeType($path, $fileData);
           $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
         } catch (Throwable $t) {
           $this->logException($t);
@@ -358,18 +362,22 @@ __EOF__;
   /**
    * @param string $nodePath Source directory or archive file name.
    *
+   * @param null|bool $pageLabels Whether to decorate the pages with a label.
+   *
    * @return string The PDF data from combining the given sources below
    * $nodePath.
    */
-  public function generateDownloadData(string $nodePath):string
-  {
+  public function generateDownloadData(
+    string $nodePath,
+    ?bool $pageLabels = null,
+  ):string {
     $pageLabels = $this->cloudConfig->getUserValue(
       $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
     $this->pdfCombiner->addPageLabels($pageLabels);
     $nodePath = urldecode($nodePath);
 
     /** @var FileSystemNode $node */
-    $node = $this->userFolder->get($nodePath);
+    $node = $this->getUserFolder()->get($nodePath);
     if ($node->getType() === FileInfo::TYPE_FOLDER) {
       $this->addFilesRecursively($node);
     } else {
@@ -387,6 +395,10 @@ __EOF__;
       $nodePath = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . basename($pathInfo['filename'], '.tar');
     }
 
+    if ($pageLabels !== null) {
+      $this->pdfCombiner->addPageLabels($pageLabels);
+    }
+
     return $this->pdfCombiner->combine();
   }
 
@@ -397,29 +409,38 @@ __EOF__;
    * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
-   * @param bool|null|string $destinationPath The distination path in the cloud
-   * where the resulting PDF data should be stored.
+   * @param null|string $destinationPath The distination path in the cloud
+   * where the resulting PDF data should be stored. If null then the default
+   * location is used. The path must be relative to the parent of the user
+   * folder.
+   *
+   * @param null|bool $pageLabels Whether to decorate the pages with a label.
+   *
+   * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
+   * the configured filename template.
    *
    * @return File File-system object pointing to the new file.
    */
-  public function save(string $sourcePath, mixed $destinationPath = null):File
-  {
-    if ($destinationPath === false) {
-    } elseif ($destinationPath == null) {
-
-    }
+  public function save(
+    string $sourcePath,
+    mixed $destinationPath = null,
+    ?bool $pageLabels = null,
+    ?bool $useTemplate = null,
+  ):File {
+    $destinationPath = $this->getPdfFilePath($sourcePath, $destinationPath, $useTemplate);
     $pathInfo = pathinfo($destinationPath);
     $destinationDirName = $pathInfo['dirname'];
     $destinationBaseName = $pathInfo['basename'];
+    $userRootFolder = $this->getUserRootFolder();
     try {
-      $destinationFolder = $this->userFolder->get($destinationDirName);
+      $destinationFolder = $userRootFolder->get($destinationDirName);
       if ($destinationFolder->getType() != FileInfo::TYPE_FOLDER) {
         throw new EnduserNotificationException(
           $this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
       }
     } catch (FileNotFoundException $e) {
       try {
-        $destinationFolder = $this->userFolder->newFolder($destinationDirName);
+        $destinationFolder = $userRootFolder->newFolder($destinationDirName);
       } catch (Throwable $t) {
         throw new EnduserNotificationException(
           $this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
@@ -428,7 +449,7 @@ __EOF__;
 
     $this->logInfo('DESTINATION DIR ' . $destinationDirName);
 
-    $pdfData = $this->fileSystemWalker->generateDownloadData($sourcePath);
+    $pdfData = $this->generateDownloadData($sourcePath, $pageLabels, $useTemplate);
 
     $this->logInfo('PDF DATA READY');
 
@@ -447,19 +468,46 @@ __EOF__;
   }
 
   /**
-   * Generate a download file-name from a given template and full path.
+   * @param string $sourcePath
    *
-   * @param string $template
+   * @param string $destinationPath
+   *
+   * @return string
+   */
+  public function getPdfFilePath(string $sourcePath, ?string $destinationPath, ?bool $useTemplate = null):string
+  {
+    if ($destinationPath == null || $useTemplate === true) {
+      // default cloud destination
+      $destinationPath = ($this->cloudFolderPath ?? dirname($sourcePath))
+        . Constants::PATH_SEPARATOR
+        . $this->getPdfFileName($sourcePath);
+    }
+    return $destinationPath;
+  }
+
+  /**
+   * Generate a download file-name from a given template and full path.
    *
    * @param string $path Folder Path.
    * directory part.
    *
+   * @param null|string $template
+   *
    * @return string
    */
-  private function getPdfFileName(
-    string $template,
+  public function getPdfFileName(
     string $path,
+    ?string $template = null,
   ):string {
+    if (empty($template)) {
+      $template = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
+        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+      );
+    }
+
     $keys = [
       'BASENAME' => $this->l->t('BASENAME'),
       'FILENAME' => $this->l->t('FILENAME'),
@@ -471,7 +519,7 @@ __EOF__;
     $templateValues = [
       'BASENAME' => $pathInfo['basename'],
       'FILENAME' => $pathInfo['filename'],
-      'DIRNAME' => $pathInfo['dirname'],
+      'DIRNAME' => trim($pathInfo['dirname'], Constants::PATH_SEPARATOR),
       'EXTENSION' => $pathInfo['extension'] ?? '',
       'DATETIME' => (new DateTimeImmutable)->setTimezone($this->dateTimeZone->getTimeZone()),
     ];
@@ -481,5 +529,31 @@ __EOF__;
     $pdfFileName = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . $pathInfo['filename'] . '.pdf';
 
     return $pdfFileName;
+  }
+
+  /**
+   * Try to make a good guess concerning the mime-type.
+   *
+   * @param string $path
+   *
+   * @param null|string $fileData
+   *
+   * @return string
+   */
+  private function detectMimeType(string $path, ?string $fileData):string
+  {
+    $pathType = $this->mimeTypeDetector->detectPath($path);
+    if (!$fileData) {
+      return $pathType;
+    }
+    $contentType = $this->mimeTypeDetector->detectString($fileData);
+    if ($pathType !== $contentType) {
+      switch ($contentType) {
+        case 'application/octett-stream':
+        case 'text/plain':
+          return $pathType;
+      }
+    }
+    return $contentType;
   }
 }

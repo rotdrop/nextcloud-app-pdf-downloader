@@ -29,7 +29,9 @@ use OCP\BackgroundJob\QueuedJob;
 use Psr\Log\LoggerInterface as ILogger;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ITempManager;
-
+use OCP\AppFramework\IAppContainer;
+use OCP\IUserSession;
+use OCP\IUserManager;
 use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Service\NotificationService;
 
@@ -41,15 +43,28 @@ class PdfGeneratorJob extends QueuedJob
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
+  public const TARGET_FILESYSTEM = 'filesystem';
+  public const TARGET_DOWNLOAD = 'download';
+
+  public const TARGET_KEY = 'target';
   public const USER_ID_KEY = 'userId';
+  public const SOURCE_ID_KEY = 'sourceId';
   public const SOURCE_PATH_KEY = 'sourcePath';
   public const DESTINATION_PATH_KEY = 'destinationPath';
+  public const PAGE_LABELS_KEY = 'pageLabels';
+  public const USE_TEMPLATE_KEY = 'useTemplate';
+
+  /** @var IAppContainer */
+  private $appContainer;
+
+  /** @var IUserSession */
+  private $userSession;
+
+  /** @var IUserManager */
+  private $userManager;
 
   /** @var ITempManager */
   private $tempManager;
-
-  /** @var FileSystemWalker */
-  private $fileSystemWalker;
 
   /** @var NotificationService */
   private $notificationService;
@@ -58,17 +73,63 @@ class PdfGeneratorJob extends QueuedJob
   public function __construct(
     ITimeFactory $timeFactory,
     ILogger $logger,
+    IUserSession $userSession,
+    IUserManager $userManager,
+    IAppContainer $appContainer,
     ITempManager $tempManager,
-    FileSystemWalker $fileSystemWalker,
     NotificationService $notificationService,
   ) {
     parent::__construct($timeFactory);
     $this->logger = $logger;
     $this->tempManager = $tempManager;
-    $this->fileSystemWalker = $fileSystemWalker;
+    $this->appContainer = $appContainer;
+    $this->userSession = $userSession;
+    $this->userManager = $userManager;
     $this->notificationService = $notificationService;
   }
   // phpcs:enable
+
+  /**
+   * @return null|bool
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getUseTemplate():?bool
+  {
+    $useTemplate = $this->argument[self::USE_TEMPLATE_KEY] ?? null;
+    if ($useTemplate === null) {
+      throw new InvalidArgumentException('Use template argument is empty.');
+    }
+    return $useTemplate;
+  }
+
+  /**
+   * @return null|bool
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getPageLabels():?bool
+  {
+    $pageLabels = $this->argument[self::PAGE_LABELS_KEY] ?? null;
+    if ($pageLabels === null) {
+      throw new InvalidArgumentException('Page-labels argument is empty.');
+    }
+    return $pageLabels;
+  }
+
+  /**
+   * @return string
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getTarget():string
+  {
+    $target = $this->argument[self::TARGET_KEY] ?? null;
+    if (empty($target)) {
+      throw new InvalidArgumentException('Target argument is empty.');
+    }
+    return $target;
+  }
 
   /**
    * @return string
@@ -77,7 +138,7 @@ class PdfGeneratorJob extends QueuedJob
    */
   public function getUserId():string
   {
-    $sourcePath = $this->argument[self::USER_ID_KEY];
+    $sourcePath = $this->argument[self::USER_ID_KEY] ?? null;
     if (empty($sourcePath)) {
       throw new InvalidArgumentException('User id argument is empty.');
     }
@@ -91,11 +152,25 @@ class PdfGeneratorJob extends QueuedJob
    */
   public function getSourcePath():string
   {
-    $sourcePath = $this->argument[self::SOURCE_PATH_KEY];
+    $sourcePath = $this->argument[self::SOURCE_PATH_KEY] ?? null;
     if (empty($sourcePath)) {
       throw new InvalidArgumentException('Source path argument is empty.');
     }
     return $sourcePath;
+  }
+
+  /**
+   * @return int
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getSourceId():int
+  {
+    $sourceId = $this->argument[self::SOURCE_ID_KEY] ?? null;
+    if ($sourceId === null) {
+      throw new InvalidArgumentException('Source id argument is empty.');
+    }
+    return (int)$sourceId;
   }
 
   /**
@@ -116,8 +191,26 @@ class PdfGeneratorJob extends QueuedJob
   protected function run($argument)
   {
     try {
-      $file = $this->fileSystemWalker->save($this->getSourcePath(), $this->getDestinationPath());
+      $user = $this->userManager->get($this->getUserId());
+      if (empty($user)) {
+        throw new InvalidArgumentException('No user found for user-id ' . $this->getUserId());
+      }
+      $this->userSession->setUser($user);
+
+      // /** @var FileSystemWalker $fileSystemWalker */
+      $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
+
+      $file = $fileSystemWalker->save(
+        $this->getSourcePath(),
+        $this->getDestinationPath(),
+        pageLabels: $this->getPageLabels(),
+        useTemplate: $this->getUseTemplate(),
+      );
+      $this->logInfo('Source ' . $this->getSourcePath() . ' Target ' . $this->getDestinationPath());
       $this->notificationService->sendNotificationOnSuccess($this, $file);
+
+      \OC_Util::tearDownFS();
+
     } catch (Throwable $t) {
       $this->logger->error('Failed to create composite PDF.', [ 'exception' => $t ]);
       $this->notificationService->sendNotificationOnFailure($this);

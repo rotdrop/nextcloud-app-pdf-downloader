@@ -307,31 +307,70 @@ export default {
       }
     },
     async handleDownload() {
-      const url = generateAppUrl('download/{fullPath}', {
-        fullPath: encodeURIComponent(this.sourcePath),
-        downloadFileName: this.cloudDestinationBaseName,
-      });
-
+      const urlParameters = {
+        sourcePath: encodeURIComponent(this.sourcePath),
+        destinationPath: encodeURIComponent(this.cloudDestinationBaseName),
+      }
+      const queryParameters = {
+        pageLabels: this.downloadOptions.pageLabels,
+        useTemplate: this.downloadOptions.useTemplate,
+      }
       this.downLoading = true
       this.fileList.showFileBusyState(this.fileInfo.name, true)
-
-      fileDownload(url, false, {
-        always: () => {
-          this.downLoading = false
-          this.fileList.showFileBusyState(this.fileInfo.name, false)
+      if (this.downloadOptions.offline) {
+        try {
+          const response = await axios.post(
+            generateAppUrl('schedule/{sourcePath}/{destinationPath}/download', urlParameters),
+            queryParameters
+          )
+          showSuccess(t(appName, 'PDF saved as {path}.', { path: response.data.pdfFilePath }))
+        } catch (e) {
+          let message = t(appName, 'reason unknown')
+          if (e.response && e.response.data) {
+            const responseData = e.response.data;
+            if (Array.isArray(responseData.messages)) {
+              message = responseData.messages.join(' ');
+            }
+          }
+          showError(t(appName, 'Unable to save {sourceFile} to the cloud: {message}', {
+            sourceFile: this.sourcePath,
+            message,
+          }), {
+            timeout: TOAST_PERMANENT_TIMEOUT,
+          })
         }
-      })
+        this.downLoading = false
+        this.fileList.showFileBusyState(this.fileInfo.name, false)
+      } else {
+        const url = generateAppUrl('download/{sourcePath}', { ...urlParameters, ...queryParameters });
+        fileDownload(url, false, {
+          always: () => {
+            this.downLoading = false
+            this.fileList.showFileBusyState(this.fileInfo.name, false)
+          }
+        })
+      }
     },
     async handleSaveToCloud() {
       const sourcePath = encodeURIComponent(this.sourcePath)
       const destinationPath = encodeURIComponent(this.cloudDestinationPathName)
       this.fileList.showFileBusyState(this.fileInfo.name, true)
+      const requestParameters = {
+        sourcePath,
+        destinationPath,
+      }
+      const urlTemplate = this.downloadOptions.offline
+        ? 'save/{sourcePath}/{destinationPath}'
+        : 'schedule/{sourcePath}/{destinationPath}/filesystem'
       try {
         const response = await axios.post(generateAppUrl(
-          'save/{sourcePath}/{destinationPath}', {
+          urlTemplate, {
             sourcePath,
             destinationPath,
-        }));
+        }), {
+          pageLabels: this.downloadOptions.pageLabels,
+          useTemplate: this.downloadOptions.useTemplate,
+        })
         showSuccess(t(appName, 'PDF saved as {path}.', { path: response.data.pdfFilePath }))
       } catch (e) {
         let message = t(appName, 'reason unknown')
