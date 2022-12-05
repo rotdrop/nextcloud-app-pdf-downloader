@@ -22,11 +22,15 @@
 
 namespace OCA\PdfDownloader\Notification;
 
+use InvalidArgumentException;
+
 use Psr\Log\LoggerInterface as ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+
+use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
 
 /**
  * Background PDF generator job in order to move time-consuming jobs out of
@@ -36,6 +40,15 @@ class Notifier implements INotifier
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
+  public const TYPE_DOWNLOAD = (1 << 0);
+  public const TYPE_FILESYSTEM = (1 << 1);
+  public const TYPE_SCHEDULED = (1 << 2);
+  public const TYPE_SUCCESS = (1 << 3);
+  public const TYPE_FAILURE = (1 << 4);
+
+  /** @var string */
+  protected $appName;
+
   /** @var IL10NFactory */
   protected $l10nFactory;
 
@@ -44,81 +57,133 @@ class Notifier implements INotifier
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
+    string $appName,
     ILogger $logger,
     IL10NFactory $l10nFactory,
     IURLGenerator $urlGenerator,
   ) {
+    $this->appName = $appName;
     $this->logger = $logger;
+    $this->l10nFactory = $l10nFactory;
+    $this->urlGenerator = $urlGenerator;
   }
   // phpcs:enable
 
-  // public function getID(): string
-  // {
-  //   return 'files_zip';
-  // }
+  /** {@inheritdoc} */
+  public function getID(): string
+  {
+    return $this->appName;
+  }
 
-  // public function getName(): string {
-  //   return $this->factory->get('files_zip')->t('Zipper');
-  // }
+  /** {@inheritdoc} */
+  public function getName():string
+  {
+    return $this->l10nFactory->get($this->appName)->t('PDF Downloader');
+  }
 
-  // public function prepare(INotification $notification, string $languageCode): INotification {
-  //   if ($notification->getApp() !== 'files_zip') {
-  //     throw new InvalidArgumentException('Application should be files_zip instead of ' . $notification->getApp());
-  //   }
+  /** {@inheritdoc} */
+  public function prepare(INotification $notification, string $languageCode):INotification
+  {
+    if ($notification->getApp() !== $this->appName) {
+      throw new InvalidArgumentException('Application should be files_zip instead of ' . $notification->getApp());
+    }
 
-  //   $l = $this->factory->get('files_zip', $languageCode);
+    $l = $this->l10nFactory->get($this->appName, $languageCode);
 
-  //   switch ($notification->getSubject()) {
-  //     case self::TYPE_SCHEDULED:
-  //       $parameters = $notification->getSubjectParameters();
-  //       $notification->setRichSubject($l->t('A Zip archive {target} will be created.'), [
-  //         'target' => [
-  //           'type' => 'highlight',
-  //           'id' => $notification->getObjectId(),
-  //           'name' => $parameters['target-name'],
-  //         ]
-  //       ]);
-  //       break;
-  //     case self::TYPE_SUCCESS:
-  //       $parameters = $notification->getSubjectParameters();
-  //       $notification->setRichSubject($l->t('Your files have been stored as a Zip archive in {path}.'), [
-  //         'path' => [
-  //           'type' => 'file',
-  //           'id' => $parameters['fileid'],
-  //           'name' => $parameters['name'],
-  //           'path' => $parameters['path']
-  //         ]
-  //       ]);
-  //       break;
-  //     case self::TYPE_FAILURE:
-  //       $parameters = $notification->getSubjectParameters();
-  //       $notification->setRichSubject($l->t('Creating the Zip file {path} failed.'), [
-  //         'path' => [
-  //           'type' => 'highlight',
-  //           'id' => $notification->getObjectId(),
-  //           'name' => basename($parameters['target']),
-  //         ]
-  //       ]);
-  //       break;
-  //     default:
-  //       throw new InvalidArgumentException();
-  //   }
-  //   $notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files_zip', 'files_zip-dark.svg')));
-  //   $this->setParsedSubjectFromRichSubject($notification);
-  //   return $notification;
-  // }
+    switch ($notification->getSubject()) {
+      case self::TYPE_SCHEDULED|self::TYPE_FILESYSTEM:
+        $parameters = $notification->getSubjectParameters();
+        $notification->setRichSubject($l->t('A PDF file {target} will be created from the sources at {source}.'), [
+          'target' => [
+            'type' => 'highlight',
+            'id' => $notification->getObjectId(),
+            'name' => $parameters['destinationBaseName'],
+          ],
+          'source' => [
+            'type' => 'highlight',
+            'id' => $notification->getObjectId(),
+            'name' => $parameters['sourceBaseName'],
+          ],
+        ]);
+        break;
+      case self::TYPE_SCHEDULED|self::TYPE_DOWNLOAD:
+        $parameters = $notification->getSubjectParameters();
+        $notification->setRichSubject($l->t('A PDF download will be created from the sources at {source}.'), [
+          'source' => [
+            'type' => 'highlight',
+            'id' => $notification->getObjectId(),
+            'name' => $parameters['sourceBaseName'],
+          ],
+        ]);
+        break;
+      case self::TYPE_SUCCESS|self::TYPE_FILESYSTEM:
+        $parameters = $notification->getSubjectParameters();
+        $notification->setRichSubject($l->t('Your folder {source} has been converted to a PDF-file {path}.'), [
+          'source' => [
+            'type' => 'highlight',
+            'id' => $notification->getObjectId(),
+            'name' => $parameters['sourceBaseName'],
+          ],
+          'path' => [
+            'type' => 'file',
+            'id' => $parameters['fileid'],
+            'name' => $parameters['name'],
+            'path' => $parameters['']
+          ]
+        ]);
+        break;
+      case self::TYPE_SUCCESS|self::TYPE_DOWNLOAD:
+        $parameters = $notification->getSubjectParameters();
+        $notification->setRichSubject($l->t('You folder {source} has been converted to a PDF file. Please visit the details-tab of the source-folder to download the file.'), [
+          'source' => [
+            'type' => 'highlight',
+            'id' => $notification->getObjectId(),
+            'name' => $parameters['sourceBaseName'],
+          ],
+          'path' => [
+            'type' => 'file',
+            'id' => $parameters['fileid'],
+            'name' => $parameters['name'],
+            'path' => $parameters['']
+          ]
+        ]);
+        break;
+      case self::TYPE_FAILURE|self::TYPE_FILESYSTEM:
+      case self::TYPE_FAILURE|self::TYPE_DOWNLOAD:
+        $parameters = $notification->getSubjectParameters();
+        $notification->setRichSubject($l->t('Converting {source} to PDF has failed.'), [
+          'source' => [
+            'type' => 'highlight',
+            'id' => $notification->getObjectId(),
+            'name' => $parameters['sourceBaseName'],
+          ],
+        ]);
+        break;
+      default:
+        throw new InvalidArgumentException($l->t('Unsupported subject: "%s".', $notification->getSubject()));
+    }
+    $notification->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath($this->appName, 'app-dark.svg')));
+    $this->setParsedSubjectFromRichSubject($notification);
+    return $notification;
+  }
 
-  // protected function setParsedSubjectFromRichSubject(INotification $notification): void {
-  //   $placeholders = $replacements = [];
-  //   foreach ($notification->getRichSubjectParameters() as $placeholder => $parameter) {
-  //     $placeholders[] = '{' . $placeholder . '}';
-  //     if ($parameter['type'] === 'file') {
-  //       $replacements[] = $parameter['path'];
-  //     } else {
-  //       $replacements[] = $parameter['name'];
-  //     }
-  //   }
+  /**
+   * @param INotification $notification
+   *
+   * @return void
+   */
+  protected function setParsedSubjectFromRichSubject(INotification $notification):void
+  {
+    $placeholders = $replacements = [];
+    foreach ($notification->getRichSubjectParameters() as $placeholder => $parameter) {
+      $placeholders[] = '{' . $placeholder . '}';
+      if ($parameter['type'] === 'file') {
+        $replacements[] = $parameter['path'];
+      } else {
+        $replacements[] = $parameter['name'];
+      }
+    }
 
-  //   $notification->setParsedSubject(str_replace($placeholders, $replacements, $notification->getRichSubject()));
-  // }
+    $notification->setParsedSubject(str_replace($placeholders, $replacements, $notification->getRichSubject()));
+  }
 }

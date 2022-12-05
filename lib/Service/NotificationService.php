@@ -41,23 +41,11 @@ class NotificationService
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
   use \OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
 
-  public const TARGET_FILESYSTEM = '__filesystem__';
-  public const TARGET_DOWNLOAD = '__download__';
-
-  public const TYPE_DOWNLOAD = (1 << 0);
-  public const TYPE_FILESYSTEM = (1 << 1);
-  public const TYPE_SCHEDULED = (1 << 2);
-  public const TYPE_SUCCESS = (1 << 3);
-  public const TYPE_FAILURE = (1 << 4);
-
   /** @var string */
-  private $appName;
+  protected $appName;
 
   /** @var null|string */
-  private $userId = null;
-
-  /** @var null|string */
-  private $userFolderPath = null;
+  protected $userId = null;
 
   /** @var IManager */
   private $notificationManager;
@@ -75,7 +63,6 @@ class NotificationService
     $user = $userSession->getUser();
     if (!empty($user)) {
       $this->userId = $user->getUID();
-      $this->userFolderPath = $this->getUserFolderPath();
     }
   }
   // phpcs:enable
@@ -87,14 +74,21 @@ class NotificationService
    *
    * @param string $destinationPath
    *
+   * @param string $jobType PdfGeneratorJob::TARGET_DOWNLOAD or
+   * PdfGeneratorJob::TARGET_FILESYSTEM.
+   *
    * @return void
    */
-  public function sendNotificationOnPending(string $userId, string $sourcePath, string $destinationPath):void
-  {
-    $target = str_starts_with($destinationPath, $this->userFolderPath) ? self::TYPE_FILESYSTEM : self::TYPE_DOWNLOAD;
-    $notification = $this->buildScheduledNotification($userId, $sourcePath, $target)
+  public function sendNotificationOnPending(
+    string $userId,
+    string $sourcePath,
+    string $destinationPath,
+  ):void {
+    $target = str_starts_with($destinationPath, $this->getUserFolderPath()) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
+    $notification = $this->buildNotification(Notifier::TYPE_SCHEDULED, $target, $userId, $sourcePath, $destinationPath)
       ->setDateTime(new DateTime());
     $this->notificationManager->notify($notification);
+    $this->logInfo('NOTIFY PENDING');
   }
 
   /**
@@ -109,21 +103,20 @@ class NotificationService
     $userId = $job->getUserId();
     $destinationPath = $job->getDestinationPath();
     $sourcePath = $job->getSourcePath();
-    $target = str_starts_with($destinationPath, $this->userFolderPath) ? self::TYPE_FILESYSTEM : self::TYPE_DOWNLOAD;
+    $target = str_starts_with($destinationPath, $this->getUserFolderPath()) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
 
-    $this->notificationManager->markProcessed($this->buildScheduledNotification($userId, $sourcePath, $target));
-    $notification = $this->notificationManager->createNotification();
-    $notification->setUser($userId)
-      ->setApp($this->appName)
+    $this->notificationManager->markProcessed($this->buildNotification(Notifier::TYPE_SCHEDULED, $target, $userId, $sourcePath));
+
+    $notification = $this->buildNotification(Notifier::TYPE_SUCCESS, $target, $userId, $sourcePath, $destinationPath);
+    $subject = $notification->getSubject();
+    $subjectParameters = $notification->getSubjectParameters();
+    $subjectParameters['fileId'] = $file->getId();
+
+    $notification
       ->setDateTime(new DateTime())
-      ->setObject('target', md5($target))
-      ->setSubject(Notifier::TYPE_SUCCESS, [
-        'source' => $sourcePath,
-        'fileid' => $file->getId(),
-        'name' => basename($destinationPath),
-        'path' => dirname($destinationPath),
-      ]);
+      ->setSubject($subject, $subjectParameters);
     $this->notificationManager->notify($notification);
+    $this->logInfo('NOTIFY SUCCESS');
   }
 
   /**
@@ -136,41 +129,52 @@ class NotificationService
     $userId = $job->getUserId();
     $destinationPath = $job->getDestinationPath();
     $sourcePath = $job->getSourcePath();
-    $target = str_starts_with($destinationPath, $this->userFolderPath) ? self::TYPE_FILESYSTEM : self::TYPE_DOWNLOAD;
+    $target = str_starts_with($destinationPath, $this->getUserFolderPath()) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
 
-    $this->notificationManager->markProcessed($this->buildScheduledNotification($userId, $sourcePath, $target));
-    $notification = $this->notificationManager->createNotification();
-    $notification->setUser($userId)
-      ->setApp($this->appName)
+    $this->notificationManager->markProcessed($this->buildNotification(Notifier::TYPE_SCHEDULED, $target, $userId, $sourcePath, $destinationPath));
+
+    $notification = $this->buildNotification(Notifier::TYPE_FAILURE, $target, $userId, $sourcePath, $destinationPath);
+    $notification
       ->setDateTime(new DateTime())
-      ->setObject('job', (string)$job->getId())
-      ->setSubject(Notifier::TYPE_FAILURE, [
-        'source' => $sourcePath,
-        'target' => $destinationPath,
-      ]);
+      ->setObject('job', (string)$job->getId());
     $this->notificationManager->notify($notification);
+    $this->logInfo('NOTIFY FAILURE');
   }
 
   /**
+   * @param int $type
+   *
+   * @param string $target
+   *
    * @param string $userId
    *
    * @param string $sourcePath
    *
-   * @param string $target Either a destination path or NotificationService::DOWNLOAD_TARGET.
+   * @param string $destinationPath
    *
    * @return INotification
    */
-  private function buildScheduledNotification(string $userId, string $sourcePath, string $target):INotification
-  {
-    $type = self::TYPE_SCHEDULED | ($target == self::TARGET_DOWNLOAD ? self::TYPE_DOWNLOAD : self::TYPE_FILESYSTEM);
+  private function buildNotification(
+    int $type,
+    string $target,
+    string $userId,
+    string $sourcePath,
+    string $destinationPath,
+  ):INotification {
+    $type |= ($target == PdfGeneratorJob::TARGET_DOWNLOAD ? Notifier::TYPE_DOWNLOAD : Notifier::TYPE_FILESYSTEM);
     $notification = $this->notificationManager->createNotification();
     $notification->setUser($userId)
       ->setApp($this->appName)
-      ->setObject('target', md5($target))
-      ->setSubject($type, [
-        'directory' => dirname($target),
-        'directory-name' => basename(dirname($target)),
-        'target-name' => basename($target),
+      ->setObject('target', md5($destinationPath))
+      ->setSubject((string)$type, [
+        'sourcePath' => $sourcePath,
+        'sourceDirectory' => dirname($sourcePath),
+        'sourceDirectoryName' => basename(dirname($sourcePath)),
+        'sourceBaseName' => basename($sourcePath),
+        'destinationPath' => $destinationPath,
+        'destinationDirectory' => dirname($destinationPath),
+        'destinationDirectoryName' => basename(dirname($destinationPath)),
+        'destinationBaseName' => basename($destinationPath),
       ]);
     return $notification;
   }
