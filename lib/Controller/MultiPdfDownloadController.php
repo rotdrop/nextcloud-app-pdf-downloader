@@ -265,8 +265,17 @@ class MultiPdfDownloadController extends Controller
       if (empty($cacheFile)) {
         return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
       }
-      $destinationPath = $destinationPath . Constants::PATH_SEPARATOR . $cacheFile->getName();
-      $destinationPath = $this->fileSystemWalker->getPdfFilePath($sourcePath, $destinationPath, useTemplate: false);
+      /** @var Folder $destinationFolder */
+      try {
+        $destinationFolder = $this->getUserFolder()->get($destinationPath);
+      } catch (FileNotFoundException $e) {
+        return self::grumble($this->l->t('Unable to open the destination-folder "%s".', $destinationPath));
+      }
+      $nonExistingTarget = $destinationFolder->getNonExistingName($cacheFile->getName());
+      $destinationPath = $this->getUserFolderPath()
+        . Constants::PATH_SEPARATOR . $destinationPath
+        . Constants::PATH_SEPARATOR . $nonExistingTarget;
+
       $pdfFile = $move ? $cacheFile->move($destinationPath) : $cacheFile->copy($destinationPath);
     } else {
       $pdfFile = $this->fileSystemWalker->save(

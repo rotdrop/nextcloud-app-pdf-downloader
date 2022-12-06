@@ -318,6 +318,7 @@ export default {
         this.folderName = Path.basename(pathInfo.name, '.tar')
       }
       this.downloadOptions.pageLabels = this.config.pageLabels
+      this.downloadOptions.offline = this.config.useBackgroundJobsDefault
 
       this.fetchPdfFileNameFromTemplate(this.folderPath)
           .then((value) => {
@@ -442,7 +443,7 @@ export default {
       // let dir = await picker.pick()
 
       // so let's try something which could be a bugfix for @nextcloud/dialogs
-      const { dir, mode } = await new Promise((res, rej) => {
+      let { dir, mode } = await new Promise((res, rej) => {
         OC.dialogs.filepicker(
           t(appName, 'Choose a destination'), // title
           (dir, mode) => res({ dir, mode }), // callback _WITH_ mode
@@ -592,7 +593,7 @@ export default {
     },
     async handleSaveToCloud(cacheFileId, destinationFolder, move) {
       this.fileList.showFileBusyState(this.fileInfo.name, true)
-      let urlTemplate = this.downloadOptions.offline
+      let urlTemplate = cacheFileId === undefined && this.downloadOptions.offline
         ? 'schedule/{sourcePath}/{destinationPath}/filesystem'
         : 'save/{sourcePath}/{destinationPath}'
       if (cacheFileId) {
