@@ -180,6 +180,9 @@ class MultiPdfDownloadController extends Controller
    * @param null|string $downloadFileName The file-name presented to the
    * http-client. If null defaults to the pre-configured file-name template.
    *
+   * @param null|int $cacheId The file-id of a cached file which had been
+   * prepared in the background.
+   *
    * @param null|bool $pageLabels Whether to decorate the pages with a label.
    *
    * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
@@ -192,10 +195,20 @@ class MultiPdfDownloadController extends Controller
   public function get(
     string $sourcePath,
     ?string $downloadFileName = null,
+    ?int $cacheId = null,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
   ):Response {
     $sourcePath = urldecode($sourcePath);
+
+    if ($cacheId !== null) {
+      $cacheFile = $this->fileSystemWalker->getCacheFile($sourcePath, $cacheId);
+      if (empty($cacheFile)) {
+        return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
+      }
+      return self::dataDownloadResponse($cacheFile->getContent(), $cacheFile->getName(), $cacheFile->getMimeType());
+    }
+
     if (!empty($downloadFileName)) {
       $downloadFileName = urldecode($downloadFileName);
     }
@@ -225,6 +238,11 @@ class MultiPdfDownloadController extends Controller
    * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
    * the configured filename template.
    *
+   * @param null|int $cacheId The file-id of a cached file which had been
+   * prepared in the background.
+   *
+   * @param null|bool $move Move the cache file, ignore if $cacheId is null.
+   *
    * @return Response
    *
    * @NoAdminRequired
@@ -234,19 +252,36 @@ class MultiPdfDownloadController extends Controller
     ?string $destinationPath = null,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
+    ?int $cacheId = null,
+    ?bool $move = null,
   ):Response {
     $sourcePath = urldecode($sourcePath);
     if ($destinationPath !== null) {
       $destinationPath = urldecode($destinationPath);
     }
 
-    $pdfFile = $this->fileSystemWalker->save($sourcePath, $destinationPath, $pageLabels, $useTemplate);
+    if ($cacheId !== null) {
+      $cacheFile = $this->fileSystemWalker->getCacheFile($sourcePath, $cacheId);
+      if (empty($cacheFile)) {
+        return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
+      }
+      $destinationPath = $destinationPath . Constants::PATH_SEPARATOR . $cacheFile->getName();
+      $destinationPath = $this->fileSystemWalker->getPdfFilePath($sourcePath, $destinationPath, useTemplate: false);
+      $pdfFile = $move ? $cacheFile->move($destinationPath) : $cacheFile->copy($destinationPath);
+    } else {
+      $pdfFile = $this->fileSystemWalker->save(
+        $sourcePath,
+        $destinationPath,
+        pageLabels: $pageLabels,
+        useTemplate: $useTemplate,
+      );
+    }
 
     $pdfFilePath = $pdfFile->getInternalPath();
 
     return self::dataResponse([
       'pdfFilePath' => $pdfFilePath,
-      'messages' => $this->l->t('PDF document saved as "%s".', $pdfFilePath),
+      'messages' => [ $this->l->t('PDF document saved as "%s".', $pdfFilePath), ],
     ]);
   }
 
@@ -318,8 +353,107 @@ class MultiPdfDownloadController extends Controller
     return self::dataResponse([
       'jobType' => $jobType,
       'pdfFilePath' => $destinationPath,
-      'messages' => $this->l->t('PDF generation background job scheduled successfully'),
+      'messages' => [ $this->l->t('PDF generation background job scheduled successfully'), ],
     ]);
+  }
+
+  /**
+   * Schedule PDF generation as background job for either downloading (later,
+   * after being notified) or for direct storing in the file-system.
+   *
+   * @param string $sourcePath The path to the file-system node to convert to
+   * PDF.
+   *
+   * @return Response
+   *
+   * @NoAdminRequired
+   */
+  public function list(string $sourcePath):Response
+  {
+    $sourcePath = urldecode($sourcePath);
+    $sourceNode = $this->getUserFolder()->get($sourcePath);
+    $sourceNodeId = $sourceNode->getId();
+
+    $downloads = [];
+
+    $userAppFolder = $this->getUserAppFolder();
+    /** @var Folder $destinationFolder */
+    try {
+      $destinationFolder = $userAppFolder->get((string)$sourceNodeId);
+
+      $listing = $destinationFolder->getDirectoryListing();
+      /** @var File $pdfFile */
+      foreach ($listing as $pdfFile) {
+        if ($pdfFile->getType() != FileInfo::TYPE_FILE) {
+          continue; // could throw - but we can as well just ignore it
+        }
+        $pathInfo = pathinfo($pdfFile->getInternalPath());
+        $downloads[] = [
+          'id' => $pdfFile->getId(),
+          'path' => $pathInfo['dirname'],
+          'dir' =>  $pathInfo['dirname'],
+          'name' => $pathInfo['basename'],
+          'size' => $pdfFile->getSize(),
+          'type' => FileInfo::TYPE_FILE,
+          'mtime' => $pdfFile->getMTime(),
+          'mimetype' => $pdfFile->getMimeType(),
+          'permissions' => $pdfFile->getPermissions(),
+          'etag' => $pdfFile->getEtag(),
+          'isEncrypted' => $pdfFile->isEncrypted(),
+        ];
+      }
+    } catch (FileNotFoundException $e) {
+      // ignore, this is just ok, nothing thas been generated yet
+    }
+    return self::dataResponse($downloads);
+  }
+
+  /**
+   * Schedule PDF generation as background job for either downloading (later,
+   * after being notified) or for direct storing in the file-system.
+   *
+   * @param string $sourcePath The path to the file-system node to convert to
+   * PDF.
+   *
+   * @param null|int $cacheId
+   *
+   * @return Response
+   *
+   * @NoAdminRequired
+   */
+  public function clean(string $sourcePath, ?int $cacheId = null):Response
+  {
+    $sourcePath = urldecode($sourcePath);
+    $sourceNode = $this->getUserFolder()->get($sourcePath);
+    $sourceNodeId = $sourceNode->getId();
+
+    $userAppFolder = $this->getUserAppFolder();
+
+    if ($cacheId === null) {
+      /** @var Folder $destinationFolder */
+      try {
+        $destinationFolder = $userAppFolder->get((string)$sourceNodeId);
+        $destinationFolder->delete();
+      } catch (FileNotFoundException $e) {
+        // ignore, this is just ok, nothing thas been generated yet
+      }
+      return self::dataResponse([
+        'messages' => [ $this->l->t('Cached PDF files for "%s" have been deleted.', $sourceNode->getName()), ],
+      ]);
+    }
+
+    try {
+      $destinationFolder = $userAppFolder->get((string)$sourceNodeId);
+      /** @var File $cacheFile */
+      list($cacheFile,) = $this->getUserAppFolder()->get($sourceNodeId)->getById($cacheId);
+      $cacheFileName = $cacheFile->getName();
+      $cacheFile->delete();
+      return self::dataResponse([
+        'messages' => [ $this->l->t('PDF file "%s" has been deleted.', $cacheFileName), ],
+      ]);
+    } catch (FileNotFoundException $e) {
+      return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
+    }
   }
 
   /**

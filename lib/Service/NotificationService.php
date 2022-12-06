@@ -35,6 +35,7 @@ use OCP\IUserSession;
 
 use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
 use OCA\PdfDownloader\Notification\Notifier;
+use OCA\PdfDownloader\Constants;
 
 /** Service class for notification management. */
 class NotificationService
@@ -71,7 +72,7 @@ class NotificationService
   /**
    * @param string $userId
    *
-   * @param Node $sourceNode;
+   * @param Node $sourceNode
    *
    * @param string $destinationPath
    *
@@ -85,8 +86,9 @@ class NotificationService
     Node $sourceNode,
     string $destinationPath,
   ):void {
+    $this->userId = $userId;
     $sourcePath = $sourceNode->getPath();
-    $target = str_starts_with($destinationPath, $this->getUserFolderPath()) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
+    $target = str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
     $notification = $this->buildNotification(
       Notifier::TYPE_SCHEDULED,
       $target,
@@ -110,10 +112,14 @@ class NotificationService
   public function sendNotificationOnSuccess(PdfGeneratorJob $job, File $file):void
   {
     $userId = $job->getUserId();
+    $this->userId = $userId;
     $destinationPath = $job->getDestinationPath();
     $sourcePath = $job->getSourcePath();
     $sourceId = $job->getSourceId();
-    $target = str_starts_with($destinationPath, $this->getUserFolderPath()) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
+
+    $this->logInfo('DEST / USER ' . $destinationPath . ' | ' . Constants::USER_FOLDER_PREFIX);
+
+    $target = str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
 
     $this->notificationManager->markProcessed($this->buildNotification(
       Notifier::TYPE_SCHEDULED,
@@ -151,10 +157,11 @@ class NotificationService
   public function sendNotificationOnFailure(PdfGeneratorJob $job):void
   {
     $userId = $job->getUserId();
+    $this->userId = $userId;
     $destinationPath = $job->getDestinationPath();
     $sourcePath = $job->getSourcePath();
     $sourceId = $job->getSourceId();
-    $target = str_starts_with($destinationPath, $this->getUserFolderPath()) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
+    $target = str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
 
     $this->notificationManager->markProcessed($this->buildNotification(
       Notifier::TYPE_SCHEDULED,

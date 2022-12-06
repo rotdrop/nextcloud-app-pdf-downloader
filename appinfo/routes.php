@@ -64,15 +64,19 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#get',
-      'url' => '/download/{sourcePath}',
+      'url' => '/download/{sourcePath}/{cacheId}',
       'verb' => 'GET',
+      'defaults' => [
+        'cacheId' => null,
+      ],
     ],
     [
       'name' => 'multi_pdf_download#save',
-      'url' => '/save/{sourcePath}/{destinationPath}',
+      'url' => '/save/{sourcePath}/{destinationPath}/{cacheId}',
       'verb' => 'POST',
       'defaults' => [
         'destinationPath' => null,
+        'cacheId' => null,
       ],
     ],
     [
@@ -88,6 +92,14 @@ return [
       'name' => 'multi_pdf_download#list',
       'url' => '/list/{sourcePath}',
       'verb' => 'GET',
+    ],
+    [
+      'name' => 'multi_pdf_download#clean',
+      'url' => '/clean/{sourcePath}/{cacheId}',
+      'verb' => 'POST',
+      'defaults' => [
+        'cacheId' => null,
+      ],
     ],
     [
       'name' => 'multi_pdf_download#get_fonts',

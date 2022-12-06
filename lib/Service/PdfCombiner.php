@@ -403,7 +403,7 @@ class PdfCombiner
       'FILE_TOTAL_PAGES' => $dirTotalPages,
     ];
 
-    $this->logInfo('PATH ' . $path . ' ' . print_r($templateValues, true));
+    // $this->logInfo('PATH ' . $path . ' ' . print_r($templateValues, true));
 
     return $this->replaceBracedPlaceholders($this->getOverlayTemplate(), $templateValues, $this->pageLabelTemplateKeys);
   }
@@ -419,7 +419,7 @@ class PdfCombiner
    */
   private function makePageLabel(array $fileNode, int $startingPage, int $pageMax):string
   {
-    $this->logInfo('NODE ' . print_r($fileNode, true));
+    // $this->logInfo('NODE ' . print_r($fileNode, true));
     $path = $fileNode[self::PATH_KEY] . Constants::PATH_SEPARATOR . $fileNode[self::NAME_KEY];
 
     $pdf = $this->initializePdfGenerator();

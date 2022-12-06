@@ -292,7 +292,7 @@ __EOF__;
 
       foreach (array_keys($this->archiveService->getFiles()) as $archiveFile) {
         $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
-        $this->logInfo('ARCHIVE FILE ' . $archiveFile . ' PATH ' . $path);
+        // $this->logInfo('ARCHIVE FILE ' . $archiveFile . ' PATH ' . $path);
         try {
           $fileData = $this->archiveService->getFileContent($archiveFile);
           $mimeType = $this->detectMimeType($path, $fileData);
@@ -449,7 +449,7 @@ __EOF__;
 
     $this->logInfo('DESTINATION DIR ' . $destinationDirName);
 
-    $pdfData = $this->generateDownloadData($sourcePath, $pageLabels, $useTemplate);
+    $pdfData = $this->generateDownloadData($sourcePath, $pageLabels);
 
     $this->logInfo('PDF DATA READY');
 
@@ -459,6 +459,26 @@ __EOF__;
     }
 
     return $destinationFolder->newFile($destinationBaseName, $pdfData);
+  }
+
+  /**
+   * @param string $sourcePath
+   *
+   * @param int $cacheFileId
+   *
+   * @return null|File
+   */
+  public function getCacheFile(string $sourcePath, int $cacheFileId):?File
+  {
+    $sourceNode = $this->getUserFolder()->get($sourcePath);
+    $sourceNodeId = $sourceNode->getId();
+    try {
+      /** @var File $cacheFile */
+      list($cacheFile,) = $this->getUserAppFolder()->get($sourceNodeId)->getById($cacheFileId);
+    } catch (FileNotFoundException $e) {
+      return null;
+    }
+    return $cacheFile;
   }
 
   /** @return int */
@@ -472,15 +492,21 @@ __EOF__;
    *
    * @param string $destinationPath
    *
+   * @param null|bool $useTemplate
+   *
    * @return string
    */
   public function getPdfFilePath(string $sourcePath, ?string $destinationPath, ?bool $useTemplate = null):string
   {
+    if ($destinationPath === null) {
+      $destinationDirectory = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR
+        . ($this->cloudFolderPath ?? dirname($sourcePath)) . Constants::PATH_SEPARATOR;
+    } else {
+      $destinationDirectory = dirname($destinationPath);
+    }
     if ($destinationPath == null || $useTemplate === true) {
       // default cloud destination
-      $destinationPath = ($this->cloudFolderPath ?? dirname($sourcePath))
-        . Constants::PATH_SEPARATOR
-        . $this->getPdfFileName($sourcePath);
+      $destinationPath = $destinationDirectory . Constants::PATH_SEPARATOR . $this->getPdfFileName($sourcePath);
     }
     return $destinationPath;
   }
