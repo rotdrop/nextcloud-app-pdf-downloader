@@ -130,6 +130,12 @@ class FilesActionListener implements IEventListener
       SettingsController::PERSONAL_PAGE_LABELS,
       SettingsController::PERSONAL_PAGE_LABELS_DEFAULT,
     );
+    $useBackgroundJobsDefault = $cloudConfig->getUserValue(
+      $userId,
+      $appName,
+      SettingsController::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT,
+      SettingsController::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT,
+    );
 
     /** @var MimeTypeService $mimeTypeService */
     $mimeTypeService = $this->appContainer->get(MimeTypeService::class);
@@ -145,6 +151,7 @@ class FilesActionListener implements IEventListener
       SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE => $pdfFileNameTemplate,
       SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH => $pdfCloudFolderPath,
       SettingsController::PERSONAL_PAGE_LABELS => $createPageLabels,
+      SettingsController::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => $useBackgroundJobsDefault,
       'archiveMimeTypes' => $archiveMimeTypes,
     ]);
 

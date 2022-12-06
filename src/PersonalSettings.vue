@@ -167,7 +167,7 @@
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Default Download Options')">
       <SettingsInputText :value="pdfFileNameTemplate"
-                         :label="t(appName, 'filename template')"
+                         :label="t(appName, 'Filename Template:')"
                          @update="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
       >
         <template #hint>
@@ -189,11 +189,24 @@
           </div>
         </template>
       </SettingsInputText>
+      <div class="horizontal-rule" />
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
-                        :hint="t(appName, 'Choose a default PDF-file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF.')"
+                        :hint="t(appName, 'Choose a default PDF-file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF:')"
                         :placeholder="t(appName, 'base-name')"
                         @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
       />
+      <div class="horizontal-rule" />
+      <div :class="['flex-container', 'flex-center']">
+        <input id="use-background-jobs-default"
+               v-model="useBackgroundJobsDefault"
+               type="checkbox"
+               :disabled="loading > 0"
+               @change="saveSetting('useBackgroundJobsDefault')"
+        >
+        <label for="use-background-jobs-default">
+          {{ t(appName, 'Generate PDFs in the background by default.') }}
+        </label>
+      </div>
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
@@ -306,6 +319,8 @@ export default {
       },
       pdfFileNameTemplate: initialState.defaultPdfFileNameTemplate,
       pdfFileNameTemplateExample: null,
+      //
+      useBackgroundJobsDefault: false,
       //
       exampleFilePath: t(appName, 'invoices/2022/october/invoice.fodt'),
     }

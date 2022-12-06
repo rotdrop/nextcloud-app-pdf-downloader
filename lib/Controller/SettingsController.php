@@ -89,6 +89,9 @@ class SettingsController extends Controller
   public const PERSONAL_PDF_CLOUD_FOLDER_PATH = 'pdfCloudFolderPath';
   public const PERSONAL_PDF_FILE_NAME_TEMPLATE = 'pdfFileNameTemplate';
 
+  public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT = 'useBackgroundJobsDefault';
+  public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT = false;
+
   /**
    * @var array<string, array>
    *
@@ -165,6 +168,10 @@ class SettingsController extends Controller
     self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE => [
       'rw' => true,
       'default' => null
+    ],
+    self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => [
+      'rw' => true,
+      'default' => self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT,
     ],
   ];
 
@@ -393,6 +400,7 @@ class SettingsController extends Controller
       $setting,
       self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
+      case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
@@ -547,6 +555,7 @@ class SettingsController extends Controller
             $humanValue = '';
           }
           break;
+        case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
         case self::EXTRACT_ARCHIVE_FILES_ADMIN:
         case self::EXTRACT_ARCHIVE_FILES:
         case self::PERSONAL_PAGE_LABELS:
