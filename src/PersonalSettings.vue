@@ -207,6 +207,12 @@
           {{ t(appName, 'Generate PDFs in the background by default.') }}
         </label>
       </div>
+      <div class="horizontal-rule" />
+      <SettingsInputText v-model="humanDownloadsPurgeTimeout"
+                         :label="t(appName, 'Purge Timeout')"
+                         :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
+                         @update="saveTextInput(...arguments, 'downloadsPurgeTimeout')"
+      />
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
@@ -321,6 +327,8 @@ export default {
       pdfFileNameTemplateExample: null,
       //
       useBackgroundJobsDefault: false,
+      humanDownloadsPurgeTimeout: '1 week',
+      downloadsPurgeTimeout: 24 * 3600 * 7,
       //
       exampleFilePath: t(appName, 'invoices/2022/october/invoice.fodt'),
     }

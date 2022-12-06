@@ -136,6 +136,12 @@ class FilesActionListener implements IEventListener
       SettingsController::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT,
       SettingsController::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT,
     );
+    $downloadsPurgeTimeout = $cloudConfig->getUserValue(
+      $userId,
+      $appName,
+      SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT,
+      SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT,
+    );
 
     /** @var MimeTypeService $mimeTypeService */
     $mimeTypeService = $this->appContainer->get(MimeTypeService::class);
@@ -152,6 +158,7 @@ class FilesActionListener implements IEventListener
       SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH => $pdfCloudFolderPath,
       SettingsController::PERSONAL_PAGE_LABELS => $createPageLabels,
       SettingsController::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => $useBackgroundJobsDefault,
+      SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT => $downloadsPurgeTimeout,
       'archiveMimeTypes' => $archiveMimeTypes,
     ]);
 

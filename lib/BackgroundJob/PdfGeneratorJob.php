@@ -26,6 +26,7 @@ use InvalidArgumentException;
 use Throwable;
 
 use OCP\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\IJobList;
 use Psr\Log\LoggerInterface as ILogger;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ITempManager;
@@ -211,6 +212,11 @@ class PdfGeneratorJob extends QueuedJob
 
       \OC_Util::tearDownFS();
 
+      /** @var IJobList $jobList */
+      $jobList = $this->appContainer->get(IJobList::class);
+      $jobList->add(DownloadsCleanupJob::class, [
+        DownloadsCleanupJob::USER_ID_KEY => $this->getUserId(),
+      ]);
     } catch (Throwable $t) {
       $this->logger->error('Failed to create composite PDF.', [ 'exception' => $t ]);
       $this->notificationService->sendNotificationOnFailure($this);

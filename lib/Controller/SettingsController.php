@@ -23,6 +23,8 @@
 namespace OCA\PdfDownloader\Controller;
 
 use InvalidArgumentException;
+use Carbon\CarbonInterval;
+use Carbon;
 
 use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Controller;
@@ -91,6 +93,9 @@ class SettingsController extends Controller
 
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT = 'useBackgroundJobsDefault';
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT = false;
+
+  public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT = 'downloadsPurgeTimeout';
+  public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT = 24 * 3600 * 7; // 1 week
 
   /**
    * @var array<string, array>
@@ -172,6 +177,10 @@ class SettingsController extends Controller
     self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => [
       'rw' => true,
       'default' => self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT,
+    ],
+    self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT => [
+      'rw' => true,
+      'default' => self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT,
     ],
   ];
 
@@ -481,6 +490,26 @@ class SettingsController extends Controller
           return self::grumble($t->getMessage());
         }
         break;
+      case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
+        if (empty($value)) {
+          $newValue == null;
+          break;
+        }
+        $newValue = filter_var($value, FILTER_VALIDATE_INT, [ 'min_range' => 0 ]);
+        if ($newValue === false) {
+          CarbonInterval::setLocale($this->l->getLanguageCode());
+          try {
+            $unlocalized = (new CarbonInterval)->translateTimeStringTo($value, 'en_US');
+            $newValue = CarbonInterval::fromString($unlocalized);
+            $newValue = $newValue->total('seconds');
+          } catch (\Carbon\Exceptions\InvalidIntervalException $e) {
+            return self::grumble($e->getMessage());
+          }
+        }
+        if (empty($newValue)) {
+          $newValue = null;
+        }
+        break;
       default:
         return self::grumble($this->l->t('Unknown personal setting: "%s".', [ $setting ]));
     }
@@ -494,6 +523,15 @@ class SettingsController extends Controller
     switch ($setting) {
       case self::ARCHIVE_SIZE_LIMIT:
         $humanValue = $newValue === null ? '' : $this->formatStorageValue($newValue);
+        break;
+      case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
+        if ($newValue === null) {
+          $humanValue = '';
+          break;
+        }
+        $interval = CarbonInterval::seconds($newValue);
+        CarbonInterval::setLocale($this->l->getLanguageCode());
+        $humanValue = $interval->cascade()->forHumans();
         break;
       default:
         $humanValue = $value;
@@ -551,6 +589,16 @@ class SettingsController extends Controller
           if ($value !== null) {
             $value = (int)$value;
             $humanValue = $this->formatStorageValue($value);
+          } else {
+            $humanValue = '';
+          }
+          break;
+        case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
+          if ($value !== null) {
+            $value = (int)$value;
+            $interval = CarbonInterval::seconds($value);
+            CarbonInterval::setLocale($this->l->getLanguageCode());
+            $humanValue = $interval->cascade()->forHumans();
           } else {
             $humanValue = '';
           }
