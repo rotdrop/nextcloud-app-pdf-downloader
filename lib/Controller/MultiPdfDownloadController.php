@@ -40,11 +40,15 @@ use OCP\BackgroundJob\IJobList;
 
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Files\Node;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException as FileNotFoundException;
 use OCP\Files\IRootFolder;
+
+use OCA\RotDrop\Toolkit\Exceptions\AuthorizationException;
+use OCA\RotDrop\Toolkit\Service\UserScopeService;
 
 use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Service\PdfCombiner;
@@ -104,6 +108,9 @@ class MultiPdfDownloadController extends Controller
   /** @var NotificationService */
   private $notificationService;
 
+  /** @var UserScopeService */
+  private $userScopeService;
+
   /** @var PdfCombiner */
   private $pdfCombiner;
 
@@ -130,6 +137,7 @@ class MultiPdfDownloadController extends Controller
     IRootFolder $rootFolder,
     IJobList $jobList,
     NotificationService $notificationService,
+    UserScopeService $userScopeService,
     Pdfcombiner $pdfCombiner,
     FontService $fontService,
     IDateTimeZone $dateTimeZone,
@@ -142,6 +150,7 @@ class MultiPdfDownloadController extends Controller
     $this->rootFolder = $rootFolder;
     $this->jobList = $jobList;
     $this->notificationService = $notificationService;
+    $this->userScopeService = $userScopeService;
     $this->pdfCombiner = $pdfCombiner;
     $this->fontService = $fontService;
     $this->dateTimeZone = $dateTimeZone;
@@ -347,6 +356,23 @@ class MultiPdfDownloadController extends Controller
       $destinationPath = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR . $destinationPath;
     }
 
+    $needsAuthorization = false;
+    try {
+      $this->folderWalk($sourceNode, function(Node $node, int $depth) {
+        if ($node->getType() == FileInfo::TYPE_FOLDER) {
+          if ($node->getMountPoint()->getOption('authenticated', false)) {
+            throw new AuthorizationException;
+          }
+        }
+      });
+    } catch (AuthorizationException $e) {
+      $needsAuthorization = true;
+    }
+
+    if ($needsAuthorization) {
+      list('passphrase' => $tokenSecret) = $this->userScopeService->getAuthToken();
+    }
+
     $this->jobList->add(PdfGeneratorJob::class, [
       PdfGeneratorJob::TARGET_KEY => $jobType,
       PdfGeneratorJob::USER_ID_KEY => $this->userId,
@@ -355,6 +381,8 @@ class MultiPdfDownloadController extends Controller
       PdfGeneratorJob::DESTINATION_PATH_KEY => $destinationPath,
       PdfGeneratorJob::PAGE_LABELS_KEY =>  $pageLabels,
       PdfGeneratorJob::USE_TEMPLATE_KEY => $useTemplate,
+      PdfGeneratorJob::NEEDS_AUTHENTICATION_KEY => $needsAuthorization,
+      PdfGeneratorJob::AUTH_TOKEN_KEY => $tokenSecret ?? null
     ]);
 
     $this->notificationService->sendNotificationOnPending($this->userId, $sourceNode, $destinationPath, $jobType);

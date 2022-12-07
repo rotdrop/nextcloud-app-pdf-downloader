@@ -32,7 +32,9 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ITempManager;
 use OCP\AppFramework\IAppContainer;
 use OCP\IUserSession;
-use OCP\IUserManager;
+
+use OCA\RotDrop\Toolkit\Service\UserScopeService;
+
 use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Service\NotificationService;
 
@@ -54,15 +56,14 @@ class PdfGeneratorJob extends QueuedJob
   public const DESTINATION_PATH_KEY = 'destinationPath';
   public const PAGE_LABELS_KEY = 'pageLabels';
   public const USE_TEMPLATE_KEY = 'useTemplate';
+  public const NEEDS_AUTHENTICATION_KEY = 'needsAuthentication';
+  public const AUTH_TOKEN_KEY = 'authToken';
 
   /** @var IAppContainer */
   private $appContainer;
 
   /** @var IUserSession */
   private $userSession;
-
-  /** @var IUserManager */
-  private $userManager;
 
   /** @var ITempManager */
   private $tempManager;
@@ -75,7 +76,6 @@ class PdfGeneratorJob extends QueuedJob
     ITimeFactory $timeFactory,
     ILogger $logger,
     IUserSession $userSession,
-    IUserManager $userManager,
     IAppContainer $appContainer,
     ITempManager $tempManager,
     NotificationService $notificationService,
@@ -85,10 +85,37 @@ class PdfGeneratorJob extends QueuedJob
     $this->tempManager = $tempManager;
     $this->appContainer = $appContainer;
     $this->userSession = $userSession;
-    $this->userManager = $userManager;
     $this->notificationService = $notificationService;
   }
   // phpcs:enable
+
+  /**
+   * @return null|bool
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getNeedsAuthentication():?bool
+  {
+    $needsAuthentication = $this->argument[self::NEEDS_AUTHENTICATION_KEY] ?? null;
+    if ($needsAuthentication === null) {
+      throw new InvalidArgumentException('Needs authentication argument is empty.');
+    }
+    return $needsAuthentication;
+  }
+
+  /**
+   * @return null|string
+   *
+   * @throws InvalidArgumentException
+   */
+  public function getAuthToken():?string
+  {
+    $authToken = $this->argument[self::AUTH_TOKEN_KEY] ?? null;
+    if ($authToken === null && $this->getNeedsAuthentication()) {
+      throw new InvalidArgumentException('Auth token argument is empty.');
+    }
+    return $authToken;
+  }
 
   /**
    * @return null|bool
@@ -192,11 +219,20 @@ class PdfGeneratorJob extends QueuedJob
   protected function run($argument)
   {
     try {
-      $user = $this->userManager->get($this->getUserId());
-      if (empty($user)) {
-        throw new InvalidArgumentException('No user found for user-id ' . $this->getUserId());
+      /** @var UserScopeService $userScopeService */
+      $userScopeService = $this->appContainer->get(UserScopeService::class);
+
+      $loginUid = null;
+      $loginPassword = null;
+      if ($this->getNeedsAuthentication()) {
+        $passphrase = $this->getAuthToken();
+        list(
+          'loginUID' => $loginUid,
+          'loginPassword' => $loginPassword,
+        ) = $userScopeService->getLoginCredentialsFromToken($passphrase);
       }
-      $this->userSession->setUser($user);
+
+      $userScopeService->setUserScope($this->getUserId(), $loginUid, $loginPassword);
 
       // /** @var FileSystemWalker $fileSystemWalker */
       $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
