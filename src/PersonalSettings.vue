@@ -39,7 +39,7 @@
       <!-- avoid v-model here as the update of pageLabelTemplate causes instant font-sample generation -->
       <SettingsInputText v-show="pageLabels"
                          :value="pageLabelTemplate"
-                         :label="t(appName, 'Template for the page-labels')"
+                         :label="t(appName, 'Template for the page labels')"
                          @update="(value) => { pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
       >
         <template #hint>
@@ -73,7 +73,7 @@
       <div v-show="pageLabels" class="horizontal-rule" />
       <div v-show="pageLabels" class="page-label-colors flex-container flex-center">
         <div class="label">
-          {{ t(appName, 'Page-label colors') }}:
+          {{ t(appName, 'Page label colors') }}:
         </div>
         <ColorPicker ref="pageLabelTextColorPicker"
                      v-model="pageLabelTextColor"
@@ -98,8 +98,8 @@
                          min="0.01"
                          max="1.00"
                          step="0.01"
-                         :label="t(appName, 'Page-label width fraction')"
-                         :hint="t(appName, 'Page-label width as decimal fraction of the page-width. Leave empty to use a fixed font-size.')"
+                         :label="t(appName, 'Page label width fraction')"
+                         :hint="t(appName, 'Page label width as decimal fraction of the page-width. Leave empty to use a fixed font-size.')"
                          :disabled="loading > 0 || !pageLabels"
                          @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
       />
@@ -560,7 +560,7 @@ export default {
             message = responseData.messages.join(' ');
           }
         }
-        showError(t(appName, 'Unable to obtain page-label template example: {message}', {
+        showError(t(appName, 'Unable to obtain page label template example: {message}', {
           message,
         }))
         // can't help, just return the unsubstituted template
