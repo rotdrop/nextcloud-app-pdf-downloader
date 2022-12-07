@@ -4,7 +4,7 @@
   <id>pdf_downloader</id>
   <name>PDF Downloader</name>
   <summary>Recursive PDF Downloader</summary>
-  <description><![CDATA[Recusively convert entire directory trees to PDF and provide the resulting document as download]]></description>
+  <description><![CDATA[Recursively convert entire directory trees to PDF and provide the resulting document as download]]></description>
   <version>1.0.11</version>
   <licence>agpl</licence>
   <author mail="himself@claus-justus-heine.de" >Claus-Justus Heine</author>
