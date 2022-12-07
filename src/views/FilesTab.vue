@@ -124,15 +124,15 @@
           </Actions>
         </div>
         <ul v-else>
-          <li v-for="{id, name} in downloads" :key="id" class="flex flex-center">
+          <li v-for="{id, name} in downloads" :key="id" class="flex flex-center flex-wrap">
             <a :href="downloadUrl(id)"
-               class="download external"
+               class="download external flex-grow"
                download
                @click="handleCacheFileDownload(id)"
             >
               {{ name }}
             </a>
-            <Actions>
+            <Actions class="flex-no-grow flex-no-shrink">
               <ActionButton @click="handleCacheFileSave(id)">
                 <template #icon>
                   <CloudUpload :size="16"
@@ -650,8 +650,17 @@ export default {
     &.justify-center {
       justify-content: center;
     }
+    &.flex-wrap {
+      flex-wrap:wrap;
+    }
     .flex-grow {
       flex-grow:1;
+    }
+    .flex-no-grow {
+      flex-grow:0;
+    }
+    .flex-no-shrink {
+      flex-shrink:0;
     }
   }
   a.icon {
