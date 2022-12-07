@@ -356,20 +356,22 @@ class MultiPdfDownloadController extends Controller
       $destinationPath = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR . $destinationPath;
     }
 
-    $needsAuthorization = false;
-    try {
-      $this->folderWalk($sourceNode, function(Node $node, int $depth) {
-        if ($node->getType() == FileInfo::TYPE_FOLDER) {
-          if ($node->getMountPoint()->getOption('authenticated', false)) {
-            throw new AuthorizationException;
+    $needsAuthentication = $sourceNode->getMountPoint()->getOption('authenticated', false);
+    if (!$needsAuthentication && $sourceNode->getType() == FileInfo::TYPE_FOLDER) {
+      try {
+        $this->folderWalk($sourceNode, function(Node $node, int $depth) {
+          if ($node->getType() == FileInfo::TYPE_FOLDER) {
+            if ($node->getMountPoint()->getOption('authenticated', false)) {
+              throw new AuthenticationException;
+            }
           }
-        }
-      });
-    } catch (AuthorizationException $e) {
-      $needsAuthorization = true;
+        });
+      } catch (AuthenticationException $e) {
+        $needsAuthentication = true;
+      }
     }
 
-    if ($needsAuthorization) {
+    if ($needsAuthentication) {
       list('passphrase' => $tokenSecret) = $this->userScopeService->getAuthToken();
     }
 
@@ -381,7 +383,7 @@ class MultiPdfDownloadController extends Controller
       PdfGeneratorJob::DESTINATION_PATH_KEY => $destinationPath,
       PdfGeneratorJob::PAGE_LABELS_KEY =>  $pageLabels,
       PdfGeneratorJob::USE_TEMPLATE_KEY => $useTemplate,
-      PdfGeneratorJob::NEEDS_AUTHENTICATION_KEY => $needsAuthorization,
+      PdfGeneratorJob::NEEDS_AUTHENTICATION_KEY => $needsAuthentication,
       PdfGeneratorJob::AUTH_TOKEN_KEY => $tokenSecret ?? null
     ]);
 
