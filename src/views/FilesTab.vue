@@ -104,7 +104,7 @@
         </div>
         <Actions>
           <ActionButton v-model="showBackgroundDownloads"
-                        :icon="'icon-triangle-' + (showBackgroundDownloads ? 's' : 'n')"
+                        :icon="'icon-triangle-' + (showBackgroundDownloads ? 'n' : 's')"
                         @click="showBackgroundDownloads = !showBackgroundDownloads"
           />
         </Actions>
