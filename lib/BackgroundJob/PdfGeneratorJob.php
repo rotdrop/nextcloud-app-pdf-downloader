@@ -140,9 +140,9 @@ class PdfGeneratorJob extends QueuedJob
   public function getPageLabels():?bool
   {
     $pageLabels = $this->argument[self::PAGE_LABELS_KEY] ?? null;
-    if ($pageLabels === null) {
-      throw new InvalidArgumentException('Page-labels argument is empty.');
-    }
+    // if ($pageLabels === null) {
+    //   throw new InvalidArgumentException('Page-labels argument is empty.');
+    // }
     return $pageLabels;
   }
 
