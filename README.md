@@ -12,6 +12,9 @@
     - [On-the-fly Extraction of Archive Files](#on-the-fly-extraction-of-archive-files)
         - [Security](#security)
         - [Implementation](#implementation)
+    - [User Preferences](#user-preferences)
+        - [Page Label and File-Name Templates](#page-label-and-file-name-templates)
+        - [Overlay Font Selection](#overlay-font-selection)
     - [Performance](#performance)
     - [Todo, some problems I am aware of](#todo-some-problems-i-am-aware-of)
 
@@ -19,24 +22,32 @@
 
 ## Intro
 This is an app for the Nextcloud cloud software. It adds a new menu
-entry to the actions menu in the files view which lets you download
-entire directory trees as a single PDF file.
+entry to the actions menu of each folder or archive-file in the files
+view which lets you download entire directory trees as a single PDF
+file. Additionally, it adds a tab to the details-view where version
+actions can be performed.
 
-That is:
+For the PDF generation the following steps are performed:
 
-- it walks through the given folder
-- converts all found files to PDF
-  - optionally transparently traverses archive files (zip etc.)
-  - handles some special cases
-  - tries to convert the remaining files with unoconv or an
+- walk through the given folder
+- convert all found files to PDF
+  - optionally transparently traverse archive files (zip etc.)
+  - handle some special cases
+  - try to convert the remaining files with unoconv or an
     admin-provided fallback-script
-  - generates a PDF placeholder error page for each failed conversion
-- it then combines all found or generated PDF files in one document using pdftk
+  - generate a PDF placeholder error page for each failed conversion
+- then combine all found or generated PDF files in one document using pdftk
 - add bookmarks to mark the start of each folder and each file
   - existing bookmarks are "shifted down" accordingly
   - the resulting bookmark structure resembles the folder structure
-- optionally places a "Folder PAGE/MAX_PAGES" label to top of each page
-- finally presents the generated PDF as download
+- optionally place a "Folder PAGE/MAX_PAGES" label to top of each page
+- finally present the generated PDF as download or save it to the
+  cloud file-system.
+
+The offers the choice between online and background PDF
+generation. "Background" means that a job is scheduled which then runs
+independent from the web-browser frontend. The user will be notified
+after the job has completed.
 
 ## Compatibility
 The app currently requires PHP >= 8.0. It should be usable with
@@ -82,16 +93,26 @@ extraction of archive files.
 - if enable users may decide by themselves whether to enable this
   feature or not
 
-### Overlay Font Selection
-
-- the fonts can be customized from the list of fonts shopped with `tcpdf`
-- font-sample generation for the preferences pages needs the external program `pdf2svn`
-
 ### Implementation
 This package relies on
 [`wapmorgan/unified-archive`](https://github.com/wapmorgan/UnifiedArchive)
 as archive handling backend. Please see there for a list of supported
 archive formats and how to support further archive formats.
+
+## User Preferences
+
+### Page Label and File-Name Templates
+
+The app allow to configure page labels and automatically generated
+download and destination file-names based on a user configured
+template. The details can be found in [Braced Text Templates](doc/Templates.md).
+
+### Overlay Font Selection
+
+- the fonts can be customized from the list of fonts shopped with `tcpdf`
+- the backend generates font-samples for the chosen fonts and also
+  provides a preview of the configured page labels with the chosen
+  font.
 
 ## Performance
 - unfortunately, the app is not the fastest horse one could think
@@ -99,13 +120,10 @@ archive formats and how to support further archive formats.
   somewhat slow. Conversion time increases linearly with the number of
   files to be converted, of course.
 - it might be necessary to tweak your web-server to allow for larger
-  execution times (several minutes).
+  execution times (several minutes) if you do not want to make use of
+  the background PDF generation
 
 ## Todo, some problems I am aware of
 - please feel free to submit issues!
-- perhaps execution time problems could be leveraged by implementing a
-  sort-of streaming context, or by accumulating the results in the
-  javascript font-end. The JS frontend would then receive the results
-  for each individual file conversion.
 - ZIP-bomb detection might need improvement
 - There is no test-suite. This is really an issue.
