@@ -29,6 +29,7 @@ use OCP\IL10N;
 use OCP\IConfig;
 use OCP\IUser;
 use Psr\Log\LoggerInterface as ILogger;
+use Psr\Log\LogLevel;
 use OCP\Files\IMimeTypeDetector;
 use OCP\IUserSession;
 use OCP\IDateTimeZone;
