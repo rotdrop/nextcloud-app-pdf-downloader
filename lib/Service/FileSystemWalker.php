@@ -375,7 +375,6 @@ __EOF__;
     $pageLabels = $this->cloudConfig->getUserValue(
       $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
     $this->pdfCombiner->addPageLabels($pageLabels);
-    $nodePath = urldecode($nodePath);
 
     /** @var FileSystemNode $node */
     $node = $this->getUserFolder()->get($nodePath);
