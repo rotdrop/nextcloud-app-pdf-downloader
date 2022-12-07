@@ -173,7 +173,13 @@ class Notifier implements INotifier
       case self::TYPE_FAILURE|self::TYPE_FILESYSTEM:
       case self::TYPE_FAILURE|self::TYPE_DOWNLOAD:
         $parameters = $notification->getSubjectParameters();
-        $notification->setRichSubject($l->t('Converting {source} to PDF has failed.'), [
+        $errorMessage = $parameters['errorMessage'] ?? null;
+        if ($errorMessage) {
+          $subjectTemplate = $l->t('Converting {source} to PDF has failed: {message}');
+        } else {
+          $subjectTemplate = $l->t('Converting {source} to PDF has failed.');
+        }
+        $notification->setRichSubject($subjectTemplate, [
           'source' => [
             'type' => 'file',
             'id' => $parameters['sourceId'],
@@ -182,6 +188,11 @@ class Notifier implements INotifier
             'link' => $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [
               'fileid' => $parameters['sourceId'],
             ]),
+          ],
+          'message' => [
+            'type' => 'highlight',
+            'id' => $notification->getObjectId(),
+            'name' => $l->t($errorMessage),
           ],
         ]);
         break;

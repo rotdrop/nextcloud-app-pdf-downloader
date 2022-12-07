@@ -152,10 +152,14 @@ class NotificationService
   /**
    * @param PdfGeneratorJob $job
    *
+   * @param null|string $errorMessage Optional error message.
+   *
    * @return void
    */
-  public function sendNotificationOnFailure(PdfGeneratorJob $job):void
-  {
+  public function sendNotificationOnFailure(
+    PdfGeneratorJob $job,
+    ?string $errorMessage = null,
+  ):void {
     $userId = $job->getUserId();
     $this->userId = $userId;
     $destinationPath = $job->getDestinationPath();
@@ -179,6 +183,7 @@ class NotificationService
       $sourcePath,
       $sourceId,
       $destinationPath,
+      $errorMessage,
     );
     $notification
       ->setDateTime(new DateTime())
@@ -200,6 +205,9 @@ class NotificationService
    *
    * @param string $destinationPath
    *
+   * @param null|string $errorMessage Optional error message when emitting
+   * failure notifications.
+   *
    * @return INotification
    */
   private function buildNotification(
@@ -209,6 +217,7 @@ class NotificationService
     string $sourcePath,
     int $sourceId,
     string $destinationPath,
+    ?string $errorMessage = null,
   ):INotification {
     $type |= ($target == PdfGeneratorJob::TARGET_DOWNLOAD ? Notifier::TYPE_DOWNLOAD : Notifier::TYPE_FILESYSTEM);
     $notification = $this->notificationManager->createNotification();
@@ -225,6 +234,7 @@ class NotificationService
         'destinationDirectory' => dirname($destinationPath),
         'destinationDirectoryName' => basename(dirname($destinationPath)),
         'destinationBaseName' => basename($destinationPath),
+        'errorMessage' => $errorMessage,
       ]);
     return $notification;
   }

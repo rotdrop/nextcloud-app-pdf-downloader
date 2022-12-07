@@ -25,6 +25,7 @@ namespace OCA\PdfDownloader\BackgroundJob;
 use InvalidArgumentException;
 use Throwable;
 
+use OCP\Files\NotFoundException as FileNotFoundException;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\BackgroundJob\IJobList;
 use Psr\Log\LoggerInterface as ILogger;
@@ -255,9 +256,26 @@ class PdfGeneratorJob extends QueuedJob
       ]);
     } catch (Throwable $t) {
       $this->logger->error('Failed to create composite PDF.', [ 'exception' => $t ]);
-      $this->notificationService->sendNotificationOnFailure($this);
+      if ($t instanceof FileNotFoundException) {
+        $message = $this->t('File or folder could not be found.');
+      } else {
+        $message = $t->getMessage();
+      }
+      $this->notificationService->sendNotificationOnFailure($this, $message);
     } finally {
       $this->tempManager->clean();
     }
+  }
+
+  /**
+   * Translation trigger (hopefully).
+   *
+   * @param string $msg
+   *
+   * @return string
+   */
+  private function t(string $msg):string
+  {
+    return $msg;
   }
 }
