@@ -45,7 +45,7 @@
         <template #hint>
           <div class="template-example-container flex-container flex-baseline">
             <span class="template-example-caption">
-              {{ t(appName, 'Example Filename') }}:
+              {{ t(appName, 'Given Filename Example') }}:
             </span>
             <span class="template-example-file-path">
               {{ exampleFilePath }}
@@ -167,13 +167,13 @@
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Default Download Options')">
       <SettingsInputText :value="pdfFileNameTemplate"
-                         :label="t(appName, 'Filename Template:')"
+                         :label="t(appName, 'PDF Filename Template:')"
                          @update="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
       >
         <template #hint>
           <div class="template-example-container flex-container flex-baseline">
             <span class="template-example-caption">
-              {{ t(appName, 'Example Folder') }}:
+              {{ t(appName, 'Given Folder Example') }}:
             </span>
             <span class="template-example-file-path">
               {{ exampleFilePathParent }}
@@ -181,7 +181,7 @@
           </div>
           <div class="template-example-container flex-container flex-baseline">
             <span class="template-example-caption">
-              {{ t(appName, 'Example PDF') }}:
+              {{ t(appName, 'Generated Filename') }}:
             </span>
             <span class="template-example-pdf-filename">
               {{ pdfFileNameTemplateExample }}
@@ -203,13 +203,28 @@
                :disabled="loading > 0"
                @change="saveSetting('useBackgroundJobsDefault')"
         >
-        <label for="use-background-jobs-default">
+        <label v-tooltip="tooltips.useBackgroundJobsDefault"
+               for="use-background-jobs-default"
+        >
           {{ t(appName, 'Generate PDFs in the background by default.') }}
+        </label>
+      </div>
+      <div :class="['flex-container', 'flex-center']">
+        <input id="authenticated-background-jobs"
+               v-model="authenticatedBackgroundJobs"
+               type="checkbox"
+               :disabled="loading > 0"
+               @change="saveSetting('authenticatedBackgroundJobs')"
+        >
+        <label v-tooltip="tooltips.authenticatedBackgroundJobs"
+               for="authenticated-background-jobs"
+        >
+          {{ t(appName, 'Use  authenticated background-jobs if necessary.') }}
         </label>
       </div>
       <div class="horizontal-rule" />
       <SettingsInputText v-model="humanDownloadsPurgeTimeout"
-                         :label="t(appName, 'Purge Timeout')"
+                         :label="t(appName, 'Purge Timeout:')"
                          :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
                          @update="saveTextInput(...arguments, 'downloadsPurgeTimeout')"
       />
@@ -327,10 +342,16 @@ export default {
       pdfFileNameTemplateExample: null,
       //
       useBackgroundJobsDefault: false,
+      authenticatedBackgroundJobs: false,
       humanDownloadsPurgeTimeout: '1 week',
       downloadsPurgeTimeout: 24 * 3600 * 7,
       //
       exampleFilePath: t(appName, 'invoices/2022/october/invoice.fodt'),
+      //
+      tooltips: {
+        useBackgroundJobsDefault: t(appName, 'If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file.'),
+        authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount-point in the directory which has been mounted with the "authenticated" mount option then your login-credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
+      },
     }
   },
   mixins: [
@@ -651,6 +672,13 @@ export default {
         background-position:left;
       }
     }
+  }
+  label.has-tooltip {
+    padding-right: 16px;
+    background-image: var(--icon-info-000);
+    background-size: 12px;
+    background-position: right center;
+    background-repeat: no-repeat;
   }
 }
 </style>

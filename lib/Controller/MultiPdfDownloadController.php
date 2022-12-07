@@ -126,6 +126,9 @@ class MultiPdfDownloadController extends Controller
   /** @var IDateTimeZone */
   private $dateTimeZone;
 
+  /** @var bool */
+  private $useAuthenticatedBackgroundJobs;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
@@ -175,6 +178,8 @@ class MultiPdfDownloadController extends Controller
       $this->pdfCombiner->setOverlayBackgroundColor(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR, null)
       );
+      $this->useAuthenticatedBackgroundJobs = $this->cloudConfig->getUserValue(
+        $this->userId, $this->appName, SettingsController::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS, SettingsController::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT);
     }
   }
   // phpcs:enable
@@ -356,23 +361,25 @@ class MultiPdfDownloadController extends Controller
       $destinationPath = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR . $destinationPath;
     }
 
-    $needsAuthentication = $sourceNode->getMountPoint()->getOption('authenticated', false);
-    if (!$needsAuthentication && $sourceNode->getType() == FileInfo::TYPE_FOLDER) {
-      try {
-        $this->folderWalk($sourceNode, function(Node $node, int $depth) {
-          if ($node->getType() == FileInfo::TYPE_FOLDER) {
-            if ($node->getMountPoint()->getOption('authenticated', false)) {
-              throw new AuthenticationException;
+    if ($this->useAuthenticatedBackgroundJobs) {
+      $needsAuthentication = $sourceNode->getMountPoint()->getOption('authenticated', false);
+      if (!$needsAuthentication && $sourceNode->getType() == FileInfo::TYPE_FOLDER) {
+        try {
+          $this->folderWalk($sourceNode, function(Node $node, int $depth) {
+            if ($node->getType() == FileInfo::TYPE_FOLDER) {
+              if ($node->getMountPoint()->getOption('authenticated', false)) {
+                throw new AuthenticationException;
+              }
             }
-          }
-        });
-      } catch (AuthenticationException $e) {
-        $needsAuthentication = true;
+          });
+        } catch (AuthenticationException $e) {
+          $needsAuthentication = true;
+        }
       }
-    }
 
-    if ($needsAuthentication) {
-      list('passphrase' => $tokenSecret) = $this->userScopeService->getAuthToken();
+      if ($needsAuthentication) {
+        list('passphrase' => $tokenSecret) = $this->userScopeService->getAuthToken();
+      }
     }
 
     $this->jobList->add(PdfGeneratorJob::class, [
@@ -383,7 +390,7 @@ class MultiPdfDownloadController extends Controller
       PdfGeneratorJob::DESTINATION_PATH_KEY => $destinationPath,
       PdfGeneratorJob::PAGE_LABELS_KEY =>  $pageLabels,
       PdfGeneratorJob::USE_TEMPLATE_KEY => $useTemplate,
-      PdfGeneratorJob::NEEDS_AUTHENTICATION_KEY => $needsAuthentication,
+      PdfGeneratorJob::NEEDS_AUTHENTICATION_KEY => $needsAuthentication ?? false,
       PdfGeneratorJob::AUTH_TOKEN_KEY => $tokenSecret ?? null
     ]);
 

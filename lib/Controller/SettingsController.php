@@ -94,6 +94,9 @@ class SettingsController extends Controller
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT = 'useBackgroundJobsDefault';
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT = false;
 
+  public const PERSONAL_AUTHENTICATED_BACKGROUND_JOBS = 'authenticatedBackgroundJobs';
+  public const PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT = false;
+
   public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT = 'downloadsPurgeTimeout';
   public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT = 24 * 3600 * 7; // 1 week
 
@@ -177,6 +180,10 @@ class SettingsController extends Controller
     self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => [
       'rw' => true,
       'default' => self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT,
+    ],
+    self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS => [
+      'rw' => true,
+      'default' => self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT,
     ],
     self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT => [
       'rw' => true,
@@ -409,6 +416,7 @@ class SettingsController extends Controller
       $setting,
       self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
+      case self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS:
       case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
@@ -603,6 +611,7 @@ class SettingsController extends Controller
             $humanValue = '';
           }
           break;
+        case self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS:
         case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
         case self::EXTRACT_ARCHIVE_FILES_ADMIN:
         case self::EXTRACT_ARCHIVE_FILES:
