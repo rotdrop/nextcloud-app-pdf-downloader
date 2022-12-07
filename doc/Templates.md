@@ -29,7 +29,7 @@ traits-class
 
 ### Page Labels
 
-The substitutions are provided by [PdfCombiner::makePageLabelFromTemplate()`](../lib/Service/PdfCombiner.php#L366).
+The substitutions are provided by [`PdfCombiner::makePageLabelFromTemplate()`](../lib/Service/PdfCombiner.php#L366).
 
 TO BE CONTINUED.
 
