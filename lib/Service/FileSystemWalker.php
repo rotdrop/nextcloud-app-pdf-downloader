@@ -448,11 +448,11 @@ __EOF__;
       }
     }
 
-    $this->logInfo('DESTINATION DIR ' . $destinationDirName);
+    // $this->logInfo('DESTINATION DIR ' . $destinationDirName);
 
     $pdfData = $this->generateDownloadData($sourcePath, $pageLabels);
 
-    $this->logInfo('PDF DATA READY');
+    // $this->logInfo('PDF DATA READY');
 
     $nonExistingTarget = $destinationFolder->getNonExistingName($destinationBaseName);
     if ($nonExistingTarget != $destinationBaseName) {
