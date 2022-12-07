@@ -372,8 +372,10 @@ __EOF__;
     string $nodePath,
     ?bool $pageLabels = null,
   ):string {
-    $pageLabels = $this->cloudConfig->getUserValue(
-      $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, true);
+    if ($pageLabels === null) {
+      $pageLabels = $this->cloudConfig->getUserValue(
+        $this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS, SettingsController::PERSONAL_PAGE_LABELS_DEFAULT);
+    }
     $this->pdfCombiner->addPageLabels($pageLabels);
 
     /** @var FileSystemNode $node */
@@ -393,10 +395,6 @@ __EOF__;
       }
       $pathInfo = pathinfo($nodePath);
       $nodePath = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . basename($pathInfo['filename'], '.tar');
-    }
-
-    if ($pageLabels !== null) {
-      $this->pdfCombiner->addPageLabels($pageLabels);
     }
 
     return $this->pdfCombiner->combine();
