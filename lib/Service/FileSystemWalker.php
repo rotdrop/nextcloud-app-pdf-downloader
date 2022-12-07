@@ -513,7 +513,7 @@ __EOF__;
   }
 
   /**
-   * Generate a download file-name from a given template and full path.
+   * Generate a download filename from a given template and full path.
    *
    * @param string $path Folder Path.
    * directory part.

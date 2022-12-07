@@ -341,7 +341,7 @@ class PdfCombiner
   }
 
   /**
-   * Generate the page label from its template, file-name and page numbers known.
+   * Generate the page label from its template, filename and page numbers known.
    *
    * The general syntax of a replacement is {[C[N]|]KEY} where
    * where anything in square brackets is optional.

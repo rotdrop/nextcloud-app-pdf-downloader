@@ -56,7 +56,7 @@
       <li v-show="showCloudDestination" class="directory-chooser files-tab-entry">
         <FilePrefixPicker v-model="cloudDestinationFileInfo"
                           :hint="t(appName, 'Choose a destination in the cloud:')"
-                          :placeholder="t(appName, 'base-name')"
+                          :placeholder="t(appName, 'basename')"
                           :readonly="downloadOptions.useTemplate ? 'basename' : false"
                           @update="handleSaveToCloud"
         />
@@ -225,7 +225,7 @@ export default {
       tooltips: {
         pageLabels: t(appName, 'Decorate each page with the original file name and the page number within that file. The default is configured in the personal preferences for the app.'),
         offline: t(appName, 'When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web-server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web-server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file-system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time.'),
-        useTemplate: t(appName, 'Auto-generate the download file-name from the given template. The default template can be configured in the personal settings for this app.'),
+        useTemplate: t(appName, 'Auto-generate the download filename from the given template. The default template can be configured in the personal settings for this app.'),
       },
       personalSettings: {},
     };
@@ -244,7 +244,7 @@ export default {
     /**
      * @return {string} The folder name to use for downloads. If
      * this.sourcePath refers to an archive file then this
-     * this.folderPath contains the source file-name without archive
+     * this.folderPath contains the source filename without archive
      * extensions (multi extensions like .tar.EXT are also stripped).
      */
     folderPath() {

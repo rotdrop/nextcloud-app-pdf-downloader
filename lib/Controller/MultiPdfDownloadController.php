@@ -191,8 +191,8 @@ class MultiPdfDownloadController extends Controller
    * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
-   * @param null|string $downloadFileName The file-name presented to the
-   * http-client. If null defaults to the pre-configured file-name template.
+   * @param null|string $downloadFileName The filename presented to the
+   * http-client. If null defaults to the pre-configured filename template.
    *
    * @param null|int $cacheId The file-id of a cached file which had been
    * prepared in the background.
@@ -244,7 +244,7 @@ class MultiPdfDownloadController extends Controller
    *
    * @param null|string $destinationPath The distination path in the cloud
    * where the resulting PDF data should be stored. If null then the file is
-   * stored with the configured file-name template under the configured
+   * stored with the configured filename template under the configured
    * directory.
    *
    * @param null|bool $pageLabels Whether to decorate the pages with a label.
@@ -317,7 +317,7 @@ class MultiPdfDownloadController extends Controller
    *
    * @param null|string $destinationPath The distination path in the cloud
    * where the resulting PDF data should be stored. If null then the file is
-   * stored with the configured file-name template under the configured
+   * stored with the configured filename template under the configured
    * directory, or a download with the default configured default name is
    * prepared.
    *

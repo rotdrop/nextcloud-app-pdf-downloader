@@ -25,13 +25,13 @@
   <SettingsSection :title="t(appName, 'Recursive PDF Downloader')">
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles }]">
-        <input id="extract-archive-files"
+        <input id="extract-archive files"
                v-model="extractArchiveFiles"
                type="checkbox"
                :disabled="loading"
                @change="saveSetting('extractArchiveFiles')"
         >
-        <label for="extract-archive-files">
+        <label for="extract-archive files">
           {{ t(appName, 'On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis.') }}
         </label>
       </div>

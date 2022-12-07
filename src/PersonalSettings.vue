@@ -29,7 +29,7 @@
                @change="saveSetting('pageLabels')"
         >
         <label for="page-labels">
-          {{ t(appName, 'Label output pages with file-name and page-number') }}
+          {{ t(appName, 'Label output pages with filename and page-number') }}
         </label>
       </div>
       <span class="hint">
@@ -192,7 +192,7 @@
       <div class="horizontal-rule" />
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
                         :hint="t(appName, 'Choose a default PDF-file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF:')"
-                        :placeholder="t(appName, 'base-name')"
+                        :placeholder="t(appName, 'basename')"
                         @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
       />
       <div class="horizontal-rule" />
@@ -231,16 +231,16 @@
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
-        <input id="extract-archive-files"
+        <input id="extract-archive files"
                v-model="extractArchiveFiles"
                type="checkbox"
                :disabled="loading > 0 || !extractArchiveFilesAdmin"
                @change="saveSetting('extractArchiveFiles')"
         >
-        <label v-if="extractArchiveFilesAdmin" for="extract-archive-files">
+        <label v-if="extractArchiveFilesAdmin" for="extract-archive files">
           {{ t(appName, 'On-the-fly extraction of archive files.') }}
         </label>
-        <label v-else for="extract-archive-files">
+        <label v-else for="extract-archive files">
           {{ t(appName, 'On-the-fly extraction of archive files is disabled by the administrator.') }}
         </label>
       </div>
@@ -350,7 +350,7 @@ export default {
       //
       tooltips: {
         useBackgroundJobsDefault: t(appName, 'If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file.'),
-        authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount-point in the directory which has been mounted with the "authenticated" mount option then your login-credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
+        authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the "authenticated" mount option then your login-credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
       },
     }
   },
