@@ -56,6 +56,19 @@
           </span>
         </template>
       </MultiSelect>
+      <div v-if="fontSizeChooser" class="font-size-container">
+        <input v-model="fontSize"
+               class="font-size"
+               type="number"
+               min="0"
+               max="128"
+               step="1"
+               dir="rtl"
+               :disabled="disabled || loading || !fontObject"
+               @change="emitFontSizeChange"
+        >
+        <span class="font-size-unit">pt</span>
+      </div>
       <div v-show="loading" class="loading" />
     </div>
     <div v-if="fontObject" class="font-sample flex-container flex-center">
@@ -82,6 +95,7 @@ export default {
   data() {
     return {
       fontObject: null,
+      fontSize: null,
       // loading: true,
     };
   },
@@ -114,6 +128,10 @@ export default {
       type: Array,
       default: [],
     },
+    fontSizeChooser: {
+      type: Boolean,
+      default: true,
+    },
     fontSampleText: {
       type: String,
       default: t(appName, 'The quick brown fox jumps over the lazy dog.'),
@@ -121,6 +139,10 @@ export default {
     fontSampleSize: {
       type: Number,
       default: 12,
+    },
+    fontSampleColor: {
+      type: String,
+      default: '#000000',
     },
     fontSampleFormat: {
       type: String,
@@ -147,36 +169,70 @@ export default {
   },
   watch: {
     fontObject: {
-      handler(newValue) {
-        this.$emit('input', newValue) // Vue 2
+      handler(newValue, oldValue) {
+        if (newValue && oldValue
+            && newValue.family === oldValue.family
+            && newValue.fontSize === oldValue.fontSize
+        ) {
+          return
+        }
+        if (newValue) {
+          this.$emit('input', { ...newValue, fontSize: this.fontSize, }) // Vue 2
+        } else {
+          this.$emit('input', newValue)
+        }
         // this.$emit('update:modelValue', newValue) // Vue 3
       },
       deep: true,
     },
     value: {
-      handler(newVal) {
-        console.info('VALUE CHANGED', newVal)
-        this.fontObject = newVal
+      handler(newValue, oldValue) {
+        if (newValue && oldValue
+            && newValue.family === oldValue.family
+            && newValue.fontSize === oldValue.fontSize) {
+          return
+        }
+        this.fontObject = newValue
+        if (this.fontObject && this.fontObject.fontSize !== this.fontSize) {
+          this.fontSize = this.fontObject.fontSize
+        }
       },
       deep: true,
     },
   },
   created() {
-    console.info('VALUE' , this.value)
     this.fontObject = this.value
+    if (this.value) {
+      this.fontSize = this.value.fontSize
+    }
   },
   methods: {
-    getFontSampleUri(fontObject) {
+    info() {
+      console.info(...arguments)
+    },
+    getFontSampleUri(fontObject, options) {
+      options = options || {}
+      const fontSampleText = options.text || this.fontSampleText
+      const fontSampleSize = options.fontSize || this.fontSampleSize
+      const fontSampleColor = options.textColor || this.fontSampleColor
+      const fontSampleFormat = options.format || this.fontSampleFormat
       return generateUrl(
-        'pdf/fonts/sample/{text}/{font}/{fontSize}', {
-          text: encodeURIComponent(this.fontSampleText),
+        'sample/font/{text}/{font}/{fontSize}', {
+          text: encodeURIComponent(fontSampleText),
           font: encodeURIComponent(fontObject.family),
-          fontSize: this.fontSampleSize,
-          format: this.fontSampleFormat,
+          fontSize: fontSampleSize,
+          textColor: fontSampleColor,
+          format: fontSampleFormat,
           output: 'blob',
           hash: fontObject.fontHash,
         },
       )
+    },
+    emitFontSizeChange() {
+      if (!this.fontObject) {
+        return // no font no font size
+      }
+      this.$emit('input', { ...this.fontObject, fontSize: this.fontSize, }) // Vue 2
     },
   },
 }
@@ -220,10 +276,19 @@ export default {
         }
       }
     }
-  }
+    .font-size-container {
+      input.font-size {
+        width: 3em;
+        direction:rtl;
+      }
+    }
+  } /* .multiselect-wrapper */
   .hint {
     color: var(--color-text-lighter);
     font-size: 80%;
+  }
+  .font-sample img {
+    min-height:24px;
   }
 }
 </style>
@@ -231,6 +296,9 @@ export default {
 .vue-tooltip.vue-tooltip-font-info-popup {
   &, .tooltip-inner {
     max-width:unset!important;
+    .font-sample img {
+      min-height:24px;
+    }
   }
 }
 </style>

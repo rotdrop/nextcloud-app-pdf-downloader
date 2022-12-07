@@ -33,6 +33,7 @@ use OCP\IConfig;
 use OCA\RotDrop\Toolkit\Service\MimeTypeService;
 
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
+use OCA\PdfDownloader\Notification\Notifier;
 
 include_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -78,5 +79,7 @@ class Application extends App implements IBootstrap
 
     // Register listeners
     ListenerRegistration::register($context);
+
+    $context->registerNotifierService(Notifier::class);
   }
 }

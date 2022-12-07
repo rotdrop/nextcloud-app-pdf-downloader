@@ -24,8 +24,12 @@ namespace OCA\PdfDownloader\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IL10N;
 
+use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\AssetService;
+use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 
 /**
  * Render the personal per-user settings for this app.
@@ -40,13 +44,28 @@ class Personal implements ISettings
   /** @var AssetService */
   private $assetService;
 
+  /** @var PdfCombiner */
+  private $pdfCombiner;
+
+  /** @var IInitialState */
+  private $initialState;
+
+  /** @var IL10N */
+  private $l;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
+    IL10N $l10n,
     AssetService $assetService,
+    PdfCombiner $pdfCombiner,
+    IInitialState $initialState,
   ) {
     $this->appName = $appName;
+    $this->l = $l10n;
     $this->assetService = $assetService;
+    $this->pdfCombiner = $pdfCombiner;
+    $this->initialState = $initialState;
   }
 
   /**
@@ -56,6 +75,11 @@ class Personal implements ISettings
    */
   public function getForm():TemplateResponse
   {
+    $this->initialState->provideInitialState('config', [
+      'defaultPageLabelTemplate' => $this->pdfCombiner->getOverlayTemplate(),
+      'defaultPdfFileNameTemplate' => MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+    ]);
+
     return new TemplateResponse(
       $this->appName,
       self::TEMPLATE, [

@@ -23,7 +23,7 @@ export default {
   methods: {
     fontInfoPopup(fontOption, sampleUri) {
       // console.info('FONT OPTION', fontOption, sampleUri);
-      const content = `<div class="font-family">${fontOption.fontName}</div><div class="font-name"><img src="${sampleUri}"></div>`;
+      const content = `<div class="font-family">${fontOption.fontName}</div><div class="font-sample"><img src="${sampleUri}"></div>`;
       return {
         content,
         preventOverflow: false,

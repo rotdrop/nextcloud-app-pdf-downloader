@@ -23,6 +23,8 @@
 namespace OCA\PdfDownloader\Controller;
 
 use InvalidArgumentException;
+use Carbon\CarbonInterval;
+use Carbon;
 
 use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Controller;
@@ -35,6 +37,7 @@ use OCP\IL10N;
 
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\AnyToPdf;
+use OCA\PdfDownloader\Service\FileSystemWalker;
 
 use OCA\PdfDownloader\Constants;
 
@@ -56,8 +59,23 @@ class SettingsController extends Controller
   public const ARCHIVE_SIZE_LIMIT = 'archiveSizeLimit';
 
   public const PERSONAL_PAGE_LABELS = 'pageLabels';
+  public const PERSONAL_PAGE_LABELS_DEFAULT = true;
   public const PERSONAL_PAGE_LABELS_FONT = 'pageLabelsFont';
+  public const PERSONAL_PAGE_LABELS_FONT_DEFAULT = PdfCombiner::OVERLAY_FONT;
+  public const PERSONAL_PAGE_LABELS_FONT_SIZE = 'pageLabelsFontSize';
+  public const PERSONAL_PAGE_LABELS_FONT_SIZE_DEFAULT = PdfCombiner::OVERLAY_FONT_SIZE;
+  public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION = 'pageLabelPageWidthFraction';
+  public const PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION_DEFAULT = PdfCombiner::OVERLAY_PAGE_WIDTH_FRACTION;
+  public const PERSONAL_PAGE_LABEL_TEMPLATE = 'pageLabelTemplate';
+  public const PERSONAL_PAGE_LABEL_TEXT_COLOR = 'pageLabelTextColor';
+  public const PERSONAL_PAGE_LABEL_BACKGROUND_COLOR = 'pageLabelBackgroundColor';
+  public const PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE = 'pageLabelTextColorPalette';
+  public const PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE = 'pageLabelBackgroundColorPalette';
+
   public const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
+  public const PERSONAL_GENERATED_PAGES_FONT_DEFAULT = FileSystemWalker::ERROR_PAGES_FONT;
+  public const PERSONAL_GENERATED_PAGES_FONT_SIZE = 'generatedPagesFontSize';
+  public const PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT = FileSystemWalker::ERROR_PAGES_FONT_SIZE;
 
   public const DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
 
@@ -70,13 +88,25 @@ class SettingsController extends Controller
   public const PERSONAL_GROUP_FILES_FIRST = PdfCombiner::GROUP_FILES_FIRST;
   public const PERSONAL_UNGROUPED = PdfCombiner::UNGROUPED;
 
+  public const PERSONAL_PDF_CLOUD_FOLDER_PATH = 'pdfCloudFolderPath';
+  public const PERSONAL_PDF_FILE_NAME_TEMPLATE = 'pdfFileNameTemplate';
+
+  public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT = 'useBackgroundJobsDefault';
+  public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT = false;
+
+  public const PERSONAL_AUTHENTICATED_BACKGROUND_JOBS = 'authenticatedBackgroundJobs';
+  public const PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT = false;
+
+  public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT = 'downloadsPurgeTimeout';
+  public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT = 24 * 3600 * 7; // 1 week
+
   /**
    * @var array<string, array>
    *
    * Admin settings with r/w flag and default value (booleans)
    */
   const ADMIN_SETTINGS = [
-    self::EXTRACT_ARCHIVE_FILES => [  'rw' => true, 'default' => false, ],
+    self::EXTRACT_ARCHIVE_FILES => [ 'rw' => true, 'default' => false, ],
     self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
     self::ADMIN_DISABLE_BUILTIN_CONVERTERS => [  'rw' => true, 'default' => false, ],
     self::ADMIN_FALLBACK_CONVERTER => [ 'rw' => true, ],
@@ -94,10 +124,71 @@ class SettingsController extends Controller
     self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, ],
     self::EXTRACT_ARCHIVE_FILES_ADMIN => [ 'rw' => false, 'default' => false, ],
     self::ARCHIVE_SIZE_LIMIT_ADMIN => [ 'rw' => false, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
-    self::PERSONAL_PAGE_LABELS => [ 'rw' => true, 'default' => true, ],
-    self::PERSONAL_PAGE_LABELS_FONT => [ 'rw' => true, ],
-    self::PERSONAL_GENERATED_PAGES_FONT => [ 'rw' => true, ],
+    self::PERSONAL_PAGE_LABELS => [
+      'rw' => true,
+      'default' => self::PERSONAL_PAGE_LABELS_DEFAULT,
+    ],
+    self::PERSONAL_PAGE_LABELS_FONT => [
+      'rw' => true,
+      'default' => self::PERSONAL_GENERATED_PAGES_FONT_DEFAULT,
+    ],
+    self::PERSONAL_PAGE_LABELS_FONT_SIZE => [
+      'rw' => true,
+      'default' => self::PERSONAL_PAGE_LABELS_FONT_SIZE_DEFAULT,
+    ],
+    self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION => [
+      'rw' => true,
+      'default' => self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION_DEFAULT,
+    ],
+    self::PERSONAL_PAGE_LABEL_TEMPLATE => [
+      'rw' => true,
+      'default' => null, // dynamic from PdfCombiner
+    ],
+    self::PERSONAL_GENERATED_PAGES_FONT => [
+      'rw' => true,
+      'default' => self::PERSONAL_GENERATED_PAGES_FONT_DEFAULT,
+    ],
+    self::PERSONAL_GENERATED_PAGES_FONT_SIZE => [
+      'rw' => true,
+      'default' => self::PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT,
+    ],
     self::PERSONAL_GROUPING => [ 'rw' => true, 'default' => self::PERSONAL_GROUP_FOLDERS_FIRST, ],
+    self::PERSONAL_PDF_CLOUD_FOLDER_PATH => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_PDF_FILE_NAME_TEMPLATE => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_PAGE_LABEL_TEXT_COLOR => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE => [
+      'rw' => true,
+      'default' => null
+    ],
+    self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE => [
+      'rw' => true,
+      'default' => null
+    ],
+    self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => [
+      'rw' => true,
+      'default' => self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT,
+    ],
+    self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS => [
+      'rw' => true,
+      'default' => self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT,
+    ],
+    self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT => [
+      'rw' => true,
+      'default' => self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT,
+    ],
   ];
 
   /** @var IAppContainer */
@@ -112,6 +203,9 @@ class SettingsController extends Controller
   /** @var string */
   private $userId;
 
+  /** @var PdfCombiner */
+  private $pdfCombiner;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
@@ -120,6 +214,7 @@ class SettingsController extends Controller
     LoggerInterface $logger,
     IL10N $l10n,
     IConfig $config,
+    PdfCombiner $pdfCombiner,
     IAppContainer $appContainer,
   ) {
     parent::__construct($appName, $request);
@@ -127,6 +222,7 @@ class SettingsController extends Controller
     $this->l = $l10n;
     $this->config = $config;
     $this->userId = $userId;
+    $this->pdfCombiner = $pdfCombiner;
     $this->appContainer = $appContainer;
   }
 
@@ -320,6 +416,8 @@ class SettingsController extends Controller
       $setting,
       self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
+      case self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS:
+      case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
@@ -335,6 +433,56 @@ class SettingsController extends Controller
           $newValue = (int)$newValue;
         }
         break;
+      case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
+        $newValue = $value;
+        if ($newValue === null || $newValue === '') {
+          // allow empty value in order to request a fixed font-size.
+          $newValue = '';
+        }
+        break;
+      case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
+        if (empty($value)) {
+          $value = MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l);
+        }
+        $newValue = $value;
+        break;
+      case self::PERSONAL_PAGE_LABEL_TEMPLATE:
+        if (empty($value)) {
+          $value = $this->pdfCombiner->getOverlayTemplate();
+        }
+        $newValue = $value;
+        break;
+      case self::PERSONAL_PAGE_LABEL_TEXT_COLOR:
+        if (empty($value)) {
+          $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_TEXT_COLOR);
+        }
+        $newValue = $value;
+        break;
+      case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR:
+        if (empty($value)) {
+          $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_BACKGROUND_COLOR);
+        }
+        $newValue = $value;
+        break;
+      case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
+      case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
+        $newValue = $value;
+        if (is_array($newValue)) {
+          $settingsValue = strtolower(json_encode($newValue));
+        } else {
+          $newValue = null;
+        }
+        if (!empty($oldValue) && is_string($oldValue)) {
+          try {
+            $oldValue = json_decode(strtolower($oldValue), true);
+          } catch (Throwable $t) {
+            $this->logException($t, 'Unable to decode old palette value "' . $oldValue . '".');
+          }
+        }
+        break;
+      case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
+      case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
+      case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
       case self::PERSONAL_GENERATED_PAGES_FONT:
       case self::PERSONAL_PAGE_LABELS_FONT:
       case self::PERSONAL_GROUPING:
@@ -350,6 +498,26 @@ class SettingsController extends Controller
           return self::grumble($t->getMessage());
         }
         break;
+      case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
+        if (empty($value)) {
+          $newValue == null;
+          break;
+        }
+        $newValue = filter_var($value, FILTER_VALIDATE_INT, [ 'min_range' => 0 ]);
+        if ($newValue === false) {
+          CarbonInterval::setLocale($this->l->getLanguageCode());
+          try {
+            $unlocalized = (new CarbonInterval)->translateTimeStringTo($value, 'en_US');
+            $newValue = CarbonInterval::fromString($unlocalized);
+            $newValue = $newValue->total('seconds');
+          } catch (\Carbon\Exceptions\InvalidIntervalException $e) {
+            return self::grumble($e->getMessage());
+          }
+        }
+        if (empty($newValue)) {
+          $newValue = null;
+        }
+        break;
       default:
         return self::grumble($this->l->t('Unknown personal setting: "%s".', [ $setting ]));
     }
@@ -357,12 +525,21 @@ class SettingsController extends Controller
       $this->config->deleteUserValue($this->userId, $this->appName, $setting);
       $newValue = self::PERSONAL_SETTINGS[$setting]['default'] ?? null;
     } else {
-      $this->config->setUserValue($this->userId, $this->appName, $setting, $newValue);
+      $this->config->setUserValue($this->userId, $this->appName, $setting, $settingsValue ?? $newValue);
     }
 
     switch ($setting) {
       case self::ARCHIVE_SIZE_LIMIT:
         $humanValue = $newValue === null ? '' : $this->formatStorageValue($newValue);
+        break;
+      case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
+        if ($newValue === null) {
+          $humanValue = '';
+          break;
+        }
+        $interval = CarbonInterval::seconds($newValue);
+        CarbonInterval::setLocale($this->l->getLanguageCode());
+        $humanValue = $interval->cascade()->forHumans();
         break;
       default:
         $humanValue = $value;
@@ -424,6 +601,18 @@ class SettingsController extends Controller
             $humanValue = '';
           }
           break;
+        case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
+          if ($value !== null) {
+            $value = (int)$value;
+            $interval = CarbonInterval::seconds($value);
+            CarbonInterval::setLocale($this->l->getLanguageCode());
+            $humanValue = $interval->cascade()->forHumans();
+          } else {
+            $humanValue = '';
+          }
+          break;
+        case self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS:
+        case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
         case self::EXTRACT_ARCHIVE_FILES_ADMIN:
         case self::EXTRACT_ARCHIVE_FILES:
         case self::PERSONAL_PAGE_LABELS:
@@ -436,6 +625,13 @@ class SettingsController extends Controller
           }
           $value= (int)$value;
           break;
+        case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
+          if (empty($value)) {
+            /** @var MultiPdfDownloadController $downloadController */
+            $downloadController = $this->appContainer->get(MultiPdfDownloadController::class);
+            $value = $downloadController->getErrorPagesFontSize();
+          }
+          break;
         case self::PERSONAL_GENERATED_PAGES_FONT:
           if (empty($value)) {
             /** @var MultiPdfDownloadController $downloadController */
@@ -443,14 +639,51 @@ class SettingsController extends Controller
             $value = $downloadController->getErrorPagesFont();
           }
           break;
-        case self::PERSONAL_PAGE_LABELS_FONT:
-          if (empty($value)) {
-            /** @var PdfCombiner $pdfCombiner */
-            $pdfCombiner = $this->appContainer->get(PdfCombiner::class);
-            $value = $pdfCombiner->getOverlayFont();
+        case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
+          if ($value === null) {
+            $value = $this->pdfCombiner->getOverlayPageWidthFraction();
           }
           break;
+        case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
+          if (empty($value)) {
+            $value = $this->pdfCombiner->getOverlayFontSize();
+          }
+          break;
+        case self::PERSONAL_PAGE_LABELS_FONT:
+          if (empty($value)) {
+            $value = $this->pdfCombiner->getOverlayFont();
+          }
+          break;
+        case self::PERSONAL_PAGE_LABEL_TEMPLATE:
+          if (empty($value)) {
+            $value = $this->pdfCombiner->getOverlayTemplate();
+          }
+          break;
+        case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
+          if (empty($value)) {
+            $value = MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l);
+          }
+          break;
+        case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
+          break;
         case self::PERSONAL_GROUPING:
+          break;
+        case self::PERSONAL_PAGE_LABEL_TEXT_COLOR:
+          if (empty($value)) {
+            $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_TEXT_COLOR);
+          }
+          break;
+        case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR:
+          if (empty($value)) {
+            $value = $this->rgbaArrayToString(PdfCombiner::OVERLAY_BACKGROUND_COLOR);
+          }
+          break;
+        case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
+        case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
+          if (!empty($value)) {
+            $value = json_decode(strtolower($value), true);
+          }
+          $humanValue = $value;
           break;
         default:
           return self::grumble($this->l->t('Unknown personal setting: "%1$s"', $oneSetting));

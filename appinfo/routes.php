@@ -20,6 +20,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
+
 return [
   'routes' => [
     [
@@ -62,21 +64,65 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#get',
-      'url' => '/download/pdf/{nodePath}',
+      'url' => '/download/{sourcePath}/{cacheId}',
+      'verb' => 'GET',
+      'defaults' => [
+        'cacheId' => null,
+      ],
+    ],
+    [
+      'name' => 'multi_pdf_download#save',
+      'url' => '/save/{sourcePath}/{destinationPath}/{cacheId}',
+      'verb' => 'POST',
+      'defaults' => [
+        'destinationPath' => null,
+        'cacheId' => null,
+      ],
+    ],
+    [
+      'name' => 'multi_pdf_download#schedule',
+      'url' => '/schedule/{sourcePath}/{destinationPath}/{jobType}',
+      'verb' => 'POST',
+      'defaults' => [
+        'destinationPath' => null,
+        'jobType' => PdfGeneratorJob::TARGET_DOWNLOAD,
+      ],
+    ],
+    [
+      'name' => 'multi_pdf_download#list',
+      'url' => '/list/{sourcePath}',
       'verb' => 'GET',
     ],
     [
+      'name' => 'multi_pdf_download#clean',
+      'url' => '/clean/{sourcePath}/{cacheId}',
+      'verb' => 'POST',
+      'defaults' => [
+        'cacheId' => null,
+      ],
+    ],
+    [
       'name' => 'multi_pdf_download#get_fonts',
-      'url' => '/pdf/fonts',
+      'url' => '/fonts',
       'verb' => 'GET',
     ],
     [
       'name' => 'multi_pdf_download#get_font_sample',
-      'url' => '/pdf/fonts/sample/{text}/{font}/{fontSize}',
+      'url' => '/sample/font/{text}/{font}/{fontSize}',
       'verb' => 'GET',
       'defaults' => [
         'fontSize' => '12',
       ],
+    ],
+    [
+      'name' => 'multi_pdf_download#get_page_label_sample',
+      'url' => '/sample/page-label/{template}/{path}/{pageNumber}/{totalPages}',
+      'verb' => 'GET',
+    ],
+    [
+      'name' => 'multi_pdf_download#get_pdf_file_name_sample',
+      'url' => '/sample/pdf-filename/{template}/{path}',
+      'verb' => 'GET',
     ],
     /**
      * Attempt a catch all ...

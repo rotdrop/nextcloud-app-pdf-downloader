@@ -1,10 +1,10 @@
 <?php
 /**
- * A collection of reusable traits classes for Nextcloud apps.
+ * Some PHP utility functions for Nextcloud apps.
  *
- * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine
- * @license   AGPL-3.0-or-later
+ * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,17 +20,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCA\RotDrop\Toolkit\Traits;
+namespace OCA\RotDrop\Toolkit\Exceptions;
 
-/** A couple of constants in order to avoid string literals. */
-class Constants
+/**
+ * Thrown to signal that somethings needs additional authorization.
+ */
+class AuthorizationException extends Exception
 {
-  /**
-   * @var string
-   *
-   * File-path separator.
-   */
-  public const PATH_SEPARATOR = '/';
-  public const DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT = (1 << 32);
-  public const USER_FOLDER_PREFIX = 'files';
 }

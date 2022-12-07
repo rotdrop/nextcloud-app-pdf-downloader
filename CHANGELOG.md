@@ -64,7 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- page-labels: PDF page dimensions were parsed incorrectly and page
+- page labels: PDF page dimensions were parsed incorrectly and page
   rotation was not taken into account
 
 ### Added
@@ -117,7 +117,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Personal setting "page-label generation" was not remembered across invocations of the settings-app
+- Personal setting "page label generation" was not remembered across invocations of the settings-app
 
 ## [1.0.0] - 2022-07-20
 

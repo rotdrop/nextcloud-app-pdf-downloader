@@ -22,13 +22,15 @@
 
 namespace OCA\PdfDownloader\Service;
 
-use \RuntimeException;
+use RuntimeException;
+use InvalidArgumentException;
 
 use Psr\Log\LoggerInterface as ILogger;
 use OCP\IL10N;
 use OCP\ITempManager;
 
 use OCA\PdfDownloader\Backend\PdfTk;
+use OCA\PdfDownloader\Constants;
 
 /**
  * A class which combines several PDFs into one.
@@ -36,9 +38,13 @@ use OCA\PdfDownloader\Backend\PdfTk;
 class PdfCombiner
 {
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
 
-  const OVERLAY_FONT = 'dejavusansmono';
-  const OVERLAY_FONTSIZE = 16;
+  public const OVERLAY_FONT = 'dejavusansmono';
+  public const OVERLAY_FONT_SIZE = 16;
+  public const OVERLAY_PAGE_WIDTH_FRACTION = 0.4;
+  public const OVERLAY_TEXT_COLOR = [ 0xFF, 0x00, 0x00 ];
+  public const OVERLAY_BACKGROUND_COLOR = [ 0xC8, 0xC8, 0xC8 ];
 
   const NAME_KEY = 'name';
   const PATH_KEY = 'path';
@@ -46,16 +52,14 @@ class PdfCombiner
   const FILES_KEY = 'files';
   const FOLDERS_KEY = 'folders';
   const META_KEY = 'meta';
+  const FILE_KEY = 'file';
 
-  const GROUP_FOLDERS_FIRST = 'folders-first';
-  const GROUP_FILES_FIRST = 'files-first';
-  const UNGROUPED = 'ungrouped';
+  public const GROUP_FOLDERS_FIRST = 'folders-first';
+  public const GROUP_FILES_FIRST = 'files-first';
+  public const UNGROUPED = 'ungrouped';
 
   /** @var ITempManager */
   protected $tempManager;
-
-  /** @var IL10N */
-  protected $l;
 
   /**
    * @var array
@@ -69,8 +73,26 @@ class PdfCombiner
   /** @var string */
   private $overlayFont = self::OVERLAY_FONT;
 
+  /** @var int */
+  private $overlayFontSize = self::OVERLAY_FONT_SIZE;
+
+  /** @var null|float */
+  private $overlayPageWidthFraction = self::OVERLAY_PAGE_WIDTH_FRACTION;
+
+  /** @var string */
+  private $overlayTemplate;
+
+  /** @var array */
+  private $overlayTextColor = self::OVERLAY_TEXT_COLOR;
+
+  /** @var array */
+  private $overlayBackgroundColor = self::OVERLAY_BACKGROUND_COLOR;
+
   /** @var string */
   private $grouping = self::GROUP_FOLDERS_FIRST;
+
+  /** @var null|array */
+  private $pageLabelTemplateKeys = null;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
@@ -86,6 +108,7 @@ class PdfCombiner
     $this->initializeDocumentTree();
     $this->addPageLabels = $addPageLabels;
     $this->grouping = $grouping;
+    $this->setOverlayTemplate(null);
   }
 
   /**
@@ -124,13 +147,13 @@ class PdfCombiner
   }
 
   /**
-   * Return the name of the currently installed overlay font. The overlay font
+   * Return the name of the currently configured overlay font-name. The overlay font
    * is used to generated page decorations. ATM only page labels (i.e PAGE X
    * of Y) are implemented.
    *
    * @return string
    */
-  public function getOverlayFont():?string
+  public function getOverlayFont():string
   {
     return $this->overlayFont ?? self::OVERLAY_FONT;
   }
@@ -138,7 +161,7 @@ class PdfCombiner
   /**
    * Configure the overlay font for page labels (in particular).
    *
-   * @param string|null $overlayFont The font name, or null to restore the
+   * @param string|null $overlayFont The font name, or `null` to restore the
    * default.
    *
    * @return PdfCombiner
@@ -146,15 +169,170 @@ class PdfCombiner
   public function setOverlayFont(?string $overlayFont):PdfCombiner
   {
     $this->overlayFont = empty($overlayFont) ? self::OVERLAY_FONT : $overlayFont;
+
     return $this;
   }
 
+  /**
+   * Return the name of the currently configured overlay font-size.
+   *
+   * @return int Font-size in [pt].
+   *
+   * @see getOverlayFont()
+   */
+  public function getOverlayFontSize():int
+  {
+    return $this->overlayFontSize ?? self::OVERLAY_FONT_SIZE;
+  }
+
+  /**
+   * Configure the overlay font-size for page labels (in particular).
+   *
+   * @param null|int $overlayFontSize The font size in [pt] or `null` to
+   * restore the default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayFontSize(?int $overlayFontSize):PdfCombiner
+  {
+    $this->overlayFontSize = empty($overlayFontSize) ? self::OVERLAY_FONT_SIZE : $overlayFontSize;
+
+    return $this;
+  }
+
+  /**
+   * Return the currently configured overlay text (foreground) color.
+   *
+   * @return array Configured RGB color array.
+   */
+  public function getOverlayTextColor():array
+  {
+    return $this->overlayTextColor ?? self::OVERLAY_TEXT_COLOR;
+  }
+
+  /**
+   * Configure the overlay text (foreground) color
+   *
+   * @param null|string|array $overlayTextColor RGB color values as array or color string
+   * "#RRGGBB". Set to null to restore the default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayTextColor(mixed $overlayTextColor):PdfCombiner
+  {
+    if (is_string($overlayTextColor)) {
+      $overlayTextColor = $this->rgbaStringToArray($overlayTextColor);
+      if (count($overlayTextColor) != 3) {
+        throw new InvalidArgumentException($this->l->t(
+          'Only RGB values without alpha channel are supported.'
+        ));
+      }
+    }
+    $this->overlayTextColor = empty($overlayTextColor) ? self::OVERLAY_TEXT_COLOR : $overlayTextColor;
+
+    return $this;
+  }
+
+  /**
+   * Return the currently configured overlay text (foreground) color.
+   *
+   * @return array Configured RGB color array.
+   */
+  public function getOverlayBackgroundColor():array
+  {
+    return $this->overlayBackgroundColor ?? self::OVERLAY_TEXT_COLOR;
+  }
+
+  /**
+   * Configure the overlay text (foreground) color
+   *
+   * @param null|string|array $overlayBackgroundColor RGB color values as array or color string
+   * "#RRGGBB". Set to null to restore the default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayBackgroundColor(mixed $overlayBackgroundColor):PdfCombiner
+  {
+    if (is_string($overlayBackgroundColor)) {
+      $overlayBackgroundColor = $this->rgbaStringToArray($overlayBackgroundColor);
+      if (count($overlayBackgroundColor) != 3) {
+        throw new InvalidArgumentException($this->l->t(
+          'Only RGB values without alpha channel are supported.'
+        ));
+      }
+    }
+    $this->overlayBackgroundColor = empty($overlayBackgroundColor) ? self::OVERLAY_BACKGROUND_COLOR : $overlayBackgroundColor;
+
+    return $this;
+  }
+
+  /**
+   * Return the name of the currently configured overlay font-size.
+   *
+   * @return int Font-size in [pt].
+   *
+   * @see getOverlayFont()
+   */
+  public function getOverlayPageWidthFraction():?float
+  {
+    return $this->overlayPageWidthFraction;
+  }
+
+  /**
+   * Configure the overlay font-size for page labels (in particular).
+   *
+   * @param null|float $overlayPageWidthFraction The page-width fraction of
+   * the overlay-label or null to request a fixed font size independent from
+   * the page-width.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayPageWidthFraction(?float $overlayPageWidthFraction):PdfCombiner
+  {
+    $this->overlayPageWidthFraction = $overlayPageWidthFraction;
+
+    return $this;
+  }
+
+  /**
+   * Return the name of the currently configured overlay template-name. The overlay template
+   * is used to generated page decorations. ATM only page labels (i.e PAGE X
+   * of Y) are implemented.
+   *
+   * @return string
+   */
+  public function getOverlayTemplate():string
+  {
+    return $this->overlayTemplate;
+  }
+
+  /**
+   * Configure the overlay template for page labels (in particular).
+   *
+   * @param string|null $overlayTemplate The template name, or `null` to restore the
+   * default.
+   *
+   * @return PdfCombiner
+   */
+  public function setOverlayTemplate(?string $overlayTemplate):PdfCombiner
+  {
+    if (empty($overlayTemplate)) {
+      $overlayTemplate = '{' . $this->l->t('DIR_BASENAME') . '}'
+        . ' {0|' . $this->l->t('DIR_PAGE_NUMBER') . '}'
+        . '/{' . $this->l->t('DIR_TOTAL_PAGES') . '}';
+    }
+    $this->overlayTemplate = $overlayTemplate;
+
+    return $this;
+  }
+
+  /** @return PdfGenerator */
   private function initializePdfGenerator():PdfGenerator
   {
     $pdf = new PdfGenerator;
     $pdf->setPageUnit('pt');
     $pdf->setFont($this->getOverlayFont());
-    $margin = 0; // self::OVERLAY_FONTSIZE;
+    $margin = 0; // $this->getOverlayFontSize();
     $pdf->setMargins($margin, $margin, $margin, $margin);
     $pdf->setAutoPageBreak(false);
     $pdf->setPrintHeader(false);
@@ -162,24 +340,99 @@ class PdfCombiner
     return $pdf;
   }
 
-  private function makePageLabel(array $fileNode, int $startingPage, int $pageMax)
+  /**
+   * Generate the page label from its template, file-name and page numbers known.
+   *
+   * The general syntax of a replacement is {[C[N]|]KEY} where
+   * where anything in square brackets is optional.
+   *
+   * - 'C' is any character used for optional padding to the left.
+   * - 'N' is th1e padding length. If ommitted, the value of 1 is assumed with
+   *   the exception when KEY is "PAGE_NUMBER" where N default to the
+   *   strlen($pageMax) if omitted
+   * - 'KEY' is the replacement key which can be one of the keys used in the
+   *   PHP function pathinfo() and in addition to this PAGE_NUMBER of the
+   *   curren page number and TOTAL_PAGES for the total number of pages in the
+   *   PDF converted from $path.
+   *
+   * @param string $path Path of the original file.
+   *
+   * @param int $pageNumber Current page-number.
+   *
+   * @param int $pageMax Maximum page-number.
+   *
+   * @return string
+   */
+  public function makePageLabelFromTemplate(
+    string $path,
+    int $dirPageNumber,
+    int $dirTotalPages,
+    int $filePageNumber,
+    int $fileTotalPages,
+  ):string {
+    if (empty($this->pageLabelTemplateKeys)) {
+      $this->pageLabelTemplateKeys = [
+        'BASENAME' => $this->l->t('BASENAME'),
+        'FILENAME' => $this->l->t('FILENAME'),
+        'EXTENSION' => $this->l->t('EXTENSION'),
+        'DIR_BASENAME' => $this->l->t('DIR_BASENAME'),
+        'DIRNAME' => $this->l->t('DIRNAME'),
+        'DIR_PAGE_NUMBER' => $this->l->t('DIR_PAGE_NUMBER'),
+        'DIR_TOTAL_PAGES' => $this->l->t('DIR_TOTAL_PAGES'),
+        'FILE_PAGE_NUMBER' => $this->l->t('FILE_PAGE_NUMBER'),
+        'FILE_TOTAL_PAGES' => $this->l->t('FILE_TOTAL_PAGES'),
+      ];
+    }
+    $pathInfo = pathinfo($path);
+    $folderBaseName = pathinfo($pathInfo['dirname'], PATHINFO_BASENAME);
+    $templateValues = [
+      'BASENAME' => $pathInfo['basename'],
+      'FILENAME' => $pathInfo['filename'],
+      'DIR_BASENAME' => $folderBaseName,
+      'DIRNAME' => $pathInfo['dirname'],
+      'EXTENSION' => $pathInfo['extension'] ?? null,
+      'DIR_PAGE_NUMBER' => [
+        'value' => $dirPageNumber,
+        'padding' => 'DIR_TOTAL_PAGES',
+      ],
+      'DIR_TOTAL_PAGES' => $dirTotalPages,
+      'FILE_PAGE_NUMBER' => [
+        'value' => $dirPageNumber,
+        'padding' => 'FILE_TOTAL_PAGES',
+      ],
+      'FILE_TOTAL_PAGES' => $dirTotalPages,
+    ];
+
+    // $this->logInfo('PATH ' . $path . ' ' . print_r($templateValues, true));
+
+    return $this->replaceBracedPlaceholders($this->getOverlayTemplate(), $templateValues, $this->pageLabelTemplateKeys);
+  }
+
+  /**
+   * @param array $fileNode
+   *
+   * @param int $startingPage
+   *
+   * @param int $pageMax
+   *
+   * @return string PDF data
+   */
+  private function makePageLabel(array $fileNode, int $startingPage, int $pageMax):string
   {
-    $path = $fileNode[self::PATH_KEY];
-    $tag = basename($path);
+    // $this->logInfo('NODE ' . print_r($fileNode, true));
+    $path = $fileNode[self::PATH_KEY] . Constants::PATH_SEPARATOR . $fileNode[self::NAME_KEY];
 
     $pdf = $this->initializePdfGenerator();
-
-    $maxDigits = (int)floor(log10($pageMax)) + 1;
 
     $numberOfPages = $fileNode[self::META_KEY]['NumberOfPages'];
     $pageMedia = $fileNode[self::META_KEY]['PageMedia'];
     // phpcs:ignore PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace
     for (
       // phpcs:ignore Squiz.ControlStructures.ForLoopDeclaration.SpacingAfterFirst
-      $pageNumber = $startingPage, $mediaNumber = 0;
+      $filePageNumber = 1, $dirPageNumber = $startingPage, $mediaNumber = 0;
       // phpcs:ignore Squiz.ControlStructures.ForLoopDeclaration.SpacingAfterSecond
-      $pageNumber < $startingPage + $numberOfPages;
-      ++$pageNumber, ++$mediaNumber
+      $filePageNumber <= $numberOfPages;
+      ++$filePageNumber, ++$dirPageNumber, ++$mediaNumber
     ) {
       list($pageWidth, $pageHeight) = explode(' ', $pageMedia[$mediaNumber]['Dimensions']);
 
@@ -200,32 +453,43 @@ class PdfCombiner
 
       $orientation = $pageHeight > $pageWidth ? 'P' : 'L';
 
-      $text = sprintf("%s %' " . $maxDigits . "d/%d", $tag, $pageNumber, $pageMax);
+      $text = $this->makePageLabelFromTemplate($path, $dirPageNumber, $pageMax, $filePageNumber, $numberOfPages);
 
-      $pdf->setFontSize(self::OVERLAY_FONTSIZE);
-      $stringWidth = $pdf->GetStringWidth($text);
-      $fontSize = 0.4 * $pageWidth / $stringWidth * self::OVERLAY_FONTSIZE;
+      $fontSize = $this->getOverlayFontSize();
       $pdf->setFontSize($fontSize);
+      $stringWidth = $pdf->GetStringWidth($text);
+
+      $pageFraction = $this->getOverlayPageWidthFraction();
+      if (!empty($pageFraction)) {
+        $currentPageFraction = $stringWidth / $pageWidth;
+        $fontSize = $pageFraction / $currentPageFraction * $fontSize;
+        $pdf->setFontSize($fontSize);
+        $stringWidth = $pageFraction * $pageWidth;
+      }
       $padding = 0.25 * $fontSize;
       $pdf->setCellPaddings($padding, $padding, $padding, $padding);
 
       $pdf->startPage($orientation, [ $pageWidth, $pageHeight ]);
 
-      $cellWidth = 0.4 * $pageWidth + 2.0 * $padding;
+      $cellWidth = $stringWidth + 2.0 * $padding;
       $pdf->SetAlpha(1, 'Normal', 0.2);
-      $pdf->Rect($pageWidth - $cellWidth, 0, $cellWidth, 1.5 * $fontSize, style: 'F', fill_color: [ 200 ]);
+      $pdf->Rect($pageWidth - $cellWidth, 0, $cellWidth, 1.5 * $fontSize, style: 'F', fill_color: $this->overlayBackgroundColor);
 
       $pdf->setXY($pageWidth - $cellWidth, 0.25 * $fontSize);
       $pdf->SetAlpha(1, 'Normal', 1.0);
-      $pdf->setColor('text', 255, 0, 0);
+      $pdf->setColorArray('text', $this->overlayTextColor);
       $pdf->Cell($cellWidth, 1.5 * $fontSize, $text, calign: 'A', valign: 'T', align: 'R', fill: false);
       $pdf->endPage();
     }
     return $pdf->Output($path, 'S');
   }
 
-  /** Reset the directory tree to an empty nodes array */
-  private function initializeDocumentTree()
+  /**
+   * Reset the directory tree to an empty nodes array.
+   *
+   * @return void
+   */
+  private function initializeDocumentTree():void
   {
     $this->documentTree = [
       self::NAME_KEY => null,
@@ -242,9 +506,9 @@ class PdfCombiner
    * level of the bookmarks in their title and make an additional fix-up run
    * afterwards.
    *
-   * @param string $data The PDF file data to add
+   * @param string $data The PDF file data to add.
    *
-   * @param array $pathChain The exploded files-system path leading to $data
+   * @param array $pathChain The exploded files-system path leading to $data.
    *
    * @param array $tree The root of the current sub-tree:
    * ```
@@ -253,11 +517,12 @@ class PdfCombiner
    *   'level' => TREE_LEVEL,
    *   'files' => FILE_NODE_ARRAY,
    *   'folders' => FOLDER_NODE_ARRAY,
-   * ],
+   * ]
+   * ```.
    *
-   * @param array $bookmarks Bookmark array corresponding to $pathChain
+   * @return void
    */
-  private function addToDocumentTree(string $data, array $pathChain, array &$tree)
+  private function addToDocumentTree(string $data, array $pathChain, array &$tree):void
   {
     $level = $tree[self::LEVEL_KEY] + 1;
     $path = implode('/', array_filter([ $tree[self::PATH_KEY], $tree[self::NAME_KEY] ]));
@@ -272,7 +537,7 @@ class PdfCombiner
         self::NAME_KEY => $nodeName,
         self::PATH_KEY => $path,
         self::LEVEL_KEY => $level,
-        'file' => $fileName,
+        self::FILE_KEY => $fileName,
         self::META_KEY => $pdfData,
       ];
     } else {
@@ -324,8 +589,10 @@ class PdfCombiner
    * ```.
    *
    * @param array $bookmarks
+   *
+   * @return void
    */
-  private function addFromDocumentTree(PdfTk $pdfTk, array $tree, array $bookmarks = [])
+  private function addFromDocumentTree(PdfTk $pdfTk, array $tree, array $bookmarks = []):void
   {
     $first = true;
     switch ($this->grouping) {
@@ -340,8 +607,23 @@ class PdfCombiner
     }
   }
 
-  private function addFoldersFromDocumentTree(PdfTk $pdfTk, array &$tree, array &$bookmarks, bool &$first)
-  {
+  /**
+   * @param PdfTk $pdfTk
+   *
+   * @param array $tree mutable.
+   *
+   * @param array $bookmarks mutable.
+   *
+   * @param bool $first mutable.
+   *
+   * @return void
+   */
+  private function addFoldersFromDocumentTree(
+    PdfTk $pdfTk,
+    array &$tree,
+    array &$bookmarks,
+    bool &$first,
+  ):void {
     $level = $tree[self::LEVEL_KEY];
 
     // first walk down the directories
@@ -363,6 +645,17 @@ class PdfCombiner
     }
   }
 
+  /**
+   * @param PdfTk $pdfTk
+   *
+   * @param array $tree mutable.
+   *
+   * @param array $bookmarks mutable.
+   *
+   * @param bool $first mutable.
+   *
+   * @return void
+   */
   private function addFilesFromDocumentTree(PdfTk $pdfTk, array &$tree, array &$bookmarks, bool &$first)
   {
     $level = $tree[self::LEVEL_KEY];
@@ -380,7 +673,7 @@ class PdfCombiner
     $folderPageCounter = 1;
     foreach ($tree[self::FILES_KEY] as $fileNode) {
       $nodeName = $fileNode[self::NAME_KEY];
-      $fileName = $fileNode['file'];
+      $fileName = $fileNode[self::FILE_KEY];
       $pdfData = $fileNode[self::META_KEY];
       $nodeBookmark = [
         'Title' => ($level + 1). '|' . $nodeName,

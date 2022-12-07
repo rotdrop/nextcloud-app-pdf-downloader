@@ -46,10 +46,13 @@ class PdfTk extends PdfTkUpstream
   ];
 
   /**
+   * {@inheritdoc}
+   *
    * @param string|Pdf|array $pdf a pdf filename or Pdf instance or an array
    * of filenames/instances indexed by a handle. The array values can also
    * be arrays of the form array($filename, $password) if some files are
    * password protected.
+   *
    * @param array $options Options to pass to set on the Command instance,
    * e.g. the pdftk binary path
    */
@@ -60,7 +63,9 @@ class PdfTk extends PdfTkUpstream
   }
 
   /**
-   * Update meta data of PDF
+   * {@inheritdoc}
+   *
+   * Update meta data of PDF.
    *
    * @param string|array $data either a InfoFile filename or an array with
    * form field data (name => value)
