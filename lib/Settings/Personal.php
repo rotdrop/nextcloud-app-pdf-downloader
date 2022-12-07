@@ -28,21 +28,20 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 
 use OCA\PdfDownloader\Service\PdfCombiner;
-use OCA\PdfDownloader\Service\AssetService;
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
+use OCA\PdfDownloader\Constants;
 
 /**
  * Render the personal per-user settings for this app.
  */
 class Personal implements ISettings
 {
+  use \OCA\RotDrop\Toolkit\Traits\AssetTrait;
+
   const TEMPLATE = "personal-settings";
 
   /** @var string */
   private $appName;
-
-  /** @var AssetService */
-  private $assetService;
 
   /** @var PdfCombiner */
   private $pdfCombiner;
@@ -51,21 +50,20 @@ class Personal implements ISettings
   private $initialState;
 
   /** @var IL10N */
-  private $l;
+  protected $l;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
     IL10N $l10n,
-    AssetService $assetService,
     PdfCombiner $pdfCombiner,
     IInitialState $initialState,
   ) {
     $this->appName = $appName;
     $this->l = $l10n;
-    $this->assetService = $assetService;
     $this->pdfCombiner = $pdfCombiner;
     $this->initialState = $initialState;
+    $this->initializeAssets(__DIR__);
   }
 
   /**
@@ -85,8 +83,8 @@ class Personal implements ISettings
       self::TEMPLATE, [
         'appName' => $this->appName,
         'assets' => [
-          AssetService::JS => $this->assetService->getJSAsset(self::TEMPLATE),
-          AssetService::CSS => $this->assetService->getCSSAsset(self::TEMPLATE),
+          Constants::JS => $this->getJSAsset(self::TEMPLATE),
+          Constants::CSS => $this->getCSSAsset(self::TEMPLATE),
         ],
       ]);
   }
