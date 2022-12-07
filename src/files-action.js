@@ -23,6 +23,8 @@ import generateAppUrl from './toolkit/util/generate-url.js';
 import fileDownload from './toolkit/util/file-download.js';
 import { attachDialogHandlers } from './toolkit/util/dialogs.js';
 import { generateFilePath, imagePath, generateUrl } from '@nextcloud/router';
+import axios from '@nextcloud/axios';
+import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
 import FilesTab from './views/FilesTab.vue';
 import { Tooltip } from '@nextcloud/vue';
@@ -70,17 +72,7 @@ const fileActionTemplate = {
    * @param {string} dirName TBD.
    * @param {object} context TBD.
    */
-  actionHandler(dirName, context) {
-    const fullPath = encodeURIComponent([
-      context.fileList.dirInfo.path,
-      context.fileList.dirInfo.name,
-      dirName,
-    ].join('/'));
-
-    const url = initialState.useBackgroundJobsDefault
-      ? generateAppUrl('schedule/{fullPath}', { fullPath })
-      : generateAppUrl('download/{fullPath}', { fullPath });
-
+  async actionHandler(dirName, context) {
     // $file is a jQuery object, change that if the files-app gets overhauled
     const downloadFileaction = context.$file.find('.fileactions .action-download-pdf');
 
@@ -89,13 +81,42 @@ const fileActionTemplate = {
       return;
     }
 
-    if (url) {
-      const disableLoadingState = function() {
-        context.fileList.showFileBusyState(dirName, false);
-      };
+    const fullPath = encodeURIComponent([
+      context.fileList.dirInfo.path,
+      context.fileList.dirInfo.name,
+      dirName,
+    ].join('/'));
 
-      context.fileList.showFileBusyState(dirName, true);
-      // OCA.Files.Files.handleDownload(url, disableLoadingState);
+    const disableLoadingState = function() {
+      context.fileList.showFileBusyState(dirName, false);
+    };
+    context.fileList.showFileBusyState(dirName, true);
+    if (initialState.useBackgroundJobsDefault) {
+      const url = generateAppUrl('schedule/download/{fullPath}', { fullPath });
+      try {
+        await axios.post(url);
+        showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
+          sourceFile: fullPath,
+        }));
+      } catch (e) {
+        console.error('ERROR', e);
+        let message = t(appName, 'reason unknown');
+        if (e.response && e.response.data) {
+          const responseData = e.response.data;
+          if (Array.isArray(responseData.messages)) {
+            message = responseData.messages.join(' ');
+          }
+        }
+        showError(t(appName, 'Unable to schedule background PDF generation for {sourceFile}: {message}', {
+          sourceFile: this.sourcePath,
+          message,
+        }), {
+          timeout: TOAST_PERMANENT_TIMEOUT,
+        });
+      }
+      disableLoadingState();
+    } else {
+      const url = generateAppUrl('download/{fullPath}', { fullPath });
       fileDownload(url, false, { always: disableLoadingState });
     }
   },

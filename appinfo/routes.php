@@ -81,11 +81,10 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#schedule',
-      'url' => '/schedule/{sourcePath}/{destinationPath}/{jobType}',
+      'url' => '/schedule/{jobType}/{sourcePath}/{destinationPath}',
       'verb' => 'POST',
       'defaults' => [
         'destinationPath' => null,
-        'jobType' => PdfGeneratorJob::TARGET_DOWNLOAD,
       ],
     ],
     [

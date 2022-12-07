@@ -312,6 +312,9 @@ class MultiPdfDownloadController extends Controller
    * Schedule PDF generation as background job for either downloading (later,
    * after being notified) or for direct storing in the file-system.
    *
+   * @param string $jobType The target, either PdfGeneratorJob::TARGET_DOWNLOAD
+   * or PdfGeneratorJob::TARGET_FILESYSTEM.
+   *
    * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
@@ -320,9 +323,6 @@ class MultiPdfDownloadController extends Controller
    * stored with the configured filename template under the configured
    * directory, or a download with the default configured default name is
    * prepared.
-   *
-   * @param string $jobType The target, either PdfGeneratorJob::TARGET_DOWNLOAD
-   * or PdfGeneratorJob::TARGET_FILESYSTEM.
    *
    * @param null|bool $pageLabels Whether to decorate the pages with a label.
    *
@@ -334,9 +334,9 @@ class MultiPdfDownloadController extends Controller
    * @NoAdminRequired
    */
   public function schedule(
+    string $jobType,
     string $sourcePath,
     ?string $destinationPath = null,
-    string $jobType = PdfGeneratorJob::TARGET_DOWNLOAD,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
   ):Response {

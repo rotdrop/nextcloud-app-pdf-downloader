@@ -556,7 +556,7 @@ export default {
       if (this.downloadOptions.offline) {
         try {
           const response = await axios.post(
-            generateAppUrl('schedule/{sourcePath}/{destinationPath}/download', urlParameters),
+            generateAppUrl('schedule/download/{sourcePath}/{destinationPath}', urlParameters),
             queryParameters
           )
           showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
@@ -594,7 +594,7 @@ export default {
     async handleSaveToCloud(cacheFileId, destinationFolder, move) {
       this.fileList.showFileBusyState(this.fileInfo.name, true)
       let urlTemplate = cacheFileId === undefined && this.downloadOptions.offline
-        ? 'schedule/{sourcePath}/{destinationPath}/filesystem'
+        ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
         : 'save/{sourcePath}/{destinationPath}'
       if (cacheFileId) {
         urlTemplate += '/{cacheFileId}'
