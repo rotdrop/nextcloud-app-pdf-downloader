@@ -77,6 +77,7 @@ class UserScopeService
     TokenProvider $tokenProvider,
     ISecureRandom $secureRandom,
     IUserSession $userSession,
+    IUserManager $userManager,
   ) {
     $this->logger = $logger;
     $this->request = $request;
@@ -84,6 +85,7 @@ class UserScopeService
     $this->tokenProvider = $tokenProvider;
     $this->secureRandom = $secureRandom;
     $this->userSession = $userSession;
+    $this->userManager = $userManager;
   }
   // phpcs:enable
 
