@@ -33,6 +33,12 @@
           </h5>
         </div>
         <Actions ref="downloadActions">
+          <ActionButton icon="icon-download"
+                        :disabled="downloading"
+                        @click="handleDownload"
+          >
+            {{ t(appName, 'download locally') }}
+          </ActionButton>
           <ActionButton v-model="showCloudDestination"
                         :disabled="showCloudDestination"
                         @click="showCloudDestination = !showCloudDestination"
@@ -44,12 +50,6 @@
               />
             </template>
             {{ t(appName, 'save to cloud') }}
-          </ActionButton>
-          <ActionButton icon="icon-download"
-                        :disabled="downloading"
-                        @click="handleDownload"
-          >
-            {{ t(appName, 'download locally') }}
           </ActionButton>
         </Actions>
       </li>
