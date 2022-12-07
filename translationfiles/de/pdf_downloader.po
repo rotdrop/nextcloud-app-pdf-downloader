@@ -27,17 +27,17 @@ msgstr ""
 
 #: /app/lib/Controller/CatchAllController.php:70
 #, php-format
-msgid "Post to end-point \"%s\" not implemented."
+msgid "Post to endpoint \"%s\" not implemented."
 msgstr "POST-Anfragen an \"%s\" sind nicht implementiert."
 
 #: /app/lib/Controller/CatchAllController.php:73
 #, php-format
-msgid "Post to base-url of app \"%s\" not allowed."
+msgid "Post to base URL of app \"%s\" not allowed."
 msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 
 #: /app/lib/Controller/CatchAllController.php:90
 #, php-format
-msgid "Get from end-point \"%s\" not implemented."
+msgid "Get from endpoint \"%s\" not implemented."
 msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:248
@@ -329,7 +329,7 @@ msgstr "Kopfzeile mit ursprünglichem Dateinamen und Seitennummer einfügen."
 
 #. TRANSLATORS alSettings.vue:36
 #: /app/specialVueFakeDummyForL10nScript.js:40
-msgid "Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
+msgid "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 msgstr ""
 "Format der Seiten-Paginierung: DATEINAME_OHNE_ENDUNG #SEITE/#DATEI_SEITEN"
 
@@ -348,7 +348,7 @@ msgstr "Schriftart für die Paginierung"
 
 #. TRANSLATORS alSettings.vue:42
 #: /app/specialVueFakeDummyForL10nScript.js:46
-msgid "The font to use for the page-labels: {pageLabelsFont}"
+msgid "The font to use for the page labels: {pageLabelsFont}"
 msgstr "Schriftart für die Paginierung: {pageLabelsFont}"
 
 #. TRANSLATORS alSettings.vue:49

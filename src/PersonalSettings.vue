@@ -22,24 +22,24 @@
   <SettingsSection :class="appName" :title="t(appName, 'Recursive Pdf Downloader, Personal Settings')">
     <AppSettingsSection :title="t(appName, 'Decorations and Fonts')">
       <div :class="['flex-container', 'flex-center', { pageLabels }]">
-        <input id="page-labels"
+        <input id="page labels"
                v-model="pageLabels"
                type="checkbox"
                :disabled="loading"
                @change="saveSetting('pageLabels')"
         >
-        <label for="page-labels">
+        <label for="page labels">
           {{ t(appName, 'Label output pages with file-name and page-number') }}
         </label>
       </div>
       <span class="hint">
-        {{ t(appName, 'Format of the page-label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
+        {{ t(appName, 'Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
       </span>
       <FontSelect v-model="pageLabelsFontObject"
                   :placeholder="t(appName, 'Select a Font')"
                   :fonts-list="fontsList"
                   :label="t(appName, 'Font for generated PDF page-annotations')"
-                  :hint="t(appName, 'The font to use for the page-labels: {pageLabelsFont}', { pageLabelsFont })"
+                  :hint="t(appName, 'The font to use for the page labels: {pageLabelsFont}', { pageLabelsFont })"
                   :disabled="!pageLabels || loading"
                   :loading="loading"
       />
