@@ -25,16 +25,16 @@ and the name of the directory or archive-file being worked on.
 The substitutions allow some sort of filtering or padding. This is
 detailed further below. The substitution backend can be found in the
 traits-class
-[`UtilTrait::replaceBracedPlaceholders()`](../lib/Toolkit/Traits/UtilTrait.php).
+[`UtilTrait::replaceBracedPlaceholders()`](../lib/Toolkit/Traits/UtilTrait.php#L403).
 
 ### Page Labels
 
-The substitutions are provided by [PdfCombiner::makePageLabelFromTemplate()`](../lib/Service/PdfCombiner.php).
+The substitutions are provided by [PdfCombiner::makePageLabelFromTemplate()`](../lib/Service/PdfCombiner.php#L366).
 
 TO BE CONTINUED.
 
 ### File-Names
 
-The substitutions are provided by [`FileSystemWalker::getPdfFileName()`](../lib/Service/FileSystemWalker.php).
+The substitutions are provided by [`FileSystemWalker::getPdfFileName()`](../lib/Service/FileSystemWalker.php#L525).
 
 TO BE CONTINUED.
