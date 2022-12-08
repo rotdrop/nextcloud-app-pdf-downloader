@@ -286,7 +286,7 @@ __EOF__;
     try {
       $this->archiveService->open($fileNode);
 
-      $archiveDirectoryName = $this->archiveService->getArchiveFolderName();
+      $archiveDirectoryName = ArchiveService::getArchiveFolderName($fileNode->getPath());
       $topLevelFolder = $this->archiveService->getCommonDirectoryPrefix();
       $this->logInfo('COMMON PREFIX ' . $topLevelFolder);
       $stripRoot = !empty($topLevelFolder) ? strlen($topLevelFolder) : 0;
