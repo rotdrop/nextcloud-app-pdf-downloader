@@ -1,6 +1,6 @@
 { "translations": {
-    "unknown" : "neznano",
     "bytes" : "bajtov",
+    "Options" : "Možnosti",
     "true" : "prav",
     "false" : "napak",
     "OK" : "V redu",

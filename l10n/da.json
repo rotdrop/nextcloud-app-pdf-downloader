@@ -1,5 +1,4 @@
 { "translations": {
-    "unknown" : "ukendt",
     "not found" : "ikke fundet",
     "Please install the \"%s\" program on the server." : "Venligst installer \"%s\" på serveren.",
     "bytes" : "bytes",

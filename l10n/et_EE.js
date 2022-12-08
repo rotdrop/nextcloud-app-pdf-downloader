@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "tundmatu",
     "OK" : "OK",
     "Created" : "Loodud",
     "Forbidden" : "Keelatud",

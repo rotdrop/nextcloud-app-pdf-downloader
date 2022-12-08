@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "nežinomas",
     "bytes" : "baitų",
     "Decorations and Fonts" : "Dekoracijos ir šriftai",
     "reason unknown" : "priežastis nežinoma",

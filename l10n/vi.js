@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "không biết",
     "OK" : "OK",
     "Created" : "Đã tạo",
     "Forbidden" : "Bị cấm",

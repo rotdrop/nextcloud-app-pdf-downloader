@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "nekonata",
     "OK" : "Bone",
     "Created" : "Kreita",
     "Forbidden" : "Malpermesita",

@@ -1,12 +1,12 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "onbekend",
     "not found" : "niet gevonden",
     "Please install the \"%s\" program on the server." : "Gelieve het programma \"%s\" op de server te installeren.",
     "bytes" : "bytes",
     "alternatives" : "alternatieven",
     "Sorting Options" : "Sorteeropties",
+    "submit" : "versturen",
     "Download PDF" : "Download PDF",
     "OK" : "OK",
     "Created" : "Gemaakt",

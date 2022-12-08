@@ -1,8 +1,8 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "neznano",
     "bytes" : "bajtov",
+    "Options" : "Možnosti",
     "true" : "prav",
     "false" : "napak",
     "OK" : "V redu",
