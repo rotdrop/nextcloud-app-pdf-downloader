@@ -399,7 +399,7 @@ class MultiPdfDownloadController extends Controller
     return self::dataResponse([
       'jobType' => $jobType,
       'pdfFilePath' => $destinationPath,
-      'messages' => [ $this->l->t('PDF generation background job scheduled successfully'), ],
+      'messages' => [ $this->l->t('PDF generation background job scheduled successfully.'), ],
     ]);
   }
 
