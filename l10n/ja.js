@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "不明",
     "bytes" : "バイト",
     "OK" : "OK",
     "Created" : "作成時刻",

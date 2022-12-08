@@ -1,12 +1,11 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "desconocido",
     "Unknown personal setting: \"%1$s\"" : "Ajuste personal desconocido: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "El ajuste personal \"%1$s\" is sólo lectura",
+    "PDF Downloader" : "Gestor de descargas de PDF",
     "not found" : "no encontrado",
     "Combining PDFs failed" : "Ha fallado la combinación de PDF",
-    "PDF Downloader" : "Gestor de descargas de PDF",
     "bytes" : "bytes",
     "Archive Extraction" : "Extracción de Archivos",
     "Universal Converter" : "Conversor universal",

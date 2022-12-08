@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "უცნობი",
     "bytes" : "ბაიტები",
     "OK" : "კარგი",
     "Created" : "შექმნილია",

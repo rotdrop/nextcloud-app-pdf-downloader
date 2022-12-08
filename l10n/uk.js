@@ -1,8 +1,8 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "невідомо",
     "bytes" : "байтів",
+    "Options" : "Параметри",
     "OK" : "Гаразд",
     "Created" : "Створено",
     "Forbidden" : "Заборонено",

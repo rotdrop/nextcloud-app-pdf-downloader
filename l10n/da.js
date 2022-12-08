@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "ukendt",
     "not found" : "ikke fundet",
     "Please install the \"%s\" program on the server." : "Venligst installer \"%s\" på serveren.",
     "bytes" : "bytes",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "necunoscut",
     "OK" : "OK",
     "Forbidden" : "Interzis",
     "Not Found" : "Nu a fost găsit",

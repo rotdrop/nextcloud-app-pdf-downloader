@@ -1,6 +1,6 @@
 { "translations": {
-    "unknown" : "невідомо",
     "bytes" : "байтів",
+    "Options" : "Параметри",
     "OK" : "Гаразд",
     "Created" : "Створено",
     "Forbidden" : "Заборонено",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "tuntematon",
     "bytes" : "tavua",
     "OK" : "OK",
     "Created" : "Luotu",

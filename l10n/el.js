@@ -1,8 +1,8 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "άγνωστο",
     "bytes" : "bytes",
+    "Unable to obtain the list of available fonts: {message}" : "Αδυναμία λήψης της λίστας με τις διαθέσιμες γραμματοσειρές: {message}",
     "Download PDF" : "Λήψη PDF",
     "true" : "αληθές",
     "false" : "ψευδές",
@@ -23,8 +23,10 @@ OC.L10N.register(
     "Upgrade Required" : "Απαιτείται Αναβάθμιση",
     "Precondition Required" : "Απαιτείται Προϋπόθεση",
     "Too Many Requests" : "Πάρα Πολλά Αιτήματα",
+    "Unavailable For Legal Reasons" : "Μη διαθέσιμο για νομικούς λόγους",
     "Internal Server Error" : "Εσωτερικό Σφάλμα διακομιστή",
     "Bad Gateway" : "Κακή Πύλη",
+    "Service Unavailable" : "Μη διαθέσιμη υπηρεσία",
     "Insufficient Storage (WebDAV)" : "Ανεπαρκής Χώρος Αποθήκευσης (WebDAV)",
     "Not Extended" : "Μη Εκτεταμένος",
     "Aborted" : "Ματαιώθηκε",

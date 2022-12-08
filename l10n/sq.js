@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "panjohur",
     "OK" : "OK",
     "Created" : "U krijua",
     "Forbidden" : "E ndaluar",

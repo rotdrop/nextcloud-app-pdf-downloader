@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "ismeretlen",
     "bytes" : "bájt",
     "OK" : "Rendben",
     "Created" : "Létrehozva",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "unknown" : "непознат",
     "OK" : "Добро",
     "Created" : "Креирано",
     "Unauthorized" : "Неавторизирано",
