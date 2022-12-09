@@ -1,8 +1,12 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "NÙMENEARCHÎVIU",
     "bytes" : "bytes",
+    "Text" : "Testu",
+    "Background" : "Isfundu",
     "Options" : "Optziones",
+    "PDF" : "PDF",
     "OK" : "AB",
     "Created" : "Creadu",
     "Unauthorized" : "No autorizadu",

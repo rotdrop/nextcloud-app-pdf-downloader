@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-12-08 03:23+0000\n"
+"POT-Creation-Date: 2022-12-09 03:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgid "PDF document saved as \"%s\"."
 msgstr ""
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:402
-msgid "PDF generation background job scheduled successfully"
+msgid "PDF generation background job scheduled successfully."
 msgstr ""
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:487
@@ -272,9 +272,9 @@ msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
 msgstr ""
 
 #: /app/lib/Toolkit/Service/ArchiveService.php:301
-#: /app/lib/Toolkit/Service/ArchiveService.php:369
-#: /app/lib/Toolkit/Service/ArchiveService.php:391
-#: /app/lib/Toolkit/Service/ArchiveService.php:405
+#: /app/lib/Toolkit/Service/ArchiveService.php:368
+#: /app/lib/Toolkit/Service/ArchiveService.php:390
+#: /app/lib/Toolkit/Service/ArchiveService.php:404
 msgid "There is no archive file associated with this archiver instance."
 msgstr ""
 

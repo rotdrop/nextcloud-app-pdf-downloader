@@ -2,6 +2,8 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "bytes" : "byte",
+    "Text" : "Tekst",
+    "Options" : "Valg",
     "OK" : "OK",
     "Created" : "Opprettet",
     "Unauthorized" : "Uautorisert",

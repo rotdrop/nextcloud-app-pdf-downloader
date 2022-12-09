@@ -1,8 +1,11 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "FILNAMN",
     "bytes" : "byte",
+    "Text" : "Text",
     "Options" : "Alternativ",
+    "PDF" : "PDF",
     "OK" : "OK",
     "Created" : "Skapat",
     "Unauthorized" : "Obehörig",

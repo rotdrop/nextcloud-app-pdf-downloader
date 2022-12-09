@@ -1,8 +1,12 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "Ime datoteke",
     "bytes" : "bajtov",
+    "Text" : "Besedilo",
+    "Background" : "Ozadje",
     "Options" : "Možnosti",
+    "PDF" : "PDF",
     "true" : "prav",
     "false" : "napak",
     "OK" : "V redu",

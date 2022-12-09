@@ -1,6 +1,9 @@
 { "translations": {
     "bytes" : "байтів",
+    "Text" : "Текст",
+    "Background" : "Фон",
     "Options" : "Параметри",
+    "PDF" : "PDF",
     "OK" : "Гаразд",
     "Created" : "Створено",
     "Forbidden" : "Заборонено",

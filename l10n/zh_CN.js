@@ -1,13 +1,17 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "文件名",
     "bytes" : "字节",
     "Archive Extraction" : "解压压缩文件",
     "Archive Size Limit" : "压缩文件大小限制",
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "禁止解压缩解压后大小超过此限制的压缩文件",
+    "Text" : "文本 ",
+    "Background" : "背景",
     "Administrative size limit: {value}" : "管理大小限制： {value}",
     "submit" : "提交",
     "Options" : "选项",
+    "PDF" : "PDF",
     "true" : "真",
     "false" : "假",
     "OK" : "确定",

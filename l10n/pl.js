@@ -1,7 +1,12 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "NAZWA PLIKU",
     "bytes" : "bajtów",
+    "Text" : "Tekst",
+    "Background" : "Tło",
+    "Options" : "Opcje",
+    "PDF" : "PDF",
     "true" : "prawda",
     "false" : "nieprawda",
     "OK" : "OK",

@@ -1,7 +1,12 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "ИМЯ ФАЙЛА",
     "bytes" : "байты",
+    "Text" : "Текст",
+    "Background" : "Фон",
+    "Options" : "Варианты",
+    "PDF" : "PDF",
     "OK" : "ОК",
     "Created" : "Создано",
     "Unauthorized" : "Неавторизовано",

@@ -1,6 +1,9 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "Text" : "Texto",
+    "Options" : "Opções",
+    "PDF" : "PDF",
     "true" : "verdadeiro",
     "false" : "falso",
     "OK" : "Ok",

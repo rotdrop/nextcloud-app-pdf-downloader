@@ -1,9 +1,15 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "ΟΝΟΜΑ ΑΡΧΕΙΟΥ",
     "bytes" : "bytes",
+    "Text" : "Κείμενο",
+    "Background" : "Φόντο",
     "Unable to obtain the list of available fonts: {message}" : "Αδυναμία λήψης της λίστας με τις διαθέσιμες γραμματοσειρές: {message}",
+    "submit" : "υποβολή",
+    "Options" : "Επιλογές",
     "Download PDF" : "Λήψη PDF",
+    "PDF" : "PDF",
     "true" : "αληθές",
     "false" : "ψευδές",
     "Confirmation Required" : "Απαιτείται επιβεβαίωση",

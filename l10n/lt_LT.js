@@ -3,7 +3,10 @@ OC.L10N.register(
     {
     "bytes" : "baitų",
     "Decorations and Fonts" : "Dekoracijos ir šriftai",
+    "Text" : "Tekstas",
+    "Background" : "Fonas",
     "reason unknown" : "priežastis nežinoma",
+    "Options" : "Parinktys",
     "Download PDF" : "Atsisiųsti PDF",
     "OK" : "Gerai",
     "Created" : "Sukurta",

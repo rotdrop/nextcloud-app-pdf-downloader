@@ -1,6 +1,9 @@
 { "translations": {
+    "FILENAME" : "FILNAMN",
     "bytes" : "byte",
+    "Text" : "Text",
     "Options" : "Alternativ",
+    "PDF" : "PDF",
     "OK" : "OK",
     "Created" : "Skapat",
     "Unauthorized" : "Obehörig",

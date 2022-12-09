@@ -2,7 +2,10 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "bytes" : "байтів",
+    "Text" : "Текст",
+    "Background" : "Фон",
     "Options" : "Параметри",
+    "PDF" : "PDF",
     "OK" : "Гаразд",
     "Created" : "Створено",
     "Forbidden" : "Заборонено",

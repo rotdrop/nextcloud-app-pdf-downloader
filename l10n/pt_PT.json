@@ -1,4 +1,7 @@
 { "translations": {
+    "Text" : "Texto",
+    "Options" : "Opções",
+    "PDF" : "PDF",
     "true" : "verdadeiro",
     "false" : "falso",
     "OK" : "Ok",

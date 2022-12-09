@@ -1,5 +1,7 @@
 { "translations": {
     "bytes" : "byte",
+    "Text" : "Tekst",
+    "Options" : "Valg",
     "OK" : "OK",
     "Created" : "Opprettet",
     "Unauthorized" : "Uautorisert",

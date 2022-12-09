@@ -1,7 +1,9 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "ИМЕ ФАЈЛА",
     "bytes" : "бајтова",
+    "Text" : "Текст",
     "submit" : "submit",
     "Options" : "Избори",
     "OK" : "У реду",

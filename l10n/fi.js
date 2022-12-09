@@ -1,7 +1,12 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "TIEDOSTONIMI",
     "bytes" : "tavua",
+    "Text" : "Teksti",
+    "Background" : "Tausta",
+    "Options" : "Valinnat",
+    "PDF" : "PDF",
     "OK" : "OK",
     "Created" : "Luotu",
     "Unauthorized" : "Ei valtuuksia",

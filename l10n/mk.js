@@ -1,6 +1,10 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "ДАТОТЕКА",
+    "Text" : "Текст",
+    "Background" : "Позадина",
+    "Options" : "Опции",
     "OK" : "Добро",
     "Created" : "Креирано",
     "Unauthorized" : "Неавторизирано",

@@ -1,5 +1,10 @@
 { "translations": {
+    "FILENAME" : "FÁJLNÉV",
     "bytes" : "bájt",
+    "Text" : "Szöveg",
+    "Background" : "Háttér",
+    "Options" : "Lehetőségek",
+    "PDF" : "PDF",
     "OK" : "Rendben",
     "Created" : "Létrehozva",
     "Unauthorized" : "Jogosulatlan",

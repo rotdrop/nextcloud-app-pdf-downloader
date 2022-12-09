@@ -1,7 +1,12 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "FILENAME" : "FÁJLNÉV",
     "bytes" : "bájt",
+    "Text" : "Szöveg",
+    "Background" : "Háttér",
+    "Options" : "Lehetőségek",
+    "PDF" : "PDF",
     "OK" : "Rendben",
     "Created" : "Létrehozva",
     "Unauthorized" : "Jogosulatlan",

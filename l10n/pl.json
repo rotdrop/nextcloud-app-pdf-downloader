@@ -1,5 +1,10 @@
 { "translations": {
+    "FILENAME" : "NAZWA PLIKU",
     "bytes" : "bajtów",
+    "Text" : "Tekst",
+    "Background" : "Tło",
+    "Options" : "Opcje",
+    "PDF" : "PDF",
     "true" : "prawda",
     "false" : "nieprawda",
     "OK" : "OK",
