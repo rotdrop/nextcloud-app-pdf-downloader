@@ -289,6 +289,7 @@ export default {
   beforeDestroy() {
     if (this.downloadsTimer) {
       clearInterval(this.downloadsTimer)
+      this.downloadsTimer = undefined
     }
   },
   methods: {
@@ -388,7 +389,7 @@ export default {
     },
     async fetchAvailableDownloads(silent) {
       if (silent !== true) {
-      ++this.activeLoaders
+        ++this.activeLoaders
       }
       try {
         const response = await axios.get(generateAppUrl(
@@ -534,8 +535,9 @@ export default {
           }
         }
         if (!loadingFinished) {
-          setTimeout(() => this.downloadsPoller(downloadFileIds), downloadsPollingInterval)
+          this.downloadsTimer = setTimeout(() => this.downloadsPoller(downloadFileIds), downloadsPollingInterval)
         } else {
+          this.downloadsTimer = undefined
           this.downloads = downloads
           this.showBackgroundDownloads = downloads.length > 0
         }
@@ -563,7 +565,10 @@ export default {
             sourceFile: this.sourcePath,
           }))
           const downloadFileIds = this.downloads.map(fileInfo => fileInfo.id).sort()
-          setTimeout(() => this.downloadsPoller(downloadFileIds), downloadsPollingInterval)
+          if (this.downloadsTimer) {
+            clearInterval(this.downloadsTimer)
+          }
+          this.downloadsTimer = setTimeout(() => this.downloadsPoller(downloadFileIds), downloadsPollingInterval)
         } catch (e) {
           let message = t(appName, 'reason unknown')
           if (e.response && e.response.data) {
