@@ -85,7 +85,7 @@ class Notifier implements INotifier
   public function prepare(INotification $notification, string $languageCode):INotification
   {
     if ($notification->getApp() !== $this->appName) {
-      throw new InvalidArgumentException('Application should be files_zip instead of ' . $notification->getApp());
+      throw new InvalidArgumentException('Application should be ' . $this->appName . ' instead of ' . $notification->getApp());
     }
 
     $l = $this->l10nFactory->get($this->appName, $languageCode);
