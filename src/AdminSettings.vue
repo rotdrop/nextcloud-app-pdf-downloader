@@ -52,20 +52,20 @@
                @change="saveSetting('disableBuiltinConverters')"
         >
         <label for="disable-builtin-converters">
-          {{ t(appName, 'Disable the builtin-converters.') }}
+          {{ t(appName, 'Disable the builtin converters.') }}
         </label>
       </div>
       <SettingsInputText
         v-model="universalConverter"
         :label="t(appName, 'Universal Converter')"
-        :hint="t(appName, 'Full path to a filter-program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
+        :hint="t(appName, 'Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
         :disabled="loading"
         @update="saveTextInput(...arguments, 'universalConverter')"
       />
       <SettingsInputText
         v-model="fallbackConverter"
         :label="t(appName, 'Fallback Converter')"
-        :hint="t(appName, 'Full path to a filter-program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
+        :hint="t(appName, 'Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
         :disabled="loading || builtinConvertersDisabled"
         @update="saveTextInput(...arguments, 'fallbackConverter')"
       />

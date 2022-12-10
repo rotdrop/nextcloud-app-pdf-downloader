@@ -234,7 +234,7 @@ class FontService
             $converter = $this->executableFinder->find(self::PDF_TO_SVG);
           } catch (Exceptions\EnduserNotificationException $e) {
             $endUserException = new Exceptions\EnduserNotificationException(
-              $this->l->t('Font-sample could not be generated: %s', $e->getMessage())
+              $this->l->t('Font sample could not be generated: %s', $e->getMessage())
             );
             throw $endUserException;
           }
@@ -251,7 +251,7 @@ class FontService
           $data = file_get_contents($outputFile);
           if (empty($data)) {
             $endUserException = new Exceptions\EnduserNotificationException(
-              $this->l->t('Font-sample could not be generated with "%s".', self::PDF_TO_SVG)
+              $this->l->t('Font sample could not be generated with "%s".', self::PDF_TO_SVG)
             );
             throw $endUserException;
           }
@@ -275,10 +275,10 @@ class FontService
           $data = null;
         }
         if (empty($data)) {
-          $this->logInfo('Font-sample could not be generated with "ImageMagick".');
+          $this->logInfo('Font sample could not be generated with "ImageMagick".');
           if (empty($endUserException)) {
             $endUserException = new Exceptions\EnduserNotificationException(
-              $this->l->t('Font-sample could not be generated with "%s".', 'ImageMagick')
+              $this->l->t('Font sample could not be generated with "%s".', 'ImageMagick')
             );
           }
         }

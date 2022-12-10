@@ -353,7 +353,7 @@ __EOF__;
         default:
           throw new Exceptions\Exception(
             $this->l->t(
-              'Internal error, unknown file-system node-type: "%s".',
+              'Internal error, unknown filesystem node type: "%s".',
               $node->getType()
             ));
       }

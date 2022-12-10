@@ -29,7 +29,7 @@
                @change="saveSetting('pageLabels')"
         >
         <label for="page-labels">
-          {{ t(appName, 'Label output pages with filename and page-number') }}
+          {{ t(appName, 'Label output pages with filename and page number') }}
         </label>
       </div>
       <span class="hint">
@@ -99,7 +99,7 @@
                          max="1.00"
                          step="0.01"
                          :label="t(appName, 'Page label width fraction')"
-                         :hint="t(appName, 'Page label width as decimal fraction of the page-width. Leave empty to use a fixed font-size.')"
+                         :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
                          :disabled="loading > 0 || !pageLabels"
                          @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
       />
@@ -109,7 +109,7 @@
                   v-model="pageLabelsFontObject"
                   :placeholder="t(appName, 'Select a Font')"
                   :fonts-list="fontsList"
-                  :label="t(appName, 'Font for generated PDF page-annotations')"
+                  :label="t(appName, 'Font for generated PDF page annotations')"
                   :hint="t(appName, 'The font to use for the page labels: {pageLabelsFont}', { pageLabelsFont })"
                   :disabled="!pageLabels || loading > 0"
                   :loading="loading > 0"
@@ -119,7 +119,7 @@
       <FontSelect v-model="generatedPagesFontObject"
                   :placeholder="t(appName, 'Select a Font')"
                   :fonts-list="fontsList"
-                  :label="t(appName, 'Font for generated PDF (error-)pages')"
+                  :label="t(appName, 'Font for generated PDF (error)pages')"
                   :hint="t(appName, 'The font to use for generated pages: {generatedPagesFont}', { generatedPagesFont })"
                   :disabled="loading > 0"
                   :loading="loading > 0"
@@ -191,7 +191,7 @@
       </SettingsInputText>
       <div class="horizontal-rule" />
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
-                        :hint="t(appName, 'Choose a default PDF-file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF:')"
+                        :hint="t(appName, 'Choose a default PDF file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF:')"
                         :placeholder="t(appName, 'basename')"
                         @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
       />
@@ -219,7 +219,7 @@
         <label v-tooltip="tooltips.authenticatedBackgroundJobs"
                for="authenticated-background-jobs"
         >
-          {{ t(appName, 'Use  authenticated background-jobs if necessary.') }}
+          {{ t(appName, 'Use authenticated background jobs if necessary.') }}
         </label>
       </div>
       <div class="horizontal-rule" />
@@ -350,7 +350,7 @@ export default {
       //
       tooltips: {
         useBackgroundJobsDefault: t(appName, 'If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file.'),
-        authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the "authenticated" mount option then your login-credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
+        authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the "authenticated" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
       },
     }
   },
@@ -585,7 +585,7 @@ export default {
             message = responseData.messages.join(' ');
           }
         }
-        showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+        showError(t(appName, 'Unable to obtain the pdf file template example: {message}', {
           message,
         }))
         // can't help, just return the unsubstituted template

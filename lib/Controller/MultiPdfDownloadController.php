@@ -283,7 +283,7 @@ class MultiPdfDownloadController extends Controller
       try {
         $destinationFolder = $this->getUserFolder()->get($destinationPath);
       } catch (FileNotFoundException $e) {
-        return self::grumble($this->l->t('Unable to open the destination-folder "%s".', $destinationPath));
+        return self::grumble($this->l->t('Unable to open the destination folder "%s".', $destinationPath));
       }
       $nonExistingTarget = $destinationFolder->getNonExistingName($cacheFile->getName());
       $destinationPath = $this->getUserFolderPath()
