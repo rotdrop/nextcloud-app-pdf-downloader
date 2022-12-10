@@ -126,7 +126,7 @@ class Notifier implements INotifier
         break;
       case self::TYPE_SUCCESS|self::TYPE_FILESYSTEM:
         $parameters = $notification->getSubjectParameters();
-        $notification->setRichSubject($l->t('Your folder {source} has been converted to a PDF-file at {destination}.'), [
+        $notification->setRichSubject($l->t('Your folder {source} has been converted to a PDF file at {destination}.'), [
           'source' => [
             'type' => 'file',
             'id' => $parameters['sourceId'],
