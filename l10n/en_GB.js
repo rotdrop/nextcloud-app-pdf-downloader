@@ -8,6 +8,7 @@ OC.L10N.register(
     "Unable to find cached download file with id \"%d\"." : "Unable to find cached download file with id \"%d\".",
     "Unable to open the destination-folder \"%s\"." : "Unable to open the destination-folder \"%s\".",
     "PDF document saved as \"%s\"." : "PDF document saved as \"%s\".",
+    "PDF generation background job scheduled successfully." : "PDF generation background job scheduled successfully.",
     "Cached PDF files for \"%s\" have been deleted." : "Cached PDF files for \"%s\" have been deleted.",
     "PDF file \"%s\" has been deleted." : "PDF file \"%s\" has been deleted.",
     "DATETIME" : "DATETIME",

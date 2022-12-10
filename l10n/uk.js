@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "bytes" : "байтів",
     "Text" : "Текст",
-    "Background" : "Фон",
+    "Background" : "Тло",
     "Options" : "Параметри",
     "PDF" : "PDF",
     "OK" : "Гаразд",

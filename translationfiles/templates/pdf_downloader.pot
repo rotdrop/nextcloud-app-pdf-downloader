@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-12-09 03:38+0000\n"
+"POT-Creation-Date: 2022-12-10 03:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -635,7 +635,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS alSettings.vue:477
-#. TRANSLATORS FilesTab.vue:368
+#. TRANSLATORS FilesTab.vue:369
 #: /app/specialVueFakeDummyForL10nScript.js:120
 #: /app/specialVueFakeDummyForL10nScript.js:124
 #: /app/specialVueFakeDummyForL10nScript.js:128
@@ -662,7 +662,7 @@ msgid "Unable to obtain page label template example: {message}"
 msgstr ""
 
 #. TRANSLATORS alSettings.vue:588
-#. TRANSLATORS FilesTab.vue:375
+#. TRANSLATORS FilesTab.vue:376
 #: /app/specialVueFakeDummyForL10nScript.js:130
 #: /app/specialVueFakeDummyForL10nScript.js:192
 msgid "Unable to obtain the pdf-file template example: {message}"
@@ -803,40 +803,40 @@ msgid ""
 "template can be configured in the personal settings for this app."
 msgstr ""
 
-#. TRANSLATORS FilesTab.vue:411
+#. TRANSLATORS FilesTab.vue:412
 #: /app/specialVueFakeDummyForL10nScript.js:196
 msgid "Unable to obtain the list of available downloads: {message}"
 msgstr ""
 
-#. TRANSLATORS FilesTab.vue:435
-#. TRANSLATORS FilesTab.vue:448
+#. TRANSLATORS FilesTab.vue:436
+#. TRANSLATORS FilesTab.vue:449
 #: /app/specialVueFakeDummyForL10nScript.js:198
 #: /app/specialVueFakeDummyForL10nScript.js:200
 msgid "Choose a destination"
 msgstr ""
 
-#. TRANSLATORS FilesTab.vue:515
+#. TRANSLATORS FilesTab.vue:516
 #: /app/specialVueFakeDummyForL10nScript.js:204
 msgid "Unable to delete the cached PDF file: {message}"
 msgstr ""
 
-#. TRANSLATORS FilesTab.vue:562
+#. TRANSLATORS FilesTab.vue:564
 #: /app/specialVueFakeDummyForL10nScript.js:206 /app/src/files-action.js:98
 msgid "Background PDF generation for {sourceFile} has been scheduled."
 msgstr ""
 
-#. TRANSLATORS FilesTab.vue:575
+#. TRANSLATORS FilesTab.vue:580
 #: /app/specialVueFakeDummyForL10nScript.js:210 /app/src/files-action.js:110
 msgid ""
 "Unable to schedule background PDF generation for {sourceFile}: {message}"
 msgstr ""
 
-#. TRANSLATORS FilesTab.vue:619
+#. TRANSLATORS FilesTab.vue:624
 #: /app/specialVueFakeDummyForL10nScript.js:212
 msgid "PDF saved as {path}."
 msgstr ""
 
-#. TRANSLATORS FilesTab.vue:628
+#. TRANSLATORS FilesTab.vue:633
 #: /app/specialVueFakeDummyForL10nScript.js:216
 msgid ""
 "Unable to save the PDF generated from {sourceFile} to the cloud: {message}"

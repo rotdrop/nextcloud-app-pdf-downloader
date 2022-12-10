@@ -4,6 +4,7 @@ OC.L10N.register(
     "FILENAME" : "FILNAMN",
     "bytes" : "byte",
     "Text" : "Text",
+    "Background" : "Bakgrund",
     "Options" : "Alternativ",
     "PDF" : "PDF",
     "OK" : "OK",

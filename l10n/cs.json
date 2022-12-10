@@ -6,6 +6,7 @@
     "Unable to find cached download file with id \"%d\"." : "V mezipaměti se nedaří nalézt stahovaný soubor s identifikátorem „%d“.",
     "Unable to open the destination-folder \"%s\"." : "Nedaří se otevřít cílovou složku „%s“.",
     "PDF document saved as \"%s\"." : "PDF dokument uložen jako „%s“.",
+    "PDF generation background job scheduled successfully." : "Úloha pro vytvoření PDF na pozadí úspěšně naplánována.",
     "Cached PDF files for \"%s\" have been deleted." : "PDF soubory v mezipaměti pro „%s“ byly smazány.",
     "PDF file \"%s\" has been deleted." : "PDF soubor „%s“ byl smazán.",
     "DATETIME" : "DATUMČAS",
