@@ -29,7 +29,7 @@
                @change="saveSetting('pageLabels')"
         >
         <label for="page-labels">
-          {{ t(appName, 'Label output pages with filename and page-number') }}
+          {{ t(appName, 'Label output pages with filename and page number') }}
         </label>
       </div>
       <span class="hint">
