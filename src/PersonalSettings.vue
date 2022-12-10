@@ -191,7 +191,7 @@
       </SettingsInputText>
       <div class="horizontal-rule" />
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
-                        :hint="t(appName, 'Choose a default PDF-file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF:')"
+                        :hint="t(appName, 'Choose a default PDF file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF:')"
                         :placeholder="t(appName, 'basename')"
                         @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
       />
@@ -219,7 +219,7 @@
         <label v-tooltip="tooltips.authenticatedBackgroundJobs"
                for="authenticated-background-jobs"
         >
-          {{ t(appName, 'Use  authenticated background-jobs if necessary.') }}
+          {{ t(appName, 'Use  authenticated background jobs if necessary.') }}
         </label>
       </div>
       <div class="horizontal-rule" />
@@ -585,7 +585,7 @@ export default {
             message = responseData.messages.join(' ');
           }
         }
-        showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+        showError(t(appName, 'Unable to obtain the pdf file template example: {message}', {
           message,
         }))
         // can't help, just return the unsubstituted template
