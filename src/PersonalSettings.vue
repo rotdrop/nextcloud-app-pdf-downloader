@@ -585,7 +585,7 @@ export default {
             message = responseData.messages.join(' ');
           }
         }
-        showError(t(appName, 'Unable to obtain the pdf file template example: {message}', {
+        showError(t(appName, 'Unable to obtain the PDF file template example: {message}', {
           message,
         }))
         // can't help, just return the unsubstituted template
