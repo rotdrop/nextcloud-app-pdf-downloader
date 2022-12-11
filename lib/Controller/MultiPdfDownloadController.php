@@ -640,16 +640,6 @@ EOF;
   }
 
   /**
-   * @param IL10N $l
-   *
-   * @return string
-   */
-  public static function getDefaultPdfFileNameTemplate(IL10N $l):string
-  {
-    return '{' . $l->t('DATETIME') . '}-{' . $l->t('DIRNAME') . '@:/' . '}-{' . $l->t('BASENAME') . '}' . '.pdf';
-  }
-
-  /**
    * Generate a page label from a user supplied template and and example data-set.
    *
    * @param string $template

@@ -442,7 +442,9 @@ class SettingsController extends Controller
         break;
       case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
         if (empty($value)) {
-          $value = MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l);
+          /** @var FileSystemWalker $fileSystemWalker */
+          $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
+          $value = $fileSystemWalker->getDefaultPdfFileNameTemplate();
         }
         $newValue = $value;
         break;
@@ -661,7 +663,9 @@ class SettingsController extends Controller
           break;
         case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
           if (empty($value)) {
-            $value = MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l);
+            /** @var FileSystemWalker $fileSystemWalker */
+            $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
+            $value = $fileSystemWalker->getDefaultPdfFileNameTemplate();
           }
           break;
         case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:

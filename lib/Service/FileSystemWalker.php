@@ -100,6 +100,9 @@ class FileSystemWalker
   /** @var int */
   private $archiveBombLimit = Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT;
 
+  /** @var null|array */
+  private $templateKeyTranslations = null;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
@@ -510,6 +513,44 @@ __EOF__;
   }
 
   /**
+   * The purpose of this function is to collect translations for text
+   * substitution placeholders in a single place in the source code in order
+   * to make consistent translations possible.
+   *
+   * @return array
+   */
+  public function getTemplateKeyTranslations():array
+  {
+    if ($this->templateKeyTranslations !== null) {
+      return $this->templateKeyTranslations;
+    }
+    $this->templateKeyTranslations = [
+      // TRANSLATORS: FIRST TEST LINE OF MULTIPLE LINES TRANSLATORS COMMENT, PLEASE IGNORE.
+      // TRANSLATORS: SECOND TEST LINE OF MULTIPLE LINES TRANSLATORS COMMENT, PLEASE IGNORE.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'BASENAME' => $this->l->t('BASENAME'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'FILENAME' => $this->l->t('FILENAME'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'EXTENSION' => $this->l->t('EXTENSION'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'DIRNAME' => $this->l->t('DIRNAME'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'DATETIME' => $this->l->t('DATETIME'),
+    ];
+    return $this->templateKeyTranslations;
+  }
+
+  /**
+   * @return string The localized default filename template.
+   */
+  public function getDefaultPdfFileNameTemplate():string
+  {
+    $keys = $this->getTemplateKeyTranslations();
+    return '{' . $keys['DATETIME'] . '}-{' . $keys['DIRNAME'] . '@:/' . '}-{' . $keys['BASENAME'] . '}' . '.pdf';
+  }
+
+  /**
    * Generate a download filename from a given template and full path.
    *
    * @param string $path Folder Path.
@@ -528,17 +569,11 @@ __EOF__;
         $this->userId,
         $this->appName,
         SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
-        MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+        $this->getDefaultPdfFileNameTemplate(),
       );
     }
 
-    $keys = [
-      'BASENAME' => $this->l->t('BASENAME'),
-      'FILENAME' => $this->l->t('FILENAME'),
-      'EXTENSION' => $this->l->t('EXTENSION'),
-      'DIRNAME' => $this->l->t('DIRNAME'),
-      'DATETIME' => $this->l->t('DATETIME'),
-    ];
+    $keys = $this->getTemplateKeyTranslations();
     $pathInfo = pathinfo($path);
     $templateValues = [
       'BASENAME' => $pathInfo['basename'],

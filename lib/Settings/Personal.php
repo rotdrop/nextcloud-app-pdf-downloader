@@ -28,7 +28,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 
 use OCA\PdfDownloader\Service\PdfCombiner;
-use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
+use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Constants;
 
 /**
@@ -46,6 +46,9 @@ class Personal implements ISettings
   /** @var PdfCombiner */
   private $pdfCombiner;
 
+  /** @var FileSystemWalker */
+  private $fileSystemWalker;
+
   /** @var IInitialState */
   private $initialState;
 
@@ -57,11 +60,13 @@ class Personal implements ISettings
     string $appName,
     IL10N $l10n,
     PdfCombiner $pdfCombiner,
+    FileSystemWalker $fileSystemWalker,
     IInitialState $initialState,
   ) {
     $this->appName = $appName;
     $this->l = $l10n;
     $this->pdfCombiner = $pdfCombiner;
+    $this->fileSystemWalker = $fileSystemWalker;
     $this->initialState = $initialState;
     $this->initializeAssets(__DIR__);
   }
@@ -75,7 +80,7 @@ class Personal implements ISettings
   {
     $this->initialState->provideInitialState('config', [
       'defaultPageLabelTemplate' => $this->pdfCombiner->getOverlayTemplate(),
-      'defaultPdfFileNameTemplate' => MultiPdfDownloadController::getDefaultPdfFileNameTemplate($this->l),
+      'defaultPdfFileNameTemplate' => $this->fileSystemWalker->getDefaultPdfFileNameTemplate(),
     ]);
 
     return new TemplateResponse(

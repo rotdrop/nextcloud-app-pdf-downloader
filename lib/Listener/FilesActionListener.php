@@ -38,6 +38,7 @@ use OCA\RotDrop\Toolkit\Service\MimeTypeService;
 
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Controller\SettingsController;
+use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Constants;
 
 /**
@@ -113,11 +114,13 @@ class FilesActionListener implements IEventListener
     $extractArchiveFilesUser = $cloudConfig->getUserValue(
       $userId, $appName, SettingsController::EXTRACT_ARCHIVE_FILES, $extractArchiveFilesAdmin
     );
+    /** @var FileSystemWalker $fileSystemWalker */
+    $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
     $pdfFileNameTemplate = $cloudConfig->getUserValue(
       $userId,
       $appName,
       SettingsController::PERSONAL_PDF_FILE_NAME_TEMPLATE,
-      MultiPdfDownloadController::getDefaultPdfFileNameTemplate($l10n),
+      $fileSystemWalker->getDefaultPdfFileNameTemplate(),
     );
     $pdfCloudFolderPath = $cloudConfig->getUserValue(
       $userId,

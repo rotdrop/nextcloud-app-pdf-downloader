@@ -316,10 +316,11 @@ class PdfCombiner
    */
   public function setOverlayTemplate(?string $overlayTemplate):PdfCombiner
   {
+    $templateKeys = $this->getPageLabelTemplateKeys();
     if (empty($overlayTemplate)) {
-      $overlayTemplate = '{' . $this->l->t('DIR_BASENAME') . '}'
-        . ' {0|' . $this->l->t('DIR_PAGE_NUMBER') . '}'
-        . '/{' . $this->l->t('DIR_TOTAL_PAGES') . '}';
+      $overlayTemplate = '{' . $templateKeys['DIR_BASENAME'] . '}'
+        . ' {0|' . $templateKeys['DIR_PAGE_NUMBER'] . '}'
+        . '/{' . $templateKeys['DIR_TOTAL_PAGES'] . '}';
     }
     $this->overlayTemplate = $overlayTemplate;
 
@@ -341,6 +342,41 @@ class PdfCombiner
   }
 
   /**
+   * The purpose of this function is to collect translations for text
+   * substitution placeholders in a single place in the source code in order
+   * to make consistent translations possible.
+   *
+   * @return array
+   */
+  public function getPageLabelTemplateKeys():array
+  {
+    if ($this->pageLabelTemplateKeys !== null) {
+      return $this->pageLabelTemplateKeys;
+    }
+    $this->pageLabelTemplateKeys = [
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'BASENAME' => $this->l->t('BASENAME'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'FILENAME' => $this->l->t('FILENAME'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'EXTENSION' => $this->l->t('EXTENSION'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'DIR_BASENAME' => $this->l->t('DIR_BASENAME'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'DIRNAME' => $this->l->t('DIRNAME'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'DIR_PAGE_NUMBER' => $this->l->t('DIR_PAGE_NUMBER'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'DIR_TOTAL_PAGES' => $this->l->t('DIR_TOTAL_PAGES'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'FILE_PAGE_NUMBER' => $this->l->t('FILE_PAGE_NUMBER'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      'FILE_TOTAL_PAGES' => $this->l->t('FILE_TOTAL_PAGES'),
+    ];
+    return $this->pageLabelTemplateKeys;
+  }
+
+  /**
    * Generate the page label from its template, filename and page numbers known.
    *
    * The general syntax of a replacement is {[C[N]|]KEY} where
@@ -357,9 +393,13 @@ class PdfCombiner
    *
    * @param string $path Path of the original file.
    *
-   * @param int $pageNumber Current page-number.
+   * @param int $dirPageNumber Current page-number inside the current directory.
    *
-   * @param int $pageMax Maximum page-number.
+   * @param int $dirTotalPages Total number of pages of all (converted) documents in the current directory.
+   *
+   * @param int $filePageNumber Current page-number in the  currently worked-on file.
+   *
+   * @param int $fileTotalPages The total number of pages of the PDF conversion of the current file.
    *
    * @return string
    */
@@ -370,19 +410,7 @@ class PdfCombiner
     int $filePageNumber,
     int $fileTotalPages,
   ):string {
-    if (empty($this->pageLabelTemplateKeys)) {
-      $this->pageLabelTemplateKeys = [
-        'BASENAME' => $this->l->t('BASENAME'),
-        'FILENAME' => $this->l->t('FILENAME'),
-        'EXTENSION' => $this->l->t('EXTENSION'),
-        'DIR_BASENAME' => $this->l->t('DIR_BASENAME'),
-        'DIRNAME' => $this->l->t('DIRNAME'),
-        'DIR_PAGE_NUMBER' => $this->l->t('DIR_PAGE_NUMBER'),
-        'DIR_TOTAL_PAGES' => $this->l->t('DIR_TOTAL_PAGES'),
-        'FILE_PAGE_NUMBER' => $this->l->t('FILE_PAGE_NUMBER'),
-        'FILE_TOTAL_PAGES' => $this->l->t('FILE_TOTAL_PAGES'),
-      ];
-    }
+    $templateKeys = $this->getPageLabelTemplateKeys();
     $pathInfo = pathinfo($path);
     $folderBaseName = pathinfo($pathInfo['dirname'], PATHINFO_BASENAME);
     $templateValues = [
@@ -405,7 +433,7 @@ class PdfCombiner
 
     // $this->logInfo('PATH ' . $path . ' ' . print_r($templateValues, true));
 
-    return $this->replaceBracedPlaceholders($this->getOverlayTemplate(), $templateValues, $this->pageLabelTemplateKeys);
+    return $this->replaceBracedPlaceholders($this->getOverlayTemplate(), $templateValues, $templateKeys);
   }
 
   /**
