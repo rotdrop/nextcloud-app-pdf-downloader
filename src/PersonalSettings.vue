@@ -99,7 +99,7 @@
                          max="1.00"
                          step="0.01"
                          :label="t(appName, 'Page label width fraction')"
-                         :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
+                         :hint="t(appName, 'Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size.')"
                          :disabled="loading > 0 || !pageLabels"
                          @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
       />
@@ -585,7 +585,7 @@ export default {
             message = responseData.messages.join(' ');
           }
         }
-        showError(t(appName, 'Unable to obtain the pdf file template example: {message}', {
+        showError(t(appName, 'Unable to obtain the PDF file template example: {message}', {
           message,
         }))
         // can't help, just return the unsubstituted template
