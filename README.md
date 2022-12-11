@@ -42,7 +42,7 @@ For the PDF generation the following steps are performed:
   - the resulting bookmark structure resembles the folder structure
 - optionally place a "Folder PAGE/MAX_PAGES" label to top of each page
 - finally present the generated PDF as download or save it to the
-  cloud file-system.
+  cloud filesystem.
 
 The offers the choice between online and background PDF
 generation. "Background" means that a job is scheduled which then runs

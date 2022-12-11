@@ -287,7 +287,7 @@ class AnyToPdf
       } catch (\Throwable $t) {
         if ($this->builtinConvertersDisabled) {
           throw new RuntimeException(
-            $this->l->t('Universal converter "%1$s" has failed trying to convert mime-type "%2$s"', [
+            $this->l->t('Universal converter "%1$s" has failed trying to convert MIME type "%2$s"', [
               $this->universalConverter, $mimeType,
             ]));
         } else {
@@ -324,7 +324,7 @@ class AnyToPdf
       }
       if (empty($convertedData)) {
         throw new RuntimeException(
-          $this->l->t('Converter "%1$s" has failed trying to convert mime-type "%2$s"', [
+          $this->l->t('Converter "%1$s" has failed trying to convert MIME type "%2$s"', [
             print_r($converter, true), $mimeType,
           ]));
       }

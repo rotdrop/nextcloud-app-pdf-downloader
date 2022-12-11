@@ -126,7 +126,7 @@ class Notifier implements INotifier
         break;
       case self::TYPE_SUCCESS|self::TYPE_FILESYSTEM:
         $parameters = $notification->getSubjectParameters();
-        $notification->setRichSubject($l->t('Your folder {source} has been converted to a PDF-file at {destination}.'), [
+        $notification->setRichSubject($l->t('Your folder {source} has been converted to a PDF file at {destination}.'), [
           'source' => [
             'type' => 'file',
             'id' => $parameters['sourceId'],
@@ -149,7 +149,7 @@ class Notifier implements INotifier
         break;
       case self::TYPE_SUCCESS|self::TYPE_DOWNLOAD:
         $parameters = $notification->getSubjectParameters();
-        $notification->setRichSubject($l->t('You folder {source} has been converted to a PDF file. Please visit the details-tab of the source-folder to download the file.'), [
+        $notification->setRichSubject($l->t('You folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file.'), [
           'source' => [
             'type' => 'file',
             'id' => $parameters['sourceId'],
