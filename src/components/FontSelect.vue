@@ -85,6 +85,7 @@ import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
 import EllipsisedFontOption from './EllipsisedFontOption'
 import fontInfoPopup from './mixins/font-info-popup'
 import generateUrl from '../toolkit/util/generate-url.js'
+import fontSampleText from '../toolkit/util/pangram.js'
 
 export default {
   name: 'FontSelect',
@@ -134,7 +135,7 @@ export default {
     },
     fontSampleText: {
       type: String,
-      default: t(appName, 'The quick brown fox jumps over the lazy dog.'),
+      default: fontSampleText,
     },
     fontSampleSize: {
       type: Number,

@@ -271,6 +271,7 @@ import ColorPicker from './components/ColorPicker'
 import FontSelect from './components/FontSelect'
 import FilePrefixPicker from './components/FilePrefixPicker'
 import generateUrl from './toolkit/util/generate-url.js'
+import fontSampleText from './toolkit/util/pangram.js'
 import { getInitialState } from './toolkit/services/InitialStateService.js'
 import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
@@ -300,8 +301,8 @@ export default {
       sorting: 'ascending',
       fontsList: [],
       fontSamples: [],
-      // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the translated language
-      fontSampleText: t(appName, 'The quick brown fox jumps over the lazy dog.'),
+      // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the target language.
+      fontSampleText: fontSampleText,
       loading: 1,
       //
       pageLabels: true,
