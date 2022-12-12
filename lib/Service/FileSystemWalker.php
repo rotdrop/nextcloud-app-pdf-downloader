@@ -525,17 +525,25 @@ __EOF__;
       return $this->templateKeyTranslations;
     }
     $this->templateKeyTranslations = [
-      // TRANSLATORS: FIRST TEST LINE OF MULTIPLE LINES TRANSLATORS COMMENT, PLEASE IGNORE.
-      // TRANSLATORS: SECOND TEST LINE OF MULTIPLE LINES TRANSLATORS COMMENT, PLEASE IGNORE.
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'BASENAME' => $this->l->t('BASENAME'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'FILENAME' => $this->l->t('FILENAME'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'EXTENSION' => $this->l->t('EXTENSION'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DIRNAME' => $this->l->t('DIRNAME'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DATETIME' => $this->l->t('DATETIME'),
     ];
     return $this->templateKeyTranslations;

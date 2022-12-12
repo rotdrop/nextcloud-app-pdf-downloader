@@ -354,23 +354,41 @@ class PdfCombiner
       return $this->pageLabelTemplateKeys;
     }
     $this->pageLabelTemplateKeys = [
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'BASENAME' => $this->l->t('BASENAME'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'FILENAME' => $this->l->t('FILENAME'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'EXTENSION' => $this->l->t('EXTENSION'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DIR_BASENAME' => $this->l->t('DIR_BASENAME'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DIRNAME' => $this->l->t('DIRNAME'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DIR_PAGE_NUMBER' => $this->l->t('DIR_PAGE_NUMBER'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DIR_TOTAL_PAGES' => $this->l->t('DIR_TOTAL_PAGES'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'FILE_PAGE_NUMBER' => $this->l->t('FILE_PAGE_NUMBER'),
-      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then please use only uppercase letters in the translation. Otherwise please use whatever else convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'FILE_TOTAL_PAGES' => $this->l->t('FILE_TOTAL_PAGES'),
     ];
     return $this->pageLabelTemplateKeys;
