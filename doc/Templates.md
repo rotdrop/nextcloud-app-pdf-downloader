@@ -27,11 +27,34 @@ detailed further below. The substitution backend can be found in the
 traits-class
 [`UtilTrait::replaceBracedPlaceholders()`](../lib/Toolkit/Traits/UtilTrait.php#L403).
 
+It is possible to use localized placeholders if they have already been
+provide by the translation teams. The translations can be found in the
+subdirectory [`../l10n/`](../l10n/).
+
+However, there is a known bug
+[`issue #20`](https://github.com/rotdrop/nextcloud-app-pdf-downloader/issues/20#issue-1490531098)
+which will render a template using localized variable names unusable
+if the user changes the frontend language. Of course, is is planned to fix this issue.
+
 ### Page Labels
 
-The substitutions are provided by [`PdfCombiner::makePageLabelFromTemplate()`](../lib/Service/PdfCombiner.php#L366).
+THIS SECTION IS INCOMPLETE.
 
-TO BE CONTINUED.
+#### Default Template
+
+`{DIR_BASENAME} {0|DIR_PAGE_NUMBER}/{DIR_TOTAL_PAGES}`
+
+#### Supported Placeholders
+
+- `BASENAME`
+- `FILENAME`
+- `EXTENSION`
+- `DIRNAME`
+- `DIR_BASEAME`
+- `DIR_PAGE_NUMBER`
+- `DIR_TOTAL_PAGES`
+- `FILE_PAGE_NUMBER`
+- `FILE_TOTAL_PAGES`
 
 ### File-Names
 
