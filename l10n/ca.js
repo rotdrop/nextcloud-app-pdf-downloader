@@ -112,7 +112,6 @@ OC.L10N.register(
     "System Administrator" : "Administrador de sistemes",
     "Feedback email: {AutoReport}" : "Correu electrònic de comentaris: {AutoReport}",
     "Something went wrong." : "Alguna cosa ha anat malament.",
-    "I any case it may help to logoff and logon again, as a temporary work-around. You will be redirected to the log-in page when you close this window." : "En qualsevol cas, pot ser útil tancar la sessió i iniciar la sessió de nou, com a solució temporal. Se us redirigirà a la pàgina d'inici de sessió quan tanqueu aquesta finestra.",
     "Internal Error" : "Error intern",
     "Field {RequiredField} not present in AJAX response." : "El camp {RequiredField} no està present a la resposta AJAX.",
     "Missing data" : "Falten dades",

@@ -129,7 +129,6 @@ OC.L10N.register(
     "Feedback email: {AutoReport}" : "E-mail pour les retours d'information : {AutoReport}",
     "Something went wrong." : "Quelque chose s'est mal passé.",
     "If it should be the case that you are already logged in for a long time without interacting with the app, then the reason for this error is probably a simple timeout." : "Si vous êtes connecté depuis longtemps sans interaction avec l'application, alors la raison de cette erreur est probablement un simple délai dépassé.",
-    "I any case it may help to logoff and logon again, as a temporary work-around. You will be redirected to the log-in page when you close this window." : "Dans tous les cas, il peut être utile de vous déconnecter/reconnecter pour contourner le problème temporairement. Vous serez redirigé sur la page de connexion quand vous fermerez cette fenêtre.",
     "Internal Error" : "Erreur interne",
     "Field {RequiredField} not present in AJAX response." : "Le champ {RequiredField} n'est pas présent dans la réponse AJAX.",
     "Missing data" : "Données manquantes",
