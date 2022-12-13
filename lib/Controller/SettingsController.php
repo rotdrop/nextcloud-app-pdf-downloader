@@ -441,18 +441,26 @@ class SettingsController extends Controller
         }
         break;
       case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
+        /** @var FileSystemWalker $fileSystemWalker */
+        $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
         if (empty($value)) {
-          /** @var FileSystemWalker $fileSystemWalker */
-          $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
           $value = $fileSystemWalker->getDefaultPdfFileNameTemplate();
         }
-        $newValue = $value;
+        $l10nKeys = $fileSystemWalker->getTemplateKeyTranslations();
+        if ($oldValue) {
+          $oldValue = $this->untranslateBracedTemplate($oldValue, $l10nKeys);
+        }
+        $newValue = $this->untranslateBracedTemplate($value, $l10nKeys);
         break;
       case self::PERSONAL_PAGE_LABEL_TEMPLATE:
         if (empty($value)) {
           $value = $this->pdfCombiner->getOverlayTemplate();
         }
-        $newValue = $value;
+        $l10nKeys = $this->pdfCombiner->getPageLabelTemplateKeys();
+        if ($oldValue) {
+          $oldValue = $this->untranslateBracedTemplate($oldValue, $l10nKeys);
+        }
+        $newValue = $this->untranslateBracedTemplate($value, $l10nKeys);
         break;
       case self::PERSONAL_PAGE_LABEL_TEXT_COLOR:
         if (empty($value)) {
@@ -660,13 +668,17 @@ class SettingsController extends Controller
           if (empty($value)) {
             $value = $this->pdfCombiner->getOverlayTemplate();
           }
+          $l10nKeys = $this->pdfCombiner->getPageLabelTemplateKeys();
+          $value = $this->translateBracedTemplate($value, $l10nKeys);
           break;
         case self::PERSONAL_PDF_FILE_NAME_TEMPLATE:
+          /** @var FileSystemWalker $fileSystemWalker */
+          $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
           if (empty($value)) {
-            /** @var FileSystemWalker $fileSystemWalker */
-            $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
             $value = $fileSystemWalker->getDefaultPdfFileNameTemplate();
           }
+          $l10nKeys = $fileSystemWalker->getTemplateKeyTranslations();
+          $value = $this->translateBracedTemplate($value, $l10nKeys);
           break;
         case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
           break;
