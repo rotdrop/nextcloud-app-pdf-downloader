@@ -94,7 +94,6 @@ OC.L10N.register(
     "On-the-fly extraction of archive files." : "Извличане в движение на архивни файлове.",
     "On-the-fly extraction of archive files is disabled by the administrator." : "Извличането в движение на архивни файлове е деактивирано от администратора.",
     "Administrative size limit: {value}" : "Административно ограничение на размера: {value}",
-    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog. /изречение -  панграма, което съдържа всички букви от английската азбука/",
     "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt\n/фактури/2022/октомври/фактури.fodt/",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Ако е маркирано, по подразбиране да се генерират PDF файлове във фонов режим. Това може да бъде отменено, като се премине към панела PDF в страничната лента с подробности за всяка конкретна папка с източник или архивен файл.",
     "reason unknown" : "неизвестна причина",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Yes" : "Да",
     "Debug Information" : "Информация за отстраняване на грешки",
     "unknown error" : "неизвестна грешка",
-    "Unable to download data from \"{url}\": {message}" : "Невъзможно е да се изтеглят данни от \"{url}\": {message}"
+    "Unable to download data from \"{url}\": {message}" : "Невъзможно е да се изтеглят данни от \"{url}\": {message}",
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog. /изречение -  панграма, което съдържа всички букви от английската азбука/"
 },
 "nplurals=2; plural=(n != 1);");

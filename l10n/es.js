@@ -95,7 +95,6 @@ OC.L10N.register(
     "On-the-fly extraction of archive files." : "Extracción al vuelo de archivadores.",
     "On-the-fly extraction of archive files is disabled by the administrator." : "La extracción al vuelo de archivadores está deshabilitada por el administrador.",
     "Administrative size limit: {value}" : "Límite administrativo de tamaño: {value}",
-    "The quick brown fox jumps over the lazy dog." : "El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.",
     "invoices/2022/october/invoice.fodt" : "facturas/2022/octubre/factura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Si está activo, la generación de PDFs se hará por defecto en segundo plano. Esto puede ser pasado por alto al navegar al panel PDF en la barra lateral de detalles para cada archivador o carpeta fuente particular.",
     "reason unknown" : "razón desconocida",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Yes" : "Sí",
     "Debug Information" : "Información de depuración",
     "unknown error" : "error desconocido",
-    "Unable to download data from \"{url}\": {message}" : "No fue posible descargar datos desde \"{url}\": {message}"
+    "Unable to download data from \"{url}\": {message}" : "No fue posible descargar datos desde \"{url}\": {message}",
+    "The quick brown fox jumps over the lazy dog." : "El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

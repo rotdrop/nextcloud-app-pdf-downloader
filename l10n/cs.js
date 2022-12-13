@@ -95,7 +95,6 @@ OC.L10N.register(
     "On-the-fly extraction of archive files." : "Vybalování souborů z archivu za pochodu.",
     "On-the-fly extraction of archive files is disabled by the administrator." : "Vybalování souborů z archivu je vypnuto správcem.",
     "Administrative size limit: {value}" : "Administrativní limit velikosti: {value}",
-    "The quick brown fox jumps over the lazy dog." : "Příliš žluťoučký kůň úpěl ďábelské ódy.",
     "invoices/2022/october/invoice.fodt" : "faktury/2022/rijen/faktura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Pokud je zaškrtnuté, vytvářet ve výchozím stavu PDF na pozadí. Toto je možné přebít přejitím na panel PDF v postranní liště podrobností pro každou konkrétní zdrojovou složku nebo soubor s archivem.",
     "reason unknown" : "příčina neznámá",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Yes" : "Ano",
     "Debug Information" : "Informace pro ladění",
     "unknown error" : "neznámá chyba",
-    "Unable to download data from \"{url}\": {message}" : "Nedaří se stáhnout data z „{url}: {message}"
+    "Unable to download data from \"{url}\": {message}" : "Nedaří se stáhnout data z „{url}: {message}",
+    "The quick brown fox jumps over the lazy dog." : "Příliš žluťoučký kůň úpěl ďábelské ódy."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

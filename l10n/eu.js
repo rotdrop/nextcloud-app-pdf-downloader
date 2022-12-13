@@ -7,6 +7,7 @@ OC.L10N.register(
     "Unknown admin setting: \"%1$s\"" : "Administratzaile ezarpen ezezaguna: \"%1$s\"",
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "\"%1$s\" balioa \"%2$s\" ezarpenerako ezin da balio boolearrera aldatu.",
     "Unknown personal setting: \"%1$s\"" : "Ezarpen pertsonal ezezaguna: \"%1$s\"",
+    "The personal setting \"%1$s\" is read-only" : "\"%1$s\" ezarpen pertsonala soilik irakutzeko da",
     "Unknown personal setting: \"%s\"." : "Ezarpen pertsonal ezezaguna: \"%s\".",
     "Unable to parse memory size limit \"%s\"" : "Ezin izan da memoriaren tamainaren muga analizatu \"%s\"",
     "PDF Downloader" : "PDF deskargatzailea",
