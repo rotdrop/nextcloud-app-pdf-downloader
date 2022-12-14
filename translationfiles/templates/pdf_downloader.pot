@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-12-13 03:35+0000\n"
+"POT-Creation-Date: 2022-12-14 03:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,8 +87,8 @@ msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 
 #: /app/lib/Controller/SettingsController.php:408
-#: /app/lib/Controller/SettingsController.php:574
-#: /app/lib/Controller/SettingsController.php:693
+#: /app/lib/Controller/SettingsController.php:582
+#: /app/lib/Controller/SettingsController.php:705
 #, php-format
 msgid "Unknown personal setting: \"%1$s\""
 msgstr ""
@@ -98,12 +98,12 @@ msgstr ""
 msgid "The personal setting \"%1$s\" is read-only"
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:524
+#: /app/lib/Controller/SettingsController.php:532
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:726
+#: /app/lib/Controller/SettingsController.php:738
 #, php-format
 msgid "Unable to parse memory size limit \"%s\""
 msgstr ""
@@ -128,7 +128,7 @@ msgstr ""
 
 #: /app/lib/Notification/Notifier.php:152
 msgid ""
-"You folder {source} has been converted to a PDF file. Please visit the "
+"Your folder {source} has been converted to a PDF file. Please visit the "
 "details tab of the source folder to download the file."
 msgstr ""
 
@@ -325,13 +325,13 @@ msgstr ""
 msgid "bytes"
 msgstr ""
 
-#: /app/lib/Toolkit/Traits/UtilTrait.php:474
-#: /app/lib/Toolkit/Traits/UtilTrait.php:487
+#: /app/lib/Toolkit/Traits/UtilTrait.php:514
+#: /app/lib/Toolkit/Traits/UtilTrait.php:527
 #, php-format
 msgid "The supplied color-string \"%s\" seems to be invalid."
 msgstr ""
 
-#: /app/lib/Toolkit/Traits/UtilTrait.php:508
+#: /app/lib/Toolkit/Traits/UtilTrait.php:548
 msgid "The input color values are invalid."
 msgstr ""
 
@@ -1292,7 +1292,8 @@ msgstr ""
 msgid "Unable to download data from \"{url}\": {message}"
 msgstr ""
 
-#. TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the target language.
-#: /app/src/toolkit/util/pangram.js:23
+#. TRANSLATORS: This should be a pangram in the target language, please have a look at
+#. TRANSLATORS: https://en.wikipedia.org/wiki/Pangramwhere you can also find examples for some languages.
+#: /app/src/toolkit/util/pangram.js:24
 msgid "The quick brown fox jumps over the lazy dog."
 msgstr ""

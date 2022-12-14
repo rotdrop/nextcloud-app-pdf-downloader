@@ -22,7 +22,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "PDF 檔案 {destination} 將從位於 {srouce} 的源檔案創建。",
     "A PDF download will be created from the sources at {source}." : "PDF 下載檔案將從位於 {srouce} 的源檔案創建。",
     "Your folder {source} has been converted to a PDF file at {destination}." : "您的文件夾 {source} 已在 {destination} 轉換為 PDF 檔案。",
-    "You folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "您的文件夾 {source} 已轉換為 PDF 檔案。請訪問源文件夾的詳細信息選項卡以下載該檔案。",
     "Converting {source} to PDF has failed: {message}" : "將 {source} 轉換為 PDF 失敗：{message}",
     "Converting {source} to PDF has failed." : "將 {source} 轉換為 PDF 失敗。",
     "Unsupported subject: \"%s\"." : "不支援的主題：“%s”。",
