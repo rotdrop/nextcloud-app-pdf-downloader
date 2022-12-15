@@ -6,9 +6,9 @@
 # Translators:
 # nautilusx, 2022
 # Mario Siegmann <mario_siegmann@web.de>, 2022
+# Joas Schilling, 2022
 # Joachim Sokolowski, 2022
 # 719ab0c03a38728ec467bdf9f961df28_b3e5329 <94a43204b8121705dc3ac12b803c45a4_820855>, 2022
-# Joas Schilling, 2022
 # Markus Eckstein, 2022
 # Claus-Justus Heine, 2022
 # 
@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-12-14 03:25+0000\n"
+"POT-Creation-Date: 2022-12-15 03:22+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: Claus-Justus Heine, 2022\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -29,22 +29,22 @@ msgstr ""
 
 #: /app/lib/BackgroundJob/PdfGeneratorJob.php:260
 msgid "File or folder could not be found."
-msgstr ""
+msgstr "Datei oder Ordner konnte nicht gefunden werden."
 
 #: /app/lib/Controller/CatchAllController.php:70
 #, php-format
 msgid "Post to endpoint \"%s\" not implemented."
-msgstr ""
+msgstr "POST-Anfragen an \"%s\" sind nicht implementiert."
 
 #: /app/lib/Controller/CatchAllController.php:73
 #, php-format
 msgid "Post to base URL of app \"%s\" not allowed."
-msgstr ""
+msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 
 #: /app/lib/Controller/CatchAllController.php:90
 #, php-format
 msgid "Get from endpoint \"%s\" not implemented."
-msgstr ""
+msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:221
 #: /app/lib/Controller/MultiPdfDownloadController.php:280
@@ -52,30 +52,32 @@ msgstr ""
 #, php-format
 msgid "Unable to find cached download file with id \"%d\"."
 msgstr ""
+"Zwischengespeicherte Download-Datei mit der ID \"%d\" kann nicht gefunden "
+"werden."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:286
 #, php-format
 msgid "Unable to open the destination folder \"%s\"."
-msgstr ""
+msgstr "Der Zielordner \"%s\" kann nicht geöffnet werden."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:307
 #, php-format
 msgid "PDF document saved as \"%s\"."
-msgstr ""
+msgstr "PDF-Dokument gespeichert als \"%s\"."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:402
 msgid "PDF generation background job scheduled successfully."
-msgstr ""
+msgstr "Hintergrundjob zur PDF-Generierung erfolgreich eingeplant."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:487
 #, php-format
 msgid "Cached PDF files for \"%s\" have been deleted."
-msgstr ""
+msgstr "Zwischengespeicherte PDF-Dateien für \"%s\" wurden gelöscht."
 
 #: /app/lib/Controller/MultiPdfDownloadController.php:498
 #, php-format
 msgid "PDF file \"%s\" has been deleted."
-msgstr ""
+msgstr "PDF-Datei \"%s\" wurde gelöscht."
 
 #: /app/lib/Controller/SettingsController.php:244
 #: /app/lib/Controller/SettingsController.php:282
@@ -129,34 +131,38 @@ msgstr "PDF Download-App"
 #: /app/lib/Notification/Notifier.php:96
 msgid "A PDF file {destination} will be created from the sources at {source}."
 msgstr ""
+"Eine PDF-Datei {destination} wird aus den Quellen bei {source} erstellt."
 
 #: /app/lib/Notification/Notifier.php:115
 msgid "A PDF download will be created from the sources at {source}."
-msgstr ""
+msgstr "Aus den Quellen unter {source} wird ein PDF-Download erstellt."
 
 #: /app/lib/Notification/Notifier.php:129
 msgid ""
 "Your folder {source} has been converted to a PDF file at {destination}."
 msgstr ""
+"Dein Ordner {source} wurde in {destination} in eine PDF-Datei konvertiert."
 
 #: /app/lib/Notification/Notifier.php:152
 msgid ""
 "Your folder {source} has been converted to a PDF file. Please visit the "
 "details tab of the source folder to download the file."
 msgstr ""
+"Dein Ordner {source} wurde in eine PDF-Datei konvertiert. Bitte besuche den "
+"Details-Reiter des Quellordners, um die Datei herunterzuladen."
 
 #: /app/lib/Notification/Notifier.php:178
 msgid "Converting {source} to PDF has failed: {message}"
-msgstr ""
+msgstr "Konvertieren von {source} in PDF ist fehlgeschlagen: {message}"
 
 #: /app/lib/Notification/Notifier.php:180
 msgid "Converting {source} to PDF has failed."
-msgstr ""
+msgstr "Konvertieren von {source} in PDF ist fehlgeschlagen."
 
 #: /app/lib/Notification/Notifier.php:200
 #, php-format
 msgid "Unsupported subject: \"%s\"."
-msgstr ""
+msgstr "Nicht unterstützter Betreff: \"%s\"."
 
 #: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:251
 #: /app/lib/Service/AnyToPdf.php:260
@@ -171,11 +177,15 @@ msgstr "durchwinken"
 #, php-format
 msgid "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\""
 msgstr ""
+"Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit MIME-Typ \"%2$s\" "
+"nicht konvertieren"
 
 #: /app/lib/Service/AnyToPdf.php:327
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\""
 msgstr ""
+"Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit MIME-Typ \"%2$s\" "
+"nicht konvertieren"
 
 #: /app/lib/Service/ExecutableFinder.php:145
 #, php-format
@@ -776,7 +786,7 @@ msgstr "Wähle den \"Eltern\"-Ordner"
 #. TRANSLATORS ents/FilePrefixPicker.vue:48
 #: /app/specialVueFakeDummyForL10nScript.js:144
 msgid "Selected path: \"{dir}/{base}/\"."
-msgstr "Ausgewählter Datei-Pfad: \"{dir}/{base}\"."
+msgstr "Ausgewählter Datei-Pfad: \"{dir}/{base}/\""
 
 #. TRANSLATORS ents/FilePrefixPicker.vue:51
 #: /app/specialVueFakeDummyForL10nScript.js:146
@@ -1284,7 +1294,7 @@ msgid ""
 "without interacting with the app, then the reason for this error is probably"
 " a simple timeout."
 msgstr ""
-"Falls Du bereits längere Zeit angemeldet bist, ohne mit der App zu\n"
+"Falls du bereits längere Zeit angemeldet bist, ohne mit der App zu\n"
 "interagieren, dann ist das der Grund für den Fehler."
 
 #: /app/src/toolkit/util/ajax.js:264
@@ -1366,8 +1376,8 @@ msgstr "Kann die Daten nicht von \"{url}\" laden: {message}"
 
 #. TRANSLATORS: This should be a pangram in the target language, please have a
 #. look at
-#. TRANSLATORS: https://en.wikipedia.org/wiki/Pangramwhere you can also find
-#. examples for some languages.
-#: /app/src/toolkit/util/pangram.js:24
+#. TRANSLATORS: https://en.wikipedia.org/wiki/Pangram where you can
+#. TRANSLATORS: also find examples for some languages.
+#: /app/src/toolkit/util/pangram.js:25
 msgid "The quick brown fox jumps over the lazy dog."
 msgstr "Falsches Üben von Xylophonmusik quält jeden größeren Zwerg."

@@ -20,6 +20,7 @@
     "A PDF file {destination} will be created from the sources at {source}." : "PDF 檔案 {destination} 將從位於 {source} 的原始檔案建立。",
     "A PDF download will be created from the sources at {source}." : "PDF 下載將從位於 {source} 的原始檔案建立。",
     "Your folder {source} has been converted to a PDF file at {destination}." : "您的資料夾 {source} 已在 {destination} 轉換為 PDF 檔案。",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "您的資料夾 {source} 已轉換為 PDF 檔案。請造訪原始資料夾的詳細資訊分頁以下載檔案。",
     "Converting {source} to PDF has failed: {message}" : "轉換 {source} 為 PDF 失敗：{message}",
     "Converting {source} to PDF has failed." : "轉換 {source} 為 PDF 失敗。",
     "Unsupported subject: \"%s\"." : "不支援的主體：「%s」。",
