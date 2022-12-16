@@ -9,17 +9,18 @@
 # Joas Schilling, 2022
 # Joachim Sokolowski, 2022
 # 719ab0c03a38728ec467bdf9f961df28_b3e5329 <94a43204b8121705dc3ac12b803c45a4_820855>, 2022
-# Markus Eckstein, 2022
 # Claus-Justus Heine, 2022
+# Markus Eckstein, 2022
+# kachelkaiser, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-12-15 03:22+0000\n"
+"POT-Creation-Date: 2022-12-16 03:24+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
-"Last-Translator: Claus-Justus Heine, 2022\n"
+"Last-Translator: kachelkaiser, 2022\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,7 +86,7 @@ msgstr "PDF-Datei \"%s\" wurde gelöscht."
 #: /app/lib/Controller/SettingsController.php:378
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
-msgstr "Unbekannte Administrator-Einstellung: \"%1$s\""
+msgstr "Unbekannte Verwaltungs-Einstellung: \"%1$s\""
 
 #: /app/lib/Controller/SettingsController.php:247
 #, php-format
@@ -115,7 +116,7 @@ msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
 #: /app/lib/Controller/SettingsController.php:532
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
-msgstr "Unbekannte perönliche Einstellung: \"%s\""
+msgstr "Unbekannte persönliche Einstellung: \"%s\""
 
 #: /app/lib/Controller/SettingsController.php:738
 #, php-format
@@ -126,7 +127,7 @@ msgstr "Kann das Speicher-Limit nicht interpretieren: \"%s\""
 #: /app/lib/Settings/PersonalSection.php:72
 #: /app/specialAppInfoFakeDummyForL10nScript.php:2
 msgid "PDF Downloader"
-msgstr "PDF Download-App"
+msgstr "PDF-Downloader"
 
 #: /app/lib/Notification/Notifier.php:96
 msgid "A PDF file {destination} will be created from the sources at {source}."
@@ -167,7 +168,7 @@ msgstr "Nicht unterstützter Betreff: \"%s\"."
 #: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:251
 #: /app/lib/Service/AnyToPdf.php:260
 msgid "not found"
-msgstr "unauffindbar"
+msgstr "nicht gefunden"
 
 #: /app/lib/Service/AnyToPdf.php:243
 msgid "pass through"
@@ -195,14 +196,12 @@ msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
 #: /app/lib/Service/FileSystemWalker.php:359
 #, php-format
 msgid "Internal error, unknown filesystem node type: \"%s\"."
-msgstr ""
+msgstr "Server-Fehler, unbekannter Dateisystem-Eintrag: \"%s\"."
 
 #: /app/lib/Service/FileSystemWalker.php:393
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
-msgstr ""
-"\"%s\" ist kein Ordner und automatische entpacken von Archiv-Dateien ist "
-"deaktiviert."
+msgstr "\"%s\" ist kein Ordner und Entpacken von Archiv-Dateien ist deaktiviert."
 
 #: /app/lib/Service/FileSystemWalker.php:396
 #, php-format
@@ -213,12 +212,12 @@ msgstr ""
 #: /app/lib/Service/FileSystemWalker.php:440
 #, php-format
 msgid "Destination parent folder conflicts with existing file \"%s\"."
-msgstr ""
+msgstr "Übergeordneter Zielordner steht in Konflikt mit vorhandener Datei \"%s\"."
 
 #: /app/lib/Service/FileSystemWalker.php:447
 #, php-format
 msgid "Unable to create the parent folder \"%s\"."
-msgstr ""
+msgstr "Der übergeordnete Ordner \"%s\" kann nicht erstellt werden."
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -229,7 +228,7 @@ msgstr ""
 #: /app/lib/Service/FileSystemWalker.php:531
 #: /app/lib/Service/PdfCombiner.php:360
 msgid "BASENAME"
-msgstr ""
+msgstr "BASENAME"
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -251,7 +250,7 @@ msgstr "DATEINAME"
 #: /app/lib/Service/FileSystemWalker.php:539
 #: /app/lib/Service/PdfCombiner.php:368
 msgid "EXTENSION"
-msgstr ""
+msgstr "EXTENSION"
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -262,7 +261,7 @@ msgstr ""
 #: /app/lib/Service/FileSystemWalker.php:543
 #: /app/lib/Service/PdfCombiner.php:376
 msgid "DIRNAME"
-msgstr ""
+msgstr "DIRNAME"
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -272,21 +271,21 @@ msgstr ""
 #. target language.
 #: /app/lib/Service/FileSystemWalker.php:547
 msgid "DATETIME"
-msgstr ""
+msgstr "DATETIME"
 
 #: /app/lib/Service/FontService.php:237
 #, php-format
 msgid "Font sample could not be generated: %s"
-msgstr ""
+msgstr "Schrift-Beispiel konnte nicht erstellt werden: %s"
 
 #: /app/lib/Service/FontService.php:254 /app/lib/Service/FontService.php:281
 #, php-format
 msgid "Font sample could not be generated with \"%s\"."
-msgstr ""
+msgstr "Schriftbeispiel konnte nicht erstellt werden mit \"%s\"."
 
 #: /app/lib/Service/PdfCombiner.php:227 /app/lib/Service/PdfCombiner.php:260
 msgid "Only RGB values without alpha channel are supported."
-msgstr ""
+msgstr "Es werden nur RGB-Werte ohne Alphakanal unterstützt."
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -296,7 +295,7 @@ msgstr ""
 #. target language.
 #: /app/lib/Service/PdfCombiner.php:372
 msgid "DIR_BASENAME"
-msgstr ""
+msgstr "DIR_BASENAME"
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -306,7 +305,7 @@ msgstr ""
 #. target language.
 #: /app/lib/Service/PdfCombiner.php:380
 msgid "DIR_PAGE_NUMBER"
-msgstr ""
+msgstr "DIR_PAGE_NUMBER"
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -316,7 +315,7 @@ msgstr ""
 #. target language.
 #: /app/lib/Service/PdfCombiner.php:384
 msgid "DIR_TOTAL_PAGES"
-msgstr ""
+msgstr "DIR_TOTAL_PAGES"
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -326,7 +325,7 @@ msgstr ""
 #. target language.
 #: /app/lib/Service/PdfCombiner.php:388
 msgid "FILE_PAGE_NUMBER"
-msgstr ""
+msgstr "FILE_PAGE_NUMBER"
 
 #. TRANSLATORS: This is a text substitution placeholder. If the target
 #. language knows the concept of casing, then
@@ -336,7 +335,7 @@ msgstr ""
 #. target language.
 #: /app/lib/Service/PdfCombiner.php:392
 msgid "FILE_TOTAL_PAGES"
-msgstr ""
+msgstr "FILE_TOTAL_PAGES"
 
 #: /app/lib/Service/PdfCombiner.php:776 /app/lib/Service/PdfCombiner.php:799
 msgid "Combining PDFs failed"
@@ -346,7 +345,7 @@ msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 #: /app/lib/Toolkit/Service/ArchiveService.php:271
 #, php-format
 msgid "Unable to open archive file %s (%s)"
-msgstr "Kann die Archive Datei %s (%s) nicht öffnen"
+msgstr "Kann die Archiv-Datei %s (%s) nicht öffnen."
 
 #: /app/lib/Toolkit/Service/ArchiveService.php:285
 #, php-format
@@ -358,8 +357,7 @@ msgstr "Die Größe des dekomprimierten Archivs \"%1$s\" ist zu groß:  %2$s > %
 #: /app/lib/Toolkit/Service/ArchiveService.php:390
 #: /app/lib/Toolkit/Service/ArchiveService.php:404
 msgid "There is no archive file associated with this archiver instance."
-msgstr ""
-"Mit dieser Archivierungs-Service-Instanz ist keine Archiv-Datei assoziiert."
+msgstr "Dieser Archivierungsinstanz ist keine Archivdatei zugeordnet."
 
 #: /app/lib/Toolkit/Traits/AssetTrait.php:104
 #, php-format
@@ -367,14 +365,17 @@ msgid ""
 "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not"
 " installed on the server, please contact the system administrator!"
 msgstr ""
+"Installationsproblem; die benötigte Ressource \"%1$s\" vom Typ \"%2$s\" ist "
+"auf dem Server nicht installiert, bitte den System-Administrator "
+"kontaktieren!"
 
 #: /app/lib/Toolkit/Traits/ResponseTrait.php:118
 msgid "Error, caught an exception."
-msgstr "Fehler, \"Ausnahme\" \"aufgefangen\"."
+msgstr "Fehler, Ausnahme abgefangen."
 
 #: /app/lib/Toolkit/Traits/ResponseTrait.php:119
 msgid "Caused by previous exception"
-msgstr "Verursacht durch eine vorhergehende Ausnahme"
+msgstr "Verursacht durch eine vorangegangene Ausnahme"
 
 #: /app/lib/Toolkit/Traits/UtilTrait.php:258
 #: /app/lib/Toolkit/Traits/UtilTrait.php:260
@@ -385,30 +386,32 @@ msgstr "Bytes"
 #: /app/lib/Toolkit/Traits/UtilTrait.php:527
 #, php-format
 msgid "The supplied color-string \"%s\" seems to be invalid."
-msgstr ""
+msgstr "Die angegebene Farbzeichenfolge \"%s\" scheint ungültig zu sein."
 
 #: /app/lib/Toolkit/Traits/UtilTrait.php:548
 msgid "The input color values are invalid."
-msgstr ""
+msgstr "Die eingegebenen Farbwerte sind ungültig."
 
 #. TRANSLATORS ettings.vue:25
 #: /app/specialAppInfoFakeDummyForL10nScript.php:3
 #: /app/specialVueFakeDummyForL10nScript.js:2
 msgid "Recursive PDF Downloader"
-msgstr "Rekursive PDF-Download Anwendung"
+msgstr "Rekursiver PDF-Downloader"
 
 #: /app/specialAppInfoFakeDummyForL10nScript.php:4
 msgid ""
 "Recursively convert entire directory trees to PDF and provide the resulting "
 "document as download"
 msgstr ""
+"Konvertiere ganze Verzeichnisbäume rekursiv in PDF und stelle das "
+"resultierende Dokument als Download bereit"
 
 #. TRANSLATORS ettings.vue:26
 #. TRANSLATORS alSettings.vue:232
 #: /app/specialVueFakeDummyForL10nScript.js:4
 #: /app/specialVueFakeDummyForL10nScript.js:100
 msgid "Archive Extraction"
-msgstr "Archiv-Dateien-Behandlung"
+msgstr "Archiv entpacken"
 
 #. TRANSLATORS ettings.vue:35
 #: /app/specialVueFakeDummyForL10nScript.js:6
@@ -424,7 +427,7 @@ msgstr ""
 #: /app/specialVueFakeDummyForL10nScript.js:8
 #: /app/specialVueFakeDummyForL10nScript.js:106
 msgid "Archive Size Limit"
-msgstr "Archiv-Größen-Limitierung"
+msgstr "Größenbeschränkung für Archive"
 
 #. TRANSLATORS ettings.vue:41
 #. TRANSLATORS alSettings.vue:251
@@ -445,7 +448,7 @@ msgstr "Eigene Konvertierungs-Skripte"
 #. TRANSLATORS ettings.vue:55
 #: /app/specialVueFakeDummyForL10nScript.js:14
 msgid "Disable the builtin converters."
-msgstr ""
+msgstr "Eingebaute Konverter deaktivieren"
 
 #. TRANSLATORS ettings.vue:60
 #: /app/specialVueFakeDummyForL10nScript.js:16
@@ -458,6 +461,9 @@ msgid ""
 "Full path to a filter program to be executed first for all files. If it "
 "fails, the other converters will be tried in turn."
 msgstr ""
+"Der vollständige Dateisystempfad zu einem Filterprogramm, dass zuerst auf "
+"jede Datei angewendet wird. Falls das fehlschlägt, werden die internen "
+"Konverter ausgeführt."
 
 #. TRANSLATORS ettings.vue:67
 #: /app/specialVueFakeDummyForL10nScript.js:20
@@ -470,6 +476,9 @@ msgid ""
 "Full path to a filter program to be run when all other filters have failed. "
 "If it fails an error page will be substituted for the failing document."
 msgstr ""
+"Der vollständige Dateisystempfad zu einem Filterprogramm, das ausgeführt "
+"wird, wenn kein anderer Konverter passt. Falls das fehlschlägt, wird eine "
+"Fehlerseite angezeigt."
 
 #. TRANSLATORS ettings.vue:73
 #: /app/specialVueFakeDummyForL10nScript.js:24
@@ -484,11 +493,11 @@ msgstr "Status der konfigurierten Konverter"
 #. TRANSLATORS ettings.vue:80
 #: /app/specialVueFakeDummyForL10nScript.js:28
 msgid "converter chain"
-msgstr "Konvertierungs-Pipeline"
+msgstr "Konvertierungskette"
 
 #: /app/specialVueFakeDummyForL10nScript.js:28
 msgid "single converter"
-msgstr "Einzelkonverter"
+msgstr "Einzelner Konverter"
 
 #. TRANSLATORS ettings.vue:87
 #: /app/specialVueFakeDummyForL10nScript.js:30
@@ -504,7 +513,7 @@ msgstr "Konverter"
 #. TRANSLATORS alSettings.vue:22
 #: /app/specialVueFakeDummyForL10nScript.js:34
 msgid "Recursive PDF Downloader, Personal Settings"
-msgstr ""
+msgstr "Rekursiver PDF-Downloader, Persönliche Einstellungen"
 
 #. TRANSLATORS alSettings.vue:23
 #: /app/specialVueFakeDummyForL10nScript.js:36
@@ -514,32 +523,32 @@ msgstr "Seiten-Dekorierung und Schriftarten"
 #. TRANSLATORS alSettings.vue:32
 #: /app/specialVueFakeDummyForL10nScript.js:38
 msgid "Label output pages with filename and page number"
-msgstr ""
+msgstr "Ausgabeseiten mit Dateinamen und Seitennummer beschriften"
 
 #. TRANSLATORS alSettings.vue:36
 #: /app/specialVueFakeDummyForL10nScript.js:40
 msgid "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
-msgstr ""
+msgstr "Format der Seitenbeschriftung: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 
 #. TRANSLATORS alSettings.vue:42
 #: /app/specialVueFakeDummyForL10nScript.js:42
 msgid "Template for the page labels"
-msgstr ""
+msgstr "Vorlage für die Seitenbeschriftungen"
 
 #. TRANSLATORS alSettings.vue:48
 #: /app/specialVueFakeDummyForL10nScript.js:44
 msgid "Given Filename Example"
-msgstr ""
+msgstr "Beispiel für einen Dateinamen"
 
 #. TRANSLATORS alSettings.vue:56
 #: /app/specialVueFakeDummyForL10nScript.js:46
 msgid "Generated Label"
-msgstr ""
+msgstr "Generierte Nummerierung"
 
 #. TRANSLATORS alSettings.vue:76
 #: /app/specialVueFakeDummyForL10nScript.js:48
 msgid "Page label colors"
-msgstr ""
+msgstr "Farben der Seitennummerierung"
 
 #. TRANSLATORS alSettings.vue:80
 #: /app/specialVueFakeDummyForL10nScript.js:50
@@ -554,12 +563,12 @@ msgstr "Hintergrund"
 #. TRANSLATORS alSettings.vue:96
 #: /app/specialVueFakeDummyForL10nScript.js:54
 msgid "e.g. 0.4"
-msgstr ""
+msgstr "z. B. 0.4"
 
 #. TRANSLATORS alSettings.vue:101
 #: /app/specialVueFakeDummyForL10nScript.js:56
 msgid "Page label width fraction"
-msgstr ""
+msgstr "Bruchteil der Breite des Seitennummerierung"
 
 #. TRANSLATORS alSettings.vue:102
 #: /app/specialVueFakeDummyForL10nScript.js:58
@@ -567,6 +576,8 @@ msgid ""
 "Page label width as decimal fraction of the page-width. Leave empty to use a"
 " fixed font size."
 msgstr ""
+"Seitennummerierungsbreite als Anteil der Seitenbreite. Leer lassen, um eine "
+"feste Schriftgröße zu verwenden."
 
 #. TRANSLATORS alSettings.vue:110
 #. TRANSLATORS ents/FontSelect.vue:126
@@ -574,27 +585,27 @@ msgstr ""
 #: /app/specialVueFakeDummyForL10nScript.js:66
 #: /app/specialVueFakeDummyForL10nScript.js:148
 msgid "Select a Font"
-msgstr "Wähle eine Schriftart!"
+msgstr "Schriftart auswählen"
 
 #. TRANSLATORS alSettings.vue:112
 #: /app/specialVueFakeDummyForL10nScript.js:62
 msgid "Font for generated PDF page annotations"
-msgstr ""
+msgstr "Schriftart für erzeugte PDF-Seitenanmerkungen"
 
 #. TRANSLATORS alSettings.vue:113
 #: /app/specialVueFakeDummyForL10nScript.js:64
 msgid "The font to use for the page labels: {pageLabelsFont}"
-msgstr ""
+msgstr "Schriftart für die Seitennummerierung: {pageLabelsFont}"
 
 #. TRANSLATORS alSettings.vue:122
 #: /app/specialVueFakeDummyForL10nScript.js:68
 msgid "Font for generated PDF (error)pages"
-msgstr ""
+msgstr "Schriftart für erzeugte PDF-(Fehler-)Seiten"
 
 #. TRANSLATORS alSettings.vue:123
 #: /app/specialVueFakeDummyForL10nScript.js:70
 msgid "The font to use for generated pages: {generatedPagesFont}"
-msgstr "Akutelle Schriftart für erzeugte PDF-Seiten: {generatedPagesFont}"
+msgstr "Akutelle Schriftart für erzeugte PDF-Seiten {generatedPagesFont}"
 
 #. TRANSLATORS alSettings.vue:128
 #: /app/specialVueFakeDummyForL10nScript.js:72
@@ -619,22 +630,22 @@ msgstr "Nicht gruppieren"
 #. TRANSLATORS alSettings.vue:168
 #: /app/specialVueFakeDummyForL10nScript.js:80
 msgid "Default Download Options"
-msgstr ""
+msgstr "Standard-Download-Einstellungen"
 
 #. TRANSLATORS alSettings.vue:170
 #: /app/specialVueFakeDummyForL10nScript.js:82
 msgid "PDF Filename Template:"
-msgstr ""
+msgstr "Vorlage für PDF-Dateinamen:"
 
 #. TRANSLATORS alSettings.vue:176
 #: /app/specialVueFakeDummyForL10nScript.js:84
 msgid "Given Folder Example"
-msgstr ""
+msgstr "Beispiel für einen Ordner"
 
 #. TRANSLATORS alSettings.vue:184
 #: /app/specialVueFakeDummyForL10nScript.js:86
 msgid "Generated Filename"
-msgstr ""
+msgstr "Erstellter Dateiname"
 
 #. TRANSLATORS alSettings.vue:194
 #: /app/specialVueFakeDummyForL10nScript.js:88
@@ -642,28 +653,31 @@ msgid ""
 "Choose a default PDF file destination folder in the cloud. Leave empty to "
 "use the parent directory of the folder which is converted to PDF:"
 msgstr ""
+"Wählen Sie einen standardmäßigen Zielordner für PDF-Dateien in der Cloud. "
+"Leer lassen, um das übergeordnete Verzeichnis des Ordners zu verwenden, der "
+"in PDF konvertiert wird:"
 
 #. TRANSLATORS alSettings.vue:195
 #. TRANSLATORS FilesTab.vue:59
 #: /app/specialVueFakeDummyForL10nScript.js:90
 #: /app/specialVueFakeDummyForL10nScript.js:158
 msgid "basename"
-msgstr ""
+msgstr "Basisname"
 
 #. TRANSLATORS alSettings.vue:209
 #: /app/specialVueFakeDummyForL10nScript.js:92
 msgid "Generate PDFs in the background by default."
-msgstr ""
+msgstr "PDFs standardmäßig im Hintergrund generieren"
 
 #. TRANSLATORS alSettings.vue:222
 #: /app/specialVueFakeDummyForL10nScript.js:94
 msgid "Use authenticated background jobs if necessary."
-msgstr ""
+msgstr "Wenn nötig, authentifizierte Hintergrundjobs verwenden."
 
 #. TRANSLATORS alSettings.vue:227
 #: /app/specialVueFakeDummyForL10nScript.js:96
 msgid "Purge Timeout:"
-msgstr ""
+msgstr "Wartezeit bevor Löschen:"
 
 #. TRANSLATORS alSettings.vue:228
 #: /app/specialVueFakeDummyForL10nScript.js:98
@@ -671,6 +685,8 @@ msgid ""
 "For how long to keep the offline generated PDF files. After this time they "
 "will eventually be deleted by a background job."
 msgstr ""
+"Wie lange die offline generierten PDF-Dateien aufbewahrt werden sollen. Nach"
+" dieser Zeit werden sie eventuell durch einen Hintergrundjob gelöscht."
 
 #. TRANSLATORS alSettings.vue:241
 #: /app/specialVueFakeDummyForL10nScript.js:102
@@ -688,12 +704,12 @@ msgstr ""
 #. TRANSLATORS alSettings.vue:256
 #: /app/specialVueFakeDummyForL10nScript.js:110
 msgid "Administrative size limit: {value}"
-msgstr "Größenbegrenzen durch Administrator*innen: {value}"
+msgstr "Größenbegrenzung: {value}"
 
 #. TRANSLATORS alSettings.vue:350
 #: /app/specialVueFakeDummyForL10nScript.js:112
 msgid "invoices/2022/october/invoice.fodt"
-msgstr ""
+msgstr "Rechnungen/2022/Oktober/Rechnung.fodt"
 
 #. TRANSLATORS alSettings.vue:353
 #: /app/specialVueFakeDummyForL10nScript.js:114
@@ -702,6 +718,10 @@ msgid ""
 "navigating to the PDF panel in the details sidebar for each particular "
 "source folder or archive file."
 msgstr ""
+"Wenn diese Option aktiviert ist, wird standardmäßig die PDF-Generierung im "
+"Hintergrund ausgeführt. Dies kann außer Kraft gesetzt werden, indem du für "
+"jeden einzelnen Quellordner oder jede Archivdatei zum PDF-Bedienfeld in der "
+"Seitenleiste mit den Details navigierst."
 
 #. TRANSLATORS alSettings.vue:354
 #: /app/specialVueFakeDummyForL10nScript.js:116
@@ -715,6 +735,15 @@ msgid ""
 "the option disabled unless you really know what it means and you really "
 "known that you need it."
 msgstr ""
+"Wenn du dir nicht sicher bist, lasse dies deaktiviert. Die Aktivierung "
+"dieser Option führt zu einem zusätzlichen Durchsuchen des Verzeichnisses, "
+"bevor ein Hintergrundvorgang geplant wird. Wenn die Durchsuchung einen "
+"Einhängepunkt im Verzeichnis erkennt, der mit der Einhängeoption "
+"\"authentifiziert\" eingehängt wurde, werden deine Anmeldedaten "
+"vorübergehend in den Hintergrundjob hochgestuft. Dies wird hauptsächlich "
+"verwendet, um Sonderfälle zu behandeln, die nur den Autor dieses Pakets "
+"betreffen sollten. Lasse die Option deaktiviert, es sei denn, du weißt "
+"wirklich, was sie bedeutet, und bist dir sicher, dass du sie benötigst."
 
 #. TRANSLATORS alSettings.vue:478
 #. TRANSLATORS FilesTab.vue:369
@@ -736,22 +765,26 @@ msgstr "Grund unbekannt"
 #. TRANSLATORS alSettings.vue:485
 #: /app/specialVueFakeDummyForL10nScript.js:120
 msgid "Unable to obtain the list of available fonts: {message}"
-msgstr "Kann die Schriftarten-Liste nicht erfragen: {message}"
+msgstr "Kann die Schriftarten-Liste nicht abrufen: {message}"
 
 #. TRANSLATORS alSettings.vue:564
 #: /app/specialVueFakeDummyForL10nScript.js:124
 msgid "Unable to obtain page label template example: {message}"
 msgstr ""
+"Beispiel für Seitennummerierungsvorlage kann nicht abgerufen werden: "
+"{message}"
 
 #. TRANSLATORS alSettings.vue:589
 #: /app/specialVueFakeDummyForL10nScript.js:128
 msgid "Unable to obtain the PDF file template example: {message}"
 msgstr ""
+"Das Vorlagenbeispiel für die PDF-Datei kann nicht abgerufen werden: "
+"{message}"
 
 #. TRANSLATORS ents/ColorPicker.vue:48
 #: /app/specialVueFakeDummyForL10nScript.js:130
 msgid "open"
-msgstr ""
+msgstr "öffnen"
 
 #. TRANSLATORS ents/ColorPicker.vue:49
 #: /app/specialVueFakeDummyForL10nScript.js:132
@@ -761,22 +794,22 @@ msgstr "Übermitteln"
 #. TRANSLATORS ents/ColorPicker.vue:50
 #: /app/specialVueFakeDummyForL10nScript.js:134
 msgid "revert"
-msgstr ""
+msgstr "rückgängig machen"
 
 #. TRANSLATORS ents/ColorPicker.vue:51
 #: /app/specialVueFakeDummyForL10nScript.js:136
 msgid "pick a color"
-msgstr ""
+msgstr "Farbe wählen"
 
 #. TRANSLATORS ents/ColorPicker.vue:52
 #: /app/specialVueFakeDummyForL10nScript.js:138
 msgid "restore palette"
-msgstr ""
+msgstr "Farbenskala wiederherstellen"
 
 #. TRANSLATORS ents/ColorPicker.vue:53
 #: /app/specialVueFakeDummyForL10nScript.js:140
 msgid "factory reset palette"
-msgstr ""
+msgstr "Farbenskala auf Werkseinstellungen zurücksetzen"
 
 #. TRANSLATORS ents/FilePrefixPicker.vue:43
 #: /app/specialVueFakeDummyForL10nScript.js:142
@@ -796,24 +829,24 @@ msgstr "Es wurde ein ungültiger Pfad ausgewählt: {dir}."
 #. TRANSLATORS FilesTab.vue:32
 #: /app/specialVueFakeDummyForL10nScript.js:150
 msgid "Generate PDF"
-msgstr ""
+msgstr "PDF erzeugen"
 
 #. TRANSLATORS FilesTab.vue:40
 #: /app/specialVueFakeDummyForL10nScript.js:152
 #: /app/specialVueFakeDummyForL10nScript.js:176
 msgid "download locally"
-msgstr ""
+msgstr "Lokal herunterladen"
 
 #. TRANSLATORS FilesTab.vue:52
 #: /app/specialVueFakeDummyForL10nScript.js:154
 #: /app/specialVueFakeDummyForL10nScript.js:174
 msgid "save to cloud"
-msgstr ""
+msgstr "In die Cloud speichern"
 
 #. TRANSLATORS FilesTab.vue:58
 #: /app/specialVueFakeDummyForL10nScript.js:156
 msgid "Choose a destination in the cloud:"
-msgstr ""
+msgstr "Ziel in der Cloud wählen:"
 
 #. TRANSLATORS FilesTab.vue:72
 #: /app/specialVueFakeDummyForL10nScript.js:160
@@ -823,37 +856,37 @@ msgstr "Optionen"
 #. TRANSLATORS FilesTab.vue:80
 #: /app/specialVueFakeDummyForL10nScript.js:162
 msgid "page labels"
-msgstr ""
+msgstr "Seitennummerierungen"
 
 #. TRANSLATORS FilesTab.vue:86
 #: /app/specialVueFakeDummyForL10nScript.js:164
 msgid "filename template"
-msgstr ""
+msgstr "Vorlage für den Dateinamen"
 
 #. TRANSLATORS FilesTab.vue:92
 #: /app/specialVueFakeDummyForL10nScript.js:166
 msgid "offline"
-msgstr ""
+msgstr "Offline"
 
 #. TRANSLATORS FilesTab.vue:103
 #: /app/specialVueFakeDummyForL10nScript.js:168
 msgid "Offline Downloads"
-msgstr ""
+msgstr "Offline-Downloads"
 
 #. TRANSLATORS FilesTab.vue:116
 #: /app/specialVueFakeDummyForL10nScript.js:170
 msgid "No Downloads Yet"
-msgstr ""
+msgstr "Noch keine Downloads"
 
 #. TRANSLATORS FilesTab.vue:122
 #: /app/specialVueFakeDummyForL10nScript.js:172
 msgid "refresh"
-msgstr ""
+msgstr "Aktualisieren"
 
 #. TRANSLATORS FilesTab.vue:155
 #: /app/specialVueFakeDummyForL10nScript.js:178
 msgid "delete PDF file"
-msgstr ""
+msgstr "PDF-Datei löschen"
 
 #. TRANSLATORS FilesTab.vue:226
 #: /app/specialVueFakeDummyForL10nScript.js:180
@@ -862,6 +895,9 @@ msgid ""
 "that file. The default is configured in the personal preferences for the "
 "app."
 msgstr ""
+"Ursprünglichen Dateinamen und Seitenzahlen in dies Datei aufnhemen. Die "
+"Standardeinstellung wird in den persönlichen Einstellungen für die App "
+"konfiguriert."
 
 #. TRANSLATORS FilesTab.vue:227
 #: /app/specialVueFakeDummyForL10nScript.js:182
@@ -876,6 +912,16 @@ msgid ""
 "here (and in the notification). The download links have a configurable "
 "expiration time."
 msgstr ""
+"Beim Konvertieren vieler oder großer Dateien in PDF kommt es zu "
+"Zeitüberschreitungen, da die Anfrage einfach zu lange dauert und der "
+"Webserver abstürzt. In diesem Fall kannst du die Offline-Generierung der "
+"PDF-Datei planen. Dadurch werden die Dinge für Sie nicht schneller, aber die"
+" Ausführungszeit wird nicht durch die Grenzen des Webservers eingeschränkt. "
+"Du wirst benachrichtigt, wenn es fertig ist. Wenn du dich dafür entschieden "
+"hast, das PDF im Cloud-Dateisystem zu speichern, wird es einfach dort "
+"angezeigt. Wenn du dich für den Download auf deinem lokalen Computer "
+"entschieden hast, wird der Download hier (und in der Benachrichtigung) "
+"angezeigt. Die Download-Links haben eine konfigurierbare Ablaufzeit."
 
 #. TRANSLATORS FilesTab.vue:228
 #: /app/specialVueFakeDummyForL10nScript.js:184
@@ -883,50 +929,61 @@ msgid ""
 "Auto-generate the download filename from the given template. The default "
 "template can be configured in the personal settings for this app."
 msgstr ""
+"Generiere den Download-Dateinamen automatisch aus der angegebenen Vorlage. "
+"Die Standardvorlage kann in den persönlichen Einstellungen für diese App "
+"konfiguriert werden."
 
 #. TRANSLATORS FilesTab.vue:376
 #: /app/specialVueFakeDummyForL10nScript.js:188
 msgid "Unable to obtain the pdf-file template example: {message}"
 msgstr ""
+"Das Vorlagenbeispiel für die PDF-Datei kann nicht abgerufen werden: "
+"{message}"
 
 #. TRANSLATORS FilesTab.vue:412
 #: /app/specialVueFakeDummyForL10nScript.js:192
 msgid "Unable to obtain the list of available downloads: {message}"
 msgstr ""
+"Die Liste der verfügbaren Downloads kann nicht abgerufen werden: {message}"
 
 #. TRANSLATORS FilesTab.vue:436
 #. TRANSLATORS FilesTab.vue:449
 #: /app/specialVueFakeDummyForL10nScript.js:194
 #: /app/specialVueFakeDummyForL10nScript.js:196
 msgid "Choose a destination"
-msgstr ""
+msgstr "Ein Ziel wählen"
 
 #. TRANSLATORS FilesTab.vue:516
 #: /app/specialVueFakeDummyForL10nScript.js:200
 msgid "Unable to delete the cached PDF file: {message}"
 msgstr ""
+"Zwischengespeicherte PDF-Datei konnte nicht gelöscht werden: {message}"
 
 #. TRANSLATORS FilesTab.vue:564
 #: /app/specialVueFakeDummyForL10nScript.js:202 /app/src/files-action.js:98
 msgid "Background PDF generation for {sourceFile} has been scheduled."
-msgstr ""
+msgstr "Die PDF-Generierung im Hintergrund für {sourceFile} wurde geplant."
 
 #. TRANSLATORS FilesTab.vue:580
 #: /app/specialVueFakeDummyForL10nScript.js:206 /app/src/files-action.js:110
 msgid ""
 "Unable to schedule background PDF generation for {sourceFile}: {message}"
 msgstr ""
+"Hintergrund-PDF-Generierung für {sourceFile} kann nicht geplant werden: "
+"{message}"
 
 #. TRANSLATORS FilesTab.vue:624
 #: /app/specialVueFakeDummyForL10nScript.js:208
 msgid "PDF saved as {path}."
-msgstr ""
+msgstr "PDF als {path} gespeichert."
 
 #. TRANSLATORS FilesTab.vue:633
 #: /app/specialVueFakeDummyForL10nScript.js:212
 msgid ""
 "Unable to save the PDF generated from {sourceFile} to the cloud: {message}"
 msgstr ""
+"Das von {sourceFile} generierte PDF kann nicht in der Cloud gespeichert "
+"werden: {message}"
 
 #: /app/src/files-action.js:58 /app/src/files-action.js:59
 msgid "Download PDF"
@@ -966,7 +1023,7 @@ msgstr "Die Einstellung \"{settingsKey}\" wurde erfolgreich gelöscht."
 msgid "Unable to set \"{settingsKey}\" to {value}: {message}."
 msgstr ""
 "Konnte den Wert für die Einstellung \"{settingsKey}\" nicht auf den Wert "
-"\"{value}\" setzen: {message}"
+"\"{value}\" setzen: {message}."
 
 #: /app/src/toolkit/mixins/settings-sync.js:164
 msgid "false"
@@ -974,7 +1031,7 @@ msgstr "falsch"
 
 #: /app/src/toolkit/mixins/settings-sync.js:162
 msgid "Unable to unset \"{settingsKey}\": {message}"
-msgstr "Kann die Einstellung \"{settingsKey}\" nicht löschen: {message}>\n"
+msgstr "Kann die Einstellung \"{settingsKey}\" nicht löschen: {message}"
 
 #: /app/src/toolkit/mixins/settings-sync.js:194
 msgid "Confirmation Required"
@@ -1294,8 +1351,8 @@ msgid ""
 "without interacting with the app, then the reason for this error is probably"
 " a simple timeout."
 msgstr ""
-"Falls du bereits längere Zeit angemeldet bist, ohne mit der App zu\n"
-"interagieren, dann ist das der Grund für den Fehler."
+"Falls du bereits längere Zeit angemeldet bist, ohne mit der App "
+"zuinteragieren, dann ist das der Grund für den Fehler."
 
 #: /app/src/toolkit/util/ajax.js:264
 msgid ""
@@ -1303,10 +1360,13 @@ msgid ""
 "workaround. You will be redirected to the login page when you close this "
 "window."
 msgstr ""
+"Als einstweiligen `Work-Around' kann man in jedem Fall versuchen, sich ab- "
+"und wieder an zu melden und den Vorgang zu wiederholen. Wenn du dieses "
+"Fenster schließt, wirst du zur Login-Seite weiter geleitet."
 
 #: /app/src/toolkit/util/ajax.js:314
 msgid "Unrecoverable unknown internal error, no details available"
-msgstr ""
+msgstr "Nicht behebbarer unbekannter interner Fehler, keine Details verfügbar"
 
 #: /app/src/toolkit/util/ajax.js:315
 msgid "Internal Error"
