@@ -40,7 +40,6 @@ use OCP\Files\Folder;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException as FileNotFoundException;
 
-use OCA\RotDrop\Toolkit\Service\ArchiveService;
 use OCA\RotDrop\Toolkit\Exceptions as ToolkitExceptions;
 
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
@@ -127,7 +126,6 @@ class FileSystemWalker
     $this->pdfCombiner = $pdfCombiner;
     $this->anyToPdf = $anyToPdf;
     $this->archiveService = $archiveService;
-    $this->archiveService->setL10N($l10n);
 
     if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
       $this->anyToPdf->disableBuiltinConverters();
