@@ -22,6 +22,7 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "PDF soubor {destination} bude vytvořen ze zdrojů v {source}.",
     "A PDF download will be created from the sources at {source}." : "Stahování PDF bude vytvořeno ze zdrojů v {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Vaše složka {source} byla převedena do PDF souboru v {destination}.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Vaše složka {source} byla převedena do PDF souboru. Soubor si stáhnete na panelu s podrobnostmi o zdrojové složce.",
     "Converting {source} to PDF has failed: {message}" : "Převádění {source} do PDF se nezdařilo: {message}",
     "Converting {source} to PDF has failed." : "Převádění {source} do PDF se nezdařilo.",
     "Unsupported subject: \"%s\"." : "Nepodporovaný předmět: „%s.",

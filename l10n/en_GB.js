@@ -22,6 +22,7 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "A PDF file {destination} will be created from the sources at {source}.",
     "A PDF download will be created from the sources at {source}." : "A PDF download will be created from the sources at {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Your folder {source} has been converted to a PDF file at {destination}.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file.",
     "Converting {source} to PDF has failed: {message}" : "Converting {source} to PDF has failed: {message}",
     "Converting {source} to PDF has failed." : "Converting {source} to PDF has failed.",
     "Unsupported subject: \"%s\"." : "Unsupported subject: \"%s\".",
