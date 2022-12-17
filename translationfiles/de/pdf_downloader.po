@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-12-16 03:24+0000\n"
+"POT-Creation-Date: 2022-12-17 03:22+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: kachelkaiser, 2022\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -193,28 +193,28 @@ msgstr ""
 msgid "Please install the \"%s\" program on the server."
 msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
 
-#: /app/lib/Service/FileSystemWalker.php:359
+#: /app/lib/Service/FileSystemWalker.php:357
 #, php-format
 msgid "Internal error, unknown filesystem node type: \"%s\"."
 msgstr "Server-Fehler, unbekannter Dateisystem-Eintrag: \"%s\"."
 
-#: /app/lib/Service/FileSystemWalker.php:393
+#: /app/lib/Service/FileSystemWalker.php:391
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr "\"%s\" ist kein Ordner und Entpacken von Archiv-Dateien ist deaktiviert."
 
-#: /app/lib/Service/FileSystemWalker.php:396
+#: /app/lib/Service/FileSystemWalker.php:394
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
 "\"%s\" ist keine Ordner und kann nicht als Datei-Archive extrahiert werden."
 
-#: /app/lib/Service/FileSystemWalker.php:440
+#: /app/lib/Service/FileSystemWalker.php:438
 #, php-format
 msgid "Destination parent folder conflicts with existing file \"%s\"."
 msgstr "Übergeordneter Zielordner steht in Konflikt mit vorhandener Datei \"%s\"."
 
-#: /app/lib/Service/FileSystemWalker.php:447
+#: /app/lib/Service/FileSystemWalker.php:445
 #, php-format
 msgid "Unable to create the parent folder \"%s\"."
 msgstr "Der übergeordnete Ordner \"%s\" kann nicht erstellt werden."
@@ -225,7 +225,7 @@ msgstr "Der übergeordnete Ordner \"%s\" kann nicht erstellt werden."
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/FileSystemWalker.php:531
+#: /app/lib/Service/FileSystemWalker.php:529
 #: /app/lib/Service/PdfCombiner.php:360
 msgid "BASENAME"
 msgstr "BASENAME"
@@ -236,7 +236,7 @@ msgstr "BASENAME"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/FileSystemWalker.php:535
+#: /app/lib/Service/FileSystemWalker.php:533
 #: /app/lib/Service/PdfCombiner.php:364
 msgid "FILENAME"
 msgstr "DATEINAME"
@@ -247,7 +247,7 @@ msgstr "DATEINAME"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/FileSystemWalker.php:539
+#: /app/lib/Service/FileSystemWalker.php:537
 #: /app/lib/Service/PdfCombiner.php:368
 msgid "EXTENSION"
 msgstr "EXTENSION"
@@ -258,7 +258,7 @@ msgstr "EXTENSION"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/FileSystemWalker.php:543
+#: /app/lib/Service/FileSystemWalker.php:541
 #: /app/lib/Service/PdfCombiner.php:376
 msgid "DIRNAME"
 msgstr "DIRNAME"
@@ -269,7 +269,7 @@ msgstr "DIRNAME"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/FileSystemWalker.php:547
+#: /app/lib/Service/FileSystemWalker.php:545
 msgid "DATETIME"
 msgstr "DATETIME"
 

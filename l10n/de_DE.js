@@ -8,7 +8,7 @@ OC.L10N.register(
     "Unable to find cached download file with id \"%d\"." : "Zwischengespeicherte Download-Datei mit der ID \"%d\" kann nicht gefunden werden.",
     "Unable to open the destination folder \"%s\"." : "Der Zielordner \"%s\" kann nicht geöffnet werden.",
     "PDF document saved as \"%s\"." : "PDF-Dokument gespeichert als \"%s\".",
-    "PDF generation background job scheduled successfully." : "Hintergrundjob zur PDF-Generierung erfolgreich eingeplant.",
+    "PDF generation background job scheduled successfully." : "Hintergrundjob zur PDF-Generierung erfolgreich geplant.",
     "Cached PDF files for \"%s\" have been deleted." : "Zwischengespeicherte PDF-Dateien für \"%s\" wurden gelöscht.",
     "PDF file \"%s\" has been deleted." : "PDF-Datei \"%s\" wurde gelöscht.",
     "Unknown admin setting: \"%1$s\"" : "Unbekannte Administrationseinstellung: \"%1$s\"",
