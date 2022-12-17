@@ -4,6 +4,7 @@ OC.L10N.register(
     "FILENAME" : "NOME DE FICHEIRO",
     "bytes" : "bytes",
     "Text" : "Texto",
+    "Background" : "Fondo",
     "submit" : "enviar",
     "Options" : "Opcións",
     "PDF" : "PDF",
