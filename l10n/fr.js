@@ -1,9 +1,13 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Fichier ou dossier introuvable.",
     "Post to endpoint \"%s\" not implemented." : "Ajout sur le point de montage \"%s\" non implémenté.",
     "Post to base URL of app \"%s\" not allowed." : "Ajout sur l'URL de base de l'application \"%s\" non permis.",
     "Get from endpoint \"%s\" not implemented." : "Récupération depuis le point de montage \"%s\" non implémenté.",
+    "Unable to find cached download file with id \"%d\"." : "Impossible de trouver le fichier cache correspondant à l'id \"%d\".",
+    "PDF document saved as \"%s\"." : "Document PDF sauvegardé sous le nom \"1%s\".",
+    "PDF file \"%s\" has been deleted." : "Le fichier PDF \"%s\" a été supprimé.",
     "Unknown admin setting: \"%1$s\"" : "Paramètres administrateur inconnu : \"%1$s\"",
     "The admin setting \"%1$s\" is read-only" : "Le paramètre administrateur \"%1$s\" est en lecture seule",
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "La valeur \"%1$s\" pour le paramètre \"%2$s\" ne peut pas être convertie en booléen.",
