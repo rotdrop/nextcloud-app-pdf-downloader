@@ -1,6 +1,7 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Ezin izan da fitxategia edo karpeta aurkitu.",
     "Post to endpoint \"%s\" not implemented." : "Argitaratu \"%s\" amaiera-puntuan ez da inplementatu.",
     "Post to base URL of app \"%s\" not allowed." : "Ez da onartzen \"%s\" aplikazioaren oinarrizko URLan argitaratzea.",
     "Get from endpoint \"%s\" not implemented." : "\"%s\" amaiera-puntutik lortzea ez dago inplementatuta.",
@@ -11,6 +12,7 @@ OC.L10N.register(
     "Unknown personal setting: \"%s\"." : "Ezarpen pertsonal ezezaguna: \"%s\".",
     "Unable to parse memory size limit \"%s\"" : "Ezin izan da memoriaren tamainaren muga analizatu \"%s\"",
     "PDF Downloader" : "PDF deskargatzailea",
+    "Unsupported subject: \"%s\"." : "Euskarririk gabeko gaia: \"%s\".",
     "not found" : "ez da aurkitu",
     "pass through" : "pasa hemendik",
     "FILENAME" : "FITXATEGI-IZENA",
@@ -20,6 +22,7 @@ OC.L10N.register(
     "Error, caught an exception." : "Errorea, salbuespen bat aurkitu da.",
     "Caused by previous exception" : "Aurreko salbuespen batek sortua",
     "bytes" : "byte",
+    "The input color values are invalid." : "Sartutako kolorearen balioak baliogabeak dira.",
     "Recursive PDF Downloader" : "PDF deskargatzaile errekurtsiboa",
     "Archive Extraction" : "Artxiboen erauzketa",
     "Archive Size Limit" : "Artiboaren tamaina-muga",
@@ -90,11 +93,13 @@ OC.L10N.register(
     "Gateway Timeout" : "Atebidearen itxarote-denbora ahituta",
     "HTTP Version Not Supported" : "HTTP bertsioa ez da onartzen",
     "Insufficient Storage (WebDAV)" : "Ez dago biltegi nahikorik (WebDAV)",
+    "Loop Detected (WebDAV)" : "Begizta detektatuta (WebDAV)",
     "Bandwidth Limit Exceeded (Apache)" : "Banda-zabalera muga gaindituta (Apache)",
     "Not Extended" : "Hedatu gabe",
     "Network Authentication Required" : "Sare-autentifikazioa beharrezkoa",
     "Network read timeout error" : "Sare irakurtze denbora-muga errorea",
     "Network connect timeout error" : "Sare konektatze denbora-muga errorea",
+    "Operation cancelled by user." : "Erabiltzaileak eragiketa bertan behera utzi du.",
     "Aborted" : "Bertan behera utzita",
     "Error" : "Errorea",
     "System Administrator" : "Sistemaren administratzailea",
@@ -105,6 +110,7 @@ OC.L10N.register(
     "Error: not a plain object" : "Errorea: ez da elementu arrunta",
     "No" : "Ez",
     "Yes" : "Bai",
-    "unknown error" : "errore ezezaguna"
+    "unknown error" : "errore ezezaguna",
+    "The quick brown fox jumps over the lazy dog." : "Bungalow, cava, ferry, ñu, puma, quad eta xah hitzak jaso ditu."
 },
 "nplurals=2; plural=(n != 1);");
