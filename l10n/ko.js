@@ -5,6 +5,7 @@ OC.L10N.register(
     "bytes" : "바이트",
     "Text" : "텍스트",
     "Background" : "배경",
+    "Options" : "옵션들",
     "OK" : "확인",
     "Created" : "생성됨",
     "Unauthorized" : "권한 없음",
