@@ -98,7 +98,7 @@ class FilesActionListener implements IEventListener
 
     $appName = $this->appContainer->get('appName');
 
-    $l10n = $this->appContainer->get(IL10N::class);
+    $this->l = $this->appContainer->get(IL10N::class);
 
     $this->logger = $this->appContainer->get(LoggerInterface::class);
 
