@@ -1,7 +1,7 @@
 {
   "name": "pdf-downloader",
   "description": "Recusively convert entire directory trees to PDF and provide the resulting document as download",
-  "version": "1.1.0-rc3",
+  "version": "1.1.0-rc4",
   "author": "Claus-Justus Heine <himself@claus-justus-heine.de>",
   "bugs": {
     "url": "https://github.com/rotdrop/nextcloud-app-pdf-downloader.git"
