@@ -184,17 +184,31 @@ export default {
       align-items:center;
     }
   }
-  :deep(&__title) {
+  :deep() &__title {
+    position: relative;
     padding-left:60px;
-    background-image:url('../img/app.svg');
-    background-repeat:no-repeat;
-    background-origin:border-box;
-    background-size:45px;
-    background-position:left center;
-    height:30px;
+    height:32px;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      background-size:32px;
+      background-image:url('../img/app-dark.svg');
+      background-repeat:no-repeat;
+      background-origin:border-box;
+      background-position:left center;
+    }
   }
   :deep(.app-settings-section) {
     margin-bottom: 40px;
   }
+}
+</style>
+<style lang="scss">
+body[data-themes*="dark"] .settings-section__title::before {
+  filter: Invert(); // avoid conflict with sass lower case invert()
 }
 </style>

@@ -599,13 +599,22 @@ export default {
 <style lang="scss" scoped>
 .settings-section {
   :deep(.settings-section__title) {
+    position: relative;
     padding-left:60px;
-    background-image:url('../img/app-dark.svg');
-    background-repeat:no-repeat;
-    background-origin:border-box;
-    background-size:32px;
-    background-position:left center;
     height:32px;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      background-size:32px;
+      background-image:url('../img/app-dark.svg');
+      background-repeat:no-repeat;
+      background-origin:border-box;
+      background-position:left center;
+    }
   }
   .horizontal-rule {
     opacity: 0.1;
@@ -681,5 +690,10 @@ export default {
     background-position: right center;
     background-repeat: no-repeat;
   }
+}
+</style>
+<style lang="scss">
+body[data-themes*="dark"] .settings-section__title::before {
+  filter: Invert(); // avoid conflict with sass lower case invert()
 }
 </style>

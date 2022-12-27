@@ -302,4 +302,12 @@ export default {
     }
   }
 }
+body[data-themes*="dark"] {
+  .font-select-container .font-sample,
+  .vue-tooltip.vue-tooltip-font-info-popup {
+    img {
+      filter: Invert();
+    }
+  }
+}
 </style>
