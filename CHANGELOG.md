@@ -19,8 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - templates for the page labels
 - templates for the file-names of generated files
 - template variable names are potentially localized
-- support dark themes for NC 25
 - support Nextcloud 25
+- support dark themes for NC 25
 
 ## [1.0.11] - 2022-11-17
 
