@@ -19,7 +19,7 @@
  */
 </script>
 <template>
-  <div class="font-select-container">
+  <div :class="['font-select-container', ...cloudVersionClasses]">
     <div class="label-container">
       <label v-if="label !== undefined" :for="id + '-font-select'">{{ label }}</label>
     </div>
@@ -51,7 +51,9 @@
           />
         </template>
         <template #singleLabel="singleLabelData">
-          <span v-tooltip="fontInfoPopup(singleLabelData.option, getFontSampleUri(singleLabelData.option))">
+          <span v-tooltip="fontInfoPopup(singleLabelData.option, getFontSampleUri(singleLabelData.option))"
+                class="single-label"
+          >
             {{ $refs.fontSelect.$refs.VueMultiselect.currentOptionLabel }}
           </span>
         </template>
@@ -87,6 +89,14 @@ import fontInfoPopup from './mixins/font-info-popup'
 import generateUrl from '../toolkit/util/generate-url.js'
 import fontSampleText from '../toolkit/util/pangram.js'
 
+const cloudVersion = OC.config.versionstring.split('.')
+const cloudVersionClasses = [
+  'cloud-version',
+  'cloud-version-major-' + cloudVersion[0],
+  'cloud-version-minor-' + cloudVersion[1],
+  'cloud-version-patch-' + cloudVersion[2],
+]
+
 export default {
   name: 'FontSelect',
   components: {
@@ -98,6 +108,7 @@ export default {
       fontObject: null,
       fontSize: null,
       // loading: true,
+      cloudVersionClasses,
     };
   },
   props: {
@@ -239,6 +250,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.cloud-version {
+  --cloud-icon-checkmark: var(--icon-checkmark-000);
+  --cloud-input-height: 34px;
+  --cloud-border-radius: var(--border-radius);
+  --cloud-input-border-width: 1px;
+  --cloud-input-border-color: var(--color-border-dark);
+  --cloud-input-margin: 0;
+  &.cloud-version-major-25 {
+    --cloud-icon-checkmark: var(--icon-checkmark-dark);
+    --cloud-input-height: 36px;
+    --cloud-border-radius: var(--border-radius-large);
+    --cloud-input-border-width: 2px;
+    --cloud-input-border-color: var(--color-border-maxcontrast);
+    --cloud-input-margin: 3px;
+  }
+}
 .font-select-container {
   .flex-container {
     display:flex;
@@ -261,15 +288,43 @@ export default {
     max-width: 400px;
     align-items: center;
     :deep(div.multiselect.multiselect-vue.multiselect--single) {
-      height:34px !important;
+      height: var(--cloud-input-height) !important;
+      margin-top: var(--cloud-input-margin);
+      margin-bottom: var(--cloud-input-margin);
       flex-grow:1;
+      .multiselect__content-wrapper {
+        border: var(--cloud-input-border-width) solid var(--cloud-input-border-color);
+      }
+      .multiselect__tags {
+        border: var(--cloud-input-border-width) solid var(--cloud-input-border-color);
+        border-radius: var(--cloud-border-radius);
+        .multiselect__single .single-label {
+          width:100%;
+        }
+      }
+      &.multiselect--active {
+        .multiselect__tags {
+          border-radius: var(--cloud-border-radius) var(--cloud-border-radius) 0 0;
+        }
+        .multiselect__content-wrapper {
+          border-radius: 0 0 var(--cloud-border-radius) var(--cloud-border-radius);
+        }
+        &.multiselect--above {
+          .multiselect__tags {
+            border-radius: 0 0 var(--cloud-border-radius) var(--cloud-border-radius);
+          }
+          .multiselect__content-wrapper {
+            border-radius: var(--cloud-border-radius) var(--cloud-border-radius) 0 0;
+          }
+        }
+      }
       &:hover .multiselect__tags {
         border-color: var(--color-primary-element);
         outline: none;
       }
      .multiselect__content-wrapper li > span {
         &::before {
-          background-image: var(--icon-checkmark-000);
+          background-image: var(--cloud-icon-checkmark);
           display:block;
         }
         &:not(.multiselect__option--selected):hover::before {

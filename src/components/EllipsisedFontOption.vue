@@ -23,7 +23,7 @@
 -->
 
 <template>
-  <div v-tooltip.bootom="tooltip"
+  <div v-tooltip.bottom="tooltip"
        class="name-parts"
   >
     <Highlight
@@ -148,6 +148,7 @@ export default {
 .name-parts {
   display: flex;
   max-width: 100%;
+  width: 100%;
   &__first {
     overflow: hidden;
     text-overflow: ellipsis;
