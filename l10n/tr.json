@@ -68,6 +68,7 @@
     "Universal Converter" : "Evrensel dönüştürücü",
     "Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn." : "Tüm dosyalar için öncelikle yürütülecek bir süzgeç programının tam yolu. Bu program sonuç alamazsa sırayla diğer dönüştürücüler denenir.",
     "Fallback Converter" : "Varsayılan dönüştürücü",
+    "Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document." : "Diğer tüm süzgeçler sonuç alamadığında çalıştırılacak süzgeç programının tam yolu. Bu program sonuç alamazsa belge için bir hata sayfası görüntülenir.",
     "Converters" : "Dönüştürücüler",
     "Status of the configured Converters" : "Yapılandırılmış dönüştürücülerin durumu",
     "converter chain" : "dönüştürücü zinciri",
