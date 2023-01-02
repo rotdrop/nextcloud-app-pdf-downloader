@@ -1,6 +1,7 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Datoteke ali mape ni mogoče najti.",
     "FILENAME" : "Ime datoteke",
     "bytes" : "bajtov",
     "Text" : "Besedilo",
