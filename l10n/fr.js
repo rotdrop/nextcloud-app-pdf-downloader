@@ -15,6 +15,7 @@ OC.L10N.register(
     "The personal setting \"%1$s\" is read-only" : "Le paramètre personnel \"%1$s\" est en lecture seule",
     "Unknown personal setting: \"%s\"." : "Paramètre personnel inconnu : \"%s\".",
     "Unable to parse memory size limit \"%s\"" : "Impossible de lire la limite de taille mémoire \"%s\"",
+    "Unsupported subject: \"%s\"." : "Sujet non supporté : « %s ».",
     "not found" : "non trouvé",
     "FILENAME" : "NOM DU FICHIER",
     "Combining PDFs failed" : "Erreur lors de la fusion des PDFs",
@@ -133,6 +134,8 @@ OC.L10N.register(
     "Feedback email: {AutoReport}" : "E-mail pour les retours d'information : {AutoReport}",
     "Something went wrong." : "Quelque chose s'est mal passé.",
     "If it should be the case that you are already logged in for a long time without interacting with the app, then the reason for this error is probably a simple timeout." : "Si vous êtes connecté depuis longtemps sans interaction avec l'application, alors la raison de cette erreur est probablement un simple délai dépassé.",
+    "In any case it may help to logoff and logon again, as a temporary workaround. You will be redirected to the login page when you close this window." : "Dans tous les cas, il peut être utile de vous déconnecter/reconnecter pour contourner le problème temporairement. Vous serez redirigé sur la page de connexion quand vous fermerez cette fenêtre.",
+    "Unrecoverable unknown internal error, no details available" : "Erreur interne irrécupérable, pas de détails disponible",
     "Internal Error" : "Erreur interne",
     "Field {RequiredField} not present in AJAX response." : "Le champ {RequiredField} n'est pas présent dans la réponse AJAX.",
     "Missing data" : "Données manquantes",
@@ -146,6 +149,7 @@ OC.L10N.register(
     "Yes" : "Oui",
     "Debug Information" : "Information de déboggage",
     "unknown error" : "erreur inconnue",
-    "Unable to download data from \"{url}\": {message}" : "Impossible de télécharger les données depuis \"{url}\": {message}"
+    "Unable to download data from \"{url}\": {message}" : "Impossible de télécharger les données depuis \"{url}\": {message}",
+    "The quick brown fox jumps over the lazy dog." : "Buvez de ce whisky que le patron juge fameux."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
