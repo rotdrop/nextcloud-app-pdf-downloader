@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,6 +19,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+// phpcs:disable PSR1.Files.SideEffects
+// phpcs:ignore PSR1.Files.SideEffects
 
 namespace OCA\PdfDownloader\AppInfo;
 
@@ -58,7 +61,7 @@ class Application extends App implements IBootstrap
    *
    * @return void
    */
-  public function boot(IBootContext $context): void
+  public function boot(IBootContext $context):void
   {
     $context->injectFn(function(MimeTypeService $mimeTypeService) {
       $mimeTypeService->setAppPath(__DIR__ . '/../../')->registerMimeTypeMappings();
