@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-01-05 03:26+0000\n"
+"POT-Creation-Date: 2023-01-06 03:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,17 +21,17 @@ msgstr ""
 msgid "File or folder could not be found."
 msgstr ""
 
-#: /app/lib/Controller/CatchAllController.php:70
+#: /app/lib/Controller/CatchAllController.php:68
 #, php-format
 msgid "Post to endpoint \"%s\" not implemented."
 msgstr ""
 
-#: /app/lib/Controller/CatchAllController.php:73
+#: /app/lib/Controller/CatchAllController.php:71
 #, php-format
 msgid "Post to base URL of app \"%s\" not allowed."
 msgstr ""
 
-#: /app/lib/Controller/CatchAllController.php:90
+#: /app/lib/Controller/CatchAllController.php:88
 #, php-format
 msgid "Get from endpoint \"%s\" not implemented."
 msgstr ""
@@ -67,43 +67,43 @@ msgstr ""
 msgid "PDF file \"%s\" has been deleted."
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:244
-#: /app/lib/Controller/SettingsController.php:282
-#: /app/lib/Controller/SettingsController.php:321
-#: /app/lib/Controller/SettingsController.php:378
+#: /app/lib/Controller/SettingsController.php:241
+#: /app/lib/Controller/SettingsController.php:279
+#: /app/lib/Controller/SettingsController.php:318
+#: /app/lib/Controller/SettingsController.php:375
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:247
+#: /app/lib/Controller/SettingsController.php:244
 #, php-format
 msgid "The admin setting \"%1$s\" is read-only"
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:260
-#: /app/lib/Controller/SettingsController.php:426
+#: /app/lib/Controller/SettingsController.php:257
+#: /app/lib/Controller/SettingsController.php:423
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:408
-#: /app/lib/Controller/SettingsController.php:582
-#: /app/lib/Controller/SettingsController.php:705
+#: /app/lib/Controller/SettingsController.php:405
+#: /app/lib/Controller/SettingsController.php:579
+#: /app/lib/Controller/SettingsController.php:702
 #, php-format
 msgid "Unknown personal setting: \"%1$s\""
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:411
+#: /app/lib/Controller/SettingsController.php:408
 #, php-format
 msgid "The personal setting \"%1$s\" is read-only"
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:532
+#: /app/lib/Controller/SettingsController.php:529
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr ""
 
-#: /app/lib/Controller/SettingsController.php:738
+#: /app/lib/Controller/SettingsController.php:735
 #, php-format
 msgid "Unable to parse memory size limit \"%s\""
 msgstr ""
@@ -287,36 +287,36 @@ msgstr ""
 msgid "Combining PDFs failed"
 msgstr ""
 
-#: /app/lib/Toolkit/Service/ArchiveService.php:265
-#: /app/lib/Toolkit/Service/ArchiveService.php:271
+#: /app/lib/Toolkit/Service/ArchiveService.php:264
+#: /app/lib/Toolkit/Service/ArchiveService.php:270
 #, php-format
 msgid "Unable to open archive file %s (%s)"
 msgstr ""
 
-#: /app/lib/Toolkit/Service/ArchiveService.php:285
+#: /app/lib/Toolkit/Service/ArchiveService.php:284
 #, php-format
 msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
 msgstr ""
 
-#: /app/lib/Toolkit/Service/ArchiveService.php:301
-#: /app/lib/Toolkit/Service/ArchiveService.php:368
-#: /app/lib/Toolkit/Service/ArchiveService.php:390
-#: /app/lib/Toolkit/Service/ArchiveService.php:404
+#: /app/lib/Toolkit/Service/ArchiveService.php:300
+#: /app/lib/Toolkit/Service/ArchiveService.php:367
+#: /app/lib/Toolkit/Service/ArchiveService.php:389
+#: /app/lib/Toolkit/Service/ArchiveService.php:403
 msgid "There is no archive file associated with this archiver instance."
 msgstr ""
 
-#: /app/lib/Toolkit/Traits/AssetTrait.php:104
+#: /app/lib/Toolkit/Traits/AssetTrait.php:103
 #, php-format
 msgid ""
 "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not "
 "installed on the server, please contact the system administrator!"
 msgstr ""
 
-#: /app/lib/Toolkit/Traits/ResponseTrait.php:118
+#: /app/lib/Toolkit/Traits/ResponseTrait.php:121
 msgid "Error, caught an exception."
 msgstr ""
 
-#: /app/lib/Toolkit/Traits/ResponseTrait.php:119
+#: /app/lib/Toolkit/Traits/ResponseTrait.php:122
 msgid "Caused by previous exception"
 msgstr ""
 

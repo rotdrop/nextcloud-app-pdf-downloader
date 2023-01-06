@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2022-12-29 01:49+0000\n"
+"POT-Creation-Date: 2023-01-06 03:26+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: kachelkaiser, 2022\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -32,17 +32,17 @@ msgstr ""
 msgid "File or folder could not be found."
 msgstr "Datei oder Ordner konnte nicht gefunden werden."
 
-#: /app/lib/Controller/CatchAllController.php:70
+#: /app/lib/Controller/CatchAllController.php:68
 #, php-format
 msgid "Post to endpoint \"%s\" not implemented."
 msgstr "POST-Anfragen an \"%s\" sind nicht implementiert."
 
-#: /app/lib/Controller/CatchAllController.php:73
+#: /app/lib/Controller/CatchAllController.php:71
 #, php-format
 msgid "Post to base URL of app \"%s\" not allowed."
 msgstr "POST-Anfragen an die Basis-Adresse der App \"%s\" sind nicht erlaubt."
 
-#: /app/lib/Controller/CatchAllController.php:90
+#: /app/lib/Controller/CatchAllController.php:88
 #, php-format
 msgid "Get from endpoint \"%s\" not implemented."
 msgstr "GET-Anfragen an \"%s\" sind nicht implementiert."
@@ -80,45 +80,45 @@ msgstr "Zwischengespeicherte PDF-Dateien für \"%s\" wurden gelöscht."
 msgid "PDF file \"%s\" has been deleted."
 msgstr "PDF-Datei \"%s\" wurde gelöscht."
 
-#: /app/lib/Controller/SettingsController.php:244
-#: /app/lib/Controller/SettingsController.php:282
-#: /app/lib/Controller/SettingsController.php:321
-#: /app/lib/Controller/SettingsController.php:378
+#: /app/lib/Controller/SettingsController.php:241
+#: /app/lib/Controller/SettingsController.php:279
+#: /app/lib/Controller/SettingsController.php:318
+#: /app/lib/Controller/SettingsController.php:375
 #, php-format
 msgid "Unknown admin setting: \"%1$s\""
 msgstr "Unbekannte Verwaltungs-Einstellung: \"%1$s\""
 
-#: /app/lib/Controller/SettingsController.php:247
+#: /app/lib/Controller/SettingsController.php:244
 #, php-format
 msgid "The admin setting \"%1$s\" is read-only"
 msgstr "Die Administrationseinstellung \"%1$s\" kann nur gelesen werden"
 
-#: /app/lib/Controller/SettingsController.php:260
-#: /app/lib/Controller/SettingsController.php:426
+#: /app/lib/Controller/SettingsController.php:257
+#: /app/lib/Controller/SettingsController.php:423
 #, php-format
 msgid "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean."
 msgstr ""
 "Der Wert \"%1$s\" für die Einstellung \"%2$s\" kann nicht in einen "
 "Wahrheitswert konvertiert werden."
 
-#: /app/lib/Controller/SettingsController.php:408
-#: /app/lib/Controller/SettingsController.php:582
-#: /app/lib/Controller/SettingsController.php:705
+#: /app/lib/Controller/SettingsController.php:405
+#: /app/lib/Controller/SettingsController.php:579
+#: /app/lib/Controller/SettingsController.php:702
 #, php-format
 msgid "Unknown personal setting: \"%1$s\""
 msgstr "Unbekannte persönliche Einstellung: \"%1$s\""
 
-#: /app/lib/Controller/SettingsController.php:411
+#: /app/lib/Controller/SettingsController.php:408
 #, php-format
 msgid "The personal setting \"%1$s\" is read-only"
 msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
 
-#: /app/lib/Controller/SettingsController.php:532
+#: /app/lib/Controller/SettingsController.php:529
 #, php-format
 msgid "Unknown personal setting: \"%s\"."
 msgstr "Unbekannte persönliche Einstellung: \"%s\""
 
-#: /app/lib/Controller/SettingsController.php:738
+#: /app/lib/Controller/SettingsController.php:735
 #, php-format
 msgid "Unable to parse memory size limit \"%s\""
 msgstr "Kann das Speicher-Limit nicht interpretieren: \"%s\""
@@ -341,25 +341,25 @@ msgstr "FILE_TOTAL_PAGES"
 msgid "Combining PDFs failed"
 msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 
-#: /app/lib/Toolkit/Service/ArchiveService.php:265
-#: /app/lib/Toolkit/Service/ArchiveService.php:271
+#: /app/lib/Toolkit/Service/ArchiveService.php:264
+#: /app/lib/Toolkit/Service/ArchiveService.php:270
 #, php-format
 msgid "Unable to open archive file %s (%s)"
 msgstr "Kann die Archiv-Datei %s (%s) nicht öffnen."
 
-#: /app/lib/Toolkit/Service/ArchiveService.php:285
+#: /app/lib/Toolkit/Service/ArchiveService.php:284
 #, php-format
 msgid "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s"
 msgstr "Die Größe des dekomprimierten Archivs \"%1$s\" ist zu groß:  %2$s > %3$s"
 
-#: /app/lib/Toolkit/Service/ArchiveService.php:301
-#: /app/lib/Toolkit/Service/ArchiveService.php:368
-#: /app/lib/Toolkit/Service/ArchiveService.php:390
-#: /app/lib/Toolkit/Service/ArchiveService.php:404
+#: /app/lib/Toolkit/Service/ArchiveService.php:300
+#: /app/lib/Toolkit/Service/ArchiveService.php:367
+#: /app/lib/Toolkit/Service/ArchiveService.php:389
+#: /app/lib/Toolkit/Service/ArchiveService.php:403
 msgid "There is no archive file associated with this archiver instance."
 msgstr "Dieser Archivierungsinstanz ist keine Archivdatei zugeordnet."
 
-#: /app/lib/Toolkit/Traits/AssetTrait.php:104
+#: /app/lib/Toolkit/Traits/AssetTrait.php:103
 #, php-format
 msgid ""
 "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not"
@@ -369,11 +369,11 @@ msgstr ""
 "auf dem Server nicht installiert, bitte den System-Administrator "
 "kontaktieren!"
 
-#: /app/lib/Toolkit/Traits/ResponseTrait.php:118
+#: /app/lib/Toolkit/Traits/ResponseTrait.php:121
 msgid "Error, caught an exception."
 msgstr "Fehler, Ausnahme abgefangen."
 
-#: /app/lib/Toolkit/Traits/ResponseTrait.php:119
+#: /app/lib/Toolkit/Traits/ResponseTrait.php:122
 msgid "Caused by previous exception"
 msgstr "Verursacht durch eine vorangegangene Ausnahme"
 
