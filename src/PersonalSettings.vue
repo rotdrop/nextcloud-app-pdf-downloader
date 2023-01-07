@@ -724,10 +724,12 @@ export default {
   --cloud-icon-info: var(--icon-info-000);
   --cloud-icon-checkmark: var(--icon-checkmark-000);
   --cloud-icon-alert: var(--icon-alert-outline-000);
+  --cloud-theme-filter: none;
   &.cloud-version-major-25 {
     --cloud-icon-info: var(--icon-info-dark);
     --cloud-icon-checkmark: var(--icon-checkmark-dark);
     --cloud-icon-alert: var(--icon-alert-outline-dark);
+    --cloud-theme-filter: var(--background-invert-if-dark);
   }
 }
 .settings-section {
@@ -747,6 +749,7 @@ export default {
       background-repeat:no-repeat;
       background-origin:border-box;
       background-position:left center;
+      filter: var(--cloud-theme-filter);
     }
   }
   .horizontal-rule {
@@ -836,10 +839,5 @@ export default {
     background-position: right center;
     background-repeat: no-repeat;
   }
-}
-</style>
-<style lang="scss">
-body[data-themes*="dark"] .settings-section__title::before {
-  filter: Invert(); // avoid conflict with sass lower case invert()
 }
 </style>

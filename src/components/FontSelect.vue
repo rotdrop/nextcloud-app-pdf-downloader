@@ -1,6 +1,6 @@
 <script>
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -257,6 +257,7 @@ export default {
   --cloud-input-border-width: 1px;
   --cloud-input-border-color: var(--color-border-dark);
   --cloud-input-margin: 0;
+  --cloud-theme-filter: none;
   &.cloud-version-major-25 {
     --cloud-icon-checkmark: var(--icon-checkmark-dark);
     --cloud-input-height: 36px;
@@ -264,6 +265,7 @@ export default {
     --cloud-input-border-width: 2px;
     --cloud-input-border-color: var(--color-border-maxcontrast);
     --cloud-input-margin: 3px;
+    --cloud-theme-filter: var(--background-invert-if-dark);
   }
 }
 .font-select-container {
@@ -345,6 +347,7 @@ export default {
   }
   .font-sample img {
     min-height:24px;
+    filter: var(--cloud-theme-filter);
   }
 }
 </style>
@@ -356,13 +359,8 @@ export default {
       min-height:24px;
     }
   }
-}
-body[data-themes*="dark"] {
-  .font-select-container .font-sample,
-  .vue-tooltip.vue-tooltip-font-info-popup {
-    img {
-      filter: Invert();
-    }
+  img {
+    filter: var(--background-invert-if-dark);
   }
 }
 </style>

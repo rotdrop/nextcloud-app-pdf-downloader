@@ -1,6 +1,6 @@
 <script>
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  *
@@ -22,7 +22,9 @@
  */
 </script>
 <template>
-  <SettingsSection :title="t(appName, 'Recursive PDF Downloader')">
+  <SettingsSection :class="cloudVersionClasses"
+                   :title="t(appName, 'Recursive PDF Downloader')"
+  >
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles }]">
         <input id="extract-archive files"
@@ -120,6 +122,14 @@ import { showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@next
 import axios from '@nextcloud/axios'
 import settingsSync from './toolkit/mixins/settings-sync'
 
+const cloudVersion = OC.config.versionstring.split('.')
+const cloudVersionClasses = [
+  'cloud-version',
+  'cloud-version-major-' + cloudVersion[0],
+  'cloud-version-minor-' + cloudVersion[1],
+  'cloud-version-patch-' + cloudVersion[2],
+]
+
 export default {
   name: 'AdminSettings',
   components: {
@@ -130,6 +140,7 @@ export default {
   },
   data() {
     return {
+      cloudVersionClasses,
       extractArchiveFiles: false,
       archiveSizeLimit: null,
       humanArchiveSizeLimit: '',
@@ -177,6 +188,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.cloud-version {
+  --cloud-theme-filter: none;
+  &.cloud-version-major-25 {
+    --cloud-theme-filter: var(--background-invert-if-dark);
+  }
+}
 .settings-section {
   .flex-container {
     display:flex;
@@ -200,15 +217,11 @@ export default {
       background-repeat:no-repeat;
       background-origin:border-box;
       background-position:left center;
+      filter: var(--cloud-theme-filter);
     }
   }
   :deep(.app-settings-section) {
     margin-bottom: 40px;
   }
-}
-</style>
-<style lang="scss">
-body[data-themes*="dark"] .settings-section__title::before {
-  filter: Invert(); // avoid conflict with sass lower case invert()
 }
 </style>
