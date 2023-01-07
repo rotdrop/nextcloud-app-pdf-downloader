@@ -112,6 +112,9 @@ class FileSystemWalker
   /** @var bool */
   private $includeHasPrecedence = SettingsController::PERSONAL_PATTERN_PRECEDENCE_DEFAULT;
 
+  /** @var bool */
+  private $generateErrorPages = SettingsController::PERSONAL_GENERATE_ERROR_PAGES_DEFAULT;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
@@ -212,6 +215,12 @@ class FileSystemWalker
         SettingsController::PERSONAL_PATTERN_PRECEDENCE_DEFAULT,
       );
       $this->includeHasPrecedence = $precedence !== SettingsController::EXCLUDE_HAS_PRECEDENCE;
+      $this->generateErrorPages = $this->cloudConfig(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_GENERATE_ERROR_PAGES,
+        SettingsController::PERSONAL_GENERATE_ERROR_PAGES_DEFAULT,
+      );
     }
 
     $this->archiveService->setSizeLimit($this->actualArchiveSizeLimit());
@@ -326,7 +335,9 @@ __EOF__;
   private function addArchiveMembers(File $fileNode, string $parentName = ''):int
   {
     $path = $parentName . '/' . $fileNode->getName();
-
+    if (!$this->isFileIncluded($path)) {
+      return self::ARCHIVE_IGNORED;
+    }
     try {
       $this->archiveService->open($fileNode);
 
@@ -338,12 +349,18 @@ __EOF__;
       foreach (array_keys($this->archiveService->getFiles()) as $archiveFile) {
         $path = $parentName . '/' . $archiveDirectoryName . '/' . substr($archiveFile, $stripRoot);
         // $this->logInfo('ARCHIVE FILE ' . $archiveFile . ' PATH ' . $path);
+        if (!$this->isFileIncluded($path)) {
+          continue;
+        }
         try {
           $fileData = $this->archiveService->getFileContent($archiveFile);
           $mimeType = $this->detectMimeType($path, $fileData);
           $pdfData = $this->anyToPdf->convertData($fileData, $mimeType);
         } catch (Throwable $t) {
           $this->logException($t);
+          if (!$this->generateErrorPages) {
+            continue;
+          }
           $pdfData = $this->generateErrorPage($fileData ?? null, $path, $t);
         }
         $this->pdfCombiner->addDocument($pdfData, $path);
@@ -355,8 +372,10 @@ __EOF__;
 
       return self::ARCHIVE_IGNORED; // process as ordinary file
     } catch (ToolkitExceptions\ArchiveTooLargeException $se) {
-      $pdfData = $this->generateErrorPage($fileData, $path, $se);
-      $this->pdfCombiner->addDocument($pdfData, $path);
+      if ($this->generateErrorPages) {
+        $pdfData = $this->generateErrorPage($fileData, $path, $se);
+        $this->pdfCombiner->addDocument($pdfData, $path);
+      }
       return self::ARCHIVE_HANDLED;
     }
   }
@@ -383,13 +402,18 @@ __EOF__;
               && $this->addArchiveMembers($node, $parentName) === self::ARCHIVE_HANDLED) {
             continue 2;
           }
-
           $path = $parentName . '/' . $node->getName();
+          if (!$this->isFileIncluded($path)) {
+            break; // ignore
+          }
           $fileData = $node->getContent();
           try {
             $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
           } catch (Throwable $t) {
             $this->logException($t);
+            if (!$this->generateErrorPages) {
+              continue 2;
+            }
             $pdfData = $this->generateErrorPage($fileData, $path, $t);
           }
           $this->pdfCombiner->addDocument($pdfData, $path);
@@ -428,7 +452,7 @@ __EOF__;
       $this->addFilesRecursively($node);
     } else {
       if (!$this->extractArchiveFiles
-               || $this->addArchiveMembers($node) !== self::ARCHIVE_HANDLED) {
+          || $this->addArchiveMembers($node) !== self::ARCHIVE_HANDLED) {
         if (!$this->extractArchiveFiles) {
           throw new EnduserNotificationException(
             $this->l->t('"%s" is not a folder and archive extraction is disabled.', $nodePath));
