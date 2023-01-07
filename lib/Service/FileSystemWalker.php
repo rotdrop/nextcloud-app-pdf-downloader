@@ -215,7 +215,7 @@ class FileSystemWalker
         SettingsController::PERSONAL_PATTERN_PRECEDENCE_DEFAULT,
       );
       $this->includeHasPrecedence = $precedence !== SettingsController::EXCLUDE_HAS_PRECEDENCE;
-      $this->generateErrorPages = $this->cloudConfig(
+      $this->generateErrorPages = $this->cloudConfig->getUserValue(
         $this->userId,
         $this->appName,
         SettingsController::PERSONAL_GENERATE_ERROR_PAGES,

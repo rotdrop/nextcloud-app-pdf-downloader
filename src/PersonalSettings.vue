@@ -179,13 +179,13 @@
       </div>
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Filename Patterns')">
-      <SettingsInputText v-model="excludePattern"
+      <SettingsInputText :value="excludePattern"
                          :label="t(appName, 'Exclude Pattern')"
-                         @update="saveTextInput(...arguments, 'excludePattern')"
+                         @update="(value) => { excludePattern = value; saveTextInput(value, 'excludePattern'); }"
       />
-      <SettingsInputText v-model="includePattern"
+      <SettingsInputText :value="includePattern"
                          :label="t(appName, 'Include Pattern')"
-                         @update="saveTextInput(...arguments, 'includePattern')"
+                         @update="(value) => { includePattern = value; saveTextInput(value, 'includePattern'); }"
       />
       <div :class="['flex-container', 'flex-center']">
         <span :class="['radio-option', 'label']">{{ t(appName, 'Precedence:') }}</span>
@@ -194,7 +194,8 @@
                  v-model="patternPrecedence"
                  type="radio"
                  value="includeHasPrecedence"
-                 :disabled="loading > 0"
+                 :selected="patternPrecedence === 'includeHasPrecedence'"
+                 :disabled="loading > 0 || (!includePattern && !!excludePattern)"
                  @change="saveSetting('patternPrecedence')"
           >
           <label for="include-has-precedence">
@@ -206,7 +207,8 @@
                  v-model="patternPrecedence"
                  type="radio"
                  value="excludeHasPrecedence"
-                 :disabled="loading > 0"
+                 :selected="patternPrecedence === 'excludeHasPrecedence'"
+                 :disabled="loading > 0 || !excludePattern"
                  @change="saveSetting('patternPrecedence')"
           >
           <label for="exclude-has-precedence">
@@ -524,6 +526,12 @@ export default {
     pageLabelBackgroundColor(newValue, oldValue) {
       console.info('BACKGROUND', newValue, oldValue)
     },
+    includePattern(newValue, oldValue) {
+      this.sanitizePatternPrecedence()
+    },
+    excludePattern(newValue, oldValue) {
+      this.sanitizePatternPrecedence()
+    },
   },
   created() {
     this.getData()
@@ -591,10 +599,26 @@ export default {
     updatePatternTestResult(responseData) {
       if (responseData && responseData.hasOwnProperty('patternTestResult')) {
         this.patternTestResult = responseData.patternTestResult
-        showInfo(t(appName, 'Include / exclude test result for "{string}" is "{result}".', {
+        showInfo(t(appName, 'Include/exclude test result for "{string}" is "{result}".', {
           string: this.patternTestString,
           result: this.l10nPatternTestResult
         }));
+      }
+    },
+    // make sure that the pattern precedence has an "expected" value
+    // if any or either of the include/exclude patterns is not set.
+    sanitizePatternPrecedence() {
+      let forcedPrecedence = this.patternPrecedence
+      if (!this.includePattern && !this.excludePattern) {
+        forcedPrecedence = 'includeHasPrecedence'
+      } else if (!this.includePattern) {
+        forcedPrecedence = 'excludeHasPrecedence'
+      } else if (!this.excludePattern) {
+        forcedPrecedence = 'includeHasPrecedence'
+      }
+      if (forcedPrecedence !== this.patternPrecedence) {
+        this.patternPrecedence = forcedPrecedence
+        this.saveSetting('patternPrecedence')
       }
     },
     async saveTextInput(value, settingsKey, force) {
