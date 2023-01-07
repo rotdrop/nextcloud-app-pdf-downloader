@@ -49,6 +49,7 @@ class SettingsController extends Controller
   use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
   use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\IncludeExcludeTrait;
 
   public const ADMIN_DISABLE_BUILTIN_CONVERTERS = 'disableBuiltinConverters';
   public const ADMIN_FALLBACK_CONVERTER = 'fallbackConverter';
@@ -72,6 +73,8 @@ class SettingsController extends Controller
   public const PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE = 'pageLabelTextColorPalette';
   public const PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE = 'pageLabelBackgroundColorPalette';
 
+  public const PERSONAL_GENERATE_ERROR_PAGES = 'generateErrorPages';
+  public const PERSONAL_GENERATE_ERROR_PAGES_DEFAULT = true;
   public const PERSONAL_GENERATED_PAGES_FONT = 'generatedPagesFont';
   public const PERSONAL_GENERATED_PAGES_FONT_DEFAULT = FileSystemWalker::ERROR_PAGES_FONT;
   public const PERSONAL_GENERATED_PAGES_FONT_SIZE = 'generatedPagesFontSize';
@@ -82,6 +85,20 @@ class SettingsController extends Controller
   public const ADMIN_SETTING = 'Admin';
   public const EXTRACT_ARCHIVE_FILES_ADMIN = self::EXTRACT_ARCHIVE_FILES . self::ADMIN_SETTING;
   public const ARCHIVE_SIZE_LIMIT_ADMIN = self::ARCHIVE_SIZE_LIMIT . self::ADMIN_SETTING;
+
+  public const PERSONAL_EXCLUDE_PATTERN = 'excludePattern';
+  public const PERSONAL_EXCLUDE_PATTERN_DEFAULT = '';
+  public const PERSONAL_INCLUDE_PATTERN = 'includePattern';
+  public const PERSONAL_INCLUDE_PATTERN_DEFAULT = '';
+  public const INCLUDE_HAS_PRECEDENCE = 'includeHasPrecedence';
+  public const EXCLUDE_HAS_PRECEDENCE = 'excludeHasPrecedence';
+  public const PERSONAL_PATTERN_PRECEDENCE = 'patternPrecedence';
+  public const PERSONAL_PATTERN_PRECEDENCE_DEFAULT = self::INCLUDE_HAS_PRECEDENCE;
+  public const PERSONAL_PATTERN_TEST_STRING = 'patternTestString';
+  public const PERSONAL_PATTERN_TEST_STRING_DEFAULT = '';
+  public const PERSONAL_PATTERN_TEST_INCLUDED = 'included';
+  public const PERSONAL_PATTERN_TEST_EXCLUDED = 'excluded';
+  public const PERSONAL_PATTERN_TEST_RESULT = 'patternTestResult';
 
   public const PERSONAL_GROUPING = 'grouping';
   public const PERSONAL_GROUP_FOLDERS_FIRST = PdfCombiner::GROUP_FOLDERS_FIRST;
@@ -144,6 +161,10 @@ class SettingsController extends Controller
       'rw' => true,
       'default' => null, // dynamic from PdfCombiner
     ],
+    self::PERSONAL_GENERATE_ERROR_PAGES => [
+      'rw' => true,
+      'default' => self::PERSONAL_GENERATE_ERROR_PAGES_DEFAULT,
+    ],
     self::PERSONAL_GENERATED_PAGES_FONT => [
       'rw' => true,
       'default' => self::PERSONAL_GENERATED_PAGES_FONT_DEFAULT,
@@ -151,6 +172,26 @@ class SettingsController extends Controller
     self::PERSONAL_GENERATED_PAGES_FONT_SIZE => [
       'rw' => true,
       'default' => self::PERSONAL_GENERATED_PAGES_FONT_SIZE_DEFAULT,
+    ],
+    self::PERSONAL_EXCLUDE_PATTERN => [
+      'rw' => true,
+      'default' => self::PERSONAL_EXCLUDE_PATTERN_DEFAULT,
+    ],
+    self::PERSONAL_INCLUDE_PATTERN => [
+      'rw' => true,
+      'default' => self::PERSONAL_INCLUDE_PATTERN_DEFAULT,
+    ],
+    self::PERSONAL_PATTERN_PRECEDENCE => [
+      'rw' => true,
+      self::PERSONAL_PATTERN_PRECEDENCE_DEFAULT,
+    ],
+    self::PERSONAL_PATTERN_TEST_STRING => [
+      'rw' => true,
+      self::PERSONAL_PATTERN_TEST_STRING_DEFAULT,
+    ],
+    self::PERSONAL_PATTERN_TEST_RESULT => [
+      'rw' => false,
+      'default' => null,
     ],
     self::PERSONAL_GROUPING => [ 'rw' => true, 'default' => self::PERSONAL_GROUP_FOLDERS_FIRST, ],
     self::PERSONAL_PDF_CLOUD_FOLDER_PATH => [
@@ -417,6 +458,7 @@ class SettingsController extends Controller
       case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
+      case self::PERSONAL_GENERATE_ERROR_PAGES:
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
         if ($newValue === null) {
           return self::grumble(
@@ -487,12 +529,41 @@ class SettingsController extends Controller
           }
         }
         break;
+      case self::PERSONAL_INCLUDE_PATTERN:
+      case self::PERSONAL_EXCLUDE_PATTERN:
+        $newValue = $value;
+        if (empty($newValue)) {
+          $newValue = null;
+        } else {
+          if (preg_match($newValue, null) === false) {
+            $errorMessage = $this->l->t('The regular expression "%1$s" seems to be invalid, error code is "%d".', [
+              $newValue, $error
+            ]);
+            $error = preg_last_error();
+            if ($error === 0) {
+              $delimiter = $newValue[0];
+              if (preg_match('/[[:alnum:][:space:]\\\\]/', $delimiter)
+                  || strrpos($newValue, $delimiter) === 0) {
+                $errorMessage .= ' ' . $this->l->t('Did you forget the delimiters?');
+              }
+            }
+            return self::grumble($errorMessage);
+          }
+        }
+        break;
+      case self::PERSONAL_PATTERN_PRECEDENCE:
       case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
       case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
       case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
       case self::PERSONAL_GENERATED_PAGES_FONT:
       case self::PERSONAL_PAGE_LABELS_FONT:
       case self::PERSONAL_GROUPING:
+        $newValue = $value;
+        if (empty($newValue)) {
+          $newValue = null;
+        }
+        break;
+      case self::PERSONAL_PATTERN_TEST_STRING:
         $newValue = $value;
         if (empty($newValue)) {
           $newValue = null;
@@ -553,11 +624,27 @@ class SettingsController extends Controller
         break;
     }
 
-    return new DataResponse([
+    $data = [
       'newValue' => $newValue,
       'oldValue' => $oldValue,
       'humanValue' => $humanValue,
-    ]);
+    ];
+
+    switch ($setting) {
+      case self::PERSONAL_INCLUDE_PATTERN:
+      case self::PERSONAL_EXCLUDE_PATTERN:
+      case self::PERSONAL_PATTERN_TEST_STRING:
+      case self::PERSONAL_PATTERN_PRECEDENCE:
+        $extraData = [
+          'patternTestResult' => $this->getPatternTestResult(),
+        ];
+        break;
+      default:
+        $extraData = [];
+        break;
+    }
+
+    return new DataResponse(array_merge($data, $extraData));
   }
 
   /**
@@ -623,6 +710,7 @@ class SettingsController extends Controller
         case self::EXTRACT_ARCHIVE_FILES_ADMIN:
         case self::EXTRACT_ARCHIVE_FILES:
         case self::PERSONAL_PAGE_LABELS:
+        case self::PERSONAL_GENERATE_ERROR_PAGES:
           if ($value === '' || $value === null) {
             $value = self::PERSONAL_SETTINGS[$oneSetting]['default'] ?? false;
             if ($value === self::ADMIN_SETTING) {
@@ -678,8 +766,25 @@ class SettingsController extends Controller
           $value = $this->translateBracedTemplate($value, $l10nKeys);
           break;
         case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
-          break;
         case self::PERSONAL_GROUPING:
+        case self::PERSONAL_INCLUDE_PATTERN:
+        case self::PERSONAL_EXCLUDE_PATTERN:
+        case self::PERSONAL_PATTERN_PRECEDENCE:
+        case self::PERSONAL_PATTERN_TEST_STRING:
+          break;
+        case self::PERSONAL_PATTERN_TEST_RESULT:
+          $value = $this->getPatternTestResult();
+          switch ($value) {
+            case self::PERSONAL_PATTERN_TEST_INCLUDED:
+              $humanValue = $this->l->t('excluded');
+              break;
+            case self::PERSONAL_PATTERN_TEST_EXCLUDED:
+              $humanValue = $this->l->t('excluded');
+              break;
+            default:
+              $humanValue = '';
+              break;
+          }
           break;
         case self::PERSONAL_PAGE_LABEL_TEXT_COLOR:
           if (empty($value)) {
@@ -738,5 +843,25 @@ class SettingsController extends Controller
       $newValue = null;
     }
     return $newValue;
+  }
+
+  /** @return null|string */
+  private function getPatternTestResult():?string
+  {
+    $testString = $this->config->getUserValue(
+      $this->userId,
+      $this->appName,
+      self::PERSONAL_PATTERN_TEST_STRING,
+      self::PERSONAL_PATTERN_TEST_STRING_DEFAULT,
+    );
+    $patternTestResult = null;
+    if (!empty($testString)) {
+      /** @var FileSystemWalker $fileSystemWalker */
+      $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
+      $patternTestResult = $fileSystemWalker->isFileIncluded($testString)
+        ? self::PERSONAL_PATTERN_TEST_INCLUDED
+        : self::PERSONAL_PATTERN_TEST_EXCLUDED;
+    }
+    return $patternTestResult;
   }
 }

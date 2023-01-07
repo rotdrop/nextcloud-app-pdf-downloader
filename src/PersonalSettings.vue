@@ -1,6 +1,6 @@
 <script>
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -19,7 +19,7 @@
  */
 </script>
 <template>
-  <SettingsSection :class="appName" :title="t(appName, 'Recursive PDF Downloader, Personal Settings')">
+  <SettingsSection :class="[...cloudVersionClasses, appName]" :title="t(appName, 'Recursive PDF Downloader, Personal Settings')">
     <AppSettingsSection :title="t(appName, 'Decorations and Fonts')">
       <div :class="['flex-container', 'flex-center', { pageLabels }]">
         <input id="page-labels"
@@ -116,7 +116,20 @@
                   :font-size-chooser="!pageLabelPageWidthFraction"
       />
       <div class="horizontal-rule" />
-      <FontSelect v-model="generatedPagesFontObject"
+      <div :class="['flex-container', 'flex-center', { generateErrorPages: 'generate-error-pages' }]">
+        <input id="generate-error-pages"
+               v-model="generateErrorPages"
+               type="checkbox"
+               :disabled="loading > 0"
+               @change="saveSetting('generateErrorPages')"
+        >
+        <label for="generate-error-pages">
+          {{ t(appName, 'Generate a Placeholder-Page for Failed Conversions') }}
+        </label>
+      </div>
+      <div v-show="generateErrorPages" class="horizontal-rule" />
+      <FontSelect v-show="generateErrorPages"
+                  v-model="generatedPagesFontObject"
                   :placeholder="t(appName, 'Select a Font')"
                   :fonts-list="fontsList"
                   :label="t(appName, 'Font for generated PDF (error)pages')"
@@ -127,7 +140,7 @@
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Sorting Options')">
       <div :class="['flex-container', 'flex-center']">
-        <span :class="['grouping-option', 'flex-container', 'flex-center']">
+        <span :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
           <input id="group-folders-first"
                  v-model="grouping"
                  type="radio"
@@ -139,7 +152,7 @@
             {{ t(appName, 'Group Folders First') }}
           </label>
         </span>
-        <span :class="['grouping-option', 'flex-container', 'flex-center']">
+        <span :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
           <input id="group-files-first"
                  v-model="grouping"
                  type="radio"
@@ -151,7 +164,7 @@
             {{ t(appName, 'Group Files First') }}
           </label>
         </span>
-        <span v-if="false" :class="['grouping-option', 'flex-container', 'flex-center']">
+        <span v-if="false" :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
           <input id="group-ungrouped"
                  v-model="grouping"
                  type="radio"
@@ -164,6 +177,58 @@
           </label>
         </span>
       </div>
+    </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Filename Patterns')">
+      <SettingsInputText v-model="excludePattern"
+                         :label="t(appName, 'Exclude Pattern')"
+                         @update="saveTextInput(...arguments, 'excludePattern')"
+      />
+      <SettingsInputText v-model="includePattern"
+                         :label="t(appName, 'Include Pattern')"
+                         @update="saveTextInput(...arguments, 'includePattern')"
+      />
+      <div :class="['flex-container', 'flex-center']">
+        <span :class="['radio-option', 'label']">{{ t(appName, 'Precedence:') }}</span>
+        <span :class="['radio-option', 'include-exclude', 'flex-container', 'flex-center']">
+          <input id="include-has-precedence"
+                 v-model="patternPrecedence"
+                 type="radio"
+                 value="includeHasPrecedence"
+                 :disabled="loading > 0"
+                 @change="saveSetting('patternPrecedence')"
+          >
+          <label for="include-has-precedence">
+            {{ t(appName, 'Include Pattern') }}
+          </label>
+        </span>
+        <span :class="['radio-option', 'include-exclude', 'flex-container', 'flex-center']">
+          <input id="exclude-has-precedence"
+                 v-model="patternPrecedence"
+                 type="radio"
+                 value="excludeHasPrecedence"
+                 :disabled="loading > 0"
+                 @change="saveSetting('patternPrecedence')"
+          >
+          <label for="exclude-has-precedence">
+            {{ t(appName, 'Exclude Pattern') }}
+          </label>
+        </span>
+      </div>
+      <SettingsInputText v-model="patternTestString"
+                         :label="t(appName, 'Test String')"
+                         @update="saveTextInput(...arguments, 'patternTestString')"
+      >
+        <template #hint>
+          <div class="pattern-test-result flex-container flex-baseline">
+            <span class="pattern-test-caption label">
+              {{ t(appName, 'Test Result:') }}
+            </span>
+            <span :class="['pattern-test-result', patternTestResult]">
+              {{ l10nPatternTestResult }}
+            </span>
+          </div>
+        </template>
+      </SettingsInputText>
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Default Download Options')">
       <SettingsInputText :value="pdfFileNameTemplate"
@@ -280,6 +345,14 @@ import settingsSync from './toolkit/mixins/settings-sync'
 import tinycolor from 'tinycolor2'
 import { hexToCSSFilter } from 'hex-to-css-filter'
 
+const cloudVersion = OC.config.versionstring.split('.')
+const cloudVersionClasses = [
+  'cloud-version',
+  'cloud-version-major-' + cloudVersion[0],
+  'cloud-version-minor-' + cloudVersion[1],
+  'cloud-version-patch-' + cloudVersion[2],
+]
+
 const initialState = getInitialState()
 
 export default {
@@ -297,8 +370,14 @@ export default {
   data() {
     return {
       initialState,
+      cloudVersionClasses,
       grouping: 'folders-first',
       sorting: 'ascending',
+      includePattern: null,
+      excludePattern: null,
+      patternPrecedence: 'includeHasPrecedence',
+      patternTestString: null,
+      patternTestResult: null,
       fontsList: [],
       fontSamples: [],
       // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the target language.
@@ -317,6 +396,7 @@ export default {
       pageLabelsFontObject: null,
       pageLabelTemplateExample: null,
       //
+      generateErrorPages: true,
       generatedPagesFont: '',
       generatedPagesFontSize: 12,
       generatedPagesFontObject: null,
@@ -411,6 +491,16 @@ export default {
       const pathInfo = pathParse(this.exampleFilePath || '')
       return pathInfo.dir + '/'
     },
+    l10nPatternTestResult() {
+      switch (this.patternTestResult) {
+        case 'included':
+          return t(appName, 'included')
+        case 'excluded':
+          return t(appName, 'excluded')
+        default:
+          return ''
+      }
+    },
   },
   watch: {
     pageLabels(newValue, oldValue) {
@@ -498,13 +588,22 @@ export default {
       })
       --this.loading
     },
+    updatePatternTestResult(responseData) {
+      if (responseData && responseData.hasOwnProperty('patternTestResult')) {
+        this.patternTestResult = responseData.patternTestResult
+        showInfo(t(appName, 'Include / exclude test result for "{string}" is "{result}".', {
+          string: this.patternTestString,
+          result: this.l10nPatternTestResult
+        }));
+      }
+    },
     async saveTextInput(value, settingsKey, force) {
       if (this.loading > 0) {
         // avoid ping-pong by reactivity
         console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
         return
       }
-      this.saveConfirmedSetting(value, 'personal', settingsKey, force);
+      this.saveConfirmedSetting(value, 'personal', settingsKey, force, this.updatePatternTestResult);
     },
     async saveSetting(setting) {
       if (this.loading > 0) {
@@ -512,7 +611,7 @@ export default {
         console.info('SKIPPING SETTINGS-SAVE DURING LOAD', setting)
         return
       }
-      this.saveSimpleSetting(setting, 'personal')
+      this.saveSimpleSetting(setting, 'personal', this.updatePatternTestResult)
     },
     fontObjectWatcher(fontType, newValue, oldValue) {
       // track the font-object by family and font-size
@@ -597,6 +696,16 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.cloud-version {
+  --cloud-icon-info: var(--icon-info-000);
+  --cloud-icon-checkmark: var(--icon-checkmark-000);
+  --cloud-icon-alert: var(--icon-alert-outline-000);
+  &.cloud-version-major-25 {
+    --cloud-icon-info: var(--icon-info-dark);
+    --cloud-icon-checkmark: var(--icon-checkmark-dark);
+    --cloud-icon-alert: var(--icon-alert-outline-dark);
+  }
+}
 .settings-section {
   :deep(.settings-section__title) {
     position: relative;
@@ -637,12 +746,25 @@ export default {
     align-items:center;
     justify-content:left;
   }
-  .grouping-option {
+  .radio-option {
     padding-right: 0.5em;
   }
-  .page-label-colors {
-    .label {
-      padding-right: 0.5em;
+  .label {
+    padding-right: 0.5em;
+  }
+  .pattern-test-result {
+    span.pattern-test-result {
+      padding-right: 20px;
+      background-position: right;
+      background-repeat: no-repeat;
+      &.excluded {
+        color: red;
+        background-image: var(--cloud-icon-alert);
+      }
+      &.included {
+        color: green;
+        background-image: var(--cloud-icon-checkmark);
+      }
     }
   }
   .template-example-container {
@@ -685,7 +807,7 @@ export default {
   }
   label.has-tooltip {
     padding-right: 16px;
-    background-image: var(--icon-info-000);
+    background-image: var(--cloud-icon-info);
     background-size: 12px;
     background-position: right center;
     background-repeat: no-repeat;

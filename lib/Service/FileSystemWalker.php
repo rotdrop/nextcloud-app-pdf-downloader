@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ class FileSystemWalker
   use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
   use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
   use \OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\RotDrop\Toolkit\Traits\IncludeExcludeTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
   public const ERROR_PAGES_FONT_SIZE = '12';
@@ -101,6 +102,15 @@ class FileSystemWalker
 
   /** @var null|array */
   private $templateKeyTranslations = null;
+
+  /** @var null|string */
+  private $includePattern = SettingsController::PERSONAL_EXCLUDE_PATTERN_DEFAULT;
+
+  /** @var null|string */
+  private $excludePattern = SettingsController::PERSONAL_INCLUDE_PATTERN_DEFAULT;
+
+  /** @var bool */
+  private $includeHasPrecedence = SettingsController::PERSONAL_PATTERN_PRECEDENCE_DEFAULT;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
@@ -182,11 +192,44 @@ class FileSystemWalker
       $this->pdfCombiner->setGrouping($grouping);
 
       $this->cloudFolderPath = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH, null);
+
+      $this->includePattern = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_INCLUDE_PATTERN,
+        SettingsController::PERSONAL_INCLUDE_PATTERN_DEFAULT,
+      );
+      $this->excludePattern = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_EXCLUDE_PATTERN,
+        SettingsController::PERSONAL_EXCLUDE_PATTERN_DEFAULT,
+      );
+      $precedence = $this->cloudConfig->getUserValue(
+        $this->userId,
+        $this->appName,
+        SettingsController::PERSONAL_PATTERN_PRECEDENCE,
+        SettingsController::PERSONAL_PATTERN_PRECEDENCE_DEFAULT,
+      );
+      $this->includeHasPrecedence = $precedence !== SettingsController::EXCLUDE_HAS_PRECEDENCE;
     }
 
     $this->archiveService->setSizeLimit($this->actualArchiveSizeLimit());
   }
   // phpcs:enable
+
+  /**
+   * Decide whether the given file-name should be included in the output or
+   * note, basing the decision on the configured include and exclude patterns.
+   *
+   * @param string $fileName
+   *
+   * @return bool
+   */
+  public function isFileIncluded(string $fileName):bool
+  {
+    return $this->isIncluded($fileName, $this->includePattern, $this->excludePattern, $this->includeHasPrecedence);
+  }
 
   /**
    * Return the current error-pages font-name.
