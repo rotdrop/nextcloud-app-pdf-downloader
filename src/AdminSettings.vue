@@ -121,14 +121,7 @@ import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import settingsSync from './toolkit/mixins/settings-sync'
-
-const cloudVersion = OC.config.versionstring.split('.')
-const cloudVersionClasses = [
-  'cloud-version',
-  'cloud-version-major-' + cloudVersion[0],
-  'cloud-version-minor-' + cloudVersion[1],
-  'cloud-version-patch-' + cloudVersion[2],
-]
+import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
 
 export default {
   name: 'AdminSettings',

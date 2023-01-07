@@ -88,14 +88,7 @@ import EllipsisedFontOption from './EllipsisedFontOption'
 import fontInfoPopup from './mixins/font-info-popup'
 import generateUrl from '../toolkit/util/generate-url.js'
 import fontSampleText from '../toolkit/util/pangram.js'
-
-const cloudVersion = OC.config.versionstring.split('.')
-const cloudVersionClasses = [
-  'cloud-version',
-  'cloud-version-major-' + cloudVersion[0],
-  'cloud-version-minor-' + cloudVersion[1],
-  'cloud-version-patch-' + cloudVersion[2],
-]
+import cloudVersionClasses from '../toolkit/util/cloud-version-classes.js'
 
 export default {
   name: 'FontSelect',

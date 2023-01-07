@@ -346,14 +346,7 @@ import { parse as pathParse } from 'path'
 import settingsSync from './toolkit/mixins/settings-sync'
 import tinycolor from 'tinycolor2'
 import { hexToCSSFilter } from 'hex-to-css-filter'
-
-const cloudVersion = OC.config.versionstring.split('.')
-const cloudVersionClasses = [
-  'cloud-version',
-  'cloud-version-major-' + cloudVersion[0],
-  'cloud-version-minor-' + cloudVersion[1],
-  'cloud-version-patch-' + cloudVersion[2],
-]
+import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
 
 const initialState = getInitialState()
 
