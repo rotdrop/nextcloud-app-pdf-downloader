@@ -10,17 +10,17 @@
 # Joachim Sokolowski, 2022
 # 719ab0c03a38728ec467bdf9f961df28_b3e5329 <94a43204b8121705dc3ac12b803c45a4_820855>, 2022
 # Claus-Justus Heine, 2022
-# Markus Eckstein, 2022
 # kachelkaiser, 2022
+# Markus Eckstein, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-01-08 03:25+0000\n"
+"POT-Creation-Date: 2023-01-10 03:31+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
-"Last-Translator: kachelkaiser, 2022\n"
+"Last-Translator: Markus Eckstein, 2023\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -116,10 +116,12 @@ msgstr "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden."
 #: /app/lib/Controller/SettingsController.php:539
 msgid "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"."
 msgstr ""
+"Der reguläre Ausdruck \"%1$s\" scheint ungültig zu sein, Fehlercode ist "
+"\"%d\"."
 
 #: /app/lib/Controller/SettingsController.php:547
 msgid "Did you forget the delimiters?"
-msgstr ""
+msgstr "Hast du die Trennzeichen vergessen?"
 
 #: /app/lib/Controller/SettingsController.php:600
 #, php-format
@@ -131,7 +133,7 @@ msgstr "Unbekannte persönliche Einstellung: \"%s\""
 #: /app/lib/Controller/SettingsController.php:782
 #: /app/specialVueFakeDummyForL10nScript.js:138
 msgid "excluded"
-msgstr ""
+msgstr "ausgeschlossen"
 
 #: /app/lib/Controller/SettingsController.php:840
 #, php-format
@@ -615,7 +617,7 @@ msgstr "Schriftart für die Seitennummerierung: {pageLabelsFont}"
 #. TRANSLATORS alSettings.vue:127
 #: /app/specialVueFakeDummyForL10nScript.js:66
 msgid "Generate a Placeholder-Page for Failed Conversions"
-msgstr ""
+msgstr "Generiere eine Platzhalter-Seite für fehlgeschlagene Konvertierungen"
 
 #. TRANSLATORS alSettings.vue:135
 #: /app/specialVueFakeDummyForL10nScript.js:70
@@ -650,36 +652,36 @@ msgstr "Nicht gruppieren"
 #. TRANSLATORS alSettings.vue:181
 #: /app/specialVueFakeDummyForL10nScript.js:82
 msgid "Filename Patterns"
-msgstr ""
+msgstr "Dateinamenmuster"
 
 #. TRANSLATORS alSettings.vue:183
 #. TRANSLATORS alSettings.vue:215
 #: /app/specialVueFakeDummyForL10nScript.js:84
 #: /app/specialVueFakeDummyForL10nScript.js:92
 msgid "Exclude Pattern"
-msgstr ""
+msgstr "Muster ausschließen"
 
 #. TRANSLATORS alSettings.vue:187
 #. TRANSLATORS alSettings.vue:202
 #: /app/specialVueFakeDummyForL10nScript.js:86
 #: /app/specialVueFakeDummyForL10nScript.js:90
 msgid "Include Pattern"
-msgstr ""
+msgstr "Muster einschließen"
 
 #. TRANSLATORS alSettings.vue:191
 #: /app/specialVueFakeDummyForL10nScript.js:88
 msgid "Precedence:"
-msgstr ""
+msgstr "Vorrang:"
 
 #. TRANSLATORS alSettings.vue:220
 #: /app/specialVueFakeDummyForL10nScript.js:94
 msgid "Test String"
-msgstr ""
+msgstr "Test-Zeichenfolge"
 
 #. TRANSLATORS alSettings.vue:226
 #: /app/specialVueFakeDummyForL10nScript.js:96
 msgid "Test Result:"
-msgstr ""
+msgstr "Testergebnis:"
 
 #. TRANSLATORS alSettings.vue:235
 #: /app/specialVueFakeDummyForL10nScript.js:98
@@ -802,7 +804,7 @@ msgstr ""
 #. TRANSLATORS alSettings.vue:492
 #: /app/specialVueFakeDummyForL10nScript.js:136
 msgid "included"
-msgstr ""
+msgstr "eingeschlossen"
 
 #. TRANSLATORS alSettings.vue:569
 #. TRANSLATORS FilesTab.vue:369
@@ -829,7 +831,7 @@ msgstr "Kann die Schriftarten-Liste nicht abrufen: {message}"
 #. TRANSLATORS alSettings.vue:595
 #: /app/specialVueFakeDummyForL10nScript.js:144
 msgid "Include/exclude test result for \"{string}\" is \"{result}\"."
-msgstr ""
+msgstr "Einschließen-/ Ausschließen-Testergebnis für \"{string}\" ist \"{result}\"."
 
 #. TRANSLATORS alSettings.vue:680
 #: /app/specialVueFakeDummyForL10nScript.js:148
