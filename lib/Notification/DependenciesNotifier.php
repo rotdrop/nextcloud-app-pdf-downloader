@@ -97,13 +97,18 @@ class DependenciesNotifier implements INotifier
         $numMissing = count($parameters[DependenciesService::MISSING]);
         $notification->setRichSubject(
           $l->n(
-            'The app will not work without installing the following required program: {programs}.',
-            'The app will not work without installing the following required programs: {programs}.',
+            'The app "{app}" will not work without installing the following required program: {programs}.',
+            'The app "{app}" will not work without installing the following required programs: {programs}.',
             $numMissing), [
               'programs' => [
                 'type' => 'highlight',
-                'id' => $notification->getObjectId(),
+                'id' => $notification->getObjectId() . 'programs',
                 'name' => implode(', ', $parameters[DependenciesService::MISSING]),
+              ],
+              'app' => [
+                'type' => 'highlight',
+                'id' => $notification->getObjectId() . 'app',
+                'name' => $this->appName,
               ],
             ]);
         break;
@@ -112,13 +117,18 @@ class DependenciesNotifier implements INotifier
         $numMissing = count($parameters[DependenciesService::MISSING]);
         $notification->setRichSubject(
           $l->n(
-            'The app will also work better if you install the following suggested helper program: {programs}.',
-            'The app will also work better if you install the following suggested helper programs: {programs}.',
+            'The app "{app}" will work better if you install the following suggested helper program: {programs}.',
+            'The app "{app}" will work better if you install the following suggested helper programs: {programs}.',
             $numMissing), [
               'programs' => [
                 'type' => 'highlight',
-                'id' => $notification->getObjectId(),
+                'id' => $notification->getObjectId() . 'programs',
                 'name' => implode(', ', $parameters[DependenciesService::MISSING]),
+              ],
+              'app' => [
+                'type' => 'highlight',
+                'id' => $notification->getObjectId() . 'app',
+                'name' => $this->appName,
               ],
             ]);
         break;
