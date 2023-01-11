@@ -3,7 +3,7 @@
  * A collection of reusable traits classes for Nextcloud apps.
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,25 +22,41 @@
 
 namespace OCA\RotDrop\Toolkit\Traits;
 
+use OCP\IUser;
 use OCP\IGroupManager;
 
 /**
  * Utitlity trait in order to get the addresses of the cloud admins.
+ *
+ * Needed class members:
+ * - protected $groupManager
  */
 trait CloudAdminTrait
 {
+  /** @var IGroupManager */
+  protected $groupManager;
+
+  /**
+   * Return all admin users.
+   *
+   * @return array<int, IUser>
+   */
+  protected function getCloudAdmins():array
+  {
+    $adminGroup = $this->groupManager->get('admin');
+    return $adminGroup->getUsers();
+  }
+
   /**
    * Contact information for the overall admins.
    *
-   * @param IGroupManager $groupManager
    * @param bool $implode
    *
    * @return array
    */
-  protected function getCloudAdminContacts(IGroupManager $groupManager, bool $implode = false):string
+  protected function getCloudAdminContacts(bool $implode = false):string
   {
-    $adminGroup = $groupManager->get('admin');
-    $adminUsers = $adminGroup->getUsers();
+    $adminUsers = $this->getCloudAdmins();
     $contacts = [];
     foreach ($adminUsers as $adminUser) {
       $contacts[] = [

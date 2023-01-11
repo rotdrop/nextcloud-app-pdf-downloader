@@ -25,6 +25,44 @@
   <SettingsSection :class="cloudVersionClasses"
                    :title="t(appName, 'Recursive PDF Downloader')"
   >
+    <AppSettingsSection v-if="dependencies.missing.required + dependencies.missing.suggested > 0"
+                        :title="t(appName, 'Missing Dependencies')"
+    >
+      <div v-if="dependencies.missing.required > 0" class="required-dependencies">
+        <div><label>{{ t(appName, 'Required Missing') }}</label></div>
+        <ul>
+          <ListItem v-for="(path, program) in dependencies.required"
+                    :key="program"
+                    :title="program"
+                    :details="path"
+                    :bold="false"
+          >
+            <template #subtitle>
+              <div class="hint">
+                {{ t(appName, 'The app will not work unless you install {program} such that it can be found by the web-server.', { program }) }}
+              </div>
+            </template>
+          </ListItem>
+        </ul>
+      </div>
+      <div v-if="dependencies.missing.suggested > 0" class="suggested-dependencies">
+        <div><label>{{ t(appName, 'Suggested Missing') }}</label></div>
+        <ul>
+          <ListItem v-for="(path, program) in dependencies.suggested"
+                    :key="program"
+                    :title="program"
+                    :details="path"
+                    :bold="false"
+          >
+            <template #subtitle>
+              <div v-if="path === 'missing'" class="hint">
+                {{ t(appName, 'The app will work without installing {program}, but the conversion results may be degraded.', { program }) }}
+              </div>
+            </template>
+          </ListItem>
+        </ul>
+      </div>
+    </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles }]">
         <input id="extract-archive files"
@@ -141,6 +179,14 @@ export default {
       universalConverter: '',
       fallbackConverter: '',
       converters: {},
+      dependencies: {
+        missing: {
+          required: 0,
+          suggested: 0,
+        },
+        required: {},
+        suggested: {},
+      },
       loading: true,
     }
   },

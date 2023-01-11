@@ -122,6 +122,7 @@ composer-suggest:
 .PHONY: composer-suggest
 
 CSS_FILES = $(shell find $(ABSSRCDIR)/style -name "*.css" -o -name "*.scss")
+L10N_FILES = $(wildcard l10n/*.js l10n/*.json)
 JS_FILES = $(shell find $(ABSSRCDIR)/src -name "*.js" -o -name "*.vue")\
   $(shell find $(ABSSRCDIR)/git-modules/nextcloud-vue-components -name "*.js" -o -name "*.vue")
 
@@ -130,7 +131,9 @@ NPM_INIT_DEPS =\
 
 WEBPACK_DEPS =\
  $(NPM_INIT_DEPS)\
- $(CSS_FILES) $(JS_FILES)
+ $(CSS_FILES) \
+ $(JS_FILES) \
+ $(L10N_FILES)
 
 WEBPACK_TARGETS = $(ABSSRCDIR)/js/asset-meta.json
 

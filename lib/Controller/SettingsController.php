@@ -38,6 +38,7 @@ use OCP\IL10N;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\FileSystemWalker;
+use OCA\PdfDownloader\Service\DependenciesService;
 
 use OCA\PdfDownloader\Constants;
 
@@ -55,6 +56,7 @@ class SettingsController extends Controller
   public const ADMIN_FALLBACK_CONVERTER = 'fallbackConverter';
   public const ADMIN_UNIVERSAL_CONVERTER = 'universalConverter';
   public const ADMIN_CONVERTERS = 'converters';
+  public const ADMIN_DEPENDENCIES = 'dependencies';
 
   public const EXTRACT_ARCHIVE_FILES = 'extractArchiveFiles';
   public const ARCHIVE_SIZE_LIMIT = 'archiveSizeLimit';
@@ -129,6 +131,7 @@ class SettingsController extends Controller
     self::ADMIN_FALLBACK_CONVERTER => [ 'rw' => true, ],
     self::ADMIN_UNIVERSAL_CONVERTER => [ 'rw' => true, ],
     self::ADMIN_CONVERTERS => [ 'rw' => false, ],
+    self::ADMIN_DEPENDENCIES => [ 'rw' => false ],
   ];
 
   /**
@@ -410,6 +413,12 @@ class SettingsController extends Controller
             $this->config->getAppValue($this->appName, self::ADMIN_UNIVERSAL_CONVERTER, null));
 
           $value = $anyToPdf->findConverters();
+          $humanValue = $value;
+          break;
+        case self::ADMIN_DEPENDENCIES:
+          /** @var DependenciesService $dependencies */
+          $dependencies = $this->appContainer->get(DependenciesService::class);
+          $value = $dependencies->checkForExternalPrograms();
           $humanValue = $value;
           break;
         default:

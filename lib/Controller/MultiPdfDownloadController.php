@@ -56,6 +56,7 @@ use OCA\PdfDownloader\Service\PdfGenerator;
 use OCA\PdfDownloader\Service\FontService;
 use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Service\NotificationService;
+use OCA\PdfDownloader\Service\DependenciesService;
 use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
 use OCA\PdfDownloader\Constants;
 
@@ -111,6 +112,9 @@ class MultiPdfDownloadController extends Controller
   /** @var UserScopeService */
   private $userScopeService;
 
+  /** @var DependenciesService */
+  private $dependenciesService;
+
   /** @var PdfCombiner */
   private $pdfCombiner;
 
@@ -145,6 +149,7 @@ class MultiPdfDownloadController extends Controller
     FontService $fontService,
     IDateTimeZone $dateTimeZone,
     FileSystemWalker $fileSystemWalker,
+    DependenciesService $dependenciesService,
   ) {
     parent::__construct($appName, $request);
     $this->l = $l10n;
@@ -158,6 +163,7 @@ class MultiPdfDownloadController extends Controller
     $this->fontService = $fontService;
     $this->dateTimeZone = $dateTimeZone;
     $this->fileSystemWalker = $fileSystemWalker;
+    $this->dependenciesService = $dependenciesService;
 
     /** @var IUser $user */
     $user = $userSession->getUser();
@@ -223,6 +229,11 @@ class MultiPdfDownloadController extends Controller
       return self::dataDownloadResponse($cacheFile->getContent(), $cacheFile->getName(), $cacheFile->getMimeType());
     }
 
+    $dependencies = $this->checkRequirements();
+    if ($dependencies !== true) {
+      return $dependencies;
+    }
+
     if (!empty($downloadFileName)) {
       $downloadFileName = urldecode($downloadFileName);
     }
@@ -274,7 +285,7 @@ class MultiPdfDownloadController extends Controller
       $destinationPath = urldecode($destinationPath);
     }
 
-    if ($cacheId !== null) {
+    if (!empty($cacheId)) {
       $cacheFile = $this->fileSystemWalker->getCacheFile($sourcePath, $cacheId);
       if (empty($cacheFile)) {
         return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
@@ -292,6 +303,12 @@ class MultiPdfDownloadController extends Controller
 
       $pdfFile = $move ? $cacheFile->move($destinationPath) : $cacheFile->copy($destinationPath);
     } else {
+
+      $dependencies = $this->checkRequirements();
+      if ($dependencies !== true) {
+        return $dependencies;
+      }
+
       $pdfFile = $this->fileSystemWalker->save(
         $sourcePath,
         $destinationPath,
@@ -340,6 +357,12 @@ class MultiPdfDownloadController extends Controller
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
   ):Response {
+
+    $dependencies = $this->checkRequirements();
+    if ($dependencies !== true) {
+      return $dependencies;
+    }
+
     $sourcePath = urldecode($sourcePath);
     if ($destinationPath !== null) {
       $destinationPath = urldecode($destinationPath);
@@ -664,5 +687,29 @@ EOF;
     return self::dataResponse([
       'pdfFileName' => $pdfFileName,
     ]);
+  }
+
+  /**
+   * Check for the bare minimum of required external dependencies
+   * (i.e. programs) and return an error response if they are missing. Return
+   * \true if the tests passed.
+   *
+   * @return bool|DataResponse
+   */
+  private function checkRequirements():mixed
+  {
+    $dependencies = $this->dependenciesService->checkForExternalPrograms(DependenciesService::REQUIRED);
+    if ($dependencies[DependenciesService::MISSING][DependenciesService::REQUIRED] > 0) {
+      $missing = array_keys(array_filter($dependencies[DependenciesService::REQUIRED], fn($path) => $path === DependenciesService::MISSING));
+
+      // $this->l->n($text_singular, $text_plural, $count)
+      return self::grumble($this->l->n(
+        'The following required executable could not be found on the server: %s',
+        'The following required executables could not be found on the server: %s',
+        count($missing),
+        [implode(', ', $missing)]
+      ));
+    }
+    return true;
   }
 }
