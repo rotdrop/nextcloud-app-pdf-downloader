@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -240,6 +240,9 @@ class AnyToPdf
         $probedConverters = [];
         foreach ($converters as $converter) {
           if ($converter == self::PASS_THROUGH) {
+            // TRANSLATORS: This is actually just the name of the "converter"
+            // TRANSLATORS: which does "nothing", i.e. just copies the input
+            // TRANSLATORS: data unchanged to the output.
             $probedConverters[$converter] = $this->l->t('pass through');
             continue;
           }
