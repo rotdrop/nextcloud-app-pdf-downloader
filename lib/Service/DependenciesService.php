@@ -35,6 +35,11 @@ class DependenciesService
   public const SUGGESTED = 'suggested';
   public const MISSING = 'missing';
 
+  public const DEPENDENCY_TYPES = [
+    self::REQUIRED,
+    self::SUGGESTED,
+  ];
+
   public const REQUIRED_EXECUTABLES = [
     'pdftk'
   ];
@@ -84,8 +89,9 @@ class DependenciesService
    * @return array Status report of the form
    * ```
    * [
-   *   'required' => [ NAME1 => FULL_PATH1, ... ],
-   *   'suggested' => [ NAME1 => FULL_PATH1, ... ],
+   *   'missing' => [ 'required' => NUM_REQUIRED_MISSING, 'suggested' => NUM_SUGGESTED_MISSING ],
+   *   'required' => [ NAME => FULL_PATH, ... ],
+   *   'suggested' => [ NAME => FULL_PATH, ... ],
    * ]
    * ```
    */
