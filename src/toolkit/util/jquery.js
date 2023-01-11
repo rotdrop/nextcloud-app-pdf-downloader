@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  *
@@ -28,10 +28,6 @@ const jQuery = require('jquery');
 
 if (window.jQuery && window.jQuery !== jQuery) {
   console.info(appName + ': JQUERY VERSIONS W / A', window.jQuery.fn.jquery, jQuery.fn.jquery);
-  // if (window.jQuery.fn.jquery === jQuery.fn.jquery) {
-  //   console.info(appName + ': using matching window.jQuery version');
-  //   jQuery = window.jQuery;
-  // }
 }
 
 let requestToken = getRequestToken() || '';
@@ -45,8 +41,3 @@ jQuery.ajaxSetup({
 onRequestTokenUpdate(token => { requestToken = token; });
 
 export default jQuery;
-
-// Local Variables: ***
-// js-indent-level: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***

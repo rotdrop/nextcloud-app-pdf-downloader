@@ -1,7 +1,7 @@
 <script>
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine
+ * @copyright 2022, 2023 Claus-Justus Heine
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -176,8 +176,9 @@ import axios from '@nextcloud/axios'
 import * as Path from 'path'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
-import fileDownload from '../toolkit/util/file-download.js';
+import fileDownload from '../toolkit/util/file-download.js'
 import FilePrefixPicker from '../components/FilePrefixPicker'
+import $ from '../toolkit/util/jquery.js'
 
 const initialState = getInitialState()
 
@@ -235,6 +236,9 @@ export default {
   },
   mounted() {
     // this.getData()
+    $('body').on('OCA.Notification.Action', function(event) {
+      console.info('NOTIFICATION EVENT', event)
+    })
   },
   computed: {
     loading() {
