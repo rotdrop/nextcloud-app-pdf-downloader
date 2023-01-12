@@ -22,19 +22,18 @@ OC.L10N.register(
     "excluded" : "Ausgeschlossen",
     "Unable to parse memory size limit \"%s\"" : "Speichergrößenlimit kann nicht analysiert werden \"%s\"",
     "PDF Downloader" : "PDF-Downloader",
+    "Unsupported subject: \"%s\"." : "Nicht unterstützter Betreff: \"%s\".",
     "A PDF file {destination} will be created from the sources at {source}." : "Eine PDF-Datei {destination} wird aus den Quellen bei {source} erstellt.",
     "A PDF download will be created from the sources at {source}." : "Aus den Quellen unter {source} wird ein PDF-Download erstellt.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Ihr Ordner {source} wurde in {destination} in eine PDF-Datei konvertiert.",
     "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Ihr Ordner {source} wurde in eine PDF-Datei konvertiert. Bitte besuchen Sie die Registerkarte Details des Quellordners, um die Datei herunterzuladen.",
     "Converting {source} to PDF has failed: {message}" : "Konvertieren von {source} in PDF ist fehlgeschlagen: {message}",
     "Converting {source} to PDF has failed." : "Konvertieren von {source} in PDF ist fehlgeschlagen.",
-    "Unsupported subject: \"%s\"." : "Nicht unterstützter Betreff: \"%s\".",
     "not found" : "Nicht gefunden",
     "pass through" : "durchwinken",
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit dem MIME-Typ \"%2$s\" nicht konvertieren",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit dem MIME-Typ \"%2$s\" nicht konvertieren",
     "Please install the \"%s\" program on the server." : "Bitte das \"%s\"-Programm auf dem Server installieren.",
-    "Internal error, unknown filesystem node type: \"%s\"." : "Server-Fehler, unbekannter Dateisystem-Eintrag: \"%s\".",
     "\"%s\" is not a folder and archive extraction is disabled." : "\"%s\" ist kein Ordner und entpacken von Archiv-Dateien ist deaktiviert.",
     "\"%s\" is not a folder and cannot be processed by archive extraction." : "\"%s\" ist kein Ordner und kann nicht von der Archivextraktion verarbeitet werden.",
     "Destination parent folder conflicts with existing file \"%s\"." : "Übergeordneter Zielordner steht in Konflikt mit vorhandener Datei \"%s\".",
@@ -267,6 +266,6 @@ OC.L10N.register(
     "Debug Information" : "Debug Informationen",
     "unknown error" : "unbekannter Fehler",
     "Unable to download data from \"{url}\": {message}" : "Kann die Daten nicht von \"{url}\" laden: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Falsches Üben von Xylophonmusik quält jeden größeren Zwerg."
+    "The quick brown fox jumps over the lazy dog." : "Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich."
 },
 "nplurals=2; plural=(n != 1);");
