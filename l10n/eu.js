@@ -79,6 +79,7 @@ OC.L10N.register(
     "Generate PDFs in the background by default." : "Sortu PDFak atzeko planoan lehenespenez.",
     "Use authenticated background jobs if necessary." : "Erabili autentifikatutako atzeko planoko lanak behar izanez gero.",
     "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "Zenbat denboraz mantendu lineaz kanpo sortutako PDF fitxategiak. Denbora hori igaro ondoren, atzeko planoko lan batek ezabatuko ditu.",
+    "Administrative size limit: {value}" : "Tamaina-muga administratiboa: {value}",
     "reason unknown" : "arrazoi ezezaguna",
     "submit" : "bidali",
     "Selected path: \"{dir}/{base}/\"." : "Hautatutako bide-izena: \"{dir}/{base}/\".",
@@ -97,6 +98,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Berretsi gabe, aurreko baliora itzultzen.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\" \"{displayValue}\" baliora ondo ezarri da",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ezarpena behar bezala baliogabetu da.",
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Ezin izan da \"{settingsKey}\" \"{value}\" baliora ezarri: {message}",
     "OK" : "Ados",
     "Created" : "Sortua",
     "Accepted" : "Onartuta",
@@ -180,10 +182,12 @@ OC.L10N.register(
     "The submitted data is not a plain object, and does not provide the properties listed above." : "Bidalitako datuak ez dira objektu soila, eta ez ditu goian zerrendatutako propietateak ematen.",
     "Error: not a plain object" : "Errorea: ez da elementu arrunta",
     "Unknown JSON error response to AJAX call: {status} / {error}" : "JSON errore-erantzun ezezaguna AJAX deiari: {status} / {error}",
+    "HTTP error response to AJAX call: {code} / {error}" : "HTTP errore-erantzuna AJAX deiari: {code} / {error}",
     "No" : "Ez",
     "Yes" : "Bai",
     "Debug Information" : "Arazketa informazioa",
     "unknown error" : "errore ezezaguna",
+    "Unable to download data from \"{url}\": {message}" : "Ezin izan dira datuak deskargatu \"{url}\"(e)tik: {message}",
     "The quick brown fox jumps over the lazy dog." : "Bungalow, cava, ferry, ñu, puma, quad eta xah hitzak jaso ditu."
 },
 "nplurals=2; plural=(n != 1);");
