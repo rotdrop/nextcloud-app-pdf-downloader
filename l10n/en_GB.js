@@ -34,6 +34,7 @@ OC.L10N.register(
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"",
     "Please install the \"%s\" program on the server." : "Please install the \"%s\" program on the server.",
+    "Internal error, \"%s\" is neither a plain file nor a directory." : "Internal error: \"%s\" is neither a plain file nor a directory.",
     "\"%s\" is not a folder and archive extraction is disabled." : "\"%s\" is not a folder and archive extraction is disabled.",
     "\"%s\" is not a folder and cannot be processed by archive extraction." : "\"%s\" is not a folder and cannot be processed by archive extraction.",
     "Destination parent folder conflicts with existing file \"%s\"." : "Destination parent folder conflicts with existing file \"%s\".",

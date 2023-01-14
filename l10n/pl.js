@@ -1,7 +1,11 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Nie można znaleźć pliku lub katalogu.",
+    "PDF document saved as \"%s\"." : "Dokument PDF został zapisany jako \"%s\".",
+    "PDF file \"%s\" has been deleted." : "Plik PDF \"%s\" został usunięty.",
     "FILENAME" : "NAZWA PLIKU",
+    "Combining PDFs failed" : "Łączenie plików PDF nie powiodło się",
     "bytes" : "bajtów",
     "Text" : "Tekst",
     "Background" : "Tło",
