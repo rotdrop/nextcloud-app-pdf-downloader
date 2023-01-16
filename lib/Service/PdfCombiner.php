@@ -358,37 +358,68 @@ class PdfCombiner
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'BASENAME' => $this->l->t('BASENAME'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'FILENAME' => $this->l->t('FILENAME'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'EXTENSION' => $this->l->t('EXTENSION'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DIR_BASENAME' => $this->l->t('DIR_BASENAME'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'DIRNAME' => $this->l->t('DIRNAME'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS:
+      // TRANSLATORS:
+      // TRANSLATORS: This is the runnining page number inside the currently
+      // TRANSLATORS: processed directory: all files in the directory are
+      // TRANSLATORS: converted to PDF, the resulting PDF documents are joined
+      // TRANSLATORS: into one and this placeholder will expand to the
+      // TRANSLATORS: respective running page number of resulting compound
+      // TRANSLATORS: document.
       'DIR_PAGE_NUMBER' => $this->l->t('DIR_PAGE_NUMBER'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS:
+      // TRANSLATORS: This is the total number of PDF pages in inside the
+      // TRANSLATORS: currently processed directory: all files in the
+      // TRANSLATORS: directory are converted to PDF, the resulting PDF
+      // TRANSLATORS: documents are joined into one and this placeholder will
+      // TRANSLATORS: expand to the total number of PDF pages in the compound
+      // TRANSLATORS: document.
       'DIR_TOTAL_PAGES' => $this->l->t('DIR_TOTAL_PAGES'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS:
+      // TRANSLATORS: This placeholder expands to the running page number of
+      // TRANSLATORS: the currently processed document, after it has been
+      // TRANSLATORS: converted to PDF.
       'FILE_PAGE_NUMBER' => $this->l->t('FILE_PAGE_NUMBER'),
+
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
+      // TRANSLATORS:
+      // TRANSLATORS: This placeholder expands to the total number of pages of
+      // TRANSLATORS: the currently processed document, after it has been
+      // TRANSLATORS: converted to PDF.
       'FILE_TOTAL_PAGES' => $this->l->t('FILE_TOTAL_PAGES'),
     ];
     return $this->pageLabelTemplateKeys;
