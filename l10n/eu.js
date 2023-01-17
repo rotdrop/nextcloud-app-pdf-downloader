@@ -95,6 +95,7 @@ OC.L10N.register(
     "refresh" : "freskatu",
     "delete PDF file" : "ezabatu PDF fitxategia",
     "Choose a destination" : "Aukeratu helburu bat",
+    "Download PDF" : "Deskargatu PDF",
     "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "Ezin da kontsultatu ezarpen guztien hasierako balioa: {message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "Ezin da {settingsKey}-ren hasierako balioa kontsultatu: {message}",

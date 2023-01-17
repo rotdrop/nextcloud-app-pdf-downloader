@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-01-12 03:26+0000\n"
+"POT-Creation-Date: 2023-01-17 03:27+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: Markus Eckstein, 2023\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -287,7 +287,7 @@ msgstr "BASENAME"
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
 #: /app/lib/Service/FileSystemWalker.php:600
-#: /app/lib/Service/PdfCombiner.php:364
+#: /app/lib/Service/PdfCombiner.php:365
 msgid "FILENAME"
 msgstr "DATEINAME"
 
@@ -298,7 +298,7 @@ msgstr "DATEINAME"
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
 #: /app/lib/Service/FileSystemWalker.php:604
-#: /app/lib/Service/PdfCombiner.php:368
+#: /app/lib/Service/PdfCombiner.php:370
 msgid "EXTENSION"
 msgstr "EXTENSION"
 
@@ -309,7 +309,7 @@ msgstr "EXTENSION"
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
 #: /app/lib/Service/FileSystemWalker.php:608
-#: /app/lib/Service/PdfCombiner.php:376
+#: /app/lib/Service/PdfCombiner.php:380
 msgid "DIRNAME"
 msgstr "DIRNAME"
 
@@ -343,7 +343,7 @@ msgstr "Es werden nur RGB-Werte ohne Alphakanal unterstützt."
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/PdfCombiner.php:372
+#: /app/lib/Service/PdfCombiner.php:375
 msgid "DIR_BASENAME"
 msgstr "DIR_BASENAME"
 
@@ -353,7 +353,14 @@ msgstr "DIR_BASENAME"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/PdfCombiner.php:380
+#. TRANSLATORS:
+#. TRANSLATORS: This is the runnining page number inside the currently
+#. processed directory: all files in the
+#. TRANSLATORS: directory are converted to PDF, the resulting PDF documents
+#. are joined into one and this
+#. TRANSLATORS: placeholder will expand to the respective running page number
+#. of the resulting compound document.
+#: /app/lib/Service/PdfCombiner.php:389
 msgid "DIR_PAGE_NUMBER"
 msgstr "DIR_PAGE_NUMBER"
 
@@ -363,7 +370,14 @@ msgstr "DIR_PAGE_NUMBER"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/PdfCombiner.php:384
+#. TRANSLATORS:
+#. TRANSLATORS: This is the total number of PDF pages inside the currently
+#. processed directory: all files in
+#. TRANSLATORS: the directory are converted to PDF, the resulting PDF
+#. documents are joined into one and this
+#. TRANSLATORS: placeholder will expand to the total number of PDF pages in
+#. the compound document.
+#: /app/lib/Service/PdfCombiner.php:398
 msgid "DIR_TOTAL_PAGES"
 msgstr "DIR_TOTAL_PAGES"
 
@@ -373,7 +387,11 @@ msgstr "DIR_TOTAL_PAGES"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/PdfCombiner.php:388
+#. TRANSLATORS:
+#. TRANSLATORS: This placeholder expands to the running page number of the
+#. currently processed document, after it
+#. TRANSLATORS: has been converted to PDF.
+#: /app/lib/Service/PdfCombiner.php:406
 msgid "FILE_PAGE_NUMBER"
 msgstr "FILE_PAGE_NUMBER"
 
@@ -383,11 +401,15 @@ msgstr "FILE_PAGE_NUMBER"
 #. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the
 #. target language.
-#: /app/lib/Service/PdfCombiner.php:392
+#. TRANSLATORS:
+#. TRANSLATORS: This placeholder expands to the total number of pages of the
+#. currently processed document, after
+#. TRANSLATORS: it has been converted to PDF.
+#: /app/lib/Service/PdfCombiner.php:414
 msgid "FILE_TOTAL_PAGES"
 msgstr "FILE_TOTAL_PAGES"
 
-#: /app/lib/Service/PdfCombiner.php:776 /app/lib/Service/PdfCombiner.php:799
+#: /app/lib/Service/PdfCombiner.php:798 /app/lib/Service/PdfCombiner.php:821
 msgid "Combining PDFs failed"
 msgstr "Das Zusammenfügen der PDFs ist fehlgeschlagen"
 
