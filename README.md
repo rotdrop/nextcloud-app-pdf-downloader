@@ -114,6 +114,13 @@ template. The details can be found in [Braced Text Templates](doc/Templates.md).
   provides a preview of the configured page labels with the chosen
   font.
 
+### Include and Exclude Patterns
+
+Files can be included and excluded by regular expressions and a
+setting which controls whether the one or the other regular expression
+has precedence in case both patterns match. Unfortunately, those
+patterns cannot (yet) be controller from the "details" panel.
+
 ## Performance
 - unfortunately, the app is not the fastest horse one could think
   of. In particular the unvconv (Libreoffice) converter tends to be
