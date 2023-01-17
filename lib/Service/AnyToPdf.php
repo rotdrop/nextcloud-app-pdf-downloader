@@ -249,7 +249,11 @@ class AnyToPdf
           if ($converter == self::FALLBACK) {
             $converter = $this->fallbackConverter;
           }
-          $executable = $this->executableFinder->find($converter, force: true);
+          try {
+            $executable = $this->executableFinder->find($converter, force: true);
+          } catch (Exceptions\EnduserNotificationException $e) {
+            $this->logException($e);
+          }
           if (empty($executable)) {
             $executable = $this->l->t('not found');
           }
@@ -258,7 +262,11 @@ class AnyToPdf
         $result[$mimeType][] = $probedConverters;
       }
     }
-    $executable =  $this->executableFinder->find($this->fallbackConverter, force: true);
+    try {
+      $executable = $this->executableFinder->find($this->fallbackConverter, force: true);
+    } catch (Exceptions\EnduserNotificationException $e) {
+      $this->logException($e);
+    }
     if (empty($executable)) {
       $executable = $this->l->t('not found');
     }
