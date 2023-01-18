@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-01-17 03:27+0000\n"
+"POT-Creation-Date: 2023-01-18 03:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,8 +192,8 @@ msgstr ""
 msgid "Converting {source} to PDF has failed."
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:254
-#: /app/lib/Service/AnyToPdf.php:263
+#: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:258
+#: /app/lib/Service/AnyToPdf.php:271
 msgid "not found"
 msgstr ""
 
@@ -204,13 +204,13 @@ msgstr ""
 msgid "pass through"
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:293
+#: /app/lib/Service/AnyToPdf.php:301
 #, php-format
 msgid ""
 "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\""
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:330
+#: /app/lib/Service/AnyToPdf.php:338
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\""
 msgstr ""

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-01-17 03:27+0000\n"
+"POT-Creation-Date: 2023-01-18 03:27+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: Markus Eckstein, 2023\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -212,8 +212,8 @@ msgstr "Konvertieren von {source} in PDF ist fehlgeschlagen: {message}"
 msgid "Converting {source} to PDF has failed."
 msgstr "Konvertieren von {source} in PDF ist fehlgeschlagen."
 
-#: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:254
-#: /app/lib/Service/AnyToPdf.php:263
+#: /app/lib/Service/AnyToPdf.php:227 /app/lib/Service/AnyToPdf.php:258
+#: /app/lib/Service/AnyToPdf.php:271
 msgid "not found"
 msgstr "nicht gefunden"
 
@@ -224,14 +224,14 @@ msgstr "nicht gefunden"
 msgid "pass through"
 msgstr "durchwinken"
 
-#: /app/lib/Service/AnyToPdf.php:293
+#: /app/lib/Service/AnyToPdf.php:301
 #, php-format
 msgid "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\""
 msgstr ""
 "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit MIME-Typ \"%2$s\" "
 "nicht konvertieren"
 
-#: /app/lib/Service/AnyToPdf.php:330
+#: /app/lib/Service/AnyToPdf.php:338
 #, php-format
 msgid "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\""
 msgstr ""
