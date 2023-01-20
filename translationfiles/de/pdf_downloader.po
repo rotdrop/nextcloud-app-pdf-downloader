@@ -12,15 +12,16 @@
 # Claus-Justus Heine, 2022
 # kachelkaiser, 2022
 # Markus Eckstein, 2023
+# Jan Käkenmeister, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-01-18 03:27+0000\n"
+"POT-Creation-Date: 2023-01-20 02:19+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
-"Last-Translator: Markus Eckstein, 2023\n"
+"Last-Translator: Jan Käkenmeister, 2023\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +87,11 @@ msgid "The following required executable could not be found on the server: %s"
 msgid_plural ""
 "The following required executables could not be found on the server: %s"
 msgstr[0] ""
+"Die folgenden erforderlichen ausführbaren Datei konnten auf dem Server nicht"
+" gefunden werden: %s"
 msgstr[1] ""
+"Die folgenden erforderlichen ausführbaren Dateien konnten auf dem Server "
+"nicht gefunden werden: %s"
 
 #: /app/lib/Controller/SettingsController.php:285
 #: /app/lib/Controller/SettingsController.php:323
@@ -163,7 +168,11 @@ msgid_plural ""
 "The app \"{app}\" will not work without installing the following required "
 "programs: {programs}."
 msgstr[0] ""
+"Die App \"{app}\" funktioniert nicht, ohne das folgende erforderliche "
+"Programm zu installieren: {programs}."
 msgstr[1] ""
+"Die App \"{app}\" funktioniert nicht, ohne die folgenden erforderlichen "
+"Programme zu installieren: {programs}."
 
 #: /app/lib/Notification/DependenciesNotifier.php:120
 msgid ""
@@ -173,7 +182,11 @@ msgid_plural ""
 "The app \"{app}\" will work better if you install the following suggested "
 "helper programs: {programs}."
 msgstr[0] ""
+"Die App \"{app}\" funktioniert besser, wenn du das folgende vorgeschlagene "
+"Hilfsprogramm installierst: {programs}."
 msgstr[1] ""
+"Die App \"{app}\" funktioniert besser, wenn du die folgenden vorgeschlagenen"
+" Hilfsprogramme installierst: {programs}."
 
 #: /app/lib/Notification/DependenciesNotifier.php:136
 #: /app/lib/Notification/Notifier.php:200
@@ -247,6 +260,7 @@ msgstr "Bitte das \"%s\"-Programm auf dem Server installieren."
 #, php-format
 msgid "Internal error, \"%s\" is neither a plain file nor a directory."
 msgstr ""
+"Interner Fehler, \"%s\" ist weder eine einfache Datei noch ein Verzeichnis."
 
 #: /app/lib/Service/FileSystemWalker.php:458
 #, php-format
@@ -481,12 +495,12 @@ msgstr ""
 #. TRANSLATORS ettings.vue:29
 #: /app/specialVueFakeDummyForL10nScript.js:4
 msgid "Missing Dependencies"
-msgstr ""
+msgstr "Fehlende Abhängigkeiten"
 
 #. TRANSLATORS ettings.vue:32
 #: /app/specialVueFakeDummyForL10nScript.js:6
 msgid "Required Missing"
-msgstr ""
+msgstr "Erforderlich fehlt"
 
 #. TRANSLATORS ettings.vue:42
 #: /app/specialVueFakeDummyForL10nScript.js:8
@@ -494,11 +508,13 @@ msgid ""
 "The app will not work unless you install {program} such that it can be found"
 " by the web-server."
 msgstr ""
+"Die App funktioniert nur, wenn du {program} so installierst, dass es vom "
+"Webserver gefunden werden kann."
 
 #. TRANSLATORS ettings.vue:49
 #: /app/specialVueFakeDummyForL10nScript.js:10
 msgid "Suggested Missing"
-msgstr ""
+msgstr "Vorgeschlagen fehlt"
 
 #. TRANSLATORS ettings.vue:59
 #: /app/specialVueFakeDummyForL10nScript.js:12
@@ -506,6 +522,8 @@ msgid ""
 "The app will work without installing {program}, but the conversion results "
 "may be degraded."
 msgstr ""
+"Die App funktioniert auch ohne Installation von {program}, aber die "
+"Konvertierungsergebnisse können schlechter sein."
 
 #. TRANSLATORS ettings.vue:66
 #. TRANSLATORS alSettings.vue:299
@@ -793,9 +811,9 @@ msgid ""
 "Choose a default PDF file destination folder in the cloud. Leave empty to "
 "use the parent directory of the folder which is converted to PDF:"
 msgstr ""
-"Wählen Sie einen standardmäßigen Zielordner für PDF-Dateien in der Cloud. "
-"Leer lassen, um das übergeordnete Verzeichnis des Ordners zu verwenden, der "
-"in PDF konvertiert wird:"
+"Wähle einen standardmäßigen Zielordner für PDF-Dateien in der Cloud. Leer "
+"lassen, um das übergeordnete Verzeichnis des Ordners zu verwenden, der in "
+"PDF konvertiert wird:"
 
 #. TRANSLATORS alSettings.vue:262
 #. TRANSLATORS FilesTab.vue:59
@@ -1065,13 +1083,14 @@ msgstr ""
 "Beim Konvertieren vieler oder großer Dateien in PDF kommt es zu "
 "Zeitüberschreitungen, da die Anfrage einfach zu lange dauert und der "
 "Webserver abstürzt. In diesem Fall kannst du die Offline-Generierung der "
-"PDF-Datei planen. Dadurch werden die Dinge für Sie nicht schneller, aber die"
-" Ausführungszeit wird nicht durch die Grenzen des Webservers eingeschränkt. "
-"Du wirst benachrichtigt, wenn es fertig ist. Wenn du dich dafür entschieden "
-"hast, das PDF im Cloud-Dateisystem zu speichern, wird es einfach dort "
-"angezeigt. Wenn du dich für den Download auf deinem lokalen Computer "
-"entschieden hast, wird der Download hier (und in der Benachrichtigung) "
-"angezeigt. Die Download-Links haben eine konfigurierbare Ablaufzeit."
+"PDF-Datei planen. Dadurch werden die Dinge für dich nicht schneller, aber "
+"die Ausführungszeit wird nicht durch die Grenzen des Webservers "
+"eingeschränkt. Du wirst benachrichtigt, wenn es fertig ist. Wenn du dich "
+"dafür entschieden hast, das PDF im Cloud-Dateisystem zu speichern, wird es "
+"einfach dort angezeigt. Wenn du dich für den Download auf deinem lokalen "
+"Computer entschieden hast, wird der Download hier (und in der "
+"Benachrichtigung) angezeigt. Die Download-Links haben eine konfigurierbare "
+"Ablaufzeit."
 
 #. TRANSLATORS FilesTab.vue:228
 #: /app/specialVueFakeDummyForL10nScript.js:218
