@@ -11,7 +11,7 @@
     "PDF file \"%s\" has been deleted." : "PDF soubor „%s“ byl smazán.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Následující potřebný spustitelný soubor nebyl na serveru nalezen: %s","Následující potřebné spustitelné soubory nebyly na serveru nalezeny: %s","Následující potřebné spustitelné soubory nebyly na serveru nalezeny: %s","Následující potřebné spustitelné soubory nebyly na serveru nalezeny: %s"],
     "Unknown admin setting: \"%1$s\"" : "Neznámé nastavení správy: „%1$s",
-    "The admin setting \"%1$s\" is read-only" : "Nastavení administrace \"%1$s\" je pouze pro čtení",
+    "The admin setting \"%1$s\" is read-only" : "Nastavení správy „%1$s“ je pouze pro čtení",
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Hodnota „%1$s“ pro nastavení „%2$s“ není převoditelná na typ boolean.",
     "Unknown personal setting: \"%1$s\"" : "Neznámo osobní nastavení: „%1$s“.",
     "The personal setting \"%1$s\" is read-only" : "Osobní nastavení „%1$s“ je pouze pro čtení",
