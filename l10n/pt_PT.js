@@ -1,7 +1,18 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "Unknown admin setting: \"%1$s\"" : "Definição administrativa desconhecida: \"%1$s\"",
+    "The admin setting \"%1$s\" is read-only" : "A definição administrativa \"%1$s\" é apenas de leitura",
+    "Unknown personal setting: \"%1$s\"" : "Definição pessoal desconhecida: \"%1$s\"",
+    "The personal setting \"%1$s\" is read-only" : "A definição pessoal \"%1$s\" é apenas de leitura",
+    "Unknown personal setting: \"%s\"." : "Definição pessoal desconhecida: \"%s\".",
+    "Error, caught an exception." : "Erro, detetada uma exceção.",
+    "Caused by previous exception" : "Causado por uma exceção anterior",
+    "bytes" : "bytes",
     "Text" : "Texto",
+    "Choose a prefix-folder" : "Escolha uma pasta-prefixo",
+    "Selected path: \"{dir}/{base}/\"." : "Caminho selecionado: \"{dir}/{base}/\".",
+    "Invalid path selected: \"{dir}\"." : "Selecionado caminho inválido: \"{dir}\".",
     "Options" : "Opções",
     "PDF" : "PDF",
     "true" : "verdadeiro",
