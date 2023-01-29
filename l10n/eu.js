@@ -90,6 +90,7 @@ OC.L10N.register(
     "revert" : "leheneratu",
     "pick a color" : "aukeratu kolore bat",
     "restore palette" : "berrezarri paleta",
+    "Choose a prefix-folder" : "Aukeratu karpeta lehenetsi bat",
     "Selected path: \"{dir}/{base}/\"." : "Hautatutako bide-izena: \"{dir}/{base}/\".",
     "Invalid path selected: \"{dir}\"." : "Bide-izen baliogabea hautatu da: \"{dir}\".",
     "Generate PDF" : "Sortu PDFa",
