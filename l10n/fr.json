@@ -18,7 +18,7 @@
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "L'expression régulière \"%1$s\" semble invalide, le code d'erreur est \"%d\".",
     "Did you forget the delimiters?" : "Avez-vous oublié les délimiteurs ?",
     "Unknown personal setting: \"%s\"." : "Paramètre personnel inconnu : \"%s\".",
-    "excluded" : "exclus",
+    "excluded" : "exclu",
     "Unable to parse memory size limit \"%s\"" : "Impossible de lire la limite de taille mémoire \"%s\"",
     "PDF Downloader" : "PDF Downloader",
     "_The app \"{app}\" will not work without installing the following required program: {programs}._::_The app \"{app}\" will not work without installing the following required programs: {programs}._" : ["L'application \"{app}\" ne fonctionnera pas sans l'installation du programme requis suivant : {programs}.","L'application \"{app}\" ne fonctionnera pas sans l'installation des programmes requis suivants : {programs}.","L'application \"{app}\" ne fonctionnera pas sans l'installation des programmes requis suivants : {programs}."],
@@ -242,6 +242,7 @@
     "Service Unavailable" : "Service indisponible",
     "Gateway Timeout" : "Délai dépassé pour accéder à la passerelle",
     "HTTP Version Not Supported" : "Version HTTP non supportée",
+    "Variant Also Negotiates (Experimental)" : "Variant Négocie aussi (expérimentation)",
     "Insufficient Storage (WebDAV)" : "Stockage insuffisant (WebDAV)",
     "Loop Detected (WebDAV)" : "Bouclé détectée (WebDAV)",
     "Bandwidth Limit Exceeded (Apache)" : "Limite de bande passante dépassée (Apache)",
@@ -272,6 +273,6 @@
     "Debug Information" : "Information de déboggage",
     "unknown error" : "erreur inconnue",
     "Unable to download data from \"{url}\": {message}" : "Impossible de télécharger les données depuis \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Buvez de ce whisky que le patron juge fameux."
+    "The quick brown fox jumps over the lazy dog." : "Rapide, le renard roux saute sur le chien fainéant."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
