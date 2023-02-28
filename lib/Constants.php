@@ -22,7 +22,7 @@
 
 namespace OCA\PdfDownloader;
 
-use OCA\RotDrop\Toolkit\Traits\Constants as TraitsConstants;
+use OCA\PdfDownloader\Toolkit\Traits\Constants as TraitsConstants;
 
 /** A couple of constants in order to avoid string literals. */
 class Constants extends TraitsConstants

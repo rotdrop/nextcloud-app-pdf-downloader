@@ -34,7 +34,7 @@ use OCP\IL10N;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent as HandledEvent;
 
-use OCA\RotDrop\Toolkit\Service\MimeTypeService;
+use OCA\PdfDownloader\Toolkit\Service\MimeTypeService;
 
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Controller\SettingsController;
@@ -46,9 +46,9 @@ use OCA\PdfDownloader\Constants;
  */
 class FilesActionListener implements IEventListener
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
-  use \OCA\RotDrop\Toolkit\Traits\CloudAdminTrait;
-  use \OCA\RotDrop\Toolkit\Traits\AssetTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\CloudAdminTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\AssetTrait;
 
   const EVENT = HandledEvent::class;
 

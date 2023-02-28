@@ -47,8 +47,8 @@ use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException as FileNotFoundException;
 use OCP\Files\IRootFolder;
 
-use OCA\RotDrop\Toolkit\Exceptions\AuthorizationException;
-use OCA\RotDrop\Toolkit\Service\UserScopeService;
+use OCA\PdfDownloader\Toolkit\Exceptions\AuthorizationException;
+use OCA\PdfDownloader\Toolkit\Service\UserScopeService;
 
 use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Service\PdfCombiner;
@@ -68,10 +68,10 @@ use OCA\PdfDownloader\Constants;
  */
 class MultiPdfDownloadController extends Controller
 {
-  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
-  use \OCA\RotDrop\Toolkit\Traits\ResponseTrait;
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
-  use \OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\ResponseTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
 
   /**
    * @var string

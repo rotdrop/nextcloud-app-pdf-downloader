@@ -39,8 +39,8 @@ use OCA\PdfDownloader\Notification\DependenciesNotifier;
 /** Check for and (later perhaps) install missing external dependencies. */
 class CheckDependencies implements IRepairStep
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
-  use \OCA\RotDrop\Toolkit\Traits\CloudAdminTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\CloudAdminTrait;
 
   /** @var string */
   protected $appName;

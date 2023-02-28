@@ -80,7 +80,7 @@ dev: dev-setup npm-dev lint test
 .PHONY: dev
 
 #@private
-dev-setup: composer build-fonts $(FONTS_LIST_FILE)
+dev-setup: app-toolkit composer build-fonts $(FONTS_LIST_FILE)
 .PHONY: dev-setup
 
 #@private
@@ -120,6 +120,12 @@ composer-suggest:
 	@echo -e "\n*** Regular Composer Suggestions ***\n"
 	$(COMPOSER) suggest --all
 .PHONY: composer-suggest
+
+APP_TOOLKIT_DIR = $(ABSSRCDIR)/php-toolkit
+APP_TOOLKIT_DEST = $(ABSSRCDIR)/lib/Toolkit
+APP_TOOLKIT_NS = PdfDownloader
+
+include $(APP_TOOLKIT_DIR)/tools/scopeme.mk
 
 CSS_FILES = $(shell find $(ABSSRCDIR)/style -name "*.css" -o -name "*.scss")
 L10N_FILES = $(wildcard l10n/*.js l10n/*.json)
@@ -354,6 +360,7 @@ clean: ## Tidy up local environment
 distclean: clean ## Clean even more, calls clean
 	rm -rf vendor*
 	rm -rf node_modules
+	rm -rf lib/Toolkit/*
 .PHONY: distclean
 
 #@@ Almost everything but downloads

@@ -41,7 +41,7 @@ use OCA\PdfDownloader\Exceptions;
  */
 class AnyToPdf
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
 
   const UNIVERSAL = '[universal]';
   const FALLBACK = '[fallback]';

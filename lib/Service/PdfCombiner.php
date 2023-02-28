@@ -37,8 +37,8 @@ use OCA\PdfDownloader\Constants;
  */
 class PdfCombiner
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
-  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
 
   public const OVERLAY_FONT = 'dejavusansmono';
   public const OVERLAY_FONT_SIZE = 16;

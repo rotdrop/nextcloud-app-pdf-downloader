@@ -29,7 +29,7 @@ use OCA\PdfDownloader\Exceptions;
 /** Check for and (later perhaps) install missing external dependencies. */
 class DependenciesService
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
 
   public const REQUIRED = 'required';
   public const SUGGESTED = 'suggested';

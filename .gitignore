@@ -18,3 +18,5 @@ lib/Database/ORM/Proxies/**
 build-flavour
 .php-cs-fixer.cache
 config/fonts-list.json
+lib/Toolkit/[A-Z]*
+*-build-hash

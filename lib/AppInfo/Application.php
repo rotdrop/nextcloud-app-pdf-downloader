@@ -33,7 +33,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\IConfig;
 
-use OCA\RotDrop\Toolkit\Service\MimeTypeService;
+use OCA\PdfDownloader\Toolkit\Service\MimeTypeService;
 
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Notification;
@@ -45,7 +45,7 @@ include_once __DIR__ . '/../../vendor/autoload.php';
  */
 class Application extends App implements IBootstrap
 {
-  use \OCA\RotDrop\Toolkit\Traits\AppNameTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\AppNameTrait;
 
   /** Constructor. */
   public function __construct()

@@ -34,7 +34,7 @@ use OCP\ITempManager;
 use OCP\AppFramework\IAppContainer;
 use OCP\IUserSession;
 
-use OCA\RotDrop\Toolkit\Service\UserScopeService;
+use OCA\PdfDownloader\Toolkit\Service\UserScopeService;
 
 use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Service\NotificationService;
@@ -45,7 +45,7 @@ use OCA\PdfDownloader\Service\NotificationService;
  */
 class PdfGeneratorJob extends QueuedJob
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
 
   public const TARGET_FILESYSTEM = 'filesystem';
   public const TARGET_DOWNLOAD = 'download';

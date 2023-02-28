@@ -40,8 +40,8 @@ use OCA\PdfDownloader\Constants;
 /** Service class for notification management. */
 class NotificationService
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
-  use \OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
 
   /** @var string */
   protected $appName;

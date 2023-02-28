@@ -40,7 +40,7 @@ use OCP\Files\Folder;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException as FileNotFoundException;
 
-use OCA\RotDrop\Toolkit\Exceptions as ToolkitExceptions;
+use OCA\PdfDownloader\Toolkit\Exceptions as ToolkitExceptions;
 
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Constants;
@@ -52,10 +52,10 @@ use OCA\PdfDownloader\Exceptions\EnduserNotificationException;
  */
 class FileSystemWalker
 {
-  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
-  use \OCA\RotDrop\Toolkit\Traits\UtilTrait;
-  use \OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
-  use \OCA\RotDrop\Toolkit\Traits\IncludeExcludeTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\IncludeExcludeTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
   public const ERROR_PAGES_FONT_SIZE = '12';
