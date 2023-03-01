@@ -99,7 +99,7 @@
                          max="1.00"
                          step="0.01"
                          :label="t(appName, 'Page label width fraction')"
-                         :hint="t(appName, 'Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size.')"
+                         :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
                          :disabled="loading > 0 || !pageLabels"
                          @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
       />
