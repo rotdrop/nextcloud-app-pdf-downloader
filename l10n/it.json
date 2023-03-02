@@ -95,7 +95,6 @@
     "Background" : "Sfondo",
     "e.g. 0.4" : "ad es. 0.4",
     "Page label width fraction" : "Larghezza dell'etichetta della pagina",
-    "Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size." : "Larghezza dell'etichetta della pagina come frazione decimale della larghezza della pagina. Lascia vuoto per utilizzare una dimensione del carattere fissa.",
     "Select a Font" : "Seleziona un tipo di carattere",
     "Font for generated PDF page annotations" : "Carattere per le annotazioni della pagina PDF generata",
     "The font to use for the page labels: {pageLabelsFont}" : "Il carattere da utilizzare per le etichette della pagina: {pageLabelsFont}",

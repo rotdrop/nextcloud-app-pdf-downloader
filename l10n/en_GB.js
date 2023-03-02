@@ -100,7 +100,6 @@ OC.L10N.register(
     "Background" : "Background",
     "e.g. 0.4" : "e.g. 0.4",
     "Page label width fraction" : "Page label width fraction",
-    "Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size." : "Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size.",
     "Select a Font" : "Select a Font",
     "Font for generated PDF page annotations" : "Font for generated PDF page annotations",
     "The font to use for the page labels: {pageLabelsFont}" : "The font to use for the page labels: {pageLabelsFont}",

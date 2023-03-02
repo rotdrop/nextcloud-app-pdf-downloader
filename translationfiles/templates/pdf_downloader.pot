@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-03-01 03:47+0000\n"
+"POT-Creation-Date: 2023-03-02 03:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -220,27 +220,27 @@ msgstr ""
 msgid "Please install the \"%s\" program on the server."
 msgstr ""
 
-#: /app/lib/Service/FileSystemWalker.php:424
+#: /app/lib/Service/FileSystemWalker.php:432
 #, php-format
 msgid "Internal error, \"%s\" is neither a plain file nor a directory."
 msgstr ""
 
-#: /app/lib/Service/FileSystemWalker.php:458
+#: /app/lib/Service/FileSystemWalker.php:466
 #, php-format
 msgid "\"%s\" is not a folder and archive extraction is disabled."
 msgstr ""
 
-#: /app/lib/Service/FileSystemWalker.php:461
+#: /app/lib/Service/FileSystemWalker.php:469
 #, php-format
 msgid "\"%s\" is not a folder and cannot be processed by archive extraction."
 msgstr ""
 
-#: /app/lib/Service/FileSystemWalker.php:505
+#: /app/lib/Service/FileSystemWalker.php:513
 #, php-format
 msgid "Destination parent folder conflicts with existing file \"%s\"."
 msgstr ""
 
-#: /app/lib/Service/FileSystemWalker.php:512
+#: /app/lib/Service/FileSystemWalker.php:520
 #, php-format
 msgid "Unable to create the parent folder \"%s\"."
 msgstr ""
@@ -248,7 +248,7 @@ msgstr ""
 #. TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
 #. TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
-#: /app/lib/Service/FileSystemWalker.php:596
+#: /app/lib/Service/FileSystemWalker.php:604
 #: /app/lib/Service/PdfCombiner.php:360
 msgid "BASENAME"
 msgstr ""
@@ -256,7 +256,7 @@ msgstr ""
 #. TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
 #. TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
-#: /app/lib/Service/FileSystemWalker.php:600
+#: /app/lib/Service/FileSystemWalker.php:608
 #: /app/lib/Service/PdfCombiner.php:365
 msgid "FILENAME"
 msgstr ""
@@ -264,7 +264,7 @@ msgstr ""
 #. TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
 #. TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
-#: /app/lib/Service/FileSystemWalker.php:604
+#: /app/lib/Service/FileSystemWalker.php:612
 #: /app/lib/Service/PdfCombiner.php:370
 msgid "EXTENSION"
 msgstr ""
@@ -272,7 +272,7 @@ msgstr ""
 #. TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
 #. TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
-#: /app/lib/Service/FileSystemWalker.php:608
+#: /app/lib/Service/FileSystemWalker.php:616
 #: /app/lib/Service/PdfCombiner.php:380
 msgid "DIRNAME"
 msgstr ""
@@ -280,7 +280,7 @@ msgstr ""
 #. TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
 #. TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
 #. TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
-#: /app/lib/Service/FileSystemWalker.php:612
+#: /app/lib/Service/FileSystemWalker.php:620
 msgid "DATETIME"
 msgstr ""
 
@@ -597,7 +597,7 @@ msgstr ""
 #. TRANSLATORS alSettings.vue:102
 #: /app/specialVueFakeDummyForL10nScript.js:68
 msgid ""
-"Page label width as decimal fraction of the page-width. Leave empty to use a "
+"Page label width as decimal fraction of the page width. Leave empty to use a "
 "fixed font size."
 msgstr ""
 

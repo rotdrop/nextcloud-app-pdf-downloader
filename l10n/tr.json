@@ -98,7 +98,6 @@
     "Background" : "Arka plan",
     "e.g. 0.4" : "Örnek: 0.4",
     "Page label width fraction" : "Sayfa etiketi genişlik çarpanı",
-    "Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size." : "Sayfa genişliğinin ondalık kesri olarak sayfa etiketinin genişliği. Sabit bir yazı boyutu kullanmak için boş bırakın.",
     "Select a Font" : "Bir yazı tipi seçin",
     "Font for generated PDF page annotations" : "Oluşturulan PDF sayfa notları için kullanılacak yazı tipi",
     "The font to use for the page labels: {pageLabelsFont}" : "Sayfa etiketleri için kullanılacak yazı tipi: {pageLabelsFont}",
