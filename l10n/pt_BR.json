@@ -98,7 +98,6 @@
     "Background" : "Fundo",
     "e.g. 0.4" : "e.x. 0.4",
     "Page label width fraction" : "Fração da largura do rótulo da página",
-    "Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size." : "Largura do rótulo da página como fração decimal da largura da página. Deixe em branco para usar um tamanho de fonte fixo.",
     "Select a Font" : "Selecione a fonte",
     "Font for generated PDF page annotations" : "Fonte para anotações de página PDF geradas",
     "The font to use for the page labels: {pageLabelsFont}" : "A fonte a ser usada para os rótulos da página: {pageLabelsFont}",

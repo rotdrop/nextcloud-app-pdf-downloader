@@ -98,7 +98,6 @@
     "Background" : "Arrière-plan",
     "e.g. 0.4" : "ex. 0,4",
     "Page label width fraction" : "Largeur de la marque en fraction de page",
-    "Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size." : "Largeur de marque en fraction décimale de la largeur de page. Laisser vide pour utiliser une taille de police fixe.",
     "Select a Font" : "Sélectionnez une police de caractères",
     "Font for generated PDF page annotations" : "Police pour les annotations de pages générées",
     "The font to use for the page labels: {pageLabelsFont}" : "Police utilisée pour les marques de page : {pageLabelsFont}",

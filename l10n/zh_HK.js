@@ -91,7 +91,6 @@ OC.L10N.register(
     "Background" : "背景",
     "e.g. 0.4" : "如 0.4",
     "Page label width fraction" : "頁面標籤寬度分數",
-    "Page label width as decimal fraction of the page-width. Leave empty to use a fixed font size." : "頁面標籤寬度作為頁面寬度的小數部分。 留空以使用固定字體大小。",
     "Select a Font" : "選擇字體",
     "Font for generated PDF page annotations" : "產生的 PDF 頁面註釋的字體",
     "The font to use for the page labels: {pageLabelsFont}" : "用於頁面標籤的字體：{pageLabelsFont}",
