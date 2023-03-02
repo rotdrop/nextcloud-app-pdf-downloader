@@ -69,8 +69,7 @@ class DependenciesService
     string $appName,
     ILogger $logger,
     ExecutableFinder $executableFinder,
-  )
-  {
+  ) {
     $this->appName = $appName;
     $this->logger = $logger;
     $this->executableFinder = $executableFinder;
