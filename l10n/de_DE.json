@@ -98,6 +98,7 @@
     "Background" : "Hintergrund",
     "e.g. 0.4" : "z.B. 0.4",
     "Page label width fraction" : "Bruchteil der Breite des Seitennummerierung",
+    "Page label width as decimal fraction of the page width. Leave empty to use a fixed font size." : "Seitennummerierungsbreite als dezimaler Bruchteil der Seitenbreite. Leer lassen, um eine feste Schriftgröße zu verwenden.",
     "Select a Font" : "Schriftart auswählen",
     "Font for generated PDF page annotations" : "Schriftart für erzeugte PDF-Seitenanmerkungen",
     "The font to use for the page labels: {pageLabelsFont}" : "Schriftart für die Seitennummerierung: {pageLabelsFont}",

@@ -4,6 +4,7 @@ OC.L10N.register(
     "FILENAME" : "ИМЕ ФАЈЛА",
     "bytes" : "бајтова",
     "Text" : "Текст",
+    "Background" : "Позадина",
     "submit" : "submit",
     "Options" : "Избори",
     "OK" : "У реду",
