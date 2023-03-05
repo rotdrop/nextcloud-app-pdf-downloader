@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-03-03 03:33+0000\n"
+"POT-Creation-Date: 2023-03-05 04:14+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: kaekimaster, 2023\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -695,6 +695,8 @@ msgid ""
 "Page label width as decimal fraction of the page width. Leave empty to use a"
 " fixed font size."
 msgstr ""
+"Seitennummerierungsbreite als dezimaler Bruchteil der Seitenbreite. Leer "
+"lassen, um eine feste Schriftgröße zu verwenden."
 
 #. TRANSLATORS alSettings.vue:110
 #. TRANSLATORS ents/FontSelect.vue:130
