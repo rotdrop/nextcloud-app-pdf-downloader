@@ -100,6 +100,7 @@ OC.L10N.register(
     "Background" : "Pozadí",
     "e.g. 0.4" : "např. 0.4",
     "Page label width fraction" : "Podíl šířky stránky pro popisek",
+    "Page label width as decimal fraction of the page width. Leave empty to use a fixed font size." : "Šířka štítku stránky jako desetinný zlomek šířky stránky. Pro použití pevné velikosti písma ponechte prázdné.",
     "Select a Font" : "Vyberte písmo",
     "Font for generated PDF page annotations" : "Písmo pro anotace stránek vytvořeného PDF",
     "The font to use for the page labels: {pageLabelsFont}" : "Písmo pro popisky stránek: {pageLabelsFont}",

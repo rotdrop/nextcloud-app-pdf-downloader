@@ -20,6 +20,7 @@ OC.L10N.register(
     "Archive Size Limit" : "Límit de mida de l'arxiu",
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "No permeteu l'extracció d'arxius per a arxius amb una mida descomprimida superior a aquest límit.",
     "Text" : "Text",
+    "Background" : "Fons",
     "Administrative size limit: {value}" : "Límit de mida administrativa: {value}",
     "reason unknown" : "motiu desconegut",
     "Choose a prefix-folder" : "Trieu una carpeta-prefix",
