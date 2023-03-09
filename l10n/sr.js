@@ -7,6 +7,7 @@ OC.L10N.register(
     "Background" : "Позадина",
     "submit" : "submit",
     "Options" : "Избори",
+    "PDF" : "PDF",
     "OK" : "У реду",
     "Created" : "Направљен",
     "Unauthorized" : "Неовлашћено",

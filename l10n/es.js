@@ -100,6 +100,7 @@ OC.L10N.register(
     "Background" : "Imagen de fondo",
     "e.g. 0.4" : "p.ej. 0.4",
     "Page label width fraction" : "Fracción de anchura de la etiqueta de página",
+    "Page label width as decimal fraction of the page width. Leave empty to use a fixed font size." : "Anchura de la etiqueta de página como una fracción decimal del ancho de página. Déjelo en blanco para utilizar un tamaño de letra fijo.",
     "Select a Font" : "Seleccione una fuente",
     "Font for generated PDF page annotations" : "Fuente para las anotaciones de página PDF generadas",
     "The font to use for the page labels: {pageLabelsFont}" : "La fuente a utilizar para las etiquetas de página: {pageLabelsFont}",
