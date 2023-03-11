@@ -72,6 +72,7 @@ OC.L10N.register(
     "Text" : "Testua",
     "Background" : "Atzeko planoa",
     "e.g. 0.4" : "adib. 0.4",
+    "Select a Font" : "Hautatu letra-tipo bat",
     "Font for generated PDF page annotations" : "Sortutako PDF orrien oharpenetarako letra-tipoa",
     "The font to use for the page labels: {pageLabelsFont}" : "Orrialde-etiketetarako erabili beharreko letra-tipoa: {pageLabelsFont}",
     "Font for generated PDF (error)pages" : "Sortutako PDF (errore)-orrietarako letra-tipoa",
