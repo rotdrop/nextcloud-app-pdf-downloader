@@ -1,6 +1,7 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Το αρχείο ή ο φάκελος δεν μπορεί να βρεθεί.",
     "FILENAME" : "ΟΝΟΜΑ ΑΡΧΕΙΟΥ",
     "bytes" : "bytes",
     "Text" : "Κείμενο",
