@@ -14,7 +14,7 @@
     "symfony/finder": "^6.0",
     "tecnickcom/tcpdf": "^6.3",
     "wapmorgan/cab-archive": "^0.0.7",
-    "wapmorgan/unified-archive": "^1.1.8",
+    "wapmorgan/unified-archive": "^1.1.10",
     "gemorroj/archive7z": "^5.4",
     "phpclasses/php-iso-file": "^0.5.1",
     "pear/archive_tar": "^1.4",
