@@ -76,7 +76,11 @@ class PdfCombiner
   /** @var int */
   private $overlayFontSize = self::OVERLAY_FONT_SIZE;
 
-  /** @var null|float */
+  /**
+   * @var null|float
+   *
+   * If null then a fixed font size is used.
+   */
   private $overlayPageWidthFraction = self::OVERLAY_PAGE_WIDTH_FRACTION;
 
   /** @var string */

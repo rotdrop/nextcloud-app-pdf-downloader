@@ -169,20 +169,12 @@ class FileSystemWalker
       $this->pdfCombiner->setOverlayFont(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT, null)
       );
-      $fontSize = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT_SIZE, null);
-      if ($fontSize !== null && filter_var($fontSize, FILTER_VALIDATE_INT) === false) {
-        $this->logError('The user preferences of user "' . $this->useId . '" for the config-key "' . SettingsController::PERSONAL_GENERATED_PAGES_FONT_SIZE . '" are broken, this should be an integer: "' . $fontSize . '".');
-        $fontSize = null;
-      }
-      $this->pdfCombiner->setOverlayFontSize($fontSize);
-      $overlayPageWidthFraction = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION, null);
-      if ($overlayPageWidthFraction !== null
-          && (filter_var($overlayPageWidthFraction, FILTER_VALIDATE_FLOAT) == false
-              || $overlayPageWidthFraction <= 0.0 || $overlayPageWidthFraction > 1.0)) {
-        $this->logError('The user preferences of user "' . $this->useId . '" for the config-key "' . SettingsController::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION . '" are broken, this should be a floating point value and between 0 and 1: "' . $overlayPageWidthFraction . '".');
-        $overlayPageWidthFraction = null;
-      }
-      $this->pdfCombiner->setOverlayPageWidthFraction($overlayPageWidthFraction);
+      $this->pdfCombiner->setOverlayFontSize(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABELS_FONT_SIZE, null)
+      );
+      $this->pdfCombiner->setOverlayPageWidthFraction(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION, null) ?: null
+      );
       $this->pdfCombiner->setOverlayTextColor(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEXT_COLOR, null)
       );
@@ -191,8 +183,11 @@ class FileSystemWalker
       );
 
       $this->setErrorPagesFont(
-        $this->cloudConfig->getUserValue(
-          $this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT));
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT)
+      );
+      $this->setErrorPagesFontSize(
+        $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GENERATED_PAGES_FONT_SIZE, null)
+      );
       if ($this->extractArchiveFiles) {
         $this->extractArchiveFiles =
           $this->cloudConfig->getUserValue(
