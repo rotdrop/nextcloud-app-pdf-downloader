@@ -22,6 +22,7 @@
 
 namespace OCA\PdfDownloader\Service;
 
+use Throwable;
 use RuntimeException;
 
 use Symfony\Component\Process\Process;
@@ -295,7 +296,7 @@ class AnyToPdf
     if (!empty($this->universalConverter)) {
       try {
         $data = $this->genericConvert($data, $mimeType, $this->universalConverter);
-      } catch (\Throwable $t) {
+      } catch (Throwable $t) {
         if ($this->builtinConvertersDisabled) {
           throw new RuntimeException(
             $this->l->t('Universal converter "%1$s" has failed trying to convert MIME type "%2$s"', [
@@ -329,7 +330,7 @@ class AnyToPdf
             $convertedData = $this->genericConvert($data, $mimeType, $tryConverter);
           }
           break;
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
           $this->logException($t, 'Ignoring failed converter ' . $tryConverter);
         }
       }
@@ -408,7 +409,7 @@ class AnyToPdf
       } catch (ProcessExceptions\ProcessTimedOutException $timedOutException) {
         $this->logException($timedOutException, 'Unrecoverable exception');
         $retry = false;
-      } catch (\Throwable $t) {
+      } catch (Throwable $t) {
         $this->logException($t, 'Retry after exception, trial number ' . ($count + 1));
         $retry = true;
       }
@@ -553,11 +554,34 @@ class AnyToPdf
     putenv('LC_ALL=C');
     $converterName = 'img2pdf';
     $converter = $this->findExecutable($converterName);
-    $process = new Process([
+
+    try {
+      // we actually want to have "--rotation=ifvalid", see issue #100 on https://gitlab.mister-muffin.de/josch/img2
+      $process = new Process([ $converter, '--version' ]);
+      $process->run();
+      $versionString = $process->getOutput();
+      // img2pdf 0.4.4
+      $matches = null;
+      if (preg_match('/' . $converterName . '\\s+(\\d+)\\.(\\d+)\\.(\\d+)/', $versionString, $matches)) {
+        $version = [
+          'major' => $matches[1],
+          'minor' => $matches[2],
+          'patch' => $matches[3],
+        ];
+      }
+    } catch (Throwable $t) {
+      throw new RuntimeException(
+        $this->l->t('Unable to determine the version of the helper program "%1$s", is it installed?', $converter), 0, $t,
+      );
+    }
+    $processAndArgs = [
       $converter,
       '-', // from stdin
-      '--rotation=ifvalid', // ignore broken rotation settings in EXIF meta data
-    ]);
+    ];
+    if ($version['minor'] >= 4 && $version['patch'] >= 4) {
+      $processAndArgs[] = '--rotation=ifvalid'; // ignore broken rotation settings in EXIF meta data
+    }
+    $process = new Process($processAndArgs);
     $process->setInput($data)->run();
     return $process->getOutput();
   }
