@@ -4,13 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.1.2-rc3] - 2023-03-15
+## [1.1.2-rc4] - 2023-03-15
 
 ### Fixed
 
 - spelling errors and translations
 - handling of a fixed font size for page labels
 - unsupported command line arguments with old versions of img2pdf
+- optionally support PDF-conversion of single plain files (in addition
+  to converting entire directory trees)
 
 ### Added
 
