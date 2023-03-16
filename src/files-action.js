@@ -1,6 +1,6 @@
 /**
  * @author Claus-Justus Heine
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,11 +43,15 @@ let TabInstance = null;
 
 const initialState = getInitialState();
 
+console.info('INITIAL STATE PDF DOWNLOADER', initialState);
+
 const mimeTypes = [
   'httpd/unix-directory',
 ];
 
-if (initialState.extractArchiveFiles && initialState.extractArchiveFilesAdmin) {
+if (!initialState.singlePlainFileConversion
+    && initialState.extractArchiveFiles
+    && initialState.extractArchiveFilesAdmin) {
   mimeTypes.splice(0, 0, ...initialState.archiveMimeTypes);
   console.info('MIME TYPES', mimeTypes);
 }
@@ -138,7 +142,7 @@ window.addEventListener('DOMContentLoaded', () => {
       icon: 'icon-pdf-downloader',
 
       enabled(fileInfo) {
-        return mimeTypes.indexOf(fileInfo.mimetype) >= 0;
+        return initialState.singlePlainFileConversion || mimeTypes.indexOf(fileInfo.mimetype) >= 0;
       },
 
       async mount(el, fileInfo, context) {
@@ -173,8 +177,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     fileActionTemplate.type = OCA.Files.FileActions.TYPE_DROPDOWN;
     fileActionTemplate.permissions = OC.PERMISSION_READ;
-    for (const mimeType of mimeTypes) {
-      const fileAction = Object.assign({ mime: mimeType }, fileActionTemplate);
+    if (!initialState.singlePlainFileConversion) {
+      for (const mimeType of mimeTypes) {
+        const fileAction = Object.assign({ mime: mimeType }, fileActionTemplate);
+        fileActions.registerAction(fileAction);
+      }
+    } else {
+      const fileAction = Object.assign({ mime: 'all' }, fileActionTemplate);
       fileActions.registerAction(fileAction);
     }
   }

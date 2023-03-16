@@ -384,6 +384,44 @@ __EOF__;
   }
 
   /**
+   * Add a single file to the PDF document.
+   *
+   * @param File $node The file to add.
+   *
+   * @param string $parentName The name of the containing folder.
+   *
+   * @param bool $ignoreExcludes Add the file regardless of any exclude
+   * patterns. This is used for the case were the user initiates direct PDF
+   * conversion of a single file in which case the exclude list is not taken
+   * into account.
+   *
+   * @return bool Success status.
+   */
+  private function addFile(File $node, string $parentName, bool $ignoreExcludes = false):bool
+  {
+    if ($this->extractArchiveFiles
+        && $this->addArchiveMembers($node, $parentName) === self::ARCHIVE_HANDLED) {
+      return true;
+    }
+    $path = $parentName . '/' . $node->getName();
+    if (!$ignoreExcludes && !$this->isFileIncluded($path)) {
+      return true; // ignore
+    }
+    $fileData = $node->getContent();
+    try {
+      $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
+    } catch (Throwable $t) {
+      $this->logException($t);
+      if (!$this->generateErrorPages) {
+        return false;
+      }
+      $pdfData = $this->generateErrorPage($fileData, $path, $t);
+    }
+    $this->pdfCombiner->addDocument($pdfData, $path);
+    return true;
+  }
+
+  /**
    * @param Folder $folder
    *
    * @param $string $parentName
@@ -398,28 +436,9 @@ __EOF__;
       switch ($node->getType()) {
         case FileInfo::TYPE_FOLDER:
           $this->addFilesRecursively($node, $parentName);
-          break 1;
+          break;
         case FileInfo::TYPE_FILE:
-          /** @var File $node */
-          if ($this->extractArchiveFiles
-              && $this->addArchiveMembers($node, $parentName) === self::ARCHIVE_HANDLED) {
-            continue 2;
-          }
-          $path = $parentName . '/' . $node->getName();
-          if (!$this->isFileIncluded($path)) {
-            break; // ignore
-          }
-          $fileData = $node->getContent();
-          try {
-            $pdfData = $this->anyToPdf->convertData($fileData, $node->getMimeType());
-          } catch (Throwable $t) {
-            $this->logException($t);
-            if (!$this->generateErrorPages) {
-              continue 2;
-            }
-            $pdfData = $this->generateErrorPage($fileData, $path, $t);
-          }
-          $this->pdfCombiner->addDocument($pdfData, $path);
+          $this->addFile($node, $parentName, ignoreExcludes: false);
           break;
         default:
           throw new Exceptions\Exception(
@@ -451,21 +470,24 @@ __EOF__;
 
     /** @var FileSystemNode $node */
     $node = $this->getUserFolder()->get($nodePath);
-    if ($node->getType() === FileInfo::TYPE_FOLDER) {
-      $this->addFilesRecursively($node);
-    } else {
-      if (!$this->extractArchiveFiles
-          || $this->addArchiveMembers($node) !== self::ARCHIVE_HANDLED) {
-        if (!$this->extractArchiveFiles) {
+    switch ($node->getType()) {
+      case FileInfo::TYPE_FOLDER:
+        $this->addFilesRecursively($node);
+        break;
+      case FileInfo::TYPE_FILE:
+        if (!$this->addFile($node, parentName: '', ignoreExcludes: true)) {
           throw new EnduserNotificationException(
-            $this->l->t('"%s" is not a folder and archive extraction is disabled.', $nodePath));
-        } else {
-          throw new EnduserNotificationException(
-            $this->l->t('"%s" is not a folder and cannot be processed by archive extraction.', $nodePath));
+            $this->l->t('"%s" could not be converted to PDF.', $nodePath));
         }
-      }
-      $pathInfo = pathinfo($nodePath);
-      $nodePath = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . basename($pathInfo['filename'], '.tar');
+        break;
+      default:
+        throw new Exceptions\Exception(
+          $this->l->t(
+            'Internal error, "%1$s" is neither a plain file nor a directory, but has type "%2$s.', [
+              $nodePath, $node->getType(),
+            ])
+        );
+        break;
     }
 
     return $this->pdfCombiner->combine();

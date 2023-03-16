@@ -298,16 +298,16 @@
     </AppSettingsSection>
     <AppSettingsSection :title="t(appName, 'Archive Extraction')">
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
-        <input id="extract-archive files"
+        <input id="extract-archive-files"
                v-model="extractArchiveFiles"
                type="checkbox"
                :disabled="loading > 0 || !extractArchiveFilesAdmin"
                @change="saveSetting('extractArchiveFiles')"
         >
-        <label v-if="extractArchiveFilesAdmin" for="extract-archive files">
+        <label v-if="extractArchiveFilesAdmin" for="extract-archive-files">
           {{ t(appName, 'On-the-fly extraction of archive files.') }}
         </label>
-        <label v-else for="extract-archive files">
+        <label v-else for="extract-archive-files">
           {{ t(appName, 'On-the-fly extraction of archive files is disabled by the administrator.') }}
         </label>
       </div>
@@ -319,9 +319,33 @@
         :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
         @update="saveTextInput(...arguments, 'archiveSizeLimit')"
       />
-      <span v-if="archiveSizeLimitAdmin > 0" :class="{ hint: true, 'admin-limit-exceeded': archiveSizeLimitAdmin < archiveSizeLimit, 'icon-error': archiveSizeLimitAdmin < archiveSizeLimit }">
+      <div v-if="extractArchiveFiles && extractArchiveFilesAdmin && archiveSizeLimitAdmin > 0" :class="{ hint: true, 'admin-limit-exceeded': archiveSizeLimitAdmin < archiveSizeLimit, 'icon-error': archiveSizeLimitAdmin < archiveSizeLimit }">
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
-      </span>
+      </div>
+    </AppSettingsSection>
+    <AppSettingsSection :title="t(appName, 'Single Plain File Conversion')">
+      <div :class="['flex-container', 'flex-center', { singlePlainFileConversion: singlePlainFileConversion }]">
+        <input id="single-plain-file-conversion"
+               v-model="singlePlainFileConversion"
+               type="checkbox"
+               :disabled="loading > 0"
+               @change="saveSetting('singlePlainFileConversion')"
+        >
+        <label for="single-plain-file-conversion">
+          {{ t(appName, 'Enable conversion of single plain files.') }}
+        </label>
+      </div>
+      <ul>
+        <li class="hint">
+          {{ t(appName, 'The action-menu entry will then also appear for PDF files.') }}
+        </li>
+        <li class="hint">
+          {{ t(appName, 'PDF files will also be decorated with page labels if page decoration is enabled.') }}
+        </li>
+        <li class="hint">
+          {{ t(appName, 'The directory part of the page labels will remain empty.') }}
+        </li>
+      </ul>
     </AppSettingsSection>
   </SettingsSection>
 </template>
@@ -409,6 +433,7 @@ export default {
       extractArchiveFilesAdmin: false,
       archiveSizeLimitAdmin: null,
       humanArchiveSizeLimitAdmin: '',
+      singlePlainFileConversion: true,
       sampleFontSize: 18, // should be pt, but actually is rendered as px it seems
       pdfCloudFolderFileInfo: {
         dirName: '',
@@ -542,7 +567,8 @@ export default {
     async getData() {
       // slurp in all personal settings
       ++this.loading
-      this.fetchSettings('personal').finally(() => {
+      const settingsPromise = this.fetchSettings('personal')
+      settingsPromise.finally(() => {
         if (this.$refs.pageLabelTextColorPicker) {
           this.$refs.pageLabelTextColorPicker.saveState()
           this.$refs.pageLabelBackgroundColorPicker.saveState()
@@ -550,21 +576,8 @@ export default {
         --this.loading
       })
       ++this.loading
-      axios.get(generateUrl('fonts')).then(
-        (response) => {
-          this.fontsList = response.data
-          console.info('FONTS', this.fontsList)
-          let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
-          this.pageLabelsFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
-          if (this.pageLabelsFontObject) {
-            Vue.set(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
-          }
-          fontIndex = this.fontsList.findIndex((x) => x.family === this.generatedPagesFont)
-          this.generatedPagesFontObject = fontIndex >= 0 ? this.fontsList[fontIndex] : null
-          if (this.generatedPagesFontObject) {
-            Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
-          }
-      }).catch((e) => {
+      const fontsPromise = axios.get(generateUrl('fonts'))
+      fontsPromise.catch((e) => {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
@@ -579,6 +592,24 @@ export default {
       }).finally(() => {
         --this.loading
       })
+
+      Promise.all([ settingsPromise, fontsPromise ]).then(
+        (responses) => {
+          const response = responses[1]
+          this.fontsList = response.data
+          console.info('FONTS', this.fontsList)
+          let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
+          this.pageLabelsFontObject = fontIndex >= 0 ? { ...this.fontsList[fontIndex] } : null
+          if (this.pageLabelsFontObject) {
+            Vue.set(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
+          }
+          fontIndex = this.fontsList.findIndex((x) => x.family === this.generatedPagesFont)
+          this.generatedPagesFontObject = fontIndex >= 0 ? { ...this.fontsList[fontIndex] } : null
+          if (this.generatedPagesFontObject) {
+            Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
+          }
+      })
+
       ++this.loading
       this.fetchPageLabelTemplateExample().finally(() => {
         --this.loading

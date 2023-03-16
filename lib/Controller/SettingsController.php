@@ -119,6 +119,9 @@ class SettingsController extends Controller
   public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT = 'downloadsPurgeTimeout';
   public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT = 24 * 3600 * 7; // 1 week
 
+  public const PERSONAL_SINGLE_PLAIN_FILE_CONVERSION = 'singlePlainFileConversion';
+  public const PERSONAL_SINGLE_PLAIN_FILE_CONVERSION_DEFAULT = true;
+
   /**
    * @var array<string, array>
    *
@@ -232,6 +235,10 @@ class SettingsController extends Controller
     self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT => [
       'rw' => true,
       'default' => self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT,
+    ],
+    self::PERSONAL_SINGLE_PLAIN_FILE_CONVERSION => [
+      'rw' => true,
+      'default' => self::PERSONAL_SINGLE_PLAIN_FILE_CONVERSION_DEFAULT,
     ],
   ];
 
@@ -468,6 +475,7 @@ class SettingsController extends Controller
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
       case self::PERSONAL_GENERATE_ERROR_PAGES:
+      case self::PERSONAL_SINGLE_PLAIN_FILE_CONVERSION:
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
         if ($newValue === null) {
           return self::grumble(
@@ -720,6 +728,7 @@ class SettingsController extends Controller
         case self::EXTRACT_ARCHIVE_FILES:
         case self::PERSONAL_PAGE_LABELS:
         case self::PERSONAL_GENERATE_ERROR_PAGES:
+        case self::PERSONAL_SINGLE_PLAIN_FILE_CONVERSION:
           if ($value === '' || $value === null) {
             $value = self::PERSONAL_SETTINGS[$oneSetting]['default'] ?? false;
             if ($value === self::ADMIN_SETTING) {
