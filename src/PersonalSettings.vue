@@ -323,8 +323,8 @@
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
       </div>
     </AppSettingsSection>
-    <!-- TRANSLATORS: This is the heading for a configuration option which enables PDF-conversion of single plain files in addition to converting entire directory trees. -->
-    <AppSettingsSection :title="t(appName, 'Single Plain File Conversion')">
+    <!-- TRANSLATORS: This is the heading for a configuration option which enables PDF-conversion of individual files in addition to converting entire directory trees or archive files. -->
+    <AppSettingsSection :title="t(appName, 'Individual File Conversion')">
       <div :class="['flex-container', 'flex-center', { singlePlainFileConversion: singlePlainFileConversion }]">
         <input id="single-plain-file-conversion"
                v-model="singlePlainFileConversion"
@@ -333,7 +333,7 @@
                @change="saveSetting('singlePlainFileConversion')"
         >
         <label for="single-plain-file-conversion">
-          {{ t(appName, 'Enable conversion of single plain files (no archives, nor special files).') }}
+          {{ t(appName, 'Enable conversion of individual files, other than archives or folders).') }}
         </label>
       </div>
       <ul>
