@@ -33,8 +33,6 @@
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Il convertitore \"%1$s\" non è riuscito a convertire il tipo MIME \"%2$s\".",
     "Please install the \"%s\" program on the server." : "Installa il programma \"%s\" sul server.",
     "Internal error, \"%s\" is neither a plain file nor a directory." : "Errore interno, \"%s\"non è né un file né una directory.",
-    "\"%s\" is not a folder and archive extraction is disabled." : "\"%s\" non è una cartella e l'estrazione dell'archivio è disabilitata.",
-    "\"%s\" is not a folder and cannot be processed by archive extraction." : "\"%s\" non è una cartella e non può essere gestita dall'estrazione dell'archivio.",
     "Destination parent folder conflicts with existing file \"%s\"." : "La cartella padre di destinazione è in conflitto con il file esistente \"%s\".",
     "Unable to create the parent folder \"%s\"." : "Impossibile creare la cartella padre \"%s\".",
     "BASENAME" : "BASENAME",

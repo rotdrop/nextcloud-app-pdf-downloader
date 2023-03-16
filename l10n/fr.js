@@ -38,8 +38,6 @@ OC.L10N.register(
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Le convertisseur \"%1$s\" a échoué en essayant de convertir le type MIME \"%2$s\"",
     "Please install the \"%s\" program on the server." : "Veuillez installer le programme \"%s\" sur le serveur.",
     "Internal error, \"%s\" is neither a plain file nor a directory." : "Erreur interne, \"%s\" n'est ni un fichier ni un répertoire.",
-    "\"%s\" is not a folder and archive extraction is disabled." : "\"%s\" n'est pas un dossier et l'extraction des archives est désactivée.",
-    "\"%s\" is not a folder and cannot be processed by archive extraction." : "\"%s\" n'est pas un fichier et ne peut pas être traité par l'extraction d'archive.",
     "Destination parent folder conflicts with existing file \"%s\"." : "Le dossier parent de la destination est en conflit avec le fichier existant \"%s\".",
     "Unable to create the parent folder \"%s\"." : "Impossible de créer le dossier parent \"%s\".",
     "BASENAME" : "NOM_DE_BASE",

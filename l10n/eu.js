@@ -31,8 +31,6 @@ OC.L10N.register(
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "\"%1$s\" bIhurgailu unibertsalak huts egin du MIME \"%2$s\"  motara bihurtzen saiatzean",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "\"%1$s\" bihurgailuak huts egin du MIME \"%2$s\" motara bihurtzen saiatzean",
     "Please install the \"%s\" program on the server." : "Instalatu \"%s\" programa zerbitzarian.",
-    "\"%s\" is not a folder and archive extraction is disabled." : "\"%s\" ez da karpeta bat eta artxiboen erauzketa desgaituta dago.",
-    "\"%s\" is not a folder and cannot be processed by archive extraction." : "\"%s\" ez da karpeta bat eta ezin da artxibo-erauzketaren bidez prozesatu.",
     "Destination parent folder conflicts with existing file \"%s\"." : "Helburuko karpeta nagusia gatazkan dago \"%s\" fitxategiarekin.",
     "Unable to create the parent folder \"%s\"." : "Ezin da sortu \"%s\" karpeta nagusia.",
     "BASENAME" : "OINARRI-IZENA",
