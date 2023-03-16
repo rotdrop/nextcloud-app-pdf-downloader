@@ -333,7 +333,7 @@
                @change="saveSetting('singlePlainFileConversion')"
         >
         <label for="single-plain-file-conversion">
-          {{ t(appName, 'Enable conversion of single plain files.') }}
+          {{ t(appName, 'Enable conversion of single plain files (no archives, nor special files).') }}
         </label>
       </div>
       <ul>
