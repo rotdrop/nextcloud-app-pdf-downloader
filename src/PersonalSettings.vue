@@ -333,7 +333,7 @@
                @change="saveSetting('individualFileConversion')"
         >
         <label for="individual-file-conversion">
-          {{ t(appName, 'Enable conversion of individual files, other than archives or folders).') }}
+          {{ t(appName, 'Enable conversion of individual files, other than archives or folders.') }}
         </label>
       </div>
       <ul>
