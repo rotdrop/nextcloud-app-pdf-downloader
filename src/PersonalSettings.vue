@@ -338,7 +338,7 @@
       </div>
       <ul>
         <li class="hint">
-          {{ t(appName, 'The action-menu entry will then also appear for PDF files.') }}
+          {{ t(appName, 'The actions menu entry will then also appear for PDF files.') }}
         </li>
         <li class="hint">
           {{ t(appName, 'PDF files will also be decorated with page labels if page decoration is enabled.') }}
