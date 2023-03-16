@@ -3,20 +3,23 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [Recursive PDF Downloader](#recursive-pdf-downloader)
-    - [Intro](#intro)
-    - [Compatibility](#compatibility)
-    - [Working Conversions](#working-conversions)
-        - [Builtin Converters](#builtin-converters)
-        - [Custom Converters](#custom-converters)
-    - [On-the-fly Extraction of Archive Files](#on-the-fly-extraction-of-archive-files)
-        - [Security](#security)
-        - [Implementation](#implementation)
-    - [User Preferences](#user-preferences)
-        - [Page Label and File-Name Templates](#page-label-and-file-name-templates)
-        - [Overlay Font Selection](#overlay-font-selection)
-    - [Performance](#performance)
-    - [Todo, some problems I am aware of](#todo-some-problems-i-am-aware-of)
+- [Intro](#intro)
+- [Compatibility](#compatibility)
+- [Working Conversions](#working-conversions)
+    - [Builtin Converters](#builtin-converters)
+    - [Custom Converters](#custom-converters)
+- [On-the-fly Extraction of Archive Files](#on-the-fly-extraction-of-archive-files)
+    - [Security](#security)
+    - [Implementation](#implementation)
+- [User Preferences](#user-preferences)
+    - [Page Label and File-Name Templates](#page-label-and-file-name-templates)
+    - [Overlay Font Selection](#overlay-font-selection)
+    - [Include and Exclude Patterns](#include-and-exclude-patterns)
+    - [Archive Files](#archive-files)
+    - [Conversion of Single Plain Files](#conversion-of-single-plain-files)
+- [Performance](#performance)
+- [Other Nextcloud PDF Converters](#other-nextcloud-pdf-converters)
+- [Todo, some problems I am aware of](#todo-some-problems-i-am-aware-of)
 
 <!-- markdown-toc end -->
 
@@ -121,6 +124,19 @@ setting which controls whether the one or the other regular expression
 has precedence in case both patterns match. Unfortunately, those
 patterns cannot (yet) be controller from the "details" panel.
 
+### Archive Files
+
+If enabled by the administrators users can optionally disable
+on-the-fly handling of archive files and also restrict the archive
+size limit imposed by the admins further.
+
+### Conversion of Single Plain Files
+
+Optionally single plain files (as opposed to directory trees) can
+directly be converted to PDF. The default is to enable this
+feature. The drawback is that this adds an action menu entry to each
+filesystem node, even to PDF files themselves.
+
 ## Performance
 - unfortunately, the app is not the fastest horse one could think
   of. In particular the unvconv (Libreoffice) converter tends to be
@@ -129,6 +145,19 @@ patterns cannot (yet) be controller from the "details" panel.
 - it might be necessary to tweak your web-server to allow for larger
   execution times (several minutes) if you do not want to make use of
   the background PDF generation
+
+## Other Nextcloud PDF Converters
+
+There are at least two other apps which also are dedicated to PDF
+conversion respectively allow for PDF conversion:
+
+- [`nextcloud/workflow_pdf_converter`](https://github.com/nextcloud/workflow_pdf_converter)
+  - this app is dedicated to automated PDF conversion based on workflow-rules
+  - at the time of this writing conversion is done with Libreoffice
+- [`newroco/emlviewer`](https://github.com/newroco/emlviewer)
+  - as the names states this is a viewer module for `.eml`-files (emails)
+  - the eml-view also provides a PDF-download button
+  - at the time of this writing PDF conversion is done with MPDF
 
 ## Todo, some problems I am aware of
 - please feel free to submit issues!
