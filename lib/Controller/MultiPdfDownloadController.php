@@ -61,7 +61,7 @@ use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
 use OCA\PdfDownloader\Constants;
 
 /**
- * Walk throught a directory tree, convert all files to PDF and combine the
+ * Walk through a directory tree, convert all files to PDF and combine the
  * resulting PDFs into a single PDF. Present this as download response.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

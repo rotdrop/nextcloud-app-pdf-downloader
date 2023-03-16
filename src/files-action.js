@@ -49,7 +49,7 @@ const mimeTypes = [
   'httpd/unix-directory',
 ];
 
-if (!initialState.singlePlainFileConversion
+if (!initialState.individualFileConversion
     && initialState.extractArchiveFiles
     && initialState.extractArchiveFilesAdmin) {
   mimeTypes.splice(0, 0, ...initialState.archiveMimeTypes);
@@ -142,7 +142,7 @@ window.addEventListener('DOMContentLoaded', () => {
       icon: 'icon-pdf-downloader',
 
       enabled(fileInfo) {
-        return initialState.singlePlainFileConversion || mimeTypes.indexOf(fileInfo.mimetype) >= 0;
+        return initialState.individualFileConversion || mimeTypes.indexOf(fileInfo.mimetype) >= 0;
       },
 
       async mount(el, fileInfo, context) {
@@ -177,7 +177,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     fileActionTemplate.type = OCA.Files.FileActions.TYPE_DROPDOWN;
     fileActionTemplate.permissions = OC.PERMISSION_READ;
-    if (!initialState.singlePlainFileConversion) {
+    if (!initialState.individualFileConversion) {
       for (const mimeType of mimeTypes) {
         const fileAction = Object.assign({ mime: mimeType }, fileActionTemplate);
         fileActions.registerAction(fileAction);
