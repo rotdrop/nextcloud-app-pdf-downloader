@@ -323,6 +323,7 @@
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
       </div>
     </AppSettingsSection>
+    <!-- TRANSLATORS: This is the heading for a configuration option which enables PDF-conversion of single plain files in addition to converting entire directory trees. -->
     <AppSettingsSection :title="t(appName, 'Single Plain File Conversion')">
       <div :class="['flex-container', 'flex-center', { singlePlainFileConversion: singlePlainFileConversion }]">
         <input id="single-plain-file-conversion"
