@@ -146,11 +146,11 @@ class FilesActionListener implements IEventListener
       SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT,
       SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT,
     );
-    $singlePlainFileConversion = (bool)(int)$cloudConfig->getUserValue(
+    $individualFileConversion = (bool)(int)$cloudConfig->getUserValue(
       $userId,
       $appName,
-      SettingsController::PERSONAL_SINGLE_PLAIN_FILE_CONVERSION,
-      SettingsController::PERSONAL_SINGLE_PLAIN_FILE_CONVERSION_DEFAULT,
+      SettingsController::PERSONAL_INDIVIDUAL_FILE_CONVERSION,
+      SettingsController::PERSONAL_INDIVIDUAL_FILE_CONVERSION_DEFAULT,
     );
 
     /** @var MimeTypeService $mimeTypeService */
@@ -169,7 +169,7 @@ class FilesActionListener implements IEventListener
       SettingsController::PERSONAL_PAGE_LABELS => $createPageLabels,
       SettingsController::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => $useBackgroundJobsDefault,
       SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT => $downloadsPurgeTimeout,
-      SettingsController::PERSONAL_SINGLE_PLAIN_FILE_CONVERSION => $singlePlainFileConversion,
+      SettingsController::PERSONAL_INDIVIDUAL_FILE_CONVERSION => $individualFileConversion,
       'archiveMimeTypes' => $archiveMimeTypes,
     ]);
 

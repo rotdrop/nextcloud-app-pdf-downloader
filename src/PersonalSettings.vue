@@ -325,14 +325,14 @@
     </AppSettingsSection>
     <!-- TRANSLATORS: This is the heading for a configuration option which enables PDF-conversion of individual files in addition to converting entire directory trees or archive files. -->
     <AppSettingsSection :title="t(appName, 'Individual File Conversion')">
-      <div :class="['flex-container', 'flex-center', { singlePlainFileConversion: singlePlainFileConversion }]">
-        <input id="single-plain-file-conversion"
-               v-model="singlePlainFileConversion"
+      <div :class="['flex-container', 'flex-center', { individualFileConversion: individualFileConversion }]">
+        <input id="individual-file-conversion"
+               v-model="individualFileConversion"
                type="checkbox"
                :disabled="loading > 0"
-               @change="saveSetting('singlePlainFileConversion')"
+               @change="saveSetting('individualFileConversion')"
         >
-        <label for="single-plain-file-conversion">
+        <label for="individual-file-conversion">
           {{ t(appName, 'Enable conversion of individual files, other than archives or folders).') }}
         </label>
       </div>
@@ -434,7 +434,7 @@ export default {
       extractArchiveFilesAdmin: false,
       archiveSizeLimitAdmin: null,
       humanArchiveSizeLimitAdmin: '',
-      singlePlainFileConversion: true,
+      individualFileConversion: true,
       sampleFontSize: 18, // should be pt, but actually is rendered as px it seems
       pdfCloudFolderFileInfo: {
         dirName: '',

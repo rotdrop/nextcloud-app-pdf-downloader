@@ -384,16 +384,16 @@ __EOF__;
   }
 
   /**
-   * Add a single file to the PDF document.
+   * Add an individual file to the PDF document.
    *
    * @param File $node The file to add.
    *
    * @param string $parentName The name of the containing folder.
    *
    * @param bool $ignoreExcludes Add the file regardless of any exclude
-   * patterns. This is used for the case were the user initiates direct PDF
-   * conversion of a single file in which case the exclude list is not taken
-   * into account.
+   * patterns. This is used for the case were the user initiates direct
+   * PDF conversion of an individual file in which case the exclude list
+   * is not taken into account.
    *
    * @return bool Success status.
    */
