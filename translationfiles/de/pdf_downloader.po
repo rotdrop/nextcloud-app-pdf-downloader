@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-03-16 04:17+0000\n"
+"POT-Creation-Date: 2023-03-17 04:10+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: kaekimaster, 2023\n"
 "Language-Team: German (https://www.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -141,7 +141,7 @@ msgstr "Hast du die Trennzeichen vergessen?"
 msgid "Unknown personal setting: \"%s\"."
 msgstr "Unbekannte persönliche Einstellung: \"%s\""
 
-#. TRANSLATORS alSettings.vue:519
+#. TRANSLATORS alSettings.vue:520
 #: /app/lib/Controller/SettingsController.php:797
 #: /app/lib/Controller/SettingsController.php:800
 #: /app/specialVueFakeDummyForL10nScript.js:158
@@ -872,39 +872,39 @@ msgstr ""
 msgid "Administrative size limit: {value}"
 msgstr "Größenbegrenzung: {value}"
 
-#. TRANSLATORS alSettings.vue:326
+#. TRANSLATORS alSettings.vue:327
 #: /app/specialVueFakeDummyForL10nScript.js:140
-msgid "Single Plain File Conversion"
+msgid "Individual File Conversion"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:335
+#. TRANSLATORS alSettings.vue:336
 #: /app/specialVueFakeDummyForL10nScript.js:142
-msgid "Enable conversion of single plain files."
+msgid "Enable conversion of individual files, other than archives or folders."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:340
+#. TRANSLATORS alSettings.vue:341
 #: /app/specialVueFakeDummyForL10nScript.js:144
-msgid "The action-menu entry will then also appear for PDF files."
+msgid "The actions menu entry will then also appear for PDF files."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:343
+#. TRANSLATORS alSettings.vue:344
 #: /app/specialVueFakeDummyForL10nScript.js:146
 msgid ""
 "PDF files will also be decorated with page labels if page decoration is "
 "enabled."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:346
+#. TRANSLATORS alSettings.vue:347
 #: /app/specialVueFakeDummyForL10nScript.js:148
 msgid "The directory part of the page labels will remain empty."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:450
+#. TRANSLATORS alSettings.vue:451
 #: /app/specialVueFakeDummyForL10nScript.js:150
 msgid "invoices/2022/october/invoice.fodt"
 msgstr "Rechnungen/2022/Oktober/Rechnung.fodt"
 
-#. TRANSLATORS alSettings.vue:453
+#. TRANSLATORS alSettings.vue:454
 #: /app/specialVueFakeDummyForL10nScript.js:152
 msgid ""
 "If checked default to background PDF generation. This can be overridden by "
@@ -916,7 +916,7 @@ msgstr ""
 "jeden einzelnen Quellordner oder jede Archivdatei zum PDF-Bedienfeld in der "
 "Seitenleiste mit den Details navigierst."
 
-#. TRANSLATORS alSettings.vue:454
+#. TRANSLATORS alSettings.vue:455
 #: /app/specialVueFakeDummyForL10nScript.js:154
 msgid ""
 "If unsure keep this disabled. Enabling this option leads to an additional "
@@ -938,12 +938,12 @@ msgstr ""
 "betreffen sollten. Lasse die Option deaktiviert, es sei denn, du weißt "
 "wirklich, was sie bedeutet, und bist dir sicher, dass du sie benötigst."
 
-#. TRANSLATORS alSettings.vue:517
+#. TRANSLATORS alSettings.vue:518
 #: /app/specialVueFakeDummyForL10nScript.js:156
 msgid "included"
 msgstr "eingeschlossen"
 
-#. TRANSLATORS alSettings.vue:582
+#. TRANSLATORS alSettings.vue:583
 #. TRANSLATORS FilesTab.vue:369
 #: /app/specialVueFakeDummyForL10nScript.js:160
 #: /app/specialVueFakeDummyForL10nScript.js:166
@@ -960,24 +960,24 @@ msgstr "eingeschlossen"
 msgid "reason unknown"
 msgstr "Grund unbekannt"
 
-#. TRANSLATORS alSettings.vue:589
+#. TRANSLATORS alSettings.vue:590
 #: /app/specialVueFakeDummyForL10nScript.js:162
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr "Kann die Schriftarten-Liste nicht abrufen: {message}"
 
-#. TRANSLATORS alSettings.vue:626
+#. TRANSLATORS alSettings.vue:627
 #: /app/specialVueFakeDummyForL10nScript.js:164
 msgid "Include/exclude test result for \"{string}\" is \"{result}\"."
 msgstr "Einschließen-/ Ausschließen-Testergebnis für \"{string}\" ist \"{result}\"."
 
-#. TRANSLATORS alSettings.vue:711
+#. TRANSLATORS alSettings.vue:712
 #: /app/specialVueFakeDummyForL10nScript.js:168
 msgid "Unable to obtain page label template example: {message}"
 msgstr ""
 "Beispiel für Seitennummerierungsvorlage kann nicht abgerufen werden: "
 "{message}"
 
-#. TRANSLATORS alSettings.vue:736
+#. TRANSLATORS alSettings.vue:737
 #: /app/specialVueFakeDummyForL10nScript.js:172
 msgid "Unable to obtain the PDF file template example: {message}"
 msgstr ""
