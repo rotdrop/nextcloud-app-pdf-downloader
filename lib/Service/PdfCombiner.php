@@ -601,7 +601,7 @@ class PdfCombiner
 
     $nodeName = array_shift($pathChain);
     if (empty($pathChain)) {
-      // leaf element -- always a plain file
+      // leaf element -- always a file
       $fileName = $this->tempManager->getTemporaryFile();
       file_put_contents($fileName, $data);
       $pdfData = (array)(new PdfTk($fileName))->getData();

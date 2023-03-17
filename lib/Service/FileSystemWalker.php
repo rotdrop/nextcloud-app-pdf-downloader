@@ -443,7 +443,7 @@ __EOF__;
         default:
           throw new Exceptions\Exception(
             $this->l->t(
-              'Internal error, "%s" is neither a plain file nor a directory.',
+              'Internal error, "%s" is neither a file nor a directory.',
               $node->getType()
             ));
       }
@@ -483,7 +483,7 @@ __EOF__;
       default:
         throw new Exceptions\Exception(
           $this->l->t(
-            'Internal error, "%1$s" is neither a plain file nor a directory, but has type "%2$s.', [
+            'Internal error, "%1$s" is neither a file nor a directory, but has type "%2$s.', [
               $nodePath, $node->getType(),
             ])
         );
