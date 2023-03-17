@@ -1,16 +1,17 @@
-## Braced Text Templates
+# Braced Text Templates
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [Braced Text Templates](#braced-text-templates)
-    - [Intro](#intro)
-    - [Page Labels](#page-labels)
-    - [File-Names](#file-names)
+- [Intro](#intro)
+- [Page Labels](#page-labels)
+  - [Default Template](#default-template)
+  - [Supported Placeholders](#supported-placeholders)
+- [File-Names](#file-names)
 
 <!-- markdown-toc end -->
 
-### Intro
+## Intro
 
 A "braced text template" refers to piece of text with embedded placeholders like
 
@@ -36,15 +37,15 @@ However, there is a known bug
 which will render a template using localized variable names unusable
 if the user changes the frontend language. Of course, is is planned to fix this issue.
 
-### Page Labels
+## Page Labels
 
 THIS SECTION IS INCOMPLETE.
 
-#### Default Template
+### Default Template
 
 `{DIR_BASENAME} {0|DIR_PAGE_NUMBER}/{DIR_TOTAL_PAGES}`
 
-#### Supported Placeholders
+### Supported Placeholders
 
 - `BASENAME`
 - `FILENAME`
@@ -56,7 +57,7 @@ THIS SECTION IS INCOMPLETE.
 - `FILE_PAGE_NUMBER`
 - `FILE_TOTAL_PAGES`
 
-### File-Names
+## File-Names
 
 The substitutions are provided by [`FileSystemWalker::getPdfFileName()`](../lib/Service/FileSystemWalker.php#L525).
 
