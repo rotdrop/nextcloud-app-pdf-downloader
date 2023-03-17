@@ -13,29 +13,29 @@
 
 ## Intro
 
-A "braced text template" refers to piece of text with embedded placeholders like
+A "braced text template" refers to a piece of text with embedded
+placeholders like:
 
-```
+```txt
 TextTextText-{BASENAME}.pdf
 ```
 
-For the purpose of page label and file-name templates the values of
-the placeholders are determined by the names of the processed files
-and the name of the directory or archive-file being worked on.
+For page label and file name templates, the values of the placeholders
+are determined by the names of the processed files and the name of the
+directory or archive file being worked on.
 
-The substitutions allow some sort of filtering or padding. This is
-detailed further below. The substitution backend can be found in the
-traits-class
+The substitutions allow some sort of filtering or padding, detailed
+further below. The substitution backend can be found in the traits class
 [`UtilTrait::replaceBracedPlaceholders()`](../lib/Toolkit/Traits/UtilTrait.php#L403).
 
 It is possible to use localized placeholders if they have already been
-provide by the translation teams. The translations can be found in the
+provided by the translation teams. The translations can be found in the
 subdirectory [`../l10n/`](../l10n/).
 
-However, there is a known bug
-[`issue #20`](https://github.com/rotdrop/nextcloud-app-pdf-downloader/issues/20#issue-1490531098)
-which will render a template using localized variable names unusable
-if the user changes the frontend language. Of course, is is planned to fix this issue.
+However, there is a known [`issue (#20)`](https://github.com/rotdrop/nextcloud-app-pdf-downloader/issues/20#issue-1490531098)
+that will render a template using localized variable names unusable if
+the user changes the frontend language. Of course, it is planned to fix
+this issue.
 
 ## Page Labels
 
