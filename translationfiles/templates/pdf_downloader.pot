@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-03-17 04:10+0000\n"
+"POT-Creation-Date: 2023-03-18 04:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: /app/lib/Service/FileSystemWalker.php:446
 #, php-format
-msgid "Internal error, \"%s\" is neither a plain file nor a directory."
+msgid "Internal error, \"%s\" is neither a file nor a directory."
 msgstr ""
 
 #: /app/lib/Service/FileSystemWalker.php:480
@@ -240,8 +240,8 @@ msgstr ""
 #: /app/lib/Service/FileSystemWalker.php:486
 #, php-format
 msgid ""
-"Internal error, \"%1$s\" is neither a plain file nor a directory, but has "
-"type \"%2$s."
+"Internal error, \"%1$s\" is neither a file nor a directory, but has type "
+"\"%2$s."
 msgstr ""
 
 #: /app/lib/Service/FileSystemWalker.php:530

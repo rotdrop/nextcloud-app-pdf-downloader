@@ -35,7 +35,6 @@
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit MIME-Typ \"%2$s\" nicht konvertieren",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit MIME-Typ \"%2$s\" nicht konvertieren",
     "Please install the \"%s\" program on the server." : "Bitte das \"%s\"-Programm auf dem Server installieren.",
-    "Internal error, \"%s\" is neither a plain file nor a directory." : "Interner Fehler, \"%s\" ist weder eine einfache Datei noch ein Verzeichnis.",
     "Destination parent folder conflicts with existing file \"%s\"." : "Übergeordneter Zielordner steht in Konflikt mit vorhandener Datei \"%s\".",
     "Unable to create the parent folder \"%s\"." : "Der übergeordnete Ordner \"%s\" kann nicht erstellt werden.",
     "BASENAME" : "BASENAME",

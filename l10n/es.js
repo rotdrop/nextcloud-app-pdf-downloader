@@ -37,7 +37,6 @@ OC.L10N.register(
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "El conversor universal \"%1$s\" ha fallado al intentar convertir el tipo MIME \"%2$s\"",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "El conversor \"%1$s\" ha fallado al intentar convertir el tipo MIME \"%2$s\"",
     "Please install the \"%s\" program on the server." : "Por favor, instale el programa \"%s\" en el servidor.",
-    "Internal error, \"%s\" is neither a plain file nor a directory." : "Error interno, \"%s\" no es un archivo plano o un directorio.",
     "Destination parent folder conflicts with existing file \"%s\"." : "La carpeta superior de destino tiene un conflicto con el archivo existente \"%s\".",
     "Unable to create the parent folder \"%s\"." : "No fue posible crear la carpeta superior \"%s\".",
     "BASENAME" : "BASENAME",

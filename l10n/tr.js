@@ -37,7 +37,6 @@ OC.L10N.register(
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "\"%1$s\" evrensel dönüştürücüsü, \"%2$s\" MIME türüne dönüştürmeyi deneyemedi",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "\"%1$s\" dönüştürücüsü, \"%2$s\" MIME türüne dönüştürmeyi deneyemedi",
     "Please install the \"%s\" program on the server." : "Lütfen sunucuya \"%s\" programını kurun.",
-    "Internal error, \"%s\" is neither a plain file nor a directory." : "İç sorun. \"%s\" bir düz metin dosyası ya da bir klasör değil.",
     "Destination parent folder conflicts with existing file \"%s\"." : "Hedef üst klasör, var olan \"%s\" dosyası ile çakışıyor.",
     "Unable to create the parent folder \"%s\"." : "\"%s\" üst klasörü oluşturulamadı.",
     "BASENAME" : "TEMELAD",

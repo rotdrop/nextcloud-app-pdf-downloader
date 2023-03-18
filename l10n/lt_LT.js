@@ -1,6 +1,7 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "not found" : "nerasta",
     "bytes" : "baitų",
     "Decorations and Fonts" : "Dekoracijos ir šriftai",
     "Text" : "Tekstas",

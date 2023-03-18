@@ -35,7 +35,6 @@
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Неуспешен опит на универсалният конвертор „%1$s“  за конвертиране на mime-тип „%2$s“",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Неуспешен опит на конвертор „%1$s“  за конвертиране на mime-тип „%2$s“",
     "Please install the \"%s\" program on the server." : "Моля, инсталирайте програмата „%s“ на сървъра.",
-    "Internal error, \"%s\" is neither a plain file nor a directory." : "Вътрешна грешка, „%s“ не е нито обикновен файл, нито директория.",
     "Destination parent folder conflicts with existing file \"%s\"." : "Родителската папка на местоположението/дестинацията/ е в конфликт със съществуващ файл \"%s\".",
     "Unable to create the parent folder \"%s\"." : "Не е възможно да се създаде родителска папка \"%s\".",
     "BASENAME" : "BASENAME /Базово име/",
