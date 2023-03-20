@@ -333,7 +333,8 @@
                @change="saveSetting('individualFileConversion')"
         >
         <label for="individual-file-conversion">
-          {{ t(appName, 'Enable conversion of individual files, other than archives or folders.') }}
+          <!-- TRANSLATORS: Title of an option to enable the conversion of individual files to PDF in addition to be able to convert entire folder hierarchies or file-collections contained in archive files. -->
+          {{ t(appName, 'Enable conversion of individual files in addition to folders and archives.') }}
         </label>
       </div>
       <ul>
