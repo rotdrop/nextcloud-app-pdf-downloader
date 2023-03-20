@@ -506,7 +506,8 @@ class AnyToPdf
     $converter = $this->findExecutable($converterName);
     $process = new Process([
       $converter,
-      '-t', 'html'
+      '-t', 'html',
+      '-s',
     ]);
     $process->setInput($data)->run();
     return $process->getOutput();
