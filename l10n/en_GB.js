@@ -132,7 +132,6 @@ OC.L10N.register(
     "On-the-fly extraction of archive files is disabled by the administrator." : "On-the-fly extraction of archive files is disabled by the administrator.",
     "Administrative size limit: {value}" : "Administrative size limit: {value}",
     "Individual File Conversion" : "Individual File Conversion",
-    "Enable conversion of individual files, other than archives or folders." : "Enable conversion of individual files, other than archives or folders.",
     "The actions menu entry will then also appear for PDF files." : "The actions menu entry will then also appear for PDF files.",
     "PDF files will also be decorated with page labels if page decoration is enabled." : "PDF files will also be decorated with page labels if page decoration is enabled.",
     "The directory part of the page labels will remain empty." : "The directory part of the page labels will remain empty.",

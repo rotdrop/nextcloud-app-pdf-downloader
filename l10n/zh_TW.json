@@ -130,7 +130,6 @@
     "On-the-fly extraction of archive files is disabled by the administrator." : "管理員停用了封存檔的即時解壓縮。",
     "Administrative size limit: {value}" : "管理大小限制：{value}",
     "Individual File Conversion" : "獨立檔案轉換",
-    "Enable conversion of individual files, other than archives or folders." : "啟用單一檔案轉換，而非封存檔或資料夾。",
     "The actions menu entry will then also appear for PDF files." : "對於 PDF 檔案，動作選單條目也會出現。",
     "PDF files will also be decorated with page labels if page decoration is enabled." : "若啟用頁面裝飾，PDF 檔案也將會使用頁面標籤進行裝飾。",
     "The directory part of the page labels will remain empty." : "頁面標籤的目錄部份將保持為空。",

@@ -132,7 +132,6 @@ OC.L10N.register(
     "On-the-fly extraction of archive files is disabled by the administrator." : "Arşiv dosyalarının anında ayıklanması yönetici tarafından devre dışı bırakılmış.",
     "Administrative size limit: {value}" : "Yöneticinin boyut sınırı: {value}",
     "Individual File Conversion" : "Bireysel dosya dönüşümü",
-    "Enable conversion of individual files, other than archives or folders." : "Bu seçenek etkinleştirildiğinde, arşiv ve klasörler dışında bireysel dosyaların dönüşümü yapılabilir.",
     "The actions menu entry will then also appear for PDF files." : "Ayrıca PDF dosyaları için işlemler menüsü görüntülenir.",
     "PDF files will also be decorated with page labels if page decoration is enabled." : "Sayfa dekorasyonu etkinleştirilirse, PDF dosyaları da sayfa etiketleriyle süslenir.",
     "The directory part of the page labels will remain empty." : "Sayfa etiketlerinin klasör kısmı boş kalır.",

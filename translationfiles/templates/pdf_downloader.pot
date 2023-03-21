@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-03-20 04:11+0000\n"
+"POT-Creation-Date: 2023-03-21 04:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,7 +121,7 @@ msgstr ""
 msgid "Unknown personal setting: \"%s\"."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:520
+#. TRANSLATORS alSettings.vue:521
 #: /app/lib/Controller/SettingsController.php:797
 #: /app/lib/Controller/SettingsController.php:800
 #: /app/specialVueFakeDummyForL10nScript.js:158
@@ -215,7 +215,7 @@ msgstr ""
 msgid "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\""
 msgstr ""
 
-#: /app/lib/Service/AnyToPdf.php:574
+#: /app/lib/Service/AnyToPdf.php:575
 #, php-format
 msgid ""
 "Unable to determine the version of the helper program \"%1$s\", is it "
@@ -774,34 +774,35 @@ msgstr ""
 msgid "Individual File Conversion"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:336
+#. TRANSLATORS alSettings.vue:337
 #: /app/specialVueFakeDummyForL10nScript.js:142
-msgid "Enable conversion of individual files, other than archives or folders."
+msgid ""
+"Enable conversion of individual files in addition to folders and archives."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:341
+#. TRANSLATORS alSettings.vue:342
 #: /app/specialVueFakeDummyForL10nScript.js:144
 msgid "The actions menu entry will then also appear for PDF files."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:344
+#. TRANSLATORS alSettings.vue:345
 #: /app/specialVueFakeDummyForL10nScript.js:146
 msgid ""
 "PDF files will also be decorated with page labels if page decoration is "
 "enabled."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:347
+#. TRANSLATORS alSettings.vue:348
 #: /app/specialVueFakeDummyForL10nScript.js:148
 msgid "The directory part of the page labels will remain empty."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:451
+#. TRANSLATORS alSettings.vue:452
 #: /app/specialVueFakeDummyForL10nScript.js:150
 msgid "invoices/2022/october/invoice.fodt"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:454
+#. TRANSLATORS alSettings.vue:455
 #: /app/specialVueFakeDummyForL10nScript.js:152
 msgid ""
 "If checked default to background PDF generation. This can be overridden by "
@@ -809,7 +810,7 @@ msgid ""
 "source folder or archive file."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:455
+#. TRANSLATORS alSettings.vue:456
 #: /app/specialVueFakeDummyForL10nScript.js:154
 msgid ""
 "If unsure keep this disabled. Enabling this option leads to an additional "
@@ -822,12 +823,12 @@ msgid ""
 "that you need it."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:518
+#. TRANSLATORS alSettings.vue:519
 #: /app/specialVueFakeDummyForL10nScript.js:156
 msgid "included"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:583
+#. TRANSLATORS alSettings.vue:584
 #. TRANSLATORS FilesTab.vue:369
 #: /app/specialVueFakeDummyForL10nScript.js:160
 #: /app/specialVueFakeDummyForL10nScript.js:166
@@ -844,22 +845,22 @@ msgstr ""
 msgid "reason unknown"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:590
+#. TRANSLATORS alSettings.vue:591
 #: /app/specialVueFakeDummyForL10nScript.js:162
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:627
+#. TRANSLATORS alSettings.vue:628
 #: /app/specialVueFakeDummyForL10nScript.js:164
 msgid "Include/exclude test result for \"{string}\" is \"{result}\"."
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:712
+#. TRANSLATORS alSettings.vue:713
 #: /app/specialVueFakeDummyForL10nScript.js:168
 msgid "Unable to obtain page label template example: {message}"
 msgstr ""
 
-#. TRANSLATORS alSettings.vue:737
+#. TRANSLATORS alSettings.vue:738
 #: /app/specialVueFakeDummyForL10nScript.js:172
 msgid "Unable to obtain the PDF file template example: {message}"
 msgstr ""
