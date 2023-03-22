@@ -130,6 +130,7 @@
     "On-the-fly extraction of archive files is disabled by the administrator." : "Transparentes Extrahieren von Archiv-Dateien wurde von der Administration deaktiviert.",
     "Administrative size limit: {value}" : "Größenbegrenzung durch die Administration: {value}",
     "Individual File Conversion" : "Individuelle Dateikonvertierung",
+    "Enable conversion of individual files in addition to folders and archives." : "Kovertierung einzelner Dateien neben der Konvertierung von Ordnern und Archiven aktivieren.",
     "The actions menu entry will then also appear for PDF files." : "Der Eintrag im Aktionsmenü wird dann auch für PDF-Dateien angezeigt.",
     "PDF files will also be decorated with page labels if page decoration is enabled." : "PDF-Dateien werden auch mit Seitenbeschriftungen versehen, wenn die Seitenverzierung aktiviert ist.",
     "The directory part of the page labels will remain empty." : "Der Verzeichnisteil der Seitenbezeichnungen bleibt leer.",

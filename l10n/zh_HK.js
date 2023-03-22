@@ -123,6 +123,7 @@ OC.L10N.register(
     "On-the-fly extraction of archive files is disabled by the administrator." : "管理員停用了封存檔案的即時解壓縮。",
     "Administrative size limit: {value}" : "管理大小限制：{value}",
     "Individual File Conversion" : "單個檔案轉換",
+    "Enable conversion of individual files in addition to folders and archives." : "除了資料夾和檔案之外，還可以轉換單個檔案。",
     "The actions menu entry will then also appear for PDF files." : "對於 PDF 檔案，操作選項單條目也會出現。",
     "PDF files will also be decorated with page labels if page decoration is enabled." : "如果啟用頁面裝飾，PDF 檔案也將使用頁面標籤進行裝飾。",
     "The directory part of the page labels will remain empty." : "頁面標籤的目錄部分將保持為空。",

@@ -132,6 +132,7 @@ OC.L10N.register(
     "On-the-fly extraction of archive files is disabled by the administrator." : "Vybalování souborů z archivu je vypnuto správcem.",
     "Administrative size limit: {value}" : "Administrativní limit velikosti: {value}",
     "Individual File Conversion" : "Převod jednotlivého souboru",
+    "Enable conversion of individual files in addition to folders and archives." : "Krom archivů a složek zapnout také převádění jednotlivých souborů.",
     "The actions menu entry will then also appear for PDF files." : "Položka nabídky akcí se pak také zobrazí pro PDF soubory.",
     "PDF files will also be decorated with page labels if page decoration is enabled." : "Pokud je zapnutá výzdoba stránky, budou štítky stránky opatřeny i PDF soubory.",
     "The directory part of the page labels will remain empty." : "Ta část stránky, určená pro složky štítků stránky zůstane prázdná.",
