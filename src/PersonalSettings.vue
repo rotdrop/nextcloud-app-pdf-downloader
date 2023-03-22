@@ -323,8 +323,7 @@
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
       </div>
     </AppSettingsSection>
-    <!-- TRANSLATORS: This is the heading for a configuration option which enables PDF-conversion of individual files in addition to converting entire directory trees or archive files. -->
-    <AppSettingsSection :title="t(appName, 'Individual File Conversion')">
+    <AppSettingsSection :title="l10nStrings.individualFileConversionTitle">
       <div :class="['flex-container', 'flex-center', { individualFileConversion: individualFileConversion }]">
         <input id="individual-file-conversion"
                v-model="individualFileConversion"
@@ -333,8 +332,7 @@
                @change="saveSetting('individualFileConversion')"
         >
         <label for="individual-file-conversion">
-          <!-- TRANSLATORS: Title of an option to enable the conversion of individual files to PDF in addition to be able to convert entire folder hierarchies or file-collections contained in archive files. -->
-          {{ t(appName, 'Enable conversion of individual files in addition to folders and archives.') }}
+          {{ l10nStrings.individualFileConversionLabel }}
         </label>
       </div>
       <ul>
@@ -454,6 +452,20 @@ export default {
       tooltips: {
         useBackgroundJobsDefault: t(appName, 'If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file.'),
         authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the "authenticated" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
+      },
+      // TRANSLATORS comments seemingly cannot be placed in HTML section of Vue code, so:
+      l10nStrings: {
+        // TRANSLATORS: This is the heading for a configuration option
+        // TRANSLATORS: which enables PDF-conversion of individual
+        // TRANSLATORS: files in addition to converting entire
+        // TRANSLATORS: directory trees or archive files.
+        individualFileConversionTitle: t(appName, 'Individual File Conversion'),
+        // TRANSLATORS: Title of an option to enable the conversion of
+        // TRANSLATORS: individual files to PDF in addition to be able
+        // TRANSLATORS: to convert entire folder hierarchies or
+        // TRANSLATORS: file-collections contained in archive
+        // TRANSLATORS: files.
+        individualFileConversionLabel: t(appName, 'Enable conversion of individual files in addition to folders and archives.'),
       },
     }
   },
