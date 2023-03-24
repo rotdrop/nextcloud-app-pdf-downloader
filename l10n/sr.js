@@ -32,6 +32,7 @@ OC.L10N.register(
     "Administrative size limit: {value}" : "Административно ограничење величине: {value}",
     "reason unknown" : "непознат разлог",
     "submit" : "submit",
+    "Choose a prefix-folder" : "Изаберите префикс-фолдер",
     "Selected path: \"{dir}/{base}/\"." : "Изабрана путања: „{dir}/{base}/”.",
     "Invalid path selected: \"{dir}\"." : "Изабрана је неисправна путања: „{dir}”.",
     "Options" : "Избори",
