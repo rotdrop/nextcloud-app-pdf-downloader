@@ -5,7 +5,7 @@ OC.L10N.register(
     "bytes" : "bájt",
     "Text" : "Szöveg",
     "Background" : "Háttér",
-    "Options" : "Lehetőségek",
+    "Options" : "Beállítások",
     "PDF" : "PDF",
     "OK" : "Rendben",
     "Created" : "Létrehozva",
