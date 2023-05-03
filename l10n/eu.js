@@ -65,6 +65,7 @@ OC.L10N.register(
     "Universal Converter" : "Bihurtzaile unibertsala",
     "Converters" : "Bihurtzaileak",
     "Status of the configured Converters" : "Konfiguratutako bihurtzaileen egoera",
+    "alternatives" : "alternatibak",
     "Generated Label" : "Sortutako etiketa",
     "Page label colors" : "Orriaren etiketen koloreak",
     "Text" : "Testua",
