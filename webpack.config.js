@@ -71,6 +71,7 @@ webpackConfig.plugins = webpackConfig.plugins.concat([
     ],
     exclude: [
       // 'src/toolkit/**',
+      'src/toolkit/util/on-document-loaded.js',
     ],
   }),
 ]);
