@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ namespace OCA\PdfDownloader\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\IDelegatedSettings;
+use OCP\IL10N;
 
 use OCA\PdfDownloader\Constants;
 
@@ -42,8 +43,10 @@ class Admin implements IDelegatedSettings
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
+    IL10N $l10n,
   ) {
     $this->appName = $appName;
+    $this->l = $l10n;
     $this->initializeAssets(__DIR__);
   }
 
