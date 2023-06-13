@@ -51,6 +51,7 @@ class DependenciesService
     'tiff2pdf',
     'unoconv',
     'wkhtmltopdf',
+    'pdf2svg',
   ];
 
   public const EXECUTABLES = [
