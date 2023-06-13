@@ -83,7 +83,7 @@
 </template>
 <script>
 import { appName } from '../config.js'
-import MultiSelect from '@nextcloud/vue/dist/Components/Multiselect'
+import MultiSelect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import EllipsisedFontOption from './EllipsisedFontOption'
 import fontInfoPopup from './mixins/font-info-popup'
 import generateUrl from '../toolkit/util/generate-url.js'
