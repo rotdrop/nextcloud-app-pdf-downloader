@@ -7,6 +7,7 @@ OC.L10N.register(
     "Unknown personal setting: \"%1$s\"" : "Axuste persoal descoñecido: «%1$s»",
     "The personal setting \"%1$s\" is read-only" : "O axuste persoal «%1$s» é só de lectura",
     "Unknown personal setting: \"%s\"." : "Axuste persoal descoñecido: «%s»",
+    "Destination parent folder conflicts with existing file \"%s\"." : "O cartafol principal de destino entra en conflito co ficheiro «%s» existente.",
     "FILENAME" : "NOME DE FICHEIRO",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Problema de instalación; o recurso necesario «%1$s» de tipo «%2$s» non está instalado no servidor, póñase en contacto coa administración do sistema!",
     "Error, caught an exception." : "Erro, detectouse unha excepción.",
