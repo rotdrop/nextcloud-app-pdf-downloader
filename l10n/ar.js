@@ -75,6 +75,7 @@ OC.L10N.register(
     "Selected path: \"{dir}/{base}/\"." : "المسار المختار: \"{dir}/{base}/\".",
     "Invalid path selected: \"{dir}\"." : "المسار المختار غير صحيح: \"{dir}\"",
     "Options" : "الخيارات",
+    "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "لم يُمكن الاستعلام عن القيمة الابتدائية لكل الإعدادات: {message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "لم يُمكن الاستعلام عن القيمة الابتدائية لـ{settingsKey}:{message}",
     "true" : "صحيح",
