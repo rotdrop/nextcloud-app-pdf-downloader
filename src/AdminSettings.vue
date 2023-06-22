@@ -151,8 +151,8 @@
 
 <script>
 import { appName } from './config.js'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import AppSettingsSection from '@nextcloud/vue/dist/Components/AppSettingsSection'
+import SettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import AppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection'
 import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
 import ListItem from '@rotdrop/nextcloud-vue-components/lib/components/ListItem'
 import { generateUrl } from '@nextcloud/router'

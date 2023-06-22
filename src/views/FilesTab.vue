@@ -1,7 +1,7 @@
 <script>
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine
+ * @copyright 2022, 2023 Claus-Justus Heine
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -166,9 +166,9 @@
 import { appName } from '../config.js'
 import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCheckBox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import Actions from '@nextcloud/vue/dist/Components/NcActions'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import ActionCheckBox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
 import { /* getFilePickerBuilder, */ showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
 
 import CloudUpload from 'vue-material-design-icons/CloudUpload'

@@ -1,5 +1,5 @@
 <!--
-   - @copyright Copyright (c) 2018, 2022 John Molakvoæ <skjnldsv@protonmail.com>
+   - @copyright Copyright (c) 2018, 2022, 2023 John Molakvoæ <skjnldsv@protonmail.com>
    - @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
    -
    - @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import Highlight from '@nextcloud/vue/dist/Components/Highlight'
+import Highlight from '@nextcloud/vue/dist/Components/NcHighlight'
 import FindRanges from './util/FindRanges'
 import fontInfoPopup from './mixins/font-info-popup'
 
