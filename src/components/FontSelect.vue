@@ -244,23 +244,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cloud-version {
-  --cloud-icon-checkmark: var(--icon-checkmark-000);
-  --cloud-input-height: 34px;
-  --cloud-border-radius: var(--border-radius);
-  --cloud-input-border-width: 1px;
-  --cloud-input-border-color: var(--color-border-dark);
-  --cloud-input-margin: 0;
-  --cloud-theme-filter: none;
-  &.cloud-version-major- {
-    &25, &26 {
-      --cloud-icon-checkmark: var(--icon-checkmark-dark);
-      --cloud-input-height: 36px;
-      --cloud-border-radius: var(--border-radius-large);
-      --cloud-input-border-width: 2px;
-      --cloud-input-border-color: var(--color-border-maxcontrast);
-      --cloud-input-margin: 3px;
-      --cloud-theme-filter: var(--background-invert-if-dark);
-    }
+  --cloud-icon-checkmark: var(--icon-checkmark-dark);
+  --cloud-input-height: 36px;
+  --cloud-border-radius: var(--border-radius-large);
+  --cloud-input-border-width: 2px;
+  --cloud-input-border-color: var(--color-border-maxcontrast);
+  --cloud-input-margin: 3px;
+  --cloud-theme-filter: var(--background-invert-if-dark);
+  &.cloud-version-major-24 {
+    --cloud-icon-checkmark: var(--icon-checkmark-000);
+    --cloud-input-height: 34px;
+    --cloud-border-radius: var(--border-radius);
+    --cloud-input-border-width: 1px;
+    --cloud-input-border-color: var(--color-border-dark);
+    --cloud-input-margin: 0;
+    --cloud-theme-filter: none;
   }
 }
 .font-select-container {

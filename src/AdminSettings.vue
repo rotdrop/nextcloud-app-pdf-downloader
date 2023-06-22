@@ -228,9 +228,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cloud-version {
-  --cloud-theme-filter: none;
-  &.cloud-version-major-25 {
-    --cloud-theme-filter: var(--background-invert-if-dark);
+  --cloud-theme-filter: var(--background-invert-if-dark);
+  &.cloud-version-major-24 {
+    --cloud-theme-filter: none;
   }
 }
 .settings-section {
