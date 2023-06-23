@@ -311,13 +311,12 @@
           {{ t(appName, 'On-the-fly extraction of archive files is disabled by the administrator.') }}
         </label>
       </div>
-      <SettingsInputText
-        v-show="extractArchiveFiles && extractArchiveFilesAdmin"
-        v-model="humanArchiveSizeLimit"
-        :label="t(appName, 'Archive Size Limit')"
-        :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
-        :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
-        @update="saveTextInput(...arguments, 'archiveSizeLimit')"
+      <SettingsInputText v-show="extractArchiveFiles && extractArchiveFilesAdmin"
+                         v-model="humanArchiveSizeLimit"
+                         :label="t(appName, 'Archive Size Limit')"
+                         :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+                         :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
+                         @update="saveTextInput(...arguments, 'archiveSizeLimit')"
       />
       <div v-if="extractArchiveFiles && extractArchiveFilesAdmin && archiveSizeLimitAdmin > 0" :class="{ hint: true, 'admin-limit-exceeded': archiveSizeLimitAdmin < archiveSizeLimit, 'icon-error': archiveSizeLimitAdmin < archiveSizeLimit }">
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
