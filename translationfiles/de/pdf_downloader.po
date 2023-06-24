@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2023-06-14 02:12+0000\n"
+"POT-Creation-Date: 2023-06-24 02:19+0000\n"
 "PO-Revision-Date: 2022-11-11 12:50+0000\n"
 "Last-Translator: kaekimaster, 2023\n"
 "Language-Team: German (https://app.transifex.com/nextcloud/teams/64236/de/)\n"
@@ -141,7 +141,7 @@ msgstr "Hast du die Trennzeichen vergessen?"
 msgid "Unknown personal setting: \"%s\"."
 msgstr "Unbekannte persönliche Einstellung: \"%s\""
 
-#. TRANSLATORS alSettings.vue:533
+#. TRANSLATORS alSettings.vue:532
 #: /app/lib/Controller/SettingsController.php:797
 #: /app/lib/Controller/SettingsController.php:800
 #: /app/specialVueFakeDummyForL10nScript.js:158
@@ -466,11 +466,11 @@ msgstr ""
 "auf dem Server nicht installiert, bitte den System-Administrator "
 "kontaktieren!"
 
-#: /app/php-toolkit/Traits/ResponseTrait.php:121
+#: /app/php-toolkit/Traits/ResponseTrait.php:122
 msgid "Error, caught an exception."
 msgstr "Fehler, Ausnahme abgefangen."
 
-#: /app/php-toolkit/Traits/ResponseTrait.php:122
+#: /app/php-toolkit/Traits/ResponseTrait.php:123
 msgid "Caused by previous exception"
 msgstr "Verursacht durch eine vorangegangene Ausnahme"
 
@@ -552,15 +552,15 @@ msgstr ""
 "Transparentes extrahieren von Archiv-Dateien. Falls aktiviert, können die "
 "einzelnen Benutzer die Einstellung für sich selbst ändern."
 
-#. TRANSLATORS ettings.vue:80
-#. TRANSLATORS alSettings.vue:317
+#. TRANSLATORS ettings.vue:79
+#. TRANSLATORS alSettings.vue:316
 #: /app/specialVueFakeDummyForL10nScript.js:18
 #: /app/specialVueFakeDummyForL10nScript.js:134
 msgid "Archive Size Limit"
 msgstr "Größenbeschränkung für Archive"
 
-#. TRANSLATORS ettings.vue:81
-#. TRANSLATORS alSettings.vue:318
+#. TRANSLATORS ettings.vue:80
+#. TRANSLATORS alSettings.vue:317
 #: /app/specialVueFakeDummyForL10nScript.js:20
 #: /app/specialVueFakeDummyForL10nScript.js:136
 msgid ""
@@ -570,22 +570,22 @@ msgstr ""
 "Verbiete das Entpacken für Archivdateien, deren Größe nach Dekomprimierung "
 "größer als diese Grenze ist."
 
-#. TRANSLATORS ettings.vue:86
+#. TRANSLATORS ettings.vue:85
 #: /app/specialVueFakeDummyForL10nScript.js:22
 msgid "Custom Converter Scripts"
 msgstr "Eigene Konvertierungs-Skripte"
 
-#. TRANSLATORS ettings.vue:95
+#. TRANSLATORS ettings.vue:94
 #: /app/specialVueFakeDummyForL10nScript.js:24
 msgid "Disable the builtin converters."
 msgstr "Eingebaute Konverter deaktivieren"
 
-#. TRANSLATORS ettings.vue:100
+#. TRANSLATORS ettings.vue:98
 #: /app/specialVueFakeDummyForL10nScript.js:26
 msgid "Universal Converter"
 msgstr "Universeller Konverter"
 
-#. TRANSLATORS ettings.vue:101
+#. TRANSLATORS ettings.vue:99
 #: /app/specialVueFakeDummyForL10nScript.js:28
 msgid ""
 "Full path to a filter program to be executed first for all files. If it "
@@ -595,12 +595,12 @@ msgstr ""
 "jede Datei angewendet wird. Falls das fehlschlägt, werden die internen "
 "Konverter ausgeführt."
 
-#. TRANSLATORS ettings.vue:107
+#. TRANSLATORS ettings.vue:104
 #: /app/specialVueFakeDummyForL10nScript.js:30
 msgid "Fallback Converter"
 msgstr "Rückfall-Konverter"
 
-#. TRANSLATORS ettings.vue:108
+#. TRANSLATORS ettings.vue:105
 #: /app/specialVueFakeDummyForL10nScript.js:32
 msgid ""
 "Full path to a filter program to be run when all other filters have failed. "
@@ -610,17 +610,17 @@ msgstr ""
 "wird, wenn kein anderer Konverter passt. Falls das fehlschlägt, wird eine "
 "Fehlerseite angezeigt."
 
-#. TRANSLATORS ettings.vue:113
+#. TRANSLATORS ettings.vue:110
 #: /app/specialVueFakeDummyForL10nScript.js:34
 msgid "Converters"
 msgstr "Konverter"
 
-#. TRANSLATORS ettings.vue:115
+#. TRANSLATORS ettings.vue:112
 #: /app/specialVueFakeDummyForL10nScript.js:36
 msgid "Status of the configured Converters"
 msgstr "Status der konfigurierten Konverter"
 
-#. TRANSLATORS ettings.vue:120
+#. TRANSLATORS ettings.vue:117
 #: /app/specialVueFakeDummyForL10nScript.js:38
 msgid "converter chain"
 msgstr "Konvertierungskette"
@@ -629,12 +629,12 @@ msgstr "Konvertierungskette"
 msgid "single converter"
 msgstr "Einzelner Konverter"
 
-#. TRANSLATORS ettings.vue:127
+#. TRANSLATORS ettings.vue:124
 #: /app/specialVueFakeDummyForL10nScript.js:40
 msgid "alternatives"
 msgstr "Alternativen"
 
-#. TRANSLATORS ettings.vue:135
+#. TRANSLATORS ettings.vue:132
 #: /app/specialVueFakeDummyForL10nScript.js:40
 #: /app/specialVueFakeDummyForL10nScript.js:42
 msgid "converter"
@@ -870,17 +870,17 @@ msgstr ""
 "Transparentes extrahieren von Archiv-Dateien wurde von Administrator*innen "
 "deaktiviert."
 
-#. TRANSLATORS alSettings.vue:323
+#. TRANSLATORS alSettings.vue:322
 #: /app/specialVueFakeDummyForL10nScript.js:138
 msgid "Administrative size limit: {value}"
 msgstr "Größenbegrenzung: {value}"
 
-#. TRANSLATORS alSettings.vue:340
+#. TRANSLATORS alSettings.vue:339
 #: /app/specialVueFakeDummyForL10nScript.js:140
 msgid "The actions menu entry will then also appear for PDF files."
 msgstr "Der Eintrag im Aktionsmenü wird dann auch für PDF-Dateien angezeigt."
 
-#. TRANSLATORS alSettings.vue:343
+#. TRANSLATORS alSettings.vue:342
 #: /app/specialVueFakeDummyForL10nScript.js:142
 msgid ""
 "PDF files will also be decorated with page labels if page decoration is "
@@ -889,17 +889,17 @@ msgstr ""
 "PDF-Dateien werden auch mit Seitenbeschriftungen versehen, wenn die "
 "Seitenverzierung aktiviert ist."
 
-#. TRANSLATORS alSettings.vue:346
+#. TRANSLATORS alSettings.vue:345
 #: /app/specialVueFakeDummyForL10nScript.js:144
 msgid "The directory part of the page labels will remain empty."
 msgstr "Der Verzeichnisteil der Seitenbezeichnungen bleibt leer."
 
-#. TRANSLATORS alSettings.vue:450
+#. TRANSLATORS alSettings.vue:449
 #: /app/specialVueFakeDummyForL10nScript.js:146
 msgid "invoices/2022/october/invoice.fodt"
 msgstr "Rechnungen/2022/Oktober/Rechnung.fodt"
 
-#. TRANSLATORS alSettings.vue:453
+#. TRANSLATORS alSettings.vue:452
 #: /app/specialVueFakeDummyForL10nScript.js:148
 msgid ""
 "If checked default to background PDF generation. This can be overridden by "
@@ -911,7 +911,7 @@ msgstr ""
 "jeden einzelnen Quellordner oder jede Archivdatei zum PDF-Bedienfeld in der "
 "Seitenleiste mit den Details navigierst."
 
-#. TRANSLATORS alSettings.vue:454
+#. TRANSLATORS alSettings.vue:453
 #: /app/specialVueFakeDummyForL10nScript.js:150
 msgid ""
 "If unsure keep this disabled. Enabling this option leads to an additional "
@@ -933,12 +933,12 @@ msgstr ""
 "betreffen sollten. Lasse die Option deaktiviert, es sei denn, du weißt "
 "wirklich, was sie bedeutet, und bist dir sicher, dass du sie benötigst."
 
-#. TRANSLATORS alSettings.vue:462
+#. TRANSLATORS alSettings.vue:461
 #: /app/specialVueFakeDummyForL10nScript.js:152
 msgid "Individual File Conversion"
 msgstr "Individuelle Dateikonvertierung"
 
-#. TRANSLATORS alSettings.vue:468
+#. TRANSLATORS alSettings.vue:467
 #: /app/specialVueFakeDummyForL10nScript.js:154
 msgid ""
 "Enable conversion of individual files in addition to folders and archives."
@@ -946,12 +946,12 @@ msgstr ""
 "Konvertierung einzelner Dateien neben der Konvertierung von Ordnern und "
 "Archiven aktivieren."
 
-#. TRANSLATORS alSettings.vue:531
+#. TRANSLATORS alSettings.vue:530
 #: /app/specialVueFakeDummyForL10nScript.js:156
 msgid "included"
 msgstr "eingeschlossen"
 
-#. TRANSLATORS alSettings.vue:596
+#. TRANSLATORS alSettings.vue:595
 #. TRANSLATORS FilesTab.vue:369
 #: /app/specialVueFakeDummyForL10nScript.js:160
 #: /app/specialVueFakeDummyForL10nScript.js:166
@@ -968,24 +968,24 @@ msgstr "eingeschlossen"
 msgid "reason unknown"
 msgstr "Grund unbekannt"
 
-#. TRANSLATORS alSettings.vue:603
+#. TRANSLATORS alSettings.vue:602
 #: /app/specialVueFakeDummyForL10nScript.js:162
 msgid "Unable to obtain the list of available fonts: {message}"
 msgstr "Kann die Schriftarten-Liste nicht abrufen: {message}"
 
-#. TRANSLATORS alSettings.vue:640
+#. TRANSLATORS alSettings.vue:639
 #: /app/specialVueFakeDummyForL10nScript.js:164
 msgid "Include/exclude test result for \"{string}\" is \"{result}\"."
 msgstr "Einschließen-/ Ausschließen-Testergebnis für \"{string}\" ist \"{result}\"."
 
-#. TRANSLATORS alSettings.vue:725
+#. TRANSLATORS alSettings.vue:724
 #: /app/specialVueFakeDummyForL10nScript.js:168
 msgid "Unable to obtain page label template example: {message}"
 msgstr ""
 "Beispiel für Seitennummerierungsvorlage kann nicht abgerufen werden: "
 "{message}"
 
-#. TRANSLATORS alSettings.vue:750
+#. TRANSLATORS alSettings.vue:749
 #: /app/specialVueFakeDummyForL10nScript.js:172
 msgid "Unable to obtain the PDF file template example: {message}"
 msgstr ""
