@@ -1,11 +1,12 @@
+const CssoWebpackPlugin = require('csso-webpack-plugin').default;
+const DeadCodePlugin = require('webpack-deadcode-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const fs = require('fs');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const webpackConfig = require('@nextcloud/webpack-vue-config');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssoWebpackPlugin = require('csso-webpack-plugin').default;
-const DeadCodePlugin = require('webpack-deadcode-plugin');
-const fs = require('fs');
 const xml2js = require('xml2js');
 
 const infoFile = path.join(__dirname, 'appinfo/info.xml');
@@ -39,6 +40,12 @@ webpackConfig.output = {
 webpackConfig.plugins = webpackConfig.plugins.concat([
   new webpack.DefinePlugin({
     APP_NAME: JSON.stringify(appName),
+  }),
+  new ESLintPlugin({
+    extensions: ['js', 'vue'],
+    exclude: [
+      'node_modules',
+    ],
   }),
   new HtmlWebpackPlugin({
     inject: false,
