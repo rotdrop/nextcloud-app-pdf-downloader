@@ -44,6 +44,7 @@ OC.L10N.register(
     "The supplied color-string \"%s\" seems to be invalid." : "الرمز اللوني المُعطي \"%s\" يبدو أنه غير صحيح.",
     "The input color values are invalid." : "قيم اللون المُعطاة غير صحيحة.",
     "Text" : "نص",
+    "Background" : "خلفية الشاشة",
     "Group Folders First" : "المُجلّدات الجماعية أوّلاً",
     "Group Files First" : "ملفات المجموعة أوّلاً",
     "Do Not Group" : "لا تجمع",
