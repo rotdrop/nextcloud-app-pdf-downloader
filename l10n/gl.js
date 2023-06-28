@@ -22,6 +22,7 @@ OC.L10N.register(
     "Selected path: \"{dir}/{base}/\"." : "Ruta seleccionada: «{dir}/{base}/».",
     "Invalid path selected: \"{dir}\"." : "Seleccionou unha ruta incorrecta «{dir}».",
     "Options" : "Opcións",
+    "When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time." : "Ao converter moitos ou grandes ficheiros a PDF atoparase con tempos de espera porque a solicitude dura demasiado e o servidor web abandona. Se isto ocorre, pode programar a xeración sen conexión do PDF. Isto non vai facer as cousas máis rápidas para vostede, mais o tempo de execución non está limitado polos límites do servidor web. Será notificado cando estea preparado. Se escolleu almacenar o PDF no sistema de ficheiros na nube, só aparecerá alí. Se opta por descargar no seu computador local, a descarga aparecerá ahí (e na notificación). As ligazóns de descarga teñen un tempo de caducidade configurábel.",
     "PDF" : "PDF",
     "true" : "certo",
     "false" : "falso",
