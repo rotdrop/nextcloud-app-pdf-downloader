@@ -3,7 +3,10 @@ OC.L10N.register(
     {
     "File or folder could not be found." : "Nie można znaleźć pliku lub katalogu.",
     "PDF document saved as \"%s\"." : "Dokument PDF został zapisany jako \"%s\".",
+    "Cached PDF files for \"%s\" have been deleted." : "Buforowane pliki PDF dla \"%s\" zostały usunięte",
     "PDF file \"%s\" has been deleted." : "Plik PDF \"%s\" został usunięty.",
+    "Unknown admin setting: \"%1$s\"" : "Nieznane ustawienie administracyjne: \"%1$s\"",
+    "PDF Downloader" : "Pobieracz PDFów",
     "FILENAME" : "NAZWA PLIKU",
     "Combining PDFs failed" : "Łączenie plików PDF nie powiodło się",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Problem z instalacją: wymagany zasób „%1$s” typu „%2$s” nie jest zainstalowany na serwerze, skontaktuj się z administratorem!",
