@@ -279,7 +279,7 @@ OC.L10N.register(
     "No" : "Non",
     "Yes" : "Si",
     "Debug Information" : "Información de depuración",
-    "unknown error" : "erro descoñecido",
+    "unknown error" : "produciuse un erro descoñecido",
     "Unable to download data from \"{url}\": {message}" : "Non é posíbel descargar datos de «{url}»: {message}",
     "The quick brown fox jumps over the lazy dog." : "Fíxate, o mesquiño bacharel pide vinganza."
 },
