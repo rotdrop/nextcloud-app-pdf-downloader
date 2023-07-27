@@ -6,6 +6,7 @@ OC.L10N.register(
     "Text" : "متن",
     "Background" : "پس‌زمینه",
     "Options" : "گزینه‌ها",
+    "PDF" : "PDF",
     "OK" : "تایید",
     "Created" : "ایجاد شده",
     "Unauthorized" : "غیرمجاز",
