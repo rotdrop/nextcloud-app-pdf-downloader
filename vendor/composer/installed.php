@@ -3,7 +3,7 @@
         'name' => 'rotdrop/nextcloud-app-pdf-downloader',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'fc727953a3149b97bc4a7e13b1cf62ea2920d09c',
+        'reference' => 'af8cb0c06ce344a231876df1bb4cef9a2235385c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -160,7 +160,7 @@
         'rotdrop/nextcloud-app-pdf-downloader' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'fc727953a3149b97bc4a7e13b1cf62ea2920d09c',
+            'reference' => 'af8cb0c06ce344a231876df1bb4cef9a2235385c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
