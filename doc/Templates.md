@@ -47,6 +47,7 @@ THIS SECTION IS INCOMPLETE.
 
 ### Supported Placeholders
 
+- `PATH`
 - `BASENAME`
 - `FILENAME`
 - `EXTENSION`

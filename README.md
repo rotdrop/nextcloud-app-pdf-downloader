@@ -155,6 +155,22 @@ filesystem node, even to PDF files themselves.
   execution times (several minutes) if you do not want to make use of
   the background PDF generation.
 
+## Screenshots
+
+### Preferences
+
+- admin ![file_list](contrib/screenshots/admin-settings.png)
+- personal ![file_list](contrib/screenshots/personal-settings.png)
+
+### Files-List
+
+- directory ![file_list](contrib/screenshots/convert-directory.png)
+- archive ![file_list](contrib/screenshots/convert-archive.png)
+
+### Details-View
+
+![file_list](contrib/screenshots/details-view.png)
+
 ## Other Nextcloud PDF Converters
 
 At least two other apps are also either dedicated to or, respectively,
