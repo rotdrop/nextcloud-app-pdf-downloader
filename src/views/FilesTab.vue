@@ -545,6 +545,7 @@ export default {
     },
     async handleDownload() {
       this.$refs.downloadActions.closeMenu()
+      this.showCloudDestination = false
       const urlParameters = {
         sourcePath: encodeURIComponent(this.sourcePath),
         destinationPath: encodeURIComponent(this.cloudDestinationBaseName),
