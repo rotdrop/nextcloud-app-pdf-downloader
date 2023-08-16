@@ -279,6 +279,7 @@ return array(
     'PhpZip\\Util\\MathUtil' => $vendorDir . '/nelexa/zip/src/Util/MathUtil.php',
     'PhpZip\\Util\\StringUtil' => $vendorDir . '/nelexa/zip/src/Util/StringUtil.php',
     'PhpZip\\ZipFile' => $vendorDir . '/nelexa/zip/src/ZipFile.php',
+    'Psr\\Clock\\ClockInterface' => $vendorDir . '/psr/clock/src/ClockInterface.php',
     'Psr\\Http\\Message\\MessageInterface' => $vendorDir . '/psr/http-message/src/MessageInterface.php',
     'Psr\\Http\\Message\\RequestInterface' => $vendorDir . '/psr/http-message/src/RequestInterface.php',
     'Psr\\Http\\Message\\ResponseInterface' => $vendorDir . '/psr/http-message/src/ResponseInterface.php',

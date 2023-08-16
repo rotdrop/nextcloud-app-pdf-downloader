@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit114d6bca706597421fc683d2f6853046
+class ComposerStaticInitd640da7b732d6d108db6661d3695e442
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -41,6 +41,7 @@ class ComposerStaticInit114d6bca706597421fc683d2f6853046
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Clock\\' => 10,
             'PhpZip\\' => 7,
         ),
         'O' => 
@@ -131,6 +132,10 @@ class ComposerStaticInit114d6bca706597421fc683d2f6853046
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
         'PhpZip\\' => 
         array (
@@ -461,6 +466,7 @@ class ComposerStaticInit114d6bca706597421fc683d2f6853046
         'PhpZip\\Util\\MathUtil' => __DIR__ . '/..' . '/nelexa/zip/src/Util/MathUtil.php',
         'PhpZip\\Util\\StringUtil' => __DIR__ . '/..' . '/nelexa/zip/src/Util/StringUtil.php',
         'PhpZip\\ZipFile' => __DIR__ . '/..' . '/nelexa/zip/src/ZipFile.php',
+        'Psr\\Clock\\ClockInterface' => __DIR__ . '/..' . '/psr/clock/src/ClockInterface.php',
         'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
         'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
         'Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
@@ -697,11 +703,11 @@ class ComposerStaticInit114d6bca706597421fc683d2f6853046
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit114d6bca706597421fc683d2f6853046::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit114d6bca706597421fc683d2f6853046::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit114d6bca706597421fc683d2f6853046::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit114d6bca706597421fc683d2f6853046::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit114d6bca706597421fc683d2f6853046::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd640da7b732d6d108db6661d3695e442::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd640da7b732d6d108db6661d3695e442::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd640da7b732d6d108db6661d3695e442::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInitd640da7b732d6d108db6661d3695e442::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInitd640da7b732d6d108db6661d3695e442::$classMap;
 
         }, null, ClassLoader::class);
     }
