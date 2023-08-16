@@ -285,7 +285,7 @@
           {{ t(appName, 'Generate PDFs in the background by default.') }}
         </label>
       </div>
-      <div :class="['flex-container', 'flex-center']">
+      <!-- <div :class="['flex-container', 'flex-center']">
         <input id="authenticated-background-jobs"
                v-model="authenticatedBackgroundJobs"
                type="checkbox"
@@ -297,7 +297,7 @@
         >
           {{ t(appName, 'Use authenticated background jobs if necessary.') }}
         </label>
-      </div>
+      </div> -->
       <div class="horizontal-rule" />
       <SettingsInputText v-model="humanDownloadsPurgeTimeout"
                          :label="t(appName, 'Purge Timeout:')"
