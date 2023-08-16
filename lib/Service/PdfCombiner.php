@@ -361,6 +361,11 @@ class PdfCombiner
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
+      'PATH' => $this->l->t('PATH'),
+
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'BASENAME' => $this->l->t('BASENAME'),
 
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
