@@ -58,7 +58,7 @@
                           :hint="t(appName, 'Choose a destination in the cloud:')"
                           :placeholder="t(appName, 'basename')"
                           :readonly="downloadOptions.useTemplate ? 'basename' : false"
-                          @update="handleSaveToCloud"
+                          @update="() => handleSaveToCloud()"
         />
       </li>
       <li class="files-tab-entry flex flex-center clickable">
@@ -178,17 +178,11 @@ import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
 import fileDownload from '../toolkit/util/file-download.js';
 import FilePrefixPicker from '../components/FilePrefixPicker'
+import { FilePickerType } from '@nextcloud/dialogs'
 
 const initialState = getInitialState()
 
 const downloadsPollingInterval = 30 * 1000
-
-const FilePickerType = {
-  Choose: 1,
-  Move: 2,
-  Copy: 3,
-  CopyMove: 4,
-}
 
 export default {
   name: 'FilesTab',
@@ -248,14 +242,14 @@ export default {
      * extensions (multi extensions like .tar.EXT are also stripped).
      */
     folderPath() {
-      return this.fileInfo.path + '/' + this.folderName
+      return this.fileInfo.path + (this.fileInfo.path === '/' ? '' : '/') + this.folderName
     },
     /**
      * @return {string} The full path to the source file-system object
      * (folder or archive file).
      */
     sourcePath() {
-      return this.fileInfo.path + '/' + this.fileInfo.name
+      return this.fileInfo.path + (this.fileInfo.path === '/' ? '' : '/') + this.fileInfo.name
     },
     cloudDestinationBaseName: {
       get() {
@@ -599,7 +593,8 @@ export default {
     },
     async handleSaveToCloud(cacheFileId, destinationFolder, move) {
       this.fileList.showFileBusyState(this.fileInfo.name, true)
-      let urlTemplate = cacheFileId === undefined && this.downloadOptions.offline
+      const offline = cacheFileId === undefined && this.downloadOptions.offline
+      let urlTemplate = offline
         ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
         : 'save/{sourcePath}/{destinationPath}'
       if (cacheFileId) {
@@ -610,19 +605,21 @@ export default {
       const requestParameters = {
         sourcePath,
         destinationPath,
+        cacheFileId,
       }
+      console.info('TEMPLATE', urlTemplate, requestParameters)
       try {
-        const response = await axios.post(generateAppUrl(
-          urlTemplate, {
-            sourcePath,
-            destinationPath,
-            cacheFileId,
-        }), {
-          pageLabels: this.downloadOptions.pageLabels,
-          useTemplate: this.downloadOptions.useTemplate,
-          move,
+        const response = await axios.post(
+          generateAppUrl(urlTemplate, requestParameters), {
+            pageLabels: this.downloadOptions.pageLabels,
+            useTemplate: this.downloadOptions.useTemplate,
+            move,
         })
-        showSuccess(t(appName, 'PDF saved as {path}.', { path: response.data.pdfFilePath }))
+        if (offline) {
+          showSuccess(t(appName, 'Scheduled offline PDF generation to {path}.', { path: response.data.pdfFilePath }))
+        } else {
+          showSuccess(t(appName, 'PDF saved as {path}.', { path: response.data.pdfFilePath }))
+        }
       } catch (e) {
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
@@ -631,12 +628,12 @@ export default {
             message = responseData.messages.join(' ');
           }
         }
-        showError(t(appName, 'Unable to save the PDF generated from {sourceFile} to the cloud: {message}', {
+        const notice = t(appName, 'Unable to save the PDF generated from {sourceFile} to the cloud: {message}', {
           sourceFile: this.sourcePath,
           message,
-        }), {
-          timeout: TOAST_PERMANENT_TIMEOUT,
         })
+        showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT, })
+        console.error(notice, e)
       }
       this.fileList.showFileBusyState(this.fileInfo.name, false)
     },
