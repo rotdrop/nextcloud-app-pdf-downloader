@@ -20,7 +20,9 @@
 </script>
 <template>
   <SettingsSection :class="[...cloudVersionClasses, appName]" :title="t(appName, 'Recursive PDF Downloader, Personal Settings')">
-    <AppSettingsSection :title="t(appName, 'Decorations and Fonts')">
+    <AppSettingsSection id="decorations-and-fonts"
+                        :title="t(appName, 'Decorations and Fonts')"
+    >
       <div :class="['flex-container', 'flex-center', { pageLabels }]">
         <input id="page-labels"
                v-model="pageLabels"
@@ -138,7 +140,9 @@
                   :loading="loading > 0"
       />
     </AppSettingsSection>
-    <AppSettingsSection :title="t(appName, 'Sorting Options')">
+    <AppSettingsSection id="sorting-options"
+                        :title="t(appName, 'Sorting Options')"
+    >
       <div :class="['flex-container', 'flex-center']">
         <span :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
           <input id="group-folders-first"
@@ -178,7 +182,9 @@
         </span>
       </div>
     </AppSettingsSection>
-    <AppSettingsSection :title="t(appName, 'Filename Patterns')">
+    <AppSettingsSection id="filename-patterns"
+                        :title="t(appName, 'Filename Patterns')"
+    >
       <SettingsInputText :value="excludePattern"
                          :label="t(appName, 'Exclude Pattern')"
                          @update="(value) => { excludePattern = value; saveTextInput(value, 'excludePattern'); }"
@@ -232,7 +238,9 @@
         </template>
       </SettingsInputText>
     </AppSettingsSection>
-    <AppSettingsSection :title="t(appName, 'Default Download Options')">
+    <AppSettingsSection id="default-download-options"
+                        :title="t(appName, 'Default Download Options')"
+    >
       <SettingsInputText :value="pdfFileNameTemplate"
                          :label="t(appName, 'PDF Filename Template:')"
                          @update="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
@@ -257,9 +265,10 @@
         </template>
       </SettingsInputText>
       <div class="horizontal-rule" />
+      <!-- Here we should use the ordinary file-picker, the prefix picker does not make any sense here. -->
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
-                        :hint="t(appName, 'Choose a default PDF file destination folder in the cloud. Leave empty to use the parent directory of the folder which is converted to PDF:')"
-                        :placeholder="t(appName, 'basename')"
+                        :hint="t(appName, 'Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:')"
+                        :only-dir-name="true"
                         @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
       />
       <div class="horizontal-rule" />
@@ -296,7 +305,9 @@
                          @update="saveTextInput(...arguments, 'downloadsPurgeTimeout')"
       />
     </AppSettingsSection>
-    <AppSettingsSection :title="t(appName, 'Archive Extraction')">
+    <AppSettingsSection id="archive-extraction"
+                        :title="t(appName, 'Archive Extraction')"
+    >
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
         <input id="extract-archive-files"
                v-model="extractArchiveFiles"
@@ -322,7 +333,9 @@
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
       </div>
     </AppSettingsSection>
-    <AppSettingsSection :title="l10nStrings.individualFileConversionTitle">
+    <AppSettingsSection id="individual-conversion-title"
+                        :title="l10nStrings.individualFileConversionTitle"
+    >
       <div :class="['flex-container', 'flex-center', { individualFileConversion: individualFileConversion }]">
         <input id="individual-file-conversion"
                v-model="individualFileConversion"
@@ -336,7 +349,7 @@
       </div>
       <ul>
         <li class="hint">
-          {{ t(appName, 'The actions menu entry will then also appear for PDF files.') }}
+          {{ t(appName, 'The actions menu entry will then also appear for non-archive files.') }}
         </li>
         <li class="hint">
           {{ t(appName, 'PDF files will also be decorated with page labels if page decoration is enabled.') }}
@@ -486,39 +499,16 @@ export default {
     pageLabelTemplateFontSampleFilter() {
       const targetRgbColor = this.pageLabelTextColor
       const cssFilter = hexToCSSFilter(targetRgbColor)
-      console.info('CSSFILTER', cssFilter)
-      console.info('RETURN',  cssFilter.filter.trimEnd(';'))
       return cssFilter.filter.replace(/;$/g, '')
     },
-    pdfCloudFolderBaseName: {
-      get() {
-        return this.pdfCloudFolderFileInfo.baseName
-      },
-      set(value) {
-        Vue.set(this.pdfCloudFolderFileInfo, 'baseName', value)
-        return value
-      }
-    },
-    pdfCloudFolderDirName: {
+    pdfCloudFolderPath: {
       get() {
         return this.pdfCloudFolderFileInfo.dirName
       },
       set(value) {
-        Vue.set(this.pdfCloudFolderFileInfo, 'dirName', value)
+        Vue.set(this.pdfCloudFolderFileInfo, 'dirName', value || '/')
         return value
       }
-    },
-    pdfCloudFolderPath: {
-      get() {
-        const result = this.pdfCloudFolderDirName + (this.pdfCloudFolderBaseName ? '/' + this.pdfCloudFolderBaseName : '')
-        return result
-      },
-      set(value) {
-        const pathInfo = pathParse(value || '')
-        this.pdfCloudFolderBaseName = pathInfo.base
-        this.pdfCloudFolderDirName = pathInfo.dir
-        return value
-      },
     },
     exampleFilePathParent() {
       const pathInfo = pathParse(this.exampleFilePath || '')
@@ -610,7 +600,6 @@ export default {
         (responses) => {
           const response = responses[1]
           this.fontsList = response.data
-          console.info('FONTS', this.fontsList)
           let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
           this.pageLabelsFontObject = fontIndex >= 0 ? { ...this.fontsList[fontIndex] } : null
           if (this.pageLabelsFontObject) {
@@ -710,7 +699,6 @@ export default {
             filePageNumber: 3,
             fileTotalPages: 17,
         }));
-        console.info('PAGE LABEL RESPONSE', response)
         this.pageLabelTemplateExample = response.data.pageLabel
       } catch (e) {
         console.info('RESPONSE', e)
@@ -735,7 +723,6 @@ export default {
             template: encodeURIComponent(this.pdfFileNameTemplate),
             path: encodeURIComponent(this.exampleFilePathParent),
         }));
-        console.info('PDF FILE RESPONSE', response)
         this.pdfFileNameTemplateExample = response.data.pdfFileName
       } catch (e) {
         console.info('RESPONSE', e)
