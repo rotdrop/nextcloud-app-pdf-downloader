@@ -133,6 +133,9 @@ class MultiPdfDownloadController extends Controller
   /** @var bool */
   private $useAuthenticatedBackgroundJobs;
 
+  /** @var array */
+  private $authenticatedFolders;
+
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
@@ -184,8 +187,15 @@ class MultiPdfDownloadController extends Controller
       $this->pdfCombiner->setOverlayBackgroundColor(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR, null)
       );
-      $this->useAuthenticatedBackgroundJobs = $this->cloudConfig->getUserValue(
-        $this->userId, $this->appName, SettingsController::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS, SettingsController::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT);
+      $this->useAuthenticatedBackgroundJobs = $this->cloudConfig->getAppValue(
+        $this->appName, SettingsController::AUTHENTICATED_BACKGROUND_JOBS, SettingsController::AUTHENTICATED_BACKGROUND_JOBS_DEFAULT);
+      $this->authenticatedFolders = $this->cloudConfig->getAppValue(
+        $this->appName, SettingsController::ADMIN_AUTHENTICATED_FOLDERS);
+      if (!empty($this->authenticatedFolders)) {
+        $this->authenticatedFolders = json_decode($this->authenticatedFolders);
+      } else {
+        $this->authenticatedFolders = [];
+      }
     }
   }
   // phpcs:enable
@@ -381,22 +391,30 @@ class MultiPdfDownloadController extends Controller
       $destinationPath = $destinationFolder->getInternalPath() . Constants::PATH_SEPARATOR . basename($destinationPath);
       $useTemplate = false;
     } else {
-      $destinationPath = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR . $destinationPath;
+      $destinationPath = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR . trim($destinationPath, Constants::PATH_SEPARATOR);
     }
 
     if ($this->useAuthenticatedBackgroundJobs) {
-      $needsAuthentication = $sourceNode->getMountPoint()->getOption('authenticated', false);
-      if (!$needsAuthentication && $sourceNode->getType() == FileInfo::TYPE_FOLDER) {
-        try {
-          $this->folderWalk($sourceNode, function(Node $node, int $depth) {
-            if ($node->getType() == FileInfo::TYPE_FOLDER) {
-              if ($node->getMountPoint()->getOption('authenticated', false)) {
-                throw new AuthenticationException;
-              }
-            }
-          });
-        } catch (AuthenticationException $e) {
+      foreach ($this->authenticatedFolders as $prefixFolder) {
+        if (str_starts_with($sourcePath, $prefixFolder)) {
           $needsAuthentication = true;
+          break;
+        }
+      }
+      if (!$needsAuthentication) {
+        $needsAuthentication = $sourceNode->getMountPoint()->getOption('authenticated', false);
+        if (!$needsAuthentication && $sourceNode->getType() == FileInfo::TYPE_FOLDER) {
+          try {
+            $this->folderWalk($sourceNode, function(Node $node, int $depth) {
+              if ($node->getType() == FileInfo::TYPE_FOLDER) {
+                if ($node->getMountPoint()->getOption('authenticated', false)) {
+                  throw new AuthenticationException;
+                }
+              }
+            });
+          } catch (AuthenticationException $e) {
+            $needsAuthentication = true;
+          }
         }
       }
 

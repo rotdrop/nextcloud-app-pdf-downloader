@@ -25,6 +25,10 @@ import { generateFilePath } from '@nextcloud/router';
 import Vue from 'vue';
 import AdminSettings from './AdminSettings.vue';
 
+import { Tooltip } from '@nextcloud/vue';
+
+Vue.directive('tooltip', Tooltip);
+
 // eslint-disable-next-line
 __webpack_public_path__ = generateFilePath(appName, '', 'js/');
 

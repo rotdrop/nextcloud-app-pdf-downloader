@@ -1,7 +1,7 @@
 <script>
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine
+ * @copyright 2022, 2023 Claus-Justus Heine
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@
 <template>
   <FilePrefixPicker v-bind="$attrs"
                     :file-picker-title="filePickerTitle"
+                    :only-dir-name="onlyDirName"
                     v-on="$listeners"
                     @error:invalidDirName="showDirNameInvalid"
                     @update:dirName="showDirNameUpdated"
@@ -42,10 +43,16 @@ export default {
       type: String,
       default: t(appName, 'Choose a prefix-folder'),
     },
+    onlyDirName: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     showDirNameUpdated(dir, base) {
-      showInfo(t(appName, 'Selected path: "{dir}/{base}/".', { dir, base }))
+      if (!this.onlyDirName) {
+        showInfo(t(appName, 'Selected path: "{dir}/{base}/".', { dir, base }))
+      }
     },
     showDirNameInvalid(dir) {
       showError(t(appName, 'Invalid path selected: "{dir}".', { dir }), { timeout: TOAST_PERMANENT_TIMEOUT })

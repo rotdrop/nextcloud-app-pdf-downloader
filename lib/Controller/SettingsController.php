@@ -57,9 +57,13 @@ class SettingsController extends Controller
   public const ADMIN_UNIVERSAL_CONVERTER = 'universalConverter';
   public const ADMIN_CONVERTERS = 'converters';
   public const ADMIN_DEPENDENCIES = 'dependencies';
+  public const ADMIN_AUTHENTICATED_FOLDERS = 'authenticatedFolders';
 
   public const EXTRACT_ARCHIVE_FILES = 'extractArchiveFiles';
   public const ARCHIVE_SIZE_LIMIT = 'archiveSizeLimit';
+
+  public const AUTHENTICATED_BACKGROUND_JOBS = 'authenticatedBackgroundJobs';
+  public const AUTHENTICATED_BACKGROUND_JOBS_DEFAULT = false;
 
   public const PERSONAL_PAGE_LABELS = 'pageLabels';
   public const PERSONAL_PAGE_LABELS_DEFAULT = true;
@@ -113,9 +117,6 @@ class SettingsController extends Controller
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT = 'useBackgroundJobsDefault';
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT = false;
 
-  public const PERSONAL_AUTHENTICATED_BACKGROUND_JOBS = 'authenticatedBackgroundJobs';
-  public const PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT = false;
-
   public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT = 'downloadsPurgeTimeout';
   public const PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT = 24 * 3600 * 7; // 1 week
 
@@ -130,6 +131,8 @@ class SettingsController extends Controller
   const ADMIN_SETTINGS = [
     self::EXTRACT_ARCHIVE_FILES => [ 'rw' => true, 'default' => false, ],
     self::ARCHIVE_SIZE_LIMIT => [ 'rw' => true, 'default' => self::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT, ],
+    self::AUTHENTICATED_BACKGROUND_JOBS => [ 'rw' => true, 'default' => self::AUTHENTICATED_BACKGROUND_JOBS_DEFAULT, ],
+    self::ADMIN_AUTHENTICATED_FOLDERS => [ 'rw' => true, 'default' => '[]', ],
     self::ADMIN_DISABLE_BUILTIN_CONVERTERS => [  'rw' => true, 'default' => false, ],
     self::ADMIN_FALLBACK_CONVERTER => [ 'rw' => true, ],
     self::ADMIN_UNIVERSAL_CONVERTER => [ 'rw' => true, ],
@@ -228,9 +231,9 @@ class SettingsController extends Controller
       'rw' => true,
       'default' => self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT,
     ],
-    self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS => [
+    self::AUTHENTICATED_BACKGROUND_JOBS => [
       'rw' => true,
-      'default' => self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS_DEFAULT,
+      'default' => self::AUTHENTICATED_BACKGROUND_JOBS_DEFAULT,
     ],
     self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT => [
       'rw' => true,
@@ -300,6 +303,7 @@ class SettingsController extends Controller
       self::ADMIN_SETTINGS[$setting]['default'] ?? null,
     );
     switch ($setting) {
+      case self::AUTHENTICATED_BACKGROUND_JOBS:
       case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
       case self::EXTRACT_ARCHIVE_FILES:
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
@@ -326,6 +330,14 @@ class SettingsController extends Controller
           return self::grumble($t->getMessage());
         }
         break;
+      case self::ADMIN_AUTHENTICATED_FOLDERS:
+        if (empty($value)) {
+          $newValue = null;
+        } else {
+          $newValue = json_encode($value);
+        }
+        $this->logInfo('GOT VALUE ' . $newValue . ' ' . print_r($value, true));
+        break;
       default:
         return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $setting));
     }
@@ -340,6 +352,13 @@ class SettingsController extends Controller
     switch ($setting) {
       case self::ARCHIVE_SIZE_LIMIT:
         $humanValue = $newValue === null ? '' : $this->formatStorageValue($newValue);
+        break;
+      case self::ADMIN_AUTHENTICATED_FOLDERS:
+        $humanValue = implode(', ', $value);
+        if ($oldValue) {
+          $oldValue = json_decode($oldValue);
+        }
+        $newValue = $value;
         break;
       default:
         $humanValue = $value;
@@ -373,6 +392,7 @@ class SettingsController extends Controller
     $results = [];
     foreach (array_keys($allSettings) as $oneSetting) {
       switch ($oneSetting) {
+        case self::AUTHENTICATED_BACKGROUND_JOBS:
         case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
         case self::EXTRACT_ARCHIVE_FILES:
           $value = $this->config->getAppValue(
@@ -428,6 +448,17 @@ class SettingsController extends Controller
           $value = $dependencies->checkForExternalPrograms();
           $humanValue = $value;
           break;
+        case self::ADMIN_AUTHENTICATED_FOLDERS:
+          $value = $this->config->getAppValue(
+            $this->appName,
+            $oneSetting,
+            self::ADMIN_SETTINGS[$oneSetting]['default'] ?? false,
+          );
+          $this->logInfo('VALUE ' . $value);
+          $value = json_decode($value);
+          $this->logInfo('VALUE ' . print_r($value, true));
+          $humanValue = implode(', ', $value);
+          break;
         default:
           return self::grumble($this->l->t('Unknown admin setting: "%1$s"', $oneSetting));
       }
@@ -470,7 +501,7 @@ class SettingsController extends Controller
       $setting,
       self::PERSONAL_SETTINGS[$setting]['default'] ?? null);
     switch ($setting) {
-      case self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS:
+      case self::AUTHENTICATED_BACKGROUND_JOBS:
       case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
       case self::EXTRACT_ARCHIVE_FILES:
       case self::PERSONAL_PAGE_LABELS:
@@ -722,7 +753,7 @@ class SettingsController extends Controller
             $humanValue = '';
           }
           break;
-        case self::PERSONAL_AUTHENTICATED_BACKGROUND_JOBS:
+        case self::AUTHENTICATED_BACKGROUND_JOBS:
         case self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT:
         case self::EXTRACT_ARCHIVE_FILES_ADMIN:
         case self::EXTRACT_ARCHIVE_FILES:
