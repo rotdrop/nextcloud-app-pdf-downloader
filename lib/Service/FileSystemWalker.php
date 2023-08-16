@@ -618,6 +618,10 @@ __EOF__;
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
       // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
+      'PATH' => $this->l->t('PATH'),
+      // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
+      // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
+      // TRANSLATORS: convention "usually" applies to placeholder keywords in the target language.
       'BASENAME' => $this->l->t('BASENAME'),
       // TRANSLATORS: This is a text substitution placeholder. If the target language knows the concept of casing, then
       // TRANSLATORS: please use only uppercase letters in the translation. Otherwise please use whatever else
@@ -651,8 +655,7 @@ __EOF__;
   /**
    * Generate a download filename from a given template and full path.
    *
-   * @param string $path Folder Path.
-   * directory part.
+   * @param string $path Folder path.
    *
    * @param null|string $template
    *
@@ -674,6 +677,7 @@ __EOF__;
     $keys = $this->getTemplateKeyTranslations();
     $pathInfo = pathinfo($path);
     $templateValues = [
+      'PATH' => trim($path, Constants::PATH_SEPARATOR),
       'BASENAME' => $pathInfo['basename'],
       'FILENAME' => $pathInfo['filename'],
       'DIRNAME' => trim($pathInfo['dirname'], Constants::PATH_SEPARATOR),
@@ -683,7 +687,10 @@ __EOF__;
 
     $pdfFileName = $this->replaceBracedPlaceholders($template, $templateValues, $keys);
     $pathInfo = pathinfo($pdfFileName);
-    $pdfFileName = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . $pathInfo['filename'] . '.pdf';
+    $pdfFileName = $pathInfo['filename'] . '.pdf';
+    if (!empty($pathInfo['dirname']) && $pathInfo['dirname'] != '.') {
+      $pdfFileName = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . $pdfFileName;
+    }
 
     return $pdfFileName;
   }

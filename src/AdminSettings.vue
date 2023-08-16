@@ -26,6 +26,7 @@
                    :title="t(appName, 'Recursive PDF Downloader')"
   >
     <AppSettingsSection v-if="dependencies.missing.required + dependencies.missing.suggested > 0"
+                        id="missing-dependencies"
                         :title="t(appName, 'Missing Dependencies')"
     >
       <div v-if="dependencies.missing.required > 0" class="required-dependencies">
@@ -63,7 +64,9 @@
         </ul>
       </div>
     </AppSettingsSection>
-    <AppSettingsSection :title="t(appName, 'Archive Extraction')">
+    <AppSettingsSection id="archive-extraction"
+                        :title="t(appName, 'Archive Extraction')"
+    >
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles }]">
         <input id="extract-archive files"
                v-model="extractArchiveFiles"
@@ -82,7 +85,61 @@
                          @update="saveTextInput(...arguments, 'archiveSizeLimit')"
       />
     </AppSettingsSection>
-    <AppSettingsSection :title="t(appName, 'Custom Converter Scripts')">
+    <AppSettingsSection id="authenticated-background-jobs"
+                        :title="t(appName, 'Authenticated Background Jobs')"
+    >
+      <div :class="['flex-container', 'flex-center']">
+        <input id="authenticated-background-jobs"
+               v-model="authenticatedBackgroundJobs"
+               type="checkbox"
+               :disabled="loading > 0"
+               @change="saveSetting('authenticatedBackgroundJobs')"
+        >
+        <label v-tooltip="tooltips.authenticatedBackgroundJobs"
+               for="authenticated-background-jobs"
+        >
+          {{ t(appName, 'Use authenticated background jobs if necessary.') }}
+        </label>
+      </div>
+      <template v-if="authenticatedBackgroundJobs">
+        <div v-if="authenticatedFolders.length > 0">
+          {{ t(appName, 'List of additional folders needing authentication') }}
+        </div>
+        <ul>
+          <ListItem v-for="folder of authenticatedFolders"
+                    :key="folder"
+                    :title="folder"
+                    :bold="false"
+          >
+            <template #icon>
+              <FolderIcon />
+            </template>
+            <template #actions>
+              <ActionButton @click="() => removeAuthenticatedFolder(folder)">
+                <template #icon>
+                  <DeleteIcon />
+                </template>
+              </ActionButton>
+            </template>
+          </ListItem>
+        </ul>
+        <NcButton aria-label="t(appName, 'Add a Folder')"
+                  type="primary"
+                  @click="addAuthenticatedFolder"
+        >
+          <template #icon>
+            <PlusIcon />
+          </template>
+          {{ t(appName, 'Add a Folder') }}
+        </NcButton>
+        <div class="hint">
+          {{ t(appName, 'Subfolders are taken into account, you only need to specify the top-most folders.') }}
+        </div>
+      </template>
+    </AppSettingsSection>
+    <AppSettingsSection id="custom-converter-scripts"
+                        :title="t(appName, 'Custom Converter Scripts')"
+    >
       <div :class="['flex-container', 'flex-center']">
         <input id="disable-builtin-converters"
                v-model="disableBuiltinConverters"
@@ -107,7 +164,9 @@
                          @update="saveTextInput(...arguments, 'fallbackConverter')"
       />
     </AppSettingsSection>
-    <AppSettingsSection :title="t(appName, 'Converters')">
+    <AppSettingsSection id="converters"
+                        :title="t(appName, 'Converters')"
+    >
       <div class="converter-status">
         <div><label>{{ t(appName, 'Status of the configured Converters') }}</label></div>
         <ul>
@@ -153,16 +212,26 @@ import AppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSect
 import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
 import ListItem from '@rotdrop/nextcloud-vue-components/lib/components/ListItem'
 import { generateUrl } from '@nextcloud/router'
-import { showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
+import { getFilePickerBuilder, FilePickerType, showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import settingsSync from './toolkit/mixins/settings-sync'
 import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import PlusIcon from 'vue-material-design-icons/Plus'
+import DeleteIcon from 'vue-material-design-icons/Delete'
+import FolderIcon from 'vue-material-design-icons/Folder'
 
 export default {
   name: 'AdminSettings',
   components: {
+    ActionButton,
     AppSettingsSection,
+    DeleteIcon,
+    FolderIcon,
     ListItem,
+    NcButton,
+    PlusIcon,
     SettingsSection,
     SettingsInputText,
   },
@@ -175,6 +244,8 @@ export default {
       disableBuiltinConverters: false,
       universalConverter: '',
       fallbackConverter: '',
+      authenticatedBackgroundJobs: false,
+      authenticatedFolders: [],
       converters: {},
       dependencies: {
         missing: {
@@ -183,6 +254,9 @@ export default {
         },
         required: {},
         suggested: {},
+      },
+      tooltips: {
+        authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the "authenticated" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
       },
       loading: true,
     }
@@ -198,12 +272,14 @@ export default {
       return !!this.disableBuiltinConverters
     },
   },
-  watch: {
-  },
+  watch: {},
   methods: {
+    info() {
+      console.info('ADMIN SETTINGS', ...arguments)
+    },
     async getData() {
       // slurp in all settings
-      this.fetchSettings('admin');
+      await this.fetchSettings('admin')
       this.loading = false
     },
     async saveTextInput(value, settingsKey, force) {
@@ -220,8 +296,33 @@ export default {
         }
       }
     },
+    async addAuthenticatedFolder() {
+      const picker = getFilePickerBuilder(t(appName, 'Choose a folder requiring authentication'))
+        .startAt('/')
+        .setMultiSelect(true)
+        .setModal(true)
+        .setType(FilePickerType.Choose)
+        .setMimeTypeFilter(['httpd/unix-directory'])
+        .allowDirectories()
+        .build()
+      const directories = await picker.pick()
+      for (let dir of directories) {
+        if (dir.startsWith('//')) { // new in Nextcloud 25?
+          dir = dir.slice(1)
+        }
+        this.authenticatedFolders.push(dir)
+      }
+      await this.saveSetting('authenticatedFolders')
+    },
+    async removeAuthenticatedFolder(folder)  {
+      const index = this.authenticatedFolders.indexOf(folder)
+      if (index >= 0) {
+        this.authenticatedFolders.splice(index, 1);
+      }
+      await this.saveSetting('authenticatedFolders')
+    },
   },
-}
+ }
 </script>
 <style lang="scss" scoped>
 .cloud-version {
@@ -258,6 +359,10 @@ export default {
   }
   :deep(.app-settings-section) {
     margin-bottom: 40px;
+  }
+  .hint {
+    color: var(--color-text-lighter);
+    font-size: 80%;
   }
 }
 </style>

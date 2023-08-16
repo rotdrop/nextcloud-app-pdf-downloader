@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -231,6 +231,7 @@ class PdfGeneratorJob extends QueuedJob
           'loginUID' => $loginUid,
           'loginPassword' => $loginPassword,
         ) = $userScopeService->getLoginCredentialsFromToken($passphrase);
+        $userScopeService->deleteAuthToken($passphrase); // one time auth
       }
 
       $userScopeService->setUserScope($this->getUserId(), $loginUid, $loginPassword);
