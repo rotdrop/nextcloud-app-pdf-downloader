@@ -139,6 +139,7 @@ OC.L10N.register(
     "Payment Required" : "Zahtevano je plačilo",
     "Forbidden" : "Prepovedano",
     "Not Found" : "Ni mogoče najti",
+    "Request Timeout" : "Časovni potek zahteve",
     "Conflict" : "Spor",
     "Length Required" : "Zahtevana dolžina",
     "Internal Server Error" : "Notranja napaka strežnika",
