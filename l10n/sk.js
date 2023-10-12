@@ -19,6 +19,7 @@ OC.L10N.register(
     "Fallback Converter" : "Záložný konvertor",
     "Text" : "Text",
     "Background" : "Pozadie",
+    "restore palette" : "obnoviť paletu",
     "Options" : "Možnosti",
     "PDF" : "PDF",
     "Confirmation Required" : "Vyžaduje sa potvrdenie",
