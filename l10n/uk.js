@@ -1,11 +1,13 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Файл або каталог не знайдено.",
     "Unknown admin setting: \"%1$s\"" : "Невідомі налаштування адміна: \"%1$s\"",
     "The admin setting \"%1$s\" is read-only" : "Налаштування адміністратора \"%1$s\" тільки для перегляду",
     "bytes" : "байтів",
     "Text" : "Текст",
     "Background" : "Тло",
+    "Choose a prefix-folder" : "Виберіть префікс каталогу",
     "Options" : "Параметри",
     "PDF" : "PDF",
     "OK" : "Гаразд",
