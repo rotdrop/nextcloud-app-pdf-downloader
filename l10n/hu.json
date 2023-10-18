@@ -41,6 +41,7 @@
     "Internal error, \"%1$s\" is neither a file nor a directory, but has type \"%2$s." : "Belső hiba, a(z) „%1$s” se nem fájl, se nem könyvtár, hanem ilyen típusú: „%2$s”.",
     "Destination parent folder conflicts with existing file \"%s\"." : "A cél szülőmappa ütközik a meglévő „%s” fájllal.",
     "Unable to create the parent folder \"%s\"." : "A(z) „%s” szülőmappa nem hozható létre.",
+    "PATH" : "ELÉRÉSI ÚT",
     "BASENAME" : "ALAPNÉV",
     "FILENAME" : "FÁJLNÉV",
     "EXTENSION" : "KITERJESZTÉS",
@@ -75,7 +76,9 @@
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Az archívumfájlok menet közbeni kibontása. Ha engedélyezett, akkor a felhasználónként állítható be ez a beállítás.",
     "Archive Size Limit" : "Archívum méretkorlátja",
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "Az archívumok kibontásának megtiltása azoknál az archívumoknál, amelyek kibontva nagyobbak ennél a korlátnál.",
+    "Authenticated Background Jobs" : "Hitelesített háttér folyamatok",
     "Use authenticated background jobs if necessary." : "Hitelesített háttérfeladatok használata, ha szükséges.",
+    "Add a Folder" : "Mappa hozzáadás",
     "Custom Converter Scripts" : "Egyéni átalakító parancsfájlok",
     "Disable the builtin converters." : "A beépített átalakítók letiltása.",
     "Universal Converter" : "Univerzális átalakító",
@@ -159,6 +162,8 @@
     "refresh" : "frissítés",
     "delete PDF file" : "PDF-fájl törlése",
     "Choose a destination" : "Cél kiválasztása",
+    "Unable to delete the cached PDF file: {message}" : "Nem lehetséges a gyorsítótárazott PDF fájl törlése: {message}",
+    "PDF saved as {path}." : "PDF elmentve mint {path}.",
     "Download PDF" : "PDF letöltése",
     "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "Nem lehet lekérdezni a teljes beállítások értékeit: {message}",
@@ -260,6 +265,7 @@
     "HTTP error response to AJAX call: {code} / {error}" : "HTTP hibaválasz az AJAX kérésre: {code} / {error}",
     "No" : "Nem",
     "Yes" : "Igen",
-    "Debug Information" : "Hibakeresési információk"
+    "Debug Information" : "Hibakeresési információk",
+    "unknown error" : "ismeretlen hiba"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
