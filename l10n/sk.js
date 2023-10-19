@@ -14,6 +14,7 @@ OC.L10N.register(
     "Recursive PDF Downloader" : "Rekurzívny PDF Downloader",
     "Archive Size Limit" : "Limit veľkosti archívu",
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "Zakázať extrakciu archívu pre archívy s dekomprimovanou veľkosťou väčšou ako tento limit.",
+    "Add a Folder" : "Pridať priečinok",
     "Custom Converter Scripts" : "Vlastné skripty konvertora",
     "Universal Converter" : "Univerzálny konvertor",
     "Fallback Converter" : "Záložný konvertor",

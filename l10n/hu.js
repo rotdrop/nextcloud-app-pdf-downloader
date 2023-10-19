@@ -80,6 +80,7 @@ OC.L10N.register(
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "Az archívumok kibontásának megtiltása azoknál az archívumoknál, amelyek kibontva nagyobbak ennél a korlátnál.",
     "Authenticated Background Jobs" : "Hitelesített háttér folyamatok",
     "Use authenticated background jobs if necessary." : "Hitelesített háttérfeladatok használata, ha szükséges.",
+    "List of additional folders needing authentication" : "Hitelesítést igénylő további mappák listázása",
     "Add a Folder" : "Mappa hozzáadás",
     "Custom Converter Scripts" : "Egyéni átalakító parancsfájlok",
     "Disable the builtin converters." : "A beépített átalakítók letiltása.",
@@ -93,6 +94,7 @@ OC.L10N.register(
     "single converter" : "egyes átalakítók",
     "alternatives" : "alternatívák",
     "converter" : "átalakító",
+    "Choose a folder requiring authentication" : "Válasszon hitelesítést igénylő mappát",
     "Recursive PDF Downloader, Personal Settings" : "Rekurzív PDF letöltő, személyes beállítások",
     "Decorations and Fonts" : "Dekorációk és betűkészletek",
     "Label output pages with filename and page number" : "Kimeneti oldalak címkézése a fájlnévvel és az oldalszámmal",
@@ -165,6 +167,7 @@ OC.L10N.register(
     "delete PDF file" : "PDF-fájl törlése",
     "Choose a destination" : "Cél kiválasztása",
     "Unable to delete the cached PDF file: {message}" : "Nem lehetséges a gyorsítótárazott PDF fájl törlése: {message}",
+    "Scheduled offline PDF generation to {path}." : "Időzített offline PDF generálás ide: {path}.",
     "PDF saved as {path}." : "PDF elmentve mint {path}.",
     "Download PDF" : "PDF letöltése",
     "PDF" : "PDF",
@@ -268,6 +271,7 @@ OC.L10N.register(
     "No" : "Nem",
     "Yes" : "Igen",
     "Debug Information" : "Hibakeresési információk",
-    "unknown error" : "ismeretlen hiba"
+    "unknown error" : "ismeretlen hiba",
+    "Unable to download data from \"{url}\": {message}" : "Nem lehet az adatokat letölteni innen: \"{url}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");
