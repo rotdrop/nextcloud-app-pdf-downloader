@@ -20,6 +20,7 @@ OC.L10N.register(
     "Fallback Converter" : "Záložný konvertor",
     "Text" : "Text",
     "Background" : "Pozadie",
+    "reason unknown" : "dôvod neznámy",
     "pick a color" : "vyberte farbu",
     "restore palette" : "obnoviť paletu",
     "Options" : "Možnosti",

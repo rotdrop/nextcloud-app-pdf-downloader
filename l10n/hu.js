@@ -272,6 +272,7 @@ OC.L10N.register(
     "Yes" : "Igen",
     "Debug Information" : "Hibakeresési információk",
     "unknown error" : "ismeretlen hiba",
-    "Unable to download data from \"{url}\": {message}" : "Nem lehet az adatokat letölteni innen: \"{url}\": {message}"
+    "Unable to download data from \"{url}\": {message}" : "Nem lehet az adatokat letölteni innen: \"{url}\": {message}",
+    "The quick brown fox jumps over the lazy dog." : "Pál fogyó IQ-jú kun exvő, ím dühös a WC-bűzért."
 },
 "nplurals=2; plural=(n != 1);");
