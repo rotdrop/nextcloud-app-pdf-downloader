@@ -78,6 +78,7 @@ OC.L10N.register(
     "Archive Size Limit" : "Taille limite d'archive",
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "Interdire l'extraction d'archive lorsque la taille des fichiers décompressés est supérieure à cette limite.",
     "Use authenticated background jobs if necessary." : "Utiliser des tâches en arrière-plan authentifiées si nécessaire.",
+    "Add a Folder" : "Ajouter un dossier",
     "Custom Converter Scripts" : "Scripts de conversion personnalisés",
     "Disable the builtin converters." : "Désactiver les convertisseurs intégrés",
     "Universal Converter" : "Convertisseur universel",
