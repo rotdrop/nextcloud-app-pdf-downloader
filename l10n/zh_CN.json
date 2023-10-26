@@ -7,6 +7,7 @@
     "The personal setting \"%1$s\" is read-only" : "个人设置“%1$s”是只读的",
     "Unknown personal setting: \"%s\"." : "未知的个人设置：“%s”。",
     "Unable to parse memory size limit \"%s\"" : "无法解析内存大小限制“%s”",
+    "PDF Downloader" : "PDF下载器",
     "Unsupported subject: \"%s\"." : "不支持的主题：“%s”。",
     "FILENAME" : "文件名",
     "Unable to open archive file %s (%s)" : "无法打开压缩文件%s（%s）",
