@@ -239,6 +239,7 @@ OC.L10N.register(
     "Insufficient Storage (WebDAV)" : "Spazio Archiviazione Insufficiente (WebDAV)",
     "Network connect timeout error" : "Errore di timeout della connessione di rete",
     "Operation cancelled by user." : "Operazione annullata dall'utente.",
+    "Aborted" : "Abortito",
     "Error" : "Errore",
     "System Administrator" : "Amministratore del Sistema",
     "Something went wrong." : "Qualcosa è andato storto.",
