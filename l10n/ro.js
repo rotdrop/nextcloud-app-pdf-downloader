@@ -9,6 +9,7 @@ OC.L10N.register(
     "included" : "inclus",
     "Options" : "Opțiuni",
     "OK" : "OK",
+    "Created" : "A fost creat",
     "Forbidden" : "Interzis",
     "Not Found" : "Nu a fost găsit",
     "Conflict" : "Conflict",
