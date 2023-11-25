@@ -12,7 +12,7 @@ OC.L10N.register(
     "Cached PDF files for \"%s\" have been deleted." : "Zwischengespeicherte PDF-Dateien für \"%s\" wurden gelöscht.",
     "PDF file \"%s\" has been deleted." : "PDF-Datei \"%s\" wurde gelöscht.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Die folgenden erforderlichen ausführbaren Datei konnten auf dem Server nicht gefunden werden: %s","Die folgenden erforderlichen ausführbaren Dateien konnten auf dem Server nicht gefunden werden: %s"],
-    "Unknown admin setting: \"%1$s\"" : "Unbekannte Verwaltungs-Einstellung: \"%1$s\"",
+    "Unknown admin setting: \"%1$s\"" : "Unbekannte Verwaltungseinstellung: \"%1$s\"",
     "The admin setting \"%1$s\" is read-only" : "Die Administrationseinstellung \"%1$s\" kann nur gelesen werden",
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Der Wert \"%1$s\" für die Einstellung \"%2$s\" kann nicht in einen Wahrheitswert konvertiert werden.",
     "Unknown personal setting: \"%1$s\"" : "Unbekannte persönliche Einstellung: \"%1$s\"",
