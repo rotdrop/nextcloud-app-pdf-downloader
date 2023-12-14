@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -201,7 +201,9 @@ class FontService
       if (empty($cacheHash) || $cacheHash !== $hash) {
         /** @var ISimpleFile $file */
         foreach ($fontFolder->getDirectoryListing() as $file) {
-          $file->delete();
+          if (str_starts_with($file->getName(), $fontFileBaseName)) {
+            $file->delete();
+          }
         }
         $fontFolder->newFile($hashFileName, $hash);
       }
