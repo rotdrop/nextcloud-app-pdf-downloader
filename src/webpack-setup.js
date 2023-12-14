@@ -17,20 +17,17 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import { appName } from './config.js';
-import Vue from 'vue';
-import AdminSettings from './AdminSettings.vue';
-import { Tooltip } from '@nextcloud/vue';
+import { generateFilePath } from '@nextcloud/router';
+import { onRequestTokenUpdate, getRequestToken } from '@nextcloud/auth';
 
-require('./webpack-setup.js');
+__webpack_public_path__ = generateFilePath(appName, '', '');
+__webpack_nonce__ = btoa(getRequestToken());
 
-Vue.directive('tooltip', Tooltip);
-
-Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
-
-export default new Vue({
-  el: '#admin-settings',
-  render: h => h(AdminSettings),
+// this may not be necessary as the actual secret value does not change
+onRequestTokenUpdate(function(token) {
+  __webpack_nonce__ = btoa(token);
 });

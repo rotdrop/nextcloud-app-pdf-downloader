@@ -599,15 +599,15 @@ export default {
       let urlTemplate = offline
         ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
         : 'save/{sourcePath}/{destinationPath}'
-      if (cacheFileId) {
-        urlTemplate += '/{cacheFileId}'
-      }
       const sourcePath = encodeURIComponent(this.sourcePath)
       const destinationPath = encodeURIComponent(destinationFolder || this.cloudDestinationPathName)
       const requestParameters = {
         sourcePath,
         destinationPath,
-        cacheFileId,
+      }
+      if (cacheFileId) {
+        urlTemplate += '/{cacheFileId}'
+        requestParameters.cacheFileId = cacheFileId
       }
       console.info('TEMPLATE', urlTemplate, requestParameters)
       try {

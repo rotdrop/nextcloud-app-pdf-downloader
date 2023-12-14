@@ -21,17 +21,13 @@
  */
 
 import { appName } from './config.js';
-import { generateFilePath } from '@nextcloud/router';
-
 import Vue from 'vue';
 import PersonalSettings from './PersonalSettings.vue';
-
 import { Tooltip } from '@nextcloud/vue';
 
-Vue.directive('tooltip', Tooltip);
+require('./webpack-setup.js');
 
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath(appName, '', 'js/');
+Vue.directive('tooltip', Tooltip);
 
 Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
 
