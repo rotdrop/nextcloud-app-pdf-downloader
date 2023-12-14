@@ -2,6 +2,10 @@ module.exports = {
   extends: [
     '@nextcloud',
   ],
+  globals: {
+    __webpack_nonce__: true,
+    __webpack_public_path__: true,
+  },
   rules: {
     'no-tabs': ['error', { allowIndentationTabs: false }],
     indent: ['error', 2],
