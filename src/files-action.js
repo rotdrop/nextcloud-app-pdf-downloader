@@ -22,20 +22,19 @@ import { appName } from './config.js';
 import generateAppUrl from './toolkit/util/generate-url.js';
 import fileDownload from './toolkit/util/file-download.js';
 import { attachDialogHandlers } from './toolkit/util/dialogs.js';
-import { generateFilePath, imagePath, generateUrl } from '@nextcloud/router';
+import { imagePath, generateUrl } from '@nextcloud/router';
 import axios from '@nextcloud/axios';
 import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
 import FilesTab from './views/FilesTab.vue';
 import { Tooltip } from '@nextcloud/vue';
 
+require('./webpack-setup.js');
 require('dialogs.scss');
 require('pdf-downloader.scss');
 
 Vue.directive('tooltip', Tooltip);
 
-// eslint-disable-next-line
-__webpack_public_path__ = generateFilePath(appName, '', 'js');
 Vue.mixin({ data() { return { appName }; }, methods: { t, n, generateUrl } });
 
 const View = Vue.extend(FilesTab);

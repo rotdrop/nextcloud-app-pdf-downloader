@@ -26,16 +26,41 @@ directory or archive file being worked on.
 
 The substitutions allow some sort of filtering or padding, detailed
 further below. The substitution backend can be found in the traits class
-[`UtilTrait::replaceBracedPlaceholders()`](../lib/Toolkit/Traits/UtilTrait.php#L403).
+[`UtilTrait::replaceBracedPlaceholders()`](../php-toolkit/Traits/UtilTrait.php#L403).
 
 It is possible to use localized placeholders if they have already been
 provided by the translation teams. The translations can be found in the
 subdirectory [`../l10n/`](../l10n/).
 
-However, there is a known [`issue (#20)`](https://github.com/rotdrop/nextcloud-app-pdf-downloader/issues/20#issue-1490531098)
-that will render a template using localized variable names unusable if
-the user changes the frontend language. Of course, it is planned to fix
-this issue.
+It is possible to do some post-processing on the substituted
+values. This is in particular important when generating filenames in
+order to get rid of path separators.
+
+## Syntax
+
+The general syntax of a replacement is
+```txt
+{[C[N]|]KEY[|M[D]][@FILTER]}
+```
+where anything in square brackets is optional. The particular parts
+have the following meaning:
+
+- 'C' is any character used for optional padding to the left.
+- 'N' is the padding length. If ommitted, the value of 1 is assumed.
+- '|' is a literal '|'
+- 'KEY' is the replacement key
+- '|' is a literal '|'
+- 'M' is a number of "path" components to include from the right from the
+  expansion of KEY with path-delimiter 'D' (default: "/"). E.g. `{KEY|2}` for
+  the value `foo/bar/foobar` would result in `bar/foobar`.
+- '@' is a literal '@'
+- 'FILTER' can be either
+  - a single character which is used to replace occurences of '/' in the
+    replacement for KEY
+  - two characters, in which case the first character is used as replacement for
+    the second character in the replacement value of KEY
+  - the hash-algo passed to the PHP hash($algo, $data) in which case the replacement value
+    is the hash w.r.t. FILTER of the replacement data
 
 ## Page Labels
 
@@ -60,6 +85,6 @@ THIS SECTION IS INCOMPLETE.
 
 ## File-Names
 
-The substitutions are provided by [`FileSystemWalker::getPdfFileName()`](../lib/Service/FileSystemWalker.php#L525).
+The substitutions are provided by [`FileSystemWalker::getPdfFileName()`](../lib/Service/FileSystemWalker.php#L664).
 
 TO BE CONTINUED.

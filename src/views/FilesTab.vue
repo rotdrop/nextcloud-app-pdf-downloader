@@ -23,10 +23,10 @@
     <ul>
       <li class="files-tab-entry flex flex-center clickable">
         <div class="files-tab-entry__avatar icon-play-white"
-             @click="toggleDownloadMenu"
+             @click.prevent.stop="toggleDownloadMenu"
         />
         <div class="files-tab-entry__desc"
-             @click="toggleDownloadMenu"
+             @click.prevent.stop="toggleDownloadMenu"
         >
           <h5>
             <span class="main-title">{{ t(appName, 'Generate PDF') }}</span>
@@ -35,13 +35,13 @@
         <Actions ref="downloadActions">
           <ActionButton icon="icon-download"
                         :disabled="downloading"
-                        @click="handleDownload"
+                        @click.prevent.stop="handleDownload"
           >
             {{ t(appName, 'download locally') }}
           </ActionButton>
           <ActionButton v-model="showCloudDestination"
                         :disabled="showCloudDestination"
-                        @click="showCloudDestination = !showCloudDestination"
+                        @click.prevent.stop="showCloudDestination = !showCloudDestination"
           >
             <template #icon>
               <CloudUpload :size="16"
@@ -58,6 +58,7 @@
                           :hint="t(appName, 'Choose a destination in the cloud:')"
                           :placeholder="t(appName, 'basename')"
                           :readonly="downloadOptions.useTemplate ? 'basename' : false"
+                          :disabled="downloading"
                           @update="() => handleSaveToCloud()"
         />
       </li>
@@ -105,7 +106,7 @@
         <Actions>
           <ActionButton v-model="showBackgroundDownloads"
                         :icon="'icon-triangle-' + (showBackgroundDownloads ? 'n' : 's')"
-                        @click="showBackgroundDownloads = !showBackgroundDownloads"
+                        @click.prevent.stop="showBackgroundDownloads = !showBackgroundDownloads"
           />
         </Actions>
       </li>
@@ -117,7 +118,7 @@
           </span>
           <Actions>
             <ActionButton icon="icon-play"
-                          @click="refreshAvailableDownloads"
+                          @click.prevent.stop="refreshAvailableDownloads"
             >
               {{ t(appName, 'refresh') }}
             </ActionButton>
@@ -128,12 +129,12 @@
             <a :href="downloadUrl(id)"
                class="download external flex-grow"
                download
-               @click="handleCacheFileDownload(id)"
+               @click.prevent.stop="handleCacheFileDownload(id)"
             >
               {{ name }}
             </a>
             <Actions class="flex-no-grow flex-no-shrink">
-              <ActionButton @click="handleCacheFileSave(id)">
+              <ActionButton @click.prevent.stop="handleCacheFileSave(id)">
                 <template #icon>
                   <CloudUpload :size="16"
                                decorative
@@ -144,13 +145,13 @@
               </ActionButton>
               <ActionButton icon="icon-download"
                             :disabled="downloading"
-                            @click="handleCacheFileDownload(id)"
+                            @click.prevent.stop="handleCacheFileDownload(id)"
               >
                 {{ t(appName, 'download locally') }}
               </ActionButton>
               <ActionButton icon="icon-delete"
                             :disabled="downloading"
-                            @click="handleCacheFileDelete(id)"
+                            @click.prevent.stop="handleCacheFileDelete(id)"
               >
                 {{ t(appName, 'delete PDF file') }}
               </ActionButton>
@@ -592,20 +593,22 @@ export default {
       }
     },
     async handleSaveToCloud(cacheFileId, destinationFolder, move) {
+      this.downloading = true
       this.fileList.showFileBusyState(this.fileInfo.name, true)
       const offline = cacheFileId === undefined && this.downloadOptions.offline
       let urlTemplate = offline
         ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
         : 'save/{sourcePath}/{destinationPath}'
-      if (cacheFileId) {
-        urlTemplate += '/{cacheFileId}'
-      }
       const sourcePath = encodeURIComponent(this.sourcePath)
-      const destinationPath = encodeURIComponent(destinationFolder || this.cloudDestinationPathName)
+      const destinationPathName = destinationFolder || this.cloudDestinationPathName
+      const destinationPath = encodeURIComponent(destinationPathName)
       const requestParameters = {
         sourcePath,
         destinationPath,
-        cacheFileId,
+      }
+      if (cacheFileId) {
+        urlTemplate += '/{cacheFileId}'
+        requestParameters.cacheFileId = cacheFileId
       }
       console.info('TEMPLATE', urlTemplate, requestParameters)
       try {
@@ -636,6 +639,10 @@ export default {
         console.error(notice, e)
       }
       this.fileList.showFileBusyState(this.fileInfo.name, false)
+      if (destinationPathName.startsWith(this.fileInfo.path)) {
+        this.fileList.reload()
+      }
+      this.downloading = false
     },
   },
 }

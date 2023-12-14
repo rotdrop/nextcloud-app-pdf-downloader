@@ -321,7 +321,7 @@ class MultiPdfDownloadController extends Controller
 
       $pdfFile = $this->fileSystemWalker->save(
         $sourcePath,
-        $destinationPath,
+        Constants::PATH_SEPARATOR . Constants::USER_FOLDER_PREFIX . $destinationPath,
         pageLabels: $pageLabels,
         useTemplate: $useTemplate,
       );
