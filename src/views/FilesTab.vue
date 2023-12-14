@@ -600,7 +600,8 @@ export default {
         ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
         : 'save/{sourcePath}/{destinationPath}'
       const sourcePath = encodeURIComponent(this.sourcePath)
-      const destinationPath = encodeURIComponent(destinationFolder || this.cloudDestinationPathName)
+      const destinationPathName = destinationFolder || this.cloudDestinationPathName
+      const destinationPath = encodeURIComponent(destinationPathName)
       const requestParameters = {
         sourcePath,
         destinationPath,
@@ -638,6 +639,9 @@ export default {
         console.error(notice, e)
       }
       this.fileList.showFileBusyState(this.fileInfo.name, false)
+      if (destinationPathName.startsWith(this.fileInfo.path)) {
+        this.fileList.reload()
+      }
       this.downloading = false
     },
   },
