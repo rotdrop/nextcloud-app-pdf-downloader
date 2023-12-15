@@ -4,6 +4,8 @@ OC.L10N.register(
     "File or folder could not be found." : "Файл або каталог не знайдено.",
     "Unknown admin setting: \"%1$s\"" : "Невідомі налаштування адміна: \"%1$s\"",
     "The admin setting \"%1$s\" is read-only" : "Налаштування адміністратора \"%1$s\" тільки для перегляду",
+    "User" : "Користувач",
+    "Password" : "Пароль",
     "bytes" : "байтів",
     "Text" : "Текст",
     "Background" : "Тло",

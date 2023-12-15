@@ -8,6 +8,7 @@ OC.L10N.register(
     "FILENAME" : "TIEDOSTONIMI",
     "Combining PDFs failed" : "PDF-tiedostojen yhdistäminen epäonnistui",
     "Unable to open archive file %s (%s)" : "Arkistotiedostoa %s ei voitu avata (%s)",
+    "Password" : "Salasana",
     "bytes" : "tavua",
     "Text" : "Teksti",
     "Background" : "Tausta",

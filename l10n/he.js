@@ -2,6 +2,8 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "FILENAME" : "שם קובץ",
+    "User" : "משתמש",
+    "Password" : "ססמה",
     "bytes" : "בתים",
     "Text" : "טקסט",
     "Options" : "אפשרויות",
