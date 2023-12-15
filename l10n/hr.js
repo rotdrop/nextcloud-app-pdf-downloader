@@ -2,6 +2,8 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "FILENAME" : "NAZIV DATOTEKE",
+    "User" : "@string/user_icon",
+    "Password" : "Zaporka",
     "bytes" : "bajtova",
     "Text" : "Tekst",
     "Background" : "Pozadina",

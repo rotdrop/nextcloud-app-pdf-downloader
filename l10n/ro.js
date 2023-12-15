@@ -2,6 +2,8 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "excluded" : "exclus",
+    "User" : "Utilizator",
+    "Password" : "Parolă",
     "Text" : "Text",
     "Background" : "Fundal",
     "Precedence:" : "Precedență:",

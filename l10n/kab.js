@@ -1,6 +1,7 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "User" : "Aseqdac",
     "Options" : "Iɣewwaṛen",
     "true" : "idetti",
     "false" : "ucciḍ",
