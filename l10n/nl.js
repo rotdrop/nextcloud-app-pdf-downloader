@@ -32,6 +32,7 @@ OC.L10N.register(
     "not found" : "niet gevonden",
     "Please install the \"%s\" program on the server." : "Gelieve het programma \"%s\" op de server te installeren.",
     "FILENAME" : "BESTANDSNAAM",
+    "Password" : "Wachtwoord",
     "bytes" : "bytes",
     "alternatives" : "alternatieven",
     "Text" : "Tekst",

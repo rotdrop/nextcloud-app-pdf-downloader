@@ -1,5 +1,7 @@
 { "translations": {
     "FILENAME" : "SKRÁARHEITI",
+    "User" : "Notandi",
+    "Password" : "Lykilorð",
     "bytes" : "bæti",
     "Text" : "Texti",
     "Background" : "Background",

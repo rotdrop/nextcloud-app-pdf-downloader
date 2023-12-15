@@ -2,6 +2,8 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "FILENAME" : "NÙMENEARCHÎVIU",
+    "User" : "Utente",
+    "Password" : "Crae",
     "bytes" : "bytes",
     "Text" : "Testu",
     "Background" : "Isfundu",

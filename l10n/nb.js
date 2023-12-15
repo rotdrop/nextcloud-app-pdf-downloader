@@ -62,6 +62,8 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Ukomprimert størrelse på arkivet \"%1$s\" er for stor: %2$s >%3$s",
     "There is no archive file associated with this archiver instance." : "Det er ingen arkivfil tilknyttet denne arkiveringsforekomsten.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Installasjon problem; Den nødvendige ressursen \"%1$s\" av typen \"%2$s\" er ikke installert på serveren, vennligst kontakt systemadministratoren!",
+    "User" : "Bruker",
+    "Password" : "PassordP",
     "Error, caught an exception." : "Feil, fanget et unntak.",
     "Caused by previous exception" : "Skyldes tidligere unntak",
     "bytes" : "byte",

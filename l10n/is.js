@@ -2,6 +2,8 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "FILENAME" : "SKRÁARHEITI",
+    "User" : "Notandi",
+    "Password" : "Lykilorð",
     "bytes" : "bæti",
     "Text" : "Texti",
     "Background" : "Background",

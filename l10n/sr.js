@@ -62,6 +62,8 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Распакована величина архиве „%1$s” је сувише велика: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Нема фајла архиве који је придружен овој инстанци архивера.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Проблем при инсталацији; на сервер није инсталиран потребан ресурс „%1$s” типа „%2$s”, молимо вас да се обратите администратору система!",
+    "User" : "Корисник",
+    "Password" : "Лозинка",
     "Error, caught an exception." : "Грешка, ухваћен је изузетак.",
     "Caused by previous exception" : "Изазвао је претходни изузетак",
     "bytes" : "бајтова",

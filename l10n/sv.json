@@ -1,5 +1,6 @@
 { "translations": {
     "FILENAME" : "FILNAMN",
+    "Password" : "Lösenord",
     "bytes" : "byte",
     "Text" : "Text",
     "Background" : "Bakgrund",
