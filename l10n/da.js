@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "not found" : "ikke fundet",
     "Please install the \"%s\" program on the server." : "Venligst installer \"%s\" på serveren.",
+    "User" : "ruger",
+    "Password" : "Kodeord",
     "bytes" : "bytes",
     "Text" : "Tekst",
     "Background" : "Baggrund",
