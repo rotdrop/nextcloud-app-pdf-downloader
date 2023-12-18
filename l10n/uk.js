@@ -6,6 +6,8 @@ OC.L10N.register(
     "The admin setting \"%1$s\" is read-only" : "Налаштування адміністратора \"%1$s\" тільки для перегляду",
     "User" : "Користувач",
     "Password" : "Пароль",
+    "Login succeeded." : "Успішно авторизовано.",
+    "Login failed." : "Не вдалося авторизуватися.",
     "bytes" : "байтів",
     "Text" : "Текст",
     "Background" : "Тло",
