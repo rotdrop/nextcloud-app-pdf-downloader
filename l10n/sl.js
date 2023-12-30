@@ -55,6 +55,7 @@ OC.L10N.register(
     "DIR_TOTAL_PAGES" : "Skupno število strani mape",
     "Combining PDFs failed" : "Združevanje dokumentov PDF je spodletelo.",
     "Unable to open archive file %s (%s)" : "Datoteke arhiva %s ni mogoče odpreti (%s)",
+    "User" : "Uporabnik",
     "Password" : "Geslo",
     "Error, caught an exception." : "Zaznana je izjemna napaka.",
     "bytes" : "bajtov",
