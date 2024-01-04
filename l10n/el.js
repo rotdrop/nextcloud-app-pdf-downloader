@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "File or folder could not be found." : "Το αρχείο ή ο φάκελος δεν μπορεί να βρεθεί.",
     "FILENAME" : "ΟΝΟΜΑ ΑΡΧΕΙΟΥ",
+    "User" : "Χρήστης",
+    "Password" : "Συνθηματικό",
     "bytes" : "bytes",
     "Text" : "Κείμενο",
     "Background" : "Φόντο",
