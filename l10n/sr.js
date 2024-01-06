@@ -64,6 +64,8 @@ OC.L10N.register(
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Проблем при инсталацији; на сервер није инсталиран потребан ресурс „%1$s” типа „%2$s”, молимо вас да се обратите администратору система!",
     "User" : "Корисник",
     "Password" : "Лозинка",
+    "Login succeeded." : "Пријава је успела.",
+    "Login failed." : "Није успела пријава.",
     "Error, caught an exception." : "Грешка, ухваћен је изузетак.",
     "Caused by previous exception" : "Изазвао је претходни изузетак",
     "bytes" : "бајтова",
