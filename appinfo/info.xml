@@ -13,7 +13,7 @@
   <bugs>https://github.com/rotdrop/nextcloud-app-pdf-downloader.git</bugs>
   <dependencies>
     <nextcloud min-version="26" max-version="28"/>
-    <php min-version="8.0.2" max-version="8.2" />
+    <php min-version="8.0.2" max-version="8.3" />
   </dependencies>
   <settings>
     <admin>OCA\PdfDownloader\Settings\Admin</admin>
