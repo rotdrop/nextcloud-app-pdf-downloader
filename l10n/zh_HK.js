@@ -19,7 +19,7 @@ OC.L10N.register(
     "The personal setting \"%1$s\" is read-only" : "個人設置 “%1$s” 是唯讀的",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "正則表達式 “%1$s” 似乎無效，錯誤代碼為 “%d”。",
     "Did you forget the delimiters?" : "你忘記分隔符了嗎？",
-    "Unknown personal setting: \"%s\"." : "不詳的個人設定：「%s」。",
+    "Unknown personal setting: \"%s\"." : "個人設定不詳：「%s」。",
     "excluded" : "排除",
     "Unable to parse memory size limit \"%s\"" : "無法解析記憶體大小限制：「%s」",
     "PDF Downloader" : "PDF 下載器",
@@ -290,7 +290,7 @@ OC.L10N.register(
     "No" : "否",
     "Yes" : "是",
     "Debug Information" : "排除錯誤資訊",
-    "unknown error" : "未知錯誤",
+    "unknown error" : "錯誤不詳",
     "Unable to download data from \"{url}\": {message}" : "無法下載來自「{url}」的資料：{message}",
     "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog."
 },
