@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  *
@@ -34,7 +34,7 @@ import { parse as parseContentDisposition } from 'content-disposition';
  * @param {string} url Relative download url, will be first fed in to
  * generateUrl().
  *
- * @param {Array} post Optional. Additional post-data.
+ * @param {Array|boolean} post Optional. Additional post-data.
  *
  * @param {object} options Optional. Success and error callbacks
  * .done(), .fail(), .errorMessage().

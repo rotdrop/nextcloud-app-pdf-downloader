@@ -19,8 +19,9 @@ module.exports = {
           './src',
           './style',
           './',
+          '../img',
         ],
-        tryExtensions: ['.js', '.json', '.node', '.css', '.scss', '.xml', '.vue'],
+        tryExtensions: ['.js', '.ts', '.json', '.node', '.css', '.scss', '.xml', '.vue'],
       },
     ],
     // Do allow line-break before closing brackets
