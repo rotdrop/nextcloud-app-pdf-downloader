@@ -1,7 +1,7 @@
 <script>
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -291,6 +291,14 @@ export default {
     info() {
       console.info.apply(null, arguments)
     },
+    setBusySate(state) {
+      // This cannot be used any longer. How to?
+      // this.fileList.showFileBusyState(this.fileInfo.name, state)
+    },
+    reloadFileList() {
+      // No filelist any more. How to trigger reload?
+      // this.fileList.reload()
+    },
      /**
      * Update current fileInfo and fetch new data
      * @param {Object} fileInfo the current file FileInfo
@@ -300,10 +308,8 @@ export default {
 
       this.fileInfo = fileInfo
 
-      this.fileList = OCA.Files.App.currentFileList
-      this.fileList.$el.off('updated').on('updated', function(event) {
-        console.info('FILE LIST UPDATED, ARGS', arguments)
-      })
+      // NOPE, the following is no longer there:
+      // this.fileList = OCA.Files.App.currentFileList
 
       this.cloudDestinationDirName = this.config.pdfCloudFolderPath || fileInfo.path
       if (this.fileInfo.type === 'dir') {
@@ -471,11 +477,11 @@ export default {
     },
     async handleCacheFileDownload(cacheId) {
       this.downloading = true
-      this.fileList.showFileBusyState(this.fileInfo.name, true)
+      this.setBusySate(true)
       fileDownload(this.downloadUrl(cacheId), false, {
         always: () => {
           this.downloading = false
-          this.fileList.showFileBusyState(this.fileInfo.name, false)
+          this.setBusySate(false)
         }
       })
     },
@@ -550,7 +556,7 @@ export default {
         useTemplate: this.downloadOptions.useTemplate,
       }
       this.downloading = true
-      this.fileList.showFileBusyState(this.fileInfo.name, true)
+      this.setBusySate(true)
       if (this.downloadOptions.offline) {
         try {
           const response = await axios.post(
@@ -581,20 +587,20 @@ export default {
           })
         }
         this.downloading = false
-        this.fileList.showFileBusyState(this.fileInfo.name, false)
+        this.setBusySate(false)
       } else {
         const url = generateAppUrl('download/{sourcePath}', { ...urlParameters, ...queryParameters });
         fileDownload(url, false, {
           always: () => {
             this.downloading = false
-            this.fileList.showFileBusyState(this.fileInfo.name, false)
+            this.setBusySate(false)
           }
         })
       }
     },
     async handleSaveToCloud(cacheFileId, destinationFolder, move) {
       this.downloading = true
-      this.fileList.showFileBusyState(this.fileInfo.name, true)
+      this.setBusySate(true)
       const offline = cacheFileId === undefined && this.downloadOptions.offline
       let urlTemplate = offline
         ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
@@ -638,9 +644,9 @@ export default {
         showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT, })
         console.error(notice, e)
       }
-      this.fileList.showFileBusyState(this.fileInfo.name, false)
+      this.setBusySate(false)
       if (destinationPathName.startsWith(this.fileInfo.path)) {
-        this.fileList.reload()
+        this.reloadFileList()
       }
       this.downloading = false
     },
