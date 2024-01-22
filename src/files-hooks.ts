@@ -70,17 +70,9 @@ registerFileAction(new FileAction({
     return true;
   },
   async exec(node: Node/*, view: View, dir: string*/) {
-    if (node.status === NodeStatus.LOADING) {
-      return null;
-    }
-    const oldNodeStatus = node.status;
 
     const fullPath = encodeURIComponent(node.path);
 
-    const disableLoadingState = function() {
-      node.status = oldNodeStatus;
-    };
-    node.status = NodeStatus.LOADING;
     if (initialState.useBackgroundJobsDefault) {
       const url = generateAppUrl('schedule/download/{fullPath}', { fullPath }, undefined);
       try {
@@ -104,10 +96,9 @@ registerFileAction(new FileAction({
           timeout: TOAST_PERMANENT_TIMEOUT,
         });
       }
-      disableLoadingState();
     } else {
       const url = generateAppUrl('download/{fullPath}', { fullPath }, undefined);
-      fileDownload(url, false, { always: disableLoadingState });
+      await fileDownload(url, false, undefined);
     }
     return null;
   },
