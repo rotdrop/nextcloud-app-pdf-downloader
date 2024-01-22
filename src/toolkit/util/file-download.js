@@ -149,8 +149,3 @@ const download = function(url, post, options) {
 };
 
 export default download;
-
-// Local Variables: ***
-// js-indent-level: 2 ***
-// indent-tabs-mode: nil ***
-// End: ***
