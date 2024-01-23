@@ -42,6 +42,7 @@
       <SettingsInputText v-show="pageLabels"
                          :value="pageLabelTemplate"
                          :label="t(appName, 'Template for the page labels')"
+                         :disabled="loading > 0"
                          @update="(value) => { pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
       >
         <template #hint>
