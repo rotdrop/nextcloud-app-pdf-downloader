@@ -125,11 +125,30 @@ webpackConfig.module.rules = [
   },
   {
     test: /\.svg$/i,
-    use: 'svgo-loader',
+    loader: 'svgo-loader',
     type: 'asset', // 'asset/resource',
     generator: {
       filename: './css/img/[name]-[hash][ext]',
       publicPath: '../',
+    },
+    options: {
+      multipass: true,
+      js2svg: {
+        indent: 2,
+        pretty: true,
+      },
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              // viewBox is required to resize SVGs with CSS.
+              // @see https://github.com/svg/svgo/issues/1128
+              removeViewBox: false,
+            },
+          },
+        },
+      ],
     },
   },
   {
