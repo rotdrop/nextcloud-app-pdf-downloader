@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -26,10 +26,11 @@ export default {
       const content = `<div class="font-family">${fontOption.fontName}</div><div class="font-sample"><img src="${sampleUri}"></div>`;
       return {
         content,
-        preventOverflow: false,
-        boundariesElement: 'viewport',
+        preventOverflow: true,
         html: true,
-        classes: ['vue-tooltip-font-info-popup'],
+        // shown: true,
+        // triggers: [],
+        csstag: ['vue-tooltip-font-info-popup'],
       };
     },
   },

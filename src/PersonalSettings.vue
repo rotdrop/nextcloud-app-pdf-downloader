@@ -865,10 +865,3 @@ export default {
   }
 }
 </style>
-<style lang="scss">
-.v-popper--theme-tooltip {
-  .v-popper__inner {
-    max-width:unset!important;
-  }
-}
-</style>
