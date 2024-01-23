@@ -190,7 +190,7 @@
     "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "Non é posíbel consultar o valor inicial de todos os axustes: {message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "Non é posíbel consultar o valor inicial de {settingsKey}: {message}",
-    "true" : "certo",
+    "true" : "verdadeiro",
     "Successfully set \"{settingsKey}\" to {value}." : "Estabeleceuse correctamente «{settingsKey}» a {value}.",
     "Setting \"{settingsKey}\" has been unset successfully." : "O axuste «{settingsKey}» foi desactivado correctamente.",
     "Unable to set \"{settingsKey}\" to {value}: {message}." : "Non é posíbel estabelecer «{settingsKey}» a {value}: {message}.",
