@@ -3,7 +3,7 @@
  * A collection of reusable traits classes for Nextcloud apps.
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,19 +36,19 @@ use OCP\Files\NotFoundException as FileNotFoundException;
 trait UserRootFolderTrait
 {
   /** @var string */
-  protected $appName;
+  protected string $appName;
 
   /** @var string */
-  protected $userId;
+  protected string $userId;
 
   /** @var IRootFolder */
-  protected $rootFolder;
+  protected IRootFolder $rootFolder;
 
-  /** @var Folder */
-  protected $userRootFolder;
+  /** @var null|Folder */
+  protected ?Folder $userRootFolder;
 
-  /** @var Folder */
-  protected $userFolder;
+  /** @var null|Folder */
+  protected ?Folder $userFolder;
 
   /** @return Folder The user-folder*/
   public function getUserFolder():Folder
