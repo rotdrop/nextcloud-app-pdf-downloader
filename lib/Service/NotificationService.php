@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine
+ * @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine
  * @license GNU AGPL version 3 or any later version
  *
  * "stolen" from files_zip Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
@@ -46,8 +46,8 @@ class NotificationService
   /** @var string */
   protected $appName;
 
-  /** @var null|string */
-  protected $userId = null;
+  /** @var string */
+  protected string $userId;
 
   /** @var IManager */
   private $notificationManager;

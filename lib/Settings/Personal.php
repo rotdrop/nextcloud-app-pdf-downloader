@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,19 +52,15 @@ class Personal implements ISettings
   /** @var IInitialState */
   private $initialState;
 
-  /** @var IL10N */
-  protected $l;
-
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     string $appName,
-    IL10N $l10n,
+    protected IL10N $l,
     PdfCombiner $pdfCombiner,
     FileSystemWalker $fileSystemWalker,
     IInitialState $initialState,
   ) {
     $this->appName = $appName;
-    $this->l = $l10n;
     $this->pdfCombiner = $pdfCombiner;
     $this->fileSystemWalker = $fileSystemWalker;
     $this->initialState = $initialState;

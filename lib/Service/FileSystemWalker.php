@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,10 +80,7 @@ class FileSystemWalker
   private $dateTimeZone;
 
   /** @var null|string */
-  protected $userId;
-
-  /** @var IRootFolder */
-  protected $rootFolder;
+  protected string $userId;
 
   /** @var PdfCombiner */
   private $pdfCombiner;
@@ -121,7 +118,7 @@ class FileSystemWalker
     IL10N $l10n,
     ILogger $logger,
     IConfig $cloudConfig,
-    IRootFolder $rootFolder,
+    protected IRootFolder $rootFolder,
     IMimeTypeDetector $mimeTypeDetector,
     IUserSession $userSession,
     IDateTimeZone $dateTimeZone,
@@ -133,7 +130,6 @@ class FileSystemWalker
     $this->l = $l10n;
     $this->logger = $logger;
     $this->cloudConfig = $cloudConfig;
-    $this->rootFolder = $rootFolder;
     $this->mimeTypeDetector = $mimeTypeDetector;
     $this->dateTimeZone = $dateTimeZone;
     $this->pdfCombiner = $pdfCombiner;
@@ -156,13 +152,13 @@ class FileSystemWalker
     $this->archiveBombLimit = $cloudConfig->getAppValue(
       $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT);
 
-    $this->archiveSizeLimit = $cloudConfig->getUserValue(
-      $this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
-
     /** @var IUser $user */
     $user = $userSession->getUser();
     if (!empty($user)) {
       $this->userId = $user->getUID();
+      $this->archiveSizeLimit = $cloudConfig->getUserValue(
+        $this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
+
       $this->pdfCombiner->setOverlayTemplate(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEMPLATE, null)
       );
