@@ -51,7 +51,7 @@ registerFileAction(new FileAction({
     return t(appName, 'Download PDF');
   },
   title(/* files: Node[], view: View */) {
-    return t(appName, 'Convert the entry into a PDF-document.');
+    return t(appName, 'Convert the entry into a PDF document.');
   },
   iconSvgInline(/* files: Node[], view: View) */) {
     return logoSvg;
