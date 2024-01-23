@@ -146,7 +146,7 @@ class ArchiveService
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     protected ILogger $logger,
-    protected ?IL10N $l = null,
+    protected IL10N $l,
   ) {
     $this->archiver = null;
     $this->fileNode = null;

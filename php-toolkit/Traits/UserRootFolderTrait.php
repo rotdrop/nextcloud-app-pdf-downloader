@@ -35,8 +35,13 @@ use OCP\Files\NotFoundException as FileNotFoundException;
  */
 trait UserRootFolderTrait
 {
-  /** @var string */
-  protected string $appName;
+  /**
+   * @var string
+   *
+   * Note that this must not be types as it needs to remain compatible with
+   * the Nextcloud Controller class.
+   */
+  protected $appName;
 
   /** @var string */
   protected string $userId;
