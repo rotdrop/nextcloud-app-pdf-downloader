@@ -73,6 +73,7 @@ class MultiPdfDownloadController extends Controller
   use \OCA\PdfDownloader\Toolkit\Traits\ResponseTrait;
   use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
   use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\NodeTrait;
 
   /**
    * @var string
@@ -127,7 +128,7 @@ class MultiPdfDownloadController extends Controller
     private IDateTimeZone $dateTimeZone,
     private FileSystemWalker $fileSystemWalker,
     private DependenciesService $dependenciesService,
-    private IPreview $previewManager,
+    protected Preview $previewManager,
   ) {
     parent::__construct($appName, $request);
 
@@ -693,29 +694,5 @@ EOF;
       ));
     }
     return true;
-  }
-
-  /**
-   * Stolen from the template-manager.
-   *
-   * @param Node|File $file
-   * @return array
-   * @throws NotFoundException
-   * @throws \OCP\Files\InvalidPathException
-   */
-  private function formatFile(Node $file):array
-  {
-    return [
-      'basename' => $file->getName(),
-      'etag' => $file->getEtag(),
-      'fileid' => $file->getId(),
-      'filename' => $this->rootFolder->getUserFolder($this->userId)->getRelativePath($file->getPath()),
-      'lastmod' => $file->getMTime(),
-      'mime' => $file->getMimetype(),
-      'size' => $file->getSize(),
-      'type' => $file->getType(),
-      'hasPreview' => $this->previewManager->isAvailable($file),
-      'permissions' => $file->getPermissions(),
-    ];
   }
 }
