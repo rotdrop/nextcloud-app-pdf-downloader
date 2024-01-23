@@ -295,7 +295,7 @@ class MultiPdfDownloadController extends Controller
 
     return self::dataResponse([
       'pdfFilePath' => $pdfFilePath,
-      'fileInfo' => $this->formatFile($pdfFile),
+      'fileInfo' => $this->formatNode($pdfFile),
       'messages' => [ $this->l->t('PDF document saved as "%s".', $pdfFilePath), ],
     ]);
   }
