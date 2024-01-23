@@ -34,6 +34,7 @@ use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IPreview;
 use Psr\Log\LoggerInterface as ILogger;
 use Psr\Log\LogLevel;
 use OCP\BackgroundJob\IJobList;
@@ -100,35 +101,8 @@ class MultiPdfDownloadController extends Controller
     self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
   ];
 
-  /** @var IConfig */
-  private $cloudConfig;
-
-  /** @var IJobList */
-  private $jobList;
-
-  /** @var NotificationService */
-  private $notificationService;
-
-  /** @var UserScopeService */
-  private $userScopeService;
-
-  /** @var DependenciesService */
-  private $dependenciesService;
-
-  /** @var PdfCombiner */
-  private $pdfCombiner;
-
-  /** @var FontService */
-  private $fontService;
-
-  /** @var FileSystemWalker */
-  private $fileSystemWalker;
-
   /** @var string */
   protected string $userId;
-
-  /** @var IDateTimeZone */
-  private $dateTimeZone;
 
   /** @var bool */
   private $useAuthenticatedBackgroundJobs;
@@ -140,33 +114,22 @@ class MultiPdfDownloadController extends Controller
   public function __construct(
     string $appName,
     IRequest $request,
-    IL10N $l10n,
-    ILogger $logger,
-    IUserSession $userSession,
-    IConfig $cloudConfig,
-    IRootFolder $rootFolder,
-    IJobList $jobList,
-    NotificationService $notificationService,
-    UserScopeService $userScopeService,
-    Pdfcombiner $pdfCombiner,
-    FontService $fontService,
-    IDateTimeZone $dateTimeZone,
-    FileSystemWalker $fileSystemWalker,
-    DependenciesService $dependenciesService,
+    protected IL10N $l,
+    protected ILogger $logger,
+    private IUserSession $userSession,
+    private IConfig $cloudConfig,
+    protected IRootFolder $rootFolder,
+    private IJobList $jobList,
+    private NotificationService $notificationService,
+    private UserScopeService $userScopeService,
+    private Pdfcombiner $pdfCombiner,
+    private FontService $fontService,
+    private IDateTimeZone $dateTimeZone,
+    private FileSystemWalker $fileSystemWalker,
+    private DependenciesService $dependenciesService,
+    private IPreview $previewManager,
   ) {
     parent::__construct($appName, $request);
-    $this->l = $l10n;
-    $this->logger = $logger;
-    $this->cloudConfig = $cloudConfig;
-    $this->rootFolder = $rootFolder;
-    $this->jobList = $jobList;
-    $this->notificationService = $notificationService;
-    $this->userScopeService = $userScopeService;
-    $this->pdfCombiner = $pdfCombiner;
-    $this->fontService = $fontService;
-    $this->dateTimeZone = $dateTimeZone;
-    $this->fileSystemWalker = $fileSystemWalker;
-    $this->dependenciesService = $dependenciesService;
 
     /** @var IUser $user */
     $user = $userSession->getUser();
@@ -327,10 +290,11 @@ class MultiPdfDownloadController extends Controller
       );
     }
 
-    $pdfFilePath = $pdfFile->getInternalPath();
+    $pdfFilePath = substr($pdfFile->getPath(), strlen(Constants::PATH_SEPARATOR . Constants::USER_FOLDER_PREFIX));
 
     return self::dataResponse([
       'pdfFilePath' => $pdfFilePath,
+      'fileInfo' => $this->formatFile($pdfFile),
       'messages' => [ $this->l->t('PDF document saved as "%s".', $pdfFilePath), ],
     ]);
   }
@@ -729,5 +693,29 @@ EOF;
       ));
     }
     return true;
+  }
+
+  /**
+   * Stolen from the template-manager.
+   *
+   * @param Node|File $file
+   * @return array
+   * @throws NotFoundException
+   * @throws \OCP\Files\InvalidPathException
+   */
+  private function formatFile(Node $file):array
+  {
+    return [
+      'basename' => $file->getName(),
+      'etag' => $file->getEtag(),
+      'fileid' => $file->getId(),
+      'filename' => $this->rootFolder->getUserFolder($this->userId)->getRelativePath($file->getPath()),
+      'lastmod' => $file->getMTime(),
+      'mime' => $file->getMimetype(),
+      'size' => $file->getSize(),
+      'type' => $file->getType(),
+      'hasPreview' => $this->previewManager->isAvailable($file),
+      'permissions' => $file->getPermissions(),
+    ];
   }
 }

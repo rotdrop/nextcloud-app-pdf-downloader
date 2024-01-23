@@ -166,7 +166,10 @@
 
 import { appName } from '../config.js'
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
+import { getRequestToken, getCurrentUser } from '@nextcloud/auth'
+import { join } from 'path'
+import { emit } from '@nextcloud/event-bus'
+import { File } from '@nextcloud/files'
 import Actions from '@nextcloud/vue/dist/Components/NcActions'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import ActionCheckBox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
@@ -175,6 +178,7 @@ import { /* getFilePickerBuilder, */ showError, showSuccess, TOAST_PERMANENT_TIM
 import CloudUpload from 'vue-material-design-icons/CloudUpload'
 import axios from '@nextcloud/axios'
 import * as Path from 'path'
+import { generateRemoteUrl } from '@nextcloud/router'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
 import fileDownload from '../toolkit/util/file-download.js';
@@ -294,10 +298,6 @@ export default {
     setBusySate(state) {
       // This cannot be used any longer. How to?
       // this.fileList.showFileBusyState(this.fileInfo.name, state)
-    },
-    reloadFileList() {
-      // No filelist any more. How to trigger reload?
-      // this.fileList.reload()
     },
      /**
      * Update current fileInfo and fetch new data
@@ -524,6 +524,7 @@ export default {
       this.downloading = false
     },
     downloadsPoller(downloadFileIds) {
+      // this probably should be replaced by an event-bus listener on notifications:action:execute
       this.fetchAvailableDownloads(true).then((downloads) => {
         let loadingFinished = downloads.length !== downloadFileIds.length
         if (!loadingFinished) {
@@ -627,7 +628,33 @@ export default {
         if (offline) {
           showSuccess(t(appName, 'Scheduled offline PDF generation to {path}.', { path: response.data.pdfFilePath }))
         } else {
-          showSuccess(t(appName, 'PDF saved as {path}.', { path: response.data.pdfFilePath }))
+          const pdfFilePath = response.data.pdfFilePath.substring('/files'.length)
+          showSuccess(t(appName, 'PDF saved as {path}.', { path: pdfFilePath }))
+          console.info('PDF / ORIG', pdfFilePath, this.fileInfo)
+          if (pdfFilePath.startsWith(this.fileInfo.path)) {
+            // should emit a birth signal over the event bus ...
+            const owner = getCurrentUser().uid
+            const fileInfo = response.data.fileInfo
+            // fileInfo should be provided by the controller
+            const node = new File({
+              id: fileInfo.fileid,
+              source: generateRemoteUrl(join('dav/files', owner, fileInfo.filename)),
+              root: `/files/${owner}`,
+              mime: fileInfo.mime,
+              mtime: new Date(fileInfo.lastmod * 1000),
+              owner,
+              size: fileInfo.size,
+              permissions: fileInfo.permissions,
+              attributes: {
+                ...fileInfo,
+                'has-preview': fileInfo.hasPreview,
+              },
+            })
+            console.info('NODE', node)
+
+            // Update files list
+            emit('files:node:created', node)
+          }
         }
       } catch (e) {
         let message = t(appName, 'reason unknown')
@@ -645,9 +672,6 @@ export default {
         console.error(notice, e)
       }
       this.setBusySate(false)
-      if (destinationPathName.startsWith(this.fileInfo.path)) {
-        this.reloadFileList()
-      }
       this.downloading = false
     },
   },
