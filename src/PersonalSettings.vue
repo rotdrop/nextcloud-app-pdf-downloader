@@ -1,6 +1,6 @@
 <script>
 /**
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -862,6 +862,13 @@ export default {
     background-size: 12px;
     background-position: right center;
     background-repeat: no-repeat;
+  }
+}
+</style>
+<style lang="scss">
+.v-popper--theme-tooltip {
+  .v-popper__inner {
+    max-width:unset!important;
   }
 }
 </style>
