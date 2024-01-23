@@ -170,6 +170,7 @@ import { getRequestToken, getCurrentUser } from '@nextcloud/auth'
 import { join } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { File } from '@nextcloud/files'
+import { fileInfoToNode } from '../toolkit/util/file-node-helper.js'
 import Actions from '@nextcloud/vue/dist/Components/NcActions'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import ActionCheckBox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
@@ -635,21 +636,7 @@ export default {
             // should emit a birth signal over the event bus ...
             const owner = getCurrentUser().uid
             const fileInfo = response.data.fileInfo
-            // fileInfo should be provided by the controller
-            const node = new File({
-              id: fileInfo.fileid,
-              source: generateRemoteUrl(join('dav/files', owner, fileInfo.filename)),
-              root: `/files/${owner}`,
-              mime: fileInfo.mime,
-              mtime: new Date(fileInfo.lastmod * 1000),
-              owner,
-              size: fileInfo.size,
-              permissions: fileInfo.permissions,
-              attributes: {
-                ...fileInfo,
-                'has-preview': fileInfo.hasPreview,
-              },
-            })
+            const node = fileInfoToNode(fileInfo, owner)
             console.info('NODE', node)
 
             // Update files list
