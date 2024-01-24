@@ -183,6 +183,7 @@
     "Unable to delete the cached PDF file: {message}" : "Impossible de supprimer le fichier PDF mis en cache : {message}",
     "Background PDF generation for {sourceFile} has been scheduled." : "La génération de PDF en arrière-plan du fichier {sourceFile} a été planifiée.",
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "Impossible de planifier la génération de PDF en arrière-plan pour le fichier {sourceFile} : {message}",
+    "Scheduled offline PDF generation to {path}." : "Génération PDF hors-ligne planifiée à {path}.",
     "PDF saved as {path}." : "PDF enregistrer comme {path}",
     "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "Impossible d'enregistrer dans le cloud le PDF généré à partir du fichier {sourceFile} : {message}",
     "Download PDF" : "Télécharger le PDF",
