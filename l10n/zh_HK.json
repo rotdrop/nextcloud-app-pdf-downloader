@@ -187,6 +187,7 @@
     "PDF saved as {path}." : "PDF 已保存為 {path}。",
     "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "無法將從 {sourceFile} 生成的 PDF 保存到雲端：{message}",
     "Download PDF" : "下載 PDF",
+    "Convert the entry into a PDF document." : "轉換條目為 PDF 文件。",
     "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "無法查詢所有設定的初始值：{message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "無法查詢 {settingsKey} 的初始值：{message}",
