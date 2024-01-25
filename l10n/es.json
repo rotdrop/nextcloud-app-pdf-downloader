@@ -187,6 +187,7 @@
     "PDF saved as {path}." : "El PDF se guardó como {path}.",
     "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "No fue posible guardar el archivo PDF generado desde {sourceFile} a la nube: {message}",
     "Download PDF" : "Descargar PDF",
+    "Convert the entry into a PDF document." : "Convertir la entrada en un documento PDF.",
     "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "No fue posible sondear el valor inicial de todas las configuraciones: {message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "No fue posible sondear el valor inicial de {settingsKey}: {message}",
