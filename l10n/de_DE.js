@@ -189,6 +189,7 @@ OC.L10N.register(
     "PDF saved as {path}." : "PDF gespeichert als {path}.",
     "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "Das von {sourceFile} generierte PDF kann nicht in der Cloud gespeichert werden: {message}",
     "Download PDF" : "PDF herunterladen",
+    "Convert the entry into a PDF document." : "Eintrag in ein PDF-Dokument konvertieren.",
     "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "Kann die anfänglichen Werte der Einstellungen nicht abrufen: {message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "Kann die anfänglichen Wert der Einstellung {settingsKey} nicht abrufen: {message}",

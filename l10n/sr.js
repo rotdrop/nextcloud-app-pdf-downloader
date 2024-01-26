@@ -189,6 +189,7 @@ OC.L10N.register(
     "PDF saved as {path}." : "PDF је сачуван као {path}.",
     "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "PDF фајл генерисан из {sourceFile} не може да се сачува на облак: {message}",
     "Download PDF" : "Преузми PDF",
+    "Convert the entry into a PDF document." : "Претвара ставку у PDF документ.",
     "PDF" : "PDF",
     "Unable to query the initial value of all settings: {message}" : "Није успео упит почетне вредности свих подешавања: {message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "Није успео упита почетне вредности {settingsKey}: {message}",
