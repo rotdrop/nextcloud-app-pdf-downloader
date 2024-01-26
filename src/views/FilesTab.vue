@@ -167,9 +167,7 @@
 import { appName } from '../config.js'
 import Vue from 'vue'
 import { getRequestToken, getCurrentUser } from '@nextcloud/auth'
-import { join } from 'path'
-import { emit } from '@nextcloud/event-bus'
-import { File } from '@nextcloud/files'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { fileInfoToNode } from '../toolkit/util/file-node-helper.js'
 import Actions from '@nextcloud/vue/dist/Components/NcActions'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
@@ -179,7 +177,6 @@ import { /* getFilePickerBuilder, */ showError, showSuccess, TOAST_PERMANENT_TIM
 import CloudUpload from 'vue-material-design-icons/CloudUpload'
 import axios from '@nextcloud/axios'
 import * as Path from 'path'
-import { generateRemoteUrl } from '@nextcloud/router'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
 import fileDownload from '../toolkit/util/file-download.js';
@@ -232,6 +229,7 @@ export default {
   },
   created() {
     // this.getData()
+    subscribe('notifications:notification:received', this.onNotification)
   },
   mounted() {
     // this.getData()
@@ -280,7 +278,7 @@ export default {
     },
   },
   watch: {
-    showCloudDestination(newValue, oldValue) {
+    showCloudDestination(newValue/*, oldValue */) {
       if (newValue) {
         this.$refs.downloadActions.closeMenu()
       }
@@ -296,7 +294,7 @@ export default {
     info() {
       console.info.apply(null, arguments)
     },
-    setBusySate(state) {
+    setBusySate(/*state*/) {
       // This cannot be used any longer. How to?
       // this.fileList.showFileBusyState(this.fileInfo.name, state)
     },
@@ -429,7 +427,6 @@ export default {
         requesttoken: getRequestToken()
       })
     },
-
     async handleCacheFileSave(cacheId) {
       // This cannot work with CopyMove as the promise returned is
       // resolved with only the path-name, the information about the
@@ -446,7 +443,7 @@ export default {
       // let dir = await picker.pick()
 
       // so let's try something which could be a bugfix for @nextcloud/dialogs
-      let { dir, mode } = await new Promise((res, rej) => {
+      let { dir, mode } = await new Promise((res/*, rej */) => {
         OC.dialogs.filepicker(
           t(appName, 'Choose a destination'), // title
           (dir, mode) => res({ dir, mode }), // callback _WITH_ mode
@@ -524,6 +521,9 @@ export default {
       }
       this.downloading = false
     },
+    onNotification(event) {
+      console.info('NOTIFICATION RECEIVED', event)
+    },
     downloadsPoller(downloadFileIds) {
       // this probably should be replaced by an event-bus listener on notifications:action:execute
       this.fetchAvailableDownloads(true).then((downloads) => {
@@ -561,7 +561,7 @@ export default {
       this.setBusySate(true)
       if (this.downloadOptions.offline) {
         try {
-          const response = await axios.post(
+          axios.post(
             generateAppUrl('schedule/download/{sourcePath}/{destinationPath}', urlParameters),
             queryParameters
           )
@@ -631,17 +631,15 @@ export default {
         } else {
           const pdfFilePath = response.data.pdfFilePath.substring('/files'.length)
           showSuccess(t(appName, 'PDF saved as {path}.', { path: pdfFilePath }))
-          console.info('PDF / ORIG', pdfFilePath, this.fileInfo)
-          if (pdfFilePath.startsWith(this.fileInfo.path)) {
-            // should emit a birth signal over the event bus ...
-            const owner = getCurrentUser().uid
-            const fileInfo = response.data.fileInfo
-            const node = fileInfoToNode(fileInfo, owner)
-            console.info('NODE', node)
 
-            // Update files list
-            emit('files:node:created', node)
-          }
+          // Emit a birth signal over the event bus. We don't care
+          // whether the new node is located in the currently viewed
+          // directory.
+          const node = fileInfoToNode(response.data.fileInfo)
+          console.info('NODE', node)
+
+          // Update files list
+          emit('files:node:created', node)
         }
       } catch (e) {
         let message = t(appName, 'reason unknown')
