@@ -128,7 +128,7 @@ class MultiPdfDownloadController extends Controller
     private IDateTimeZone $dateTimeZone,
     private FileSystemWalker $fileSystemWalker,
     private DependenciesService $dependenciesService,
-    protected Preview $previewManager,
+    protected IPreview $previewManager,
   ) {
     parent::__construct($appName, $request);
 
