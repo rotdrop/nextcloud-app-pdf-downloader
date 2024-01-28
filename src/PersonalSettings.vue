@@ -34,12 +34,10 @@
           {{ t(appName, 'Label output pages with filename and page number') }}
         </label>
       </div>
-      <span class="hint">
-        {{ t(appName, 'Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES') }}
-      </span>
       <div v-show="pageLabels" class="horizontal-rule" />
       <!-- avoid v-model here as the update of pageLabelTemplate causes instant font-sample generation -->
       <SettingsInputText v-show="pageLabels"
+                         v-tooltip="unclippedPopup(pageLabelTemplate)"
                          :value="pageLabelTemplate"
                          :label="t(appName, 'Template for the page labels')"
                          :disabled="loading > 0"
@@ -381,6 +379,7 @@ import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANEN
 import axios from '@nextcloud/axios'
 import { parse as pathParse } from 'path'
 import settingsSync from './toolkit/mixins/settings-sync'
+import unclippedPopup from './components/mixins/unclipped-popup.js'
 import tinycolor from 'tinycolor2'
 import { hexToCSSFilter } from 'hex-to-css-filter'
 import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
@@ -484,6 +483,7 @@ export default {
   },
   mixins: [
     settingsSync,
+    unclippedPopup,
   ],
   computed: {
     pageLabelTemplateFontSampleUri() {
@@ -744,6 +744,13 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+[csstag="vue-tooltip-unclipped-popup"].v-popper--theme-tooltip {
+  .v-popper__inner {
+    max-width:unset!important;
+  }
+}
+</style>
 <style lang="scss" scoped>
 .cloud-version {
   --cloud-icon-info: var(--icon-info-dark);
