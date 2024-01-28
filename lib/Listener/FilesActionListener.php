@@ -37,11 +37,11 @@ use OCP\IL10N;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 
-use OCA\PdfDownloader\Toolkit\Service\MimeTypeService;
 
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Controller\SettingsController;
 use OCA\PdfDownloader\Service\FileSystemWalker;
+use OCA\PdfDownloader\Service\MimeTypeService;
 use OCA\PdfDownloader\Constants;
 
 /**
@@ -177,7 +177,10 @@ class FilesActionListener implements IEventListener
 
       /** @var MimeTypeService $mimeTypeService */
       $mimeTypeService = $this->appContainer->get(MimeTypeService::class);
-      $archiveMimeTypes = $mimeTypeService->setAppPath(__DIR__ . '/../../')->getSupportedMimeTypes();
+      $archiveMimeTypes = $mimeTypeService->getSupportedArchiveMimeTypes();
+      $archiveMimeTypes = array_values($archiveMimeTypes);
+      sort($archiveMimeTypes);
+      $archiveMimeTypes = array_values(array_unique($archiveMimeTypes));
 
       // just admin contact and stuff to make the ajax error handlers work.
       $this->groupManager = $this->appContainer->get(\OCP\IGroupManager::class);
