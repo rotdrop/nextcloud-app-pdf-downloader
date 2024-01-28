@@ -70,23 +70,8 @@ class FileSystemWalker
   /** @var int */
   private $errorPagesFontSize = self::ERROR_PAGES_FONT_SIZE;
 
-  /** @var IConfig */
-  private $cloudConfig;
-
-  /** @var IMimeTypeDetector */
-  private $mimeTypeDetector;
-
-  /** @var IDateTimeZone */
-  private $dateTimeZone;
-
   /** @var null|string */
   protected string $userId;
-
-  /** @var PdfCombiner */
-  private $pdfCombiner;
-
-  /** @var ArchiveService */
-  private $archiveService;
 
   /** @var null|string */
   private $cloudFolderPath = null;
@@ -114,28 +99,18 @@ class FileSystemWalker
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
-    string $appName,
-    IL10N $l10n,
-    ILogger $logger,
-    IConfig $cloudConfig,
+    protected $appName,
+    protected IL10N $l,
+    protected ILogger $logger,
+    private IConfig $cloudConfig,
     protected IRootFolder $rootFolder,
-    IMimeTypeDetector $mimeTypeDetector,
-    IUserSession $userSession,
-    IDateTimeZone $dateTimeZone,
-    PdfCombiner $pdfCombiner,
-    AnyToPdf $anyToPdf,
-    ArchiveService $archiveService,
+    private IMimeTypeDetector $mimeTypeDetector,
+    protected IUserSession $userSession,
+    private IDateTimeZone $dateTimeZone,
+    private PdfCombiner $pdfCombiner,
+    private AnyToPdf $anyToPdf,
+    private ArchiveService $archiveService,
   ) {
-    $this->appName = $appName;
-    $this->l = $l10n;
-    $this->logger = $logger;
-    $this->cloudConfig = $cloudConfig;
-    $this->mimeTypeDetector = $mimeTypeDetector;
-    $this->dateTimeZone = $dateTimeZone;
-    $this->pdfCombiner = $pdfCombiner;
-    $this->anyToPdf = $anyToPdf;
-    $this->archiveService = $archiveService;
-
     if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
       $this->anyToPdf->disableBuiltinConverters();
     } else {
@@ -549,19 +524,17 @@ __EOF__;
   }
 
   /**
-   * @param string $sourcePath
+   * @param int $sourceNodeId
    *
    * @param int $cacheFileId
    *
    * @return null|File
    */
-  public function getCacheFile(string $sourcePath, int $cacheFileId):?File
+  public function getCacheFile(int $sourceNodeId, int $cacheFileId):?File
   {
-    $sourceNode = $this->getUserFolder()->get($sourcePath);
-    $sourceNodeId = $sourceNode->getId();
     try {
       /** @var File $cacheFile */
-      list($cacheFile,) = $this->getUserAppFolder()->get($sourceNodeId)->getById($cacheFileId);
+      list($cacheFile,) = $this->getUserAppFolder()->get((string)$sourceNodeId)->getById($cacheFileId);
     } catch (FileNotFoundException $e) {
       return null;
     }
@@ -583,7 +556,7 @@ __EOF__;
    *
    * @return string
    */
-  public function getPdfFilePath(string $sourcePath, ?string $destinationPath, ?bool $useTemplate = null):string
+  public function getPdfFilePath(string $sourcePath, ?string $destinationPath = null, ?bool $useTemplate = null):string
   {
     if ($destinationPath === null) {
       $destinationDirectory = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR
@@ -670,8 +643,16 @@ __EOF__;
       );
     }
 
+    $this->logInfo('TIMEZONE: ' . print_r($this->dateTimeZone->getTimeZone(), true));
+
     $keys = $this->getTemplateKeyTranslations();
     $pathInfo = pathinfo($path);
+    $this->logInfo('PATH ' . $path . ' ' . print_r($pathInfo, true));
+    if (str_ends_with($pathInfo['filename'], '.tar')) {
+      // handle this in a special way ...
+      $pathInfo['extension'] = 'tar.' . $pathInfo['extension'];
+      $pathInfo['filename'] = basename($pathInfo['filename'], '.tar');
+    }
     $templateValues = [
       'PATH' => trim($path, Constants::PATH_SEPARATOR),
       'BASENAME' => $pathInfo['basename'],
