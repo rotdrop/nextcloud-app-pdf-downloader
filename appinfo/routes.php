@@ -100,9 +100,6 @@ return [
       'name' => 'multi_pdf_download#clean',
       'url' => '/clean/{sourcePath}/{cacheId}',
       'verb' => 'POST',
-      'defaults' => [
-        'cacheId' => null,
-      ],
     ],
     [
       'name' => 'multi_pdf_download#get_fonts',

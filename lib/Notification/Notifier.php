@@ -34,6 +34,7 @@ use OCP\IPreview;
 use OCP\Files\IRootFolder;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\IDateTimeFormatter;
 
 use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
 
@@ -54,6 +55,7 @@ class Notifier implements INotifier
   public const TYPE_SUCCESS = (1 << 3);
   public const TYPE_FAILURE = (1 << 4);
   public const TYPE_CLEANED = (1 << 5);
+  public const TYPE_CANCELLED = (1 << 6);
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
@@ -63,6 +65,7 @@ class Notifier implements INotifier
     protected IURLGenerator $urlGenerator,
     protected IRootFolder $rootFolder,
     protected IPreview $previewManager,
+    protected IDateTimeFormatter $dateTimeFormatter,
     IUserSession $userSession,
   ) {
     $user = $userSession->getUser();
@@ -96,17 +99,21 @@ class Notifier implements INotifier
     $this->userId = $notification->getUser();
 
     $parameters = $notification->getSubjectParameters();
-    $richSubstitutions = [
-      'source' => [
+    $richSubstitutions = [];
+    if ($parameters['sourceId'] > 0) {
+      $richSubstitutions['source'] = [
         'type' => 'file',
         'id' => $parameters['sourceId'],
         'name' => $parameters['sourceBaseName'],
         'path' => $parameters['sourcePath'],
         'link' => $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [
           'fileid' => $parameters['sourceId'],
+          'requesttoken' => \OCP\Util::callRegister(),
         ]),
-      ],
-    ];
+      ];
+    }
+
+    // $this->logException(new \Exception('PREPARE ' . $notification->getSubject()));
 
     switch ($notification->getSubject()) {
       case self::TYPE_SCHEDULED|self::TYPE_FILESYSTEM:
@@ -135,10 +142,13 @@ class Notifier implements INotifier
           ]),
           'status' => 'filesystem',
         ];
-        $this->logInfo('AFTER PREPARE DEST PARAMETERS');
 
         try {
-          $destination = $this->getUserRootFolder()->get($parameters['destinationPath']);
+          $destinations = $this->getUserFolder()->getById($parameters['destinationId']);
+          if (empty($destinations)) {
+            throw new NotFoundException('Unable to find file in user folder ' . $parameters['destinationPath']);
+          }
+          $destination = reset($destinations);
           $richSubstitutions['destination']['file'] = $this->formatNode($destination);
         } catch (NotFoundException $e) {
           $this->logException($e, 'SUCCESS, but no pdf-file BY PATH ' . print_r($parameters, true));
@@ -148,10 +158,11 @@ class Notifier implements INotifier
           $l->t(
             'Your folder {source} has been converted to a PDF file at {destination}.'
           ),
-          $richSubstitutions
+          $richSubstitutions,
         );
         break;
       case self::TYPE_SUCCESS|self::TYPE_DOWNLOAD:
+        $this->logInfo('PREPARE SUCCESS DOWNLOAD');
         $richSubstitutions['destination'] = [
           'type' => 'file',
           'id' => $parameters['destinationId'],
@@ -166,11 +177,12 @@ class Notifier implements INotifier
         ];
 
         try {
-          $this->logInfo('PREPARE SUCCESS DOWNLOAD, TRY GET FILE ' . $parameters['destinationPath']);
-          $destination = $this->getUserRootFolder()->get($parameters['destinationPath']);
-          $this->logInfo('PREPARE SUCCESS DOWNLOAD, GOT FILE ' . $parameters['destinationPath'] . ' ' . $destination->getPath());
+          $destinations = $this->getUserAppFolder()->getById($parameters['destinationId']);
+          if (empty($destinations)) {
+            throw new NotFoundException('Unable to find download-file ' . $parameters['destinationPath']);
+          }
+          $destination = reset($destinations);
           $richSubstitutions['destination']['file'] = $this->formatNode($destination);
-          $this->logInfo('GOT FILE ' . print_r($richSubstitutions['destination']['file'], true));
         } catch (NotFoundException $e) {
           $this->logException($e, 'SUCCESS, but no pdf-file BY PATH ' . print_r($parameters, true));
         }
@@ -189,6 +201,7 @@ class Notifier implements INotifier
         break;
       case self::TYPE_FAILURE|self::TYPE_FILESYSTEM:
       case self::TYPE_FAILURE|self::TYPE_DOWNLOAD:
+        $this->logInfo('PREPARE FAILURE');
         $parameters = $notification->getSubjectParameters();
         $errorMessage = $parameters['errorMessage'] ?? null;
         if ($errorMessage) {
@@ -196,26 +209,47 @@ class Notifier implements INotifier
         } else {
           $subjectTemplate = $l->t('Converting {source} to PDF has failed.');
         }
-        $notification->setRichSubject($subjectTemplate, [
-          'source' => [
-            'type' => 'file',
-            'id' => $parameters['sourceId'],
-            'name' => $parameters['sourceBaseName'],
-            'path' => $parameters['sourceDirectory'],
-            'link' => $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [
-              'fileid' => $parameters['sourceId'],
-              'requesttoken' => \OCP\Util::callRegister(),
-            ]),
-          ],
-          'message' => [
-            'type' => 'highlight',
-            'id' => $notification->getObjectId(),
-            'name' => $l->t($errorMessage),
-          ],
-        ]);
+        $richSubstitutions['message'] = [
+          'type' => 'highlight',
+          'id' => $notification->getObjectId(),
+          'name' => $l->t($errorMessage),
+        ];
+        $notification->setRichSubject($subjectTemplate, $richSubstitutions);
         break;
       case self::TYPE_CLEANED|self::TYPE_FILESYSTEM:
+        break;
       case self::TYPE_CLEANED|self::TYPE_DOWNLOAD:
+        $this->logInfo('PREPARE CLEANED DOWNLOAD');
+        $richSubstitutions['source'] = [
+          'type' => 'highlight',
+          'id' => $parameters['sourceId'],
+          'name' => $l->t('irrelevant'),
+        ];
+        $richSubstitutions['destination'] = [
+          'type' => 'highlight',
+          'id' => $notification->getObjectId(),
+          'name' => $parameters['destinationBaseName'],
+          'status' => 'download',
+          'file' => [
+            'fileid' => $parameters['destinationId'],
+          ],
+        ];
+        $richSubstitutions['timespan'] = [
+          'type' => 'highlight',
+          'id' => $notification->getObjectId(),
+          'name' => lcfirst($this->dateTimeFormatter->formatTimeSpan($parameters['destinationMTime'], l: $l)),
+        ];
+
+        $notification->setRichSubject(
+          // TRANSLATORS: {destination} is replaced by the basename of a file,
+          // TRANSLATORS: {timespan} by an already translated human readable
+          // TRANSLATORS: expression for the given time span (e.g. in English
+          // TRANSLATORS: "10 minutes ago"). The expression might not
+          // TRANSLATORS: syntactically fit to the rest of the phrase.
+          $l->t('The temporary download file {destination} has been removed. Its creation time was: {timespan}.'),
+          $richSubstitutions,
+        );
+        break;
       default:
         throw new InvalidArgumentException($l->t('Unsupported subject: "%s".', $notification->getSubject()));
     }

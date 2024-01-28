@@ -38,6 +38,7 @@ use OCP\Files\Folder;
 use OCP\Files\Node;
 
 use OCA\PdfDownloader\Controller\SettingsController;
+use OCA\PdfDownloader\Service\NotificationService;
 
 /**
  * Remove stale downloads after a configured (or default) time.
@@ -49,41 +50,24 @@ class DownloadsCleanupJob extends TimedJob
 
   public const DEFAULT_CLEANUP_INTERVAL = 24 * 3600 * 1; // check once a day
   public const DEFAULT_TIME_TO_KEEP = SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT;
+  public const CLEANUP_INTERVAL_KEY = 'cleanup_interval_seconds';
 
   public const USER_ID_KEY = 'userId';
 
-  /** @var IConfig */
-  private $cloudConfig;
-
-  /** @var IUserSession */
-  private $userSession;
-
-  /** @var IUserManager */
-  private $userManager;
-
-  /** @var IJobList */
-  private $jobList;
-
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
-    string $appName,
-    IConfig $cloudConfig,
-    ILogger $logger,
     ITimeFactory $timeFactory,
-    IUserSession $userSession,
-    IUserManager $userManager,
-    IRootFolder $rootFolder,
-    IJobList $jobList,
+    protected $appName,
+    private IConfig $cloudConfig,
+    protected ILogger $logger,
+    private IUserSession $userSession,
+    private IUserManager $userManager,
+    protected IRootFolder $rootFolder,
+    private IJobList $jobList,
+    private NotificationService $notificationService,
   ) {
     parent::__construct($timeFactory);
-    $this->appName = $appName;
-    $this->cloudConfig = $cloudConfig;
-    $this->logger = $logger;
-    $this->userSession = $userSession;
-    $this->userManager = $userManager;
-    $this->rootFolder = $rootFolder;
-    $this->jobList = $jobList;
-    $this->setInterval(self::DEFAULT_CLEANUP_INTERVAL);
+    $this->setInterval($this->cloudConfig->getAppValue($this->appName, self::CLEANUP_INTERVAL_KEY, self::DEFAULT_CLEANUP_INTERVAL));
     $this->setTimeSensitivity(self::TIME_INSENSITIVE);
   }
   // phpcs:enable
@@ -134,6 +118,7 @@ class DownloadsCleanupJob extends TimedJob
           ++$deletedCaches;
           continue;
         }
+        $sourceId = (int)$folder->getName();
         $folderCacheNodes = $folder->getDirectoryListing();
         $numberDeleted = 0;
         /** @var Node $cacheNode */
@@ -141,8 +126,18 @@ class DownloadsCleanupJob extends TimedJob
           // Note that Node::getCreationTime() is not usable. It is almost
           // ever set to 0. Use MTime.
           if ($cacheNode->getMTime() + $purgeTimeout < $now) {
+            $cacheNodeId = $cacheNode->getId();
+            $cacheNodePath = $cacheNode->getPath();
+            $cacheNodeMTime = $cacheNode->getMTime();
             $cacheNode->delete();
-             ++$numberDeleted;
+            ++$numberDeleted;
+            $this->notificationService->sendNotificationOnClean(
+              userId: $this->userId,
+              sourceId: $sourceId,
+              destinationId: $cacheNodeId,
+              destinationPath: $cacheNodePath,
+              destinationMTime: $cacheNodeMTime,
+            );
           }
         }
         if ($numberDeleted == count($folderCacheNodes)) {
@@ -152,6 +147,7 @@ class DownloadsCleanupJob extends TimedJob
       }
 
       if ($deletedCaches === count($cacheDirectories)) {
+        $this->logInfo('Nothing more to do, removing us from the run-list');
         // remove us from the list of jobs
         $this->jobList->remove($this);
       }

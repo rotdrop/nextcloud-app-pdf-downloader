@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\AnyToPdf;
 use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Service\DependenciesService;
+use OCA\PdfDownloader\BackgroundJob\DownloadsCleanupJob;
 
 use OCA\PdfDownloader\Constants;
 
@@ -659,6 +660,18 @@ class SettingsController extends Controller
         $humanValue = $newValue === null ? '' : $this->formatStorageValue($newValue);
         break;
       case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
+        // adjust the background-job interval such that this can possible
+        // more-or-less happen ...
+        $users = $this->config->getUsersForUserValue($this->appName, $setting);
+        $purgeInterval = max(
+          0,
+          min(
+            DownloadsCleanupJob::DEFAULT_CLEANUP_INTERVAL,
+            (int)min(array_values(
+              $this->config->getUserValueForUsers($this->appName, $setting, $users),
+            ))
+          ));
+        $this->config->setAppValue($this->appName, DownloadsCleanupJob::CLEANUP_INTERVAL_KEY, $purgeInterval);
         if ($newValue === null) {
           $humanValue = '';
           break;

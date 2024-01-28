@@ -73,9 +73,6 @@ class FileSystemWalker
   /** @var null|string */
   protected string $userId;
 
-  /** @var null|string */
-  private $cloudFolderPath = null;
-
   /** @var null|int */
   private $archiveSizeLimit = null;
 
@@ -167,8 +164,6 @@ class FileSystemWalker
       }
       $grouping = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GROUPING, PdfCombiner::GROUP_FOLDERS_FIRST);
       $this->pdfCombiner->setGrouping($grouping);
-
-      $this->cloudFolderPath = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH, null);
 
       $this->includePattern = $this->cloudConfig->getUserValue(
         $this->userId,
@@ -485,7 +480,7 @@ __EOF__;
    */
   public function save(
     string $sourcePath,
-    mixed $destinationPath = null,
+    string $destinationPath,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
   ):File {
@@ -493,16 +488,15 @@ __EOF__;
     $pathInfo = pathinfo($destinationPath);
     $destinationDirName = $pathInfo['dirname'];
     $destinationBaseName = $pathInfo['basename'];
-    $userRootFolder = $this->getUserRootFolder();
     try {
-      $destinationFolder = $userRootFolder->get($destinationDirName);
+      $destinationFolder = $this->rootFolder->get($destinationDirName);
       if ($destinationFolder->getType() != FileInfo::TYPE_FOLDER) {
         throw new EnduserNotificationException(
           $this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
       }
     } catch (FileNotFoundException $e) {
       try {
-        $destinationFolder = $userRootFolder->newFolder($destinationDirName);
+        $destinationFolder = $this->rootFolder->newFolder($destinationDirName);
       } catch (Throwable $t) {
         throw new EnduserNotificationException(
           $this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
@@ -548,25 +542,24 @@ __EOF__;
   }
 
   /**
-   * @param string $sourcePath
+   * @param string $sourcePath This is always "rooted" at the user top-level folder /USER_ID/files/.
    *
-   * @param string $destinationPath
+   * @param null|string $destinationPath If given the destination directory is
+   * derived from it. If null a default directory relative to the user-folder
+   * is chosen.
    *
-   * @param null|bool $useTemplate
+   * @param null|bool $useTemplate If \true onle dirname(DESTINATION_PATH) is
+   * used for forming the full destination path-name.
    *
    * @return string
    */
-  public function getPdfFilePath(string $sourcePath, ?string $destinationPath = null, ?bool $useTemplate = null):string
+  public function getPdfFilePath(string $sourcePath, string $destinationPath = '', ?bool $useTemplate = null):string
   {
-    if ($destinationPath === null) {
-      $destinationDirectory = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR
-        . ($this->cloudFolderPath ?? dirname($sourcePath)) . Constants::PATH_SEPARATOR;
-    } else {
-      $destinationDirectory = dirname($destinationPath);
+    if (!empty($destinationPath)) {
+      $destinationDirectory = trim(dirname($destinationPath), Constants::PATH_SEPARATOR) . Constants::PATH_SEPARATOR;
     }
-    if ($destinationPath == null || $useTemplate === true) {
-      // default cloud destination
-      $destinationPath = $destinationDirectory . Constants::PATH_SEPARATOR . $this->getPdfFileName($sourcePath);
+    if (empty($destinationPath) || $useTemplate === true) {
+      $destinationPath = $destinationDirectory . $this->getPdfFileName($sourcePath);
     }
     return $destinationPath;
   }
