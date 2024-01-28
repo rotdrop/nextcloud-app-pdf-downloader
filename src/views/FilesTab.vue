@@ -278,6 +278,9 @@ export default {
         this.$refs.downloadActions.closeMenu()
       }
     },
+    downloads(newValue) {
+      this.showBackgroundDownloads = newValue.length > 0
+    },
   },
   methods: {
     info() {
@@ -533,19 +536,24 @@ export default {
         console.info('*** PDF generation notification received, but carries no file information.', destinationData)
         return
       }
-      console.info('*** PDF download generation event received, updating downloads list')
-      const pdfFileId = destinationData.file.fileid
+      console.info('*** PDF download generation event received, updating downloads list', destinationData.file)
+      const pdfFile = destinationData.file
+      const pdfFilePath = pdfFile.path // undefined for removal notification
+      const pdfFileId = pdfFile.fileid
       const downloadsIndex = this.downloads.findIndex((file) => file.fileid === pdfFileId)
-      if (downloadsIndex === -1) {
-        console.info('*** Updateing list of available downloads.', destinationData.file)
+      if (downloadsIndex === -1 && pdfFilePath) {
+        console.info('*** Adding file to list of available downloads.', pdfFile)
         this.downloads.push(destinationData.file)
+      } else if (downloadsIndex >= 0 && !pdfFilePath) {
+        console.info('*** Removing file from list of available downloads.', pdfFile)
+        this.downloads.splice(downloadsIndex, 1)
       }
     },
     async handleDownload() {
       this.$refs.downloadActions.closeMenu()
       this.showCloudDestination = false
       const urlParameters = {
-        sourceFildeId: this.sourceFileId,
+        sourceFileId: this.sourceFileId,
         sourcePath: encodeURIComponent(this.sourcePath),
         destinationPath: encodeURIComponent(this.cloudDestinationBaseName),
       }
