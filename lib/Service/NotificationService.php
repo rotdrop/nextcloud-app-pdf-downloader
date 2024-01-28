@@ -28,6 +28,7 @@ use DateTime;
 
 use OCP\Files\Node;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use Psr\Log\LoggerInterface as ILogger;
@@ -44,19 +45,14 @@ class NotificationService
   use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
 
   /** @var string */
-  protected $appName;
-
-  /** @var string */
   protected string $userId;
-
-  /** @var IManager */
-  private $notificationManager;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
-    string $appName,
-    IManager $notificationManager,
-    ILogger $logger,
+    protected $appName,
+    private IManager $notificationManager,
+    protected ILogger $logger,
+    protected IRootFolder $rootFolder,
     IUserSession $userSession,
   ) {
     $this->appName = $appName;
@@ -88,18 +84,16 @@ class NotificationService
   ):void {
     $this->userId = $userId;
     $sourcePath = $sourceNode->getPath();
-    $target = str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
     $notification = $this->buildNotification(
       Notifier::TYPE_SCHEDULED,
-      $target,
       $userId,
       $sourcePath,
       $sourceNode->getId(),
       $destinationPath,
-    )
-      ->setDateTime(new DateTime());
-    $this->notificationManager->notify($notification);
+    );
+
     $this->logInfo('NOTIFY PENDING');
+    $this->notificationManager->notify($notification);
   }
 
   /**
@@ -113,38 +107,47 @@ class NotificationService
   {
     $userId = $job->getUserId();
     $this->userId = $userId;
-    $destinationPath = $job->getDestinationPath();
+
     $sourcePath = $job->getSourcePath();
     $sourceId = $job->getSourceId();
+    $oldDestinationPath = $job->getDestinationPath();
 
-    $this->logInfo('DEST / USER ' . $destinationPath . ' | ' . Constants::USER_FOLDER_PREFIX);
+    $this->deleteNotification(Notifier::TYPE_SCHEDULED, $oldDestinationPath, $userId);
 
-    $target = str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
+    // $destinationPath may have change in background jobs, for one because
+    // the timestamp is later. Another reason is that the background-job
+    // strifes to make the filename unique. The destination path must be
+    // relative to the top level user folder.
+    //
+    // files/Test/ArchiveTests/2024-01-27T21:24:18+01:00-Test:ArchiveTests:test-archive.pdf | /claus/files/Test/ArchiveTests/2024-01-27T21:25:00+01:00-Test:ArchiveTests:test-archive.pdf
+    $destinationPath = ltrim($this->getUserRootFolder()->getRelativePath($file->getPath()), Constants::PATH_SEPARATOR);
 
-    $this->notificationManager->markProcessed($this->buildNotification(
-      Notifier::TYPE_SCHEDULED,
-      $target,
-      $userId,
-      $sourcePath,
-      $sourceId,
-      $destinationPath,
-    ));
+    $this->logInfo('JOB DEST / FILE PATH / ACTUAL DEST ' . $oldDestinationPath . ' | ' . $file->getPath() . ' | ' . $destinationPath);
 
+    $this->logInfo('BEFORE BUILD');
     $notification = $this->buildNotification(
       Notifier::TYPE_SUCCESS,
-      $target,
       $userId,
       $sourcePath,
       $sourceId,
       $destinationPath,
     );
+    $this->logInfo('AFTER BUILD');
     $subject = $notification->getSubject();
     $subjectParameters = $notification->getSubjectParameters();
     $subjectParameters['destinationId'] = $file->getId();
 
+    $message = $notification->getMessage();
+    $messageParameters = $notification->getMessageParameters();
+    $messageParameters['destinationId'] = $file->getId();
+
+    $this->logInfo('BEFORE SET SUBJECT PARAMETERS');
     $notification
-      ->setDateTime(new DateTime())
-      ->setSubject($subject, $subjectParameters);
+      ->setSubject($subject, $subjectParameters)
+      ->setMessage($message, $messageParameters);
+    // ->setDateTime(new DateTime()
+
+    $this->logInfo('BEFORE NOTIFY SUCCESS');
     $this->notificationManager->notify($notification);
     $this->logInfo('NOTIFY SUCCESS');
   }
@@ -165,37 +168,29 @@ class NotificationService
     $destinationPath = $job->getDestinationPath();
     $sourcePath = $job->getSourcePath();
     $sourceId = $job->getSourceId();
-    $target = str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? PdfGeneratorJob::TARGET_FILESYSTEM : PdfGeneratorJob::TARGET_DOWNLOAD;
 
-    $this->notificationManager->markProcessed($this->buildNotification(
-      Notifier::TYPE_SCHEDULED,
-      $target,
-      $userId,
-      $sourcePath,
-      $sourceId,
-      $destinationPath,
-    ));
+    $this->deleteNotification(Notifier::TYPE_SCHEDULED, $destinationPath, $userId);
 
     $notification = $this->buildNotification(
       Notifier::TYPE_FAILURE,
-      $target,
       $userId,
       $sourcePath,
       $sourceId,
       $destinationPath,
       $errorMessage,
     );
-    $notification
-      ->setDateTime(new DateTime())
-      ->setObject('job', (string)$job->getId());
-    $this->notificationManager->notify($notification);
+    $notification->setObject('job', (string)$job->getId());
+
     $this->logInfo('NOTIFY FAILURE');
+    $this->notificationManager->notify($notification);
+  }
+
+  public function sendNotificationOnClean()
+  {
   }
 
   /**
    * @param int $type
-   *
-   * @param string $target
    *
    * @param string $userId
    *
@@ -212,14 +207,13 @@ class NotificationService
    */
   private function buildNotification(
     int $type,
-    string $target,
     string $userId,
     string $sourcePath,
     int $sourceId,
     string $destinationPath,
     ?string $errorMessage = null,
   ):INotification {
-    $type |= ($target == PdfGeneratorJob::TARGET_DOWNLOAD ? Notifier::TYPE_DOWNLOAD : Notifier::TYPE_FILESYSTEM);
+    $type |= (str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? Notifier::TYPE_FILESYSTEM : Notifier::TYPE_DOWNLOAD);
     $notification = $this->notificationManager->createNotification();
     $notification->setUser($userId)
       ->setApp($this->appName)
@@ -235,7 +229,50 @@ class NotificationService
         'destinationDirectoryName' => basename(dirname($destinationPath)),
         'destinationBaseName' => basename($destinationPath),
         'errorMessage' => $errorMessage,
-      ]);
+      ])
+      ->setMessage((string)$type, [
+        'sourceId' => $sourceId,
+        'sourcePath' => $sourcePath,
+        'sourceDirectory' => dirname($sourcePath),
+        'sourceDirectoryName' => basename(dirname($sourcePath)),
+        'sourceBaseName' => basename($sourcePath),
+        'destinationPath' => $destinationPath,
+        'destinationDirectory' => dirname($destinationPath),
+        'destinationDirectoryName' => basename(dirname($destinationPath)),
+        'destinationBaseName' => basename($destinationPath),
+        'errorMessage' => $errorMessage,
+      ])
+      ->setDateTime(new DateTime());
     return $notification;
+  }
+
+  /**
+   * Mark the notification of the given type for the given user and the given
+   * destination file-system target as processed or deleted. This is also
+   * needed in order to interact with cache-cleanout and user deletion
+   * events. If the targe object is deleted, the notification should also go
+   * away, perhaps there should then be a new notification which does not
+   * reference the gone objects but informs the user.
+   *
+   * @param int $type
+   *
+   * @param string $destinationPath
+   *
+   * @param string $userId
+   *
+   * @return void
+   */
+  public function deleteNotification(int $type, string $destinationPath, string $userId):void
+  {
+    $type |= (str_starts_with($destinationPath, Constants::USER_FOLDER_PREFIX) ? Notifier::TYPE_FILESYSTEM : Notifier::TYPE_DOWNLOAD);
+    $notification = $this->notificationManager->createNotification();
+    $notification
+      ->setUser($userId)
+      ->setApp($this->appName)
+      ->setObject('target', md5($destinationPath));
+    if ($type != Notifier::TYPE_ANY) {
+      $notification->setSubject((string)$type);
+    }
+    $this->notificationManager->markProcessed($notification);
   }
 }
