@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ITempManager;
 use OCP\AppFramework\IAppContainer;
 use OCP\IUserSession;
+use OCP\Files\File;
 
 use OCA\PdfDownloader\Toolkit\Service\UserScopeService;
 
@@ -60,33 +61,16 @@ class PdfGeneratorJob extends QueuedJob
   public const NEEDS_AUTHENTICATION_KEY = 'needsAuthentication';
   public const AUTH_TOKEN_KEY = 'authToken';
 
-  /** @var IAppContainer */
-  private $appContainer;
-
-  /** @var IUserSession */
-  private $userSession;
-
-  /** @var ITempManager */
-  private $tempManager;
-
-  /** @var NotificationService */
-  private $notificationService;
-
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     ITimeFactory $timeFactory,
-    ILogger $logger,
-    IUserSession $userSession,
-    IAppContainer $appContainer,
-    ITempManager $tempManager,
-    NotificationService $notificationService,
+    protected ILogger $logger,
+    private IUserSession $userSession,
+    private IAppContainer $appContainer,
+    private ITempManager $tempManager,
+    private NotificationService $notificationService,
   ) {
     parent::__construct($timeFactory);
-    $this->logger = $logger;
-    $this->tempManager = $tempManager;
-    $this->appContainer = $appContainer;
-    $this->userSession = $userSession;
-    $this->notificationService = $notificationService;
   }
   // phpcs:enable
 
@@ -239,13 +223,13 @@ class PdfGeneratorJob extends QueuedJob
       // /** @var FileSystemWalker $fileSystemWalker */
       $fileSystemWalker = $this->appContainer->get(FileSystemWalker::class);
 
+      /** @var File $file */
       $file = $fileSystemWalker->save(
         $this->getSourcePath(),
         $this->getDestinationPath(),
         pageLabels: $this->getPageLabels(),
         useTemplate: $this->getUseTemplate(),
       );
-      $this->logInfo('Source ' . $this->getSourcePath() . ' Target ' . $this->getDestinationPath());
       $this->notificationService->sendNotificationOnSuccess($this, $file);
 
       \OC_Util::tearDownFS();
