@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -138,9 +138,11 @@ class DownloadsCleanupJob extends TimedJob
         $numberDeleted = 0;
         /** @var Node $cacheNode */
         foreach ($folderCacheNodes as $cacheNode) {
-          if ($cacheNode->getCreationTime() + $purgeTimeout < $now) {
+          // Note that Node::getCreationTime() is not usable. It is almost
+          // ever set to 0. Use MTime.
+          if ($cacheNode->getMTime() + $purgeTimeout < $now) {
             $cacheNode->delete();
-            ++$numberDeleted;
+             ++$numberDeleted;
           }
         }
         if ($numberDeleted == count($folderCacheNodes)) {
