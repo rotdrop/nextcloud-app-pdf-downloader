@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Ezin da \"%s\" helburuko karpeta ireki.",
     "PDF document saved as \"%s\"." : "PDF dokumentua \"%s\" gisa gorde da.",
     "PDF generation background job scheduled successfully." : "PDFa sortzeko atzeko planoko lana behar bezala programatu da.",
-    "Cached PDF files for \"%s\" have been deleted." : "\"%s\"-ren cachean gordetako PDF fitxategiak ezabatu dira.",
     "PDF file \"%s\" has been deleted." : "\"%s\" PDF fitxategia ezabatu da.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Eskatu den ondorengo exekutagarria ezin izan da aurkitu zerbitzarian: %s","Eskatu diren ondorengo exekutagarriak ezin izan dira aurkitu zerbitzarian: %s"],
     "Unknown admin setting: \"%1$s\"" : "Administratzaile ezarpen ezezaguna: \"%1$s\"",
@@ -27,7 +26,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "{destination} PDF fitxategi bat sortuko da {source}-ko iturburuetatik.",
     "A PDF download will be created from the sources at {source}." : "PDF deskarga bat sortuko da {source}-ko iturburuetatik.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Zure karpeta {source} PDF fitxategi bihurtu da {destination}-en.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Zure karpeta {source} PDF fitxategi bihurtu da. Bisitatu iturburuko karpetaren xehetasunen fitxa fitxategia deskargatzeko.",
     "Converting {source} to PDF has failed: {message}" : "Ezin izan da {source} PDF bihurtu: {message}",
     "Converting {source} to PDF has failed." : "Ezin izan da {source} PDF bihurtu.",
     "not found" : "ez da aurkitu",
@@ -90,7 +88,6 @@
     "Recursive PDF Downloader, Personal Settings" : "PDF deskargatzaile errekurtsiboa, ezarpen pertsonalak",
     "Decorations and Fonts" : "Apaindura eta letra-tipoak",
     "Label output pages with filename and page number" : "Etiketen output orriak fitxategi-izen eta orri-zenbakiekin",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Orri etiketaren formatua: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Orri etiketaren txantiloia",
     "Given Filename Example" : "Eskaintzen den adibideko fitxategi-izena",
     "Generated Label" : "Sortutako etiketa",
@@ -268,6 +265,9 @@
     "Debug Information" : "Arazketa informazioa",
     "unknown error" : "errore ezezaguna",
     "Unable to download data from \"{url}\": {message}" : "Ezin izan dira datuak deskargatu \"{url}\"(e)tik: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Bungalow, cava, ferry, ñu, puma, quad eta xah hitzak jaso ditu."
+    "The quick brown fox jumps over the lazy dog." : "Bungalow, cava, ferry, ñu, puma, quad eta xah hitzak jaso ditu.",
+    "Cached PDF files for \"%s\" have been deleted." : "\"%s\"-ren cachean gordetako PDF fitxategiak ezabatu dira.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Zure karpeta {source} PDF fitxategi bihurtu da. Bisitatu iturburuko karpetaren xehetasunen fitxa fitxategia deskargatzeko.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Orri etiketaren formatua: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

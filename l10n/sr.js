@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "Не може да се отвори циљни фолдер „%s”.",
     "PDF document saved as \"%s\"." : "PDF документ је сачуван као „%s”.",
     "PDF generation background job scheduled successfully." : "Позадински посао генерисања PDF фајла је успешно заказан.",
-    "Cached PDF files for \"%s\" have been deleted." : "Обрисани су кеширани PDF фајлови за „%s”.",
     "PDF file \"%s\" has been deleted." : "PDF фајл „%s” је обрисан.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["На серверу не може да се пронађе следећи потребан извршни фајл: %s","На серверу не могу да се пронађу следећи потребни извршни фајлови: %s","На серверу не могу да се пронађу следећи потребни извршни фајлови: %s"],
     "Unknown admin setting: \"%1$s\"" : "Непознато админ подешавање: „%1$s",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "PDF фајл {destination} ће се креирати из извора у {source}.",
     "A PDF download will be created from the sources at {source}." : "PDF преузимање ће се креирати из извора у {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Ваш фолдер {source} је конвертован у PDF фајл у {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Ваш фолдер {source} је конвертован у PDF фајл. Молимо вас да посетите картицу детаљи изворног фолдера ако желите да преузмете фајл.",
     "Converting {source} to PDF has failed: {message}" : "Није успело претварање {source} у PDF: {message}",
     "Converting {source} to PDF has failed." : "Није успело претварање {source} у PDF.",
     "not found" : "није пронађено",
@@ -104,7 +102,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Рекурзивни PDF преузимач, лична подешавања",
     "Decorations and Fonts" : "Декорација и фонтови",
     "Label output pages with filename and page number" : "Означи излазне странице именом фајла и бројем странице",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Формат ознаке странице: ОСНОВАИМЕНА_ТЕКУЋЕГ_ФАЈЛА СТРАНИЦА/СТРАНИЦЕ_ФАЈЛА",
     "Template for the page labels" : "Шаблон за ознаке страница",
     "Given Filename Example" : "Дати пример имена фајла",
     "Generated Label" : "Генерисана ознака",
@@ -293,6 +290,9 @@ OC.L10N.register(
     "Debug Information" : "Дибаг информације",
     "unknown error" : "непозната грешка",
     "Unable to download data from \"{url}\": {message}" : "Не могу да се преузму подаци са „{url}: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Фијуче ветар у шибљу, леди пасаже и куће иза њих и гунђа у оџацима."
+    "The quick brown fox jumps over the lazy dog." : "Фијуче ветар у шибљу, леди пасаже и куће иза њих и гунђа у оџацима.",
+    "Cached PDF files for \"%s\" have been deleted." : "Обрисани су кеширани PDF фајлови за „%s”.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Ваш фолдер {source} је конвертован у PDF фајл. Молимо вас да посетите картицу детаљи изворног фолдера ако желите да преузмете фајл.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Формат ознаке странице: ОСНОВАИМЕНА_ТЕКУЋЕГ_ФАЈЛА СТРАНИЦА/СТРАНИЦЕ_ФАЈЛА"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

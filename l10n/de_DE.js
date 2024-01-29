@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "Der Zielordner \"%s\" kann nicht geöffnet werden.",
     "PDF document saved as \"%s\"." : "PDF-Dokument gespeichert als \"%s\".",
     "PDF generation background job scheduled successfully." : "Hintergrundjob zur PDF-Generierung erfolgreich geplant.",
-    "Cached PDF files for \"%s\" have been deleted." : "Zwischengespeicherte PDF-Dateien für \"%s\" wurden gelöscht.",
     "PDF file \"%s\" has been deleted." : "PDF-Datei \"%s\" wurde gelöscht.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Die folgenden erforderlichen ausführbaren Datei konnten auf dem Server nicht gefunden werden: %s","Die folgenden erforderlichen ausführbaren Dateien konnten auf dem Server nicht gefunden werden: %s"],
     "Unknown admin setting: \"%1$s\"" : "Unbekannte Administrationseinstellung: \"%1$s\"",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "Eine PDF-Datei {destination} wird aus den Quellen unter {source} erstellt.",
     "A PDF download will be created from the sources at {source}." : "Aus den Quellen unter {source} wird ein PDF-Download erstellt.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Ihr Ordner {source} wurde in {destination} in eine PDF-Datei konvertiert.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Ihr Ordner {source} wurde in eine PDF-Datei konvertiert. Bitte gehen Sie auf die Registerkarte Details des Quellordners, um die Datei herunterzuladen.",
     "Converting {source} to PDF has failed: {message}" : "Konvertieren von {source} in PDF ist fehlgeschlagen: {message}",
     "Converting {source} to PDF has failed." : "Konvertieren von {source} in PDF ist fehlgeschlagen.",
     "not found" : "Nicht gefunden",
@@ -104,7 +102,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Rekursiver PDF-Downloader, Persönliche Einstellungen",
     "Decorations and Fonts" : "Seiten-Dekorierung und Schriftarten",
     "Label output pages with filename and page number" : "Ausgabeseiten mit Dateinamen und Seitennummer versehen",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format der Seitenbeschriftung: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Vorlage für die Seitenbeschriftungen",
     "Given Filename Example" : "Beispiel für einen gegebenen Dateinamen",
     "Generated Label" : "Generierte Nummerierung",
@@ -293,6 +290,9 @@ OC.L10N.register(
     "Debug Information" : "Debug-Informationen",
     "unknown error" : "unbekannter Fehler",
     "Unable to download data from \"{url}\": {message}" : "Kann die Daten nicht von \"{url}\" laden: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich."
+    "The quick brown fox jumps over the lazy dog." : "Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.",
+    "Cached PDF files for \"%s\" have been deleted." : "Zwischengespeicherte PDF-Dateien für \"%s\" wurden gelöscht.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Ihr Ordner {source} wurde in eine PDF-Datei konvertiert. Bitte gehen Sie auf die Registerkarte Details des Quellordners, um die Datei herunterzuladen.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format der Seitenbeschriftung: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },
 "nplurals=2; plural=(n != 1);");
