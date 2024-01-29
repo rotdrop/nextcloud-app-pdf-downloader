@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Não foi possível abrir a pasta \"%s\".",
     "PDF document saved as \"%s\"." : "Documento PDF salvo como \"%s\".",
     "PDF generation background job scheduled successfully." : "Rotina de geração de PDF em segundo plano programada com sucesso.",
-    "Cached PDF files for \"%s\" have been deleted." : "Arquivos de PDF em cache para \"%s\" foram deletados.",
     "PDF file \"%s\" has been deleted." : "Arquivo PDF \"%s\" foi deletado.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Os seguintes executáveis ​​necessários não foram encontrados no servidor: %s","Os seguintes executáveis ​​necessários não foram encontrados no servidor: %s","Os seguintes executáveis ​​necessários não foram encontrados no servidor:%s"],
     "Unknown admin setting: \"%1$s\"" : "Configuração administrativa desconhecida: \"%1$s\"",
@@ -27,7 +26,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "Um arquivo PDF {destination} será criado a partir da fonte em {source}.",
     "A PDF download will be created from the sources at {source}." : "Um arquivo de PDF será criado a partir da fonte em {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Seu diretório {source} foi convertido para um arquivo PDF em {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Seu diretório {source} foi convertido para um arquivo PDF. Por favor visite a aba de detalhes da pasta fonte para baixar o arquivo.",
     "Converting {source} to PDF has failed: {message}" : "Conversão de {source} para PDF falhou: {message}",
     "Converting {source} to PDF has failed." : "Conversão de {source} para PDF falhou.",
     "not found" : "não encontrado",
@@ -102,7 +100,6 @@
     "Recursive PDF Downloader, Personal Settings" : "Downloader de PDF recursivo, configurações pessoais",
     "Decorations and Fonts" : "Fontes e Decorativos",
     "Label output pages with filename and page number" : "Rotule as páginas de saída com o nome do arquivo e o número da página",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato do rótulo da página: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Modelo para os rótulos da página",
     "Given Filename Example" : "Exemplo de Nome de Arquivo Dado",
     "Generated Label" : "Rótulo Gerado",
@@ -290,6 +287,9 @@
     "Debug Information" : "Informações de depuração",
     "unknown error" : "erro desconhecido",
     "Unable to download data from \"{url}\": {message}" : "Não foi possível baixar os dados de \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "A rápida raposa marrom pula sobre o cachorro preguiçoso."
+    "The quick brown fox jumps over the lazy dog." : "A rápida raposa marrom pula sobre o cachorro preguiçoso.",
+    "Cached PDF files for \"%s\" have been deleted." : "Arquivos de PDF em cache para \"%s\" foram deletados.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Seu diretório {source} foi convertido para um arquivo PDF. Por favor visite a aba de detalhes da pasta fonte para baixar o arquivo.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato do rótulo da página: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

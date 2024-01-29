@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "A(z) „%s” célmappa nem nyitható meg.",
     "PDF document saved as \"%s\"." : "A PDF-dokumentum mentve mint „%s”.",
     "PDF generation background job scheduled successfully." : "A PDF előállítási háttérfeladat sikeresen beütemezve.",
-    "Cached PDF files for \"%s\" have been deleted." : "A(z) „%s” gyorsítótárazott PDF-fájljai törölve lettek.",
     "PDF file \"%s\" has been deleted." : "A(z) „%s” PDF-fájl törölve lett.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["A következő végrehajtható fájl nem található a kiszolgálón: %s","A következő végrehajtható fájlok nem találhatók a kiszolgálón: %s"],
     "Unknown admin setting: \"%1$s\"" : "Ismeretlen rendszergazdai beállítás: „%1$s”",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "A(z) {destination} PDF-fájl a következő helyen lévő forrásokból lesz előállítva: {source}.",
     "A PDF download will be created from the sources at {source}." : "A letöltött PDF a következő helyen lévő forrásokból lesz előállítva: {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "A(z) {source} mappa a következő helyen lévő PDF-fájllá lett alakítva: {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "A(z) {source} mappa PDF-fájllá lett alakítva. A fájl letöltéséhez keresse fel a forrásmappa részletek lapját.",
     "Converting {source} to PDF has failed: {message}" : "A(z) {source} PDF-fé alakítása sikertelen: {message}",
     "Converting {source} to PDF has failed." : "A(z) {source} PDF-fé alakítása sikertelen.",
     "not found" : "nem található",
@@ -99,7 +97,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Rekurzív PDF letöltő, személyes beállítások",
     "Decorations and Fonts" : "Dekorációk és betűkészletek",
     "Label output pages with filename and page number" : "Kimeneti oldalak címkézése a fájlnévvel és az oldalszámmal",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Az oldalcímke formátuma: JELENLEGI_FÁJL_ALAPNEVE OLDAL/FÁJL_ÖSSZES_OLDALA",
     "Template for the page labels" : "Az oldalcímkék sablonja",
     "Given Filename Example" : "Megadott példafájlnév",
     "Generated Label" : "Előállított címke",
@@ -280,6 +277,9 @@ OC.L10N.register(
     "Debug Information" : "Hibakeresési információk",
     "unknown error" : "ismeretlen hiba",
     "Unable to download data from \"{url}\": {message}" : "Nem lehet az adatokat letölteni innen: \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Pál fogyó IQ-jú kun exvő, ím dühös a WC-bűzért."
+    "The quick brown fox jumps over the lazy dog." : "Pál fogyó IQ-jú kun exvő, ím dühös a WC-bűzért.",
+    "Cached PDF files for \"%s\" have been deleted." : "A(z) „%s” gyorsítótárazott PDF-fájljai törölve lettek.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "A(z) {source} mappa PDF-fájllá lett alakítva. A fájl letöltéséhez keresse fel a forrásmappa részletek lapját.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Az oldalcímke formátuma: JELENLEGI_FÁJL_ALAPNEVE OLDAL/FÁJL_ÖSSZES_OLDALA"
 },
 "nplurals=2; plural=(n != 1);");

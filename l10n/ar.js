@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "تعذّر فتح المُجلّد المَقصِد \"%s\".",
     "PDF document saved as \"%s\"." : "تمّ حفظ مستند PDF كـ \"%s\".",
     "PDF generation background job scheduled successfully." : "مهمة توليد PDF في الخلفية تمتّ جدولتها بنجاح.",
-    "Cached PDF files for \"%s\" have been deleted." : "ملفات PDF المُخبّأة لـ \"%s\"  تمّ حذفها.",
     "PDF file \"%s\" has been deleted." : "ملف الـ PDF \"%s\" تمّ حذفه.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["تعذر العثور على البرامج التنفيذية التالية المطلوبة على الخادم: %s","تعذر العثور على البرناج التنفيذي التالي المطلوب على الخادم: %s","تعذر العثور على البرامج التنفيذية التالية المطلوبة على الخادم: %s","تعذر العثور على البرامج التنفيذية التالية المطلوبة على الخادم: %s","تعذر العثور على البرامج التنفيذية التالية المطلوبة على الخادم: %s","تعذر العثور على البرامج التنفيذية التالية المطلوبة على الخادم: %s"],
     "Unknown admin setting: \"%1$s\"" : "إعدادات المشرف مجهولة: \"%1$s\"",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "ملف PDF ـ {destination} سيتم توليده من المصادر الموجودة في {source}.",
     "A PDF download will be created from the sources at {source}." : "تنزيلة ملف PDF سيتم توليدها من المصادر الموجودة في {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "مُجلّدك {source} تمّ تحويله إلى ملف PDF في {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "مُجلّدك {source} تمّ تحويله إلى ملف PDF. رجاءً إذهب إلى تبويبة التفاصيل details tab في المُجلّد المصدر لتنزيل الملف.",
     "Converting {source} to PDF has failed: {message}" : "إخفاق في تحويل {source} إلى PDF ـ {message}  ",
     "Converting {source} to PDF has failed." : "إخفاق في تحويل {source} إلى PDF",
     "not found" : "غير موجود",
@@ -104,7 +102,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "أداة تنزيل PDF تعاوُديّة، إعدادات شخصية ",
     "Decorations and Fonts" : "تتويجات و خطوط decorations and fonts",
     "Label output pages with filename and page number" : "ضع لاصقة label على الصفحات الناتجة فيها اسم الملف و رقم الصفحة",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "صيغة لاصقة الصفحة page label ـ : BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "قالب للواصق الصفحات",
     "Given Filename Example" : "مثال لاسم ملف",
     "Generated Label" : "لاصقة مٌولّدةٌ",
@@ -293,6 +290,9 @@ OC.L10N.register(
     "Debug Information" : "معلومات التنقيح debug",
     "unknown error" : "خطأٌ غير محدّدٍ",
     "Unable to download data from \"{url}\": {message}" : "تعذّر تنزيل البيانات من \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "الثعلب البني السريع قفز على الكلب الكسول The quick brown fox jumps over the lazy dog."
+    "The quick brown fox jumps over the lazy dog." : "الثعلب البني السريع قفز على الكلب الكسول The quick brown fox jumps over the lazy dog.",
+    "Cached PDF files for \"%s\" have been deleted." : "ملفات PDF المُخبّأة لـ \"%s\"  تمّ حذفها.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "مُجلّدك {source} تمّ تحويله إلى ملف PDF. رجاءً إذهب إلى تبويبة التفاصيل details tab في المُجلّد المصدر لتنزيل الملف.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "صيغة لاصقة الصفحة page label ـ : BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

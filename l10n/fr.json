@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Impossible d'ouvrir le dossier de destination \"%s\".",
     "PDF document saved as \"%s\"." : "Document PDF sauvegardé sous le nom \"%s\".",
     "PDF generation background job scheduled successfully." : "Tâche de génération de PDF en arrière-plan planifiée avec succès",
-    "Cached PDF files for \"%s\" have been deleted." : "Les fichiers PDF en pour \"%s\" ont été supprimés.",
     "PDF file \"%s\" has been deleted." : "Le fichier PDF \"%s\" a été supprimé.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["L'exécutable requis suivant n'a pu être trouvé sur le serveur : %s","Les exécutables requis suivants n'ont pu être trouvés sur le serveur : %s","Les exécutables requis suivants n'ont pu être trouvés sur le serveur : %s"],
     "Unknown admin setting: \"%1$s\"" : "Paramètres administrateur inconnu : \"%1$s\"",
@@ -27,7 +26,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "Un fichier PDF {destination} sera créé depuis les sources dans {source}.",
     "A PDF download will be created from the sources at {source}." : "Un téléchargement PDF sera créé depuis les sources à {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Votre dossier {source} a été converti en fichier PDF dans {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Votre dossier {source} a été converti en fichier PDF. Veuillez vous rendre à l'onglet détails du dossier source pour télécharger le fichier.",
     "Converting {source} to PDF has failed: {message}" : "La conversion de {source} en PDF a échoué : {message}",
     "Converting {source} to PDF has failed." : "La conversion de {source} en PDF a échoué.",
     "not found" : "non trouvé",
@@ -102,7 +100,6 @@
     "Recursive PDF Downloader, Personal Settings" : "Téléchargeur récursif de PDF, Paramètres personnels",
     "Decorations and Fonts" : "Ornementations et Polices",
     "Label output pages with filename and page number" : "Marquer les pages en sortie du nom de fichier et du numéro de page",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format de marquage des pages : NOM_DE_BASE_FICHIER_COURRANT PAGE/PAGES_FICHIER",
     "Template for the page labels" : "Modèle pour le marquage des pages",
     "Given Filename Example" : "Nom de fichier exemple",
     "Generated Label" : "Marque générée",
@@ -290,6 +287,9 @@
     "Debug Information" : "Information de déboggage",
     "unknown error" : "erreur inconnue",
     "Unable to download data from \"{url}\": {message}" : "Impossible de télécharger les données depuis \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Rapide, le renard roux saute sur le chien fainéant."
+    "The quick brown fox jumps over the lazy dog." : "Rapide, le renard roux saute sur le chien fainéant.",
+    "Cached PDF files for \"%s\" have been deleted." : "Les fichiers PDF en pour \"%s\" ont été supprimés.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Votre dossier {source} a été converti en fichier PDF. Veuillez vous rendre à l'onglet détails du dossier source pour télécharger le fichier.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format de marquage des pages : NOM_DE_BASE_FICHIER_COURRANT PAGE/PAGES_FICHIER"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
