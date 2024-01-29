@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,29 +70,8 @@ class FileSystemWalker
   /** @var int */
   private $errorPagesFontSize = self::ERROR_PAGES_FONT_SIZE;
 
-  /** @var IConfig */
-  private $cloudConfig;
-
-  /** @var IMimeTypeDetector */
-  private $mimeTypeDetector;
-
-  /** @var IDateTimeZone */
-  private $dateTimeZone;
-
   /** @var null|string */
-  protected $userId;
-
-  /** @var IRootFolder */
-  protected $rootFolder;
-
-  /** @var PdfCombiner */
-  private $pdfCombiner;
-
-  /** @var ArchiveService */
-  private $archiveService;
-
-  /** @var null|string */
-  private $cloudFolderPath = null;
+  protected string $userId;
 
   /** @var null|int */
   private $archiveSizeLimit = null;
@@ -117,29 +96,18 @@ class FileSystemWalker
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
-    string $appName,
-    IL10N $l10n,
-    ILogger $logger,
-    IConfig $cloudConfig,
-    IRootFolder $rootFolder,
-    IMimeTypeDetector $mimeTypeDetector,
-    IUserSession $userSession,
-    IDateTimeZone $dateTimeZone,
-    PdfCombiner $pdfCombiner,
-    AnyToPdf $anyToPdf,
-    ArchiveService $archiveService,
+    protected $appName,
+    protected IL10N $l,
+    protected ILogger $logger,
+    private IConfig $cloudConfig,
+    protected IRootFolder $rootFolder,
+    private IMimeTypeDetector $mimeTypeDetector,
+    protected IUserSession $userSession,
+    private IDateTimeZone $dateTimeZone,
+    private PdfCombiner $pdfCombiner,
+    private AnyToPdf $anyToPdf,
+    private ArchiveService $archiveService,
   ) {
-    $this->appName = $appName;
-    $this->l = $l10n;
-    $this->logger = $logger;
-    $this->cloudConfig = $cloudConfig;
-    $this->rootFolder = $rootFolder;
-    $this->mimeTypeDetector = $mimeTypeDetector;
-    $this->dateTimeZone = $dateTimeZone;
-    $this->pdfCombiner = $pdfCombiner;
-    $this->anyToPdf = $anyToPdf;
-    $this->archiveService = $archiveService;
-
     if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
       $this->anyToPdf->disableBuiltinConverters();
     } else {
@@ -156,13 +124,13 @@ class FileSystemWalker
     $this->archiveBombLimit = $cloudConfig->getAppValue(
       $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, Constants::DEFAULT_ADMIN_ARCHIVE_SIZE_LIMIT);
 
-    $this->archiveSizeLimit = $cloudConfig->getUserValue(
-      $this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
-
     /** @var IUser $user */
     $user = $userSession->getUser();
     if (!empty($user)) {
       $this->userId = $user->getUID();
+      $this->archiveSizeLimit = $cloudConfig->getUserValue(
+        $this->userId, $this->appName, SettingsController::ARCHIVE_SIZE_LIMIT, null);
+
       $this->pdfCombiner->setOverlayTemplate(
         $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PAGE_LABEL_TEMPLATE, null)
       );
@@ -196,8 +164,6 @@ class FileSystemWalker
       }
       $grouping = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_GROUPING, PdfCombiner::GROUP_FOLDERS_FIRST);
       $this->pdfCombiner->setGrouping($grouping);
-
-      $this->cloudFolderPath = $this->cloudConfig->getUserValue($this->userId, $this->appName, SettingsController::PERSONAL_PDF_CLOUD_FOLDER_PATH, null);
 
       $this->includePattern = $this->cloudConfig->getUserValue(
         $this->userId,
@@ -514,7 +480,7 @@ __EOF__;
    */
   public function save(
     string $sourcePath,
-    mixed $destinationPath = null,
+    string $destinationPath,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
   ):File {
@@ -522,16 +488,15 @@ __EOF__;
     $pathInfo = pathinfo($destinationPath);
     $destinationDirName = $pathInfo['dirname'];
     $destinationBaseName = $pathInfo['basename'];
-    $userRootFolder = $this->getUserRootFolder();
     try {
-      $destinationFolder = $userRootFolder->get($destinationDirName);
+      $destinationFolder = $this->rootFolder->get($destinationDirName);
       if ($destinationFolder->getType() != FileInfo::TYPE_FOLDER) {
         throw new EnduserNotificationException(
           $this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
       }
     } catch (FileNotFoundException $e) {
       try {
-        $destinationFolder = $userRootFolder->newFolder($destinationDirName);
+        $destinationFolder = $this->rootFolder->newFolder($destinationDirName);
       } catch (Throwable $t) {
         throw new EnduserNotificationException(
           $this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
@@ -553,19 +518,17 @@ __EOF__;
   }
 
   /**
-   * @param string $sourcePath
+   * @param int $sourceNodeId
    *
    * @param int $cacheFileId
    *
    * @return null|File
    */
-  public function getCacheFile(string $sourcePath, int $cacheFileId):?File
+  public function getCacheFile(int $sourceNodeId, int $cacheFileId):?File
   {
-    $sourceNode = $this->getUserFolder()->get($sourcePath);
-    $sourceNodeId = $sourceNode->getId();
     try {
       /** @var File $cacheFile */
-      list($cacheFile,) = $this->getUserAppFolder()->get($sourceNodeId)->getById($cacheFileId);
+      list($cacheFile,) = $this->getUserAppFolder()->get((string)$sourceNodeId)->getById($cacheFileId);
     } catch (FileNotFoundException $e) {
       return null;
     }
@@ -579,25 +542,24 @@ __EOF__;
   }
 
   /**
-   * @param string $sourcePath
+   * @param string $sourcePath This is always "rooted" at the user top-level folder /USER_ID/files/.
    *
-   * @param string $destinationPath
+   * @param null|string $destinationPath If given the destination directory is
+   * derived from it. If null a default directory relative to the user-folder
+   * is chosen.
    *
-   * @param null|bool $useTemplate
+   * @param null|bool $useTemplate If \true onle dirname(DESTINATION_PATH) is
+   * used for forming the full destination path-name.
    *
    * @return string
    */
-  public function getPdfFilePath(string $sourcePath, ?string $destinationPath, ?bool $useTemplate = null):string
+  public function getPdfFilePath(string $sourcePath, string $destinationPath = '', ?bool $useTemplate = null):string
   {
-    if ($destinationPath === null) {
-      $destinationDirectory = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR
-        . ($this->cloudFolderPath ?? dirname($sourcePath)) . Constants::PATH_SEPARATOR;
-    } else {
-      $destinationDirectory = dirname($destinationPath);
+    if (!empty($destinationPath)) {
+      $destinationDirectory = trim(dirname($destinationPath), Constants::PATH_SEPARATOR) . Constants::PATH_SEPARATOR;
     }
-    if ($destinationPath == null || $useTemplate === true) {
-      // default cloud destination
-      $destinationPath = $destinationDirectory . Constants::PATH_SEPARATOR . $this->getPdfFileName($sourcePath);
+    if (empty($destinationPath) || $useTemplate === true) {
+      $destinationPath = $destinationDirectory . $this->getPdfFileName($sourcePath);
     }
     return $destinationPath;
   }
@@ -674,8 +636,16 @@ __EOF__;
       );
     }
 
+    $this->logInfo('TIMEZONE: ' . print_r($this->dateTimeZone->getTimeZone(), true));
+
     $keys = $this->getTemplateKeyTranslations();
     $pathInfo = pathinfo($path);
+    $this->logInfo('PATH ' . $path . ' ' . print_r($pathInfo, true));
+    if (str_ends_with($pathInfo['filename'], '.tar')) {
+      // handle this in a special way ...
+      $pathInfo['extension'] = 'tar.' . $pathInfo['extension'];
+      $pathInfo['filename'] = basename($pathInfo['filename'], '.tar');
+    }
     $templateValues = [
       'PATH' => trim($path, Constants::PATH_SEPARATOR),
       'BASENAME' => $pathInfo['basename'],

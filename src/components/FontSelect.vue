@@ -1,6 +1,6 @@
 <script>
 /**
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
@@ -362,9 +362,10 @@ export default {
 }
 </style>
 <style lang="scss">
-.vue-tooltip.vue-tooltip-font-info-popup {
-  &, .tooltip-inner {
+[csstag="vue-tooltip-font-info-popup"].v-popper--theme-tooltip {
+  .v-popper__inner {
     max-width:unset!important;
+    // min-width:1024px!important;
     .font-sample img {
       min-height:24px;
     }

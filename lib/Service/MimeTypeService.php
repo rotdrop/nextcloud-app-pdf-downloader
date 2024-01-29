@@ -1,9 +1,9 @@
 <?php
 /**
- * Some PHP utility functions for Nextcloud apps.
+ * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,40 +20,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCA\RotDrop\Toolkit\Exceptions;
+namespace OCA\PdfDownloader\Service;
+
+use Psr\Log\LoggerInterface;
+use OCP\Files\IMimeTypeDetector;
+
+use OCA\PdfDownloader\Toolkit\Service\MimeTypeService as ToolkitService;
 
 /**
- * Transparent archive extraction exception.
+ * Just a wrapper around the toolkit service in order to get some specific
+ * information from this app.
  */
-class ArchiveTooLargeException extends ArchiveException
+class MimeTypeService extends ToolkitService
 {
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
-    string $message,
-    private int $limit,
-    private int $actualSize,
-    ?\Throwable $previous = null,
+    IMimeTypeDetector $mimeTypeDetector,
+    LoggerInterface $logger,
   ) {
-    parent::__construct($message, 0, $previous);
+    parent::__construct(mimeTypeDetector: $mimeTypeDetector, logger: $logger);
+    $this->setAppPath(__DIR__ . '/../../');
   }
-
-  /**
-   * Return the configured limit.
-   *
-   * @return int
-   */
-  public function getLimit():int
-  {
-    return $this->limit;
-  }
-
-  /**
-   * Return the actual uncompressed size of the archive.
-   *
-   * @return int
-   */
-  public function getActualSize():int
-  {
-    return $this->actualSize;
-  }
+  // phpcs:enable
 }

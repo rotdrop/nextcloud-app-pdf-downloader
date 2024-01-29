@@ -17,20 +17,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { appName } from '../../config.js';
+/*
+<style lang="scss">
+[csstag="vue-tooltip-unclipped-popup"].v-popper--theme-tooltip {
+  .v-popper__inner {
+    max-width:unset!important;
+  }
+}
+*/
 
 export default {
   methods: {
-    fontInfoPopup(fontOption, sampleUri) {
-      // console.info('FONT OPTION', fontOption, sampleUri);
-      const content = `<div class="font-family">${fontOption.fontName}</div><div class="font-sample"><img src="${sampleUri}"></div>`;
+    unclippedPopup(content, html) {
       return {
         content,
         preventOverflow: true,
         html: true,
         // shown: true,
         // triggers: [],
-        csstag: ['vue-tooltip-font-info-popup'],
+        csstag: ['vue-tooltip-unclipped-popup'],
       };
     },
   },

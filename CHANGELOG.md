@@ -4,11 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.1.5-rc1] - unreleased
+## [1.2.0-rc1] - unreleased
 
 ### Added
 
-- support Nextcloud 28
+- Support Nextcloud v28, in particular use the new event-bus as the
+  old legacy file-list is no longer available.
+
+### Changed
+
+- Drop support for Nextcloud <= v27. The differences in the files-API
+  are just too big.
+
+### Fixed
+
+- Background cleanup job used file creation which is in general not
+  maintained by Nextcloud. Change to mtime.
 
 ## [1.1.4-rc1] - unreleased
 

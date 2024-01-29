@@ -1,7 +1,7 @@
 <script>
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -125,16 +125,16 @@
           </Actions>
         </div>
         <ul v-else>
-          <li v-for="{id, name} in downloads" :key="id" class="flex flex-center flex-wrap">
-            <a :href="downloadUrl(id)"
+          <li v-for="{fileid, basename} in downloads" :key="fileid" class="flex flex-center flex-wrap">
+            <a :href="downloadUrl(fileid)"
                class="download external flex-grow"
                download
-               @click.prevent.stop="handleCacheFileDownload(id)"
+               @click.prevent.stop="handleCacheFileDownload(fileid)"
             >
-              {{ name }}
+              {{ basename }}
             </a>
             <Actions class="flex-no-grow flex-no-shrink">
-              <ActionButton @click.prevent.stop="handleCacheFileSave(id)">
+              <ActionButton @click.prevent.stop="handleCacheFileSave(fileid)">
                 <template #icon>
                   <CloudUpload :size="16"
                                decorative
@@ -145,13 +145,13 @@
               </ActionButton>
               <ActionButton icon="icon-download"
                             :disabled="downloading"
-                            @click.prevent.stop="handleCacheFileDownload(id)"
+                            @click.prevent.stop="handleCacheFileDownload(fileid)"
               >
                 {{ t(appName, 'download locally') }}
               </ActionButton>
               <ActionButton icon="icon-delete"
                             :disabled="downloading"
-                            @click.prevent.stop="handleCacheFileDelete(id)"
+                            @click.prevent.stop="handleCacheFileDelete(fileid)"
               >
                 {{ t(appName, 'delete PDF file') }}
               </ActionButton>
@@ -166,7 +166,9 @@
 
 import { appName } from '../config.js'
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
+import { getRequestToken, getCurrentUser } from '@nextcloud/auth'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { fileInfoToNode } from '../toolkit/util/file-node-helper.js'
 import Actions from '@nextcloud/vue/dist/Components/NcActions'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import ActionCheckBox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
@@ -175,6 +177,7 @@ import { /* getFilePickerBuilder, */ showError, showSuccess, TOAST_PERMANENT_TIM
 import CloudUpload from 'vue-material-design-icons/CloudUpload'
 import axios from '@nextcloud/axios'
 import * as Path from 'path'
+import unclippedPopup from '../components/mixins/unclipped-popup.js'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
 import fileDownload from '../toolkit/util/file-download.js';
@@ -182,8 +185,6 @@ import FilePrefixPicker from '../components/FilePrefixPicker'
 import { FilePickerType } from '@nextcloud/dialogs'
 
 const initialState = getInitialState()
-
-const downloadsPollingInterval = 30 * 1000
 
 export default {
   name: 'FilesTab',
@@ -195,6 +196,7 @@ export default {
     CloudUpload,
   },
   mixins: [
+    unclippedPopup,
   ],
   data() {
     return {
@@ -216,7 +218,6 @@ export default {
       showBackgroundDownloads: false,
       activeLoaders: -1,
       downloading: false,
-      downloadsTimer: undefined,
       tooltips: {
         pageLabels: t(appName, 'Decorate each page with the original file name and the page number within that file. The default is configured in the personal preferences for the app.'),
         offline: t(appName, 'When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time.'),
@@ -227,6 +228,7 @@ export default {
   },
   created() {
     // this.getData()
+    subscribe('notifications:notification:received', this.onNotification)
   },
   mounted() {
     // this.getData()
@@ -235,15 +237,11 @@ export default {
     loading() {
       return this.activeLoaders !== 0
     },
-
     /**
-     * @return {string} The folder name to use for downloads. If
-     * this.sourcePath refers to an archive file then this
-     * this.folderPath contains the source filename without archive
-     * extensions (multi extensions like .tar.EXT are also stripped).
+     * @return {number} The file id of the source file-system object.
      */
-    folderPath() {
-      return this.fileInfo.path + (this.fileInfo.path === '/' ? '' : '/') + this.folderName
+    sourceFileId() {
+      return this.fileInfo?.id
     },
     /**
      * @return {string} The full path to the source file-system object
@@ -275,21 +273,22 @@ export default {
     },
   },
   watch: {
-    showCloudDestination(newValue, oldValue) {
+    showCloudDestination(newValue/*, oldValue */) {
       if (newValue) {
         this.$refs.downloadActions.closeMenu()
       }
     },
-  },
-  beforeDestroy() {
-    if (this.downloadsTimer) {
-      clearInterval(this.downloadsTimer)
-      this.downloadsTimer = undefined
-    }
+    downloads(newValue) {
+      this.showBackgroundDownloads = newValue.length > 0
+    },
   },
   methods: {
     info() {
       console.info.apply(null, arguments)
+    },
+    setBusySate(/*state*/) {
+      // This cannot be used any longer. How to?
+      // this.fileList.showFileBusyState(this.fileInfo.name, state)
     },
      /**
      * Update current fileInfo and fetch new data
@@ -300,10 +299,8 @@ export default {
 
       this.fileInfo = fileInfo
 
-      this.fileList = OCA.Files.App.currentFileList
-      this.fileList.$el.off('updated').on('updated', function(event) {
-        console.info('FILE LIST UPDATED, ARGS', arguments)
-      })
+      // NOPE, the following is no longer there:
+      // this.fileList = OCA.Files.App.currentFileList
 
       this.cloudDestinationDirName = this.config.pdfCloudFolderPath || fileInfo.path
       if (this.fileInfo.type === 'dir') {
@@ -316,7 +313,7 @@ export default {
       this.downloadOptions.pageLabels = this.config.pageLabels
       this.downloadOptions.offline = this.config.useBackgroundJobsDefault
 
-      this.fetchPdfFileNameFromTemplate(this.folderPath)
+      this.fetchPdfFileNameFromTemplate(this.sourcePath)
           .then((value) => {
             this.cloudDestinationBaseName = value
           })
@@ -416,13 +413,13 @@ export default {
       }
     },
     downloadUrl(cacheId) {
-      return generateAppUrl('download/{sourcePath}/{cacheId}', {
-        sourcePath: encodeURIComponent(this.sourcePath),
+      const sourceFileId = this.sourceFileId
+      return generateAppUrl('download/{sourceFileId}/{cacheId}', {
+        sourceFileId,
         cacheId,
         requesttoken: getRequestToken()
       })
     },
-
     async handleCacheFileSave(cacheId) {
       // This cannot work with CopyMove as the promise returned is
       // resolved with only the path-name, the information about the
@@ -439,7 +436,7 @@ export default {
       // let dir = await picker.pick()
 
       // so let's try something which could be a bugfix for @nextcloud/dialogs
-      let { dir, mode } = await new Promise((res, rej) => {
+      let { dir, mode } = await new Promise((res/*, rej */) => {
         OC.dialogs.filepicker(
           t(appName, 'Choose a destination'), // title
           (dir, mode) => res({ dir, mode }), // callback _WITH_ mode
@@ -460,7 +457,7 @@ export default {
       }
       await this.handleSaveToCloud(cacheId, dir, mode === FilePickerType.Move)
       if (mode === FilePickerType.Move) {
-        const cacheIndex = this.downloads.findIndex((fileInfo) => fileInfo.id === cacheId);
+        const cacheIndex = this.downloads.findIndex((fileInfo) => fileInfo.fileid === cacheId);
         if (cacheIndex >= 0) {
           this.downloads.splice(cacheIndex, 1)
         } else {
@@ -471,11 +468,11 @@ export default {
     },
     async handleCacheFileDownload(cacheId) {
       this.downloading = true
-      this.fileList.showFileBusyState(this.fileInfo.name, true)
+      this.setBusySate(true)
       fileDownload(this.downloadUrl(cacheId), false, {
         always: () => {
           this.downloading = false
-          this.fileList.showFileBusyState(this.fileInfo.name, false)
+          this.setBusySate(false)
         }
       })
     },
@@ -493,7 +490,7 @@ export default {
             showSuccess(message)
           }
         }
-        const cacheIndex = this.downloads.findIndex((fileInfo) => fileInfo.id === cacheId);
+        const cacheIndex = this.downloads.findIndex((fileInfo) => fileInfo.fileid === cacheId);
         if (cacheIndex >= 0) {
           this.downloads.splice(cacheIndex, 1)
         } else {
@@ -517,31 +514,46 @@ export default {
       }
       this.downloading = false
     },
-    downloadsPoller(downloadFileIds) {
-      this.fetchAvailableDownloads(true).then((downloads) => {
-        let loadingFinished = downloads.length !== downloadFileIds.length
-        if (!loadingFinished) {
-          const fileIds = downloads.map(fileInfo => fileInfo.id).sort()
-          for (const i = 0; i < fileIds.length; ++i) {
-            if (fileIds[i] !== downloadFileIds[i]) {
-              loadingFinished = true
-              break
-            }
-          }
-        }
-        if (!loadingFinished) {
-          this.downloadsTimer = setTimeout(() => this.downloadsPoller(downloadFileIds), downloadsPollingInterval)
-        } else {
-          this.downloadsTimer = undefined
-          this.downloads = downloads
-          this.showBackgroundDownloads = downloads.length > 0
-        }
-      })
+    onNotification(event) {
+      const notification = event?.notification
+      if (notification?.app != appName) {
+        return;
+      }
+      const richParameters = notification?.subjectRichParameters
+      if (richParameters.source?.id !== this.sourceFileId) {
+        console.info('*** PDF generation notification for other file received', this.sourceFileId, richParameters)
+        return
+      }
+      const destinationData = richParameters?.destination
+      if (!destinationData) {
+        return
+      }
+      if (destinationData?.status !== 'download' || !destinationData?.file)  {
+        console.info('*** PDF generation notification received, but not for for download.', destinationData)
+        return
+      }
+      if (!destinationData?.file)  {
+        console.info('*** PDF generation notification received, but carries no file information.', destinationData)
+        return
+      }
+      console.info('*** PDF download generation event received, updating downloads list', destinationData.file)
+      const pdfFile = destinationData.file
+      const pdfFilePath = pdfFile.path // undefined for removal notification
+      const pdfFileId = pdfFile.fileid
+      const downloadsIndex = this.downloads.findIndex((file) => file.fileid === pdfFileId)
+      if (downloadsIndex === -1 && pdfFilePath) {
+        console.info('*** Adding file to list of available downloads.', pdfFile)
+        this.downloads.push(destinationData.file)
+      } else if (downloadsIndex >= 0 && !pdfFilePath) {
+        console.info('*** Removing file from list of available downloads.', pdfFile)
+        this.downloads.splice(downloadsIndex, 1)
+      }
     },
     async handleDownload() {
       this.$refs.downloadActions.closeMenu()
       this.showCloudDestination = false
       const urlParameters = {
+        sourceFileId: this.sourceFileId,
         sourcePath: encodeURIComponent(this.sourcePath),
         destinationPath: encodeURIComponent(this.cloudDestinationBaseName),
       }
@@ -550,21 +562,16 @@ export default {
         useTemplate: this.downloadOptions.useTemplate,
       }
       this.downloading = true
-      this.fileList.showFileBusyState(this.fileInfo.name, true)
+      this.setBusySate(true)
       if (this.downloadOptions.offline) {
         try {
-          const response = await axios.post(
+          axios.post(
             generateAppUrl('schedule/download/{sourcePath}/{destinationPath}', urlParameters),
             queryParameters
           )
           showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
             sourceFile: this.sourcePath,
           }))
-          const downloadFileIds = this.downloads.map(fileInfo => fileInfo.id).sort()
-          if (this.downloadsTimer) {
-            clearInterval(this.downloadsTimer)
-          }
-          this.downloadsTimer = setTimeout(() => this.downloadsPoller(downloadFileIds), downloadsPollingInterval)
         } catch (e) {
           let message = t(appName, 'reason unknown')
           if (e.response && e.response.data) {
@@ -581,20 +588,20 @@ export default {
           })
         }
         this.downloading = false
-        this.fileList.showFileBusyState(this.fileInfo.name, false)
+        this.setBusySate(false)
       } else {
-        const url = generateAppUrl('download/{sourcePath}', { ...urlParameters, ...queryParameters });
+        const url = generateAppUrl('download/{sourceFileId}', { ...urlParameters, ...queryParameters });
         fileDownload(url, false, {
           always: () => {
             this.downloading = false
-            this.fileList.showFileBusyState(this.fileInfo.name, false)
+            this.setBusySate(false)
           }
         })
       }
     },
     async handleSaveToCloud(cacheFileId, destinationFolder, move) {
       this.downloading = true
-      this.fileList.showFileBusyState(this.fileInfo.name, true)
+      this.setBusySate(true)
       const offline = cacheFileId === undefined && this.downloadOptions.offline
       let urlTemplate = offline
         ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
@@ -621,7 +628,17 @@ export default {
         if (offline) {
           showSuccess(t(appName, 'Scheduled offline PDF generation to {path}.', { path: response.data.pdfFilePath }))
         } else {
-          showSuccess(t(appName, 'PDF saved as {path}.', { path: response.data.pdfFilePath }))
+          const pdfFilePath = response.data.pdfFilePath.substring('/files'.length)
+          showSuccess(t(appName, 'PDF saved as {path}.', { path: pdfFilePath }))
+
+          // Emit a birth signal over the event bus. We don't care
+          // whether the new node is located in the currently viewed
+          // directory.
+          const node = fileInfoToNode(response.data.fileInfo)
+          console.info('NODE', node)
+
+          // Update files list
+          emit('files:node:created', node)
         }
       } catch (e) {
         let message = t(appName, 'reason unknown')
@@ -638,15 +655,19 @@ export default {
         showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT, })
         console.error(notice, e)
       }
-      this.fileList.showFileBusyState(this.fileInfo.name, false)
-      if (destinationPathName.startsWith(this.fileInfo.path)) {
-        this.fileList.reload()
-      }
+      this.setBusySate(false)
       this.downloading = false
     },
   },
 }
 </script>
+<style lang="scss">
+[csstag="vue-tooltip-unclipped-popup"].v-popper--theme-tooltip {
+  .v-popper__inner {
+    max-width:unset!important;
+  }
+}
+</style>
 <style lang="scss" scoped>
 .files-tab {
   .flex {

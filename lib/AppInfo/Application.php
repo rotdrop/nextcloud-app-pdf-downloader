@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\IConfig;
 
-use OCA\PdfDownloader\Toolkit\Service\MimeTypeService;
+use OCA\PdfDownloader\Service\MimeTypeService;
 
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Notification;
@@ -64,7 +64,7 @@ class Application extends App implements IBootstrap
   public function boot(IBootContext $context):void
   {
     $context->injectFn(function(MimeTypeService $mimeTypeService) {
-      $mimeTypeService->setAppPath(__DIR__ . '/../../')->registerMimeTypeMappings();
+      $mimeTypeService->registerMimeTypeMappings();
     });
   }
 

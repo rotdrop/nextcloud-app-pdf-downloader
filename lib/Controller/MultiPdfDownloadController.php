@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IPreview;
 use Psr\Log\LoggerInterface as ILogger;
 use Psr\Log\LogLevel;
 use OCP\BackgroundJob\IJobList;
@@ -51,6 +52,7 @@ use OCA\PdfDownloader\Toolkit\Exceptions\AuthorizationException;
 use OCA\PdfDownloader\Toolkit\Service\UserScopeService;
 
 use OCA\PdfDownloader\Exceptions;
+use OCA\PdfDownloader\Notification\Notifier;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
 use OCA\PdfDownloader\Service\FontService;
@@ -72,6 +74,7 @@ class MultiPdfDownloadController extends Controller
   use \OCA\PdfDownloader\Toolkit\Traits\ResponseTrait;
   use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
   use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\NodeTrait;
 
   /**
    * @var string
@@ -100,35 +103,8 @@ class MultiPdfDownloadController extends Controller
     self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
   ];
 
-  /** @var IConfig */
-  private $cloudConfig;
-
-  /** @var IJobList */
-  private $jobList;
-
-  /** @var NotificationService */
-  private $notificationService;
-
-  /** @var UserScopeService */
-  private $userScopeService;
-
-  /** @var DependenciesService */
-  private $dependenciesService;
-
-  /** @var PdfCombiner */
-  private $pdfCombiner;
-
-  /** @var FontService */
-  private $fontService;
-
-  /** @var FileSystemWalker */
-  private $fileSystemWalker;
-
   /** @var string */
-  protected $userId;
-
-  /** @var IDateTimeZone */
-  private $dateTimeZone;
+  protected string $userId;
 
   /** @var bool */
   private $useAuthenticatedBackgroundJobs;
@@ -140,33 +116,22 @@ class MultiPdfDownloadController extends Controller
   public function __construct(
     string $appName,
     IRequest $request,
-    IL10N $l10n,
-    ILogger $logger,
-    IUserSession $userSession,
-    IConfig $cloudConfig,
-    IRootFolder $rootFolder,
-    IJobList $jobList,
-    NotificationService $notificationService,
-    UserScopeService $userScopeService,
-    Pdfcombiner $pdfCombiner,
-    FontService $fontService,
-    IDateTimeZone $dateTimeZone,
-    FileSystemWalker $fileSystemWalker,
-    DependenciesService $dependenciesService,
+    protected IL10N $l,
+    protected ILogger $logger,
+    private IUserSession $userSession,
+    private IConfig $cloudConfig,
+    protected IRootFolder $rootFolder,
+    private IJobList $jobList,
+    private NotificationService $notificationService,
+    private UserScopeService $userScopeService,
+    private Pdfcombiner $pdfCombiner,
+    private FontService $fontService,
+    private IDateTimeZone $dateTimeZone,
+    private FileSystemWalker $fileSystemWalker,
+    private DependenciesService $dependenciesService,
+    protected IPreview $previewManager,
   ) {
     parent::__construct($appName, $request);
-    $this->l = $l10n;
-    $this->logger = $logger;
-    $this->cloudConfig = $cloudConfig;
-    $this->rootFolder = $rootFolder;
-    $this->jobList = $jobList;
-    $this->notificationService = $notificationService;
-    $this->userScopeService = $userScopeService;
-    $this->pdfCombiner = $pdfCombiner;
-    $this->fontService = $fontService;
-    $this->dateTimeZone = $dateTimeZone;
-    $this->fileSystemWalker = $fileSystemWalker;
-    $this->dependenciesService = $dependenciesService;
 
     /** @var IUser $user */
     $user = $userSession->getUser();
@@ -204,11 +169,8 @@ class MultiPdfDownloadController extends Controller
    * Download the contents of the given folder as multi-page PDF after
    * converting everything to PDF.
    *
-   * @param string $sourcePath The path to the file-system node to convert to
+   * @param int $sourceFileId The path to the file-system node to convert to
    * PDF.
-   *
-   * @param null|string $downloadFileName The filename presented to the
-   * http-client. If null defaults to the pre-configured filename template.
    *
    * @param null|int $cacheId The file-id of a cached file which had been
    * prepared in the background.
@@ -218,21 +180,23 @@ class MultiPdfDownloadController extends Controller
    * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
    * the configured filename template.
    *
+   * @param null|string $sourcePath Optional path (relative to user
+   * file-space) of the source file-system node. Only used to generate a
+   * download filename suggestion.
+   *
    * @return Response
    *
    * @NoAdminRequired
    */
   public function get(
-    string $sourcePath,
-    ?string $downloadFileName = null,
+    int $sourceFileId,
     ?int $cacheId = null,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
+    ?string $sourcePath = null,
   ):Response {
-    $sourcePath = urldecode($sourcePath);
-
     if ($cacheId !== null) {
-      $cacheFile = $this->fileSystemWalker->getCacheFile($sourcePath, $cacheId);
+      $cacheFile = $this->fileSystemWalker->getCacheFile($sourceFileId, $cacheId);
       if (empty($cacheFile)) {
         return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
       }
@@ -244,10 +208,15 @@ class MultiPdfDownloadController extends Controller
       return $dependencies;
     }
 
-    if (!empty($downloadFileName)) {
-      $downloadFileName = urldecode($downloadFileName);
+    if (!empty($sourcePath)) {
+      $sourcePath = urldecode($sourcePath);
+      $sourceNode = $this->getUserFolder()->get($sourcePath);
+    } else {
+      list($sourceNode, ) = $this->getUserFolder()->getById($sourceFileId);
     }
-    $downloadFileName = $this->fileSystemWalker->getPdfFilePath($sourcePath, $downloadFileName, $useTemplate);
+
+    $sourcePath = $this->getUserFolder()->getRelativePath($sourceNode->getPath());
+    $downloadFileName = $this->fileSystemWalker->getPdfFilePath(sourcePath: $sourcePath, useTemplate: $useTemplate);
 
     $fileName = basename($downloadFileName, '.pdf') . '.pdf';
 
@@ -296,7 +265,8 @@ class MultiPdfDownloadController extends Controller
     }
 
     if (!empty($cacheId)) {
-      $cacheFile = $this->fileSystemWalker->getCacheFile($sourcePath, $cacheId);
+      $sourceNode = $this->getUserFolder()->get($sourcePath);
+      $cacheFile = $this->fileSystemWalker->getCacheFile($sourceNode->getId(), $cacheId);
       if (empty($cacheFile)) {
         return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
       }
@@ -311,7 +281,19 @@ class MultiPdfDownloadController extends Controller
         . Constants::PATH_SEPARATOR . $destinationPath
         . Constants::PATH_SEPARATOR . $nonExistingTarget;
 
+      $cacheFilePath = $cacheFile->getPath();
+      $cacheFileId = $cacheFile->getId();
       $pdfFile = $move ? $cacheFile->move($destinationPath) : $cacheFile->copy($destinationPath);
+
+      // as the user has chosen to move or copy the cache file, we can now
+      // also remove the notification (the user obviously has read it or had
+      // no need for the notification).
+      $this->notificationService->deleteNotification(
+        Notifier::TYPE_SUCCESS,
+        destinationId: $cacheFileId,
+        destinationPath: $cacheFilePath,
+        userId: $this->userId,
+      );
     } else {
 
       $dependencies = $this->checkRequirements();
@@ -321,16 +303,17 @@ class MultiPdfDownloadController extends Controller
 
       $pdfFile = $this->fileSystemWalker->save(
         $sourcePath,
-        Constants::PATH_SEPARATOR . Constants::USER_FOLDER_PREFIX . $destinationPath,
+        $this->getUserFolder()->getPath() . Constants::PATH_SEPARATOR . $destinationPath,
         pageLabels: $pageLabels,
         useTemplate: $useTemplate,
       );
     }
 
-    $pdfFilePath = $pdfFile->getInternalPath();
+    $pdfFilePath = $pdfFile->getPath();
 
     return self::dataResponse([
       'pdfFilePath' => $pdfFilePath,
+      'fileInfo' => $this->formatNode($pdfFile),
       'messages' => [ $this->l->t('PDF document saved as "%s".', $pdfFilePath), ],
     ]);
   }
@@ -377,7 +360,7 @@ class MultiPdfDownloadController extends Controller
     if ($destinationPath !== null) {
       $destinationPath = urldecode($destinationPath);
     }
-    $destinationPath = $this->fileSystemWalker->getPdfFilePath($sourcePath, $destinationPath);
+    $destinationPath = $this->fileSystemWalker->getPdfFilePath($sourcePath, $destinationPath, $useTemplate);
     $sourceNode = $this->getUserFolder()->get($sourcePath);
     $sourceNodeId = $sourceNode->getId();
     if ($jobType == PdfGeneratorJob::TARGET_DOWNLOAD) {
@@ -388,13 +371,14 @@ class MultiPdfDownloadController extends Controller
       } catch (FileNotFoundException $e) {
         $destinationFolder = $userAppFolder->newFolder((string)$sourceNodeId);
       }
-      $destinationPath = $destinationFolder->getInternalPath() . Constants::PATH_SEPARATOR . basename($destinationPath);
+      $destinationPath = $destinationFolder->getPath() . Constants::PATH_SEPARATOR . basename($destinationPath);
       $useTemplate = false;
     } else {
-      $destinationPath = Constants::USER_FOLDER_PREFIX . Constants::PATH_SEPARATOR . trim($destinationPath, Constants::PATH_SEPARATOR);
+      $destinationPath = $this->getUserFolder()->getPath() . Constants::PATH_SEPARATOR . trim($destinationPath, Constants::PATH_SEPARATOR);
     }
 
     if ($this->useAuthenticatedBackgroundJobs) {
+      $needsAuthentication = false;
       foreach ($this->authenticatedFolders as $prefixFolder) {
         if (str_starts_with($sourcePath, $prefixFolder)) {
           $needsAuthentication = true;
@@ -445,8 +429,7 @@ class MultiPdfDownloadController extends Controller
   }
 
   /**
-   * Schedule PDF generation as background job for either downloading (later,
-   * after being notified) or for direct storing in the file-system.
+   * Return the list of available background downloads.
    *
    * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
@@ -474,20 +457,7 @@ class MultiPdfDownloadController extends Controller
         if ($pdfFile->getType() != FileInfo::TYPE_FILE) {
           continue; // could throw - but we can as well just ignore it
         }
-        $pathInfo = pathinfo($pdfFile->getInternalPath());
-        $downloads[] = [
-          'id' => $pdfFile->getId(),
-          'path' => $pathInfo['dirname'],
-          'dir' =>  $pathInfo['dirname'],
-          'name' => $pathInfo['basename'],
-          'size' => $pdfFile->getSize(),
-          'type' => FileInfo::TYPE_FILE,
-          'mtime' => $pdfFile->getMTime(),
-          'mimetype' => $pdfFile->getMimeType(),
-          'permissions' => $pdfFile->getPermissions(),
-          'etag' => $pdfFile->getEtag(),
-          'isEncrypted' => $pdfFile->isEncrypted(),
-        ];
+        $downloads[] = $this->formatNode($pdfFile);
       }
     } catch (FileNotFoundException $e) {
       // ignore, this is just ok, nothing thas been generated yet
@@ -496,45 +466,39 @@ class MultiPdfDownloadController extends Controller
   }
 
   /**
-   * Schedule PDF generation as background job for either downloading (later,
-   * after being notified) or for direct storing in the file-system.
+   * Clean out a cached download file generated by a background PDF generation
+   * job.
    *
    * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
-   * @param null|int $cacheId
+   * @param int $cacheId
    *
    * @return Response
    *
    * @NoAdminRequired
    */
-  public function clean(string $sourcePath, ?int $cacheId = null):Response
-  {
+  public function clean(
+    string $sourcePath,
+    int $cacheId,
+  ):Response {
     $sourcePath = urldecode($sourcePath);
     $sourceNode = $this->getUserFolder()->get($sourcePath);
     $sourceNodeId = $sourceNode->getId();
 
-    $userAppFolder = $this->getUserAppFolder();
-
-    if ($cacheId === null) {
-      /** @var Folder $destinationFolder */
-      try {
-        $destinationFolder = $userAppFolder->get((string)$sourceNodeId);
-        $destinationFolder->delete();
-      } catch (FileNotFoundException $e) {
-        // ignore, this is just ok, nothing thas been generated yet
-      }
-      return self::dataResponse([
-        'messages' => [ $this->l->t('Cached PDF files for "%s" have been deleted.', $sourceNode->getName()), ],
-      ]);
-    }
-
     try {
-      $destinationFolder = $userAppFolder->get((string)$sourceNodeId);
       /** @var File $cacheFile */
       list($cacheFile,) = $this->getUserAppFolder()->get($sourceNodeId)->getById($cacheId);
       $cacheFileName = $cacheFile->getName();
+      $destinationPath = $cacheFile->getPath();
+      $destinationId = $cacheFile->getId();
       $cacheFile->delete();
+      $this->notificationService->deleteNotification(
+        Notifier::TYPE_SUCCESS,
+        userId: $this->userId,
+        destinationId: $destinationId,
+        destinationPath: $destinationPath,
+      );
       return self::dataResponse([
         'messages' => [ $this->l->t('PDF file "%s" has been deleted.', $cacheFileName), ],
       ]);

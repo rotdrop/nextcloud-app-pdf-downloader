@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -64,8 +64,12 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#get',
-      'url' => '/download/{sourcePath}/{cacheId}',
+      'url' => '/download/{sourceFileId}/{cacheId}',
       'verb' => 'GET',
+      'requirements' => [
+        'sourceFileId' => '^\d+$',
+        'cacheId' => '^\d*$',
+      ],
       'defaults' => [
         'cacheId' => null,
       ],
@@ -96,9 +100,6 @@ return [
       'name' => 'multi_pdf_download#clean',
       'url' => '/clean/{sourcePath}/{cacheId}',
       'verb' => 'POST',
-      'defaults' => [
-        'cacheId' => null,
-      ],
     ],
     [
       'name' => 'multi_pdf_download#get_fonts',
