@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Nedaří se otevřít cílovou složku „%s“.",
     "PDF document saved as \"%s\"." : "PDF dokument uložen jako „%s“.",
     "PDF generation background job scheduled successfully." : "Úloha pro vytvoření PDF na pozadí úspěšně naplánována.",
-    "Cached PDF files for \"%s\" have been deleted." : "PDF soubory v mezipaměti pro „%s“ byly smazány.",
     "PDF file \"%s\" has been deleted." : "PDF soubor „%s“ byl smazán.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Následující potřebný spustitelný soubor nebyl na serveru nalezen: %s","Následující potřebné spustitelné soubory nebyly na serveru nalezeny: %s","Následující potřebné spustitelné soubory nebyly na serveru nalezeny: %s","Následující potřebné spustitelné soubory nebyly na serveru nalezeny: %s"],
     "Unknown admin setting: \"%1$s\"" : "Neznámé nastavení správy: „%1$s",
@@ -27,7 +26,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "PDF soubor {destination} bude vytvořen ze zdrojů v {source}.",
     "A PDF download will be created from the sources at {source}." : "Stahování PDF bude vytvořeno ze zdrojů v {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Vaše složka {source} byla převedena do PDF souboru v {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Vaše složka {source} byla převedena do PDF souboru. Soubor si stáhnete na panelu s podrobnostmi o zdrojové složce.",
     "Converting {source} to PDF has failed: {message}" : "Převádění {source} do PDF se nezdařilo: {message}",
     "Converting {source} to PDF has failed." : "Převádění {source} do PDF se nezdařilo.",
     "not found" : "nenalezeno",
@@ -102,7 +100,6 @@
     "Recursive PDF Downloader, Personal Settings" : "Nástroj pro rekurzivní PDF: Osobní nastavení",
     "Decorations and Fonts" : "Dekorace a písma",
     "Label output pages with filename and page number" : "Označovat stránky výstupu názvem souboru a číslem stránky",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formát popisku stránky: ZÁKLAD_NÁZVU_STÁVAJÍCÍHO_SOUBORU STRÁNKA/STRÁNEK_SOUBORU",
     "Template for the page labels" : "Šablona pro popisky stránek",
     "Given Filename Example" : "Příklad daného názvu souboru",
     "Generated Label" : "Vytvořený popisek",
@@ -290,6 +287,9 @@
     "Debug Information" : "Informace pro ladění",
     "unknown error" : "neznámá chyba",
     "Unable to download data from \"{url}\": {message}" : "Nedaří se stáhnout data z „{url}: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Příliš žluťoučký kůň úpěl ďábelské ódy."
+    "The quick brown fox jumps over the lazy dog." : "Příliš žluťoučký kůň úpěl ďábelské ódy.",
+    "Cached PDF files for \"%s\" have been deleted." : "PDF soubory v mezipaměti pro „%s“ byly smazány.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Vaše složka {source} byla převedena do PDF souboru. Soubor si stáhnete na panelu s podrobnostmi o zdrojové složce.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formát popisku stránky: ZÁKLAD_NÁZVU_STÁVAJÍCÍHO_SOUBORU STRÁNKA/STRÁNEK_SOUBORU"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

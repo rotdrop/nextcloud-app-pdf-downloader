@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Не е възможно да се отвори папка с местоназначение „%s“.",
     "PDF document saved as \"%s\"." : "PDF документът е записан като \"%s\".",
     "PDF generation background job scheduled successfully." : "Задачата за фоново генериране на PDF е планирана успешно.",
-    "Cached PDF files for \"%s\" have been deleted." : "Изтрити са кешираните PDF файлове за \"%s\".",
     "PDF file \"%s\" has been deleted." : "PDF файл \"%s\" е изтрит.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["На сървъра не бяха намерени следните необходими изпълними файлове: %s","На сървъра не бяха намерени следните необходими изпълними файлове: %s"],
     "Unknown admin setting: \"%1$s\"" : "Неизвестна настройка на администратора: \"%1$s\"",
@@ -27,7 +26,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "Ще бъде създаден PDF файл {destination} от източниците в {source}.",
     "A PDF download will be created from the sources at {source}." : "Ще бъде създаден PDF файл за изтегляне от източниците в {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Вашата папка {source} е преобразувана в PDF-файл в {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Вашата папка {source} е преобразувана в PDF-файл. Моля, посетете раздела за подробни данни на папката-източник, за да изтеглите файла.",
     "Converting {source} to PDF has failed: {message}" : "Конвертирането на {source} в PDF файл е неуспешно: {message}",
     "Converting {source} to PDF has failed." : "Конвертирането на {source} в PDF файл е неуспешно.",
     "not found" : "не е намерен",
@@ -93,7 +91,6 @@
     "Recursive PDF Downloader, Personal Settings" : "Рекурсивно изтегляне на PDF, Лични настройки",
     "Decorations and Fonts" : "Декорации и шрифтове",
     "Label output pages with filename and page number" : "Етикет на изходните страници с име на файл и номер на страница",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Формат на етикета на страницата: БАЗОВОИМЕ_НАСТОЯЩ_ФАЙЛ СТРАНИЦА/ФАЙЛ_СТРАНИЦИ",
     "Template for the page labels" : "Шаблон за етикети на страници",
     "Given Filename Example" : "Даден пример за име на файл",
     "Generated Label" : "Генериран етикет",
@@ -278,6 +275,9 @@
     "Debug Information" : "Информация за отстраняване на грешки",
     "unknown error" : "неизвестна грешка",
     "Unable to download data from \"{url}\": {message}" : "Невъзможно е да се изтеглят данни от \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog. /изречение -  панграма, което съдържа всички букви от английската азбука/"
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog. /изречение -  панграма, което съдържа всички букви от английската азбука/",
+    "Cached PDF files for \"%s\" have been deleted." : "Изтрити са кешираните PDF файлове за \"%s\".",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Вашата папка {source} е преобразувана в PDF-файл. Моля, посетете раздела за подробни данни на папката-източник, за да изтеглите файла.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Формат на етикета на страницата: БАЗОВОИМЕ_НАСТОЯЩ_ФАЙЛ СТРАНИЦА/ФАЙЛ_СТРАНИЦИ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

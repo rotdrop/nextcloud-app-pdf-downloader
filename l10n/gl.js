@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "Non foi posíbel abrir o cartafol de destino «%s».",
     "PDF document saved as \"%s\"." : "O documento PDF foi gardado como «%s».",
     "PDF generation background job scheduled successfully." : "O traballo en segundo plano de xeración de PDF foi programado correctamente.",
-    "Cached PDF files for \"%s\" have been deleted." : "Elimináronse os ficheiros PDF almacenados na memoria caché para «%s».",
     "PDF file \"%s\" has been deleted." : "Eliminouse o ficheiro PDF «%s».",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Non foi posíbel atopar o seguinte executábel necesario no servidor: %s","Non foi posíbel atopar no servidor os seguintes executábeis necesarios: %s"],
     "Unknown admin setting: \"%1$s\"" : "Axuste de administrador descoñecido: «%1$s»",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "Crearase un ficheiro PDF {destination} a partir das fontes de {source}.",
     "A PDF download will be created from the sources at {source}." : "Crearase unha descarga en PDF a partir das fontes de {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "O seu cartafol {source} foi convertido nun ficheiro PDF en {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "O seu cartafol {source} foi convertido nun ficheiro PDF. Visite a lapela de detalles do cartafol de orixe para descargar o ficheiro.",
     "Converting {source} to PDF has failed: {message}" : "Produciuse un fallo ao converter {source} en PDF: {message}",
     "Converting {source} to PDF has failed." : "Produciuse un fallo ao converter {source} en PDF.",
     "not found" : "non atopado",
@@ -104,7 +102,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Descargador recursivo de PDF, axustes persoais",
     "Decorations and Fonts" : "Decoracións e tipos de letra",
     "Label output pages with filename and page number" : "Etiqueta as páxinas de saída co nome do ficheiro e o número de páxina",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato da etiqueta da páxina: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Modelo para as etiquetas das páxinas",
     "Given Filename Example" : "Exemplo de nome de ficheiro dado",
     "Generated Label" : "Etiqueta xerada",
@@ -292,6 +289,9 @@ OC.L10N.register(
     "Debug Information" : "Información de depuración",
     "unknown error" : "produciuse un erro descoñecido",
     "Unable to download data from \"{url}\": {message}" : "Non é posíbel descargar datos de «{url}»: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Fíxate, o mesquiño bacharel pide vinganza."
+    "The quick brown fox jumps over the lazy dog." : "Fíxate, o mesquiño bacharel pide vinganza.",
+    "Cached PDF files for \"%s\" have been deleted." : "Elimináronse os ficheiros PDF almacenados na memoria caché para «%s».",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "O seu cartafol {source} foi convertido nun ficheiro PDF. Visite a lapela de detalles do cartafol de orixe para descargar o ficheiro.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato da etiqueta da páxina: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },
 "nplurals=2; plural=(n != 1);");
