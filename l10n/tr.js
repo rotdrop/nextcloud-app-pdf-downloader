@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "\"%s\" hedef klasörü açılamadı.",
     "PDF document saved as \"%s\"." : "PDF belgesi \"%s\" olarak kaydedildi.",
     "PDF generation background job scheduled successfully." : "PDF oluşturma arka plan görevi zamanlandı.",
-    "Cached PDF files for \"%s\" have been deleted." : "\"%s\" için ön belleğe alınmış PDF dosyaları silindi.",
     "PDF file \"%s\" has been deleted." : "\"%s\" PDF dosyası silindi.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Gerekli olan şu yürütülebilir dosya sunucu üzerinde bulunamadı: %s","Gerekli olan şu yürütülebilir dosyalar sunucu üzerinde bulunamadı: %s"],
     "Unknown admin setting: \"%1$s\"" : "\"%1$s\" yönetici ayarı bilinmiyor",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "{destination} PDF dosyası {source} kaynaklarından oluşturulacak.",
     "A PDF download will be created from the sources at {source}." : "{destination} PDF indirmesi {source} kaynaklarından oluşturulacak.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "{source} klasörünüz {destination} üzerinde bir PDF dosyasına dönüştürüldü.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "{source} klasörünüz bir PDF dosyasına dönüştürüldü. Lütfen dosyayı indirmek için kaynağın ayrıntılar sekmesine bakın.",
     "Converting {source} to PDF has failed: {message}" : "{source} dosyası PDF dosyasına dönüştürülemedi: {message}",
     "Converting {source} to PDF has failed." : "{source} dosyası PDF dosyasına dönüştürülemedi.",
     "not found" : "bulunamadı",
@@ -104,7 +102,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Klasör ağacı PDF indirici, kişisel ayarlar",
     "Decorations and Fonts" : "Görünüm ve yazı tipleri",
     "Label output pages with filename and page number" : "Çıktı dosyaları, dosya adı ve sayfa numarası ile etiketlensin",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Sayfa etiketi biçimi: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Sayfa etiketleri kalıbı",
     "Given Filename Example" : "Belirtilen dosya adı örneği",
     "Generated Label" : "Oluşturulan etiket",
@@ -292,6 +289,9 @@ OC.L10N.register(
     "Debug Information" : "Hata ayıklama bilgileri",
     "unknown error" : "hata bilinmiyor",
     "Unable to download data from \"{url}\": {message}" : "\"{url}\" adresinden veriler indirilemedi: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Hızlı kahverengi tilki tembel köpeğin üzerinden atlar."
+    "The quick brown fox jumps over the lazy dog." : "Hızlı kahverengi tilki tembel köpeğin üzerinden atlar.",
+    "Cached PDF files for \"%s\" have been deleted." : "\"%s\" için ön belleğe alınmış PDF dosyaları silindi.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "{source} klasörünüz bir PDF dosyasına dönüştürüldü. Lütfen dosyayı indirmek için kaynağın ayrıntılar sekmesine bakın.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Sayfa etiketi biçimi: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },
 "nplurals=2; plural=(n > 1);");

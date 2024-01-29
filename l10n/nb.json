@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Kan ikke åpne målmappen \"% s\".",
     "PDF document saved as \"%s\"." : "PDF-dokument lagret som \"%s\".",
     "PDF generation background job scheduled successfully." : "PDF-generering bakgrunnsjobb planlagt vellykket.",
-    "Cached PDF files for \"%s\" have been deleted." : "Bufrede PDF-filer for \"%s\" er slettet.",
     "PDF file \"%s\" has been deleted." : "PDF-filen \"%s\" er slettet.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Følgende nødvendige kjørbar fil finnes ikke på serveren: %s","Følgende nødvendige kjørbare filer finnes ikke på serveren: %s"],
     "Unknown admin setting: \"%1$s\"" : "Ukjent admininnstilling: \"%1$s\"",
@@ -27,7 +26,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "En PDF-fil {destination} opprettes fra kildene på {source}.",
     "A PDF download will be created from the sources at {source}." : "En PDF-nedlasting opprettes fra kildene på {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Mappen {source} er konvertert til en PDF-fil på {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Mappen {source} er konvertert til en PDF-fil. Gå til detaljfanen i kildemappen for å laste ned filen.",
     "Converting {source} to PDF has failed: {message}" : "Konvertering av {source} til PDF mislyktes: {message}",
     "Converting {source} to PDF has failed." : "Konvertering av {source} til PDF mislyktes.",
     "not found" : "Ikke funnet",
@@ -100,7 +98,6 @@
     "Recursive PDF Downloader, Personal Settings" : "Rekursiv PDF Downloader, personlige innstillinger",
     "Decorations and Fonts" : "Dekorasjoner og skrifttyper",
     "Label output pages with filename and page number" : "Merk utdatasider med filnavn og sidetall",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formatet på sideetiketten: BASENAME_CURRENT_FILE SIDE/FILE_PAGES",
     "Template for the page labels" : "Mal for sideetikettene",
     "Given Filename Example" : "Eksempel på gitt filnavn",
     "Generated Label" : "Generert etikett",
@@ -288,6 +285,9 @@
     "Debug Information" : "Feilsøkingsinformasjon",
     "unknown error" : "Ukjent feil",
     "Unable to download data from \"{url}\": {message}" : "Kan ikke laste ned data fra \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Den raske brune reven hopper over den late hunden."
+    "The quick brown fox jumps over the lazy dog." : "Den raske brune reven hopper over den late hunden.",
+    "Cached PDF files for \"%s\" have been deleted." : "Bufrede PDF-filer for \"%s\" er slettet.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Mappen {source} er konvertert til en PDF-fil. Gå til detaljfanen i kildemappen for å laste ned filen.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formatet på sideetiketten: BASENAME_CURRENT_FILE SIDE/FILE_PAGES"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

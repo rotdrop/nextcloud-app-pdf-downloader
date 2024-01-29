@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Ni mogoče odpreti ciljne mape »%s«.",
     "PDF document saved as \"%s\"." : "Dokument PDF je shranjen kot »%s«.",
     "PDF generation background job scheduled successfully." : "Ozadnji proces ustvarjanja dokumenta PDF je uspešno začet.",
-    "Cached PDF files for \"%s\" have been deleted." : "Predpomnjeni podatki datotek PDF za »%s« so izbrisani.",
     "PDF file \"%s\" has been deleted." : "Datoteka PDF »%s« je izbrisana.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["Navedene zahtevane izvedljive datoteke na strežniku ni mogoče najti: %s","Navedenih zahtevanih izvedljivih datotek na strežniku ni mogoče najti: %s","Navedenih zahtevanih izvedljivih datotek na strežniku ni mogoče najti: %s","Navedenih zahtevanih izvedljivih datotek na strežniku ni mogoče najti: %s"],
     "Unknown admin setting: \"%1$s\"" : "Neznana skrbniška nastavitev »%1$s«",
@@ -27,7 +26,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "Datoteka PDF {destination} bo ustvarjena iz vira na {source}.",
     "A PDF download will be created from the sources at {source}." : "Datoteka PDF bo ustvarjena za prejem iz vira na {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Mapa {source} je pretvorjena v datoteko PDF na {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Mapa {source} je pretvorjena v datoteko PDF. Odprite zavihek podrobnosti izvorne mape za prejem datoteke.",
     "Converting {source} to PDF has failed: {message}" : "Pretvarjanje vira {source} v datoteko PDF je spodletelo: {message}.",
     "Converting {source} to PDF has failed." : "Pretvarjanje vira {source} v datoteko PDF je spodletelo.",
     "not found" : "ni mogoče najti",
@@ -156,6 +154,8 @@
     "No" : "Ne",
     "Yes" : "Da",
     "Debug Information" : "Podrobnosti razhroščevanja",
-    "unknown error" : "neznana napaka"
+    "unknown error" : "neznana napaka",
+    "Cached PDF files for \"%s\" have been deleted." : "Predpomnjeni podatki datotek PDF za »%s« so izbrisani.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Mapa {source} je pretvorjena v datoteko PDF. Odprite zavihek podrobnosti izvorne mape za prejem datoteke."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "Unable to open the destination folder \"%s\".",
     "PDF document saved as \"%s\"." : "PDF document saved as \"%s\".",
     "PDF generation background job scheduled successfully." : "PDF generation background job scheduled successfully.",
-    "Cached PDF files for \"%s\" have been deleted." : "Cached PDF files for \"%s\" have been deleted.",
     "PDF file \"%s\" has been deleted." : "PDF file \"%s\" has been deleted.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["The following required executable could not be found on the server: %s","The following required executables could not be found on the server: %s"],
     "Unknown admin setting: \"%1$s\"" : "Unknown admin setting: \"%1$s\"",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "A PDF file {destination} will be created from the sources at {source}.",
     "A PDF download will be created from the sources at {source}." : "A PDF download will be created from the sources at {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Your folder {source} has been converted to a PDF file at {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file.",
     "Converting {source} to PDF has failed: {message}" : "Converting {source} to PDF has failed: {message}",
     "Converting {source} to PDF has failed." : "Converting {source} to PDF has failed.",
     "not found" : "not found",
@@ -96,7 +94,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Recursive PDF Downloader, Personal Settings",
     "Decorations and Fonts" : "Decorations and Fonts",
     "Label output pages with filename and page number" : "Label output pages with filename and page number",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Template for the page labels",
     "Given Filename Example" : "Given Filename Example",
     "Generated Label" : "Generated Label",
@@ -281,6 +278,9 @@ OC.L10N.register(
     "Debug Information" : "Debug Information",
     "unknown error" : "unknown error",
     "Unable to download data from \"{url}\": {message}" : "Unable to download data from \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog."
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog.",
+    "Cached PDF files for \"%s\" have been deleted." : "Cached PDF files for \"%s\" have been deleted.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },
 "nplurals=2; plural=(n > 1);");

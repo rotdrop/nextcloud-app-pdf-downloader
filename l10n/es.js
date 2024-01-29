@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "No fue posible abrir la carpeta destino \"%s\".",
     "PDF document saved as \"%s\"." : "El Documento PDF se ha guardado como \"%s\".",
     "PDF generation background job scheduled successfully." : "Trabajo en segundo plano para la generación PDF se agendó exitosamente.",
-    "Cached PDF files for \"%s\" have been deleted." : "Los archivos PDF en caché para \"%s\" han sido eliminados.",
     "PDF file \"%s\" has been deleted." : "El archivo PDF \"%s\" ha sido eliminado.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["El siguiente ejecutable requerido no pudo ser encontrado en el servidor: %s","Los siguientes ejecutables requeridos no pudieron ser encontrados en el servidor: %s","Los siguientes ejecutables requeridos no pudieron ser encontrados en el servidor: %s"],
     "Unknown admin setting: \"%1$s\"" : "Ajuste administrativo desconocido: \"%1$s\"",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "Se creará un archivo PDF {destination} desde las fuentes en {source}.",
     "A PDF download will be created from the sources at {source}." : "Una descarga PDF se creará desde las fuentes en {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "Su carpeta {source} ha sido convertida en un archivo PDF en {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Su carpeta {source} ha sido convertida en un archivo PDF. Por favor, visite la pestaña de detalles de la carpeta fuente para descargar el archivo.",
     "Converting {source} to PDF has failed: {message}" : "Convirtiendo {source} a PDF falló: {message}",
     "Converting {source} to PDF has failed." : "Convirtiendo {source} a PDF ha fallado.",
     "not found" : "no encontrado",
@@ -104,7 +102,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Descarga recursiva de PDF, configuraciones personales",
     "Decorations and Fonts" : "Decoraciones y fuentes",
     "Label output pages with filename and page number" : "Etiquetar páginas de salida con nombre de archivo y número de página",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato de la etiqueta de página: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Plantilla para las etiquetas de página",
     "Given Filename Example" : "Ejemplo de nombre de archivo dado",
     "Generated Label" : "Etiqueta generada",
@@ -293,6 +290,9 @@ OC.L10N.register(
     "Debug Information" : "Información de depuración",
     "unknown error" : "error desconocido",
     "Unable to download data from \"{url}\": {message}" : "No fue posible descargar datos desde \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja."
+    "The quick brown fox jumps over the lazy dog." : "El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.",
+    "Cached PDF files for \"%s\" have been deleted." : "Los archivos PDF en caché para \"%s\" han sido eliminados.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Su carpeta {source} ha sido convertida en un archivo PDF. Por favor, visite la pestaña de detalles de la carpeta fuente para descargar el archivo.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato de la etiqueta de página: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
