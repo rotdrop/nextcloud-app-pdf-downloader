@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "無法打開目標文件夾 “%s”。",
     "PDF document saved as \"%s\"." : "PDF 文件另存為 “%s”。",
     "PDF generation background job scheduled successfully." : "已成功安排 PDF 生成後台作業。",
-    "Cached PDF files for \"%s\" have been deleted." : "“%s” 的緩存 PDF 檔案已被刪除。",
     "PDF file \"%s\" has been deleted." : "PDF 檔案 \"%s\" 已被刪除。",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["在伺服器上找不到以下必需的可執行檔案：%s"],
     "Unknown admin setting: \"%1$s\"" : "管理員設定不詳：\"%1$s\"",
@@ -29,7 +28,6 @@ OC.L10N.register(
     "A PDF file {destination} will be created from the sources at {source}." : "PDF 檔案 {destination} 將從位於 {srouce} 的源檔案創建。",
     "A PDF download will be created from the sources at {source}." : "PDF 下載檔案將從位於 {srouce} 的源檔案創建。",
     "Your folder {source} has been converted to a PDF file at {destination}." : "您的文件夾 {source} 已在 {destination} 轉換為 PDF 檔案。",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "您的文件夾 {source} 已轉換為 PDF 檔案。請訪問源文件夾的詳細信息選項卡以下載該檔案。",
     "Converting {source} to PDF has failed: {message}" : "將 {source} 轉換為 PDF 失敗：{message}",
     "Converting {source} to PDF has failed." : "將 {source} 轉換為 PDF 失敗。",
     "not found" : "找不到",
@@ -104,7 +102,6 @@ OC.L10N.register(
     "Recursive PDF Downloader, Personal Settings" : "Recursive PDF Downloader, 個人設定",
     "Decorations and Fonts" : "裝飾和字體",
     "Label output pages with filename and page number" : "用檔案名和頁碼標記輸出頁面",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "頁面標籤格式：BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "頁面標籤模板",
     "Given Filename Example" : "提供檔案名示例",
     "Generated Label" : "產生的標籤",
@@ -293,6 +290,9 @@ OC.L10N.register(
     "Debug Information" : "排除錯誤資訊",
     "unknown error" : "錯誤不詳",
     "Unable to download data from \"{url}\": {message}" : "無法下載來自「{url}」的資料：{message}",
-    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog."
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog.",
+    "Cached PDF files for \"%s\" have been deleted." : "“%s” 的緩存 PDF 檔案已被刪除。",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "您的文件夾 {source} 已轉換為 PDF 檔案。請訪問源文件夾的詳細信息選項卡以下載該檔案。",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "頁面標籤格式：BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },
 "nplurals=1; plural=0;");

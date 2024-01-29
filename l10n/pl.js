@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "File or folder could not be found." : "Nie można znaleźć pliku lub katalogu.",
     "PDF document saved as \"%s\"." : "Dokument PDF został zapisany jako \"%s\".",
-    "Cached PDF files for \"%s\" have been deleted." : "Buforowane pliki PDF dla \"%s\" zostały usunięte",
     "PDF file \"%s\" has been deleted." : "Plik PDF \"%s\" został usunięty.",
     "Unknown admin setting: \"%1$s\"" : "Nieznane ustawienie administracyjne: \"%1$s\"",
     "PDF Downloader" : "Pobieracz PDFów",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Missing data" : "Brakujące dane",
     "No" : "Nie",
     "Yes" : "Tak",
-    "unknown error" : "nieznany błąd"
+    "unknown error" : "nieznany błąd",
+    "Cached PDF files for \"%s\" have been deleted." : "Buforowane pliki PDF dla \"%s\" zostały usunięte"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

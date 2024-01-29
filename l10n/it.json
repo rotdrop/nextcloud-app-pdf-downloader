@@ -7,7 +7,6 @@
     "Unable to open the destination folder \"%s\"." : "Impossibile aprire la cartella di destinazione \"%s\".",
     "PDF document saved as \"%s\"." : "Documento PDF salvato come \"%s\".",
     "PDF generation background job scheduled successfully." : "Job in background per la creazione di PDF pianificato correttamente.",
-    "Cached PDF files for \"%s\" have been deleted." : "I file PDF memorizzati nella cache per \"%s\" sono stati eliminati.",
     "PDF file \"%s\" has been deleted." : "Il file PDF \"%s\" è stato eliminato.",
     "Unknown admin setting: \"%1$s\"" : "Impostazione di amministratore sconosciuta: \"%1$s\"",
     "The admin setting \"%1$s\" is read-only" : "L'impostazione di amministratore \"%1$s\" è in sola lettura",
@@ -24,7 +23,6 @@
     "A PDF file {destination} will be created from the sources at {source}." : "Un file PDF {destination} sarà creato dalle fonti in {source}.",
     "A PDF download will be created from the sources at {source}." : "Uno scaricamento di PDF sarà creato dalle fonti in {source}.",
     "Your folder {source} has been converted to a PDF file at {destination}." : "La cartella {source} è stata convertita in un file PDF in {destination}.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "La cartella {source} è stata convertita in un file PDF. Visita la scheda dettagli della cartella sorgente per scaricare il file.",
     "Converting {source} to PDF has failed: {message}" : "La conversione di {source} in PDF non è riuscita: {message}",
     "Converting {source} to PDF has failed." : "La conversione di {source} in PDF non è riuscita.",
     "not found" : "non trovato",
@@ -86,7 +84,6 @@
     "Recursive PDF Downloader, Personal Settings" : "Strumento di scaricamento PDF ricorsivo, impostazioni personali",
     "Decorations and Fonts" : "Decorazioni e caratteri",
     "Label output pages with filename and page number" : "Etichetta le pagine con il nome del file e il numero di pagina",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato dell'etichetta della pagina: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
     "Template for the page labels" : "Modello per le etichette della pagina",
     "Given Filename Example" : "Nome file di esempio",
     "Generated Label" : "Etichetta generata",
@@ -249,6 +246,9 @@
     "Yes" : "Sì",
     "Debug Information" : "Informazioni di debug",
     "unknown error" : "errore sconosciuto",
-    "Unable to download data from \"{url}\": {message}" : "Impossibile scaricare i dati da \"{url}\": {message}"
+    "Unable to download data from \"{url}\": {message}" : "Impossibile scaricare i dati da \"{url}\": {message}",
+    "Cached PDF files for \"%s\" have been deleted." : "I file PDF memorizzati nella cache per \"%s\" sono stati eliminati.",
+    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "La cartella {source} è stata convertita in un file PDF. Visita la scheda dettagli della cartella sorgente per scaricare il file.",
+    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato dell'etichetta della pagina: BASENAME_CURRENT_FILE PAGE/FILE_PAGES"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

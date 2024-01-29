@@ -9,7 +9,6 @@ OC.L10N.register(
     "Unable to open the destination folder \"%s\"." : "Kan doelmap \"%s\" niet openen.",
     "PDF document saved as \"%s\"." : "PDFdocument opgeslagen als \"%s\".",
     "PDF generation background job scheduled successfully." : "PDFgeneratie achtergrondtaak succesvol ingepland.",
-    "Cached PDF files for \"%s\" have been deleted." : "Gecachte PDFbestanden voor \"%s\" zijn verwijderd.",
     "PDF file \"%s\" has been deleted." : "PDFbestand \"%s\" is verwijderd.",
     "_The following required executable could not be found on the server: %s_::_The following required executables could not be found on the server: %s_" : ["De volgende uitvoerbare bestand kond niet gevonden worden op de server: %s","De volgende uitvoerbare bestanden konden niet gevonden worden op de server: %s"],
     "Unknown admin setting: \"%1$s\"" : "Onbekende adminstratorinstelling: \"%1$s\"",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Missing data" : "Ontbrekende gegevens",
     "No" : "Nee",
     "Yes" : "Ja",
-    "unknown error" : "onbekende fout"
+    "unknown error" : "onbekende fout",
+    "Cached PDF files for \"%s\" have been deleted." : "Gecachte PDFbestanden voor \"%s\" zijn verwijderd."
 },
 "nplurals=2; plural=(n != 1);");
