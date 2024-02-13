@@ -1,5 +1,8 @@
 # This file is licensed under the Affero General Public License version 3 or
 # later. See the COPYING file.
+
+BRANCH = stable27
+
 SRCDIR = .
 ABSSRCDIR = $(CURDIR)
 #
@@ -342,8 +345,27 @@ fi
 else\
   echo 'Cannot sign app-store package, certificate "$(BUILD_CERT_DIR)/$(APP_NAME).crt" or private key "$(BUILD_CERT_DIR)/$(APP_NAME).key" not available.' 1>&2;\
 fi
-
 .PHONY: appstore
+
+#@private
+checkout-clean-branch:
+	git checkout $(BRANCH)
+	if git log --pretty='%s% gD% D'|head -n1|grep -qs "$(ASSET_COMMENT)"; then\
+ echo "Undo previous asset commit";\
+ git reset --hard HEAD^;\
+fi
+.PHONY: checkout-branch
+
+ASSET_COMMENT = Update assets.
+
+#@private
+update-release--branch: COMPOSER_OPTIONS := $(COMPOSER_OPTIONS) --no-dev
+#@@ Recompile the assets of the release branch
+update-release-branch: checkout-clean-branch realclean dev-setup npm-build
+	git add --force vendor js css lib/Toolkit
+	git commit -a -m "$(ASSET_COMMENT)"
+
+.PHONY: update-release-branch
 
 #@@ Removes WebPack builds
 webpack-clean:
