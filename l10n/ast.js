@@ -1,0 +1,20 @@
+OC.L10N.register(
+    "pdf_downloader",
+    {
+    "User" : "Usuariu",
+    "Password" : "Contraseña",
+    "Login succeeded." : "L'aniciu de la sesión foi correutu.",
+    "Login failed." : "L'aniciu de la sesión falló.",
+    "bytes" : "bytes",
+    "Text" : "Testu",
+    "Options" : "Opciones",
+    "PDF" : "PDF",
+    "true" : "true",
+    "false" : "false",
+    "OK" : "Normal",
+    "Internal Server Error" : "Error internu del sirvidor",
+    "Error" : "Error",
+    "No" : "Non",
+    "Yes" : "Sí"
+},
+"nplurals=2; plural=(n != 1);");
