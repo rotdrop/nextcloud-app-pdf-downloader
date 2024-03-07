@@ -7,6 +7,7 @@ OC.L10N.register(
     "Login failed." : "L'aniciu de la sesión falló.",
     "bytes" : "bytes",
     "Text" : "Testu",
+    "Background" : "Fondu",
     "Options" : "Opciones",
     "PDF" : "PDF",
     "true" : "true",
