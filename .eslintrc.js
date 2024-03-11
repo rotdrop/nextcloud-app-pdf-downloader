@@ -5,6 +5,7 @@ module.exports = {
   globals: {
     __webpack_nonce__: true,
     __webpack_public_path__: true,
+    APP_NAME: true,
   },
   rules: {
     'no-tabs': ['error', { allowIndentationTabs: false }],
@@ -26,6 +27,8 @@ module.exports = {
     ],
     // Do allow line-break before closing brackets
     'vue/html-closing-bracket-newline': ['error', { singleline: 'never', multiline: 'always' }],
+    'n/no-unpublished-import': 'off',
+    'n/no-unpublished-require': 'off',
   },
   overrides: [
     {
