@@ -20,9 +20,10 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-  <div :class="['component-wrapper', 'text-direction-' + dir]">
+  <div class="component-wrapper">
     <NcTextField ref="ncTextField"
                  v-bind="$attrs"
+                 :value="value || ''"
                  :show-trailing-button="true"
                  trailing-button-icon="arrowRight"
                  v-on="$listeners"
@@ -56,6 +57,11 @@ export default {
     hint: {
       type: String,
       default: '',
+    },
+    value: {
+      type: [String, Number],
+      default: null,
+      validator: (p) => p === null || (p !== undefined && ['string', 'number'].includes(typeof p))
     },
   },
 }
