@@ -275,7 +275,8 @@
       <div class="horizontal-rule" />
       <!-- Here we should use the ordinary file-picker, the prefix picker does not make any sense here. -->
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
-                        :hint="t(appName, 'Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:')"
+                        :hint="t(appName, `Optionally choose a default destination folder in the
+cloud. If left blank PDFs will be generated in the current directory.`)"
                         :only-dir-name="true"
                         @update="saveTextInput('pdfCloudFolderPath')"
       />
