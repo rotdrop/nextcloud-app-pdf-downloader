@@ -35,6 +35,7 @@
                               :disabled="disabled || loading"
                               :clearable="true"
                               :searchable="true"
+                              :submit-button="false"
       >
         <template #option="option">
           <NcEllipsisedOption v-tooltip="fontInfoPopup(option, getFontSampleUri(option))"
