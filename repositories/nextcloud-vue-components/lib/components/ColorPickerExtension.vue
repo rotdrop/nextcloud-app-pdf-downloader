@@ -50,16 +50,18 @@
     </NcActions>
     <NcColorPicker ref="colorPicker"
                    v-model="rgbColor"
-                   :open.sync="pickerVisible"
+                   :palette="colorPickerPalette"
+                   :shown.sync="pickerVisible"
                    @submit="submitCustomColor"
                    @update:open="handleOpen"
                    @close="() => false"
     >
-      <button :style="{'background-color': rgbColor, color: rgbToGrayScale(rgbColor) > 0.5 ? 'black' : 'white'}"
-              class="trigger-button"
+      <NcButton :style="cssVariables"
+                type="primary"
+                class="trigger-button"
       >
         {{ label }}
-      </button>
+      </NcButton>
     </NcColorPicker>
     <input type="submit"
            class="icon-confirm confirm-button"
@@ -72,15 +74,19 @@
 import {
   NcActions,
   NcActionButton,
+  NcButton,
   NcColorPicker,
 } from '@nextcloud/vue'
 import { nextTick, set as vueSet } from 'vue'
+
+const appName = APP_NAME // e.g. by webpack DefinePlugin
 
 export default {
   name: 'ColorPickerExtension',
   components: {
     NcActionButton,
     NcActions,
+    NcButton,
     NcColorPicker,
   },
   inheritAttrs: false,
@@ -91,17 +97,17 @@ export default {
     },
     label: {
       type: String,
-      default: 'pick a color',
+      default: t(appName, 'pick a color'),
     },
     componentLabels: {
       type: Object,
       default: () => {
         return {
-          openColorPicker: 'open',
-          submitColorChoice: 'submit',
-          revertColor: 'revert color',
-          revertColorPalette: 'restore palette',
-          resetColorPalette: 'factory reset palette',
+          openColorPicker: t(appName, 'open'),
+          submitColorChoice: t(appName, 'submit'),
+          revertColor: t(appName, 'revert color'),
+          revertColorPalette: t(appName, 'restore palette'),
+          resetColorPalette: t(appName, 'factory reset palette'),
         }
       },
     },
@@ -114,14 +120,22 @@ export default {
     return {
       pickerVisible: false,
       factoryColorPalette: undefined,
+      colorPickerPalette: undefined,
       savedState: {
         rgbColor: undefined,
         colorPickerPalette: undefined,
       },
       loading: true,
+      id: this._uid,
     }
   },
   computed: {
+    cssVariables() {
+      return {
+        '--button-background-color': this.rgbColor,
+        '--button-foreground-color': this.rgbToGrayScale(this.rgbColor) > 0.5 ? 'black' : 'white',
+      }
+    },
     colorPaletteIsDefault() {
       return this.loading || this.colorPickerPalette.toString() === this.factoryColorPalette.toString()
     },
@@ -145,23 +159,19 @@ export default {
         return this.value
       },
     },
+  },
+  watch: {
     colorPickerPalette: {
-      set(newValue) {
-        if (this.$refs.colorPicker) {
-          this.$refs.colorPicker.palette = newValue
-        }
+      handler(newValue, oldValue) {
+        this.info('PALETTE', newValue, oldValue)
         if (this.loading) {
           return
         }
         this.colorPaletteHasChanged = true
         this.$emit('update:color-palette', newValue)
       },
-      get() {
-        return this.$refs.colorPicker ? this.$refs.colorPicker.palette : undefined
-      },
+      deep: true,
     },
-  },
-  watch: {
     colorPalette(newValue, oldValue) {
       if (this.loading) {
         return
@@ -179,10 +189,19 @@ export default {
     // console.info('LOADING IN CREATED', this.loading)
   },
   mounted() {
-    this.factoryColorPalette = [...this.colorPickerPalette]
-    if (this.colorPalette && Array.isArray(this.colorPalette)) {
-      this.colorPickerPalette.splice(0, Infinity, ...this.colorPalette)
-    }
+    // This seemingly stupid construct of having
+    // this.colorPickerPalette === undefined at start enables us to peek
+    // the default palette from the NC color picker widget.
+    this.factoryColorPalette = [...this.$refs.colorPicker.palette]
+    this.info('FACTORY PALETTE', this.factoryColorPalette)
+    vueSet(
+      this,
+      'colorPickerPalette',
+      (this.colorPalette && Array.isArray(this.colorPalette) && this.colorPalette.length > 0)
+        ? [...this.colorPalette]
+        : [...this.factoryColorPalette],
+    )
+    this.info('PALETTE IS NOW', this.colorPickerPalette, this.colorPalette, this.factoryColorPalette)
     if (this.rgbColor) {
       this.prependColorToPalette(this.rgbColor)
     }
@@ -192,6 +211,9 @@ export default {
     })
   },
   methods: {
+    info(...args) {
+      console.info(this.$options.name, ...args)
+    },
     submitCustomColor(color) {
       this.prependColorToPalette(color)
     },
@@ -251,12 +273,19 @@ export default {
     &:not(:focus,:hover) {
       border-right:0;
     }
+    background-color: var(--button-background-color);
+    color: var(--button-foreground-color);
   }
   .confirm-button {
     border-top-left-radius:0;
     border-bottom-left-radius:0;
     &:not(:focus,:hover) {
-      border-left:0;
+      border-left:2px solid var(--color-background-dark);
+    }
+    min-height: 44px; // in order to match NcButton
+    border: 2px solid var(--color-border-dark);
+    &:hover:not(:disabled) {
+      border: 2px solid var(--color-primary-element);
     }
   }
 }
