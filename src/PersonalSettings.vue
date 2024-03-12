@@ -37,12 +37,12 @@
       </div>
       <div v-show="pageLabels" class="horizontal-rule" />
       <!-- avoid v-model here as the update of pageLabelTemplate causes instant font-sample generation -->
-      <SettingsInputText v-show="pageLabels"
-                         v-tooltip="unclippedPopup(pageLabelTemplate)"
-                         :value="pageLabelTemplate"
-                         :label="t(appName, 'Template for the page labels')"
-                         :disabled="loading > 0"
-                         @update="(value) => { pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
+      <!-- v-tooltip="unclippedPopup(pageLabelTemplate)" -->
+      <TextField v-show="pageLabels"
+                 :value="pageLabelTemplate"
+                 :label="t(appName, 'Template for the page labels')"
+                 :disabled="loading > 0"
+                 @submit="(value) => { pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
       >
         <template #hint>
           <div class="template-example-container flex-container flex-baseline">
@@ -55,7 +55,10 @@
           </div>
           <div class="template-example-container flex-container flex-center">
             <span class="template-example-caption">
-              {{ t(appName, 'Generated Label') }}:
+              {{ t(appName, 'Generated Label') }}
+            </span>
+            <span v-if="pageLabelTemplateFontSampleUri !== ''" class="template-example-caption">
+              {{ t(appName, 'as Image') }}:
             </span>
             <span :class="['template-example-rendered', { 'set-minimum-height': !!pageLabelPageWidthFraction }]"
                   :style="{ 'background-color': pageLabelBackgroundColor }"
@@ -64,14 +67,17 @@
                    :style="{ filter: pageLabelTemplateFontSampleFilter }"
               >
             </span>
+            <span v-if="pageLabelTemplateExample !== ''" class="template-example-caption">
+              {{ t(appName, 'as Text') }}:
+            </span>
             <span class="template-example-plain-text"
-                  :style="{ 'background-color': pageLabelBackgroundColor, 'color': pageLabelTextColor }"
+                  :style="{ 'background-color': pageLabelBackgroundColor, 'color': pageLabelTextColor, 'font-style': 'normal' }"
             >
               {{ pageLabelTemplateExample }}
             </span>
           </div>
         </template>
-      </SettingsInputText>
+      </TextField>
       <div v-show="pageLabels" class="horizontal-rule" />
       <div v-show="pageLabels" class="page-label-colors flex-container flex-center">
         <div class="label">
@@ -93,17 +99,17 @@
         />
       </div>
       <div v-show="pageLabels" class="horizontal-rule" />
-      <SettingsInputText v-show="pageLabels"
-                         v-model="pageLabelPageWidthFraction"
-                         :placeholder="t(appName, 'e.g. 0.4')"
-                         type="number"
-                         min="0.01"
-                         max="1.00"
-                         step="0.01"
-                         :label="t(appName, 'Page label width fraction')"
-                         :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
-                         :disabled="loading > 0 || !pageLabels"
-                         @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
+      <TextField :value.sync="pageLabelPageWidthFraction"
+                 :label="t(appName, 'Page label width fraction')"
+                 :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
+                 :disabled="loading > 0 || !pageLabels"
+                 type="number"
+                 :placeholder="t(appName, 'e.g. 0.4')"
+                 min="0.01"
+                 max="1.00"
+                 step="0.01"
+                 dir="rtl"
+                 @submit="(value) => saveTextInput('pageLabelPageWidthFraction', value)"
       />
       <div v-show="pageLabels" class="horizontal-rule" />
       <FontSelect v-show="pageLabels"
@@ -185,13 +191,15 @@
     <NcSettingsSection id="filename-patterns"
                        :name="t(appName, 'Filename Patterns')"
     >
-      <SettingsInputText :value="excludePattern"
-                         :label="t(appName, 'Exclude Pattern')"
-                         @update="(value) => { excludePattern = value; saveTextInput(value, 'excludePattern'); }"
+      <TextField :value.sync="excludePattern"
+                 :label="t(appName, 'Exclude Pattern')"
+                 :disabled="loading > 0"
+                 @submit="(value) => saveTextInput('excludePattern', value)"
       />
-      <SettingsInputText :value="includePattern"
-                         :label="t(appName, 'Include Pattern')"
-                         @update="(value) => { includePattern = value; saveTextInput(value, 'includePattern'); }"
+      <TextField :value.sync="includePattern"
+                 :label="t(appName, 'Include Pattern')"
+                 :disabled="loading > 0"
+                 @submit="(value) => saveTextInput('includePattern', value)"
       />
       <div :class="['flex-container', 'flex-center']">
         <span :class="['radio-option', 'label']">{{ t(appName, 'Precedence:') }}</span>
@@ -222,9 +230,9 @@
           </label>
         </span>
       </div>
-      <SettingsInputText v-model="patternTestString"
-                         :label="t(appName, 'Test String')"
-                         @update="saveTextInput(...arguments, 'patternTestString')"
+      <TextField v-model="patternTestString"
+                 :label="t(appName, 'Test String')"
+                 @submit="(value) => saveTextInput('patternTestString', value)"
       >
         <template #hint>
           <div class="pattern-test-result flex-container flex-baseline">
@@ -236,14 +244,14 @@
             </span>
           </div>
         </template>
-      </SettingsInputText>
+      </TextField>
     </NcSettingsSection>
     <NcSettingsSection id="default-download-options"
                        :name="t(appName, 'Default Download Options')"
     >
-      <SettingsInputText :value="pdfFileNameTemplate"
-                         :label="t(appName, 'PDF Filename Template:')"
-                         @update="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
+      <TextField :value="pdfFileNameTemplate"
+                 :label="t(appName, 'PDF Filename Template:')"
+                 @submit="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate', value); }"
       >
         <template #hint>
           <div class="template-example-container flex-container flex-baseline">
@@ -263,13 +271,13 @@
             </span>
           </div>
         </template>
-      </SettingsInputText>
+      </TextField>
       <div class="horizontal-rule" />
       <!-- Here we should use the ordinary file-picker, the prefix picker does not make any sense here. -->
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
                         :hint="t(appName, 'Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:')"
                         :only-dir-name="true"
-                        @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
+                        @update="saveTextInput('pdfCloudFolderPath')"
       />
       <div class="horizontal-rule" />
       <div :class="['flex-container', 'flex-center']">
@@ -299,10 +307,11 @@
         </label>
       </div> -->
       <div class="horizontal-rule" />
-      <SettingsInputText v-model="humanDownloadsPurgeTimeout"
-                         :label="t(appName, 'Purge Timeout:')"
-                         :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
-                         @update="saveTextInput(...arguments, 'downloadsPurgeTimeout')"
+      <TextField :value.sync="humanDownloadsPurgeTimeout"
+                 :label="t(appName, 'Purge Timeout')"
+                 :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
+                 :disabled="loading > 0"
+                 @submit="(value) => saveTextInput('downloadsPurgeTimeout', value)"
       />
     </NcSettingsSection>
     <NcSettingsSection id="archive-extraction"
@@ -322,12 +331,12 @@
           {{ t(appName, 'On-the-fly extraction of archive files is disabled by the administrator.') }}
         </label>
       </div>
-      <SettingsInputText v-show="extractArchiveFiles && extractArchiveFilesAdmin"
-                         v-model="humanArchiveSizeLimit"
-                         :label="t(appName, 'Archive Size Limit')"
-                         :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
-                         :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
-                         @update="saveTextInput(...arguments, 'archiveSizeLimit')"
+      <TextField v-show="extractArchiveFiles && extractArchiveFilesAdmin"
+                 :value.sync="humanArchiveSizeLimit"
+                 :label="t(appName, 'Archive Size Limit')"
+                 :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+                 :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
+                 @submit="(value) => saveTextInput('archiveSizeLimit', value)"
       />
       <div v-if="extractArchiveFiles && extractArchiveFilesAdmin && archiveSizeLimitAdmin > 0" :class="{ hint: true, 'admin-limit-exceeded': archiveSizeLimitAdmin < archiveSizeLimit, 'icon-error': archiveSizeLimitAdmin < archiveSizeLimit }">
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
@@ -367,7 +376,7 @@ import { set as vueSet } from 'vue'
 import {
   NcSettingsSection,
 } from '@nextcloud/vue'
-import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText.vue'
+import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
 import ColorPicker from './components/ColorPicker.vue'
 import FontSelect from './components/FontSelect.vue'
 import FilePrefixPicker from './components/FilePrefixPicker.vue'
@@ -397,7 +406,7 @@ export default {
     FilePrefixPicker,
     FontSelect,
     NcSettingsSection,
-    SettingsInputText,
+    TextField,
   },
   mixins: [
     settingsSync,
@@ -430,7 +439,7 @@ export default {
       pageLabelsFont: '',
       pageLabelsFontSize: 12,
       pageLabelsFontObject: null,
-      pageLabelTemplateExample: null,
+      pageLabelTemplateExample: '',
       //
       generateErrorPages: true,
       generatedPagesFont: '',
@@ -649,7 +658,10 @@ export default {
         this.saveSetting('patternPrecedence')
       }
     },
-    async saveTextInput(value, settingsKey, force) {
+    async saveTextInput(settingsKey, value, force) {
+      if (value === undefined) {
+        value = this[settingsKey] || ''
+      }
       if (this.loading > 0) {
         // avoid ping-pong by reactivity
         console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
@@ -765,7 +777,7 @@ export default {
     --cloud-theme-filter: none;
   }
 }
-.templateroot {
+.templateroot::v-deep {
   h1.title {
     margin: 30px 30px 0px;
     font-size:revert;
@@ -788,75 +800,81 @@ export default {
       filter: var(--cloud-theme-filter);
     }
   }
-  .settings-section {
-    .horizontal-rule {
-      opacity: 0.1;
-      border-top: black 1px solid;
-      margin-top: 2px;
-      padding-top: 2px;
-    }
-    .flex-container {
-      display:flex;
-      &.flex-center {
-        align-items:center;
-      }
-      &.flex-baseline {
-        align-items:baseline;
-      }
-    }
-    .label-container {
-      height:34px;
-      display:flex;
+  .horizontal-rule {
+    opacity: 0.1;
+    border-top: black 1px solid;
+    margin-top: 2px;
+    padding-top: 2px;
+  }
+  .flex-container {
+    display:flex;
+    &.flex-center {
       align-items:center;
-      justify-content:left;
     }
-    .radio-option {
-      padding-right: 0.5em;
+    &.flex-baseline {
+      align-items:baseline;
     }
-    .label {
-      padding-right: 0.5em;
+  }
+  .label-container {
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:left;
+  }
+  .radio-option {
+    padding-right: 0.5em;
+  }
+  .label {
+    padding-right: 0.5em;
+  }
+  .pattern-test-result {
+    span.pattern-test-result {
+      padding-right: 20px;
+      background-position: right;
+      background-repeat: no-repeat;
+      &.excluded {
+        color: red;
+        background-image: var(--cloud-icon-alert);
+      }
+      &.included {
+        color: green;
+        background-image: var(--cloud-icon-checkmark);
+      }
     }
-    .pattern-test-result {
-      span.pattern-test-result {
-        padding-right: 20px;
-        background-position: right;
-        background-repeat: no-repeat;
-        &.excluded {
-          color: red;
-          background-image: var(--cloud-icon-alert);
+  }
+  .template-example-container {
+    .template-example-rendered {
+      display:flex;
+      margin-right: 0.5em;
+      color: red; // same as PdfCombiner
+      background: #C8C8C8; // same as PdfCombiner
+      &.set-minimum-height {
+        img {
+          min-height: var(--default-line-height);
         }
-        &.included {
-          color: green;
-          background-image: var(--cloud-icon-checkmark);
-        }
       }
     }
-    .template-example-container {
-      .template-example-rendered {
-        display:flex;
-        margin-right: 0.5em;
-        color: red; // same as PdfCombiner
-        background: #C8C8C8; // same as PdfCombiner
-        &.set-minimum-height {
-          img {
-            min-height: var(--default-line-height);
-          }
-        }
-      }
-      .template-example-plain-text {
-        padding: 0 0.3em;
-      }
-      .template-example-caption {
-        padding-right:0.5em;
-      }
-      .template-example-file-path {
-        font-family:monospace;
-      }
-      .template-example-pdf-filename {
-        font-family:monospace;
-      }
+    .template-example-plain-text {
+      padding: 0 0.3em;
+      font-style: normal;
     }
-    .hint {
+    .template-example-caption {
+      padding-right:0.5em;
+    }
+    .template-example-file-path {
+      font-family:monospace;
+      font-style: normal;
+    }
+    .template-example-pdf-filename {
+      font-family:monospace;
+    }
+  }
+  p.hint {
+    color: var(--color-text-lighter);
+    font-style: italic;
+  }
+  li, div {
+    &.hint {
       color: var(--color-text-lighter);
       font-size: 80%;
       &.admin-limit-exceeded {
@@ -869,13 +887,13 @@ export default {
         }
       }
     }
-    label.has-tooltip {
-      padding-right: 16px;
-      background-image: var(--cloud-icon-info);
-      background-size: 12px;
-      background-position: right center;
-      background-repeat: no-repeat;
-    }
+  }
+  label.has-tooltip {
+    padding-right: 16px;
+    background-image: var(--cloud-icon-info);
+    background-size: 12px;
+    background-position: right center;
+    background-repeat: no-repeat;
   }
 }
 </style>
