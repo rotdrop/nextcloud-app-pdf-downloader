@@ -19,10 +19,10 @@
 
 import Vue from 'vue';
 import { appName } from './config.js';
-import { attachDialogHandlers } from './toolkit/util/dialogs.js';
+// import { attachDialogHandlers } from './toolkit/util/dialogs.js';
 import { generateUrl } from '@nextcloud/router';
+import { translate as t, translatePlural as n } from '@nextcloud/l10n';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
-import FilesTab from './views/FilesTab.vue';
 import { Tooltip } from '@nextcloud/vue';
 
 // eslint-disable-next-line
@@ -36,12 +36,9 @@ Vue.directive('tooltip', Tooltip);
 
 Vue.mixin({ data() { return { appName }; }, methods: { t, n, generateUrl } });
 
-const View = Vue.extend(FilesTab);
 let TabInstance = null;
 
 const initialState = getInitialState();
-
-console.info('INITIAL STATE PDF DOWNLOADER', initialState);
 
 const mimeTypes = [
   'httpd/unix-directory',
@@ -51,14 +48,11 @@ if (!initialState.individualFileConversion
     && initialState.extractArchiveFiles
     && initialState.extractArchiveFilesAdmin) {
   mimeTypes.splice(0, 0, ...initialState.archiveMimeTypes);
-  console.info('MIME TYPES', mimeTypes);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
 
-  attachDialogHandlers();
-
-  console.info('INITIAL STATE', initialState);
+  // attachDialogHandlers();
 
   /**
    * Register a new tab in the sidebar
@@ -74,8 +68,8 @@ window.addEventListener('DOMContentLoaded', () => {
       },
 
       async mount(el, fileInfo, context) {
-
-        console.info('MOUNT SIDEBAR', el, fileInfo, context);
+        const FilesTab = (await import('./views/FilesTab.vue')).default;
+        const View = Vue.extend(FilesTab);
 
         if (TabInstance) {
           TabInstance.$destroy();
@@ -88,15 +82,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Only mount after we have all the info we need
         await TabInstance.update(fileInfo);
-
         TabInstance.$mount(el);
       },
       update(fileInfo) {
-        console.info('ARGUMENTS', arguments);
         TabInstance.update(fileInfo);
       },
       destroy() {
-        TabInstance.$destroy();
+        if (TabInstance !== null) {
+          TabInstance.$destroy();
+        }
         TabInstance = null;
       },
     }));
