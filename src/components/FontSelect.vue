@@ -1,76 +1,69 @@
-<script>
-/**
- * @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
- * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-</script>
+<!--
+ - @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @license AGPL-3.0-or-later
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU Affero General Public License as
+ - published by the Free Software Foundation, either version 3 of the
+ - License, or (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ - GNU Affero General Public License for more details.
+ -
+ - You should have received a copy of the GNU Affero General Public License
+ - along with this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
 <template>
   <div :class="['font-select-container', ...cloudVersionClasses]">
     <div class="label-container">
       <label v-if="label !== undefined" :for="id + '-font-select'">{{ label }}</label>
     </div>
     <div class="multiselect-wrapper">
-      <MultiSelect :id="id + '-font-select'"
-                   ref="fontSelect"
-                   v-model="fontObject"
-                   v-bind="$attrs"
-                   :value="fontObject"
-                   :options="fontsList"
-                   class="fonts-select multiselect-vue"
-                   :placeholder="placeholder"
-                   :show-labels="true"
-                   :allow-empty="true"
-                   :searchable="true"
-                   :close-on-select="true"
-                   track-by="family"
-                   label="fontName"
-                   :multiple="false"
-                   :tag-width="60"
-                   :disabled="disabled || loading"
+      <SelectWithSubmitButton :id="id + '-font-select'"
+                              ref="select"
+                              v-model="fontObject"
+                              v-bind="$attrs"
+                              :options="fontsList"
+                              class="fonts-select"
+                              :options-limit="100"
+                              :placeholder="placeholder"
+                              :multiple="false"
+                              label="fontName"
+                              :disabled="disabled || loading"
+                              :clearable="true"
+                              :searchable="true"
       >
-        <template #option="optionData">
-          <EllipsisedFontOption :name="$refs.fontSelect.getOptionLabel(optionData.option)"
-                                :option="optionData.option"
-                                :search="optionData.search"
-                                :label="$refs.fontSelect.label"
-                                :sample-uri="getFontSampleUri(optionData.option)"
+        <template #option="option">
+          <NcEllipsisedOption v-tooltip="fontInfoPopup(option, getFontSampleUri(option))"
+                              :name="ncSelect ? String(option[ncSelect.localLabel]) : t(appName, 'undefined')"
+                              :search="ncSelect ? ncSelect.search : t(appName, 'undefined')"
           />
         </template>
-        <template #singleLabel="singleLabelData">
-          <span v-tooltip="fontInfoPopup(singleLabelData.option, getFontSampleUri(singleLabelData.option))"
-                class="single-label"
-          >
-            {{ $refs.fontSelect.$refs.VueMultiselect.currentOptionLabel }}
-          </span>
+        <template #selected-option="option">
+          <NcEllipsisedOption v-tooltip="fontInfoPopup(option, getFontSampleUri(option))"
+                              :name="ncSelect ? String(option[ncSelect.localLabel]) : t(appName, 'undefined')"
+                              :search="ncSelect ? ncSelect.search : t(appName, 'undefined')"
+          />
         </template>
-      </MultiSelect>
-      <div v-if="fontSizeChooser" class="font-size-container">
-        <input v-model="fontSize"
-               class="font-size"
-               type="number"
-               min="0"
-               max="128"
-               step="1"
-               dir="rtl"
-               :disabled="disabled || loading || !fontObject"
-               @change="emitFontSizeChange"
-        >
-        <span class="font-size-unit">pt</span>
-      </div>
+        <template #alignedAfter>
+          <div v-if="fontSizeChooser" class="font-size-container">
+            <input v-model="fontSize"
+                   class="font-size"
+                   type="number"
+                   min="0"
+                   max="128"
+                   step="1"
+                   dir="rtl"
+                   :disabled="disabled || loading || !fontObject"
+                   @change="emitFontSizeChange"
+            >
+            <span class="font-size-unit">pt</span>
+          </div>
+        </template>
+      </SelectWithSubmitButton>
       <div v-show="loading" class="loading" />
     </div>
     <div v-if="fontObject" class="font-sample flex-container flex-center">
@@ -83,9 +76,9 @@
 </template>
 <script>
 import { appName } from '../config.js'
-import MultiSelect from '@nextcloud/vue/dist/Components/NcMultiselect'
-import EllipsisedFontOption from './EllipsisedFontOption'
-import fontInfoPopup from './mixins/font-info-popup'
+import SelectWithSubmitButton from '@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue'
+import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
+import fontInfoPopup from './mixins/font-info-popup.js'
 import generateUrl from '../toolkit/util/generate-url.js'
 import fontSampleText from '../toolkit/util/pangram.js'
 import cloudVersionClasses from '../toolkit/util/cloud-version-classes.js'
@@ -93,17 +86,12 @@ import cloudVersionClasses from '../toolkit/util/cloud-version-classes.js'
 export default {
   name: 'FontSelect',
   components: {
-    MultiSelect,
-    EllipsisedFontOption,
+    SelectWithSubmitButton,
+    NcEllipsisedOption,
   },
-  data() {
-    return {
-      fontObject: null,
-      fontSize: null,
-      // loading: true,
-      cloudVersionClasses,
-    };
-  },
+  mixins: [
+    fontInfoPopup,
+  ],
   props: {
     value: {
       type: Object,
@@ -131,7 +119,7 @@ export default {
     },
     fontsList: {
       type: Array,
-      default: [],
+      default: () => [],
     },
     fontSizeChooser: {
       type: Boolean,
@@ -158,9 +146,15 @@ export default {
     'update:modelValue',
     'input',
   ],
-  mixins: [
-    fontInfoPopup,
-  ],
+  data() {
+    return {
+      fontObject: null,
+      fontSize: null,
+      // loading: true,
+      cloudVersionClasses,
+      ncSelect: null,
+    }
+  },
   computed: {
     id() {
       return 'font-select-' + this._uid
@@ -182,7 +176,7 @@ export default {
           return
         }
         if (newValue) {
-          this.$emit('input', { ...newValue, fontSize: this.fontSize, }) // Vue 2
+          this.$emit('input', { ...newValue, fontSize: this.fontSize }) // Vue 2
         } else {
           this.$emit('input', newValue)
         }
@@ -211,6 +205,9 @@ export default {
       this.fontSize = this.value.fontSize
     }
   },
+  mounted() {
+    this.ncSelect = this.$refs.select.ncSelect
+  },
   methods: {
     info() {
       console.info(...arguments)
@@ -237,7 +234,7 @@ export default {
       if (!this.fontObject) {
         return // no font no font size
       }
-      this.$emit('input', { ...this.fontObject, fontSize: this.fontSize, }) // Vue 2
+      this.$emit('input', { ...this.fontObject, fontSize: this.fontSize }) // Vue 2
     },
   },
 }
@@ -287,65 +284,14 @@ export default {
     width: 100%;
     max-width: 400px;
     align-items: center;
-    :deep(div.multiselect.multiselect-vue.multiselect--single) {
-      height: var(--cloud-input-height) !important;
-      margin-top: var(--cloud-input-margin);
-      margin-bottom: var(--cloud-input-margin);
-      flex-grow:1;
-      .multiselect__content-wrapper {
-        border: var(--cloud-input-border-width) solid var(--cloud-input-border-color);
-      }
-      .multiselect__tags {
-        border: var(--cloud-input-border-width) solid var(--cloud-input-border-color);
-        border-radius: var(--cloud-border-radius);
-        .multiselect__single .single-label {
-          width:100%;
-        }
-        height:36px;
-        min-height:36px;
-        .multiselect__input {
-          margin-top:-2px;
-        }
-      }
-      &.multiselect--active {
-        .multiselect__tags {
-          border-radius: var(--cloud-border-radius) var(--cloud-border-radius) 0 0;
-        }
-        .multiselect__content-wrapper {
-          border-radius: 0 0 var(--cloud-border-radius) var(--cloud-border-radius);
-        }
-        &.multiselect--above {
-          .multiselect__tags {
-            border-radius: 0 0 var(--cloud-border-radius) var(--cloud-border-radius);
-          }
-          .multiselect__content-wrapper {
-            border-radius: var(--cloud-border-radius) var(--cloud-border-radius) 0 0;
-          }
-        }
-      }
-      &.multiselect--disabled {
-        .multiselect__tags {
-          &, * {
-            background-color: var(--color-background-dark) !important;
-          }
-        }
-      }
-      &:hover .multiselect__tags {
-        border-color: var(--color-primary-element);
-        outline: none;
-      }
-     .multiselect__content-wrapper li > span {
-        &::before {
-          background-image: var(--cloud-icon-checkmark);
-          display:block;
-        }
-        &:not(.multiselect__option--selected):hover::before {
-          visibility:hidden;
-        }
-      }
-    }
     .font-size-container {
+      display:flex;
+      flex-wrap:nowrap;
+      align-items:center;
+      flex-shrink:0;
       input.font-size {
+        margin: 0 3px;
+        height: 44px!important; // in order to have the same height as the select
         width: 3em;
         direction:rtl;
       }
