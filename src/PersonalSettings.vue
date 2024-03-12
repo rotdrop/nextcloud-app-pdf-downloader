@@ -1,27 +1,28 @@
-<script>
-/**
- * @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
- * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-</script>
+<!--
+ - @copyright Copyright (c) 2022-2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @license AGPL-3.0-or-later
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU Affero General Public License as
+ - published by the Free Software Foundation, either version 3 of the
+ - License, or (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ - GNU Affero General Public License for more details.
+ -
+ - You should have received a copy of the GNU Affero General Public License
+ - along with this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
 <template>
-  <SettingsSection :class="[...cloudVersionClasses, appName]" :title="t(appName, 'Recursive PDF Downloader, Personal Settings')">
-    <AppSettingsSection id="decorations-and-fonts"
-                        :title="t(appName, 'Decorations and Fonts')"
+  <div :class="['templateroot', appName, ...cloudVersionClasses]">
+    <h1 class="title">
+      {{ t(appName, 'Recursive PDF Downloader, Personal Settings') }}
+    </h1>
+    <NcSettingsSection id="decorations-and-fonts"
+                       :name="t(appName, 'Decorations and Fonts')"
     >
       <div :class="['flex-container', 'flex-center', { pageLabels }]">
         <input id="page-labels"
@@ -138,9 +139,9 @@
                   :disabled="loading > 0"
                   :loading="loading > 0"
       />
-    </AppSettingsSection>
-    <AppSettingsSection id="sorting-options"
-                        :title="t(appName, 'Sorting Options')"
+    </NcSettingsSection>
+    <NcSettingsSection id="sorting-options"
+                       :name="t(appName, 'Sorting Options')"
     >
       <div :class="['flex-container', 'flex-center']">
         <span :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
@@ -180,9 +181,9 @@
           </label>
         </span>
       </div>
-    </AppSettingsSection>
-    <AppSettingsSection id="filename-patterns"
-                        :title="t(appName, 'Filename Patterns')"
+    </NcSettingsSection>
+    <NcSettingsSection id="filename-patterns"
+                       :name="t(appName, 'Filename Patterns')"
     >
       <SettingsInputText :value="excludePattern"
                          :label="t(appName, 'Exclude Pattern')"
@@ -236,9 +237,9 @@
           </div>
         </template>
       </SettingsInputText>
-    </AppSettingsSection>
-    <AppSettingsSection id="default-download-options"
-                        :title="t(appName, 'Default Download Options')"
+    </NcSettingsSection>
+    <NcSettingsSection id="default-download-options"
+                       :name="t(appName, 'Default Download Options')"
     >
       <SettingsInputText :value="pdfFileNameTemplate"
                          :label="t(appName, 'PDF Filename Template:')"
@@ -303,9 +304,9 @@
                          :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
                          @update="saveTextInput(...arguments, 'downloadsPurgeTimeout')"
       />
-    </AppSettingsSection>
-    <AppSettingsSection id="archive-extraction"
-                        :title="t(appName, 'Archive Extraction')"
+    </NcSettingsSection>
+    <NcSettingsSection id="archive-extraction"
+                       :name="t(appName, 'Archive Extraction')"
     >
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
         <input id="extract-archive-files"
@@ -331,9 +332,9 @@
       <div v-if="extractArchiveFiles && extractArchiveFilesAdmin && archiveSizeLimitAdmin > 0" :class="{ hint: true, 'admin-limit-exceeded': archiveSizeLimitAdmin < archiveSizeLimit, 'icon-error': archiveSizeLimitAdmin < archiveSizeLimit }">
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
       </div>
-    </AppSettingsSection>
-    <AppSettingsSection id="individual-conversion-title"
-                        :title="l10nStrings.individualFileConversionTitle"
+    </NcSettingsSection>
+    <NcSettingsSection id="individual-conversion-title"
+                       :name="l10nStrings.individualFileConversionTitle"
     >
       <div :class="['flex-container', 'flex-center', { individualFileConversion: individualFileConversion }]">
         <input id="individual-file-conversion"
@@ -357,30 +358,33 @@
           {{ t(appName, 'The directory part of the page labels will remain empty.') }}
         </li>
       </ul>
-    </AppSettingsSection>
-  </SettingsSection>
+    </NcSettingsSection>
+  </div>
 </template>
 <script>
 import { appName } from './config.js'
-import Vue from 'vue'
-import AppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection'
-import SettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
-import EllipsisedFontOption from './components/EllipsisedFontOption'
-import ColorPicker from './components/ColorPicker'
-import FontSelect from './components/FontSelect'
-import FilePrefixPicker from './components/FilePrefixPicker'
+import { set as vueSet } from 'vue'
+import {
+  NcSettingsSection,
+} from '@nextcloud/vue'
+import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText.vue'
+import ColorPicker from './components/ColorPicker.vue'
+import FontSelect from './components/FontSelect.vue'
+import FilePrefixPicker from './components/FilePrefixPicker.vue'
 import generateUrl from './toolkit/util/generate-url.js'
 import fontSampleText from './toolkit/util/pangram.js'
 import { getInitialState } from './toolkit/services/InitialStateService.js'
-import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
+import {
+  showError,
+  // showSuccess,
+  showInfo,
+  // TOAST_DEFAULT_TIMEOUT,
+  // TOAST_PERMANENT_TIMEOUT,
+} from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { parse as pathParse } from 'path'
-import settingsSync from './toolkit/mixins/settings-sync'
+import settingsSync from './toolkit/mixins/settings-sync.js'
 import unclippedPopup from './components/mixins/unclipped-popup.js'
-import tinycolor from 'tinycolor2'
 import { hexToCSSFilter } from 'hex-to-css-filter'
 import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
 
@@ -389,15 +393,16 @@ const initialState = getInitialState()
 export default {
   name: 'PersonalSettings',
   components: {
-    ActionButton,
-    Actions,
-    AppSettingsSection,
     ColorPicker,
     FilePrefixPicker,
     FontSelect,
-    SettingsSection,
+    NcSettingsSection,
     SettingsInputText,
   },
+  mixins: [
+    settingsSync,
+    unclippedPopup,
+  ],
   data() {
     return {
       initialState,
@@ -412,7 +417,7 @@ export default {
       fontsList: [],
       fontSamples: [],
       // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the target language.
-      fontSampleText: fontSampleText,
+      fontSampleText,
       loading: 1,
       //
       pageLabels: true,
@@ -481,10 +486,6 @@ export default {
       },
     }
   },
-  mixins: [
-    settingsSync,
-    unclippedPopup,
-  ],
   computed: {
     pageLabelTemplateFontSampleUri() {
       if (!this.pageLabelsFontObject) {
@@ -492,7 +493,7 @@ export default {
       }
       const text = this.pageLabelTemplateExample
       return this.$refs.pageLabelsFontSelect.getFontSampleUri(this.pageLabelsFontObject, {
-        text: text,
+        text,
         textColor: '#000000',
         fontSize: this.pageLabelPageWidthFraction ? undefined : this.pageLabelsFontSize,
       })
@@ -507,9 +508,9 @@ export default {
         return this.pdfCloudFolderFileInfo.dirName
       },
       set(value) {
-        Vue.set(this.pdfCloudFolderFileInfo, 'dirName', value || '/')
+        vueSet(this.pdfCloudFolderFileInfo, 'dirName', value || '/')
         return value
-      }
+      },
     },
     exampleFilePathParent() {
       const pathInfo = pathParse(this.exampleFilePath || '')
@@ -517,12 +518,12 @@ export default {
     },
     l10nPatternTestResult() {
       switch (this.patternTestResult) {
-        case 'included':
-          return t(appName, 'included')
-        case 'excluded':
-          return t(appName, 'excluded')
-        default:
-          return ''
+      case 'included':
+        return t(appName, 'included')
+      case 'excluded':
+        return t(appName, 'excluded')
+      default:
+        return ''
       }
     },
   },
@@ -585,7 +586,7 @@ export default {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
-          const responseData = e.response.data;
+          const responseData = e.response.data
           if (Array.isArray(responseData.messages)) {
             message = responseData.messages.join(' ')
           }
@@ -597,21 +598,21 @@ export default {
         --this.loading
       })
 
-      Promise.all([ settingsPromise, fontsPromise ]).then(
+      Promise.all([settingsPromise, fontsPromise]).then(
         (responses) => {
           const response = responses[1]
           this.fontsList = response.data
           let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
           this.pageLabelsFontObject = fontIndex >= 0 ? { ...this.fontsList[fontIndex] } : null
           if (this.pageLabelsFontObject) {
-            Vue.set(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
+            vueSet(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
           }
           fontIndex = this.fontsList.findIndex((x) => x.family === this.generatedPagesFont)
           this.generatedPagesFontObject = fontIndex >= 0 ? { ...this.fontsList[fontIndex] } : null
           if (this.generatedPagesFontObject) {
-            Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
+            vueSet(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
           }
-      })
+        })
 
       ++this.loading
       this.fetchPageLabelTemplateExample().finally(() => {
@@ -624,12 +625,12 @@ export default {
       --this.loading
     },
     updatePatternTestResult(responseData) {
-      if (responseData && responseData.hasOwnProperty('patternTestResult')) {
+      if (responseData?.patternTestResult) {
         this.patternTestResult = responseData.patternTestResult
         showInfo(t(appName, 'Include/exclude test result for "{string}" is "{result}".', {
           string: this.patternTestString,
-          result: this.l10nPatternTestResult
-        }));
+          result: this.l10nPatternTestResult,
+        }))
       }
     },
     // make sure that the pattern precedence has an "expected" value
@@ -654,7 +655,7 @@ export default {
         console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
         return
       }
-      this.saveConfirmedSetting(value, 'personal', settingsKey, force, this.updatePatternTestResult);
+      this.saveConfirmedSetting(value, 'personal', settingsKey, force, this.updatePatternTestResult)
     },
     async saveSetting(setting) {
       if (this.loading > 0) {
@@ -699,15 +700,15 @@ export default {
             dirTotalPages: 197,
             filePageNumber: 3,
             fileTotalPages: 17,
-        }));
+          }))
         this.pageLabelTemplateExample = response.data.pageLabel
       } catch (e) {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
-          const responseData = e.response.data;
+          const responseData = e.response.data
           if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ');
+            message = responseData.messages.join(' ')
           }
         }
         showError(t(appName, 'Unable to obtain page label template example: {message}', {
@@ -723,15 +724,15 @@ export default {
           'sample/pdf-filename/{template}/{path}', {
             template: encodeURIComponent(this.pdfFileNameTemplate),
             path: encodeURIComponent(this.exampleFilePathParent),
-        }));
+          }))
         this.pdfFileNameTemplateExample = response.data.pdfFileName
       } catch (e) {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
-          const responseData = e.response.data;
+          const responseData = e.response.data
           if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ');
+            message = responseData.messages.join(' ')
           }
         }
         showError(t(appName, 'Unable to obtain the PDF file template example: {message}', {
@@ -764,8 +765,11 @@ export default {
     --cloud-theme-filter: none;
   }
 }
-.settings-section {
-  :deep(.settings-section__title) {
+.templateroot {
+  h1.title {
+    margin: 30px 30px 0px;
+    font-size:revert;
+    font-weight:revert;
     position: relative;
     padding-left:60px;
     height:32px;
@@ -784,92 +788,94 @@ export default {
       filter: var(--cloud-theme-filter);
     }
   }
-  .horizontal-rule {
-    opacity: 0.1;
-    border-top: black 1px solid;
-    margin-top: 2px;
-    padding-top: 2px;
-  }
-  .flex-container {
-    display:flex;
-    &.flex-center {
-      align-items:center;
+  .settings-section {
+    .horizontal-rule {
+      opacity: 0.1;
+      border-top: black 1px solid;
+      margin-top: 2px;
+      padding-top: 2px;
     }
-    &.flex-baseline {
-      align-items:baseline;
-    }
-  }
-  .label-container {
-    height:34px;
-    display:flex;
-    align-items:center;
-    justify-content:left;
-  }
-  .radio-option {
-    padding-right: 0.5em;
-  }
-  .label {
-    padding-right: 0.5em;
-  }
-  .pattern-test-result {
-    span.pattern-test-result {
-      padding-right: 20px;
-      background-position: right;
-      background-repeat: no-repeat;
-      &.excluded {
-        color: red;
-        background-image: var(--cloud-icon-alert);
-      }
-      &.included {
-        color: green;
-        background-image: var(--cloud-icon-checkmark);
-      }
-    }
-  }
-  .template-example-container {
-    .template-example-rendered {
+    .flex-container {
       display:flex;
-      margin-right: 0.5em;
-      color: red; // same as PdfCombiner
-      background: #C8C8C8; // same as PdfCombiner
-      &.set-minimum-height {
-        img {
-          min-height: var(--default-line-height);
+      &.flex-center {
+        align-items:center;
+      }
+      &.flex-baseline {
+        align-items:baseline;
+      }
+    }
+    .label-container {
+      height:34px;
+      display:flex;
+      align-items:center;
+      justify-content:left;
+    }
+    .radio-option {
+      padding-right: 0.5em;
+    }
+    .label {
+      padding-right: 0.5em;
+    }
+    .pattern-test-result {
+      span.pattern-test-result {
+        padding-right: 20px;
+        background-position: right;
+        background-repeat: no-repeat;
+        &.excluded {
+          color: red;
+          background-image: var(--cloud-icon-alert);
+        }
+        &.included {
+          color: green;
+          background-image: var(--cloud-icon-checkmark);
         }
       }
     }
-    .template-example-plain-text {
-      padding: 0 0.3em;
-    }
-    .template-example-caption {
-      padding-right:0.5em;
-    }
-    .template-example-file-path {
-      font-family:monospace;
-    }
-    .template-example-pdf-filename {
-      font-family:monospace;
-    }
-  }
-  .hint {
-    color: var(--color-text-lighter);
-    font-size: 80%;
-    &.admin-limit-exceeded {
-      color:red;
-      font-weight:bold;
-      font-style:italic;
-      &.icon-error {
-        padding-left:20px;
-        background-position:left;
+    .template-example-container {
+      .template-example-rendered {
+        display:flex;
+        margin-right: 0.5em;
+        color: red; // same as PdfCombiner
+        background: #C8C8C8; // same as PdfCombiner
+        &.set-minimum-height {
+          img {
+            min-height: var(--default-line-height);
+          }
+        }
+      }
+      .template-example-plain-text {
+        padding: 0 0.3em;
+      }
+      .template-example-caption {
+        padding-right:0.5em;
+      }
+      .template-example-file-path {
+        font-family:monospace;
+      }
+      .template-example-pdf-filename {
+        font-family:monospace;
       }
     }
-  }
-  label.has-tooltip {
-    padding-right: 16px;
-    background-image: var(--cloud-icon-info);
-    background-size: 12px;
-    background-position: right center;
-    background-repeat: no-repeat;
+    .hint {
+      color: var(--color-text-lighter);
+      font-size: 80%;
+      &.admin-limit-exceeded {
+        color:red;
+        font-weight:bold;
+        font-style:italic;
+        &.icon-error {
+          padding-left:20px;
+          background-position:left;
+        }
+      }
+    }
+    label.has-tooltip {
+      padding-right: 16px;
+      background-image: var(--cloud-icon-info);
+      background-size: 12px;
+      background-position: right center;
+      background-repeat: no-repeat;
+    }
   }
 }
 </style>
