@@ -1,38 +1,44 @@
-<script>
-/**
- * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-</script>
+<!--
+ - @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright 2022-2024 Claus-Justus Heine
+ - @license AGPL-3.0-or-later
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU Affero General Public License as
+ - published by the Free Software Foundation, either version 3 of the
+ - License, or (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ - GNU Affero General Public License for more details.
+ -
+ - You should have received a copy of the GNU Affero General Public License
+ - along with this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
 <template>
   <FilePrefixPicker v-bind="$attrs"
                     :file-picker-title="filePickerTitle"
                     :only-dir-name="onlyDirName"
                     v-on="$listeners"
-                    @error:invalidDirName="showDirNameInvalid"
+                    @error:invalid-dir-name="showDirNameInvalid"
                     @update:dirName="showDirNameUpdated"
   />
 </template>
 <script>
 import { appName } from '../config.js'
-import { showError, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
-import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker'
+import {
+  showError,
+  showInfo,
+  TOAST_PERMANENT_TIMEOUT,
+} from '@nextcloud/dialogs'
+import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 
 export default {
+  // BIG FAT NOTE: THIS IS NOT PURELY COSMETIC; SO GIVE A DAMN ON
+  // ESLINT AND ENFORCE A DIFFERING COMPONENT NAME.
+  //
+  // eslint-disable-next-line vue/match-component-file-name
   name: 'FilePrefixPickerWrapper',
   components: {
     FilePrefixPicker,
