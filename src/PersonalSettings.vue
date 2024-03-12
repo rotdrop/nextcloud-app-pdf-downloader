@@ -1,27 +1,28 @@
-<script>
-/**
- * @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
- * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-</script>
+<!--
+ - @copyright Copyright (c) 2022-2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @license AGPL-3.0-or-later
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU Affero General Public License as
+ - published by the Free Software Foundation, either version 3 of the
+ - License, or (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ - GNU Affero General Public License for more details.
+ -
+ - You should have received a copy of the GNU Affero General Public License
+ - along with this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
 <template>
-  <SettingsSection :class="[...cloudVersionClasses, appName]" :title="t(appName, 'Recursive PDF Downloader, Personal Settings')">
-    <AppSettingsSection id="decorations-and-fonts"
-                        :title="t(appName, 'Decorations and Fonts')"
+  <div :class="['templateroot', appName, ...cloudVersionClasses]">
+    <h1 class="title">
+      {{ t(appName, 'Recursive PDF Downloader, Personal Settings') }}
+    </h1>
+    <NcSettingsSection id="decorations-and-fonts"
+                       :name="t(appName, 'Decorations and Fonts')"
     >
       <div :class="['flex-container', 'flex-center', { pageLabels }]">
         <input id="page-labels"
@@ -36,12 +37,12 @@
       </div>
       <div v-show="pageLabels" class="horizontal-rule" />
       <!-- avoid v-model here as the update of pageLabelTemplate causes instant font-sample generation -->
-      <SettingsInputText v-show="pageLabels"
-                         v-tooltip="unclippedPopup(pageLabelTemplate)"
-                         :value="pageLabelTemplate"
-                         :label="t(appName, 'Template for the page labels')"
-                         :disabled="loading > 0"
-                         @update="(value) => { pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
+      <!-- v-tooltip="unclippedPopup(pageLabelTemplate)" -->
+      <TextField v-show="pageLabels"
+                 :value="pageLabelTemplate"
+                 :label="t(appName, 'Template for the page labels')"
+                 :disabled="loading > 0"
+                 @submit="(value) => { pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
       >
         <template #hint>
           <div class="template-example-container flex-container flex-baseline">
@@ -54,7 +55,10 @@
           </div>
           <div class="template-example-container flex-container flex-center">
             <span class="template-example-caption">
-              {{ t(appName, 'Generated Label') }}:
+              {{ t(appName, 'Generated Label') }}
+            </span>
+            <span v-if="pageLabelTemplateFontSampleUri !== ''" class="template-example-caption">
+              {{ t(appName, 'as Image') }}:
             </span>
             <span :class="['template-example-rendered', { 'set-minimum-height': !!pageLabelPageWidthFraction }]"
                   :style="{ 'background-color': pageLabelBackgroundColor }"
@@ -63,14 +67,17 @@
                    :style="{ filter: pageLabelTemplateFontSampleFilter }"
               >
             </span>
+            <span v-if="pageLabelTemplateExample !== ''" class="template-example-caption">
+              {{ t(appName, 'as Text') }}:
+            </span>
             <span class="template-example-plain-text"
-                  :style="{ 'background-color': pageLabelBackgroundColor, 'color': pageLabelTextColor }"
+                  :style="{ 'background-color': pageLabelBackgroundColor, 'color': pageLabelTextColor, 'font-style': 'normal' }"
             >
               {{ pageLabelTemplateExample }}
             </span>
           </div>
         </template>
-      </SettingsInputText>
+      </TextField>
       <div v-show="pageLabels" class="horizontal-rule" />
       <div v-show="pageLabels" class="page-label-colors flex-container flex-center">
         <div class="label">
@@ -92,17 +99,17 @@
         />
       </div>
       <div v-show="pageLabels" class="horizontal-rule" />
-      <SettingsInputText v-show="pageLabels"
-                         v-model="pageLabelPageWidthFraction"
-                         :placeholder="t(appName, 'e.g. 0.4')"
-                         type="number"
-                         min="0.01"
-                         max="1.00"
-                         step="0.01"
-                         :label="t(appName, 'Page label width fraction')"
-                         :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
-                         :disabled="loading > 0 || !pageLabels"
-                         @update="saveTextInput(...arguments, 'pageLabelPageWidthFraction')"
+      <TextField :value.sync="pageLabelPageWidthFraction"
+                 :label="t(appName, 'Page label width fraction')"
+                 :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
+                 :disabled="loading > 0 || !pageLabels"
+                 type="number"
+                 :placeholder="t(appName, 'e.g. 0.4')"
+                 min="0.01"
+                 max="1.00"
+                 step="0.01"
+                 dir="rtl"
+                 @submit="(value) => saveTextInput('pageLabelPageWidthFraction', value)"
       />
       <div v-show="pageLabels" class="horizontal-rule" />
       <FontSelect v-show="pageLabels"
@@ -138,9 +145,9 @@
                   :disabled="loading > 0"
                   :loading="loading > 0"
       />
-    </AppSettingsSection>
-    <AppSettingsSection id="sorting-options"
-                        :title="t(appName, 'Sorting Options')"
+    </NcSettingsSection>
+    <NcSettingsSection id="sorting-options"
+                       :name="t(appName, 'Sorting Options')"
     >
       <div :class="['flex-container', 'flex-center']">
         <span :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
@@ -180,17 +187,19 @@
           </label>
         </span>
       </div>
-    </AppSettingsSection>
-    <AppSettingsSection id="filename-patterns"
-                        :title="t(appName, 'Filename Patterns')"
+    </NcSettingsSection>
+    <NcSettingsSection id="filename-patterns"
+                       :name="t(appName, 'Filename Patterns')"
     >
-      <SettingsInputText :value="excludePattern"
-                         :label="t(appName, 'Exclude Pattern')"
-                         @update="(value) => { excludePattern = value; saveTextInput(value, 'excludePattern'); }"
+      <TextField :value.sync="excludePattern"
+                 :label="t(appName, 'Exclude Pattern')"
+                 :disabled="loading > 0"
+                 @submit="(value) => saveTextInput('excludePattern', value)"
       />
-      <SettingsInputText :value="includePattern"
-                         :label="t(appName, 'Include Pattern')"
-                         @update="(value) => { includePattern = value; saveTextInput(value, 'includePattern'); }"
+      <TextField :value.sync="includePattern"
+                 :label="t(appName, 'Include Pattern')"
+                 :disabled="loading > 0"
+                 @submit="(value) => saveTextInput('includePattern', value)"
       />
       <div :class="['flex-container', 'flex-center']">
         <span :class="['radio-option', 'label']">{{ t(appName, 'Precedence:') }}</span>
@@ -221,9 +230,9 @@
           </label>
         </span>
       </div>
-      <SettingsInputText v-model="patternTestString"
-                         :label="t(appName, 'Test String')"
-                         @update="saveTextInput(...arguments, 'patternTestString')"
+      <TextField v-model="patternTestString"
+                 :label="t(appName, 'Test String')"
+                 @submit="(value) => saveTextInput('patternTestString', value)"
       >
         <template #hint>
           <div class="pattern-test-result flex-container flex-baseline">
@@ -235,14 +244,14 @@
             </span>
           </div>
         </template>
-      </SettingsInputText>
-    </AppSettingsSection>
-    <AppSettingsSection id="default-download-options"
-                        :title="t(appName, 'Default Download Options')"
+      </TextField>
+    </NcSettingsSection>
+    <NcSettingsSection id="default-download-options"
+                       :name="t(appName, 'Default Download Options')"
     >
-      <SettingsInputText :value="pdfFileNameTemplate"
-                         :label="t(appName, 'PDF Filename Template:')"
-                         @update="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
+      <TextField :value="pdfFileNameTemplate"
+                 :label="t(appName, 'PDF Filename Template:')"
+                 @submit="(value) => { pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate', value); }"
       >
         <template #hint>
           <div class="template-example-container flex-container flex-baseline">
@@ -262,13 +271,14 @@
             </span>
           </div>
         </template>
-      </SettingsInputText>
+      </TextField>
       <div class="horizontal-rule" />
       <!-- Here we should use the ordinary file-picker, the prefix picker does not make any sense here. -->
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
-                        :hint="t(appName, 'Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:')"
+                        :hint="t(appName, `Optionally choose a default destination folder in the
+cloud. If left blank PDFs will be generated in the current directory.`)"
                         :only-dir-name="true"
-                        @update="saveTextInput(pdfCloudFolderPath, 'pdfCloudFolderPath')"
+                        @update="saveTextInput('pdfCloudFolderPath')"
       />
       <div class="horizontal-rule" />
       <div :class="['flex-container', 'flex-center']">
@@ -298,14 +308,15 @@
         </label>
       </div> -->
       <div class="horizontal-rule" />
-      <SettingsInputText v-model="humanDownloadsPurgeTimeout"
-                         :label="t(appName, 'Purge Timeout:')"
-                         :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
-                         @update="saveTextInput(...arguments, 'downloadsPurgeTimeout')"
+      <TextField :value.sync="humanDownloadsPurgeTimeout"
+                 :label="t(appName, 'Purge Timeout')"
+                 :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
+                 :disabled="loading > 0"
+                 @submit="(value) => saveTextInput('downloadsPurgeTimeout', value)"
       />
-    </AppSettingsSection>
-    <AppSettingsSection id="archive-extraction"
-                        :title="t(appName, 'Archive Extraction')"
+    </NcSettingsSection>
+    <NcSettingsSection id="archive-extraction"
+                       :name="t(appName, 'Archive Extraction')"
     >
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles: extractArchiveFiles }]">
         <input id="extract-archive-files"
@@ -321,19 +332,19 @@
           {{ t(appName, 'On-the-fly extraction of archive files is disabled by the administrator.') }}
         </label>
       </div>
-      <SettingsInputText v-show="extractArchiveFiles && extractArchiveFilesAdmin"
-                         v-model="humanArchiveSizeLimit"
-                         :label="t(appName, 'Archive Size Limit')"
-                         :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
-                         :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
-                         @update="saveTextInput(...arguments, 'archiveSizeLimit')"
+      <TextField v-show="extractArchiveFiles && extractArchiveFilesAdmin"
+                 :value.sync="humanArchiveSizeLimit"
+                 :label="t(appName, 'Archive Size Limit')"
+                 :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+                 :disabled="loading > 0 || !extractArchiveFiles || !extractArchiveFilesAdmin"
+                 @submit="(value) => saveTextInput('archiveSizeLimit', value)"
       />
       <div v-if="extractArchiveFiles && extractArchiveFilesAdmin && archiveSizeLimitAdmin > 0" :class="{ hint: true, 'admin-limit-exceeded': archiveSizeLimitAdmin < archiveSizeLimit, 'icon-error': archiveSizeLimitAdmin < archiveSizeLimit }">
         {{ t(appName, 'Administrative size limit: {value}', { value: humanArchiveSizeLimitAdmin }) }}
       </div>
-    </AppSettingsSection>
-    <AppSettingsSection id="individual-conversion-title"
-                        :title="l10nStrings.individualFileConversionTitle"
+    </NcSettingsSection>
+    <NcSettingsSection id="individual-conversion-title"
+                       :name="l10nStrings.individualFileConversionTitle"
     >
       <div :class="['flex-container', 'flex-center', { individualFileConversion: individualFileConversion }]">
         <input id="individual-file-conversion"
@@ -357,30 +368,33 @@
           {{ t(appName, 'The directory part of the page labels will remain empty.') }}
         </li>
       </ul>
-    </AppSettingsSection>
-  </SettingsSection>
+    </NcSettingsSection>
+  </div>
 </template>
 <script>
 import { appName } from './config.js'
-import Vue from 'vue'
-import AppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection'
-import SettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
-import EllipsisedFontOption from './components/EllipsisedFontOption'
-import ColorPicker from './components/ColorPicker'
-import FontSelect from './components/FontSelect'
-import FilePrefixPicker from './components/FilePrefixPicker'
+import { set as vueSet } from 'vue'
+import {
+  NcSettingsSection,
+} from '@nextcloud/vue'
+import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
+import ColorPicker from '@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue'
+import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
+import FontSelect from './components/FontSelect.vue'
 import generateUrl from './toolkit/util/generate-url.js'
 import fontSampleText from './toolkit/util/pangram.js'
 import { getInitialState } from './toolkit/services/InitialStateService.js'
-import { showError, showSuccess, showInfo, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
+import {
+  showError,
+  // showSuccess,
+  showInfo,
+  // TOAST_DEFAULT_TIMEOUT,
+  // TOAST_PERMANENT_TIMEOUT,
+} from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { parse as pathParse } from 'path'
-import settingsSync from './toolkit/mixins/settings-sync'
+import settingsSync from './toolkit/mixins/settings-sync.js'
 import unclippedPopup from './components/mixins/unclipped-popup.js'
-import tinycolor from 'tinycolor2'
 import { hexToCSSFilter } from 'hex-to-css-filter'
 import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
 
@@ -389,15 +403,16 @@ const initialState = getInitialState()
 export default {
   name: 'PersonalSettings',
   components: {
-    ActionButton,
-    Actions,
-    AppSettingsSection,
     ColorPicker,
     FilePrefixPicker,
     FontSelect,
-    SettingsSection,
-    SettingsInputText,
+    NcSettingsSection,
+    TextField,
   },
+  mixins: [
+    settingsSync,
+    unclippedPopup,
+  ],
   data() {
     return {
       initialState,
@@ -412,7 +427,7 @@ export default {
       fontsList: [],
       fontSamples: [],
       // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the target language.
-      fontSampleText: fontSampleText,
+      fontSampleText,
       loading: 1,
       //
       pageLabels: true,
@@ -425,7 +440,7 @@ export default {
       pageLabelsFont: '',
       pageLabelsFontSize: 12,
       pageLabelsFontObject: null,
-      pageLabelTemplateExample: null,
+      pageLabelTemplateExample: '',
       //
       generateErrorPages: true,
       generatedPagesFont: '',
@@ -481,10 +496,6 @@ export default {
       },
     }
   },
-  mixins: [
-    settingsSync,
-    unclippedPopup,
-  ],
   computed: {
     pageLabelTemplateFontSampleUri() {
       if (!this.pageLabelsFontObject) {
@@ -492,7 +503,7 @@ export default {
       }
       const text = this.pageLabelTemplateExample
       return this.$refs.pageLabelsFontSelect.getFontSampleUri(this.pageLabelsFontObject, {
-        text: text,
+        text,
         textColor: '#000000',
         fontSize: this.pageLabelPageWidthFraction ? undefined : this.pageLabelsFontSize,
       })
@@ -507,9 +518,9 @@ export default {
         return this.pdfCloudFolderFileInfo.dirName
       },
       set(value) {
-        Vue.set(this.pdfCloudFolderFileInfo, 'dirName', value || '/')
+        vueSet(this.pdfCloudFolderFileInfo, 'dirName', value || '/')
         return value
-      }
+      },
     },
     exampleFilePathParent() {
       const pathInfo = pathParse(this.exampleFilePath || '')
@@ -517,12 +528,12 @@ export default {
     },
     l10nPatternTestResult() {
       switch (this.patternTestResult) {
-        case 'included':
-          return t(appName, 'included')
-        case 'excluded':
-          return t(appName, 'excluded')
-        default:
-          return ''
+      case 'included':
+        return t(appName, 'included')
+      case 'excluded':
+        return t(appName, 'excluded')
+      default:
+        return ''
       }
     },
   },
@@ -585,7 +596,7 @@ export default {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
-          const responseData = e.response.data;
+          const responseData = e.response.data
           if (Array.isArray(responseData.messages)) {
             message = responseData.messages.join(' ')
           }
@@ -597,21 +608,21 @@ export default {
         --this.loading
       })
 
-      Promise.all([ settingsPromise, fontsPromise ]).then(
+      Promise.all([settingsPromise, fontsPromise]).then(
         (responses) => {
           const response = responses[1]
           this.fontsList = response.data
           let fontIndex = this.fontsList.findIndex((x) => x.family === this.pageLabelsFont)
           this.pageLabelsFontObject = fontIndex >= 0 ? { ...this.fontsList[fontIndex] } : null
           if (this.pageLabelsFontObject) {
-            Vue.set(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
+            vueSet(this.pageLabelsFontObject, 'fontSize', this.pageLabelsFontSize)
           }
           fontIndex = this.fontsList.findIndex((x) => x.family === this.generatedPagesFont)
           this.generatedPagesFontObject = fontIndex >= 0 ? { ...this.fontsList[fontIndex] } : null
           if (this.generatedPagesFontObject) {
-            Vue.set(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
+            vueSet(this.generatedPagesFontObject, 'fontSize', this.generatedPagesFontSize)
           }
-      })
+        })
 
       ++this.loading
       this.fetchPageLabelTemplateExample().finally(() => {
@@ -624,12 +635,12 @@ export default {
       --this.loading
     },
     updatePatternTestResult(responseData) {
-      if (responseData && responseData.hasOwnProperty('patternTestResult')) {
+      if (responseData?.patternTestResult) {
         this.patternTestResult = responseData.patternTestResult
         showInfo(t(appName, 'Include/exclude test result for "{string}" is "{result}".', {
           string: this.patternTestString,
-          result: this.l10nPatternTestResult
-        }));
+          result: this.l10nPatternTestResult,
+        }))
       }
     },
     // make sure that the pattern precedence has an "expected" value
@@ -648,13 +659,16 @@ export default {
         this.saveSetting('patternPrecedence')
       }
     },
-    async saveTextInput(value, settingsKey, force) {
+    async saveTextInput(settingsKey, value, force) {
+      if (value === undefined) {
+        value = this[settingsKey] || ''
+      }
       if (this.loading > 0) {
         // avoid ping-pong by reactivity
         console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
         return
       }
-      this.saveConfirmedSetting(value, 'personal', settingsKey, force, this.updatePatternTestResult);
+      this.saveConfirmedSetting(value, 'personal', settingsKey, force, this.updatePatternTestResult)
     },
     async saveSetting(setting) {
       if (this.loading > 0) {
@@ -699,15 +713,15 @@ export default {
             dirTotalPages: 197,
             filePageNumber: 3,
             fileTotalPages: 17,
-        }));
+          }))
         this.pageLabelTemplateExample = response.data.pageLabel
       } catch (e) {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
-          const responseData = e.response.data;
+          const responseData = e.response.data
           if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ');
+            message = responseData.messages.join(' ')
           }
         }
         showError(t(appName, 'Unable to obtain page label template example: {message}', {
@@ -723,15 +737,15 @@ export default {
           'sample/pdf-filename/{template}/{path}', {
             template: encodeURIComponent(this.pdfFileNameTemplate),
             path: encodeURIComponent(this.exampleFilePathParent),
-        }));
+          }))
         this.pdfFileNameTemplateExample = response.data.pdfFileName
       } catch (e) {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
         if (e.response && e.response.data) {
-          const responseData = e.response.data;
+          const responseData = e.response.data
           if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ');
+            message = responseData.messages.join(' ')
           }
         }
         showError(t(appName, 'Unable to obtain the PDF file template example: {message}', {
@@ -764,8 +778,11 @@ export default {
     --cloud-theme-filter: none;
   }
 }
-.settings-section {
-  :deep(.settings-section__title) {
+.templateroot::v-deep {
+  h1.title {
+    margin: 30px 30px 0px;
+    font-size:revert;
+    font-weight:revert;
     position: relative;
     padding-left:60px;
     height:32px;
@@ -840,27 +857,35 @@ export default {
     }
     .template-example-plain-text {
       padding: 0 0.3em;
+      font-style: normal;
     }
     .template-example-caption {
       padding-right:0.5em;
     }
     .template-example-file-path {
       font-family:monospace;
+      font-style: normal;
     }
     .template-example-pdf-filename {
       font-family:monospace;
     }
   }
-  .hint {
+  p.hint {
     color: var(--color-text-lighter);
-    font-size: 80%;
-    &.admin-limit-exceeded {
-      color:red;
-      font-weight:bold;
-      font-style:italic;
-      &.icon-error {
-        padding-left:20px;
-        background-position:left;
+    font-style: italic;
+  }
+  li, div {
+    &.hint {
+      color: var(--color-text-lighter);
+      font-size: 80%;
+      &.admin-limit-exceeded {
+        color:red;
+        font-weight:bold;
+        font-style:italic;
+        &.icon-error {
+          padding-left:20px;
+          background-position:left;
+        }
       }
     }
   }

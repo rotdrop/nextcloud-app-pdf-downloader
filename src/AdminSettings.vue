@@ -1,33 +1,31 @@
-<script>
-/**
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
- *
- * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-</script>
+<!--
+ - @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ -
+ - @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ -
+ - @license AGPL-3.0-or-later
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU Affero General Public License as
+ - published by the Free Software Foundation, either version 3 of the
+ - License, or (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ - GNU Affero General Public License for more details.
+ -
+ - You should have received a copy of the GNU Affero General Public License
+ - along with this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
 <template>
-  <SettingsSection :class="cloudVersionClasses"
-                   :title="t(appName, 'Recursive PDF Downloader')"
-  >
-    <AppSettingsSection v-if="dependencies.missing.required + dependencies.missing.suggested > 0"
-                        id="missing-dependencies"
-                        :title="t(appName, 'Missing Dependencies')"
+  <div :class="['templateroot', ...cloudVersionClasses]">
+    <h1 class="title">
+      {{ t(appName, 'Recursive PDF Downloader') }}
+    </h1>
+    <NcSettingsSection v-if="dependencies.missing.required + dependencies.missing.suggested > 0"
+                       id="missing-dependencies"
+                       :name="t(appName, 'Missing Dependencies')"
     >
       <div v-if="dependencies.missing.required > 0" class="required-dependencies">
         <div><label>{{ t(appName, 'Required Missing') }}</label></div>
@@ -63,9 +61,9 @@
           </ListItem>
         </ul>
       </div>
-    </AppSettingsSection>
-    <AppSettingsSection id="archive-extraction"
-                        :title="t(appName, 'Archive Extraction')"
+    </NcSettingsSection>
+    <NcSettingsSection id="archive-extraction"
+                       :name="t(appName, 'Archive Extraction')"
     >
       <div :class="['flex-container', 'flex-center', { extractArchiveFiles }]">
         <input id="extract-archive files"
@@ -84,9 +82,9 @@
                          :disabled="loading || !extractArchiveFiles"
                          @update="saveTextInput(...arguments, 'archiveSizeLimit')"
       />
-    </AppSettingsSection>
-    <AppSettingsSection id="authenticated-background-jobs"
-                        :title="t(appName, 'Authenticated Background Jobs')"
+    </NcSettingsSection>
+    <NcSettingsSection id="authenticated-background-jobs"
+                       :name="t(appName, 'Authenticated Background Jobs')"
     >
       <div :class="['flex-container', 'flex-center']">
         <input id="authenticated-background-jobs"
@@ -115,11 +113,11 @@
               <FolderIcon />
             </template>
             <template #actions>
-              <ActionButton @click="() => removeAuthenticatedFolder(folder)">
+              <NcActionButton @click="() => removeAuthenticatedFolder(folder)">
                 <template #icon>
                   <DeleteIcon />
                 </template>
-              </ActionButton>
+              </NcActionButton>
             </template>
           </ListItem>
         </ul>
@@ -136,9 +134,9 @@
           {{ t(appName, 'Subfolders are taken into account, you only need to specify the top-most folders.') }}
         </div>
       </template>
-    </AppSettingsSection>
-    <AppSettingsSection id="custom-converter-scripts"
-                        :title="t(appName, 'Custom Converter Scripts')"
+    </NcSettingsSection>
+    <NcSettingsSection id="custom-converter-scripts"
+                       :name="t(appName, 'Custom Converter Scripts')"
     >
       <div :class="['flex-container', 'flex-center']">
         <input id="disable-builtin-converters"
@@ -163,9 +161,9 @@
                          :disabled="loading || builtinConvertersDisabled"
                          @update="saveTextInput(...arguments, 'fallbackConverter')"
       />
-    </AppSettingsSection>
-    <AppSettingsSection id="converters"
-                        :title="t(appName, 'Converters')"
+    </NcSettingsSection>
+    <NcSettingsSection id="converters"
+                       :name="t(appName, 'Converters')"
     >
       <div class="converter-status">
         <div><label>{{ t(appName, 'Status of the configured Converters') }}</label></div>
@@ -201,40 +199,48 @@
           </ListItem>
         </ul>
       </div>
-    </AppSettingsSection>
-  </SettingsSection>
+    </NcSettingsSection>
+  </div>
 </template>
 
 <script>
 import { appName } from './config.js'
-import SettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import AppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection'
-import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText'
-import ListItem from '@rotdrop/nextcloud-vue-components/lib/components/ListItem'
-import { generateUrl } from '@nextcloud/router'
-import { getFilePickerBuilder, FilePickerType, showError, showSuccess, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
-import axios from '@nextcloud/axios'
-import settingsSync from './toolkit/mixins/settings-sync'
+import {
+  NcActionButton,
+  NcButton,
+  NcSettingsSection,
+} from '@nextcloud/vue'
+import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText.vue'
+import ListItem from '@rotdrop/nextcloud-vue-components/lib/components/ListItem.vue'
+import {
+  getFilePickerBuilder,
+  FilePickerType,
+  // showError,
+  // showSuccess,
+  // showInfo,
+  // TOAST_PERMANENT_TIMEOUT,
+} from '@nextcloud/dialogs'
+import settingsSync from './toolkit/mixins/settings-sync.js'
 import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import DeleteIcon from 'vue-material-design-icons/Delete'
-import FolderIcon from 'vue-material-design-icons/Folder'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
 
 export default {
   name: 'AdminSettings',
   components: {
-    ActionButton,
-    AppSettingsSection,
     DeleteIcon,
     FolderIcon,
     ListItem,
+    NcActionButton,
     NcButton,
+    NcSettingsSection,
     PlusIcon,
-    SettingsSection,
     SettingsInputText,
   },
+  mixins: [
+    settingsSync,
+  ],
   data() {
     return {
       cloudVersionClasses,
@@ -261,18 +267,15 @@ export default {
       loading: true,
     }
   },
-  mixins: [
-    settingsSync,
-  ],
-  created() {
-    this.getData()
-  },
   computed: {
     builtinConvertersDisabled() {
       return !!this.disableBuiltinConverters
     },
   },
   watch: {},
+  created() {
+    this.getData()
+  },
   methods: {
     info() {
       console.info('ADMIN SETTINGS', ...arguments)
@@ -314,15 +317,15 @@ export default {
       }
       await this.saveSetting('authenticatedFolders')
     },
-    async removeAuthenticatedFolder(folder)  {
+    async removeAuthenticatedFolder(folder) {
       const index = this.authenticatedFolders.indexOf(folder)
       if (index >= 0) {
-        this.authenticatedFolders.splice(index, 1);
+        this.authenticatedFolders.splice(index, 1)
       }
       await this.saveSetting('authenticatedFolders')
     },
   },
- }
+}
 </script>
 <style lang="scss" scoped>
 .cloud-version {
@@ -331,14 +334,17 @@ export default {
     --cloud-theme-filter: none;
   }
 }
-.settings-section {
+.templateroot {
   .flex-container {
     display:flex;
     &.flex-center {
       align-items:center;
     }
   }
-  :deep() &__title {
+  h1.title {
+    margin: 30px 30px 0px;
+    font-size:revert;
+    font-weight:revert;
     position: relative;
     padding-left:60px;
     height:32px;
@@ -357,7 +363,7 @@ export default {
       filter: var(--cloud-theme-filter);
     }
   }
-  :deep(.app-settings-section) {
+  :deep(.settings-section) {
     margin-bottom: 40px;
   }
   .hint {

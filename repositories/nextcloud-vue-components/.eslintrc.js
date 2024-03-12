@@ -3,8 +3,6 @@ module.exports = {
     '@nextcloud',
   ],
   globals: {
-    __webpack_nonce__: true,
-    __webpack_public_path__: true,
     APP_NAME: true,
   },
   rules: {
@@ -13,6 +11,10 @@ module.exports = {
     'no-mixed-spaces-and-tabs': 'error',
     'vue/html-indent': ['error', 2],
     semi: ['error', 'always'],
+    'node/no-unpublished-import': 'off',
+    'node/no-unpublished-require': 'off',
+    'n/no-unpublished-import': 'off',
+    'n/no-unpublished-require': 'off',
     'no-console': 'off',
     'n/no-missing-require': [
       'error', {
@@ -27,8 +29,6 @@ module.exports = {
     ],
     // Do allow line-break before closing brackets
     'vue/html-closing-bracket-newline': ['error', { singleline: 'never', multiline: 'always' }],
-    'n/no-unpublished-import': 'off',
-    'n/no-unpublished-require': 'off',
   },
   overrides: [
     {
