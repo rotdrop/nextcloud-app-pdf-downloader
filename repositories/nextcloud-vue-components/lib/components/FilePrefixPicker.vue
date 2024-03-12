@@ -46,17 +46,18 @@
   </div>
 </template>
 <script>
-
 // import { appName } from '../config.js'
 import { set as vueSet } from 'vue'
 import {
   getFilePickerBuilder,
-  // showError,
-  // showInfo,
-  // TOAST_PERMANENT_TIMEOUT,
+  showError,
+  showInfo,
+  TOAST_PERMANENT_TIMEOUT,
 } from '@nextcloud/dialogs'
 import SettingsInputText from '../components/SettingsInputText.vue'
 import '@nextcloud/dialogs/style.css'
+
+const appName = APP_NAME // e.g. by webpack DefinePlugin
 
 export default {
   name: 'FilePrefixPicker',
@@ -66,7 +67,7 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => {
+      default() {
         return {
           baseName: this.pathInfo.baseName,
           dirName: this.pathInfo.dirName,
@@ -103,7 +104,9 @@ export default {
     },
     filePickerTitle: {
       type: String,
-      default: () => this.onlyDirName ? 'Choose a folder' : 'Choose a prefix-folder',
+      default() {
+        return this.onlyDirName ? t(appName, 'Choose a folder') : t(appName, 'Choose a prefix-folder')
+      },
     },
   },
   emits: [
@@ -156,13 +159,13 @@ export default {
         dir = dir.slice(1)
       }
       if (!dir.startsWith('/')) {
-        // showError(t(appName, 'Invalid path selected: "{dir}".', { dir }), { timeout: TOAST_PERMANENT_TIMEOUT })
+        showError(t(appName, 'Invalid path selected: "{dir}".', { dir }), { timeout: TOAST_PERMANENT_TIMEOUT })
         this.$emit('error:invalid-dir-name', dir)
       } else {
         if (dir === '/') {
           dir = ''
         }
-        // showInfo(t(appName, 'Selected path: "{dir}/{base}/".', { dir, base: this.pathInfo.baseName }))
+        showInfo(t(appName, 'Selected path: "{dir}/{base}/".', { dir, base: this.pathInfo.baseName }))
         this.$emit('update:dirName', dir, this.pathInfo.baseName)
         vueSet(this.pathInfo, 'dirName', dir)
         if (this.onlyDirName) {
