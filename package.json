@@ -44,7 +44,7 @@
     "@nextcloud/stylelint-config": "^2.1.2",
     "@nextcloud/vue": "^8.8.1",
     "@nextcloud/webpack-vue-config": "^6.0.0",
-    "@rotdrop/nextcloud-vue-components": "file:git-modules/nextcloud-vue-components",
+    "@rotdrop/nextcloud-vue-components": "file:repositories/nextcloud-vue-components",
     "babel-jest": "^29.6.4",
     "babel-loader": "^9.1.0",
     "babel-loader-exclude-node-modules-except": "^1.2.1",

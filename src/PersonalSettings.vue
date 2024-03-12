@@ -377,9 +377,9 @@ import {
   NcSettingsSection,
 } from '@nextcloud/vue'
 import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
-import ColorPicker from './components/ColorPicker.vue'
+import ColorPicker from '@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue'
+import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import FontSelect from './components/FontSelect.vue'
-import FilePrefixPicker from './components/FilePrefixPicker.vue'
 import generateUrl from './toolkit/util/generate-url.js'
 import fontSampleText from './toolkit/util/pangram.js'
 import { getInitialState } from './toolkit/services/InitialStateService.js'

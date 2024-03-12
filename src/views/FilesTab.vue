@@ -180,7 +180,7 @@ import unclippedPopup from '../components/mixins/unclipped-popup.js'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
 import fileDownload from '../toolkit/util/file-download.js';
-import FilePrefixPicker from '../components/FilePrefixPicker'
+import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import { FilePickerType } from '@nextcloud/dialogs'
 
 const initialState = getInitialState()
