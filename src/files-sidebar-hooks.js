@@ -17,22 +17,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Vue from 'vue';
 import { appName } from './config.js';
-import { generateUrl } from '@nextcloud/router';
-import { translate as t, translatePlural as n } from '@nextcloud/l10n';
+import { translate as t } from '@nextcloud/l10n';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
-import { Tooltip } from '@nextcloud/vue';
 
 // eslint-disable-next-line
 import logoSvg from '../img/app.svg?raw';
 
 require('./webpack-setup.js');
-require('pdf-downloader.scss');
-
-Vue.directive('tooltip', Tooltip);
-
-Vue.mixin({ data() { return { appName }; }, methods: { t, n, generateUrl } });
 
 let TabInstance = null;
 
@@ -64,7 +56,9 @@ window.addEventListener('DOMContentLoaded', () => {
       },
 
       async mount(el, fileInfo, context) {
-        const FilesTab = (await import('./views/FilesTab.vue')).default;
+        const FilesTabAsset = (await import('./views/FilesTab.vue'));
+        const Vue = FilesTabAsset.Vue;
+        const FilesTab = FilesTabAsset.default;
         const View = Vue.extend(FilesTab);
 
         if (TabInstance) {

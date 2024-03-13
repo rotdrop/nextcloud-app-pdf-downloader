@@ -25,6 +25,7 @@ import { translate as t } from '@nextcloud/l10n';
 import { emit, subscribe } from '@nextcloud/event-bus';
 import type { NotificationEvent } from './toolkit/types/events.ts';
 import axios from '@nextcloud/axios';
+import type { AxiosError } from 'axios';
 import { registerFileAction, FileAction, Node, Permission } from '@nextcloud/files';
 import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
@@ -49,15 +50,13 @@ if (!initialState.individualFileConversion
 }
 
 subscribe('notifications:notification:received', (event: NotificationEvent) => {
-  if (event?.notification?.app != appName) {
+  if (event?.notification?.app !== appName) {
     return;
   }
-  console.info('NOTIFICATION RECEIVED', event)
-  const destinationData = event.notification?.subjectRichParameters?.destination
+  const destinationData = event.notification?.subjectRichParameters?.destination;
   if (!destinationData) {
     return;
   }
-  console.info('SUCCESS DATA', destinationData)
   if (destinationData.status !== 'filesystem') {
     console.info('*** PDF generation notification received, but not for cloud filesystem.');
     return;
@@ -66,15 +65,14 @@ subscribe('notifications:notification:received', (event: NotificationEvent) => {
     console.info('*** PDF generation notification received, but carries no file information.');
     return;
   }
-  const node = fileInfoToNode(destinationData.file)
-  console.info('EMIT CREATED', node)
+  const node = fileInfoToNode(destinationData.file);
 
-  emit('files:node:created', node)
-})
+  emit('files:node:created', node);
+});
 
 registerFileAction(new FileAction({
   id: appName,
-  displayName(/*nodes: Node[], view: View*/) {
+  displayName(/* nodes: Node[], view: View */) {
     return t(appName, 'Download PDF');
   },
   title(/* files: Node[], view: View */) {
@@ -96,9 +94,9 @@ registerFileAction(new FileAction({
     }
     return true;
   },
-  async exec(node: Node/*, view: View, dir: string*/) {
+  async exec(node: Node/* , view: View, dir: string */) {
 
-    const fileId = node.fileid
+    const fileId = node.fileid;
 
     if (initialState.useBackgroundJobsDefault) {
       const url = generateAppUrl('schedule/download/{fileId}', { fileId });
@@ -107,8 +105,9 @@ registerFileAction(new FileAction({
         showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
           sourceFile: node.path,
         }));
-      } catch (e: any) {
-        console.error('ERROR', e);
+      } catch (e: AxiosError) {
+        const error: AxiosError = e;
+        console.error('ERROR', error);
         let message = t(appName, 'reason unknown');
         if (e.response && e.response.data) {
           const responseData = e.response.data;

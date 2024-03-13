@@ -163,7 +163,7 @@
 <script>
 
 import { appName } from '../config.js'
-import { set as vueSet } from 'vue'
+import Vue, { set as vueSet } from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { fileInfoToNode } from '../toolkit/util/file-node-helper.js'
@@ -171,6 +171,7 @@ import {
   NcActions,
   NcActionButton,
   NcActionCheckbox,
+  Tooltip,
 } from '@nextcloud/vue'
 import {
   // getFilePickerBuilder,
@@ -181,6 +182,7 @@ import {
 } from '@nextcloud/dialogs'
 import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
 import axios from '@nextcloud/axios'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import * as Path from 'path'
 import unclippedPopup from '../components/mixins/unclipped-popup.js'
 import generateAppUrl from '../toolkit/util/generate-url.js'
@@ -189,6 +191,13 @@ import fileDownload from '../toolkit/util/file-download.js'
 import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 
 const initialState = getInitialState()
+
+Vue.directive('tooltip', Tooltip)
+Vue.mixin({ data() { return { appName } }, methods: { t, n } })
+
+export {
+  Vue,
+}
 
 export default {
   name: 'FilesTab',
