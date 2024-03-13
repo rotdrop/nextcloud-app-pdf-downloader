@@ -19,7 +19,6 @@
 
 import Vue from 'vue';
 import { appName } from './config.js';
-// import { attachDialogHandlers } from './toolkit/util/dialogs.js';
 import { generateUrl } from '@nextcloud/router';
 import { translate as t, translatePlural as n } from '@nextcloud/l10n';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
@@ -29,7 +28,6 @@ import { Tooltip } from '@nextcloud/vue';
 import logoSvg from '../img/app.svg?raw';
 
 require('./webpack-setup.js');
-require('dialogs.scss');
 require('pdf-downloader.scss');
 
 Vue.directive('tooltip', Tooltip);
@@ -51,8 +49,6 @@ if (!initialState.individualFileConversion
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-
-  // attachDialogHandlers();
 
   /**
    * Register a new tab in the sidebar
