@@ -80,7 +80,7 @@
                  :label="t(appName, 'Archive Size Limit')"
                  :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
                  :disabled="loading || !extractArchiveFiles"
-                 @submit="saveTextInput(...arguments, 'archiveSizeLimit')"
+                 @submit="saveTextInput('archiveSizeLimit')"
       />
     </NcSettingsSection>
     <NcSettingsSection id="authenticated-background-jobs"
@@ -153,13 +153,13 @@
                  :label="t(appName, 'Universal Converter')"
                  :hint="t(appName, 'Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
                  :disabled="loading"
-                 @submit="saveTextInput(...arguments, 'universalConverter')"
+                 @submit="saveTextInput('universalConverter')"
       />
       <TextField :value.sync="fallbackConverter"
                  :label="t(appName, 'Fallback Converter')"
                  :hint="t(appName, 'Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
                  :disabled="loading || builtinConvertersDisabled"
-                 @submit="saveTextInput(...arguments, 'fallbackConverter')"
+                 @submit="saveTextInput('fallbackConverter')"
       />
     </NcSettingsSection>
     <NcSettingsSection id="converters"
@@ -285,7 +285,10 @@ export default {
       await this.fetchSettings('admin')
       this.loading = false
     },
-    async saveTextInput(value, settingsKey, force) {
+    async saveTextInput(settingsKey, value, force) {
+      if (value === undefined) {
+        value = this[settingsKey] || ''
+      }
       if (await this.saveConfirmedSetting(value, 'admin', settingsKey, force)) {
         if (settingsKey.endsWith('Converter')) {
           this.fetchSetting('converters', 'admin')
