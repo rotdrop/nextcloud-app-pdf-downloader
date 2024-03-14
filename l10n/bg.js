@@ -72,6 +72,7 @@ OC.L10N.register(
     "submit" : "изпращане",
     "restore palette" : "възстановяване на палитрата",
     "factory reset palette" : "възстановяване до фабричните настройки на палитрата",
+    "Choose a folder" : "Избор на папка",
     "Choose a prefix-folder" : "Избор на префикс-папка",
     "Invalid path selected: \"{dir}\"." : "Избран е невалиден път: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Избран път: \"{dir}/{base}/\".",
