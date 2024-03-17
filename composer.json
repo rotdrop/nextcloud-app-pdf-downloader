@@ -17,7 +17,7 @@
     "wapmorgan/unified-archive": "^1.2.0",
     "gemorroj/archive7z": "^5.4",
     "phpclasses/php-iso-file": "^0.5.1",
-    "pear/archive_tar": "^1.4",
+    "pear/archive_tar": "1.4.14",
     "alchemy/zippy": "^1.0",
     "nelexa/zip": "^4.0",
     "nesbot/carbon": "^2.64",
