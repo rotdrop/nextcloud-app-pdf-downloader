@@ -76,11 +76,11 @@
           {{ t(appName, 'On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis.') }}
         </label>
       </div>
-      <SettingsInputText v-model="humanArchiveSizeLimit"
-                         :label="t(appName, 'Archive Size Limit')"
-                         :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
-                         :disabled="loading || !extractArchiveFiles"
-                         @update="saveTextInput(...arguments, 'archiveSizeLimit')"
+      <TextField :value.sync="humanArchiveSizeLimit"
+                 :label="t(appName, 'Archive Size Limit')"
+                 :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+                 :disabled="loading || !extractArchiveFiles"
+                 @submit="saveTextInput('archiveSizeLimit')"
       />
     </NcSettingsSection>
     <NcSettingsSection id="authenticated-background-jobs"
@@ -149,17 +149,17 @@
           {{ t(appName, 'Disable the builtin converters.') }}
         </label>
       </div>
-      <SettingsInputText v-model="universalConverter"
-                         :label="t(appName, 'Universal Converter')"
-                         :hint="t(appName, 'Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
-                         :disabled="loading"
-                         @update="saveTextInput(...arguments, 'universalConverter')"
+      <TextField :value.sync="universalConverter"
+                 :label="t(appName, 'Universal Converter')"
+                 :hint="t(appName, 'Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
+                 :disabled="loading"
+                 @submit="saveTextInput('universalConverter')"
       />
-      <SettingsInputText v-model="fallbackConverter"
-                         :label="t(appName, 'Fallback Converter')"
-                         :hint="t(appName, 'Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
-                         :disabled="loading || builtinConvertersDisabled"
-                         @update="saveTextInput(...arguments, 'fallbackConverter')"
+      <TextField :value.sync="fallbackConverter"
+                 :label="t(appName, 'Fallback Converter')"
+                 :hint="t(appName, 'Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
+                 :disabled="loading || builtinConvertersDisabled"
+                 @submit="saveTextInput('fallbackConverter')"
       />
     </NcSettingsSection>
     <NcSettingsSection id="converters"
@@ -210,7 +210,7 @@ import {
   NcButton,
   NcSettingsSection,
 } from '@nextcloud/vue'
-import SettingsInputText from '@rotdrop/nextcloud-vue-components/lib/components/SettingsInputText.vue'
+import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
 import ListItem from '@rotdrop/nextcloud-vue-components/lib/components/ListItem.vue'
 import {
   getFilePickerBuilder,
@@ -236,7 +236,7 @@ export default {
     NcButton,
     NcSettingsSection,
     PlusIcon,
-    SettingsInputText,
+    TextField,
   },
   mixins: [
     settingsSync,
@@ -285,7 +285,10 @@ export default {
       await this.fetchSettings('admin')
       this.loading = false
     },
-    async saveTextInput(value, settingsKey, force) {
+    async saveTextInput(settingsKey, value, force) {
+      if (value === undefined) {
+        value = this[settingsKey] || ''
+      }
       if (await this.saveConfirmedSetting(value, 'admin', settingsKey, force)) {
         if (settingsKey.endsWith('Converter')) {
           this.fetchSetting('converters', 'admin')
