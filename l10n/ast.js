@@ -13,9 +13,11 @@ OC.L10N.register(
     "true" : "true",
     "false" : "false",
     "OK" : "Normal",
+    "Not Found" : "Nun s'atopó",
     "Internal Server Error" : "Error internu del sirvidor",
     "Error" : "Error",
     "No" : "Non",
-    "Yes" : "Sí"
+    "Yes" : "Sí",
+    "unknown error" : "error desconocíu"
 },
 "nplurals=2; plural=(n != 1);");
