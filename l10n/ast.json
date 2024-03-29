@@ -15,6 +15,7 @@
     "Internal Server Error" : "Error internu del sirvidor",
     "Error" : "Error",
     "No" : "Non",
-    "Yes" : "Sí"
+    "Yes" : "Sí",
+    "unknown error" : "error desconocíu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
