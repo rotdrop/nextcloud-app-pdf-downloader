@@ -4,6 +4,7 @@ OC.L10N.register(
     "FILENAME" : "ファイル名",
     "Password" : "パスワード",
     "bytes" : "バイト",
+    "Clear Selection" : "セッションクリア",
     "Text" : "テキスト",
     "Background" : "背景",
     "Options" : "オプション",
