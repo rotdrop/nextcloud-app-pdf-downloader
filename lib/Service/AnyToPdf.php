@@ -430,10 +430,18 @@ class AnyToPdf
     $converterName = 'mhonarc';
     $converter = $this->findExecutable($converterName);
     $attachmentFolder = $this->tempManager->getTemporaryFolder();
+    $rcFile = $this->tempManager->getTemporaryFile();
+    file_put_contents($rcFile, '<-- Make sure lines are no longer than 80 characters -->
+<MIMEArgs>
+m2h_text_plain::filter; maxwidth=80
+m2h_text_plain::filter; nonfixed
+</MIMEArgs>
+');
     $process = new Process([
       $converter,
       '-single',
       '-attachmentdir', $attachmentFolder,
+      '-rcfile', $rcFile,
     ]);
     $process->setInput($data)->run();
     $htmlData = $process->getOutput();
