@@ -50,8 +50,8 @@ class Application extends App implements IBootstrap
   /** Constructor. */
   public function __construct()
   {
-    $this->appName = $this->getAppInfoAppName(__DIR__);
-    parent::__construct($this->appName);
+    $appName = $this->getAppInfoAppName(__DIR__);
+    parent::__construct($appName);
   }
 
   /**
