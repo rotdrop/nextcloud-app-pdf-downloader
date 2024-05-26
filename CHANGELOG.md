@@ -4,11 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.2.3-rc1] 2024-05-24
+## [1.2.3-rc2] unreleased
 
 ### Added
 
 - Support Nextcloud 29
+
+### Fixed
+
+- mhonarc (.eml files): break long lines at column 80
+
+- archive backend: fix non-utf-8 external apps by setting environment variables
 
 ## [1.2.2] - 2024-03-24
 
