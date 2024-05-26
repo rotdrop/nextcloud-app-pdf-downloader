@@ -100,7 +100,7 @@ class Notifier implements INotifier
 
     $parameters = $notification->getSubjectParameters();
     $richSubstitutions = [];
-    if ($parameters['sourceId'] > 0) {
+    if (($parameters['sourceId']??0) > 0) {
       $richSubstitutions['source'] = [
         'type' => 'file',
         'id' => $parameters['sourceId'],
