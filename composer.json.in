@@ -10,23 +10,23 @@
     }
   ],
   "require": {
+    "alchemy/zippy": "^1.0",
+    "gemorroj/archive7z": "^5.4",
     "mikehaertl/php-pdftk": "^0.12.1",
+    "nelexa/zip": "^4.0",
+    "nesbot/carbon": "^2.64",
+    "pear/archive_tar": "^1.4",
+    "phpclasses/php-iso-file": "^0.5.1",
+    "symfony/event-dispatcher": "*",
     "symfony/finder": "^6.0",
     "tecnickcom/tcpdf": "^6.3",
     "wapmorgan/cab-archive": "^0.0.7",
-    "wapmorgan/unified-archive": "^1.2.0",
-    "gemorroj/archive7z": "^5.4",
-    "phpclasses/php-iso-file": "^0.5.1",
-    "pear/archive_tar": "^1.4",
-    "alchemy/zippy": "^1.0",
-    "nelexa/zip": "^4.0",
-    "nesbot/carbon": "^2.64",
-    "symfony/event-dispatcher": "*"
+    "wapmorgan/unified-archive": "dev-bugfix/fix-alchemy-zippy-mtime"
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
     "nextcloud/coding-standard": "*",
     "phpmd/phpmd" : "@stable",
+    "phpunit/phpunit": "*",
     "squizlabs/php_codesniffer": "3.*",
     "zebra-north/phpcs-short-types": "^1.0"
   },
@@ -37,7 +37,12 @@
       "php": "8.0.2"
     }
   },
-  "repositories": [],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/rotdrop/UnifiedArchive"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "OCA\\RotDrop\\Toolkit\\": "lib/Toolkit/"
