@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.2.3-rc2] unreleased
+## [1.2.3-rc3] 2024-05-29
 
 ### Added
 
@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - mhonarc (.eml files): break long lines at column 80
 
 - archive backend: fix non-utf-8 external apps by setting environment variables
+
+- archive backend: work around AlchemyZippy bug in UnifiedArchive
+
+- archive backend: fix construction of zip-bomp protection exception
+
+- archive backend: pome quirks, unicode normalization
 
 ## [1.2.2] - 2024-03-24
 
