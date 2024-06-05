@@ -1,5 +1,6 @@
 { "translations": {
     "FILENAME" : "ファイル名",
+    "User" : "ユーザー",
     "Password" : "パスワード",
     "bytes" : "バイト",
     "Clear Selection" : "セッションクリア",
