@@ -78,6 +78,7 @@
     "Choose a prefix-folder" : "Escoller un prefixo de cartafol",
     "Invalid path selected: \"{dir}\"." : "Seleccionou unha ruta incorrecta «{dir}».",
     "Selected path: \"{dir}/{base}/\"." : "Ruta seleccionada: «{dir}/{base}/».",
+    "Clear Selection" : "Limpar a selección",
     "Missing Dependencies" : "Faltan dependencias",
     "Required Missing" : "Dependencias necesarias",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "A aplicación non funcionará a non ser que instale {program} de xeito que o servidor web poida atopalo.",
