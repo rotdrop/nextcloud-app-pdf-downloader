@@ -25,6 +25,7 @@ OC.L10N.register(
     "Choose a prefix-folder" : "접두사 폴더 지정",
     "Invalid path selected: \"{dir}\"." : "잘못된 경로가 지정됨: \"{dir}\"",
     "Selected path: \"{dir}/{base}/\"." : "지정한 경로: \"{dir}/{base}/\"",
+    "Clear Selection" : "선택 초기화",
     "Archive Extraction" : "압축 해제",
     "Archive Size Limit" : "압축 파일 용량 제한",
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "설정한 값보다 압축 전 용량이 큰 압축 파일의 해제를 불허합니다",
