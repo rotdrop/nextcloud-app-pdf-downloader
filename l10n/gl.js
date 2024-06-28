@@ -243,7 +243,7 @@ OC.L10N.register(
     "Proxy Authentication Required" : "O proxy precisa autenticación",
     "Request Timeout" : "Caducou a solicitude",
     "Conflict" : "Conflito",
-    "Gone" : "Marchado",
+    "Gone" : "Ausente",
     "Length Required" : "Precísase da lonxitude",
     "Precondition Failed" : "Fallou a condición previa",
     "Request Entity Too Large" : "A entidade da solicitude é demasiado grande",
