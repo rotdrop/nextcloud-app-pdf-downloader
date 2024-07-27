@@ -65,6 +65,7 @@ OC.L10N.register(
     "Choose a folder" : "Izbor mape",
     "Invalid path selected: \"{dir}\"." : "Neveljavna izbrana pot: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Izbrana pot: \"{dir}/{base}/\".",
+    "Clear Selection" : "Počisti izbor",
     "Missing Dependencies" : "Manjkajoče odvisnosti",
     "Required Missing" : "Zahtevane odvisnosti",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Program za delovanje zahteva namestitev programa {program} na spletni strežnik.",
