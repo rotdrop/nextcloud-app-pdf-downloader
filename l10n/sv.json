@@ -1,5 +1,6 @@
 { "translations": {
     "FILENAME" : "FILNAMN",
+    "User" : "Användare",
     "Password" : "Lösenord",
     "bytes" : "byte",
     "Text" : "Text",
