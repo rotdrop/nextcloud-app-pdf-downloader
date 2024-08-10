@@ -158,7 +158,7 @@
     "PDF files will also be decorated with page labels if page decoration is enabled." : "Les fichiers PDF seront également décorés avec des étiquettes de page si la décoration de page est activée.",
     "The directory part of the page labels will remain empty." : "La partie du répertoire des étiquettes de page restera vide.",
     "invoices/2022/october/invoice.fodt" : "factures/2022/octobre/facture.fodt",
-    "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Si cochée, utiliser par défaut la génération en arrière-plan des PDF. Ceci peut être passé outre en se rendant dans le panneau PDF de la barre latérale des détails de chaque dossier ou fichier archive source individuellement..",
+    "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Si cette case est cochée, la génération de PDF en arrière-plan est activée par défaut. Cette option peut être modifiée en accédant au panneau PDF dans le panneau latéral des détails pour chaque dossier source ou fichier d'archive.",
     "Individual File Conversion" : "Conversion de fichiers individuels",
     "Enable conversion of individual files in addition to folders and archives." : "Activer la conversion de fichiers individuels en plus des dossiers et des archives.",
     "included" : "inclus",
