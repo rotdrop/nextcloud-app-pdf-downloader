@@ -303,12 +303,6 @@ OC.L10N.register(
     "Debug Information" : "排除錯誤資訊",
     "unknown error" : "錯誤不詳",
     "Unable to download data from \"{url}\": {message}" : "無法下載來自「{url}」的資料：{message}",
-    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog.",
-    "Cached PDF files for \"%s\" have been deleted." : "“%s” 的緩存 PDF 檔案已被刪除。",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "您的文件夾 {source} 已轉換為 PDF 檔案。請訪問源文件夾的詳細信息選項卡以下載該檔案。",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "頁面標籤格式：BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "在雲中選擇一個默認的 PDF 檔案目標資料夾。留空或選擇您的主目錄以使用轉換為 PDF 的資料夾的父目錄：",
-    "Purge Timeout:" : "清除超時：",
-    "revert" : "回復"
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog."
 },
 "nplurals=1; plural=0;");
