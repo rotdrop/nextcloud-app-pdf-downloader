@@ -285,12 +285,6 @@
     "Debug Information" : "Informace pro ladění",
     "unknown error" : "neznámá chyba",
     "Unable to download data from \"{url}\": {message}" : "Nedaří se stáhnout data z „{url}: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Příliš žluťoučký kůň úpěl ďábelské ódy.",
-    "Cached PDF files for \"%s\" have been deleted." : "PDF soubory v mezipaměti pro „%s“ byly smazány.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Vaše složka {source} byla převedena do PDF souboru. Soubor si stáhnete na panelu s podrobnostmi o zdrojové složce.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formát popisku stránky: ZÁKLAD_NÁZVU_STÁVAJÍCÍHO_SOUBORU STRÁNKA/STRÁNEK_SOUBORU",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Zvolte výchozí cílovou složku pro PDF soubory v cloudu. Pokud chcete použít nadřazenou složku složky, která je převedena do PDF, pak nevyplňujte nebo zvolte svou domovskou.",
-    "Purge Timeout:" : "Časový limit vyčištění:",
-    "revert" : "vrátit zpět"
+    "The quick brown fox jumps over the lazy dog." : "Příliš žluťoučký kůň úpěl ďábelské ódy."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

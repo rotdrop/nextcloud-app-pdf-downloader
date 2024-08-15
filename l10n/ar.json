@@ -301,12 +301,6 @@
     "Debug Information" : "معلومات التنقيح debug",
     "unknown error" : "خطأٌ غير محدّدٍ",
     "Unable to download data from \"{url}\": {message}" : "تعذّر تنزيل البيانات من \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "الثعلب البني السريع قفز على الكلب الكسول The quick brown fox jumps over the lazy dog.",
-    "Cached PDF files for \"%s\" have been deleted." : "ملفات PDF المُخبّأة لـ \"%s\"  تمّ حذفها.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "مُجلّدك {source} تمّ تحويله إلى ملف PDF. رجاءً إذهب إلى تبويبة التفاصيل details tab في المُجلّد المصدر لتنزيل الملف.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "صيغة لاصقة الصفحة page label ـ : BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "إختَر مُُجلّداً افتراضياً في السحابة كوجهة لملفات PDF. أترُكه فارغاً أو اختَر دليلك الشخصي الرئيسي ليكون الدليل الأب للمجلد الذي تم تحويله إلى PDF:",
-    "Purge Timeout:" : "المُهلة الزمنية للإزالة:",
-    "revert" : "إعادة"
+    "The quick brown fox jumps over the lazy dog." : "الثعلب البني السريع قفز على الكلب الكسول The quick brown fox jumps over the lazy dog."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

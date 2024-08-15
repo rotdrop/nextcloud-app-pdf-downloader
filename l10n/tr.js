@@ -303,12 +303,6 @@ OC.L10N.register(
     "Debug Information" : "Hata ayıklama bilgileri",
     "unknown error" : "hata bilinmiyor",
     "Unable to download data from \"{url}\": {message}" : "\"{url}\" adresinden veriler indirilemedi: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Hızlı kahverengi tilki tembel köpeğin üzerinden atlar.",
-    "Cached PDF files for \"%s\" have been deleted." : "\"%s\" için ön belleğe alınmış PDF dosyaları silindi.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "{source} klasörünüz bir PDF dosyasına dönüştürüldü. Lütfen dosyayı indirmek için kaynağın ayrıntılar sekmesine bakın.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Sayfa etiketi biçimi: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Varsayılan PDF dosyası hedef klasörü olarak bulutta bir klasör seçin. PDF dönüşümü yapılan klasörün üst klasörün kullanmak için boş bırakın ya da giriş klasörünüzü seçin:",
-    "Purge Timeout:" : "Silme zaman aşımı:",
-    "revert" : "geri al"
+    "The quick brown fox jumps over the lazy dog." : "Hızlı kahverengi tilki tembel köpeğin üzerinden atlar."
 },
 "nplurals=2; plural=(n > 1);");

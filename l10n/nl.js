@@ -63,7 +63,6 @@ OC.L10N.register(
     "Missing data" : "Ontbrekende gegevens",
     "No" : "Nee",
     "Yes" : "Ja",
-    "unknown error" : "onbekende fout",
-    "Cached PDF files for \"%s\" have been deleted." : "Gecachte PDFbestanden voor \"%s\" zijn verwijderd."
+    "unknown error" : "onbekende fout"
 },
 "nplurals=2; plural=(n != 1);");

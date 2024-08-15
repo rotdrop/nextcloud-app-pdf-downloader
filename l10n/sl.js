@@ -157,9 +157,6 @@ OC.L10N.register(
     "No" : "Ne",
     "Yes" : "Da",
     "Debug Information" : "Podrobnosti razhroščevanja",
-    "unknown error" : "neznana napaka",
-    "Cached PDF files for \"%s\" have been deleted." : "Predpomnjeni podatki datotek PDF za »%s« so izbrisani.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Mapa {source} je pretvorjena v datoteko PDF. Odprite zavihek podrobnosti izvorne mape za prejem datoteke.",
-    "revert" : "povrni"
+    "unknown error" : "neznana napaka"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
