@@ -299,12 +299,6 @@
     "Debug Information" : "Information de déboggage",
     "unknown error" : "erreur inconnue",
     "Unable to download data from \"{url}\": {message}" : "Impossible de télécharger les données depuis \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Rapide, le renard roux saute sur le chien fainéant.",
-    "Cached PDF files for \"%s\" have been deleted." : "Les fichiers PDF en pour \"%s\" ont été supprimés.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Votre dossier {source} a été converti en fichier PDF. Veuillez vous rendre à l'onglet détails du dossier source pour télécharger le fichier.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format de marquage des pages : NOM_DE_BASE_FICHIER_COURRANT PAGE/PAGES_FICHIER",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Choisir un dossier de destination par défaut dans le cloud pour le PDF. Laisser vide ou choisissez votre répertoire personnel pour utiliser le répertoire parent du dossier converti en PDF :",
-    "Purge Timeout:" : "Délai de purge :",
-    "revert" : "inverser"
+    "The quick brown fox jumps over the lazy dog." : "Rapide, le renard roux saute sur le chien fainéant."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

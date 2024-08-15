@@ -303,12 +303,6 @@ OC.L10N.register(
     "Debug Information" : "Debug-Informationen",
     "unknown error" : "unbekannter Fehler",
     "Unable to download data from \"{url}\": {message}" : "Kann die Daten nicht von \"{url}\" laden: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.",
-    "Cached PDF files for \"%s\" have been deleted." : "Zwischengespeicherte PDF-Dateien für \"%s\" wurden gelöscht.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Ihr Ordner {source} wurde in eine PDF-Datei konvertiert. Bitte gehen Sie auf die Registerkarte Details des Quellordners, um die Datei herunterzuladen.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format der Seitenbeschriftung: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Wählen Sie einen Standardzielordner für PDF-Dateien in der Cloud. Lassen Sie das Feld leer oder wählen Sie Ihr Home-Verzeichnis, um das übergeordnete Verzeichnis des Ordners zu verwenden, der in PDF konvertiert wird:",
-    "Purge Timeout:" : "Haltezeit vor dem Löschen:",
-    "revert" : "Rückgängig"
+    "The quick brown fox jumps over the lazy dog." : "Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich."
 },
 "nplurals=2; plural=(n != 1);");

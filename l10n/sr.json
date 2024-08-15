@@ -301,12 +301,6 @@
     "Debug Information" : "Дибаг информације",
     "unknown error" : "непозната грешка",
     "Unable to download data from \"{url}\": {message}" : "Не могу да се преузму подаци са „{url}: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Фијуче ветар у шибљу, леди пасаже и куће иза њих и гунђа у оџацима.",
-    "Cached PDF files for \"%s\" have been deleted." : "Обрисани су кеширани PDF фајлови за „%s”.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Ваш фолдер {source} је конвертован у PDF фајл. Молимо вас да посетите картицу детаљи изворног фолдера ако желите да преузмете фајл.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Формат ознаке странице: ОСНОВАИМЕНА_ТЕКУЋЕГ_ФАЈЛА СТРАНИЦА/СТРАНИЦЕ_ФАЈЛА",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Изаберите подразумевани циљни фолдер за PDF фајл у облаку. Оставите празно или изаберите свој почетни директоријум ако желите да се користи директоријум родитељ фолдера који се претвара у PDF:",
-    "Purge Timeout:" : "Време пре чишћења:",
-    "revert" : "врати"
+    "The quick brown fox jumps over the lazy dog." : "Фијуче ветар у шибљу, леди пасаже и куће иза њих и гунђа у оџацима."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -274,11 +274,6 @@
     "Debug Information" : "Информация за отстраняване на грешки",
     "unknown error" : "неизвестна грешка",
     "Unable to download data from \"{url}\": {message}" : "Невъзможно е да се изтеглят данни от \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog. /изречение -  панграма, което съдържа всички букви от английската азбука/",
-    "Cached PDF files for \"%s\" have been deleted." : "Изтрити са кешираните PDF файлове за \"%s\".",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Вашата папка {source} е преобразувана в PDF-файл. Моля, посетете раздела за подробни данни на папката-източник, за да изтеглите файла.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Формат на етикета на страницата: БАЗОВОИМЕ_НАСТОЯЩ_ФАЙЛ СТРАНИЦА/ФАЙЛ_СТРАНИЦИ",
-    "Purge Timeout:" : "Време за изчакване за изчистване:",
-    "revert" : "връщане"
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog. /изречение -  панграма, което съдържа всички букви от английската азбука/"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

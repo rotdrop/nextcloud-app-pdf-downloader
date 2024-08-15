@@ -274,11 +274,6 @@
     "Debug Information" : "Información de depuración",
     "unknown error" : "error desconocido",
     "Unable to download data from \"{url}\": {message}" : "No se pudo descargar datos desde \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "El rápido zorro marrón salta sobre el perro perezoso.",
-    "Cached PDF files for \"%s\" have been deleted." : "Se han eliminado los archivos PDF en caché para \"%s\".",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "La carpeta {target} se ha convertido en un archivo PDF. Por favor, visita la pestaña de detalles de la carpeta de origen para descargar el archivo.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato de la etiqueta de página: NOMBRE_BASE PÁGINA/ARCHIVO_PÁGINAS",
-    "Purge Timeout:" : "Tiempo de espera de purga:",
-    "revert" : "revertir"
+    "The quick brown fox jumps over the lazy dog." : "El rápido zorro marrón salta sobre el perro perezoso."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

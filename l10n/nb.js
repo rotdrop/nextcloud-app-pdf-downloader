@@ -303,12 +303,6 @@ OC.L10N.register(
     "Debug Information" : "Feilsøkingsinformasjon",
     "unknown error" : "Ukjent feil",
     "Unable to download data from \"{url}\": {message}" : "Kan ikke laste ned data fra \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Den raske brune reven hopper over den late hunden.",
-    "Cached PDF files for \"%s\" have been deleted." : "Bufrede PDF-filer for \"%s\" er slettet.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Mappen {source} er konvertert til en PDF-fil. Gå til detaljfanen i kildemappen for å laste ned filen.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formatet på sideetiketten: BASENAME_CURRENT_FILE SIDE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Velg en standard PDF-filmålmappe i skyen. La stå tom eller velg hjemmeområdet ditt for å bruke den overordnede katalogen til mappen som konverteres til PDF:",
-    "Purge Timeout:" : "Tidsavbrudd for tømming:",
-    "revert" : "Gå tilbake"
+    "The quick brown fox jumps over the lazy dog." : "Den raske brune reven hopper over den late hunden."
 },
 "nplurals=2; plural=(n != 1);");

@@ -275,11 +275,6 @@ OC.L10N.register(
     "Debug Information" : "Arazketa informazioa",
     "unknown error" : "errore ezezaguna",
     "Unable to download data from \"{url}\": {message}" : "Ezin izan dira datuak deskargatu \"{url}\"(e)tik: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Bungalow, cava, ferry, ñu, puma, quad eta xah hitzak jaso ditu.",
-    "Cached PDF files for \"%s\" have been deleted." : "\"%s\"-ren cachean gordetako PDF fitxategiak ezabatu dira.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Zure karpeta {source} PDF fitxategi bihurtu da. Bisitatu iturburuko karpetaren xehetasunen fitxa fitxategia deskargatzeko.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Orri etiketaren formatua: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Purge Timeout:" : "Garbitzeko denbora-muga:",
-    "revert" : "leheneratu"
+    "The quick brown fox jumps over the lazy dog." : "Bungalow, cava, ferry, ñu, puma, quad eta xah hitzak jaso ditu."
 },
 "nplurals=2; plural=(n != 1);");

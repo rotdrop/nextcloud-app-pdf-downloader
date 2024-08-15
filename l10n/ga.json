@@ -301,12 +301,6 @@
     "Debug Information" : "Eolas Dífhabhtaithe",
     "unknown error" : "earráid anaithnid",
     "Unable to download data from \"{url}\": {message}" : "Ní féidir sonraí a íoslódáil ó \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Léimeann an sionnach donn gasta thar an madra leisciúil.",
-    "Cached PDF files for \"%s\" have been deleted." : "Scriosadh comhaid PDF i dtaisce le haghaidh \"%s\".",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Tiontaíodh d'fhillteán {source} go comhad PDF. Tabhair cuairt ar an táb sonraí den fhillteán foinse chun an comhad a íoslódáil le do thoil.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formáid lipéad an leathanaigh: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Roghnaigh fillteán scríbe comhad PDF réamhshocraithe sa scamall. Fág folamh nó roghnaigh do eolaire baile chun eolaire tuismitheoirí an fhillteáin a úsáid a thiontaítear go PDF:",
-    "Purge Timeout:" : "Teorainn Ama Glanadh:",
-    "revert" : "ar ais"
+    "The quick brown fox jumps over the lazy dog." : "Léimeann an sionnach donn gasta thar an madra leisciúil."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

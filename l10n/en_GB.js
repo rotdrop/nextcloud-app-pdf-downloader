@@ -303,12 +303,6 @@ OC.L10N.register(
     "Debug Information" : "Debug Information",
     "unknown error" : "unknown error",
     "Unable to download data from \"{url}\": {message}" : "Unable to download data from \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog.",
-    "Cached PDF files for \"%s\" have been deleted." : "Cached PDF files for \"%s\" have been deleted.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:",
-    "Purge Timeout:" : "Purge Timeout:",
-    "revert" : "revert"
+    "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog."
 },
 "nplurals=2; plural=(n != 1);");

@@ -303,12 +303,6 @@ OC.L10N.register(
     "Debug Information" : "Información de depuración",
     "unknown error" : "produciuse un erro descoñecido",
     "Unable to download data from \"{url}\": {message}" : "Non é posíbel descargar datos de «{url}»: {message}",
-    "The quick brown fox jumps over the lazy dog." : "Fíxate, o mesquiño bacharel pide vinganza.",
-    "Cached PDF files for \"%s\" have been deleted." : "Elimináronse os ficheiros PDF almacenados na memoria caché para «%s».",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "O seu cartafol {source} foi convertido nun ficheiro PDF. Visite a lapela de detalles do cartafol de orixe para descargar o ficheiro.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato da etiqueta da páxina: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Escolla un cartafol de destino predeterminado para o ficheiro PDF na nube. Deixe baleiro ou escolla o directorio de inicio para usar o directorio principal do cartafol que se converte a PDF:",
-    "Purge Timeout:" : "Tempo de espera da purga:",
-    "revert" : "reverter"
+    "The quick brown fox jumps over the lazy dog." : "Fíxate, o mesquiño bacharel pide vinganza."
 },
 "nplurals=2; plural=(n != 1);");

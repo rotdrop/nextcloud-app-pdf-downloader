@@ -280,11 +280,6 @@ OC.L10N.register(
     "Debug Information" : "Hibakeresési információk",
     "unknown error" : "ismeretlen hiba",
     "Unable to download data from \"{url}\": {message}" : "Nem lehet az adatokat letölteni innen: \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "Pál fogyó IQ-jú kun exvő, ím dühös a WC-bűzért.",
-    "Cached PDF files for \"%s\" have been deleted." : "A(z) „%s” gyorsítótárazott PDF-fájljai törölve lettek.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "A(z) {source} mappa PDF-fájllá lett alakítva. A fájl letöltéséhez keresse fel a forrásmappa részletek lapját.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Az oldalcímke formátuma: JELENLEGI_FÁJL_ALAPNEVE OLDAL/FÁJL_ÖSSZES_OLDALA",
-    "Purge Timeout:" : "Tisztítási időtúllépés:",
-    "revert" : "visszaállítás"
+    "The quick brown fox jumps over the lazy dog." : "Pál fogyó IQ-jú kun exvő, ím dühös a WC-bűzért."
 },
 "nplurals=2; plural=(n != 1);");

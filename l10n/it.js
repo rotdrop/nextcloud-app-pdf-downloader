@@ -246,11 +246,6 @@ OC.L10N.register(
     "Yes" : "Sì",
     "Debug Information" : "Informazioni di debug",
     "unknown error" : "errore sconosciuto",
-    "Unable to download data from \"{url}\": {message}" : "Impossibile scaricare i dati da \"{url}\": {message}",
-    "Cached PDF files for \"%s\" have been deleted." : "I file PDF memorizzati nella cache per \"%s\" sono stati eliminati.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "La cartella {source} è stata convertita in un file PDF. Visita la scheda dettagli della cartella sorgente per scaricare il file.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato dell'etichetta della pagina: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Purge Timeout:" : "Timeout di eliminazione:",
-    "revert" : "rispristina"
+    "Unable to download data from \"{url}\": {message}" : "Impossibile scaricare i dati da \"{url}\": {message}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

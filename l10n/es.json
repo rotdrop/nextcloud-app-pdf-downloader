@@ -301,12 +301,6 @@
     "Debug Information" : "Información de depuración",
     "unknown error" : "error desconocido",
     "Unable to download data from \"{url}\": {message}" : "No fue posible descargar datos desde \"{url}\": {message}",
-    "The quick brown fox jumps over the lazy dog." : "El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.",
-    "Cached PDF files for \"%s\" have been deleted." : "Los archivos PDF en caché para \"%s\" han sido eliminados.",
-    "Your folder {source} has been converted to a PDF file. Please visit the details tab of the source folder to download the file." : "Su carpeta {source} ha sido convertida en un archivo PDF. Por favor, visite la pestaña de detalles de la carpeta fuente para descargar el archivo.",
-    "Format of the page label: BASENAME_CURRENT_FILE PAGE/FILE_PAGES" : "Formato de la etiqueta de página: BASENAME_CURRENT_FILE PAGE/FILE_PAGES",
-    "Choose a default PDF file destination folder in the cloud. Leave empty or choose your home directory to use the parent directory of the folder which is converted to PDF:" : "Seleccione una carpeta destino por defecto para los archivos PDF en la nube. Déjelo en blanco o escoja su carpeta personal para utilizar la carpeta de nivel superior que se ha de convertir a PDF:",
-    "Purge Timeout:" : "Tiempo máximo para purgado:",
-    "revert" : "revertir"
+    "The quick brown fox jumps over the lazy dog." : "El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

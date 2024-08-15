@@ -34,7 +34,6 @@ OC.L10N.register(
     "Missing data" : "Brakujące dane",
     "No" : "Nie",
     "Yes" : "Tak",
-    "unknown error" : "nieznany błąd",
-    "Cached PDF files for \"%s\" have been deleted." : "Buforowane pliki PDF dla \"%s\" zostały usunięte"
+    "unknown error" : "nieznany błąd"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
