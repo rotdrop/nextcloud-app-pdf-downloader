@@ -272,7 +272,12 @@ export default {
     }
   }
   .multiselect-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 400px;
     position:relative;
+    align-items: center;
     .loading {
       position:absolute;
       width:0;
@@ -280,11 +285,6 @@ export default {
       top:50%;
       left:50%;
     }
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    max-width: 400px;
-    align-items: center;
     .font-size-container {
       display:flex;
       flex-wrap:nowrap;
