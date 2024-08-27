@@ -9,7 +9,7 @@ js/*hot-update.*
 .phpunit.result.cache
 **~
 stamp*
-composer.json
+/composer.json
 composer.lock
 package-lock.json
 js/**
@@ -20,3 +20,5 @@ build-flavour
 config/fonts-list.json
 lib/Toolkit/[A-Z]*
 *-build-hash
+/vendor-bin/**/vendor/
+/vendor-bin/**/composer.lock
