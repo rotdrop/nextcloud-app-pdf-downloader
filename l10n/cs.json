@@ -28,6 +28,8 @@
     "Your folder {source} has been converted to a PDF file at {destination}." : "Vaše složka {source} byla převedena do PDF souboru v {destination}.",
     "Converting {source} to PDF has failed: {message}" : "Převádění {source} do PDF se nezdařilo: {message}",
     "Converting {source} to PDF has failed." : "Převádění {source} do PDF se nezdařilo.",
+    "irrelevant" : "irelevantní",
+    "The temporary download file {destination} has been removed. Its creation time was: {timespan}." : "Soubor pro dočasné stahování {destination} byl odebrán. Byl vytvořen v: {timespan}",
     "not found" : "nenalezeno",
     "pass through" : "průchod",
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Univerzálnímu konvertoru „%1$s“ se nepodařil pokus o převod MIME typu „%2$s“",
