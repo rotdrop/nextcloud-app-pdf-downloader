@@ -126,7 +126,7 @@ OC.L10N.register(
     "Generated Label" : "لاصقة مٌولّدةٌ",
     "as Image" : "كصُورة",
     "as Text" : "كنَص",
-    "Page label colors" : "ألوان لاصقة الصفحة",
+    "Page label colors" : "ألوان علامة الصفحة",
     "Text" : "نص",
     "Background" : "الخلفية",
     "Page label width fraction" : "كسر عرض لاصقة الصفحة",
