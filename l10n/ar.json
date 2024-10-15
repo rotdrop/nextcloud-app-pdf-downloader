@@ -3,7 +3,7 @@
     "Post to endpoint \"%s\" not implemented." : " الإرسال POST إلى النقطة النهائية endpoint ـ \"%s\" غير مُطبّق.  ",
     "Post to base URL of app \"%s\" not allowed." : "الإرسال POST إلى العنوان الأساس base URL للتطبيق \"%s\" غير مسموح.",
     "Get from endpoint \"%s\" not implemented." : "التحصيل GET من النقطة الحدّية endpoint ـ \"%s\" غير مُطبّق.",
-    "Unable to find cached download file with id \"%d\"." : "تعذّر إيجاد تخبئة تنزيل الملف الذي مُعرّفه  \"%d\".",
+    "Unable to find cached download file with id \"%d\"." : "تعذّر إيجاد النسخة المؤقتة من الملف المراد تنزيله والذي معرّفه  \"%d\".",
     "Unable to open the destination folder \"%s\"." : "تعذّر فتح المُجلّد المَقصِد \"%s\".",
     "PDF document saved as \"%s\"." : "تمّ حفظ مستند PDF كـ \"%s\".",
     "PDF generation background job scheduled successfully." : "مهمة توليد PDF في الخلفية تمتّ جدولتها بنجاح.",
