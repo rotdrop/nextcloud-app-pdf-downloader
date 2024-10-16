@@ -135,7 +135,7 @@ OC.L10N.register(
     "Select a Font" : "Seleccione un tipo de letra",
     "Font for generated PDF page annotations" : "Tipo de letra para as anotacións das páxinas PDF xeradas",
     "The font to use for the page labels: {pageLabelsFont}" : "O tipo de letra a usar para as etiquetas da páxina: {pageLabelsFont}",
-    "Generate a Placeholder-Page for Failed Conversions" : "Xerar unha páxina de marcador de posición para conversións falladas",
+    "Generate a Placeholder-Page for Failed Conversions" : "Xerar unha páxina de marcador de substitución para conversións falladas",
     "Font for generated PDF (error)pages" : "Tipo de letra para as páxinas( de erró) PDF xeradas.",
     "The font to use for generated pages: {generatedPagesFont}" : "O tipo de letra a usar nas páxinas xeradas: {generatedPagesFont}",
     "Sorting Options" : "Opcións de ordenación",
