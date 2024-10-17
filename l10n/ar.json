@@ -100,7 +100,7 @@
     "Authenticated Background Jobs" : "مهام في الخلفية مُصدّقة",
     "Use authenticated background jobs if necessary." : "إستخدم مهام في الخلفية إذا دعت الحاجة بشرط أن تكون مُحقّقة الشخصية.",
     "List of additional folders needing authentication" : "قائمة المجلدات الإضافية التي تحتاج إلى التصديق",
-    "Add a Folder" : "أضِف مُجلّداً",
+    "Add a Folder" : "إضافة مجلد",
     "Subfolders are taken into account, you only need to specify the top-most folders." : "المجلدات الفرعية مأخوذة في الاعتبار. تحتاج فقط لتحديد المجلدات العلوية.",
     "Custom Converter Scripts" : "سكربتات مُحوّل مُخصّص",
     "Disable the builtin converters." : "إيقاف المُحوّلات المبنية builin converters",
