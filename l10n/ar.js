@@ -139,7 +139,7 @@ OC.L10N.register(
     "Font for generated PDF (error)pages" : "خط صفحات PDF المُولّدة (لبيان الأخطاء)",
     "The font to use for generated pages: {generatedPagesFont}" : "الخط الذي سيتم استخدامه للصفحات المُولّدة: {generatedPagesFont}",
     "Sorting Options" : "خيارات الترتيب",
-    "Group Folders First" : "المُجلّدات الجماعية أوّلاً",
+    "Group Folders First" : "مجلدات المجموعة أولا",
     "Group Files First" : "ملفات المجموعة أوّلاً",
     "Do Not Group" : "لا تجمع",
     "Filename Patterns" : "أنماط اسماء الملفات",
