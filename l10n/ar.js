@@ -39,7 +39,7 @@ OC.L10N.register(
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "أخفق المٌحوّل العُمومي \"%1$s\"  في تحويل ملف من نوع \"%2$s\"",
     "Converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "أخفق المُحوّل  \"%1$s\"  في تحويل الملف من نوع \"%2$s\"",
     "Unable to determine the version of the helper program \"%1$s\", is it installed?" : "لم يُمكن معرفة رقم إصدار البرنامج المُساعِد \"%1$s\". هل أنت متأكّد من أنه تمّ تنصيبه؟",
-    "Please install the \"%s\" program on the server." : "رجاءً، قم بتنصيب البرنامج \"%s\" على الخادوم.",
+    "Please install the \"%s\" program on the server." : "رجاءً، قم بتنصيب البرنامج \"%s\" على الخادم.",
     "Internal error, \"%s\" is neither a file nor a directory." : " خطأ داخلي: \"%s\" ليس ملفاً و لا مٌجلّداً. ",
     "\"%s\" could not be converted to PDF." : "\"%s\" لا يمكن تحويله إلى PDF.",
     "Internal error, \"%1$s\" is neither a file nor a directory, but has type \"%2$s." : "خطـأ داخلي, \"%1$s\" ليس ملفاً و لا مُجلّداً؛ بل هو من النوع \"%2$s.",
