@@ -5,6 +5,7 @@ OC.L10N.register(
     "User" : "Användare",
     "Password" : "Lösenord",
     "bytes" : "byte",
+    "Choose a folder" : "Välj en mapp",
     "Text" : "Text",
     "Background" : "Bakgrund",
     "Options" : "Alternativ",
