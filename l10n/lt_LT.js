@@ -2,6 +2,7 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "not found" : "nerasta",
+    "User" : "Naudotojas",
     "Password" : "Slaptažodis",
     "bytes" : "baitų",
     "Decorations and Fonts" : "Dekoracijos ir šriftai",
