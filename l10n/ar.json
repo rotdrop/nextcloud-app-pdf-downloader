@@ -71,7 +71,7 @@
     "bytes" : "بايت",
     "The supplied color-string \"%s\" seems to be invalid." : "الرمز اللوني المُعطي \"%s\" يبدو أنه غير صحيح.",
     "The input color values are invalid." : "قيم اللون المُعطاة غير صحيحة.",
-    "Recursive PDF Downloader" : "تحميل PDF تعاوديّاً ",
+    "Recursive PDF Downloader" : "تنزيل PDF المتكرر ذاتياً",
     "Recursively convert entire directory trees to PDF and provide the resulting document as download" : "تحويل كامل شجرة المُجلّد إلى PDF بصورةٍ تعاوديّةٍ ثم تنزيل الملف الناتج ",
     "pick a color" : "إختر لوناً",
     "open" : "فتح",
