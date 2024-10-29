@@ -12,6 +12,7 @@ OC.L10N.register(
     "Background" : "背景",
     "Options" : "オプション",
     "PDF" : "PDF",
+    "Confirmation Required" : "確認が必要",
     "OK" : "OK",
     "Created" : "作成時刻",
     "Unauthorized" : "権限がありません",
