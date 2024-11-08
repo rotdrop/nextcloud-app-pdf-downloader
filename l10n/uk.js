@@ -13,6 +13,7 @@ OC.L10N.register(
     "Choose a prefix-folder" : "Виберіть префікс каталогу",
     "Text" : "Текст",
     "Background" : "Тло",
+    "undefined" : "не визначено",
     "Options" : "Параметри",
     "PDF" : "PDF",
     "OK" : "Гаразд",
