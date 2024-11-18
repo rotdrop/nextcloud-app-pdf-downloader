@@ -195,7 +195,7 @@
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "Non é posíbel programar a xeración de PDF en segundo plano para {sourceFile}: {message}",
     "Scheduled offline PDF generation to {path}." : "Xeración programada de PDF sen conexión para {path}.",
     "PDF saved as {path}." : "O PDF foi gardado como {path}.",
-    "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "Non é posíbel gardar o PDF xerado dende {sourceFile} na nube: {message}",
+    "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "Non é posíbel gardar o PDF xerado desde {sourceFile} na nube: {message}",
     "Download PDF" : "Descargar PDF",
     "Convert the entry into a PDF document." : "Converter a entrada nun documento PDF.",
     "PDF" : "PDF",
