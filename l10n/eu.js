@@ -99,6 +99,7 @@ OC.L10N.register(
     "Custom Converter Scripts" : "Pertsonalizatu bihurketa scriptak",
     "Universal Converter" : "Bihurtzaile unibertsala",
     "Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn." : "Fitxategi guztientzat lehenengo exekutatuko den filtro programarako bide osoa. Horrek kale egiten badu, gainontzeko bihurgailuak saiatuko dira bere ordez.",
+    "Fallback Converter" : "Bigarreneko bihurgailua",
     "Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document." : "Gainontzeko filtro guztiek kale egin ondoren exekutatuko den filtro programarako bide osoa. Horrek kale egiten badu, errore orri bat agertuko da kale egin duen dokumentua ordezkatuz.",
     "Converters" : "Bihurtzaileak",
     "Status of the configured Converters" : "Konfiguratutako bihurtzaileen egoera",
