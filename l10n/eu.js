@@ -113,6 +113,8 @@ OC.L10N.register(
     "Template for the page labels" : "Orri etiketaren txantiloia",
     "Given Filename Example" : "Eskaintzen den adibideko fitxategi-izena",
     "Generated Label" : "Sortutako etiketa",
+    "as Image" : "irudi bezala",
+    "as Text" : "testu bezala",
     "Page label colors" : "Orriaren etiketen koloreak",
     "Text" : "Testua",
     "Background" : "Atzeko planoa",
