@@ -1,6 +1,7 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Súbor alebo adresár sa nepodarilo nájisť.",
     "Unknown admin setting: \"%1$s\"" : "Neznáme nastavenie administrátora: \"%1$s\"",
     "The admin setting \"%1$s\" is read-only" : "Nastavenie administrátora \"%1$s\" je iba na čítanie",
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Hodnota \"%1$s\" pre nastavenie \"%2$s\" nie je konvertibilná na boolovskú hodnotu.",
