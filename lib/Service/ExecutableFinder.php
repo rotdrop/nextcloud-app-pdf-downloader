@@ -45,12 +45,6 @@ class ExecutableFinder
    */
   private const CACHE_TTL = 1800;
 
-  /** @var string */
-  protected $appName;
-
-  /** @var ExecutableFinderBackend */
-  protected $executableFinder;
-
   /** @var IMemcacheTTL */
   protected $memoryCache;
 
@@ -62,31 +56,27 @@ class ExecutableFinder
   protected $executables = [];
 
   /**
-   * @param string $appName
+   * @param ICacheFactory $cacheFactory
    *
    * @param ExecutableFinderBackend $executableFinder
    *
-   * @param ICacheFactory $cacheFactory
+   * @param IL10N $l
    *
    * @param ILogger $logger
    *
-   * @param IL10N $l10n
+   * @param string $appName
    */
   public function __construct(
-    string $appName,
-    ExecutableFinderBackend $executableFinder,
     ICacheFactory $cacheFactory,
-    ILogger $logger,
-    IL10N $l10n
+    protected ExecutableFinderBackend $executableFinder,
+    protected IL10N $l,
+    protected ILogger $logger,
+    protected string $appName,
   ) {
-    $this->appName = $appName;
-    $this->executableFinder = $executableFinder;
     $this->memoryCache = $cacheFactory->createLocking();
     if (!($this->memoryCache instanceof IMemcacheTTL)) {
       $this->memoryCache = $cacheFactory->createLocal();
     }
-    $this->logger = $logger;
-    $this->l = $l10n;
   }
 
   /**
