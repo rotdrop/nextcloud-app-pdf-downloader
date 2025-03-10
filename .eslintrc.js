@@ -1,12 +1,14 @@
 module.exports = {
-  extends: [
-    '@nextcloud',
+  // extends: [
+  //   '@nextcloud',
+  // ],
+  // some unused toolkit files
+  ignorePatterns: [
+    'src/toolkit/util/file-node-helper.js',
+    'src/toolkit/util/file-download.js',
+    'src/toolkit/util/dialogs.js',
+    'src/toolkit/util/ajax.js',
   ],
-  globals: {
-    __webpack_nonce__: true,
-    __webpack_public_path__: true,
-    APP_NAME: true,
-  },
   rules: {
     'no-tabs': ['error', { allowIndentationTabs: false }],
     indent: ['error', 2],
@@ -20,9 +22,8 @@ module.exports = {
           './src',
           './style',
           './',
-          '../img',
         ],
-        tryExtensions: ['.js', '.ts', '.json', '.node', '.css', '.scss', '.xml', '.vue'],
+        tryExtensions: ['.js', '.json', '.node', '.css', '.scss', '.ts', '.xml', '.vue'],
       },
     ],
     // Do allow line-break before closing brackets
@@ -35,6 +36,12 @@ module.exports = {
       files: ['*.vue'],
       rules: {
         semi: ['error', 'never'],
+      },
+    },
+    {
+      files: ['*.ts', '*.cts', '*.mts', '*.tsx', '*.vue'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       },
     },
   ],

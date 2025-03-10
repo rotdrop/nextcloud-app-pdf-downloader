@@ -1,6 +1,6 @@
 /**
  * @author Claus-Justus Heine
- * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,14 +17,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { appName } from './config.js';
+import { appName } from './config.ts';
 import { translate as t } from '@nextcloud/l10n';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
 
 // eslint-disable-next-line
 import logoSvg from '../img/app.svg?raw';
 
-require('./webpack-setup.js');
+require('./webpack-setup.ts');
 
 let TabInstance = null;
 

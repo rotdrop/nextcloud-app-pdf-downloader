@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "alchemy/zippy": "^1.0",
+    "jarodxxx/zippy": "^1.0.2",
     "gemorroj/archive7z": "^5.4",
     "mikehaertl/php-pdftk": "^0.12.1",
     "nelexa/zip": "^4.0",
@@ -21,7 +21,7 @@
     "symfony/finder": "^6.0",
     "tecnickcom/tcpdf": "^6.3",
     "wapmorgan/cab-archive": "^0.0.7",
-    "wapmorgan/unified-archive": "dev-bugfix/fix-alchemy-zippy-mtime"
+    "wapmorgan/unified-archive": "dev-master"
   },
   "require-dev": {
     "bamarni/composer-bin-plugin": "^1.8",
@@ -42,7 +42,7 @@
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/rotdrop/UnifiedArchive"
+      "url": "https://github.com/jarodxxx/Zippy.git"
     }
   ],
   "autoload": {

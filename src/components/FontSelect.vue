@@ -1,5 +1,5 @@
 <!--
- - @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright Copyright (c) 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
  - @license AGPL-3.0-or-later
  -
@@ -75,12 +75,12 @@
     </div>
   </div>
 </template>
-<script>
-import { appName } from '../config.js'
+<script lang="ts">
+import { appName } from '../config.ts'
 import SelectWithSubmitButton from '@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue'
 import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
 import fontInfoPopup from './mixins/font-info-popup.js'
-import generateUrl from '../toolkit/util/generate-url.js'
+import { generateUrl as generateAppUrl } from '../toolkit/util/generate-url.js'
 import fontSampleText from '../toolkit/util/pangram.js'
 import cloudVersionClasses from '../toolkit/util/cloud-version-classes.js'
 
@@ -210,8 +210,8 @@ export default {
     this.ncSelect = this.$refs.select.ncSelect
   },
   methods: {
-    info() {
-      console.info(...arguments)
+    info(...rest) {
+      console.info(...rest)
     },
     getFontSampleUri(fontObject, options) {
       options = options || {}
@@ -219,7 +219,7 @@ export default {
       const fontSampleSize = options.fontSize || this.fontSampleSize
       const fontSampleColor = options.textColor || this.fontSampleColor
       const fontSampleFormat = options.format || this.fontSampleFormat
-      return generateUrl(
+      return generateAppUrl(
         'sample/font/{text}/{font}/{fontSize}', {
           text: encodeURIComponent(fontSampleText),
           font: encodeURIComponent(fontObject.family),

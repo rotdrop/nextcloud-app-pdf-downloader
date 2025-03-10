@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,9 +69,6 @@ class FilesActionListener implements IEventListener
     ],
   ];
 
-  /** @var IAppContainer */
-  private $appContainer;
-
   /** @var array */
   private $handled = [
     LoadAdditionalScriptsEvent::class => false,
@@ -82,9 +79,8 @@ class FilesActionListener implements IEventListener
   private $initialStateEmitted = false;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
-  public function __construct(IAppContainer $appContainer)
+  public function __construct(protected IAppContainer $appContainer)
   {
-    $this->appContainer = $appContainer;
   }
 
   /**

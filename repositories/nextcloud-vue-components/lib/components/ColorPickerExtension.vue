@@ -71,6 +71,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { Color as RGBColorType } from '@nextcloud/vue'
 import { appName } from '../config.ts'
 import {
   NcActions,
@@ -87,7 +88,6 @@ import {
   reactive,
 } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
-import type { Color as RGBColorType } from '@nextcloud/vue'
 
 type NcColorPickerType = typeof NcColorPicker
 

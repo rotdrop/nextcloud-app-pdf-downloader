@@ -1,6 +1,6 @@
 <!--
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
- - @copyright 2022, 2023, 2024 Claus-Justus Heine
+ - @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine
  - @license AGPL-3.0-or-later
  -
  - This program is free software: you can redistribute it and/or modify
@@ -160,9 +160,9 @@
     </ul>
   </div>
 </template>
-<script>
+<script lang="ts">
 
-import { appName } from '../config.js'
+import { appName } from '../config.ts'
 import Vue, { set as vueSet } from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { emit, subscribe } from '@nextcloud/event-bus'
@@ -296,9 +296,6 @@ export default {
     // this.getData()
   },
   methods: {
-    info() {
-      console.info.apply(null, arguments)
-    },
     setBusySate(/* state */) {
       // This cannot be used any longer. How to?
       // this.fileList.showFileBusyState(this.fileInfo.name, state)

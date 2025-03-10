@@ -1,5 +1,5 @@
 <!--
- - @copyright Copyright (c) 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright Copyright (c) 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  -
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
  -
@@ -202,16 +202,15 @@
     </NcSettingsSection>
   </div>
 </template>
-
-<script>
-import { appName } from './config.js'
+<script lang="ts">
+import { appName } from './config.ts'
 import {
   NcActionButton,
   NcButton,
   NcSettingsSection,
+  NcListItem as ListItem,
 } from '@nextcloud/vue'
 import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
-import ListItem from '@rotdrop/nextcloud-vue-components/lib/components/ListItem.vue'
 import {
   getFilePickerBuilder,
   FilePickerType,
@@ -277,8 +276,8 @@ export default {
     this.getData()
   },
   methods: {
-    info() {
-      console.info('ADMIN SETTINGS', ...arguments)
+    info(...args) {
+      console.info('ADMIN SETTINGS', ...args)
     },
     async getData() {
       // slurp in all settings

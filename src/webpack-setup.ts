@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  *
@@ -20,12 +20,12 @@
  *
  */
 
-import { appName } from './config.js';
+import { appName } from './config.ts';
 import { generateFilePath } from '@nextcloud/router';
 import { onRequestTokenUpdate, getRequestToken } from '@nextcloud/auth';
 
 __webpack_public_path__ = generateFilePath(appName, '', '');
-__webpack_nonce__ = btoa(getRequestToken());
+__webpack_nonce__ = btoa(getRequestToken() || '');
 
 // this may not be necessary as the actual secret value does not change
 onRequestTokenUpdate(function(token) {

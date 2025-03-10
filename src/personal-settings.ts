@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2022, 2023, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  *
@@ -17,20 +17,21 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { appName } from './config.js';
+import { appName } from './config.ts';
 import Vue from 'vue';
-import AdminSettings from './AdminSettings.vue';
+import PersonalSettings from './PersonalSettings.vue';
 import { Tooltip } from '@nextcloud/vue';
 
-require('./webpack-setup.js');
+require('./webpack-setup.ts');
 
 Vue.directive('tooltip', Tooltip);
 
 Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
 
 export default new Vue({
-  el: '#admin-settings',
-  render: h => h(AdminSettings),
+  el: '#personal-settings',
+  render: h => h(PersonalSettings),
 });

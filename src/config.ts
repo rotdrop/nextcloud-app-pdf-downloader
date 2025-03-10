@@ -1,8 +1,6 @@
 /**
- * @copyright Copyright (c) 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
- *
+ * @copyright Copyright (c) 2022, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,18 +18,13 @@
  *
  */
 
-import { appName } from './config.js';
-import Vue from 'vue';
-import PersonalSettings from './PersonalSettings.vue';
-import { Tooltip } from '@nextcloud/vue';
+import type { AppName } from '../build/ts-types/app-config.ts';
+import { appName } from '../build/ts-types/app-config.ts';
 
-require('./webpack-setup.js');
+export type {
+  AppName,
+}
 
-Vue.directive('tooltip', Tooltip);
-
-Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
-
-export default new Vue({
-  el: '#personal-settings',
-  render: h => h(PersonalSettings),
-});
+export {
+  appName,
+}

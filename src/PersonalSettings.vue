@@ -1,5 +1,5 @@
 <!--
- - @copyright Copyright (c) 2022-2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright Copyright (c) 2022-2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
  - @license AGPL-3.0-or-later
  -
@@ -371,8 +371,8 @@ cloud. If left blank PDFs will be generated in the current directory.`)"
     </NcSettingsSection>
   </div>
 </template>
-<script>
-import { appName } from './config.js'
+<script lang="ts">
+import { appName } from './config.ts'
 import { set as vueSet } from 'vue'
 import {
   NcSettingsSection,
@@ -381,7 +381,7 @@ import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFiel
 import ColorPicker from '@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue'
 import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import FontSelect from './components/FontSelect.vue'
-import generateUrl from './toolkit/util/generate-url.js'
+import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.js'
 import fontSampleText from './toolkit/util/pangram.js'
 import { getInitialState } from './toolkit/services/InitialStateService.js'
 import {
@@ -547,10 +547,10 @@ export default {
     generatedPagesFontObject(newValue, oldValue) {
       this.fontObjectWatcher('generatedPages', newValue, oldValue)
     },
-    pageLabelTemplate(newValue, oldValue) {
+    pageLabelTemplate(_newValue, _oldValue) {
       this.fetchPageLabelTemplateExample()
     },
-    pdfFileNameTemplate(newValue, oldValue) {
+    pdfFileNameTemplate(_newValue, _oldValue) {
       this.fetchPdfFileNameTemplateExample()
     },
     pageLabelTextColor(newValue, oldValue) {
@@ -559,10 +559,10 @@ export default {
     pageLabelBackgroundColor(newValue, oldValue) {
       console.info('BACKGROUND', newValue, oldValue)
     },
-    includePattern(newValue, oldValue) {
+    includePattern(_newValue, _oldValue) {
       this.sanitizePatternPrecedence()
     },
-    excludePattern(newValue, oldValue) {
+    excludePattern(_newValue, _oldValue) {
       this.sanitizePatternPrecedence()
     },
   },
@@ -576,8 +576,8 @@ export default {
     }
   },
   methods: {
-    info() {
-      console.info(...arguments)
+    info(...rest) {
+      console.info(...rest)
     },
     async getData() {
       // slurp in all personal settings
@@ -591,7 +591,7 @@ export default {
         --this.loading
       })
       ++this.loading
-      const fontsPromise = axios.get(generateUrl('fonts'))
+      const fontsPromise = axios.get(generateAppUrl('fonts'))
       fontsPromise.catch((e) => {
         console.info('RESPONSE', e)
         let message = t(appName, 'reason unknown')
@@ -705,7 +705,7 @@ export default {
     },
     async fetchPageLabelTemplateExample() {
       try {
-        const response = await axios.get(generateUrl(
+        const response = await axios.get(generateAppUrl(
           'sample/page-label/{template}/{path}/{pageNumber}/{totalPages}', {
             template: encodeURIComponent(this.pageLabelTemplate),
             path: encodeURIComponent(this.exampleFilePath),
@@ -733,7 +733,7 @@ export default {
     },
     async fetchPdfFileNameTemplateExample() {
       try {
-        const response = await axios.get(generateUrl(
+        const response = await axios.get(generateAppUrl(
           'sample/pdf-filename/{template}/{path}', {
             template: encodeURIComponent(this.pdfFileNameTemplate),
             path: encodeURIComponent(this.exampleFilePathParent),
