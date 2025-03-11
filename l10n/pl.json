@@ -6,6 +6,7 @@
     "PDF Downloader" : "Pobieracz PDFów",
     "FILENAME" : "NAZWA PLIKU",
     "Combining PDFs failed" : "Łączenie plików PDF nie powiodło się",
+    "Installation instructions: " : "Instrukcje instalacji:",
     "There is no archive file associated with this archiver instance." : "Z tą instancją archiwizatora nie jest powiązany żaden plik archiwum.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Problem z instalacją: wymagany zasób „%1$s” typu „%2$s” nie jest zainstalowany na serwerze, skontaktuj się z administratorem!",
     "User" : "Użytkownik",

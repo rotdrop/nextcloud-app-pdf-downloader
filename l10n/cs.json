@@ -58,6 +58,7 @@
     "FILE_PAGE_NUMBER" : "ČÍSLO_STRÁNKY_SOUBORU",
     "FILE_TOTAL_PAGES" : "CELKEM_STRÁNEK_SOUBORU",
     "Combining PDFs failed" : "Zkombinování PDF dokumentů se nezdařilo",
+    "Unable to deal with tar-files. Please check the installation of the app." : "Nebylo možné nějak naložit s tar soubory. Zkontrolujte instalaci aplikace.",
     "Unable to open archive file %s (%s)" : "Nedaří se otevřít soubor s archivem %s (%s)",
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Velikost archivu po rozbalení „%1$s“ je přílišná: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Tomuto (typu) souboru s archivem není přiřazena žádná instance archivátoru.",
