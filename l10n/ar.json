@@ -58,6 +58,7 @@
     "FILE_PAGE_NUMBER" : "الملف_رقم الصفحة FILE_PAGE_NUMBER",
     "FILE_TOTAL_PAGES" : "الملف_مجموع الصفحات FILE_TOTAL_PAGES",
     "Combining PDFs failed" : "عملية تجميع ملفات PDF فشلت",
+    "Unable to deal with tar-files. Please check the installation of the app." : "يتعذّر التعامل مع الملفات المؤرشفة ذات الامتداد .tar. تأكد رجاءً من تثبيت التطبيق المناسب للتعامل معها.",
     "Unable to open archive file %s (%s)" : "تعذّر فتح ملف الأرشيف %s (%s)",
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "الحجم غير المضغوط للأرشيف \"%1$s\" كبيرٌ جدّاً: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "لا توجد ملفات أرشيف مربوطةٌ مع هذا المُؤرْشِف archiver",

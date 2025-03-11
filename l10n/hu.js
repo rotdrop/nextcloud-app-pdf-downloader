@@ -60,6 +60,7 @@ OC.L10N.register(
     "FILE_PAGE_NUMBER" : "FÁJL_OLDALSZÁMA",
     "FILE_TOTAL_PAGES" : "FÁJL_ÖSSZES_OLDALA",
     "Combining PDFs failed" : "A PDF-ek összefűzése sikertelen",
+    "Installation instructions: " : "Telepítési instrukciók:",
     "Unable to open archive file %s (%s)" : "A(z) %s (%s) archívumfájl nem nyitható meg",
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "A(z) „%1$s” archívum tömörítetlen mérete túl nagy: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Nem tartozik archívumfájl ehhez az archiváló példányhoz.",
