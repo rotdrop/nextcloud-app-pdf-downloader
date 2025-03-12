@@ -232,12 +232,13 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import {
   computed,
+  reactive,
   ref,
 } from 'vue'
 
 const cloudVersionClasses = computed<string[]>(() => cloudVersionClassesImport)
 const loading = ref(true)
-const settings = ref({
+const settings = reactive({
   extractArchiveFiles: false,
   archiveSizeLimit: null,
   humanArchiveSizeLimit: '',
@@ -302,15 +303,15 @@ const addAuthenticatedFolder = async () => {
     if (dir.startsWith('//')) { // new in Nextcloud 25?
       dir = dir.slice(1)
     }
-    settings.value.authenticatedFolders.push(dir)
+    settings.authenticatedFolders.push(dir)
   }
   await saveSetting('authenticatedFolders')
 }
 
 const removeAuthenticatedFolder = async (folder: string) => {
-  const index = settings.value.authenticatedFolders.indexOf(folder)
+  const index = settings.authenticatedFolders.indexOf(folder)
   if (index >= 0) {
-    settings.value.authenticatedFolders.splice(index, 1)
+    settings.authenticatedFolders.splice(index, 1)
   }
   await saveSetting('authenticatedFolders')
 }
