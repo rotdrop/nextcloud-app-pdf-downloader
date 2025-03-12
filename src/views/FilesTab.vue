@@ -364,7 +364,7 @@ const fetchPdfFileNameFromTemplate = async (folderPath: string) => {
   } catch (e) {
     let message = t(appName, 'reason unknown')
     if (isAxiosErrorResponse(e) && e.response.data) {
-      const responseData = e.response.data as { messages?: any }
+      const responseData = e.response.data as { messages?: string[] }
       if (Array.isArray(responseData.messages)) {
         message = responseData.messages.join(' ')
       }
@@ -402,7 +402,7 @@ const fetchAvailableDownloads = async (silent?: boolean) => {
   } catch (e) {
     let message = t(appName, 'reason unknown')
     if (isAxiosErrorResponse(e) && e.response.data) {
-      const responseData = e.response.data as { messages?: any }
+      const responseData = e.response.data as { messages?: string[] }
       if (Array.isArray(responseData.messages)) {
         message = responseData.messages.join(' ')
       }
@@ -520,7 +520,7 @@ const handleCacheFileDelete = async (cacheId: number) => {
   } catch (e) {
     let message = t(appName, 'reason unknown')
     if (isAxiosErrorResponse(e) && e.response.data) {
-      const responseData = e.response.data as { messages?: any }
+      const responseData = e.response.data as { messages?: string[] }
       if (Array.isArray(responseData.messages)) {
         message = responseData.messages.join(' ')
       }
@@ -561,7 +561,7 @@ const handleDownload = async () => {
     } catch (e) {
       let message = t(appName, 'reason unknown')
       if (isAxiosErrorResponse(e) && e.response.data) {
-        const responseData = e.response.data as { messages?: any }
+        const responseData = e.response.data as { messages?: string[] }
         if (Array.isArray(responseData.messages)) {
           message = responseData.messages.join(' ')
         }
@@ -633,7 +633,7 @@ const handleSaveToCloud = async (
   } catch (e) {
     let message = t(appName, 'reason unknown')
     if (isAxiosErrorResponse(e) && e.response.data) {
-      const responseData = e.response.data as { messages?: any }
+      const responseData = e.response.data as { messages?: string[] }
       if (Array.isArray(responseData.messages)) {
         message = responseData.messages.join(' ')
       }
