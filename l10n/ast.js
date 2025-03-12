@@ -26,8 +26,6 @@ OC.L10N.register(
     "Background" : "Fondu",
     "Options" : "Opciones",
     "PDF" : "PDF",
-    "true" : "true",
-    "false" : "false",
     "OK" : "Normal",
     "Forbidden" : "Prohíbese",
     "Not Found" : "Nun s'atopó",
@@ -36,6 +34,8 @@ OC.L10N.register(
     "Missing data" : "Falten datos",
     "No" : "Non",
     "Yes" : "Sí",
-    "unknown error" : "error desconocíu"
+    "unknown error" : "error desconocíu",
+    "true" : "true",
+    "false" : "false"
 },
 "nplurals=2; plural=(n != 1);");

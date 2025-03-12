@@ -33,7 +33,6 @@ OC.L10N.register(
     "delete PDF file" : "poista PDF-tiedosto",
     "Download PDF" : "Lataa PDF",
     "PDF" : "PDF",
-    "Confirmation Required" : "Vahvistus vaaditaan",
     "OK" : "OK",
     "Created" : "Luotu",
     "Accepted" : "Hyväksytty",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Internal Error" : "Sisäinen virhe",
     "No" : "Ei",
     "Yes" : "Kyllä",
-    "unknown error" : "tuntematon virhe"
+    "unknown error" : "tuntematon virhe",
+    "Confirmation Required" : "Vahvistus vaaditaan"
 },
 "nplurals=2; plural=(n != 1);");

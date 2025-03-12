@@ -3,9 +3,6 @@ OC.L10N.register(
     {
     "User" : "Aseqdac",
     "Options" : "Iɣewwaṛen",
-    "true" : "idetti",
-    "false" : "ucciḍ",
-    "Confirmation Required" : "Asentem ilaq",
     "OK" : "IH",
     "Created" : "Yettwarna.",
     "Accepted" : "Yettwaqbel",
@@ -20,6 +17,9 @@ OC.L10N.register(
     "Internal Error" : "Tuccḍa tadigant",
     "No" : "Uhu",
     "Yes" : "Oui",
-    "unknown error" : "Agul mačči d aḍahri"
+    "unknown error" : "Agul mačči d aḍahri",
+    "true" : "idetti",
+    "Confirmation Required" : "Asentem ilaq",
+    "false" : "ucciḍ"
 },
 "nplurals=2; plural=(n != 1);");
