@@ -182,6 +182,10 @@ const saveState = () => {
   prependColorToPalette(rgbColor.value!, savedState.colorPickerPalette)
 }
 
+defineExpose({
+  saveState,
+})
+
 const cssVariables = computed(() => {
   return {
     '--button-background-color': rgbColor.value!.color,
