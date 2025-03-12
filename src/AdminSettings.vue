@@ -23,14 +23,14 @@
     <h1 class="title">
       {{ t(appName, 'Recursive PDF Downloader') }}
     </h1>
-    <NcSettingsSection v-if="dependencies.missing.required + dependencies.missing.suggested > 0"
+    <NcSettingsSection v-if="settings.dependencies.missing.required + settings.dependencies.missing.suggested > 0"
                        id="missing-dependencies"
                        :name="t(appName, 'Missing Dependencies')"
     >
-      <div v-if="dependencies.missing.required > 0" class="required-dependencies">
+      <div v-if="settings.dependencies.missing.required > 0" class="required-dependencies">
         <div><label>{{ t(appName, 'Required Missing') }}</label></div>
         <ul>
-          <ListItem v-for="(path, program) in dependencies.required"
+          <ListItem v-for="(path, program) in settings.dependencies.required"
                     :key="program"
                     :title="program"
                     :details="path"
@@ -44,10 +44,10 @@
           </ListItem>
         </ul>
       </div>
-      <div v-if="dependencies.missing.suggested > 0" class="suggested-dependencies">
+      <div v-if="settings.dependencies.missing.suggested > 0" class="suggested-dependencies">
         <div><label>{{ t(appName, 'Suggested Missing') }}</label></div>
         <ul>
-          <ListItem v-for="(path, program) in dependencies.suggested"
+          <ListItem v-for="(path, program) in settings.dependencies.suggested"
                     :key="program"
                     :title="program"
                     :details="path"
@@ -65,9 +65,9 @@
     <NcSettingsSection id="archive-extraction"
                        :name="t(appName, 'Archive Extraction')"
     >
-      <div :class="['flex-container', 'flex-center', { extractArchiveFiles }]">
+      <div :class="['flex-container', 'flex-center', { extractArchiveFiles: settings.extractArchiveFiles }]">
         <input id="extract-archive files"
-               v-model="extractArchiveFiles"
+               v-model="settings.extractArchiveFiles"
                type="checkbox"
                :disabled="loading"
                @change="saveSetting('extractArchiveFiles')"
@@ -76,10 +76,10 @@
           {{ t(appName, 'On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis.') }}
         </label>
       </div>
-      <TextField :value.sync="humanArchiveSizeLimit"
+      <TextField :value.sync="settings.humanArchiveSizeLimit"
                  :label="t(appName, 'Archive Size Limit')"
                  :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
-                 :disabled="loading || !extractArchiveFiles"
+                 :disabled="loading || !settings.extractArchiveFiles"
                  @submit="saveTextInput('archiveSizeLimit')"
       />
     </NcSettingsSection>
@@ -88,9 +88,9 @@
     >
       <div :class="['flex-container', 'flex-center']">
         <input id="authenticated-background-jobs"
-               v-model="authenticatedBackgroundJobs"
+               v-model="settings.authenticatedBackgroundJobs"
                type="checkbox"
-               :disabled="loading > 0"
+               :disabled="loading"
                @change="saveSetting('authenticatedBackgroundJobs')"
         >
         <label v-tooltip="tooltips.authenticatedBackgroundJobs"
@@ -99,12 +99,12 @@
           {{ t(appName, 'Use authenticated background jobs if necessary.') }}
         </label>
       </div>
-      <template v-if="authenticatedBackgroundJobs">
-        <div v-if="authenticatedFolders.length > 0">
+      <template v-if="settings.authenticatedBackgroundJobs">
+        <div v-if="settings.authenticatedFolders.length > 0">
           {{ t(appName, 'List of additional folders needing authentication') }}
         </div>
         <ul>
-          <ListItem v-for="folder of authenticatedFolders"
+          <ListItem v-for="folder of settings.authenticatedFolders"
                     :key="folder"
                     :title="folder"
                     :bold="false"
@@ -140,7 +140,7 @@
     >
       <div :class="['flex-container', 'flex-center']">
         <input id="disable-builtin-converters"
-               v-model="disableBuiltinConverters"
+               v-model="settings.disableBuiltinConverters"
                type="checkbox"
                :disabled="loading"
                @change="saveSetting('disableBuiltinConverters')"
@@ -149,16 +149,16 @@
           {{ t(appName, 'Disable the builtin converters.') }}
         </label>
       </div>
-      <TextField :value.sync="universalConverter"
+      <TextField :value.sync="settings.universalConverter"
                  :label="t(appName, 'Universal Converter')"
                  :hint="t(appName, 'Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
                  :disabled="loading"
                  @submit="saveTextInput('universalConverter')"
       />
-      <TextField :value.sync="fallbackConverter"
+      <TextField :value.sync="settings.fallbackConverter"
                  :label="t(appName, 'Fallback Converter')"
                  :hint="t(appName, 'Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
-                 :disabled="loading || builtinConvertersDisabled"
+                 :disabled="loading || !!settings.disableBuiltinConverters"
                  @submit="saveTextInput('fallbackConverter')"
       />
     </NcSettingsSection>
@@ -168,7 +168,7 @@
       <div class="converter-status">
         <div><label>{{ t(appName, 'Status of the configured Converters') }}</label></div>
         <ul>
-          <ListItem v-for="(value, mimeType) in converters"
+          <ListItem v-for="(value, mimeType) in settings.converters"
                     :key="mimeType"
                     :title="mimeType"
                     :details="value.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
@@ -186,7 +186,7 @@
                     <ListItem v-for="(executable, converter) in items"
                               :key="converter"
                               title=""
-                              :details="items.length > 1 ? t(appName, 'converter') : ''"
+                              :details="Object.values(items).length > 1 ? t(appName, 'converter') : ''"
                     >
                       <template #subtitle>
                         <span>{{ converter }}: {{ executable }}</span>
@@ -202,7 +202,7 @@
     </NcSettingsSection>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { appName } from './config.ts'
 import {
   NcActionButton,
@@ -210,6 +210,7 @@ import {
   NcSettingsSection,
   NcListItem as ListItem,
 } from '@nextcloud/vue'
+import { translate as t } from '@nextcloud/l10n'
 import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
 import {
   getFilePickerBuilder,
@@ -219,114 +220,99 @@ import {
   // showInfo,
   // TOAST_PERMANENT_TIMEOUT,
 } from '@nextcloud/dialogs'
-import settingsSync from './toolkit/mixins/settings-sync.js'
-import cloudVersionClasses from './toolkit/util/cloud-version-classes.js'
+import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.js'
+import {
+  fetchSettings,
+  fetchSetting,
+  saveConfirmedSetting,
+  saveSimpleSetting,
+} from './toolkit/util/settings-sync.ts'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import {
+  computed,
+  ref,
+} from 'vue'
 
-export default {
-  name: 'AdminSettings',
-  components: {
-    DeleteIcon,
-    FolderIcon,
-    ListItem,
-    NcActionButton,
-    NcButton,
-    NcSettingsSection,
-    PlusIcon,
-    TextField,
+const cloudVersionClasses = computed<string[]>(() => cloudVersionClassesImport)
+const loading = ref(true)
+const settings = ref({
+  extractArchiveFiles: false,
+  archiveSizeLimit: null,
+  humanArchiveSizeLimit: '',
+  disableBuiltinConverters: false,
+  universalConverter: '',
+  fallbackConverter: '',
+  authenticatedBackgroundJobs: false,
+  authenticatedFolders: [] as string[],
+  converters: {} as Record<string, Record<string, string>[]>,
+  dependencies: {
+    missing: {
+      required: 0,
+      suggested: 0,
+    },
+    required: {},
+    suggested: {},
   },
-  mixins: [
-    settingsSync,
-  ],
-  data() {
-    return {
-      cloudVersionClasses,
-      extractArchiveFiles: false,
-      archiveSizeLimit: null,
-      humanArchiveSizeLimit: '',
-      disableBuiltinConverters: false,
-      universalConverter: '',
-      fallbackConverter: '',
-      authenticatedBackgroundJobs: false,
-      authenticatedFolders: [],
-      converters: {},
-      dependencies: {
-        missing: {
-          required: 0,
-          suggested: 0,
-        },
-        required: {},
-        suggested: {},
-      },
-      tooltips: {
-        authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the "authenticated" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
-      },
-      loading: true,
+})
+
+const tooltips = computed(() => ({
+  authenticatedBackgroundJobs: t(appName, 'If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the "authenticated" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it.'),
+}))
+
+// slurp in all settings
+const getData = async () => {
+  return fetchSettings({ section: 'admin', settings }).finally(() => {
+    console.info('THIS', this)
+    loading.value = false
+  })
+}
+getData()
+
+const saveTextInput = async (settingsKey: string, value?: string, force?: boolean) => {
+  if (value === undefined) {
+    value = settings[settingsKey] || ''
+  }
+  if (await saveConfirmedSetting({ value, section: 'admin', settingsKey, force, settings })) {
+    if (settingsKey.endsWith('Converter')) {
+      fetchSetting({ settingsKey: 'converters', section: 'admin', settings })
     }
-  },
-  computed: {
-    builtinConvertersDisabled() {
-      return !!this.disableBuiltinConverters
-    },
-  },
-  watch: {},
-  created() {
-    this.getData()
-  },
-  methods: {
-    info(...args) {
-      console.info('ADMIN SETTINGS', ...args)
-    },
-    async getData() {
-      // slurp in all settings
-      await this.fetchSettings('admin')
-      this.loading = false
-    },
-    async saveTextInput(settingsKey, value, force) {
-      if (value === undefined) {
-        value = this[settingsKey] || ''
-      }
-      if (await this.saveConfirmedSetting(value, 'admin', settingsKey, force)) {
-        if (settingsKey.endsWith('Converter')) {
-          this.fetchSetting('converters', 'admin')
-        }
-      }
-    },
-    async saveSetting(setting) {
-      if (await this.saveSimpleSetting(setting, 'admin')) {
-        if (setting === 'disableBuiltinConverters') {
-          this.fetchSetting('converters', 'admin')
-        }
-      }
-    },
-    async addAuthenticatedFolder() {
-      const picker = getFilePickerBuilder(t(appName, 'Choose a folder requiring authentication'))
-        .startAt('/')
-        .setMultiSelect(true)
-        .setModal(true)
-        .setType(FilePickerType.Choose)
-        .setMimeTypeFilter(['httpd/unix-directory'])
-        .allowDirectories()
-        .build()
-      const directories = await picker.pick()
-      for (let dir of directories) {
-        if (dir.startsWith('//')) { // new in Nextcloud 25?
-          dir = dir.slice(1)
-        }
-        this.authenticatedFolders.push(dir)
-      }
-      await this.saveSetting('authenticatedFolders')
-    },
-    async removeAuthenticatedFolder(folder) {
-      const index = this.authenticatedFolders.indexOf(folder)
-      if (index >= 0) {
-        this.authenticatedFolders.splice(index, 1)
-      }
-      await this.saveSetting('authenticatedFolders')
-    },
-  },
+  }
+}
+
+const saveSetting = async (settingsKey: string) => {
+  if (await saveSimpleSetting({ settingsKey, section: 'admin', settings })) {
+    if (settingsKey === 'disableBuiltinConverters') {
+      fetchSetting({ settingsKey: 'converters', section: 'admin', settings })
+    }
+  }
+}
+
+const addAuthenticatedFolder = async () => {
+  const picker = getFilePickerBuilder(t(appName, 'Choose a folder requiring authentication'))
+    .startAt('/')
+    .setMultiSelect(true)
+    .setType(FilePickerType.Choose)
+    .setMimeTypeFilter(['httpd/unix-directory'])
+    .allowDirectories()
+    .build()
+  const directories: string[] = await picker.pick()
+  for (let dir of directories) {
+    if (dir.startsWith('//')) { // new in Nextcloud 25?
+      dir = dir.slice(1)
+    }
+    settings.value.authenticatedFolders.push(dir)
+  }
+  await saveSetting('authenticatedFolders')
+}
+
+const removeAuthenticatedFolder = async (folder: string) => {
+  const index = settings.value.authenticatedFolders.indexOf(folder)
+  if (index >= 0) {
+    settings.value.authenticatedFolders.splice(index, 1)
+  }
+  await saveSetting('authenticatedFolders')
 }
 </script>
 <style lang="scss" scoped>

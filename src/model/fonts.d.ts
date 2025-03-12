@@ -1,6 +1,8 @@
 /**
- * @copyright Copyright (c) 2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
+ *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,28 +17,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-/*
-<style lang="scss">
-[csstag="vue-tooltip-unclipped-popup"].v-popper--theme-tooltip {
-  .v-popper__inner {
-    max-width:unset!important;
-  }
+export interface FontDescriptor {
+  family: string,
+  type: string,
+  fontName: string,
+  flag: number,
+  fontHash: string,
+  fontSize?: number,
 }
-*/
-
-export default {
-  methods: {
-    unclippedPopup(content, html) {
-      return {
-        content,
-        preventOverflow: true,
-        html: true,
-        // shown: true,
-        // triggers: [],
-        csstag: ['vue-tooltip-unclipped-popup'],
-      };
-    },
-  },
-};

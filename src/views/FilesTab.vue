@@ -71,22 +71,22 @@
             <span class="main-title">{{ t(appName, 'Options') }}</span>
           </h5>
         </div>
-        <NcActions ref="downloadOptions">
+        <NcActions ref="downloadOptionsElement">
           <NcActionCheckbox v-tooltip="tooltips.pageLabels"
                             :checked="!!downloadOptions.pageLabels"
-                            @update:checked="(value) => downloadOptions.pageLabels = value"
+                            @update:checked="setDownloadOption('pageLabels', $event)"
           >
             {{ t(appName, 'page labels') }}
           </NcActionCheckbox>
           <NcActionCheckbox v-tooltip="tooltips.useTemplate"
                             :checked="!!downloadOptions.useTemplate"
-                            @update:checked="(value) => downloadOptions.useTemplate = value"
+                            @update:checked="setDownloadOption('useTemplate', $event)"
           >
             {{ t(appName, 'filename template') }}
           </NcActionCheckbox>
           <NcActionCheckbox v-tooltip="tooltips.offline"
                             :checked="!!downloadOptions.offline"
-                            @update:checked="(value) => downloadOptions.offline = value"
+                            @update:checked="setDownloadOption('offline', $event)"
           >
             {{ t(appName, 'offline') }}
           </NcActionCheckbox>
@@ -160,525 +160,536 @@
     </ul>
   </div>
 </template>
-<script lang="ts">
-
+<script setup lang="ts">
 import { appName } from '../config.ts'
-import Vue, { set as vueSet } from 'vue'
+import {
+  computed,
+  ref,
+  reactive,
+  set as vueSet,
+  watch,
+} from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { fileInfoToNode } from '../toolkit/util/file-node-helper.js'
+import { fileInfoToNode } from '../toolkit/util/file-node-helper.ts'
+import type { FileInfoDTO } from '../toolkit/util/file-node-helper.ts'
 import {
   NcActions,
   NcActionButton,
   NcActionCheckbox,
-  Tooltip,
 } from '@nextcloud/vue'
 import {
-  // getFilePickerBuilder,
-  FilePickerType,
+  getFilePickerBuilder,
   TOAST_PERMANENT_TIMEOUT,
   showError,
   showSuccess,
 } from '@nextcloud/dialogs'
+import type {
+  IFilePickerButton,
+} from '@nextcloud/dialogs'
 import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
 import axios from '@nextcloud/axios'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import * as Path from 'path'
-import unclippedPopup from '../components/mixins/unclipped-popup.js'
+import { translate as t } from '@nextcloud/l10n'
+// import path, * as Path from 'path'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
 import fileDownload from '../toolkit/util/file-download.js'
 import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
+import { basename as pathBasename } from 'path'
+import { isAxiosErrorResponse } from '../toolkit/types/axios-type-guards.ts'
+import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
+import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
+import type { LegacyFileInfo } from '@nextcloud/files'
 
-const initialState = getInitialState()
-
-Vue.directive('tooltip', Tooltip)
-Vue.mixin({ data() { return { appName } }, methods: { t, n } })
-
-export {
-  Vue,
+interface InitialState {
+  pdfCloudFolderPath?: string,
+  pageLabels: boolean,
+  useBackgroundJobsDefault: boolean,
+  pdfFileNameTemplate: string,
 }
 
-export default {
-  name: 'FilesTab',
-  components: {
-    CloudUpload,
-    FilePrefixPicker,
-    NcActionButton,
-    NcActionCheckbox,
-    NcActions,
+const initialState = getInitialState() as InitialState
+
+const tooltips = reactive({
+  pageLabels: t(appName, 'Decorate each page with the original file name and the page number within that file. The default is configured in the personal preferences for the app.'),
+  offline: t(appName, 'When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time.'),
+  useTemplate: t(appName, 'Auto-generate the download filename from the given template. The default template can be configured in the personal settings for this app.'),
+})
+
+const fileInfo = ref<undefined|LegacyFileInfo>(undefined)
+
+const downloadOptions = reactive({
+  offline: undefined as undefined|boolean,
+  pageLabels: undefined as undefined|boolean,
+  useTemplate: true,
+})
+// currently, there is no type information on the event handlers in
+// the tempalte AND it is also not possible to use TS annotations in
+// the templates. So this stupid approach is simply in order to shut
+// off some warnings ...
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const setDownloadOption = (key: string, value: any) => { downloadActions[key] = value }
+
+const cloudDestinationFileInfo = reactive({
+  dirName: '',
+  baseName: '',
+})
+
+const showCloudDestination = ref(false)
+
+const showBackgroundDownloads = ref(false)
+
+const downloading = ref(false)
+
+const activeLoaders = ref(-1)
+
+const downloads = ref<FileInfoDTO[]>([])
+
+const loading = computed(() => activeLoaders.value !== 0)
+
+const sourceFileId = computed(() => fileInfo.value?.id)
+
+const sourcePath = computed(
+  () => fileInfo.value?.path + (fileInfo.value?.path === '/' ? '' : '/') + fileInfo.value?.name,
+)
+
+const cloudDestinationBaseName = computed({
+  get() {
+    return cloudDestinationFileInfo.baseName
   },
-  mixins: [
-    unclippedPopup,
-  ],
-  data() {
-    return {
-      fileList: undefined,
-      fileInfo: {},
-      folderName: undefined,
-      config: initialState,
-      downloads: [],
-      downloadOptions: {
-        offline: undefined,
-        pageLabels: undefined,
-        useTemplate: true,
-      },
-      showCloudDestination: false,
-      cloudDestinationFileInfo: {
-        dirName: undefined,
-        baseName: undefined,
-      },
-      showBackgroundDownloads: false,
-      activeLoaders: -1,
-      downloading: false,
-      tooltips: {
-        pageLabels: t(appName, 'Decorate each page with the original file name and the page number within that file. The default is configured in the personal preferences for the app.'),
-        offline: t(appName, 'When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time.'),
-        useTemplate: t(appName, 'Auto-generate the download filename from the given template. The default template can be configured in the personal settings for this app.'),
-      },
-      personalSettings: {},
-    }
+  set(value) {
+    vueSet(cloudDestinationFileInfo, 'baseName', value)
+    return value
   },
-  computed: {
-    loading() {
-      return this.activeLoaders !== 0
-    },
-    /**
-     * @return {number} The file id of the source file-system object.
-     */
-    sourceFileId() {
-      return this.fileInfo?.id
-    },
-    /**
-     * @return {string} The full path to the source file-system object
-     * (folder or archive file).
-     */
-    sourcePath() {
-      return this.fileInfo.path + (this.fileInfo.path === '/' ? '' : '/') + this.fileInfo.name
-    },
-    cloudDestinationBaseName: {
-      get() {
-        return this.cloudDestinationFileInfo.baseName
-      },
-      set(value) {
-        vueSet(this.cloudDestinationFileInfo, 'baseName', value)
-        return value
-      },
-    },
-    cloudDestinationDirName: {
-      get() {
-        return this.cloudDestinationFileInfo.dirName
-      },
-      set(value) {
-        vueSet(this.cloudDestinationFileInfo, 'dirName', value)
-        return value
-      },
-    },
-    cloudDestinationPathName() {
-      return this.cloudDestinationDirName + (this.cloudDestinationBaseName ? '/' + this.cloudDestinationBaseName : '')
-    },
+})
+
+const cloudDestinationDirName = computed({
+  get() {
+    return cloudDestinationFileInfo.dirName
   },
-  watch: {
-    showCloudDestination(newValue/*, oldValue */) {
-      if (newValue) {
-        this.$refs.downloadActions.closeMenu()
-      }
-    },
-    downloads(newValue) {
-      this.showBackgroundDownloads = newValue.length > 0
-    },
+  set(value) {
+    vueSet(cloudDestinationFileInfo, 'dirName', value)
+    return value
   },
-  created() {
-    // this.getData()
-    subscribe('notifications:notification:received', this.onNotification)
-  },
-  mounted() {
-    // this.getData()
-  },
-  methods: {
-    setBusySate(/* state */) {
-      // This cannot be used any longer. How to?
-      // this.fileList.showFileBusyState(this.fileInfo.name, state)
-    },
-    /**
-     * Update current fileInfo and fetch new data
-     *
-     * @param {object} fileInfo the current file FileInfo
-     */
-    async update(fileInfo) {
-      this.activeLoaders = 1
+})
 
-      this.fileInfo = fileInfo
+const cloudDestinationPathName = computed(
+  () => cloudDestinationDirName.value + (cloudDestinationBaseName.value ? '/' + cloudDestinationBaseName.value : ''),
+)
 
-      // NOPE, the following is no longer there:
-      // this.fileList = OCA.Files.App.currentFileList
+const downloadActions = ref<null|typeof NcActions>(null)
 
-      this.cloudDestinationDirName = this.config.pdfCloudFolderPath || fileInfo.path
-      if (this.fileInfo.type === 'dir') {
-        this.folderName = fileInfo.name
-      } else {
-        // archive file, split the relevant extensions
-        const pathInfo = Path.parse(fileInfo.name)
-        this.folderName = Path.basename(pathInfo.name, '.tar')
-      }
-      this.downloadOptions.pageLabels = this.config.pageLabels
-      this.downloadOptions.offline = this.config.useBackgroundJobsDefault
+watch(showCloudDestination, (newValue, _oldValue) => {
+  if (newValue) {
+    downloadActions.value!.closeMenu()
+  }
+})
 
-      this.fetchPdfFileNameFromTemplate(this.sourcePath)
-        .then((value) => {
-          this.cloudDestinationBaseName = value
-        })
+watch(downloads, (newValue, _oldValue) => {
+  showBackgroundDownloads.value = newValue.length > 0
+})
 
-      this.refreshAvailableDownloads()
+/**
+ * This used to turn on a busy indicator on the current row of the file-list.
+ *
+ * @param _state TBD.
+ *
+ * @todo Find out if this still can be achieved.
+ */
+const setBusySate = (_state: boolean) => {}
 
-      --this.activeLoaders
-    },
-    /**
-     * Fetch some needed data ...
-     */
-    async getData() {
-      // await this.fetchSettings('personal', this.personalSettings)
-      // vueSet(this.downloadOptions, 'pageLabels', this.personalSettings.pageLabels)
-      // this.downloadOptions.pageLabels = this.personalSettings.pageLabels
-      // this.loading = false
-    },
-    toggleOptionsMenu() {
-      if (this.$refs.downloadOptions.opened) {
-        this.$refs.downloadOptions.closeMenu()
-      } else {
-        this.$refs.downloadOptions.openMenu()
-      }
-    },
-    toggleDownloadMenu() {
-      if (this.$refs.downloadActions.opened) {
-        this.$refs.downloadActions.closeMenu()
-      } else if (this.showCloudDestination) {
-        this.showCloudDestination = false
-      } else {
-        this.$refs.downloadActions.openMenu()
-      }
-    },
-    async fetchPdfFileNameFromTemplate(folderPath) {
-      ++this.activeLoaders
-      try {
-        const response = await axios.get(generateAppUrl(
-          'sample/pdf-filename/{template}/{path}', {
-            template: encodeURIComponent(this.config.pdfFileNameTemplate),
-            path: encodeURIComponent(folderPath),
-          }))
-        --this.activeLoaders
-        return response.data.pdfFileName
-      } catch (e) {
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data) {
-          const responseData = e.response.data
-          if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ')
-          }
-        }
-        showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
-          message,
-        }), {
-          timeout: TOAST_PERMANENT_TIMEOUT,
-        })
-        --this.activeLoaders
-        return undefined
-      }
-    },
-    async refreshAvailableDownloads() {
-      const downloads = await this.fetchAvailableDownloads()
-      this.downloads = downloads
-      this.showBackgroundDownloads = downloads.length > 0
-    },
-    async fetchAvailableDownloads(silent) {
-      if (silent !== true) {
-        ++this.activeLoaders
-      }
-      try {
-        const response = await axios.get(generateAppUrl(
-          'list/{sourcePath}', {
-            sourcePath: encodeURIComponent(this.sourcePath),
-          }))
-        console.info('DOWNLOADS RESPONSE', response)
-        if (silent !== true) {
-          --this.activeLoaders
-        }
-        return response.data
-      } catch (e) {
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data) {
-          const responseData = e.response.data
-          if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ')
-          }
-        }
-        showError(t(appName, 'Unable to obtain the list of available downloads: {message}', {
-          message,
-        }), {
-          timeout: TOAST_PERMANENT_TIMEOUT,
-        })
-        if (silent !== true) {
-          --this.activeLoaders
-        }
-        return []
-      }
-    },
-    downloadUrl(cacheId) {
-      const sourceFileId = this.sourceFileId
-      return generateAppUrl('download/{sourceFileId}/{cacheId}', {
-        sourceFileId,
-        cacheId,
-        requesttoken: getRequestToken(),
-      })
-    },
-    async handleCacheFileSave(cacheId) {
-      // This cannot work with CopyMove as the promise returned is
-      // resolved with only the path-name, the information about the
-      // chosen mode of operation is not available.
-      //
-      // const picker = getFilePickerBuilder(t(appName, 'Choose a destination'))
-      //   .startAt(this.cloudDestinationDirName)
-      //   .setMultiSelect(false)
-      //   .setModal(true)
-      //   .setType(FilePicker.CopyMove)
-      //   .setMimeTypeFilter(['httpd/unix-directory'])
-      //   .allowDirectories()
-      //   .build()
-      // let dir = await picker.pick()
+/**
+ * Update current fileInfo and fetch new data
+ *
+ * @param newFileInfo the current file FileInfo
+ */
+const update = async (newFileInfo: LegacyFileInfo) => {
+  activeLoaders.value = 1
 
-      // so let's try something which could be a bugfix for @nextcloud/dialogs
-      let { dir, mode } = await new Promise((resolve/*, rej */) => {
-        OC.dialogs.filepicker(
-          t(appName, 'Choose a destination'), // title
-          (dir, mode) => resolve({ dir, mode }), // callback _WITH_ mode
-          false, // multiselect
-          ['httpd/unix-directory'], // mime-types
-          true, // modal
-          FilePickerType.CopyMove, // FilePickerType is not exported
-          this.cloudDestinationDirName, // initial location
-          {
-            allowDirectoryChooser: true,
-          },
-        )
-      })
-      console.info('PATH AND MODE', dir, mode)
-      dir = dir || '/'
-      if (dir.startsWith('//')) { // new in Nextcloud 25?
-        dir = dir.slice(1)
-      }
-      await this.handleSaveToCloud(cacheId, dir, mode === FilePickerType.Move)
-      if (mode === FilePickerType.Move) {
-        const cacheIndex = this.downloads.findIndex((fileInfo) => fileInfo.fileid === cacheId)
-        if (cacheIndex >= 0) {
-          this.downloads.splice(cacheIndex, 1)
-        } else {
-          console.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED FROM DATA?', this.downloads)
-          this.fetchAvailableDownloads().then((downloads) => { this.downloads = downloads })
-        }
-      }
-    },
-    async handleCacheFileDownload(cacheId) {
-      this.downloading = true
-      this.setBusySate(true)
-      fileDownload(this.downloadUrl(cacheId), false, {
-        always: () => {
-          this.downloading = false
-          this.setBusySate(false)
-        },
-      })
-    },
-    async handleCacheFileDelete(cacheId) {
-      this.downloading = true
-      try {
-        const response = await axios.post(generateAppUrl(
-          'clean/{sourcePath}/{cacheId}', {
-            sourcePath: encodeURIComponent(this.sourcePath),
-            cacheId,
-          }))
-        const responseData = response.data
-        if (Array.isArray(responseData.messages)) {
-          for (const message of responseData.messages) {
-            showSuccess(message)
-          }
-        }
-        const cacheIndex = this.downloads.findIndex((fileInfo) => fileInfo.fileid === cacheId)
-        if (cacheIndex >= 0) {
-          this.downloads.splice(cacheIndex, 1)
-        } else {
-          console.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED?', this.downloads)
-          this.fetchAvailableDownloads().then((downloads) => { this.downloads = downloads })
-        }
-      } catch (e) {
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data) {
-          const responseData = e.response.data
-          if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ')
-          }
-        }
-        showError(t(appName, 'Unable to delete the cached PDF file: {message}', {
-          message,
-        }), {
-          timeout: TOAST_PERMANENT_TIMEOUT,
-        })
-        this.fetchAvailableDownloads().then((downloads) => { this.downloads = downloads })
-      }
-      this.downloading = false
-    },
-    onNotification(event) {
-      const notification = event?.notification
-      if (notification?.app !== appName) {
-        return
-      }
-      const richParameters = notification?.subjectRichParameters
-      if (richParameters.source?.id !== this.sourceFileId) {
-        console.info('*** PDF generation notification for other file received', this.sourceFileId, richParameters)
-        return
-      }
-      const destinationData = richParameters?.destination
-      if (!destinationData) {
-        return
-      }
-      if (destinationData?.status !== 'download' || !destinationData?.file) {
-        console.info('*** PDF generation notification received, but not for for download.', destinationData)
-        return
-      }
-      if (!destinationData?.file) {
-        console.info('*** PDF generation notification received, but carries no file information.', destinationData)
-        return
-      }
-      console.info('*** PDF download generation event received, updating downloads list', destinationData.file)
-      const pdfFile = destinationData.file
-      const pdfFilePath = pdfFile.path // undefined for removal notification
-      const pdfFileId = pdfFile.fileid
-      const downloadsIndex = this.downloads.findIndex((file) => file.fileid === pdfFileId)
-      if (downloadsIndex === -1 && pdfFilePath) {
-        console.info('*** Adding file to list of available downloads.', pdfFile)
-        this.downloads.push(destinationData.file)
-      } else if (downloadsIndex >= 0 && !pdfFilePath) {
-        console.info('*** Removing file from list of available downloads.', pdfFile)
-        this.downloads.splice(downloadsIndex, 1)
-      }
-    },
-    async handleDownload() {
-      this.$refs.downloadActions.closeMenu()
-      this.showCloudDestination = false
-      const urlParameters = {
-        sourceFileId: this.sourceFileId,
-        sourcePath: encodeURIComponent(this.sourcePath),
-        destinationPath: encodeURIComponent(this.cloudDestinationBaseName),
-      }
-      const queryParameters = {
-        pageLabels: this.downloadOptions.pageLabels,
-        useTemplate: this.downloadOptions.useTemplate,
-      }
-      this.downloading = true
-      this.setBusySate(true)
-      if (this.downloadOptions.offline) {
-        try {
-          axios.post(
-            generateAppUrl('schedule/download/{sourcePath}/{destinationPath}', urlParameters),
-            queryParameters,
-          )
-          showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
-            sourceFile: this.sourcePath,
-          }))
-        } catch (e) {
-          let message = t(appName, 'reason unknown')
-          if (e.response && e.response.data) {
-            const responseData = e.response.data
-            if (Array.isArray(responseData.messages)) {
-              message = responseData.messages.join(' ')
-            }
-          }
-          showError(t(appName, 'Unable to schedule background PDF generation for {sourceFile}: {message}', {
-            sourceFile: this.sourcePath,
-            message,
-          }), {
-            timeout: TOAST_PERMANENT_TIMEOUT,
-          })
-        }
-        this.downloading = false
-        this.setBusySate(false)
-      } else {
-        const url = generateAppUrl('download/{sourceFileId}', { ...urlParameters, ...queryParameters })
-        fileDownload(url, false, {
-          always: () => {
-            this.downloading = false
-            this.setBusySate(false)
-          },
-        })
-      }
-    },
-    async handleSaveToCloud(cacheFileId, destinationFolder, move) {
-      this.downloading = true
-      this.setBusySate(true)
-      const offline = cacheFileId === undefined && this.downloadOptions.offline
-      let urlTemplate = offline
-        ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
-        : 'save/{sourcePath}/{destinationPath}'
-      const sourcePath = encodeURIComponent(this.sourcePath)
-      const destinationPathName = destinationFolder || this.cloudDestinationPathName
-      const destinationPath = encodeURIComponent(destinationPathName)
-      const requestParameters = {
-        sourcePath,
-        destinationPath,
-      }
-      if (cacheFileId) {
-        urlTemplate += '/{cacheFileId}'
-        requestParameters.cacheFileId = cacheFileId
-      }
-      console.info('TEMPLATE', urlTemplate, requestParameters)
-      try {
-        const response = await axios.post(
-          generateAppUrl(urlTemplate, requestParameters), {
-            pageLabels: this.downloadOptions.pageLabels,
-            useTemplate: this.downloadOptions.useTemplate,
-            move,
-          })
-        if (offline) {
-          showSuccess(t(appName, 'Scheduled offline PDF generation to {path}.', { path: response.data.pdfFilePath }))
-        } else {
-          const pdfFilePath = response.data.pdfFilePath.substring('/files'.length)
-          showSuccess(t(appName, 'PDF saved as {path}.', { path: pdfFilePath }))
+  fileInfo.value = newFileInfo
 
-          // Emit a birth signal over the event bus. We don't care
-          // whether the new node is located in the currently viewed
-          // directory.
-          const node = fileInfoToNode(response.data.fileInfo)
-          console.info('NODE', node)
+  // NOPE, the following is no longer there:
 
-          // Update files list
-          emit('files:node:created', node)
-        }
-      } catch (e) {
-        let message = t(appName, 'reason unknown')
-        if (e.response && e.response.data) {
-          const responseData = e.response.data
-          if (Array.isArray(responseData.messages)) {
-            message = responseData.messages.join(' ')
-          }
-        }
-        const notice = t(appName, 'Unable to save the PDF generated from {sourceFile} to the cloud: {message}', {
-          sourceFile: this.sourcePath,
-          message,
-        })
-        showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT })
-        console.error(notice, e)
-      }
-      this.setBusySate(false)
-      this.downloading = false
-    },
-  },
+  cloudDestinationDirName.value = initialState.pdfCloudFolderPath || fileInfo.value.path
+  if (fileInfo.value.type === 'dir') {
+    // this.folderName = fileInfo.name
+  } else {
+    // archive file, split the relevant extensions
+    // const pathInfo = Path.parse(fileInfo.name)
+    // this.folderName = Path.basename(pathInfo.name, '.tar')
+  }
+  downloadOptions.pageLabels = initialState.pageLabels
+  downloadOptions.offline = initialState.useBackgroundJobsDefault
+
+  fetchPdfFileNameFromTemplate(sourcePath.value)
+    .then((value) => {
+      cloudDestinationBaseName.value = value
+    })
+
+  refreshAvailableDownloads()
+
+  --activeLoaders.value
 }
-</script>
-<style lang="scss">
-[csstag="vue-tooltip-unclipped-popup"].v-popper--theme-tooltip {
-  .v-popper__inner {
-    max-width:unset!important;
+
+const downloadOptionsElement = ref<typeof NcActions|null>(null)
+
+const toggleOptionsMenu = () => {
+  if (downloadOptionsElement.value!.opened) {
+    downloadOptionsElement.value!.closeMenu()
+  } else {
+    downloadOptionsElement.value!.openMenu()
   }
 }
-</style>
+
+const toggleDownloadMenu = () => {
+  if (downloadActions.value!.opened) {
+    downloadActions.value!.closeMenu()
+  } else if (showCloudDestination.value) {
+    showCloudDestination.value = false
+  } else {
+    downloadActions.value!.openMenu()
+  }
+}
+
+const fetchPdfFileNameFromTemplate = async (folderPath: string) => {
+  ++activeLoaders.value
+  try {
+    const response = await axios.get(generateAppUrl(
+      'sample/pdf-filename/{template}/{path}', {
+        template: encodeURIComponent(initialState.pdfFileNameTemplate),
+        path: encodeURIComponent(folderPath),
+      }))
+    --activeLoaders.value
+    return response.data.pdfFileName
+  } catch (e) {
+    let message = t(appName, 'reason unknown')
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+      message,
+    }), {
+      timeout: TOAST_PERMANENT_TIMEOUT,
+    })
+    --activeLoaders.value
+    return undefined
+  }
+}
+
+const refreshAvailableDownloads = async () => {
+  const downloads = await fetchAvailableDownloads()
+  downloads.value = downloads
+  showBackgroundDownloads.value = downloads.length > 0
+}
+
+const fetchAvailableDownloads = async (silent?: boolean) => {
+  if (silent !== true) {
+    ++activeLoaders.value
+  }
+  try {
+    const response = await axios.get(generateAppUrl(
+      'list/{sourcePath}', {
+        sourcePath: encodeURIComponent(sourcePath.value),
+      }))
+    console.info('DOWNLOADS RESPONSE', response)
+    if (silent !== true) {
+      --activeLoaders.value
+    }
+    return response.data
+  } catch (e) {
+    let message = t(appName, 'reason unknown')
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    showError(t(appName, 'Unable to obtain the list of available downloads: {message}', {
+      message,
+    }), {
+      timeout: TOAST_PERMANENT_TIMEOUT,
+    })
+    if (silent !== true) {
+      --activeLoaders.value
+    }
+    return []
+  }
+}
+
+const downloadUrl = (cacheId: number) => {
+  return generateAppUrl('download/{sourceFileId}/{cacheId}', {
+    sourceFileId: sourceFileId.value!,
+    cacheId,
+    requesttoken: getRequestToken(),
+  })
+}
+
+const handleCacheFileSave = async (cacheId: number) => {
+  // This cannot work with CopyMove as the promise returned is
+  // resolved with only the path-name, the information about the
+  // chosen mode of operation is not available.
+  //
+  let mode: 'Copy'|'Move'|undefined
+  const picker = getFilePickerBuilder(t(appName, 'Choose a destination'))
+    .startAt(cloudDestinationDirName.value)
+    .setMultiSelect(false)
+    .setMimeTypeFilter(['httpd/unix-directory'])
+    .allowDirectories()
+    .setButtonFactory((nodes, path) => {
+      const buttons: IFilePickerButton[] = []
+      const node: string = nodes?.[0]?.attributes?.displayName || nodes?.[0]?.basename
+      const target = node || pathBasename(path)
+
+      buttons.push({
+        callback: () => { mode = 'Copy' },
+        label: target ? t('core', 'Copy to {target}', { target }) : t('core', 'Copy'),
+        type: 'primary',
+        icon: IconCopy,
+      })
+
+      buttons.push({
+        callback: () => { mode = 'Move' },
+        label: target ? t('core', 'Move to {target}', { target }) : t('core', 'Move'),
+        type: 'secondary',
+        icon: IconMove,
+      })
+
+      return buttons
+    })
+    .build()
+  let dir: string
+  try {
+    dir = await picker.pick()
+    console.info('PATH AND MODE', dir, mode)
+  } catch (e) {
+    return
+  }
+
+  dir = dir || '/'
+  if (dir.startsWith('//')) { // new in Nextcloud 25?
+    dir = dir.slice(1)
+  }
+  await handleSaveToCloud(cacheId, dir, mode === 'Move')
+  if (mode === 'Move') {
+    const cacheIndex = downloads.value.findIndex((fileInfo: FileInfoDTO) => fileInfo.fileid === cacheId)
+    if (cacheIndex >= 0) {
+      downloads.value.splice(cacheIndex, 1)
+    } else {
+      console.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED FROM DATA?', downloads)
+      fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
+    }
+  }
+}
+
+const handleCacheFileDownload = async (cacheId: number) => {
+  downloading.value = true
+  setBusySate(true)
+  fileDownload(downloadUrl(cacheId), false, {
+    always: () => {
+      downloading.value = false
+      setBusySate(false)
+    },
+  })
+}
+
+const handleCacheFileDelete = async (cacheId: number) => {
+  downloading.value = true
+  try {
+    const response = await axios.post(generateAppUrl(
+      'clean/{sourcePath}/{cacheId}', {
+        sourcePath: encodeURIComponent(sourcePath.value),
+        cacheId,
+      },
+    ))
+    const responseData = response.data
+    if (Array.isArray(responseData.messages)) {
+      for (const message of responseData.messages) {
+        showSuccess(message)
+      }
+    }
+    const cacheIndex = downloads.value.findIndex((fileInfo) => fileInfo.fileid === cacheId)
+    if (cacheIndex >= 0) {
+      downloads.value.splice(cacheIndex, 1)
+    } else {
+      console.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED?', downloads)
+      fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
+    }
+  } catch (e) {
+    let message = t(appName, 'reason unknown')
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    showError(t(appName, 'Unable to delete the cached PDF file: {message}', {
+      message,
+    }), {
+      timeout: TOAST_PERMANENT_TIMEOUT,
+    })
+    fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
+  }
+  downloading.value = false
+}
+
+const handleDownload = async () => {
+  downloadActions.value!.closeMenu()
+  showCloudDestination.value = false
+  const urlParameters = {
+    sourceFileId: sourceFileId.value!,
+    sourcePath: encodeURIComponent(sourcePath.value),
+    destinationPath: encodeURIComponent(cloudDestinationBaseName.value),
+  }
+  const queryParameters = {
+    pageLabels: !!downloadOptions.pageLabels,
+    useTemplate: downloadOptions.useTemplate,
+  }
+  downloading.value = true
+  setBusySate(true)
+  if (downloadOptions.offline) {
+    try {
+      axios.post(
+        generateAppUrl('schedule/download/{sourcePath}/{destinationPath}', urlParameters),
+        queryParameters,
+      )
+      showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
+        sourceFile: sourcePath.value,
+      }))
+    } catch (e) {
+      let message = t(appName, 'reason unknown')
+      if (isAxiosErrorResponse(e) && e.response.data) {
+        const responseData = e.response.data
+        if (Array.isArray(responseData.messages)) {
+          message = responseData.messages.join(' ')
+        }
+      }
+      showError(t(appName, 'Unable to schedule background PDF generation for {sourceFile}: {message}', {
+        sourceFile: sourcePath.value,
+        message,
+      }), {
+        timeout: TOAST_PERMANENT_TIMEOUT,
+      })
+    }
+    downloading.value = false
+    setBusySate(false)
+  } else {
+    const url = generateAppUrl('download/{sourceFileId}', { ...urlParameters, ...queryParameters })
+    fileDownload(url, false, {
+      always: () => {
+        downloading.value = false
+        setBusySate(false)
+      },
+    })
+  }
+}
+
+const handleSaveToCloud = async (
+  cacheFileId?: number,
+  destinationFolder?: string,
+  move?: boolean,
+) => {
+  downloading.value = true
+  setBusySate(true)
+  const offline = cacheFileId === undefined && downloadOptions.offline
+  let urlTemplate = offline
+    ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
+    : 'save/{sourcePath}/{destinationPath}'
+  const destinationPathName = destinationFolder || cloudDestinationPathName.value
+  const requestParameters: Record<string, string|number> = {
+    sourcePath: encodeURIComponent(sourcePath.value),
+    destinationPath: encodeURIComponent(destinationPathName),
+  }
+  if (cacheFileId) {
+    urlTemplate += '/{cacheFileId}'
+    requestParameters.cacheFileId = cacheFileId
+  }
+  console.info('TEMPLATE', urlTemplate, requestParameters)
+  try {
+    const response = await axios.post(
+      generateAppUrl(urlTemplate, requestParameters), {
+        pageLabels: downloadOptions.pageLabels,
+        useTemplate: downloadOptions.useTemplate,
+        move,
+      },
+    )
+    if (offline) {
+      showSuccess(t(appName, 'Scheduled offline PDF generation to {path}.', { path: response.data.pdfFilePath }))
+    } else {
+      const pdfFilePath = response.data.pdfFilePath.substring('/files'.length)
+      showSuccess(t(appName, 'PDF saved as {path}.', { path: pdfFilePath }))
+
+      // Emit a birth signal over the event bus. We don't care
+      // whether the new node is located in the currently viewed
+      // directory.
+      const node = fileInfoToNode(response.data.fileInfo)
+      console.info('NODE', node)
+
+      // Update files list
+      emit('files:node:created', node)
+    }
+  } catch (e) {
+    let message = t(appName, 'reason unknown')
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    const notice = t(appName, 'Unable to save the PDF generated from {sourceFile} to the cloud: {message}', {
+      sourceFile: sourcePath.value,
+      message,
+    })
+    showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT })
+    console.error(notice, e)
+  }
+  setBusySate(false)
+  downloading.value = false
+}
+
+subscribe('notifications:notification:received', (event) => {
+  const notification = event?.notification
+  if (notification?.app !== appName) {
+    return
+  }
+  const richParameters = notification?.subjectRichParameters
+  if (richParameters.source?.id !== sourceFileId.value) {
+    console.info('*** PDF generation notification for other file received', sourceFileId, richParameters)
+    return
+  }
+  const destinationData = richParameters?.destination
+  if (!destinationData) {
+    return
+  }
+  if (destinationData?.status !== 'download' || !destinationData?.file) {
+    console.info('*** PDF generation notification received, but not for for download.', destinationData)
+    return
+  }
+  if (!destinationData?.file) {
+    console.info('*** PDF generation notification received, but carries no file information.', destinationData)
+    return
+  }
+  console.info('*** PDF download generation event received, updating downloads list', destinationData.file)
+  const pdfFile = destinationData.file
+  const pdfFilePath = pdfFile.path // undefined for removal notification
+  const pdfFileId = pdfFile.fileid
+  const downloadsIndex = downloads.value.findIndex((file) => file.fileid === pdfFileId)
+  if (downloadsIndex === -1 && pdfFilePath) {
+    console.info('*** Adding file to list of available downloads.', pdfFile)
+    downloads.value.push(destinationData.file)
+  } else if (downloadsIndex >= 0 && !pdfFilePath) {
+    console.info('*** Removing file from list of available downloads.', pdfFile)
+    downloads.value.splice(downloadsIndex, 1)
+  }
+})
+
+defineExpose({
+  update,
+})
+
+</script>
 <style lang="scss" scoped>
 .files-tab {
   .flex {

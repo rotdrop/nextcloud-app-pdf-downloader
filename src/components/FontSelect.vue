@@ -1,4 +1,4 @@
-<!--
+ <!--
  - @copyright Copyright (c) 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
  - @license AGPL-3.0-or-later
@@ -75,169 +75,149 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { appName } from '../config.ts'
+import { translate as t } from '@nextcloud/l10n'
 import SelectWithSubmitButton from '@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue'
 import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
-import fontInfoPopup from './mixins/font-info-popup.js'
 import { generateUrl as generateAppUrl } from '../toolkit/util/generate-url.js'
-import fontSampleText from '../toolkit/util/pangram.js'
-import cloudVersionClasses from '../toolkit/util/cloud-version-classes.js'
+import pangram from '../toolkit/util/pangram.ts'
+import cloudVersionClassesImport from '../toolkit/util/cloud-version-classes.js'
+import {
+  computed,
+  ref,
+  watch,
+} from 'vue'
+import { v4 as uuidv4 } from 'uuid'
+import type { FontDescriptor } from '../model/fonts.d.ts'
+import type { NcSelect } from '@nextcloud/vue'
 
-export default {
-  name: 'FontSelect',
-  components: {
-    SelectWithSubmitButton,
-    NcEllipsisedOption,
-  },
-  mixins: [
-    fontInfoPopup,
-  ],
-  props: {
-    value: {
-      type: Object,
-      default: () => {},
+const props = withDefaults(defineProps<{
+  value?: FontDescriptor,
+  disabled?: boolean,
+  loading?: boolean,
+  label?: string,
+  hint?: string,
+  placeholder?: string,
+  fontsList?: FontDescriptor[],
+  fontSizeChooser?: boolean,
+  fontSampleText?: string,
+  fontSampleSize?: number,
+  fontSampleColor?: string,
+  fontSampleFormat?: 'svg'|'png',
+}>(), {
+  value: undefined,
+  disabled: false,
+  loading: true,
+  label: undefined,
+  hint: undefined,
+  placeholder: t(appName, 'Select a Font'),
+  fontsList: () => [],
+  fontSizeChooser: true,
+  fontSampleText: pangram,
+  fontSampleSize: 12,
+  fontSampleColor: '#000000',
+  fontSampleFormat: 'svg',
+})
+
+const emit = defineEmits(['update:modelValue', 'input'])
+
+const fontObject = ref<undefined|FontDescriptor>(undefined)
+
+const fontSize = ref<undefined|number>(undefined)
+
+const select = ref<null | typeof SelectWithSubmitButton>(null)
+
+const ncSelect = computed(() => select.value?.ncSelect as (typeof NcSelect | null))
+
+const id = computed<string>(() => uuidv4())
+
+const cloudVersionClasses = computed<string[]>(() => cloudVersionClassesImport)
+
+const fontSampleSource = computed(() => {
+  if (!fontObject.value) {
+    return ''
+  }
+  return getFontSampleUri(fontObject.value)
+})
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const fontInfoPopup = (fontOption: FontDescriptor|any, sampleUri: string) => {
+  // console.info('FONT OPTION', fontOption, sampleUri);
+  const content = `<div class="font-family">${fontOption.fontName}</div><div class="font-sample"><img src="${sampleUri}"></div>`
+  return {
+    content,
+    preventOverflow: true,
+    html: true,
+    // shown: true,
+    // triggers: [],
+    csstag: ['vue-tooltip-font-info-popup'],
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getFontSampleUri = (fontObject: FontDescriptor|any) => {
+  const fontSampleSize = props.fontSampleSize
+  const fontSampleColor = props.fontSampleColor
+  const fontSampleFormat = props.fontSampleFormat
+  return generateAppUrl(
+    'sample/font/{text}/{font}/{fontSize}', {
+      text: encodeURIComponent(fontSampleText),
+      font: encodeURIComponent(fontObject.family),
+      fontSize: fontSampleSize,
+      textColor: fontSampleColor,
+      format: fontSampleFormat,
+      output: 'blob',
+      hash: fontObject.fontHash,
     },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    loading: {
-      type: Boolean,
-      default: true,
-    },
-    label: {
-      type: String,
-      default: undefined,
-    },
-    hint: {
-      type: String,
-      default: undefined,
-    },
-    placeholder: {
-      type: String,
-      default: t(appName, 'Select a Font'),
-    },
-    fontsList: {
-      type: Array,
-      default: () => [],
-    },
-    fontSizeChooser: {
-      type: Boolean,
-      default: true,
-    },
-    fontSampleText: {
-      type: String,
-      default: fontSampleText,
-    },
-    fontSampleSize: {
-      type: Number,
-      default: 12,
-    },
-    fontSampleColor: {
-      type: String,
-      default: '#000000',
-    },
-    fontSampleFormat: {
-      type: String,
-      default: 'svg',
-    },
-  },
-  emits: [
-    'update:modelValue',
-    'input',
-  ],
-  data() {
-    return {
-      fontObject: null,
-      fontSize: null,
-      // loading: true,
-      cloudVersionClasses,
-      ncSelect: null,
+  )
+}
+
+const emitFontSizeChange = () => {
+  if (!fontObject.value) {
+    return // no font no font size
+  }
+  emit('input', { ...fontObject.value, fontSize: fontSize.value }) // Vue 2
+}
+
+watch(fontObject, (newValue, oldValue) => {
+  if (newValue && oldValue
+      && newValue.family === oldValue.family
+      && newValue.fontSize === oldValue.fontSize
+  ) {
+    return
+  }
+  if (newValue) {
+    emit('input', { ...newValue, fontSize: fontSize.value }) // Vue 2
+  } else {
+    emit('input', newValue)
+  }
+  // emit('update:modelValue', newValue) // Vue 3
+})
+
+watch(
+  () => props.value,
+  (newValue: FontDescriptor|undefined, oldValue: FontDescriptor|undefined) => {
+    if (newValue && oldValue
+      && newValue.family === oldValue.family
+      && newValue.fontSize === oldValue.fontSize) {
+      return
+    }
+    fontObject.value = newValue
+    if (fontObject.value && fontObject.value.fontSize !== fontSize.value) {
+      fontSize.value = fontObject.value.fontSize
     }
   },
-  computed: {
-    id() {
-      return 'font-select-' + this._uid
-    },
-    fontSampleSource() {
-      if (!this.fontObject) {
-        return ''
-      }
-      return this.getFontSampleUri(this.fontObject)
-    },
-  },
-  watch: {
-    fontObject: {
-      handler(newValue, oldValue) {
-        if (newValue && oldValue
-            && newValue.family === oldValue.family
-            && newValue.fontSize === oldValue.fontSize
-        ) {
-          return
-        }
-        if (newValue) {
-          this.$emit('input', { ...newValue, fontSize: this.fontSize }) // Vue 2
-        } else {
-          this.$emit('input', newValue)
-        }
-        // this.$emit('update:modelValue', newValue) // Vue 3
-      },
-      deep: true,
-    },
-    value: {
-      handler(newValue, oldValue) {
-        if (newValue && oldValue
-            && newValue.family === oldValue.family
-            && newValue.fontSize === oldValue.fontSize) {
-          return
-        }
-        this.fontObject = newValue
-        if (this.fontObject && this.fontObject.fontSize !== this.fontSize) {
-          this.fontSize = this.fontObject.fontSize
-        }
-      },
-      deep: true,
-    },
-  },
-  created() {
-    this.fontObject = this.value
-    if (this.value) {
-      this.fontSize = this.value.fontSize
-    }
-  },
-  mounted() {
-    this.ncSelect = this.$refs.select.ncSelect
-  },
-  methods: {
-    info(...rest) {
-      console.info(...rest)
-    },
-    getFontSampleUri(fontObject, options) {
-      options = options || {}
-      const fontSampleText = options.text || this.fontSampleText
-      const fontSampleSize = options.fontSize || this.fontSampleSize
-      const fontSampleColor = options.textColor || this.fontSampleColor
-      const fontSampleFormat = options.format || this.fontSampleFormat
-      return generateAppUrl(
-        'sample/font/{text}/{font}/{fontSize}', {
-          text: encodeURIComponent(fontSampleText),
-          font: encodeURIComponent(fontObject.family),
-          fontSize: fontSampleSize,
-          textColor: fontSampleColor,
-          format: fontSampleFormat,
-          output: 'blob',
-          hash: fontObject.fontHash,
-        },
-      )
-    },
-    emitFontSizeChange() {
-      if (!this.fontObject) {
-        return // no font no font size
-      }
-      this.$emit('input', { ...this.fontObject, fontSize: this.fontSize }) // Vue 2
-    },
-  },
+  { deep: true },
+)
+
+defineExpose({
+  getFontSampleUri,
+})
+
+fontObject.value = props.value
+if (props.value) {
+  fontSize.value = props.value.fontSize
 }
 </script>
 <style lang="scss" scoped>

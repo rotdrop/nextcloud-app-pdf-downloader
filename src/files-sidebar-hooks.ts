@@ -20,13 +20,18 @@
 import { appName } from './config.ts';
 import { translate as t } from '@nextcloud/l10n';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
+import type { LegacyFileInfo } from '@nextcloud/files';
 
 // eslint-disable-next-line
 import logoSvg from '../img/app.svg?raw';
 
 require('./webpack-setup.ts');
 
-let TabInstance = null;
+interface FilesTab extends Vue {
+   update(fileInfo: LegacyFileInfo): Promise<unknown>,
+}
+
+let TabInstance: undefined|FilesTab = undefined;
 
 const initialState = getInitialState();
 
@@ -51,37 +56,32 @@ window.addEventListener('DOMContentLoaded', () => {
       name: t(appName, 'PDF'),
       iconSvg: logoSvg,
 
-      enabled(fileInfo) {
+      enabled(fileInfo: LegacyFileInfo) {
         return initialState.individualFileConversion || mimeTypes.indexOf(fileInfo.mimetype) >= 0;
       },
 
-      async mount(el, fileInfo, context) {
-        const FilesTabAsset = (await import('./views/FilesTab.vue'));
-        const Vue = FilesTabAsset.Vue;
-        const FilesTab = FilesTabAsset.default;
-        const View = Vue.extend(FilesTab);
+      async mount<VueType extends Vue>(el: HTMLElement, fileInfo: LegacyFileInfo, context: VueType) {
+        const FilesTabAsset = (await import('./files-tab.ts'));
+        const factory = FilesTabAsset.default;
 
         if (TabInstance) {
           TabInstance.$destroy();
         }
 
-        TabInstance = new View({
-          // Better integration with vue parent component
-          parent: context,
-        });
+        TabInstance = factory(context);
 
         // Only mount after we have all the info we need
         await TabInstance.update(fileInfo);
         TabInstance.$mount(el);
       },
-      update(fileInfo) {
-        TabInstance.update(fileInfo);
+      update(fileInfo: LegacyFileInfo) {
+        TabInstance!.update(fileInfo);
       },
       destroy() {
-        if (TabInstance !== null) {
+        if (TabInstance !== undefined) {
           TabInstance.$destroy();
         }
-        TabInstance = null;
+        TabInstance = undefined;
       },
     }));
   }

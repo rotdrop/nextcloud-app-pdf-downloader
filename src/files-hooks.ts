@@ -20,15 +20,15 @@
 import { appName } from './config.ts';
 import generateAppUrl from './toolkit/util/generate-url.js';
 import fileDownload from './toolkit/util/file-download.js';
-import { fileInfoToNode } from './toolkit/util/file-node-helper.js';
+import { fileInfoToNode } from './toolkit/util/file-node-helper.ts';
 import { translate as t } from '@nextcloud/l10n';
 import { emit, subscribe } from '@nextcloud/event-bus';
-import type { NotificationEvent } from './toolkit/types/events.ts';
+import type { NotificationEvent } from './toolkit/types/event-bus.d.ts';
 import axios from '@nextcloud/axios';
-import type { AxiosError } from 'axios';
 import { registerFileAction, FileAction, Node, Permission } from '@nextcloud/files';
 import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
 import { getInitialState } from './toolkit/services/InitialStateService.js';
+import { isAxiosErrorResponse } from './toolkit/types/axios-type-guards.ts';
 
 import logoSvg from '../img/app.svg?raw';
 
@@ -96,7 +96,7 @@ registerFileAction(new FileAction({
   },
   async exec(node: Node/* , view: View, dir: string */) {
 
-    const fileId = node.fileid;
+    const fileId = node.fileid || null;
 
     if (initialState.useBackgroundJobsDefault) {
       const url = generateAppUrl('schedule/download/{fileId}', { fileId });
@@ -105,11 +105,10 @@ registerFileAction(new FileAction({
         showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
           sourceFile: node.path,
         }));
-      } catch (e: AxiosError) {
-        const error: AxiosError = e;
-        console.error('ERROR', error);
+      } catch (e) {
+        console.error('ERROR', e);
         let message = t(appName, 'reason unknown');
-        if (e.response && e.response.data) {
+        if (isAxiosErrorResponse(e) && e.response.data) {
           const responseData = e.response.data;
           if (Array.isArray(responseData.messages)) {
             message = responseData.messages.join(' ');
