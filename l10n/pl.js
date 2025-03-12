@@ -28,8 +28,6 @@ OC.L10N.register(
     "Options" : "Opcje",
     "Convert the entry into a PDF document." : "Konwertuj wpis na dokument PDF.",
     "PDF" : "PDF",
-    "true" : "prawda",
-    "false" : "nieprawda",
     "OK" : "OK",
     "Created" : "Utworzono",
     "Bad Request" : "Złe żądanie",
@@ -63,6 +61,8 @@ OC.L10N.register(
     "Yes" : "Tak",
     "Debug Information" : "Informacje o debugowaniu",
     "unknown error" : "nieznany błąd",
-    "The quick brown fox jumps over the lazy dog." : "Szybki brązowy lis przeskakuje leniwego psa."
+    "The quick brown fox jumps over the lazy dog." : "Szybki brązowy lis przeskakuje leniwego psa.",
+    "true" : "prawda",
+    "false" : "nieprawda"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
