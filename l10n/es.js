@@ -177,6 +177,8 @@ OC.L10N.register(
     "Unable to obtain the pdf-file template example: {message}" : "No fue posible obtener la plantilla de archivo PDF de ejemplo: {message}",
     "Unable to obtain the list of available downloads: {message}" : "No fue posible obtener la lista de descargas disponibles: {message}",
     "Choose a destination" : "Seleccione un destino",
+    "Copy" : "Copiar",
+    "Move" : "Mover",
     "Unable to delete the cached PDF file: {message}" : "No fue posible eliminar el archivo PDF en caché: {message}",
     "Background PDF generation for {sourceFile} has been scheduled." : "La generación PDF en segundo plano para {sourceFile} ha sido agendada.",
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "No fue posible agendar la generación PDF en segundo plano para {sourceFile}: {message}",

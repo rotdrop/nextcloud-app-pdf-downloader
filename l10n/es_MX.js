@@ -6,6 +6,8 @@ OC.L10N.register(
     "bytes" : "bytes",
     "Text" : "Texto",
     "Background" : "Fondo",
+    "Copy" : "Copiar",
+    "Move" : "Mover",
     "Options" : "Opciones",
     "OK" : "OK",
     "Created" : "Creado",

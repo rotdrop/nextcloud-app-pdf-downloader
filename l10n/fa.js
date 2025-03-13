@@ -151,6 +151,8 @@ OC.L10N.register(
     "Unable to obtain the pdf-file template example: {message}" : "Unable to obtain the pdf-file template example: {message}",
     "Unable to obtain the list of available downloads: {message}" : "Unable to obtain the list of available downloads: {message}",
     "Choose a destination" : "Choose a destination",
+    "Copy" : "رونوشت",
+    "Move" : "انتقال",
     "Unable to delete the cached PDF file: {message}" : "Unable to delete the cached PDF file: {message}",
     "Background PDF generation for {sourceFile} has been scheduled." : "Background PDF generation for {sourceFile} has been scheduled.",
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "Unable to schedule background PDF generation for {sourceFile}: {message}",
