@@ -150,6 +150,8 @@
     "Unable to obtain the pdf-file template example: {message}" : "No se pudo obtener el ejemplo de plantilla de archivo PDF: {message}",
     "Unable to obtain the list of available downloads: {message}" : "No se pudo obtener la lista de descargas disponibles: {message}",
     "Choose a destination" : "Elija un destino",
+    "Copy" : "Copiar",
+    "Move" : "Mover",
     "Unable to delete the cached PDF file: {message}" : "No se pudo eliminar el archivo PDF en caché: {message}",
     "Background PDF generation for {sourceFile} has been scheduled." : "La generación de PDF en segundo plano para {targetFile} ha sido programada.",
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "No se pudo programar la generación de PDF en segundo plano para {targetFile}: {message}",

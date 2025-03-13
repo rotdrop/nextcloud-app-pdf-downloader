@@ -155,6 +155,8 @@
     "Unable to obtain the pdf-file template example: {message}" : "Ezin da lortu PDF fitxategien txantiloi eredua: {message}",
     "Unable to obtain the list of available downloads: {message}" : "Ezin da lortu erabilgarri dauden deskargen zerrenda: {message}",
     "Choose a destination" : "Aukeratu helburu bat",
+    "Copy" : "Kopiatu",
+    "Move" : "Mugitu",
     "Unable to delete the cached PDF file: {message}" : "Ezin izan da cacheratutako PDF fitxategia ezabatu: {message}",
     "Background PDF generation for {sourceFile} has been scheduled." : "Atzeko planoan {sourceFile} PDFa sortzea ondo programatu da.",
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "Ezin izan da programatu atzeko planoan {sourceFile} PDFa sortzea: {message}",
