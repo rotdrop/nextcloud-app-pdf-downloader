@@ -3,12 +3,8 @@ OC.L10N.register(
     {
     "User" : "Usuario",
     "Password" : "Contraseña",
-    "bytes" : "bytes",
     "Text" : "Texto",
-    "Background" : "Fondo",
-    "Copy to {target}" : "Copiar a {target}",
     "Copy" : "Copiar",
-    "Move to {target}" : "Mover a {target}",
     "Move" : "Mover",
     "Options" : "Opciones",
     "OK" : "OK",
@@ -20,6 +16,6 @@ OC.L10N.register(
     "Error" : "Error",
     "Missing data" : "Faltan datos",
     "No" : "No",
-    "Yes" : "Sí"
+    "Yes" : "Si"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
