@@ -127,7 +127,7 @@
             <a :href="downloadUrl(fileid)"
                class="download external flex-grow"
                download
-               @click.prevent.stop="handleCacheFileDownload(fileid)"
+               @click.prevent.stop="handleCacheFileDownload(fileid, basename)"
             >
               {{ basename }}
             </a>
@@ -143,7 +143,7 @@
               </NcActionButton>
               <NcActionButton icon="icon-download"
                               :disabled="downloading"
-                              @click.prevent.stop="handleCacheFileDownload(fileid)"
+                              @click.prevent.stop="handleCacheFileDownload(fileid, basename)"
               >
                 {{ t(appName, 'download locally') }}
               </NcActionButton>
@@ -193,7 +193,7 @@ import { translate as t } from '@nextcloud/l10n'
 // import path, * as Path from 'path'
 import generateAppUrl from '../toolkit/util/generate-url.js'
 import { getInitialState } from '../toolkit/services/InitialStateService.js'
-import fileDownload from '../toolkit/util/file-download.js'
+import fileDownload from '../toolkit/util/axios-file-download.ts'
 import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import { basename as pathBasename } from 'path'
 import { isAxiosErrorResponse } from '../toolkit/types/axios-type-guards.ts'
@@ -484,15 +484,26 @@ const handleCacheFileSave = async (cacheId: number) => {
   }
 }
 
-const handleCacheFileDownload = async (cacheId: number) => {
+const handleCacheFileDownload = async (cacheId: number, baseName: string) => {
   downloading.value = true
   setBusySate(true)
-  fileDownload(downloadUrl(cacheId), false, {
-    always: () => {
-      downloading.value = false
-      setBusySate(false)
-    },
-  })
+  try {
+    await fileDownload(downloadUrl(cacheId))
+  } catch (e) {
+    let message = ''
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data as { messages?: string[] }
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    const errorMessage = message
+      ? t(appName, 'Download of {fileName} failed: {message}.', { fileName: baseName, message })
+      : t(appName, 'Download of {fileName} failed.', { fileName: baseName })
+    showError(errorMessage, { timeout: TOAST_PERMANENT_TIMEOUT })
+  }
+  downloading.value = false
+  setBusySate(false)
 }
 
 const handleCacheFileDelete = async (cacheId: number) => {
@@ -577,12 +588,23 @@ const handleDownload = async () => {
     setBusySate(false)
   } else {
     const url = generateAppUrl('download/{sourceFileId}', { ...urlParameters, ...queryParameters })
-    fileDownload(url, false, {
-      always: () => {
-        downloading.value = false
-        setBusySate(false)
-      },
-    })
+    try {
+      await fileDownload(url)
+    } catch (e) {
+      let message = ''
+      if (isAxiosErrorResponse(e) && e.response.data) {
+        const responseData = e.response.data as { messages?: string[] }
+        if (Array.isArray(responseData.messages)) {
+          message = responseData.messages.join(' ')
+        }
+      }
+      const errorMessage = message
+        ? t(appName, 'Download of generated PDF failed: {message}.', { message })
+        : t(appName, 'Download of generated PDF failed.')
+      showError(errorMessage, { timeout: TOAST_PERMANENT_TIMEOUT })
+    }
+    downloading.value = false
+    setBusySate(false)
   }
 }
 

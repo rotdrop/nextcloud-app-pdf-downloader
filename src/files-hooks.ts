@@ -19,7 +19,7 @@
 
 import { appName } from './config.ts';
 import generateAppUrl from './toolkit/util/generate-url.js';
-import fileDownload from './toolkit/util/file-download.js';
+import fileDownload from './toolkit/util/axios-file-download.ts';
 import { fileInfoToNode } from './toolkit/util/file-node-helper.ts';
 import { translate as t } from '@nextcloud/l10n';
 import { emit, subscribe } from '@nextcloud/event-bus';
@@ -109,7 +109,7 @@ registerFileAction(new FileAction({
         console.error('ERROR', e);
         let message = t(appName, 'reason unknown');
         if (isAxiosErrorResponse(e) && e.response.data) {
-          const responseData = e.response.data;
+          const responseData = e.response.data as { messages?: string[] };
           if (Array.isArray(responseData.messages)) {
             message = responseData.messages.join(' ');
           }
@@ -123,7 +123,21 @@ registerFileAction(new FileAction({
       }
     } else {
       const url = generateAppUrl('download/{fileId}', { fileId });
-      await fileDownload(url, false, undefined);
+      try {
+        await fileDownload(url);
+      } catch (e) {
+        let message = ''
+        if (isAxiosErrorResponse(e) && e.response.data) {
+          const responseData = e.response.data as { messages?: string[] };
+          if (Array.isArray(responseData.messages)) {
+            message = responseData.messages.join(' ');
+          }
+        }
+        const errorMessage = message
+          ? t(appName, 'Download of {fileName} failed: {message}.', { fileName: node.path, message })
+          : t(appName, 'Download of {fileName} failed.', { fileName: node.path });
+        showError(errorMessage, { timeout: TOAST_PERMANENT_TIMEOUT });
+      }
     }
     return null;
   },

@@ -57,7 +57,7 @@
     "hex-to-css-filter": "^5.4.0",
     "html-webpack-plugin": "^5.5.0",
     "is-plain-object": "^5.0.0",
-    "jquery": "^3.6.0",
+    "js-file-download": "^0.4.12",
     "mini-css-extract-plugin": "^2.6.1",
     "path": "^0.12.7",
     "sass": "^1.53.0",
