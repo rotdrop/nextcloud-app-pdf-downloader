@@ -20,6 +20,7 @@
     "Choose a prefix-folder" : "Trieu una carpeta-prefix",
     "Invalid path selected: \"{dir}\"." : "El camí seleccionat no és vàlid: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Camí seleccionat: \"{dir}/{base}/\".",
+    "Clear Selection" : "Buida la selecció",
     "Archive Extraction" : "Extracció d'arxius",
     "Archive Size Limit" : "Límit de mida de l'arxiu",
     "Disallow archive extraction for archives with decompressed size larger than this limit." : "No permeteu l'extracció d'arxius per a arxius amb una mida descomprimida superior a aquest límit.",
