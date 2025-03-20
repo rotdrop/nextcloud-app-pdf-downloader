@@ -25,8 +25,8 @@
     "Error" : "Klaida",
     "Something went wrong." : "Kažkas nutiko.",
     "Internal Error" : "Vidinė klaida",
-    "No" : "Ne",
     "Yes" : "Taip",
+    "No" : "Ne",
     "Debug Information" : "Derinimo informacija",
     "unknown error" : "nežinoma klaida",
     "Unable to download data from \"{url}\": {message}" : "Nepavyko atsisiųsti duomenis iš „{url}“: {message}"

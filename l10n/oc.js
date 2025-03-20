@@ -14,8 +14,8 @@ OC.L10N.register(
     "OK" : "D’acòrdi",
     "Internal Server Error" : "Error intèrna del servidor",
     "Error" : "Error",
-    "No" : "Non",
     "Yes" : "Òc",
+    "No" : "Non",
     "true" : "verai",
     "false" : "fals"
 },

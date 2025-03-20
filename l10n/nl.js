@@ -66,8 +66,8 @@ OC.L10N.register(
     "Error" : "Fout",
     "Internal Error" : "Interne fout",
     "Missing data" : "Ontbrekende gegevens",
-    "No" : "Nee",
     "Yes" : "Ja",
+    "No" : "Nee",
     "unknown error" : "onbekende fout"
 },
 "nplurals=2; plural=(n != 1);");
