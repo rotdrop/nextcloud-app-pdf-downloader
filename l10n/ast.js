@@ -36,8 +36,8 @@ OC.L10N.register(
     "Internal Server Error" : "Error internu del sirvidor",
     "Error" : "Error",
     "Missing data" : "Falten datos",
-    "No" : "Non",
     "Yes" : "Sí",
+    "No" : "Non",
     "unknown error" : "error desconocíu",
     "true" : "true",
     "false" : "false"

@@ -14,8 +14,8 @@
     "Internal Server Error" : "Lỗi máy chủ.",
     "Error" : "Lỗi",
     "Missing data" : "Thiếu dữ liệu",
-    "No" : "Không",
     "Yes" : "Có",
+    "No" : "Không",
     "unknown error" : "Lỗi không xác định"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
