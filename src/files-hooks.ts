@@ -18,7 +18,7 @@
  */
 
 import { appName } from './config.ts';
-import generateAppUrl from './toolkit/util/generate-url.js';
+import generateAppUrl from './toolkit/util/generate-url.ts';
 import fileDownload from './toolkit/util/axios-file-download.ts';
 import { fileInfoToNode } from './toolkit/util/file-node-helper.ts';
 import { translate as t } from '@nextcloud/l10n';

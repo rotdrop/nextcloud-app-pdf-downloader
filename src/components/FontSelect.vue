@@ -80,7 +80,7 @@ import { appName } from '../config.ts'
 import { translate as t } from '@nextcloud/l10n'
 import SelectWithSubmitButton from '@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue'
 import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
-import { generateUrl as generateAppUrl } from '../toolkit/util/generate-url.js'
+import { generateUrl as generateAppUrl } from '../toolkit/util/generate-url.ts'
 import pangram from '../toolkit/util/pangram.ts'
 import cloudVersionClassesImport from '../toolkit/util/cloud-version-classes.js'
 import {

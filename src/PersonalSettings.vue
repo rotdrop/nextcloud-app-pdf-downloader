@@ -394,7 +394,7 @@ import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFiel
 import ColorPicker from '@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue'
 import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import FontSelect from './components/FontSelect.vue'
-import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.js'
+import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
 import fontSampleText from './toolkit/util/pangram.ts'
 import { getInitialState } from './toolkit/services/InitialStateService.js'
 import {
