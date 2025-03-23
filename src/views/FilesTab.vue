@@ -192,7 +192,7 @@ import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 // import path, * as Path from 'path'
 import generateAppUrl from '../toolkit/util/generate-url.ts'
-import { getInitialState } from '../toolkit/services/InitialStateService.js'
+import getInitialState from '../toolkit/util/initial-state.ts'
 import fileDownload from '../toolkit/util/axios-file-download.ts'
 import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import { basename as pathBasename } from 'path'
@@ -200,15 +200,9 @@ import { isAxiosErrorResponse } from '../toolkit/types/axios-type-guards.ts'
 import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
 import type { LegacyFileInfo } from '@nextcloud/files'
+import type { InitialState } from '../types/initial-state.d.ts'
 
-interface InitialState {
-  pdfCloudFolderPath?: string,
-  pageLabels: boolean,
-  useBackgroundJobsDefault: boolean,
-  pdfFileNameTemplate: string,
-}
-
-const initialState = getInitialState() as InitialState
+const initialState = getInitialState<InitialState>()
 
 const tooltips = reactive({
   pageLabels: t(appName, 'Decorate each page with the original file name and the page number within that file. The default is configured in the personal preferences for the app.'),
@@ -310,7 +304,7 @@ const update = async (newFileInfo: LegacyFileInfo) => {
 
   // NOPE, the following is no longer there:
 
-  cloudDestinationDirName.value = initialState.pdfCloudFolderPath || fileInfo.value.path
+  cloudDestinationDirName.value = initialState?.pdfCloudFolderPath || fileInfo.value.path
   if (fileInfo.value.type === 'dir') {
     // this.folderName = fileInfo.name
   } else {
@@ -318,8 +312,8 @@ const update = async (newFileInfo: LegacyFileInfo) => {
     // const pathInfo = Path.parse(fileInfo.name)
     // this.folderName = Path.basename(pathInfo.name, '.tar')
   }
-  downloadOptions.pageLabels = initialState.pageLabels
-  downloadOptions.offline = initialState.useBackgroundJobsDefault
+  downloadOptions.pageLabels = !!initialState?.pageLabels
+  downloadOptions.offline = !!initialState?.useBackgroundJobsDefault
 
   fetchPdfFileNameFromTemplate(sourcePath.value)
     .then((value) => {
@@ -356,7 +350,7 @@ const fetchPdfFileNameFromTemplate = async (folderPath: string) => {
   try {
     const response = await axios.get(generateAppUrl(
       'sample/pdf-filename/{template}/{path}', {
-        template: encodeURIComponent(initialState.pdfFileNameTemplate),
+        template: encodeURIComponent(initialState?.pdfFileNameTemplate || ''),
         path: encodeURIComponent(folderPath),
       }))
     --activeLoaders.value

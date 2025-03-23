@@ -396,7 +396,7 @@ import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/F
 import FontSelect from './components/FontSelect.vue'
 import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
 import fontSampleText from './toolkit/util/pangram.ts'
-import { getInitialState } from './toolkit/services/InitialStateService.js'
+import getInitialState from './toolkit/util/initial-state.ts'
 import {
   showError,
   // showSuccess,
@@ -416,14 +416,19 @@ import {
 import type { FontDescriptor } from './model/fonts.d.ts'
 // import type { AxiosResponse } from 'axios'
 
-const initialState = getInitialState()
+interface PersonalSettingsInitialState {
+  defaultPageLabelTemplate: string,
+  defaultPdfFileNameTemplate: string,
+}
+
+const initialState = getInitialState<PersonalSettingsInitialState>()
 
 const loading = ref(0)
 const cloudVersionClasses = computed(() => cloudVersionClassesImport)
 
 const settings = reactive({
   pageLabels: true,
-  pageLabelTemplate: initialState.defaultPageLabelTemplate,
+  pageLabelTemplate: initialState?.defaultPageLabelTemplate || '',
   pageLabelTextColor: '#ff0000',
   pageLabelTextColorPalette: [],
   pageLabelBackgroundColor: '#c8c8c8',
@@ -455,7 +460,7 @@ const settings = reactive({
   humanArchiveSizeLimitAdmin: '',
   individualFileConversion: true,
   sampleFontSize: 18, // should be pt, but actually is rendered as px it seems
-  pdfFileNameTemplate: initialState.defaultPdfFileNameTemplate,
+  pdfFileNameTemplate: initialState?.defaultPdfFileNameTemplate || '',
   //
   useBackgroundJobsDefault: false,
   authenticatedBackgroundJobs: false,

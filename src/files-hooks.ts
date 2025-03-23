@@ -27,14 +27,14 @@ import type { NotificationEvent } from './toolkit/types/event-bus.d.ts';
 import axios from '@nextcloud/axios';
 import { registerFileAction, FileAction, Node, Permission } from '@nextcloud/files';
 import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
-import { getInitialState } from './toolkit/services/InitialStateService.js';
+import getInitialState from './toolkit/util/initial-state.ts';
 import { isAxiosErrorResponse } from './toolkit/types/axios-type-guards.ts';
-
 import logoSvg from '../img/app.svg?raw';
+import type { InitialState } from './types/initial-state.d.ts';
 
 require('./webpack-setup.ts');
 
-const initialState = getInitialState();
+const initialState = getInitialState<InitialState>();
 
 console.info('INITIAL STATE PDF DOWNLOADER', initialState);
 
@@ -42,10 +42,10 @@ const mimeTypes: Array<string> = [
   'httpd/unix-directory',
 ];
 
-if (!initialState.individualFileConversion
-    && initialState.extractArchiveFiles
-    && initialState.extractArchiveFilesAdmin) {
-  mimeTypes.splice(0, 0, ...initialState.archiveMimeTypes);
+if (!initialState?.individualFileConversion
+    && initialState?.extractArchiveFiles
+    && initialState?.extractArchiveFilesAdmin) {
+      mimeTypes.splice(0, 0, ...(initialState?.archiveMimeTypes || []));
   console.info('MIME TYPES', mimeTypes);
 }
 
@@ -89,7 +89,7 @@ registerFileAction(new FileAction({
     if (!(node.permissions & Permission.READ)) {
       return false;
     }
-    if (!initialState.individualFileConversion) {
+    if (!initialState?.individualFileConversion) {
       return node.mime !== undefined && mimeTypes.findIndex((mime) => mime === node.mime) >= 0;
     }
     return true;
@@ -98,7 +98,7 @@ registerFileAction(new FileAction({
 
     const fileId = node.fileid || null;
 
-    if (initialState.useBackgroundJobsDefault) {
+    if (initialState?.useBackgroundJobsDefault) {
       const url = generateAppUrl('schedule/download/{fileId}', { fileId });
       try {
         await axios.post(url);
