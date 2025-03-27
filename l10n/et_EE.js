@@ -4,6 +4,7 @@ OC.L10N.register(
     "User" : "Kasutaja",
     "Password" : "Salasõna",
     "Text" : "Tekst",
+    "Background" : "Taust",
     "Copy to {target}" : "Kopeeri kausta {target}",
     "Copy" : "Kopeeri",
     "Move to {target}" : "Liiguta kausta {target}",
