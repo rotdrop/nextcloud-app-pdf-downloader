@@ -51,6 +51,7 @@
     "Choose a folder" : "Выберите папку",
     "Invalid path selected: \"{dir}\"." : "Выбран некорректный путь: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Выбраный путь: \"{dir}/{base}/\".",
+    "Clear Selection" : "Отменить выбор",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Если вы не уверены, оставьте это отключенным. Включение этой опции приводит к дополнительному сканированию каталога перед планированием фоновой операции. Если сканирование обнаружит точку монтирования в каталоге, который был подключен с параметром \"аутентифицированный\", то ваши учетные данные для входа будут временно переведены в фоновое задание. Это в основном используется для обработки особых случаев, которые должны касаться только автора этого пакета. Оставьте эту опцию отключенной, если вы действительно не знаете, что это значит, и если вы действительно уверены, что вам это нужно.",
     "Choose a folder requiring authentication" : "Выберите папку, требующую аутентификации",
     "Archive Extraction" : "Распаковка архива",
