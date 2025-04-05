@@ -6,6 +6,8 @@ OC.L10N.register(
     "Get from endpoint \"%s\" not implemented." : "Get-meetodiga päring „%s“ otspunkti pole implementeeritud.",
     "User" : "Kasutaja",
     "Password" : "Salasõna",
+    "Login succeeded." : "Sisselogimine õnnestud",
+    "Login failed." : "Sisselogimine ei õnnestunud.",
     "pick a color" : "vali värv",
     "open" : "ava",
     "submit" : "saada",
@@ -35,6 +37,8 @@ OC.L10N.register(
     "Error" : "Viga",
     "Yes" : "Jah",
     "No" : "Ei",
-    "The quick brown fox jumps over the lazy dog." : "Põdur Zagrebi tšellomängija-följetonist Ciqo külmetas kehvas garaažis."
+    "The quick brown fox jumps over the lazy dog." : "Põdur Zagrebi tšellomängija-följetonist Ciqo külmetas kehvas garaažis.",
+    "true" : "tõene",
+    "false" : "väär"
 },
 "nplurals=2; plural=(n != 1);");
