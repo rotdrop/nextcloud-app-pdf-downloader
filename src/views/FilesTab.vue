@@ -57,7 +57,7 @@
                           :placeholder="t(appName, 'basename')"
                           :readonly="downloadOptions.useTemplate ? 'basename' : false"
                           :disabled="downloading"
-                          @update="() => handleSaveToCloud()"
+                          @submit="() => handleSaveToCloud()"
         />
       </li>
       <li class="files-tab-entry flex flex-center clickable">
