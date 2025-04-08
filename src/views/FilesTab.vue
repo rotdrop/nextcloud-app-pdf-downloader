@@ -201,6 +201,7 @@ import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
 import type { LegacyFileInfo } from '@nextcloud/files'
 import type { InitialState } from '../types/initial-state.d.ts'
+import { setSidebarNodeBusy as setBusyState } from '../toolkit/util/nextcloud-sidebar-root.ts'
 
 const initialState = getInitialState<InitialState>()
 
@@ -284,15 +285,6 @@ watch(downloads, (newValue, _oldValue) => {
 })
 
 /**
- * This used to turn on a busy indicator on the current row of the file-list.
- *
- * @param _state TBD.
- *
- * @todo Find out if this still can be achieved.
- */
-const setBusySate = (_state: boolean) => {}
-
-/**
  * Update current fileInfo and fetch new data
  *
  * @param newFileInfo the current file FileInfo
@@ -301,6 +293,8 @@ const update = async (newFileInfo: LegacyFileInfo) => {
   activeLoaders.value = 1
 
   fileInfo.value = newFileInfo
+
+  setBusyState(true)
 
   // NOPE, the following is no longer there:
 
@@ -480,7 +474,7 @@ const handleCacheFileSave = async (cacheId: number) => {
 
 const handleCacheFileDownload = async (cacheId: number, baseName: string) => {
   downloading.value = true
-  setBusySate(true)
+  setBusyState(true)
   try {
     await fileDownload(downloadUrl(cacheId))
   } catch (e) {
@@ -497,7 +491,7 @@ const handleCacheFileDownload = async (cacheId: number, baseName: string) => {
     showError(errorMessage, { timeout: TOAST_PERMANENT_TIMEOUT })
   }
   downloading.value = false
-  setBusySate(false)
+  setBusyState(false)
 }
 
 const handleCacheFileDelete = async (cacheId: number) => {
@@ -553,7 +547,7 @@ const handleDownload = async () => {
     useTemplate: downloadOptions.useTemplate,
   }
   downloading.value = true
-  setBusySate(true)
+  setBusyState(true)
   if (downloadOptions.offline) {
     try {
       axios.post(
@@ -579,7 +573,7 @@ const handleDownload = async () => {
       })
     }
     downloading.value = false
-    setBusySate(false)
+    setBusyState(false)
   } else {
     const url = generateAppUrl('download/{sourceFileId}', { ...urlParameters, ...queryParameters })
     try {
@@ -598,7 +592,7 @@ const handleDownload = async () => {
       showError(errorMessage, { timeout: TOAST_PERMANENT_TIMEOUT })
     }
     downloading.value = false
-    setBusySate(false)
+    setBusyState(false)
   }
 }
 
@@ -608,7 +602,7 @@ const handleSaveToCloud = async (
   move?: boolean,
 ) => {
   downloading.value = true
-  setBusySate(true)
+  setBusyState(true)
   const offline = cacheFileId === undefined && downloadOptions.offline
   let urlTemplate = offline
     ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
@@ -661,7 +655,7 @@ const handleSaveToCloud = async (
     showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT })
     console.error(notice, e)
   }
-  setBusySate(false)
+  setBusyState(false)
   downloading.value = false
 }
 
