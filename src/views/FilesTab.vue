@@ -199,9 +199,9 @@ import { basename as pathBasename } from 'path'
 import { isAxiosErrorResponse } from '../toolkit/types/axios-type-guards.ts'
 import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
+import { setSidebarNodeBusy as setBusyState } from '../toolkit/util/nextcloud-sidebar-root.ts'
 import type { LegacyFileInfo } from '@nextcloud/files'
 import type { InitialState } from '../types/initial-state.d.ts'
-import { setSidebarNodeBusy as setBusyState } from '../toolkit/util/nextcloud-sidebar-root.ts'
 
 const initialState = getInitialState<InitialState>()
 
