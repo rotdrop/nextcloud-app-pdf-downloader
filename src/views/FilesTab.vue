@@ -204,6 +204,8 @@ import logger from '../logger.ts'
 import type { LegacyFileInfo } from '@nextcloud/files'
 import type { InitialState } from '../types/initial-state.d.ts'
 
+setBusyState(false) // needs to be called once synchronously inside setup
+
 const initialState = getInitialState<InitialState>()
 
 const tooltips = reactive({
@@ -291,13 +293,12 @@ watch(downloads, (newValue, _oldValue) => {
  * @param newFileInfo the current file FileInfo
  */
 const update = async (newFileInfo: LegacyFileInfo) => {
+  logger.debug('UPDATE CALLED')
   activeLoaders.value = 1
 
   fileInfo.value = newFileInfo
 
   setBusyState(true)
-
-  // NOPE, the following is no longer there:
 
   cloudDestinationDirName.value = initialState?.pdfCloudFolderPath || fileInfo.value.path
   if (fileInfo.value.type === 'dir') {
@@ -316,6 +317,8 @@ const update = async (newFileInfo: LegacyFileInfo) => {
     })
 
   refreshAvailableDownloads()
+
+  setBusyState(false)
 
   --activeLoaders.value
 }
@@ -574,7 +577,6 @@ const handleDownload = async () => {
       })
     }
     downloading.value = false
-    setBusyState(false)
   } else {
     const url = generateAppUrl('download/{sourceFileId}', { ...urlParameters, ...queryParameters })
     try {
@@ -593,8 +595,8 @@ const handleDownload = async () => {
       showError(errorMessage, { timeout: TOAST_PERMANENT_TIMEOUT })
     }
     downloading.value = false
-    setBusyState(false)
   }
+  setBusyState(false)
 }
 
 const handleSaveToCloud = async (
@@ -733,6 +735,9 @@ defineExpose({
   }
   .files-tab-entry {
     min-height:44px;
+    h5 {
+      margin: 0;
+    }
     &.clickable {
       &, & * {
         cursor:pointer;
