@@ -32,11 +32,11 @@
         <ul>
           <ListItem v-for="(path, program) in settings.dependencies.required"
                     :key="program"
-                    :title="program"
+                    :name="program"
                     :details="path"
                     :bold="false"
           >
-            <template #subtitle>
+            <template #subname>
               <div class="hint">
                 {{ t(appName, 'The app will not work unless you install {program} such that it can be found by the web-server.', { program }) }}
               </div>
@@ -49,11 +49,11 @@
         <ul>
           <ListItem v-for="(path, program) in settings.dependencies.suggested"
                     :key="program"
-                    :title="program"
+                    :name="program"
                     :details="path"
                     :bold="false"
           >
-            <template #subtitle>
+            <template #subname>
               <div v-if="path === 'missing'" class="hint">
                 {{ t(appName, 'The app will work without installing {program}, but the conversion results may be degraded.', { program }) }}
               </div>
@@ -106,7 +106,7 @@
         <ul>
           <ListItem v-for="folder of settings.authenticatedFolders"
                     :key="folder"
-                    :title="folder"
+                    :name="folder"
                     :bold="false"
           >
             <template #icon>
@@ -170,25 +170,25 @@
         <ul>
           <ListItem v-for="(value, mimeType) in settings.converters"
                     :key="mimeType"
-                    :title="mimeType"
+                    :name="mimeType"
                     :details="value.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
                     :bold="true"
           >
-            <template #subtitle>
+            <template #subname>
               <ul>
                 <ListItem v-for="(items, index) in value"
                           :key="index"
-                          :title="Object.values(items).length > 1 ? t(appName, 'alternatives') : t(appName, 'converter')"
+                          :name="Object.values(items).length > 1 ? t(appName, 'alternatives') : t(appName, 'converter')"
                           :show-counter="value.length > 1"
                           :counter-number="value.length > 1 ? index + 1 : 0"
                 >
-                  <template #subtitle>
+                  <template #subname>
                     <ListItem v-for="(executable, converter) in items"
                               :key="converter"
-                              title=""
+                              name=""
                               :details="Object.values(items).length > 1 ? t(appName, 'converter') : ''"
                     >
-                      <template #subtitle>
+                      <template #subname>
                         <span>{{ converter }}: {{ executable }}</span>
                       </template>
                     </ListItem>
@@ -358,6 +358,11 @@ const removeAuthenticatedFolder = async (folder: string) => {
   .hint {
     color: var(--color-text-lighter);
     font-size: 80%;
+  }
+  :deep(.converter-status) {
+    .list-item__anchor {
+      height: auto;
+    }
   }
 }
 </style>
