@@ -548,13 +548,13 @@ class SettingsController extends Controller
       case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
         $newValue = $value;
         if (is_array($newValue)) {
-          $settingsValue = strtolower(json_encode($newValue));
+          $settingsValue = json_encode($newValue);
         } else {
           $newValue = null;
         }
         if (!empty($oldValue) && is_string($oldValue)) {
           try {
-            $oldValue = json_decode(strtolower($oldValue), true);
+            $oldValue = json_decode($oldValue, true);
           } catch (Throwable $t) {
             $this->logException($t, 'Unable to decode old palette value "' . $oldValue . '".');
           }
@@ -661,6 +661,10 @@ class SettingsController extends Controller
         $interval = CarbonInterval::seconds($newValue);
         CarbonInterval::setLocale($this->l->getLanguageCode());
         $humanValue = $interval->cascade()->forHumans();
+        break;
+      case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
+      case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
+        $humanValue = array_map(fn(array $color) => $color['color'] . ($color['name'] ? ' (' . $color['name'] . ')' : ''), $value);
         break;
       default:
         $humanValue = $value;
