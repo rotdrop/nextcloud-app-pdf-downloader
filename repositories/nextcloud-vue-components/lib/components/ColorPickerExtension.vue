@@ -52,6 +52,7 @@
                    v-model="rgbColorString"
                    :palette="colorPickerPalette"
                    :shown.sync="pickerVisible"
+                   v-bind="$attrs"
                    @submit="submitCustomColor"
                    @update:open="handleOpen"
                    @close="() => false"
@@ -66,7 +67,7 @@
     <input type="submit"
            class="icon-confirm confirm-button"
            value=""
-           @click.prevent="emit('update', rgbColor)"
+           @click.prevent="emit('submit', rgbColorString)"
     >
   </div>
 </template>
@@ -127,7 +128,7 @@ const props = withDefaults(
 
 const anyToRgb = (value: NCColorType|RGBColor|string|number[]) => {
   if (value instanceof RGBColor) {
-    return value;
+    return value
   }
   let r: number, g: number, b: number
   let name = t(appName, 'Custom Color')
@@ -232,8 +233,10 @@ const colorPaletteHasChanged = computed(() =>
 const emit = defineEmits([
   'error',
   'input',
-  'update',
+  'submit',
   'update:value',
+  'update:modelValue',
+  'update:model-value',
   'update:color-palette',
 ])
 
@@ -242,8 +245,10 @@ watch(() => props.value, (newValue) => {
     return
   }
   rgbColor.value = anyToRgb(newValue)
-  emit('update:value', rgbColorString.value)
-  emit('input', rgbColorString.value)
+  if (newValue !== rgbColor.value) {
+    emit('update:value', rgbColorString.value)
+    emit('input', rgbColorString.value)
+  }
 })
 
 const colorPicker = ref<null|NcColorPickerType>(null)
@@ -276,8 +281,8 @@ watch(() => props.colorPalette, (newValue, oldValue) => {
     return
   }
   console.debug('PROPS PALETTE WATCHER', {
-    newValue: newValue ? JSON.stringify(newValue, 2) : newValue,
-    oldValue: oldValue ? JSON.stringify(oldValue, 2) : oldValue,
+    newValue: newValue ? JSON.stringify(newValue, undefined, 2) : newValue,
+    oldValue: oldValue ? JSON.stringify(oldValue, undefined, 2) : oldValue,
     equal: !!newValue && !!oldValue && JSON.stringify(newValue) === JSON.stringify(oldValue),
   })
   if (!!newValue && !!oldValue && JSON.stringify(newValue) === JSON.stringify(oldValue)) {
@@ -290,6 +295,16 @@ watch(() => props.colorPalette, (newValue, oldValue) => {
     colorPickerPalette.value.splice(0, Infinity, ...newPalette)
     nextTick(() => { paletteIsUpdating = false })
   }
+})
+
+watch(rgbColorString, () => {
+  console.info('RGB COLOR CHANGE', {
+    rgbColor: rgbColor.value,
+    rgbColorString: rgbColorString.value,
+  })
+  emit('update:value', rgbColorString.value)
+  emit('update:model-value', rgbColorString.value)
+  emit('update:modelValue', rgbColorString.value)
 })
 
 onMounted(() => {
@@ -350,6 +365,4 @@ export default {
     }
   }
 }
-</style>
-</style>
 </style>
