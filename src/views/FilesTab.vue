@@ -200,6 +200,7 @@ import { isAxiosErrorResponse } from '../toolkit/types/axios-type-guards.ts'
 import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
 import { setSidebarNodeBusy as setBusyState } from '../toolkit/util/nextcloud-sidebar-root.ts'
+import logger from '../logger.ts'
 import type { LegacyFileInfo } from '@nextcloud/files'
 import type { InitialState } from '../types/initial-state.d.ts'
 
@@ -382,7 +383,7 @@ const fetchAvailableDownloads = async (silent?: boolean) => {
       'list/{sourcePath}', {
         sourcePath: encodeURIComponent(sourcePath.value),
       }))
-    console.info('DOWNLOADS RESPONSE', response)
+    logger.info('DOWNLOADS RESPONSE', response)
     if (silent !== true) {
       --activeLoaders.value
     }
@@ -451,7 +452,7 @@ const handleCacheFileSave = async (cacheId: number) => {
   let dir: string
   try {
     dir = await picker.pick()
-    console.info('PATH AND MODE', dir, mode)
+    logger.info('PATH AND MODE', dir, mode)
   } catch (e) {
     return
   }
@@ -466,7 +467,7 @@ const handleCacheFileSave = async (cacheId: number) => {
     if (cacheIndex >= 0) {
       downloads.value.splice(cacheIndex, 1)
     } else {
-      console.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED FROM DATA?', downloads)
+      logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED FROM DATA?', downloads)
       fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
     }
   }
@@ -513,7 +514,7 @@ const handleCacheFileDelete = async (cacheId: number) => {
     if (cacheIndex >= 0) {
       downloads.value.splice(cacheIndex, 1)
     } else {
-      console.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED?', downloads)
+      logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED?', downloads)
       fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
     }
   } catch (e) {
@@ -616,7 +617,7 @@ const handleSaveToCloud = async (
     urlTemplate += '/{cacheFileId}'
     requestParameters.cacheFileId = cacheFileId
   }
-  console.info('TEMPLATE', urlTemplate, requestParameters)
+  logger.info('TEMPLATE', urlTemplate, requestParameters)
   try {
     const response = await axios.post(
       generateAppUrl(urlTemplate, requestParameters), {
@@ -635,7 +636,7 @@ const handleSaveToCloud = async (
       // whether the new node is located in the currently viewed
       // directory.
       const node = fileInfoToNode(response.data.fileInfo)
-      console.info('NODE', node)
+      logger.info('NODE', node)
 
       // Update files list
       emit('files:node:created', node)
@@ -653,7 +654,7 @@ const handleSaveToCloud = async (
       message,
     })
     showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT })
-    console.error(notice, e)
+    logger.error(notice, e)
   }
   setBusyState(false)
   downloading.value = false
@@ -666,7 +667,7 @@ subscribe('notifications:notification:received', (event) => {
   }
   const richParameters = notification?.subjectRichParameters
   if (richParameters.source?.id !== sourceFileId.value) {
-    console.info('*** PDF generation notification for other file received', sourceFileId, richParameters)
+    logger.info('*** PDF generation notification for other file received', sourceFileId, richParameters)
     return
   }
   const destinationData = richParameters?.destination
@@ -674,23 +675,23 @@ subscribe('notifications:notification:received', (event) => {
     return
   }
   if (destinationData?.status !== 'download' || !destinationData?.file) {
-    console.info('*** PDF generation notification received, but not for for download.', destinationData)
+    logger.info('*** PDF generation notification received, but not for for download.', destinationData)
     return
   }
   if (!destinationData?.file) {
-    console.info('*** PDF generation notification received, but carries no file information.', destinationData)
+    logger.info('*** PDF generation notification received, but carries no file information.', destinationData)
     return
   }
-  console.info('*** PDF download generation event received, updating downloads list', destinationData.file)
+  logger.info('*** PDF download generation event received, updating downloads list', destinationData.file)
   const pdfFile = destinationData.file
   const pdfFilePath = pdfFile.path // undefined for removal notification
   const pdfFileId = pdfFile.fileid
   const downloadsIndex = downloads.value.findIndex((file) => file.fileid === pdfFileId)
   if (downloadsIndex === -1 && pdfFilePath) {
-    console.info('*** Adding file to list of available downloads.', pdfFile)
+    logger.info('*** Adding file to list of available downloads.', pdfFile)
     downloads.value.push(destinationData.file)
   } else if (downloadsIndex >= 0 && !pdfFilePath) {
-    console.info('*** Removing file from list of available downloads.', pdfFile)
+    logger.info('*** Removing file from list of available downloads.', pdfFile)
     downloads.value.splice(downloadsIndex, 1)
   }
 })

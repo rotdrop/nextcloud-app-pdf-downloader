@@ -30,13 +30,14 @@ import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dial
 import getInitialState from './toolkit/util/initial-state.ts';
 import { isAxiosErrorResponse } from './toolkit/types/axios-type-guards.ts';
 import logoSvg from '../img/app.svg?raw';
+import logger from './logger.ts';
 import type { InitialState } from './types/initial-state.d.ts';
 
 require('./webpack-setup.ts');
 
 const initialState = getInitialState<InitialState>();
 
-console.info('INITIAL STATE PDF DOWNLOADER', initialState);
+logger.info('INITIAL STATE PDF DOWNLOADER', initialState);
 
 const mimeTypes: Array<string> = [
   'httpd/unix-directory',
@@ -46,7 +47,7 @@ if (!initialState?.individualFileConversion
     && initialState?.extractArchiveFiles
     && initialState?.extractArchiveFilesAdmin) {
       mimeTypes.splice(0, 0, ...(initialState?.archiveMimeTypes || []));
-  console.info('MIME TYPES', mimeTypes);
+  logger.info('MIME TYPES', mimeTypes);
 }
 
 subscribe('notifications:notification:received', (event: NotificationEvent) => {
@@ -58,11 +59,11 @@ subscribe('notifications:notification:received', (event: NotificationEvent) => {
     return;
   }
   if (destinationData.status !== 'filesystem') {
-    console.info('*** PDF generation notification received, but not for cloud filesystem.');
+    logger.info('*** PDF generation notification received, but not for cloud filesystem.');
     return;
   }
   if (!destinationData.file) {
-    console.info('*** PDF generation notification received, but carries no file information.');
+    logger.info('*** PDF generation notification received, but carries no file information.');
     return;
   }
   const node = fileInfoToNode(destinationData.file);
@@ -106,7 +107,7 @@ registerFileAction(new FileAction({
           sourceFile: node.path,
         }));
       } catch (e) {
-        console.error('ERROR', e);
+        logger.error('ERROR', e);
         let message = t(appName, 'reason unknown');
         if (isAxiosErrorResponse(e) && e.response.data) {
           const responseData = e.response.data as { messages?: string[] };
