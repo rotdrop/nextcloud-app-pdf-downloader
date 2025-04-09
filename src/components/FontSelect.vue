@@ -155,19 +155,27 @@ const fontInfoPopup = (fontOption: FontDescriptor|any, sampleUri: string) => {
   }
 }
 
+interface FontSampleOptions {
+  text?: string,
+  fontSize?: number,
+  textColor?: string,
+  format?: string,
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getFontSampleUri = (fontObject: FontDescriptor|any) => {
-  const fontSampleSize = props.fontSampleSize
-  const fontSampleColor = props.fontSampleColor
-  const fontSampleFormat = props.fontSampleFormat
+const getFontSampleUri = (fontObject: FontDescriptor|any, options?: FontSampleOptions) => {
+  const text = encodeURIComponent(options?.text || props.fontSampleText)
+  const fontSize = options?.fontSize || props.fontSampleSize
+  const textColor = options?.textColor || props.fontSampleColor
+  const format = options?.format || props.fontSampleFormat
   return generateAppUrl(
     'sample/font/{text}/{font}/{fontSize}', {
-      text: encodeURIComponent(fontSampleText),
-      font: encodeURIComponent(fontObject.family),
-      fontSize: fontSampleSize,
-      textColor: fontSampleColor,
-      format: fontSampleFormat,
+      text,
+      fontSize,
+      textColor,
+      format,
       output: 'blob',
+      font: encodeURIComponent(fontObject.family),
       hash: fontObject.fontHash,
     },
   )
@@ -272,7 +280,7 @@ if (props.value) {
       flex-shrink:0;
       input.font-size {
         margin: 0 3px;
-        height: 44px!important; // in order to have the same height as the select
+        height: var(--default-clickable-area); // probably no longer necessary
         width: 3em;
         direction:rtl;
       }
