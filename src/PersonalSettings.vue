@@ -44,7 +44,7 @@
                  :disabled="loading > 0"
                  @submit="(value) => { settings.pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
       >
-        <template #hint>
+        <!-- <template #hint>
           <div class="template-example-container flex-container flex-baseline">
             <span class="template-example-caption">
               {{ t(appName, 'Given Filename Example') }}:
@@ -76,8 +76,41 @@
               {{ pageLabelTemplateExample }}
             </span>
           </div>
-        </template>
+        </template> -->
       </TextField>
+      <div v-show="settings.pageLabels" class="page-label-hints">
+        <div class="template-example-container flex-container flex-baseline">
+          <span class="template-example-caption">
+            {{ t(appName, 'Given Filename Example') }}:
+          </span>
+          <span class="template-example-file-path">
+            {{ settings.exampleFilePath }}
+          </span>
+        </div>
+        <div class="template-example-container flex-container flex-center">
+          <span class="template-example-caption">
+            {{ t(appName, 'Generated Label') }}
+          </span>
+          <span v-if="pageLabelTemplateFontSampleUri !== ''" class="template-example-caption">
+            {{ t(appName, 'as Image') }}:
+          </span>
+          <span :class="['template-example-rendered', { 'set-minimum-height': !!settings.pageLabelPageWidthFraction }]"
+                :style="{ 'background-color': settings.pageLabelBackgroundColor }"
+          >
+            <img :src="pageLabelTemplateFontSampleUri"
+                 :style="{ filter: pageLabelTemplateFontSampleFilter }"
+            >
+          </span>
+          <span v-if="pageLabelTemplateExample !== ''" class="template-example-caption">
+            {{ t(appName, 'as Text') }}:
+          </span>
+          <span class="template-example-plain-text"
+                :style="{ 'background-color': settings.pageLabelBackgroundColor, 'color': settings.pageLabelTextColor, 'font-style': 'normal' }"
+          >
+            {{ pageLabelTemplateExample }}
+          </span>
+        </div>
+      </div>
       <div v-show="settings.pageLabels" class="horizontal-rule" />
       <div v-show="settings.pageLabels" class="page-label-colors flex-container flex-center">
         <div class="label">
@@ -275,8 +308,7 @@
       <div class="horizontal-rule" />
       <!-- Here we should use the ordinary file-picker, the prefix picker does not make any sense here. -->
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
-                        :hint="t(appName, `Optionally choose a default destination folder in the
-cloud. If left blank PDFs will be generated in the current directory.`)"
+                        :hint="t(appName, 'Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory.')"
                         :only-dir-name="true"
       />
       <div class="horizontal-rule" />
@@ -395,7 +427,6 @@ import ColorPicker from '@rotdrop/nextcloud-vue-components/lib/components/ColorP
 import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import FontSelect from './components/FontSelect.vue'
 import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
-import fontSampleText from './toolkit/util/pangram.ts'
 import getInitialState from './toolkit/util/initial-state.ts'
 import {
   showError,
@@ -413,6 +444,7 @@ import {
   saveConfirmedSetting,
   saveSimpleSetting,
 } from './toolkit/util/settings-sync.ts'
+import logger from './logger.ts'
 import type { FontDescriptor } from './model/fonts.d.ts'
 // import type { AxiosResponse } from 'axios'
 
@@ -445,9 +477,6 @@ const settings = reactive({
   patternTestString: null as null|string,
   //
   fontSamples: [] as string[],
-  // TRANSLATORS: This should be a pangram (see https://en.wikipedia.org/wiki/Pangram) in the target language.
-  fontSampleText,
-  //
   //
   generateErrorPages: true,
   generatedPagesFont: '',
@@ -517,6 +546,67 @@ const l10nStrings = {
 const pageLabelTextColorPicker = ref<null|typeof ColorPicker>(null)
 const pageLabelBackgroundColorPicker = ref<null|typeof ColorPicker>(null)
 
+const fetchPageLabelTemplateExample = async () => {
+  try {
+    const response = await axios.get<{ pageLabel: string }>(generateAppUrl(
+      'sample/page-label/{template}/{path}/{pageNumber}/{totalPages}', {
+        template: encodeURIComponent(settings.pageLabelTemplate),
+        path: encodeURIComponent(settings.exampleFilePath),
+        dirPageNumber: 13,
+        dirTotalPages: 197,
+        filePageNumber: 3,
+        fileTotalPages: 17,
+      }))
+    pageLabelTemplateExample.value = response.data.pageLabel
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    logger.info('RESPONSE', e)
+    let message = t(appName, 'reason unknown')
+    if (e.response && e.response.data) {
+      const responseData = e.response.data
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    showError(t(appName, 'Unable to obtain page label template example: {message}', {
+      message,
+    }))
+    // can't help, just return the unsubstituted template
+    pageLabelTemplateExample.value = settings.pageLabelTemplate
+  }
+}
+
+const exampleFilePathParent = computed(() => {
+  const pathInfo = pathParse(settings.exampleFilePath || '')
+  return pathInfo.dir + '/'
+})
+
+const fetchPdfFileNameTemplateExample = async () => {
+  try {
+    const response = await axios.get(generateAppUrl(
+      'sample/pdf-filename/{template}/{path}', {
+        template: encodeURIComponent(settings.pdfFileNameTemplate),
+        path: encodeURIComponent(exampleFilePathParent.value),
+      }))
+    pdfFileNameTemplateExample.value = response.data.pdfFileName
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    logger.info('RESPONSE', e)
+    let message = t(appName, 'reason unknown')
+    if (e.response && e.response.data) {
+      const responseData = e.response.data
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    showError(t(appName, 'Unable to obtain the PDF file template example: {message}', {
+      message,
+    }))
+    // can't help, just return the unsubstituted template
+    pdfFileNameTemplateExample.value = settings.pdfFileNameTemplate
+  }
+}
+
 const getData = async () => {
   // slurp in all personal settings
   ++loading.value
@@ -531,7 +621,7 @@ const getData = async () => {
   ++loading.value
   const fontsPromise = axios.get(generateAppUrl('fonts'))
   fontsPromise.catch((e) => {
-    console.info('RESPONSE', e)
+    logger.info('RESPONSE', e)
     let message = t(appName, 'reason unknown')
     if (e.response && e.response.data) {
       const responseData = e.response.data
@@ -613,7 +703,7 @@ const saveTextInput = async (settingsKey: string, value?: any, force?: boolean) 
   }
   if (loading.value > 0) {
     // avoid ping-pong by reactivity
-    console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
+    logger.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey, value)
     return
   }
   return saveConfirmedSetting({ value, section: 'personal', settingsKey, force, onSuccess: updatePatternTestResult, settings })
@@ -622,7 +712,7 @@ const saveTextInput = async (settingsKey: string, value?: any, force?: boolean) 
 const saveSetting = async (settingsKey: string) => {
   if (loading.value > 0) {
     // avoid ping-pong by reactivity
-    console.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey)
+    logger.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey)
     return
   }
   return saveSimpleSetting({ settingsKey, section: 'personal', onSuccess: updatePatternTestResult, settings })
@@ -654,62 +744,6 @@ const fontObjectWatcher = (fontType: string, newValue?: FontDescriptor, oldValue
   }
 }
 
-const fetchPageLabelTemplateExample = async () => {
-  try {
-    const response = await axios.get<{ pageLabel: string }>(generateAppUrl(
-      'sample/page-label/{template}/{path}/{pageNumber}/{totalPages}', {
-        template: encodeURIComponent(settings.pageLabelTemplate),
-        path: encodeURIComponent(settings.exampleFilePath),
-        dirPageNumber: 13,
-        dirTotalPages: 197,
-        filePageNumber: 3,
-        fileTotalPages: 17,
-      }))
-    pageLabelTemplateExample.value = response.data.pageLabel
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    console.info('RESPONSE', e)
-    let message = t(appName, 'reason unknown')
-    if (e.response && e.response.data) {
-      const responseData = e.response.data
-      if (Array.isArray(responseData.messages)) {
-        message = responseData.messages.join(' ')
-      }
-    }
-    showError(t(appName, 'Unable to obtain page label template example: {message}', {
-      message,
-    }))
-    // can't help, just return the unsubstituted template
-    pageLabelTemplateExample.value = settings.pageLabelTemplate
-  }
-}
-
-const fetchPdfFileNameTemplateExample = async () => {
-  try {
-    const response = await axios.get(generateAppUrl(
-      'sample/pdf-filename/{template}/{path}', {
-        template: encodeURIComponent(settings.pdfFileNameTemplate),
-        path: encodeURIComponent(exampleFilePathParent.value),
-      }))
-    pdfFileNameTemplateExample.value = response.data.pdfFileName
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    console.info('RESPONSE', e)
-    let message = t(appName, 'reason unknown')
-    if (e.response && e.response.data) {
-      const responseData = e.response.data
-      if (Array.isArray(responseData.messages)) {
-        message = responseData.messages.join(' ')
-      }
-    }
-    showError(t(appName, 'Unable to obtain the PDF file template example: {message}', {
-      message,
-    }))
-    // can't help, just return the unsubstituted template
-    pdfFileNameTemplateExample.value = settings.pdfFileNameTemplate
-  }
-}
-
 const pageLabelsFontSelect = ref<null|typeof FontSelect>(null)
 
 const pageLabelTemplateFontSampleUri = computed(() => {
@@ -733,11 +767,6 @@ const pageLabelTemplateFontSampleFilter = computed(() => {
 watch(pdfCloudFolderFileInfo, (value) => {
   settings.pdfCloudFolderPath = value.dirName
   saveTextInput('pdfCloudFolderPath')
-})
-
-const exampleFilePathParent = computed(() => {
-  const pathInfo = pathParse(settings.exampleFilePath || '')
-  return pathInfo.dir + '/'
 })
 
 const l10nPatternTestResult = computed(() => {
@@ -772,11 +801,11 @@ watch(() => settings.pdfFileNameTemplate, (_newValue, _oldValue) => {
 })
 
 watch(() => settings.pageLabelTextColor, (newValue, oldValue) => {
-  console.info('TEXT COLOR', newValue, oldValue)
+  logger.info('TEXT COLOR', newValue, oldValue)
 })
 
 watch(() => settings.pageLabelBackgroundColor, (newValue, oldValue) => {
-  console.info('BACKGROUND', newValue, oldValue)
+  logger.info('BACKGROUND', newValue, oldValue)
 })
 
 watch(() => settings.includePattern, (_newValue, _oldValue) => {
