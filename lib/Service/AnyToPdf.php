@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,18 +51,33 @@ class AnyToPdf
   const DEFAULT_FALLBACK_CONVERTER = 'unoconv';
 
   /**
-   * @var string Array of available converters per mime-type. These form a
-   * chain. If part of the chain is again an error then the first succeeding
-   * sub-converter wins.
+   * @var string Array of available converters per mime-type. The converters
+   * form a chain of alternatives. The first non-failing alternative wins in
+   * the given order.
    */
   const CONVERTERS = [
-    'message/rfc822' => [ 'mhonarc', [ 'wkhtmltopdf', self::FALLBACK, ], ],
-    'application/postscript' => [ 'ps2pdf', ],
-    'image/jpeg' => [ [ 'img2pdf', self::FALLBACK, ] ],
-    'image/tiff' => [ 'tiff2pdf' ],
-    'text/html' =>  [ [ 'wkhtmltopdf', self::FALLBACK, ], ],
-    'text/markdown' => [ 'pandoc', [ 'wkhtmltopdf', self::FALLBACK, ], ],
-    'application/pdf' => [ self::PASS_THROUGH ],
+    'message/rfc822' => [
+      [ [ 'mhonarc', ], [ 'pandoc:pdf', 'wkhtmltopdf', self::FALLBACK, ], ],
+    ],
+    'application/postscript' => [
+      [ [ 'ps2pdf', ], ],
+    ],
+    'image/jpeg' => [
+      [ [ 'img2pdf', self::FALLBACK, ], ],
+    ],
+    'image/tiff' => [
+      [ [ 'tiff2pdf', ], ],
+    ],
+    'text/html' => [
+      [ [ 'pandoc:pdf', 'wkhtmltopdf', self::FALLBACK, ], ],
+    ],
+    'text/markdown' => [
+      [ [ 'pandoc:pdf', ], ],
+      [ [ 'pandoc:html', ], [ 'pandoc:pdf', 'wkhtmltopdf', self::FALLBACK, ], ],
+    ],
+    'application/pdf' => [
+      [ [ self::PASS_THROUGH, ], ],
+    ]
   ];
 
   /**
@@ -232,35 +247,41 @@ class AnyToPdf
     if ($this->builtinConvertersDisabled) {
       return $result;
     }
-    foreach (self::CONVERTERS as $mimeType => $converterChain) {
-      $result[$mimeType] = [];
-      foreach ($converterChain as $converters) {
-        if (!is_array($converters)) {
-          $converters = [ $converters ];
+    $result = [];
+    foreach (self::CONVERTERS as $mimeType => $chainAlternatives) {
+      foreach ($chainAlternatives as $converterChain) {
+        $probedChain = [];
+        foreach ($converterChain as $converters) {
+          $probedConverters = [];
+          foreach ($converters as $converter) {
+            if ($converter == self::PASS_THROUGH) {
+              // TRANSLATORS: This is actually just the name of the "converter"
+              // TRANSLATORS: which does "nothing", i.e. just copies the input
+              // TRANSLATORS: data unchanged to the output.
+              $probedConverters[$converter] = $this->l->t('pass through');
+              continue;
+            }
+            if ($converter == self::FALLBACK) {
+              $converter = $this->fallbackConverter;
+            }
+            list($programName,) = explode(':', $converter);
+            try {
+              $executable = $this->executableFinder->find($programName, force: true);
+            } catch (Exceptions\EnduserNotificationException $e) {
+              $this->logException($e);
+              $executable = null;
+            }
+            if (empty($executable)) {
+              $executable = $this->l->t('not found');
+            }
+            $probedConverters[$converter] = $executable;
+          }
+          $probedChain[] = $probedConverters;
         }
-        $probedConverters = [];
-        foreach ($converters as $converter) {
-          if ($converter == self::PASS_THROUGH) {
-            // TRANSLATORS: This is actually just the name of the "converter"
-            // TRANSLATORS: which does "nothing", i.e. just copies the input
-            // TRANSLATORS: data unchanged to the output.
-            $probedConverters[$converter] = $this->l->t('pass through');
-            continue;
-          }
-          if ($converter == self::FALLBACK) {
-            $converter = $this->fallbackConverter;
-          }
-          try {
-            $executable = $this->executableFinder->find($converter, force: true);
-          } catch (Exceptions\EnduserNotificationException $e) {
-            $this->logException($e);
-          }
-          if (empty($executable)) {
-            $executable = $this->l->t('not found');
-          }
-          $probedConverters[$converter] = $executable;
-        }
-        $result[$mimeType][] = $probedConverters;
+        $result[] = [
+          'mimeType' => $mimeType,
+          'chain' => $probedChain,
+        ];
       }
     }
     try {
@@ -271,7 +292,10 @@ class AnyToPdf
     if (empty($executable)) {
       $executable = $this->l->t('not found');
     }
-    $result[self::FALLBACK] = [ [ $this->fallbackConverter => $executable ] ];
+    $result[] = [
+      'mimeType' => self::FALLBACK,
+      'chain' => [ [ $this->fallbackConverter => $executable ], ],
+    ];
     return $result;
   }
 
@@ -308,40 +332,48 @@ class AnyToPdf
       }
     }
 
-    $converters = self::CONVERTERS[$mimeType] ?? [ self::FALLBACK ];
+    $chains = self::CONVERTERS[$mimeType] ?? [ [ [ self::FALLBACK, ], ], ];
 
-    foreach ($converters as $converter) {
-      if (!is_array($converter)) {
-        $converter = [ $converter ];
-      }
-
-      $convertedData = null;
-      foreach ($converter as $tryConverter) {
-        if ($tryConverter == self::FALLBACK) {
-          $tryConverter = $this->fallbackConverter;
-        } elseif ($tryConverter == self::PASS_THROUGH) {
-          $tryConverter = 'passThrough';
-        }
-        try {
-          $method = $tryConverter . 'Convert';
-          if (method_exists($this, $method)) {
-            $convertedData = $this->$method($data);
-          } else {
-            $convertedData = $this->genericConvert($data, $mimeType, $tryConverter);
+    $originalData = $data;
+    foreach ($chains as $chain) {
+      foreach ($chain as $subStep) {
+        $convertedData = null;
+        foreach ($subStep as $tryConverter) {
+          if ($tryConverter == self::FALLBACK) {
+            $tryConverter = $this->fallbackConverter;
+          } elseif ($tryConverter == self::PASS_THROUGH) {
+            $tryConverter = 'passThrough';
           }
-          break;
-        } catch (Throwable $t) {
-          $this->logException($t, 'Ignoring failed converter ' . $tryConverter);
+          $tryConverter = lcfirst(implode(array_map(fn($part) => ucfirst($part), explode(':', $tryConverter))));
+          try {
+            $method = $tryConverter . 'Convert';
+            if (method_exists($this, $method)) {
+              $convertedData = $this->$method($data);
+            } else {
+              $convertedData = $this->genericConvert($data, $mimeType, $tryConverter);
+            }
+            break;
+          } catch (Throwable $t) {
+            $this->logException($t, 'Failed converter ' . $tryConverter);
+            $convertedData = null;
+          }
         }
+        if (empty($convertedData)) {
+          $this->logError('Converter chain substep for ' . $mimeType . ' has failed: ' . print_r($subStep, true));
+          $data = $originalData;
+          break; // no chance to continue, but perhaps there is an alternative
+        }
+        $data = $convertedData;
       }
-      if (empty($convertedData)) {
-        throw new RuntimeException(
-          $this->l->t('Converter "%1$s" has failed trying to convert MIME type "%2$s"', [
-            print_r($converter, true), $mimeType,
-          ]));
+      if (!empty($convertedData)) {
+        break;
       }
-      $data = $convertedData;
-      $convertedData = null;
+    }
+    if (empty($convertedData)) {
+      throw new RuntimeException(
+        $this->l->t('Converter "%1$s" has failed trying to convert MIME type "%2$s"', [
+          print_r($chains, true), $mimeType,
+        ]));
     }
 
     return $data;
@@ -508,15 +540,40 @@ m2h_text_plain::filter; nonfixed
    *
    * @return string Converted-to-PDF data.
    */
-  protected function pandocConvert(string $data):string
+  protected function pandocPdfConvert(string $data):string
+  {
+    return $this->pandocConvert($data, [ '-t', 'pdf', '-V', 'geometry:a4paper,margin=2cm' ]);
+  }
+
+  /**
+   * Convert to html using pandoc
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function pandocHtmlConvert(string $data):string
+  {
+    return $this->pandocConvert($data, ['-t', 'html' ]);
+  }
+
+  /**
+   * Convert to html using pandoc
+   *
+   * @param string $data Original data.
+   *
+   * @param array $options
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function pandocConvert(string $data, array $options):string
   {
     $converterName = 'pandoc';
     $converter = $this->findExecutable($converterName);
-    $process = new Process([
+    $process = new Process(array_merge([
       $converter,
-      '-t', 'html',
       '-s',
-    ]);
+    ], $options));
     $process->setInput($data)->run();
     return $process->getOutput();
   }

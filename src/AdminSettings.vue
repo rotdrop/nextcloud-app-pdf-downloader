@@ -168,19 +168,20 @@
       <div class="converter-status">
         <div><label>{{ t(appName, 'Status of the configured Converters') }}</label></div>
         <ul>
-          <ListItem v-for="(value, mimeType) in settings.converters"
-                    :key="mimeType"
-                    :name="mimeType"
-                    :details="value.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
+          <ListItem v-for="(chainAlternative, chainIndex) in settings.converters"
+                    :key="chainIndex"
+                    class="mime-type"
+                    :name="chainAlternative.mimeType"
+                    :details="chainAlternative.chain.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
                     :bold="true"
           >
             <template #subname>
               <ul>
-                <ListItem v-for="(items, index) in value"
+                <ListItem v-for="(items, index) in chainAlternative.chain"
                           :key="index"
                           :name="Object.values(items).length > 1 ? t(appName, 'alternatives') : t(appName, 'converter')"
-                          :show-counter="value.length > 1"
-                          :counter-number="value.length > 1 ? index + 1 : 0"
+                          :show-counter="chainAlternative.chain.length > 1"
+                          :counter-number="chainAlternative.chain.length > 1 ? index + 1 : 0"
                 >
                   <template #subname>
                     <ListItem v-for="(executable, converter) in items"
@@ -265,7 +266,6 @@ const tooltips = computed(() => ({
 // slurp in all settings
 const getData = async () => {
   return fetchSettings({ section: 'admin', settings }).finally(() => {
-    console.info('THIS', this)
     loading.value = false
   })
 }
@@ -362,6 +362,9 @@ const removeAuthenticatedFolder = async (folder: string) => {
   :deep(.converter-status) {
     .list-item__anchor {
       height: auto;
+    }
+    .mime-type .list-item-content__details {
+      justify-content: start;
     }
   }
 }
