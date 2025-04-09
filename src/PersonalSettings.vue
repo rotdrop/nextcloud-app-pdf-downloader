@@ -43,41 +43,7 @@
                  :label="t(appName, 'Template for the page labels')"
                  :disabled="loading > 0"
                  @submit="(value) => { settings.pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
-      >
-        <!-- <template #hint>
-          <div class="template-example-container flex-container flex-baseline">
-            <span class="template-example-caption">
-              {{ t(appName, 'Given Filename Example') }}:
-            </span>
-            <span class="template-example-file-path">
-              {{ settings.exampleFilePath }}
-            </span>
-          </div>
-          <div class="template-example-container flex-container flex-center">
-            <span class="template-example-caption">
-              {{ t(appName, 'Generated Label') }}
-            </span>
-            <span v-if="pageLabelTemplateFontSampleUri !== ''" class="template-example-caption">
-              {{ t(appName, 'as Image') }}:
-            </span>
-            <span :class="['template-example-rendered', { 'set-minimum-height': !!settings.pageLabelPageWidthFraction }]"
-                  :style="{ 'background-color': settings.pageLabelBackgroundColor }"
-            >
-              <img :src="pageLabelTemplateFontSampleUri"
-                   :style="{ filter: pageLabelTemplateFontSampleFilter }"
-              >
-            </span>
-            <span v-if="pageLabelTemplateExample !== ''" class="template-example-caption">
-              {{ t(appName, 'as Text') }}:
-            </span>
-            <span class="template-example-plain-text"
-                  :style="{ 'background-color': settings.pageLabelBackgroundColor, 'color': settings.pageLabelTextColor, 'font-style': 'normal' }"
-            >
-              {{ pageLabelTemplateExample }}
-            </span>
-          </div>
-        </template> -->
-      </TextField>
+      />
       <div v-show="settings.pageLabels" class="page-label-hints">
         <div class="template-example-container flex-container flex-baseline">
           <span class="template-example-caption">
@@ -117,24 +83,26 @@
           {{ t(appName, 'Page label colors') }}:
         </div>
         <ColorPicker ref="pageLabelTextColorPicker"
-                     v-model="settings.pageLabelTextColor"
+                     :value.sync="settings.pageLabelTextColor"
                      :label="t(appName, 'Text')"
                      :color-palette="settings.pageLabelTextColorPalette"
-                     @update="saveSetting('pageLabelTextColor')"
+                     :advanced-fields="true"
+                     @submit="saveSetting('pageLabelTextColor')"
                      @update:color-palette="(palette) => { settings.pageLabelTextColorPalette = palette; saveSetting('pageLabelTextColorPalette'); }"
         />
         <ColorPicker ref="pageLabelBackgroundColorPicker"
-                     v-model="settings.pageLabelBackgroundColor"
+                     :value.sync="settings.pageLabelBackgroundColor"
                      :label="t(appName, 'Background')"
                      :color-palette="settings.pageLabelBackgroundColorPalette"
-                     @update="saveSetting('pageLabelBackgroundColor')"
+                     :advanced-fields="true"
+                     @submit="saveSetting('pageLabelBackgroundColor')"
                      @update:color-palette="(palette) => { settings.pageLabelBackgroundColorPalette = palette; saveSetting('pageLabelBackgroundColorPalette'); }"
         />
       </div>
       <div v-show="settings.pageLabels" class="horizontal-rule" />
       <TextField :value.sync="settings.pageLabelPageWidthFraction"
                  :label="t(appName, 'Page label width fraction')"
-                 :hint="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
+                 :helper-text="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
                  :disabled="loading > 0 || !settings.pageLabels"
                  type="number"
                  :placeholder="t(appName, 'e.g. 0.4')"
@@ -341,7 +309,7 @@
       <div class="horizontal-rule" />
       <TextField :value.sync="settings.humanDownloadsPurgeTimeout"
                  :label="t(appName, 'Purge Timeout')"
-                 :hint="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
+                 :helper-text="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
                  :disabled="loading > 0"
                  @submit="(value) => saveTextInput('downloadsPurgeTimeout', value)"
       />
@@ -366,7 +334,7 @@
       <TextField v-show="settings.extractArchiveFiles && settings.extractArchiveFilesAdmin"
                  :value.sync="settings.humanArchiveSizeLimit"
                  :label="t(appName, 'Archive Size Limit')"
-                 :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+                 :helper-text="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
                  :disabled="loading > 0 || !settings.extractArchiveFiles || !settings.extractArchiveFilesAdmin"
                  @submit="(value) => saveTextInput('archiveSizeLimit', value)"
       />
@@ -499,6 +467,14 @@ const settings = reactive({
   exampleFilePath: t(appName, 'invoices/2022/october/invoice.fodt'),
   //
   pdfCloudFolderPath: undefined as undefined|string,
+})
+
+watch(() => settings.pageLabelTextColor, (value, oldValue) => {
+  logger.info('PAGE LABEL TEXT COLOR', { value, oldValue })
+})
+
+watch(() => settings.pageLabelBackgroundColor, (value, oldValue) => {
+  logger.info('PAGE LABEL BG COLOR', { value, oldValue })
 })
 
 const oldSettings: {
