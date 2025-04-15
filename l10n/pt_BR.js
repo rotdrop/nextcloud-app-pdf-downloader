@@ -194,7 +194,7 @@ OC.L10N.register(
     "Move" : "Mover",
     "Download of {fileName} failed: {message}." : "Falha no download de {fileName}: {message}.",
     "Download of {fileName} failed." : "Falha no download de {fileName}.",
-    "Unable to delete the cached PDF file: {message}" : "Não foi possível deletar o cache do arquivo pdf: {message}",
+    "Unable to delete the cached PDF file: {message}" : "Não é possível excluir o arquivo PDF armazenado em cache: {message}",
     "Background PDF generation for {sourceFile} has been scheduled." : "A geração de PDF em segundo plano para  {sourceFile} foi agendado.",
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "Não foi possível agendar a geração de arquivo em segundo plano para {sourceFile}: {message}",
     "Download of generated PDF failed: {message}." : "Falha no download do PDF gerado: {message}.",
