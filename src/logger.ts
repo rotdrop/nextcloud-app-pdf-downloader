@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Console from  './toolkit/util/console.ts';
+import Console from './toolkit/util/console.ts';
 
 const logger = new Console('PDFDownloader');
 

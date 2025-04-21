@@ -46,7 +46,7 @@ const mimeTypes: Array<string> = [
 if (!initialState?.individualFileConversion
     && initialState?.extractArchiveFiles
     && initialState?.extractArchiveFilesAdmin) {
-      mimeTypes.splice(0, 0, ...(initialState?.archiveMimeTypes || []));
+  mimeTypes.splice(0, 0, ...(initialState?.archiveMimeTypes || []));
   logger.info('MIME TYPES', mimeTypes);
 }
 
@@ -127,7 +127,7 @@ registerFileAction(new FileAction({
       try {
         await fileDownload(url);
       } catch (e) {
-        let message = ''
+        let message = '';
         if (isAxiosErrorResponse(e) && e.response.data) {
           const responseData = e.response.data as { messages?: string[] };
           if (Array.isArray(responseData.messages)) {

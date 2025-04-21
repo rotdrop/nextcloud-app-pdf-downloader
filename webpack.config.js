@@ -1,10 +1,12 @@
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CssoWebpackPlugin = require('csso-webpack-plugin').default;
 const DeadCodePlugin = require('webpack-deadcode-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Visualizer = require('webpack-visualizer-plugin2');
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const webpackConfig = require('@nextcloud/webpack-vue-config');
@@ -39,14 +41,39 @@ webpackConfig.output = {
   compareBeforeEmit: true, // true would break the Makefile
 };
 
+const svgoOptions = {
+  multipass: true,
+  js2svg: {
+    indent: 2,
+    pretty: true,
+  },
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          // viewBox is required to resize SVGs with CSS.
+          // @see https://github.com/svg/svgo/issues/1128
+          removeViewBox: false,
+        },
+      },
+    },
+  ],
+};
+
 webpackConfig.plugins = webpackConfig.plugins.concat([
   new webpack.DefinePlugin({
     APP_NAME: JSON.stringify(appName),
   }),
   new ESLintPlugin({
-    extensions: ['js', 'vue'],
+    extensions: [
+      'js',
+      'ts',
+      'vue',
+    ],
     exclude: [
       'node_modules',
+      'src/toolkit/util/jquery.js',
     ],
   }),
   new HtmlWebpackPlugin({
@@ -58,11 +85,7 @@ webpackConfig.plugins = webpackConfig.plugins.concat([
     },
   }),
   new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery',
-    jquery: 'jquery',
-    'window.$': 'jquery',
-    'window.jQuery': 'jquery',
+    // $: 'jquery',
   }),
   new MiniCssExtractPlugin({
     filename: 'css/[name]-[contenthash].css',
@@ -71,7 +94,7 @@ webpackConfig.plugins = webpackConfig.plugins.concat([
     {
       pluginOutputPostfix: productionMode ? null : 'min',
     },
-    productionMode ? /\.css$/ : /^$/
+    productionMode ? /\.css$/ : /^$/,
   ),
   new DeadCodePlugin({
     patterns: [
@@ -80,13 +103,16 @@ webpackConfig.plugins = webpackConfig.plugins.concat([
     ],
     exclude: [
       // 'src/toolkit/**',
-      'src/toolkit/util/on-document-loaded.js',
-      'src/toolkit/util/ajax.js',
-      'src/toolkit/util/dialogs.js',
-      'src/toolkit/util/file-download.js',
-      'src/toolkit/util/jquery.js',
-      'src/toolkit/util/print-r.js',
     ],
+  }),
+  new BundleAnalyzerPlugin({
+    analyzerPort: 11111,
+    analyzerMode: 'static',
+    openAnalyzer: false,
+    reportFilename: './statistics/bundle-analyzer.html',
+  }),
+  new Visualizer({
+    filename: './statistics/visualizer-stats.html',
   }),
 ]);
 
@@ -130,31 +156,14 @@ webpackConfig.module.rules = [
   },
   {
     test: /\.svg$/i,
+    resourceQuery: /^$/,
     loader: 'svgo-loader',
     type: 'asset', // 'asset/resource',
     generator: {
       filename: './css/img/[name]-[hash][ext]',
       publicPath: '../',
     },
-    options: {
-      multipass: true,
-      js2svg: {
-        indent: 2,
-        pretty: true,
-      },
-      plugins: [
-        {
-          name: 'preset-default',
-          params: {
-            overrides: {
-              // viewBox is required to resize SVGs with CSS.
-              // @see https://github.com/svg/svgo/issues/1128
-              removeViewBox: false,
-            },
-          },
-        },
-      ],
-    },
+    options: svgoOptions,
   },
   {
     test: /\.vue$/,
@@ -214,25 +223,7 @@ webpackConfig.module.rules = [
     resourceQuery: /raw/,
     loader: 'svgo-loader',
     type: 'asset/source',
-    options: {
-      multipass: true,
-      js2svg: {
-        indent: 2,
-        pretty: true,
-      },
-      plugins: [
-        {
-          name: 'preset-default',
-          params: {
-            overrides: {
-              // viewBox is required to resize SVGs with CSS.
-              // @see https://github.com/svg/svgo/issues/1128
-              removeViewBox: false,
-            },
-          },
-        },
-      ],
-    },
+    options: svgoOptions,
   },
 ];
 

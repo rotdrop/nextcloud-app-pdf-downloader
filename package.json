@@ -53,6 +53,7 @@
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "content-disposition": "*",
     "csso-webpack-plugin": "^2.0.0-beta.3",
+    "deep-equal": "^2.2.3",
     "eslint-webpack-plugin": "^3.1.1",
     "hex-to-css-filter": "^5.4.0",
     "html-webpack-plugin": "^5.5.0",
@@ -71,7 +72,9 @@
     "vue": "^2.7.15",
     "vue-material-design-icons": "^5.1.2",
     "webpack": "*",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-deadcode-plugin": "^0.1.17",
+    "webpack-visualizer-plugin2": "^1.2.0",
     "xml-loader": "^1.2.1",
     "xml2js": "*"
   },
