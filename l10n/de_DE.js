@@ -31,7 +31,7 @@ OC.L10N.register(
     "Your folder {source} has been converted to a PDF file." : "Ihr Ordner {source} wurde in eine PDF-Datei konvertiert.",
     "Please visit the details tab of the source folder {source} to download the file, or just click on the following link. The name of the download is {destination}. The download file will be removed automatically after some time, this purge-time can be configured in our personal preferences for this app." : "Bitte gehen Sie zum Details-Tab des Quellordners {source}, um die Datei herunterzuladen, oder klicken Sie einfach auf den folgenden Link. Der Name des Downloads lautet {destination}. Die heruntergeladene Datei wird nach einiger Zeit automatisch entfernt. Diese Löschzeit kann in den persönlichen Einstellungen für diese App konfiguriert werden.",
     "Converting {source} to PDF has failed: {message}" : "Konvertieren von {source} in PDF ist fehlgeschlagen: {message}",
-    "Converting {source} to PDF has failed." : "Konvertieren von {source} in PDF ist fehlgeschlagen.",
+    "Converting {source} to PDF has failed." : "{source} konnte nicht in PDF konvertiert werden.",
     "irrelevant" : "Irrelevant",
     "The temporary download file {destination} has been removed. Its creation time was: {timespan}." : "Die temporäre Download-Datei {destination} wurde entfernt. Ihr Erstellungszeitpunkt war: {timespan}.",
     "not found" : "Nicht gefunden",
