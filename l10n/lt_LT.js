@@ -1,10 +1,16 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Nepavyko rasti failo ar aplanko.",
+    "Unable to open the destination folder \"%s\"." : "Nepavyko atverti paskirties aplanko „%s“.",
+    "PDF document saved as \"%s\"." : "PDF dokumentas įrašytas kaip „%s“.",
+    "PDF file \"%s\" has been deleted." : "PDF failas „%s“ ištrintas.",
     "not found" : "nerasta",
+    "Unable to create the parent folder \"%s\"." : "Nepavyko sukurti viršesnio aplanko „%s“.",
     "User" : "Naudotojas",
     "Password" : "Slaptažodis",
     "bytes" : "baitų",
+    "Custom Color" : "Tinkinta spalva",
     "reason unknown" : "priežastis nežinoma",
     "Decorations and Fonts" : "Dekoracijos ir šriftai",
     "Text" : "Tekstas",
@@ -14,6 +20,7 @@ OC.L10N.register(
     "Move to {target}" : "Perkelti į {target}",
     "Move" : "Perkelti",
     "Options" : "Parinktys",
+    "refresh" : "įkelti iš naujo",
     "Download PDF" : "Atsisiųsti PDF",
     "OK" : "Gerai",
     "Created" : "Sukurta",
@@ -31,6 +38,7 @@ OC.L10N.register(
     "No" : "Ne",
     "Debug Information" : "Derinimo informacija",
     "unknown error" : "nežinoma klaida",
-    "Unable to download data from \"{url}\": {message}" : "Nepavyko atsisiųsti duomenis iš „{url}“: {message}"
+    "Unable to download data from \"{url}\": {message}" : "Nepavyko atsisiųsti duomenis iš „{url}“: {message}",
+    "The quick brown fox jumps over the lazy dog." : "Įlinkusi fechtuotojo špaga blykčiodama gręžė apvalų arbūzą."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
