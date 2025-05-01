@@ -96,7 +96,7 @@ OC.L10N.register(
     "Selected path: \"{dir}/{base}/\"." : "Ausgewählter Datei-Pfad: \"{dir}/{base}\".",
     "Please select an item!" : "Bitte ein Element wählen!",
     "An empty value is not allowed, please make your choice!" : "Ein leerer Wert ist unzulässig, bitte treffen Sie Ihre Wahl!",
-    "Click to submit your changes." : "Klicken um Ihre Änderungen zu übermitteln.",
+    "Click to submit your changes." : "Klicken, um Ihre Änderungen zu übermitteln.",
     "Reset Changes" : "Änderungen zurücksetzen",
     "Clear Selection" : "Auswahl leeren",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Wenn Sie sich nicht sicher sind, lassen Sie dies deaktiviert. Die Aktivierung dieser Option führt zu einem zusätzlichen Durchsuchen des Verzeichnisses, bevor ein Hintergrundvorgang geplant wird. Wenn die Durchsuchung einen Einhängepunkt im Verzeichnis erkennt, der mit der Einhängeoption \"authentifiziert\" eingehängt wurde, werden Ihre Anmeldedaten vorübergehend in den Hintergrundjob hochgestuft. Dies wird hauptsächlich verwendet, um Sonderfälle zu behandeln, die nur den Autor dieses Pakets betreffen sollten. Lassen Sie die Option deaktiviert, es sei denn, Sie wissen wirklich, was sie bedeutet, und Sie wissen wirklich, dass Sie sie brauchen.",
