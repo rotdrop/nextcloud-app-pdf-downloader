@@ -12,7 +12,7 @@ OC.L10N.register(
     "Move" : "Pārvietot",
     "OK" : "Labi",
     "Created" : "Izveidots",
-    "Forbidden" : "Pieeja liegta",
+    "Forbidden" : "Aizliegts",
     "Not Found" : "Nav atrasts",
     "Conflict" : "Konflikts",
     "Internal Server Error" : "Iekšēja servera kļūda",
