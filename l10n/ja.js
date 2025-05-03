@@ -26,6 +26,7 @@ OC.L10N.register(
     "Error" : "エラー",
     "Yes" : "はい",
     "No" : "いいえ",
+    "unknown error" : "不明なエラー",
     "Confirmation Required" : "確認が必要"
 },
 "nplurals=1; plural=0;");
