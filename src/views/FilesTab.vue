@@ -455,6 +455,9 @@ const handleCacheFileSave = async (cacheId: number) => {
   let dir: string
   try {
     dir = await picker.pick()
+    if (Array.isArray(dir)) {
+      dir = dir[0]
+    }
     logger.info('PATH AND MODE', dir, mode)
   } catch (e) {
     return
