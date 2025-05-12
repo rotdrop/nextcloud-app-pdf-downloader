@@ -31,7 +31,7 @@ interface FilesTabVue extends Vue {
 
 Vue.mixin({ data() { return { appName }; }, methods: { t, n } });
 Vue.directive('tooltip', Tooltip);
-Vue.use(PiniaVuePlugin);
+// Vue.use(PiniaVuePlugin);
 
 const FilesTabVue = Vue.extend(FilesTab);
 // const pinia = createPinia();
