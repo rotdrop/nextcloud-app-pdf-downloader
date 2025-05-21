@@ -248,9 +248,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Non confermato, ripristino al precedente valore.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Valore impostato correttamente per \"{settingsKey}\" su \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "L'impostazione \"{setting}\" è stata annullata correttamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossibile impostare il valore per \"{settingsKey}\" su \"{value}\": {message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "Il carattere da utilizzare per le etichette della pagina: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "Il carattere da utilizzare per le pagine generate: {generatedPagesFont}",
-    "false" : "falso"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossibile impostare il valore per \"{settingsKey}\" su \"{value}\": {message}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

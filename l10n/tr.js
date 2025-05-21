@@ -319,9 +319,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Onaylanmadı. Eski değere geri dönülüyor.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\", \"{displayValue}\" değerine ayarlandı",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ayarı kaldırıldı.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}.",
-    "The font to use for the page labels: {pageLabelsFont}" : "Sayfa etiketleri için kullanılacak yazı tipi: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "Oluşturulan sayfalar için kullanılacak yazı tipi: {generatedPagesFont}",
-    "false" : "yanlış"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}."
 },
 "nplurals=2; plural=(n > 1);");

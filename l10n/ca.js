@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Sense confirmar, es torna al valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "S'ha establert correctament el valor de \"{settingsKey}\" a \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "La configuració \"{setting}\" s'ha desactivat correctament.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No s'ha pogut establir el valor de \"{settingsKey}\" a \"{value}\": {message}",
-    "false" : "fals"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No s'ha pogut establir el valor de \"{settingsKey}\" a \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");

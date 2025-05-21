@@ -60,7 +60,6 @@ OC.L10N.register(
     "Debug Information" : "调试信息",
     "true" : "真",
     "Confirmation Required" : "需要确认",
-    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。",
-    "false" : "假"
+    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。"
 },
 "nplurals=1; plural=0;");

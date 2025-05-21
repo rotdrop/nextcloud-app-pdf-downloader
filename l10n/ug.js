@@ -308,9 +308,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "جەزملەشتۈرۈلمىگەن ، كونا قىممەتكە قايتقان.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "مۇۋەپپەقىيەتلىك ھالدا \"{settingsKey}\" نىڭ قىممىتىنى \"{displayValue}\" قىلىپ بەلگىلەڭ.",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" نى تەڭشەش ئوڭۇشلۇق بولمىدى.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "بەت بەلگىسىگە ئىشلىتىدىغان خەت نۇسخىسى: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "ھاسىل قىلىنغان بەتلەرگە ئىشلىتىدىغان خەت نۇسخىسى: {generatedPagesFont}",
-    "false" : "false"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}"
 },
 "nplurals=2; plural=(n != 1);");

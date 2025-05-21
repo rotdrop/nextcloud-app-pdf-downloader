@@ -21,7 +21,6 @@ OC.L10N.register(
     "No" : "Uhu",
     "unknown error" : "Agul mačči d aḍahri",
     "true" : "idetti",
-    "Confirmation Required" : "Asentem ilaq",
-    "false" : "ucciḍ"
+    "Confirmation Required" : "Asentem ilaq"
 },
 "nplurals=2; plural=(n != 1);");

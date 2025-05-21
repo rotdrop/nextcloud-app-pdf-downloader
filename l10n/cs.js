@@ -319,9 +319,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Nepotvrzeno – vrací se na původní hodnotu.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Úspěšně nastavena hodnota pro „{settingsKey}“ na „{displayValue}",
     "Setting \"{setting}\" has been unset successfully." : "Nastavení „{setting}“ bylo úspěšně zrušeno.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nedaří se nastavit hodnotu pro „{settingsKey}“ na „{value}“: {message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "Písmo pro popisky stránek: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "Písmo které použít pro vytvářené stránky: {generatedPagesFont}",
-    "false" : "nepravda"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nedaří se nastavit hodnotu pro „{settingsKey}“ na „{value}“: {message}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

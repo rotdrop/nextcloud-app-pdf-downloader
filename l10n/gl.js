@@ -311,9 +311,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Sen confirmar, revertendo ao valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Definiuse correctamente o valor para «{settingsKey}» a «{displayValue}»",
     "Setting \"{setting}\" has been unset successfully." : "O axuste «{setting}» foi desactivado correctamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "O tipo de letra a usar para as etiquetas da páxina: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "O tipo de letra a usar nas páxinas xeradas: {generatedPagesFont}",
-    "false" : "falso"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}"
 },
 "nplurals=2; plural=(n != 1);");

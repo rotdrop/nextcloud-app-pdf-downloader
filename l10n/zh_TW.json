@@ -317,9 +317,6 @@
     "Unconfirmed, reverting to old value." : "未確認，還原至舊值。",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "成功設定「{settingsKey}」的值為「{displayValue}」",
     "Setting \"{setting}\" has been unset successfully." : "設定「{setting}」已成功取消設定。",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "無法將「{settingsKey}」的值設定為「{value}」：{message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "用於頁面註釋的字型：{pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "用於產生頁面的字型：{generatedPagesFont}",
-    "false" : "false"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "無法將「{settingsKey}」的值設定為「{value}」：{message}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

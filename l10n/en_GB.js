@@ -319,9 +319,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Unconfirmed, reverting to old value.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Setting \"{setting}\" has been unset successfully.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \"{settingsKey}\" to \"{value}\": {message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "The font to use for the page labels: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "The font to use for generated pages: {generatedPagesFont}",
-    "false" : "false"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");
