@@ -319,9 +319,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Ubekræftet, tilbagefører til gammel værdi.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Værdi for \"{settingsKey}\" sat til \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Indstillingen \"{setting}\" er blevet ikke-markeret med succes.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kunne ikke sætte værdi for \"{settingsKey}\" til \"{value}\": {message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "Fonten der skal anvendes til sidelabels: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "Fonten der skal anvendes til genererede sider: {generatedPagesFont}",
-    "false" : "falsk"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kunne ikke sætte værdi for \"{settingsKey}\" til \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");

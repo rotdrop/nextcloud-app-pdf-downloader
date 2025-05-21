@@ -309,9 +309,6 @@
     "Unconfirmed, reverting to old value." : "Ubekreftet, går tilbake til gammel verdi.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Angi verdien for \"{settingsKey}\" til \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Innstillingen {setting} er opphevet.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kan ikke sette verdien for \"{settingsKey}\" til \"{value}\": {message}",
-    "The font to use for the page labels: {pageLabelsFont}" : "Skriften som skal brukes for sideetikettene: {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "Skriften som skal brukes for genererte sider: {generatedPagesFont}",
-    "false" : "falsk"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kan ikke sette verdien for \"{settingsKey}\" til \"{value}\": {message}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

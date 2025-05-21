@@ -39,7 +39,6 @@ OC.L10N.register(
     "Yes" : "Sí",
     "No" : "Non",
     "unknown error" : "error desconocíu",
-    "true" : "true",
-    "false" : "false"
+    "true" : "true"
 },
 "nplurals=2; plural=(n != 1);");

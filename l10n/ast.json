@@ -37,7 +37,6 @@
     "Yes" : "Sí",
     "No" : "Non",
     "unknown error" : "error desconocíu",
-    "true" : "true",
-    "false" : "false"
+    "true" : "true"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

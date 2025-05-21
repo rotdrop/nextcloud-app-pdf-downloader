@@ -311,9 +311,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Non confirmé, remis à sa valeur initiale.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Le paramètre \"{settingsKey}\" a maintenant comme valeur {value}.",
     "Setting \"{setting}\" has been unset successfully." : "Le paramètre \"{setting}\" a été désactivé avec succès.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossible de donner au paramètre \"{settingsKey}\" la valeur {value}: {message}.",
-    "The font to use for the page labels: {pageLabelsFont}" : "Police utilisée pour le marquage des pages : {pageLabelsFont}",
-    "The font to use for generated pages: {generatedPagesFont}" : "Police utilisée pour les pages générées : {genratedPagesFont}",
-    "false" : "faux"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossible de donner au paramètre \"{settingsKey}\" la valeur {value}: {message}."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

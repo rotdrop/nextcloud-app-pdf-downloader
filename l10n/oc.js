@@ -16,7 +16,6 @@ OC.L10N.register(
     "Error" : "Error",
     "Yes" : "Òc",
     "No" : "Non",
-    "true" : "verai",
-    "false" : "fals"
+    "true" : "verai"
 },
 "nplurals=2; plural=(n > 1);");
