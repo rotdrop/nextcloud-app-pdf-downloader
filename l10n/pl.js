@@ -22,6 +22,7 @@ OC.L10N.register(
     "pick a color" : "wybierz kolor",
     "Choose a folder" : "Wybierz katalog",
     "Click to submit your changes." : "Kliknij, aby przesłać zmiany.",
+    "Clear Selection" : "Wyczyść zaznaczenie",
     "Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document." : "Pełna ścieżka do programu filtrującego, który ma zostać uruchomiony, gdy wszystkie inne filtry zawiodą. Jeśli dokument się nie powiedzie, strona z błędem zostanie zastąpiona niespełnionym dokumentem.",
     "Text" : "Tekst",
     "Background" : "Tło",
