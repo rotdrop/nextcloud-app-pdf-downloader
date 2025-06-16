@@ -64,7 +64,7 @@ OC.L10N.register(
     "Caused by previous exception" : "Причинено от предишно изключение",
     "bytes" : "байта",
     "The supplied color-string \"%s\" seems to be invalid." : "Предоставеният низ за цвят \"%s\" изглежда е невалиден.",
-    "The input color values are invalid." : "Въведените стойности на цветовете са невалидни.",
+    "The input color values are invalid." : "Въведените стойности за цвят са невалидни.",
     "Recursive PDF Downloader" : "Програма за рекурсивно изтегляне на PDF файлове",
     "Recursively convert entire directory trees to PDF and provide the resulting document as download" : "Цялостно рекурсивно преобразуване на дървовидните на директории в PDF и предоставяне на получения документ за изтегляне",
     "pick a color" : "избор на цвят",
