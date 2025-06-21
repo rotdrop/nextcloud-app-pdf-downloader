@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - support recent >= v8.27.0 versions
   - v-model was really broken as @nextcloud/vue seemingly prepares the move to Vue v3.
+- typo in side-bar menu stuff
 
 ## [1.2.4] -- 2025-04-08
 
