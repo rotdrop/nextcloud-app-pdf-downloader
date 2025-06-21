@@ -666,6 +666,11 @@ class SettingsController extends Controller
       case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
         $humanValue = array_map(fn(array $color) => $color['color'] . ($color['name'] ? ' (' . $color['name'] . ')' : ''), $value);
         break;
+      case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
+        if (!empty($value)) {
+          $humanValue = $this->formatFloatValue((float)$value, 2);
+        }
+        break;
       default:
         $humanValue = $value;
         break;
@@ -785,6 +790,9 @@ class SettingsController extends Controller
         case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
           if ($value === null) {
             $value = $this->pdfCombiner->getOverlayPageWidthFraction();
+          }
+          if (!empty($value)) {
+            $humanValue = $this->formatFloatValue($value, 2);
           }
           break;
         case self::PERSONAL_PAGE_LABELS_FONT_SIZE:
