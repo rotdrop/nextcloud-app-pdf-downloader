@@ -221,12 +221,15 @@ const downloadOptions = reactive({
   pageLabels: undefined as undefined|boolean,
   useTemplate: true,
 })
+
 // currently, there is no type information on the event handlers in
 // the tempalte AND it is also not possible to use TS annotations in
 // the templates. So this stupid approach is simply in order to shut
 // off some warnings ...
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const setDownloadOption = (key: string, value: any) => { downloadActions[key] = value }
+const setDownloadOption = (key: string, value: any) => {
+  downloadOptions[key] = value
+}
 
 const cloudDestinationFileInfo = reactive({
   dirName: '',
