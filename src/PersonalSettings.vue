@@ -83,7 +83,7 @@
           {{ t(appName, 'Page label colors') }}:
         </div>
         <ColorPicker ref="pageLabelTextColorPicker"
-                     :value.sync="settings.pageLabelTextColor"
+                     v-model="settings.pageLabelTextColor"
                      :label="t(appName, 'Text')"
                      :color-palette="settings.pageLabelTextColorPalette"
                      :advanced-fields="true"
@@ -91,7 +91,7 @@
                      @update:color-palette="(palette) => { settings.pageLabelTextColorPalette = palette; saveSetting('pageLabelTextColorPalette'); }"
         />
         <ColorPicker ref="pageLabelBackgroundColorPicker"
-                     :value.sync="settings.pageLabelBackgroundColor"
+                     v-model="settings.pageLabelBackgroundColor"
                      :label="t(appName, 'Background')"
                      :color-palette="settings.pageLabelBackgroundColorPalette"
                      :advanced-fields="true"
@@ -192,12 +192,12 @@
     <NcSettingsSection id="filename-patterns"
                        :name="t(appName, 'Filename Patterns')"
     >
-      <TextField :value.sync="settings.excludePattern"
+      <TextField v-model="settings.excludePattern"
                  :label="t(appName, 'Exclude Pattern')"
                  :disabled="loading > 0"
                  @submit="(value) => saveTextInput('excludePattern', value)"
       />
-      <TextField :value.sync="settings.includePattern"
+      <TextField v-model="settings.includePattern"
                  :label="t(appName, 'Include Pattern')"
                  :disabled="loading > 0"
                  @submit="(value) => saveTextInput('includePattern', value)"
@@ -307,7 +307,7 @@
         </label>
       </div> -->
       <div class="horizontal-rule" />
-      <TextField :value.sync="settings.humanDownloadsPurgeTimeout"
+      <TextField v-model="settings.humanDownloadsPurgeTimeout"
                  :label="t(appName, 'Purge Timeout')"
                  :helper-text="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
                  :disabled="loading > 0"
@@ -332,7 +332,7 @@
         </label>
       </div>
       <TextField v-show="settings.extractArchiveFiles && settings.extractArchiveFilesAdmin"
-                 :value.sync="settings.humanArchiveSizeLimit"
+                 v-model="settings.humanArchiveSizeLimit"
                  :label="t(appName, 'Archive Size Limit')"
                  :helper-text="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
                  :disabled="loading > 0 || !settings.extractArchiveFiles || !settings.extractArchiveFilesAdmin"
