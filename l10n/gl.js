@@ -85,7 +85,6 @@ OC.L10N.register(
     "pick a color" : "escoller unha cor",
     "open" : "abir",
     "submit" : "enviar",
-    "revert color" : "reverter a cor",
     "restore palette" : "restaurar a paleta",
     "factory reset palette" : "restabelecer a paleta de fábrica",
     "Choose a folder" : "Escoller un cartafol",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Sen confirmar, revertendo ao valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Definiuse correctamente o valor para «{settingsKey}» a «{displayValue}»",
     "Setting \"{setting}\" has been unset successfully." : "O axuste «{setting}» foi desactivado correctamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}",
+    "revert color" : "reverter a cor"
 },
 "nplurals=2; plural=(n != 1);");

@@ -83,7 +83,6 @@
     "pick a color" : "إختر لوناً",
     "open" : "فتح",
     "submit" : "إرسال",
-    "revert color" : "أرجِع اللون",
     "restore palette" : "إستعادة لوحة الألوان",
     "factory reset palette" : "إعادة تعيين لوحة الألوان لإعدادات المصنع",
     "Custom Color" : "لون مُخصَّص",
@@ -317,6 +316,7 @@
     "Unconfirmed, reverting to old value." : "لم يتم التأكيد؛ و تمتّ استعادة القيمة القديمة.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "تمّ تعيين \"{settingKey}\" بــ \"{displayValue}\" بنجاح",
     "Setting \"{setting}\" has been unset successfully." : "تمّ إلغاء تعيين \"{setting}\" بنجاح.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "لم يُمكن تعيين \"{settingsKeys}\" بــ \"{value}\":{message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "لم يُمكن تعيين \"{settingsKeys}\" بــ \"{value}\":{message}",
+    "revert color" : "أرجِع اللون"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

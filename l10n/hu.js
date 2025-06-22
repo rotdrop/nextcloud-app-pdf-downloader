@@ -79,7 +79,6 @@ OC.L10N.register(
     "pick a color" : "szín kiválasztása",
     "open" : "megnyitás",
     "submit" : "elküldés",
-    "revert color" : "szín visszaállítása",
     "restore palette" : "paletta helyreállítása",
     "factory reset palette" : "paletta gyári visszaállítása",
     "Choose a folder" : "Válasszon mappát",
@@ -298,6 +297,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Nincs megerősítve, visszaállítás az eredeti értékre.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "A(z) „{settingsKey}” értéke sikeresen beállítva erre: „{displayValue}”",
     "Setting \"{setting}\" has been unset successfully." : "A(z) „{setting}” beállítás értéke sikeresen törölve.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nem lehet beállítani a(z) „{settingsKey}” értékét erre: „{value}”: {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nem lehet beállítani a(z) „{settingsKey}” értékét erre: „{value}”: {message}",
+    "revert color" : "szín visszaállítása"
 },
 "nplurals=2; plural=(n != 1);");

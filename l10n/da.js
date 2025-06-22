@@ -85,7 +85,6 @@ OC.L10N.register(
     "pick a color" : "vælg en farve",
     "open" : "åben",
     "submit" : "indsend",
-    "revert color" : "omvend farve",
     "restore palette" : "genopret palette",
     "factory reset palette" : "fabriks nulstil palette",
     "Custom Color" : "Brugerdefineret Farve",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Ubekræftet, tilbagefører til gammel værdi.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Værdi for \"{settingsKey}\" sat til \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Indstillingen \"{setting}\" er blevet ikke-markeret med succes.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kunne ikke sætte værdi for \"{settingsKey}\" til \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kunne ikke sætte værdi for \"{settingsKey}\" til \"{value}\": {message}",
+    "revert color" : "omvend farve"
 },
 "nplurals=2; plural=(n != 1);");
