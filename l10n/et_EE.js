@@ -42,7 +42,6 @@ OC.L10N.register(
     "pick a color" : "vali värv",
     "open" : "ava",
     "submit" : "saada",
-    "revert color" : "taasta värv",
     "restore palette" : "taasta palett",
     "factory reset palette" : "lähtesta palett",
     "Custom Color" : "Sinu valitud värv",
@@ -90,6 +89,7 @@ OC.L10N.register(
     "Yes" : "Jah",
     "No" : "Ei",
     "The quick brown fox jumps over the lazy dog." : "Põdur Zagrebi tšellomängija-följetonist Ciqo külmetas kehvas garaažis.",
-    "true" : "tõene"
+    "true" : "tõene",
+    "revert color" : "taasta värv"
 },
 "nplurals=2; plural=(n != 1);");

@@ -85,9 +85,10 @@ OC.L10N.register(
     "pick a color" : "choisir une couleur",
     "open" : "ouvrir",
     "submit" : "soumettre",
-    "revert color" : "inverser la couleur",
     "restore palette" : "restaurer la palette",
     "factory reset palette" : "Ré-initialiser la palette",
+    "Custom Color" : "Couleur personnalisée",
+    "Provided data is not a valid SVG image: \"{data}\"." : "Les données fournies ne sont pas une image SVG valide : {data}\".",
     "Choose a folder" : "Choisir un dossier",
     "Choose a prefix-folder" : "Choisir un préfixe de dossier",
     "Invalid path selected: \"{dir}\"." : "Chemin invalide sélectionné : \"{dir}\".",
@@ -311,6 +312,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Non confirmé, remis à sa valeur initiale.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Le paramètre \"{settingsKey}\" a maintenant comme valeur {value}.",
     "Setting \"{setting}\" has been unset successfully." : "Le paramètre \"{setting}\" a été désactivé avec succès.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossible de donner au paramètre \"{settingsKey}\" la valeur {value}: {message}."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossible de donner au paramètre \"{settingsKey}\" la valeur {value}: {message}.",
+    "revert color" : "inverser la couleur"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
