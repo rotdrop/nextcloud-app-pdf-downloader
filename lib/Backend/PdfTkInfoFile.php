@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,27 +34,22 @@ use mikehaertl\tmp\File;
  */
 class PdfTkInfoFile extends File
 {
-  private static function encode(string $value, $encoding)
-  {
-    // Always convert to UTF-8
-    if ($encoding !== 'UTF-8' && function_exists('mb_convert_encoding')) {
-      $value = mb_convert_encoding($value, 'UTF-8', $encoding);
-      $value = defined('ENT_XML1') ? htmlspecialchars($value, ENT_XML1, 'UTF-8') : htmlspecialchars($value);
-    }
-    return $value;
-  }
-
   /**
    * Constructor
    *
-   * @param array $data the form data as name => value
-   * @param string|null $suffix the optional suffix for the tmp file
+   * @param array $data the form data as name => value.
+   * @param string|null $suffix the optional suffix for the tmp file.
    * @param string|null $prefix the optional prefix for the tmp file. If null 'php_tmpfile_' is used.
    * @param string|null $directory directory where the file should be created. Autodetected if not provided.
-   * @param string|null $encoding of the data. Default is 'UTF-8'.
+   * @param string $encoding of the data. Default is 'UTF-8'.
    */
-  public function __construct($data, $suffix = null, $prefix = null, $directory = null, $encoding = 'UTF-8')
-  {
+  public function __construct(
+    array $data,
+    ?string $suffix = null,
+    ?string $prefix = null,
+    ?string $directory = null,
+    string $encoding = 'UTF-8',
+  ) {
     if ($directory === null) {
       $directory = self::getTempDir();
     }
@@ -95,7 +90,7 @@ class PdfTkInfoFile extends File
           }
         }
       } else {
-        $fields .= "${key}: ${value}\n";
+        $fields .= "{$key}: {$value}\n";
       }
     }
 
@@ -103,5 +98,24 @@ class PdfTkInfoFile extends File
     $fp = fopen($this->_fileName, 'w');
     fwrite($fp, $fields);
     fclose($fp);
+  }
+
+  /**
+   * Try to re-encode to UTF-8 if possible.
+   *
+   * @param string $value
+   *
+   * @param string $encoding
+   *
+   * @return string
+   */
+  private static function encode(string $value, string $encoding):string
+  {
+    // Always convert to UTF-8
+    if ($encoding !== 'UTF-8' && function_exists('mb_convert_encoding')) {
+      $value = mb_convert_encoding($value, 'UTF-8', $encoding);
+      $value = defined('ENT_XML1') ? htmlspecialchars($value, ENT_XML1, 'UTF-8') : htmlspecialchars($value);
+    }
+    return $value;
   }
 }
