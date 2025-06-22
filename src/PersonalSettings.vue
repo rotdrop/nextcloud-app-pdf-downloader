@@ -637,7 +637,6 @@ const getData = async () => {
   fetchPdfFileNameTemplateExample().finally(() => {
     --loading.value
   })
-  --loading.value
 }
 getData()
 
@@ -704,7 +703,7 @@ const fontObjectWatcher = (fontType: string, newValue?: FontDescriptor, oldValue
   const fontKey = fontType + 'Font'
   const sizeKey = fontType + 'FontSize'
   const objectKey = fontType + 'FontObject'
-  const skipSave = loading.value || oldSettings[fontKey] === undefined || oldSettings[sizeKey] === undefined
+  const skipSave = loading.value > 0 || oldSettings[fontKey] === undefined || oldSettings[sizeKey] === undefined
   oldSettings[fontKey] = oldValue ? oldValue.family : null
   oldSettings[sizeKey] = oldValue ? oldValue.fontSize : null
   oldSettings[objectKey] = oldValue
