@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Copyright (c) 2023 Claus-Justus Heine
+ * @copyright Copyright (c) 2023, 2025 Claus-Justus Heine
  * @license GNU AGPL version 3 or any later version
  *
  * "stolen" from files_zip Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
@@ -50,6 +50,7 @@ class DependenciesService
     'pandoc',
     'tiff2pdf',
     'unoconv',
+    'unoconvert',
     'wkhtmltopdf',
     'pdf2svg',
   ];
