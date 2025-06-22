@@ -6,11 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.2.5] -- 2025-06-21
 
+### Added
+
+- favour the use of [`unoserver`/`unoconvert`](https://github.com/unoconv/unoserver) over `unoconv`
+  - `unoconv` is no longer maintained
+  - `unoserver` is the successor project by the same auther
+  - installable via `pip`, see https://github.com/unoconv/unoserver
+
 ### Fixed
 
-- support recent >= v8.27.0 versions
+- support recent @nextcloud/vue >= v8.26.0 versions properly.
   - v-model was really broken as @nextcloud/vue seemingly prepares the move to Vue v3.
-- typo in side-bar menu stuff
+- fix typo in side-bar menu stuff leading to readonly filename input
+- technical things like PHP warnings.
 
 ## [1.2.4] -- 2025-04-08
 
@@ -26,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - convert everything to Vue Composition API and Typescript
 
-- favour pandoc over wkhtmltopdf
+- favour `pandoc` over `wkhtmltopdf`
 
 ## [1.2.3-rc3] 2024-05-29
 

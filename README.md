@@ -66,13 +66,18 @@ Nextcloud v23 and probably also with v24.
 
 - PDF files ;) -- of course, just pass-through
 - office files via LibreOffice
-- EML (RFC822) files, i.e. emails you saved to disk, via `mhonarc`,
-  `wkthmltopdf`
-- HTML files via `wkhtmltopdf`
+  - this needs `unoserver` or `unoconv` to be installed
+  - see https://github.com/unoconv/unoserver
+
+- EML (RFC822) files, i.e. emails you saved to disk, via `mhonarc`
+  - then `pandoc` (if that is not installed try `wkthmltopdf`)
+- HTML files via `pandoc` (if that is not installed try `wkhtmltopf`)
 - TIFF files via `tiff2pdf`
 - Postscript files via `ps2pdf`
-- everything else is passed to `unoconv`
-- if `unoconv` fails, a PDF placeholder error page is generated
+- everything else is passed to `unoconvert` (or `unoconv` if the newer
+  `unoserver` is not installed)
+- if `unoconvert` / `unoconv` fails, a PDF placeholder error page is
+  generated
 
 ### Custom Converters
 
