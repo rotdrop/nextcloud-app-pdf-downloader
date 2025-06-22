@@ -558,9 +558,9 @@ __EOF__;
    */
   public function getPdfFilePath(string $sourcePath, string $destinationPath = '', ?bool $useTemplate = null):string
   {
-    if (!empty($destinationPath)) {
-      $destinationDirectory = trim(dirname($destinationPath), Constants::PATH_SEPARATOR) . Constants::PATH_SEPARATOR;
-    }
+    $destinationDirectory = empty($destinationPath)
+      ? ''
+      : trim(dirname($destinationPath), Constants::PATH_SEPARATOR) . Constants::PATH_SEPARATOR;
     if (empty($destinationPath) || $useTemplate === true) {
       $destinationPath = $destinationDirectory . $this->getPdfFileName($sourcePath);
     }
