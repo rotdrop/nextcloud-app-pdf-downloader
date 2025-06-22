@@ -85,7 +85,6 @@ OC.L10N.register(
     "pick a color" : "zvolte barvu",
     "open" : "otevřít",
     "submit" : "odeslat",
-    "revert color" : "vrátit barvu nazpět",
     "restore palette" : "obnovit paletu",
     "factory reset palette" : "vrátit paletu do výchozího stavu",
     "Custom Color" : "Uživatelsky určená barva",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Nepotvrzeno – vrací se na původní hodnotu.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Úspěšně nastavena hodnota pro „{settingsKey}“ na „{displayValue}",
     "Setting \"{setting}\" has been unset successfully." : "Nastavení „{setting}“ bylo úspěšně zrušeno.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nedaří se nastavit hodnotu pro „{settingsKey}“ na „{value}“: {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nedaří se nastavit hodnotu pro „{settingsKey}“ na „{value}“: {message}",
+    "revert color" : "vrátit barvu nazpět"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

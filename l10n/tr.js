@@ -85,7 +85,6 @@ OC.L10N.register(
     "pick a color" : "bir renk seçin",
     "open" : "aç",
     "submit" : "gönder",
-    "revert color" : "rengi öncekine döndür",
     "restore palette" : "paleti geri yükle",
     "factory reset palette" : "paleti ilk durumuna sıfırla",
     "Custom Color" : "Özel renk",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Onaylanmadı. Eski değere geri dönülüyor.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\", \"{displayValue}\" değerine ayarlandı",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ayarı kaldırıldı.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}.",
+    "revert color" : "rengi öncekine döndür"
 },
 "nplurals=2; plural=(n > 1);");

@@ -85,7 +85,6 @@ OC.L10N.register(
     "pick a color" : "Farbe wählen",
     "open" : "öffnen",
     "submit" : "Übermitteln",
-    "revert color" : "Farbe wiederherstellen",
     "restore palette" : "Farbenskala wiederherstellen",
     "factory reset palette" : "Werksreset der Farbenskala",
     "Custom Color" : "Benutzerdefinierte Farbe",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Unbestätigt, setze auf den alten Wert zurück.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Der Wert für die Einstellung \"{settingsKey}\" wurde auf \"{displayValue}\" gesetzt",
     "Setting \"{setting}\" has been unset successfully." : "Die Einstellung \"{setting}\" wurde gelöscht.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Wert für die Einstellung \"{settingsKey}\" konnte nicht auf den Wert \"{value}\" gesetzt werden: {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Wert für die Einstellung \"{settingsKey}\" konnte nicht auf den Wert \"{value}\" gesetzt werden: {message}",
+    "revert color" : "Farbe wiederherstellen"
 },
 "nplurals=2; plural=(n != 1);");

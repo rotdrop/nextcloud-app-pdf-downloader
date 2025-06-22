@@ -85,7 +85,6 @@ OC.L10N.register(
     "pick a color" : "挑選顏色",
     "open" : "開啟",
     "submit" : "submit",
-    "revert color" : "還原顏色",
     "restore palette" : "還原調色盤",
     "factory reset palette" : "將調色盤重設為出廠預設值",
     "Custom Color" : "自訂顏色",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "未確認，還原至舊值。",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "成功設定「{settingsKey}」的值為「{displayValue}」",
     "Setting \"{setting}\" has been unset successfully." : "設定「{setting}」已成功取消設定。",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "無法將「{settingsKey}」的值設定為「{value}」：{message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "無法將「{settingsKey}」的值設定為「{value}」：{message}",
+    "revert color" : "還原顏色"
 },
 "nplurals=1; plural=0;");

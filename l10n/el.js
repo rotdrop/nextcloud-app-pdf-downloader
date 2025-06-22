@@ -22,7 +22,6 @@ OC.L10N.register(
     "pick a color" : "επιλογή χρώματος",
     "open" : "άνοιγμα",
     "submit" : "υποβολή",
-    "revert color" : "επιστροφή στο αρχικό χρώμα",
     "restore palette" : "επαναφορά παλέτας",
     "factory reset palette" : "επαναφορά παλέτας σε εργοστασιακές ρυθμίσεις",
     "Choose a folder" : "Επιλογή φακέλου",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Μη επιβεβαιωμένο, επιστροφή στην παλιά τιμή.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Επιτυχής ρύθμιση της τιμής για \"{settingsKey}\" σε \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Η ρύθμιση \"{setting}\" έχει απενεργοποιηθεί με επιτυχία.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ρύθμισης της τιμής για \"{settingsKey}\" σε \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ρύθμισης της τιμής για \"{settingsKey}\" σε \"{value}\": {message}",
+    "revert color" : "επιστροφή στο αρχικό χρώμα"
 },
 "nplurals=2; plural=(n != 1);");
