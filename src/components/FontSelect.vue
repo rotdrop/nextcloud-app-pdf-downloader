@@ -93,7 +93,7 @@ import type { FontDescriptor } from '../model/fonts.d.ts'
 import type { NcSelect } from '@nextcloud/vue'
 
 const props = withDefaults(defineProps<{
-  value?: FontDescriptor,
+  modelValue?: FontDescriptor,
   disabled?: boolean,
   loading?: boolean,
   label?: string,
@@ -106,7 +106,7 @@ const props = withDefaults(defineProps<{
   fontSampleColor?: string,
   fontSampleFormat?: 'svg'|'png',
 }>(), {
-  value: undefined,
+  modelValue: undefined,
   disabled: false,
   loading: true,
   label: undefined,
@@ -120,7 +120,10 @@ const props = withDefaults(defineProps<{
   fontSampleFormat: 'svg',
 })
 
-const emit = defineEmits(['update:modelValue', 'input'])
+const emit = defineEmits([
+  'input',
+  'update:modelValue',
+])
 
 const fontObject = ref<undefined|FontDescriptor>(undefined)
 
@@ -181,11 +184,18 @@ const getFontSampleUri = (fontObject: FontDescriptor|any, options?: FontSampleOp
   )
 }
 
+const emitUpdate = (value) => {
+  emit('input', value) // Vue 2
+  emit('update:modelValue', value)
+  emit('update:model-value', value)
+  emit('update:value', value)
+}
+
 const emitFontSizeChange = () => {
   if (!fontObject.value) {
     return // no font no font size
   }
-  emit('input', { ...fontObject.value, fontSize: fontSize.value }) // Vue 2
+  emitUpdate({ ...fontObject.value, fontSize: fontSize.value })
 }
 
 watch(fontObject, (newValue, oldValue) => {
@@ -195,16 +205,12 @@ watch(fontObject, (newValue, oldValue) => {
   ) {
     return
   }
-  if (newValue) {
-    emit('input', { ...newValue, fontSize: fontSize.value }) // Vue 2
-  } else {
-    emit('input', newValue)
-  }
-  // emit('update:modelValue', newValue) // Vue 3
+  const value = newValue ? { ...newValue, fontSize: fontSize.value } : undefined
+  emitUpdate(value)
 })
 
 watch(
-  () => props.value,
+  () => props.modelValue,
   (newValue: FontDescriptor|undefined, oldValue: FontDescriptor|undefined) => {
     if (newValue && oldValue
       && newValue.family === oldValue.family
@@ -223,9 +229,19 @@ defineExpose({
   getFontSampleUri,
 })
 
-fontObject.value = props.value
-if (props.value) {
-  fontSize.value = props.value.fontSize
+fontObject.value = props.modelValue
+if (props.modelValue) {
+  fontSize.value = props.modelValue.fontSize
+}
+</script>
+<script lang="ts">
+export default {
+  name: 'FontSelect',
+  inheritAttrs: false,
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue',
+  },
 }
 </script>
 <style lang="scss" scoped>
