@@ -123,16 +123,16 @@
           </NcActions>
         </div>
         <ul v-else>
-          <li v-for="{fileid, basename} in downloads" :key="fileid" class="flex flex-center flex-wrap">
-            <a :href="downloadUrl(fileid)"
+          <li v-for="download in downloads" :key="download.fileid" class="flex flex-center flex-wrap">
+            <a :href="cacheDownloadUrl(download.fileid)"
                class="download external flex-grow"
                download
-               @click.prevent.stop="handleCacheFileDownload(fileid, basename)"
+               @click.prevent.stop="handleCacheFileDownload(download.fileid, download.basename)"
             >
-              {{ basename }}
+              {{ download.basename }}
             </a>
             <NcActions class="flex-no-grow flex-no-shrink">
-              <NcActionButton @click.prevent.stop="handleCacheFileSave(fileid)">
+              <NcActionButton @click.prevent.stop="handleCacheFileSave(download.fileid)">
                 <template #icon>
                   <CloudUpload :size="16"
                                decorative
@@ -143,13 +143,13 @@
               </NcActionButton>
               <NcActionButton icon="icon-download"
                               :disabled="downloading"
-                              @click.prevent.stop="handleCacheFileDownload(fileid, basename)"
+                              @click.prevent.stop="handleCacheFileDownload(download.fileid, download.basename)"
               >
                 {{ t(appName, 'download locally') }}
               </NcActionButton>
               <NcActionButton icon="icon-delete"
                               :disabled="downloading"
-                              @click.prevent.stop="handleCacheFileDelete(fileid)"
+                              @click.prevent.stop="handleCacheFileDelete(download.fileid)"
               >
                 {{ t(appName, 'delete PDF file') }}
               </NcActionButton>
@@ -244,7 +244,7 @@ const downloading = ref(false)
 
 const activeLoaders = ref(-1)
 
-const downloads = ref<FileInfoDTO[]>([])
+const downloads = reactive<FileInfoDTO[]>([])
 
 const loading = computed(() => activeLoaders.value !== 0)
 
@@ -286,7 +286,8 @@ watch(showCloudDestination, (newValue, _oldValue) => {
   }
 })
 
-watch(downloads, (newValue, _oldValue) => {
+watch(downloads, (newValue, oldValue) => {
+  logger.info('DOWNLOADS WATCHER', { newValue, oldValue })
   showBackgroundDownloads.value = newValue.length > 0
 })
 
@@ -375,8 +376,8 @@ const fetchPdfFileNameFromTemplate = async (folderPath: string) => {
 }
 
 const refreshAvailableDownloads = async () => {
-  const downloads = await fetchAvailableDownloads()
-  downloads.value = downloads
+  const newDownloads = await fetchAvailableDownloads()
+  downloads.splice(0, downloads.length, ...newDownloads)
   showBackgroundDownloads.value = downloads.length > 0
 }
 
@@ -472,12 +473,12 @@ const handleCacheFileSave = async (cacheId: number) => {
   }
   await handleSaveToCloud(cacheId, dir, mode === 'Move')
   if (mode === 'Move') {
-    const cacheIndex = downloads.value.findIndex((fileInfo: FileInfoDTO) => fileInfo.fileid === cacheId)
+    const cacheIndex = downloads.findIndex((fileInfo: FileInfoDTO) => fileInfo.fileid === cacheId)
     if (cacheIndex >= 0) {
-      downloads.value.splice(cacheIndex, 1)
+      downloads.splice(cacheIndex, 1)
     } else {
       logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED FROM DATA?', downloads)
-      fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
+      fetchAvailableDownloads().then((newDownloads) => { downloads.splice(0, downloads.length, ...newDownloads) })
     }
   }
 }
@@ -519,12 +520,12 @@ const handleCacheFileDelete = async (cacheId: number) => {
         showSuccess(message)
       }
     }
-    const cacheIndex = downloads.value.findIndex((fileInfo) => fileInfo.fileid === cacheId)
+    const cacheIndex = downloads.findIndex((fileInfo) => fileInfo.fileid === cacheId)
     if (cacheIndex >= 0) {
-      downloads.value.splice(cacheIndex, 1)
+      downloads.splice(cacheIndex, 1)
     } else {
       logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED?', downloads)
-      fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
+      fetchAvailableDownloads().then((newDownloads) => { downloads.splice(0, downloads.length, ...newDownloads) })
     }
   } catch (e) {
     let message = t(appName, 'reason unknown')
@@ -539,7 +540,7 @@ const handleCacheFileDelete = async (cacheId: number) => {
     }), {
       timeout: TOAST_PERMANENT_TIMEOUT,
     })
-    fetchAvailableDownloads().then((newDownloads) => { downloads.value = newDownloads })
+    fetchAvailableDownloads().then((newDownloads) => { downloads.splice(0, downloads.length, ...newDownloads) })
   }
   downloading.value = false
 }
@@ -694,13 +695,13 @@ subscribe('notifications:notification:received', (event) => {
   const pdfFile = destinationData.file
   const pdfFilePath = pdfFile.path // undefined for removal notification
   const pdfFileId = pdfFile.fileid
-  const downloadsIndex = downloads.value.findIndex((file) => file.fileid === pdfFileId)
+  const downloadsIndex = downloads.findIndex((file) => file.fileid === pdfFileId)
   if (downloadsIndex === -1 && pdfFilePath) {
     logger.info('*** Adding file to list of available downloads.', pdfFile)
-    downloads.value.push(destinationData.file)
+    downloads.push(destinationData.file)
   } else if (downloadsIndex >= 0 && !pdfFilePath) {
     logger.info('*** Removing file from list of available downloads.', pdfFile)
-    downloads.value.splice(downloadsIndex, 1)
+    downloads.splice(downloadsIndex, 1)
   }
 })
 
