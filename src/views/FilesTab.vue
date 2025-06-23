@@ -102,8 +102,7 @@
           <h5>{{ t(appName, 'Offline Downloads') }}</h5>
         </div>
         <NcActions>
-          <NcActionButton :model-value.sync="showBackgroundDownloads"
-                          :icon="'icon-triangle-' + (showBackgroundDownloads ? 'n' : 's')"
+          <NcActionButton :icon="'icon-triangle-' + (showBackgroundDownloads ? 'n' : 's')"
                           @click.prevent.stop="showBackgroundDownloads = !showBackgroundDownloads"
           />
         </NcActions>
