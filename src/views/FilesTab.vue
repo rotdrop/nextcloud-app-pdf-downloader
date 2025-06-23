@@ -414,7 +414,7 @@ const fetchAvailableDownloads = async (silent?: boolean) => {
   }
 }
 
-const downloadUrl = (cacheId: number) => {
+const cacheDownloadUrl = (cacheId: number) => {
   return generateAppUrl('download/{sourceFileId}/{cacheId}', {
     sourceFileId: sourceFileId.value!,
     cacheId,
@@ -486,7 +486,7 @@ const handleCacheFileDownload = async (cacheId: number, baseName: string) => {
   downloading.value = true
   setBusyState(true)
   try {
-    await fileDownload(downloadUrl(cacheId))
+    await fileDownload(cacheDownloadUrl(cacheId))
   } catch (e) {
     let message = ''
     if (isAxiosErrorResponse(e) && e.response.data) {
