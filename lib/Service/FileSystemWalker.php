@@ -556,7 +556,7 @@ __EOF__;
    *
    * @return string
    */
-  public function getPdfFilePath(string $sourcePath, string $destinationPath = '', ?bool $useTemplate = null):string
+  public function getPdfFilePath(string $sourcePath, ?string $destinationPath = null, ?bool $useTemplate = null):string
   {
     $destinationDirectory = empty($destinationPath)
       ? ''
