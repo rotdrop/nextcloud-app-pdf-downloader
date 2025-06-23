@@ -25,6 +25,7 @@ namespace OCA\PdfDownloader\Service;
 use DateTimeImmutable;
 use Throwable;
 
+use OCP\AppFramework\IAppContainer;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -102,11 +103,11 @@ class FileSystemWalker
     protected $appName,
     private AnyToPdf $anyToPdf,
     private ArchiveService $archiveService,
-    private FilenameValidator $filenameValidator,
     private IConfig $cloudConfig,
     private IDateTimeZone $dateTimeZone,
     private IMimeTypeDetector $mimeTypeDetector,
     private PdfCombiner $pdfCombiner,
+    protected IAppContainer $appContainer,
     protected IL10N $l,
     protected ILogger $logger,
     protected IRootFolder $rootFolder,
@@ -703,28 +704,36 @@ __EOF__;
    */
   private function sanitizeFileName(string $name): string
   {
-    $forbiddenCharacters = $this->filenameValidator->getForbiddenCharacters();
-    $charReplacement = array_diff(['_', ' ', '-'], $forbiddenCharacters);
-    $charReplacement = reset($charReplacement) ?: '';
+    $oldName = $name;
+    try {
+      /** @var FilenameValidator $filenameValidator */
+      $filenameValidator = $this->appContainer->get(FilenameValidator::class);
 
-    foreach ($this->filenameValidator->getForbiddenExtensions() as $extension) {
-      if (str_ends_with($name, $extension)) {
-        $name = substr($name, 0, strlen($name) - strlen($extension));
+      $forbiddenCharacters = $filenameValidator->getForbiddenCharacters();
+      $charReplacement = array_diff(['_', ' ', '-'], $forbiddenCharacters);
+      $charReplacement = reset($charReplacement) ?: '';
+
+      foreach ($filenameValidator->getForbiddenExtensions() as $extension) {
+        if (str_ends_with($name, $extension)) {
+          $name = substr($name, 0, strlen($name) - strlen($extension));
+        }
       }
+
+      $basename = substr($name, 0, strpos($name, '.', 1) ?: null);
+      if (in_array($basename, $filenameValidator->getForbiddenBasenames())) {
+        $name = str_replace($basename, $this->l->t('%1$s (renamed)', [$basename]), $name);
+      }
+
+      if ($name === '') {
+        $name = $this->l->t('renamed file');
+      }
+
+      $forbiddenCharacter = $filenameValidator->getForbiddenCharacters();
+      $name = str_replace($forbiddenCharacter, $charReplacement, $name);
+    } catch (Throwable $t) {
+      $this->logException($t, 'Unable to sanitize filename');
+      return $oldName;
     }
-
-    $basename = substr($name, 0, strpos($name, '.', 1) ?: null);
-    if (in_array($basename, $this->filenameValidator->getForbiddenBasenames())) {
-      $name = str_replace($basename, $this->l->t('%1$s (renamed)', [$basename]), $name);
-    }
-
-    if ($name === '') {
-      $name = $this->l->t('renamed file');
-    }
-
-    $forbiddenCharacter = $this->filenameValidator->getForbiddenCharacters();
-    $name = str_replace($forbiddenCharacter, $charReplacement, $name);
-
     return $name;
   }
 }
