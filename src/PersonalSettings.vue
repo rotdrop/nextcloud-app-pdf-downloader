@@ -250,12 +250,13 @@
     <NcSettingsSection id="default-download-options"
                        :name="t(appName, 'Default Download Options')"
     >
-      <TextField :value="settings.pdfFileNameTemplate"
+      <TextField v-model="settings.pdfFileNameTemplate"
                  :label="t(appName, 'PDF Filename Template:')"
                  @submit="(value) => { settings.pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
       />
       <TextField v-model="settings.exampleFilePath"
                  :label="t(appName, 'Try it out')"
+                 @submit="(value) => { settings.exampleFilePath = value; saveSetting('exampleFilePath'); }"
       >
         <template #hint>
           <div class="template-example-container flex-container flex-baseline">
@@ -547,6 +548,10 @@ const fetchPageLabelTemplateExample = async () => {
 }
 
 const fetchPdfFileNameTemplateExample = async () => {
+  if (!settings.exampleFilePath || !settings.pdfFileNameTemplate) {
+    pdfFileNameTemplateExample.value = ''
+    return
+  }
   try {
     const response = await axios.get(generateAppUrl(
       'sample/pdf-filename/{template}/{path}', {
@@ -761,6 +766,10 @@ watch(() => settings.pageLabelTemplate, (_newValue, _oldValue) => {
 })
 
 watch(() => settings.pdfFileNameTemplate, (_newValue, _oldValue) => {
+  fetchPdfFileNameTemplateExample()
+})
+
+watch(() => settings.exampleFilePath, (_newValue, _oldValue) => {
   fetchPdfFileNameTemplateExample()
 })
 
