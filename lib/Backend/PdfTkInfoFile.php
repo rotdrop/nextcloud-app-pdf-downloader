@@ -81,12 +81,12 @@ class PdfTkInfoFile extends File
           $value = $data;
         }
         foreach ($value as $item) {
-          $fields .= "${key}Begin\n";
+          $fields .= "{$key}Begin\n";
           foreach ($item as $subKey => $subValue) {
             // Always convert to UTF-8
             $subKey = self::encode($subKey, $encoding);
             $subValue = self::encode($subValue, $encoding);
-            $fields .= "${key}${subKey}: ${subValue}\n";
+            $fields .= "{$key}{$subKey}: {$subValue}\n";
           }
         }
       } else {
