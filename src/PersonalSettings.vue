@@ -253,16 +253,11 @@
       <TextField :value="settings.pdfFileNameTemplate"
                  :label="t(appName, 'PDF Filename Template:')"
                  @submit="(value) => { settings.pdfFileNameTemplate = value; saveSetting('pdfFileNameTemplate'); }"
+      />
+      <TextField v-model="settings.exampleFilePath"
+                 :label="t(appName, 'Try it out')"
       >
         <template #hint>
-          <div class="template-example-container flex-container flex-baseline">
-            <span class="template-example-caption">
-              {{ t(appName, 'Given Folder Example') }}:
-            </span>
-            <span class="template-example-file-path">
-              {{ exampleFilePathParent }}
-            </span>
-          </div>
           <div class="template-example-container flex-container flex-baseline">
             <span class="template-example-caption">
               {{ t(appName, 'Generated Filename') }}:
@@ -404,7 +399,6 @@ import {
   // TOAST_PERMANENT_TIMEOUT,
 } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import { parse as pathParse } from 'path'
 import { hexToCSSFilter } from 'hex-to-css-filter'
 import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.js'
 import {
@@ -552,17 +546,12 @@ const fetchPageLabelTemplateExample = async () => {
   }
 }
 
-const exampleFilePathParent = computed(() => {
-  const pathInfo = pathParse(settings.exampleFilePath || '')
-  return pathInfo.dir + '/'
-})
-
 const fetchPdfFileNameTemplateExample = async () => {
   try {
     const response = await axios.get(generateAppUrl(
       'sample/pdf-filename/{template}/{path}', {
         template: encodeURIComponent(settings.pdfFileNameTemplate),
-        path: encodeURIComponent(exampleFilePathParent.value),
+        path: encodeURIComponent(settings.exampleFilePath),
       }))
     pdfFileNameTemplateExample.value = response.data.pdfFileName
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
