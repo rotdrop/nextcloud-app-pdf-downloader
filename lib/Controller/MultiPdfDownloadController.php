@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022-2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,6 @@ use OCP\Files\IRootFolder;
 
 use OCA\PdfDownloader\Toolkit\Exceptions\AuthorizationException;
 use OCA\PdfDownloader\Toolkit\Service\UserScopeService;
-
 use OCA\PdfDownloader\Exceptions;
 use OCA\PdfDownloader\Notification\Notifier;
 use OCA\PdfDownloader\Service\PdfCombiner;
@@ -392,11 +391,11 @@ class MultiPdfDownloadController extends Controller
             $this->folderWalk($sourceNode, function(Node $node, int $depth) {
               if ($node->getType() == FileInfo::TYPE_FOLDER) {
                 if ($node->getMountPoint()->getOption('authenticated', false)) {
-                  throw new AuthenticationException;
+                  throw new AuthorizationException;
                 }
               }
             });
-          } catch (AuthenticationException $e) {
+          } catch (AuthorizationException $e) {
             $needsAuthentication = true;
           }
         }
