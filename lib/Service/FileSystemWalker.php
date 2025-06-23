@@ -22,30 +22,30 @@
 
 namespace OCA\PdfDownloader\Service;
 
-use Throwable;
 use DateTimeImmutable;
+use Throwable;
 
-use OCP\IL10N;
-use OCP\IConfig;
-use OCP\IUser;
-use Psr\Log\LoggerInterface as ILogger;
-use Psr\Log\LogLevel;
+use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
-use OCP\IUserSession;
-use OCP\IDateTimeZone;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node as FileSystemNode;
-use OCP\Files\File;
-use OCP\Files\Folder;
-use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException as FileNotFoundException;
+use OCP\IConfig;
+use OCP\IDateTimeZone;
+use OCP\IL10N;
+use OCP\IUser;
+use OCP\IUserSession;
+use OC\Files\FilenameValidator;
+use Psr\Log\LogLevel;
+use Psr\Log\LoggerInterface as ILogger;
 
-use OCA\PdfDownloader\Toolkit\Exceptions as ToolkitExceptions;
-
-use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Constants;
+use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Controller\SettingsController;
 use OCA\PdfDownloader\Exceptions\EnduserNotificationException;
+use OCA\PdfDownloader\Toolkit\Exceptions as ToolkitExceptions;
 
 /**
  * Workhorse which finally combines the converter and merge services.
@@ -100,16 +100,17 @@ class FileSystemWalker
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     protected $appName,
-    protected IL10N $l,
-    protected ILogger $logger,
-    private IConfig $cloudConfig,
-    protected IRootFolder $rootFolder,
-    private IMimeTypeDetector $mimeTypeDetector,
-    protected IUserSession $userSession,
-    private IDateTimeZone $dateTimeZone,
-    private PdfCombiner $pdfCombiner,
     private AnyToPdf $anyToPdf,
     private ArchiveService $archiveService,
+    private FilenameValidator $filenameValidator,
+    private IConfig $cloudConfig,
+    private IDateTimeZone $dateTimeZone,
+    private IMimeTypeDetector $mimeTypeDetector,
+    private PdfCombiner $pdfCombiner,
+    protected IL10N $l,
+    protected ILogger $logger,
+    protected IRootFolder $rootFolder,
+    protected IUserSession $userSession,
   ) {
     if ($this->cloudConfig->getAppValue($this->appName, SettingsController::ADMIN_DISABLE_BUILTIN_CONVERTERS, false)) {
       $this->anyToPdf->disableBuiltinConverters();
@@ -614,7 +615,10 @@ __EOF__;
   public function getDefaultPdfFileNameTemplate():string
   {
     $keys = $this->getTemplateKeyTranslations();
-    return '{' . $keys['DATETIME'] . '}-{' . $keys['DIRNAME'] . '@:/' . '}-{' . $keys['BASENAME'] . '}' . '.pdf';
+    // old version
+    // return '{' . $keys['DATETIME'] . '}-{' . $keys['DIRNAME'] . '@:/' . '}-{' . $keys['BASENAME'] . '}' . '.pdf';
+    // new version without characters which are invalid on certain operating systems
+    return '{' . $keys['DATETIME'] . '@Y-m-d\THisO}-{' . $keys['DIRNAME'] . '@@/' . '}-{' . $keys['FILENAME'] . '}' . '.pdf';
   }
 
   /**
@@ -665,7 +669,7 @@ __EOF__;
       $pdfFileName = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . $pdfFileName;
     }
 
-    return $pdfFileName;
+    return $this->sanitizeFileName($pdfFileName);
   }
 
   /**
@@ -692,5 +696,35 @@ __EOF__;
       }
     }
     return $contentType;
+  }
+
+  /**
+   * COmpute
+   */
+  private function sanitizeFileName(string $name): string
+  {
+    $forbiddenCharacters = $this->filenameValidator->getForbiddenCharacters();
+    $charReplacement = array_diff(['_', ' ', '-'], $forbiddenCharacters);
+    $charReplacement = reset($charReplacement) ?: '';
+
+    foreach ($this->filenameValidator->getForbiddenExtensions() as $extension) {
+      if (str_ends_with($name, $extension)) {
+        $name = substr($name, 0, strlen($name) - strlen($extension));
+      }
+    }
+
+    $basename = substr($name, 0, strpos($name, '.', 1) ?: null);
+    if (in_array($basename, $this->filenameValidator->getForbiddenBasenames())) {
+      $name = str_replace($basename, $this->l->t('%1$s (renamed)', [$basename]), $name);
+    }
+
+    if ($name === '') {
+      $name = $this->l->t('renamed file');
+    }
+
+    $forbiddenCharacter = $this->filenameValidator->getForbiddenCharacters();
+    $name = str_replace($forbiddenCharacter, $charReplacement, $name);
+
+    return $name;
   }
 }
