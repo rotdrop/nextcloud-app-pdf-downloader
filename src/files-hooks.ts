@@ -100,7 +100,8 @@ registerFileAction(new FileAction({
     const fileId = node.fileid || null;
 
     if (initialState?.useBackgroundJobsDefault) {
-      const url = generateAppUrl('schedule/download/{fileId}', { fileId });
+      const encodedPath = encodeURIComponent(node.path);
+      const url = generateAppUrl('schedule/download/{encodedPath}', { encodedPath });
       try {
         await axios.post(url);
         showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
