@@ -28,10 +28,10 @@ use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception as ProcessExceptions;
 
-use Psr\Log\LoggerInterface as ILogger;
-use OCP\IL10N;
 use OCP\Files\IMimeTypeDetector;
+use OCP\IL10N;
 use OCP\ITempManager;
+use Psr\Log\LoggerInterface as ILogger;
 
 use OCA\PdfDownloader\Exceptions;
 
@@ -48,7 +48,7 @@ class AnyToPdf
   const FALLBACK = '[fallback]';
   const PASS_THROUGH = '[pass-through]';
 
-  const DEFAULT_FALLBACK_CONVERTER = 'unoconv';
+  private const DEFAULT_FALLBACK_CONVERTERS = ['unoconvert', 'unoconv'];
 
   /**
    * @var string Array of available converters per mime-type. The converters
@@ -140,7 +140,15 @@ class AnyToPdf
     $this->logger = $logger;
     $this->l = $l10n;
 
-    $this->fallbackConverter = self::DEFAULT_FALLBACK_CONVERTER;
+    $this->setFallbackConverter(null);
+  }
+
+  /**
+   * @return null|string The currently set fallback converter.
+   */
+  public function getDefaultFallbackConverter():?string
+  {
+    return $this->fallbackConverter ?? null;
   }
 
   /**
@@ -154,7 +162,21 @@ class AnyToPdf
   public function setFallbackConverter(?string $converter):AnyToPdf
   {
     if (empty($converter)) {
-      $converter = self::DEFAULT_FALLBACK_CONVERTER;
+      foreach (self::DEFAULT_FALLBACK_CONVERTERS as $converter) {
+        try {
+          $this->findExecutable($converter);
+          $this->fallbackConverter = $converter;
+          return $this;
+        } catch (Throwable $t) {
+          $this->logDebug('Unable to find "' . $converter . '".');
+        }
+      }
+      throw new Exceptions\EnduserNotificationException(
+        $this->l->t(
+          'Unable to find any of the fallback converters "%s".',
+          implode('", "', self::DEFAULT_FALLBACK_CONVERTERS),
+        ),
+      );
     }
     $this->fallbackConverter = $converter;
     return $this;
@@ -325,7 +347,10 @@ class AnyToPdf
           throw new RuntimeException(
             $this->l->t('Universal converter "%1$s" has failed trying to convert MIME type "%2$s"', [
               $this->universalConverter, $mimeType,
-            ]));
+            ]),
+            0,
+            $t,
+          );
         } else {
           $this->logException($t, 'Ignoring failed universal converter ' . $this->universalConverter);
         }
@@ -373,7 +398,8 @@ class AnyToPdf
       throw new RuntimeException(
         $this->l->t('Converter "%1$s" has failed trying to convert MIME type "%2$s"', [
           print_r($chains, true), $mimeType,
-        ]));
+        ]),
+      );
     }
 
     return $data;
@@ -411,6 +437,44 @@ class AnyToPdf
       '--mime-type=' . $mimeType,
     ]);
     $process->setInput($data)->run();
+    return $process->getOutput();
+  }
+
+  /**
+   * Convert using unoconvert service (based on LibreOffice). This is the
+   * successor of unoconv and actively maintained. It is not yet available as
+   * package, so it requires more hand-work to install it.
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function unoconvertConvert(string $data):string
+  {
+    $converterName = 'unoconvert';
+    $converter = $this->findExecutable($converterName);
+    $retry = false;
+    $count = 0;
+    do {
+      $process = new Process([
+        $converter,
+        '--convert-to', 'pdf',
+        '--filter-options', 'ExportNotes=False',
+        '-', '-',
+      ]);
+      $process->setInput($data);
+      try {
+        $process->run();
+        $retry = false;
+      } catch (ProcessExceptions\ProcessTimedOutException $timedOutException) {
+        $this->logException($timedOutException, 'Unrecoverable exception');
+        $retry = false;
+      } catch (Throwable $t) {
+        $this->logException($t, 'Retry after exception, trial number ' . ($count + 1));
+        $retry = true;
+      }
+    } while ($retry && $count++ < self::UNOCONV_RETRIES);
+
     return $process->getOutput();
   }
 

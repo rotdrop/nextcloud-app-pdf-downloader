@@ -4,21 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.2.5] -- 2025-06-21
+
+### Added
+
+- favour the use of [`unoserver`/`unoconvert`](https://github.com/unoconv/unoserver) over `unoconv`
+  - `unoconv` is no longer maintained
+  - `unoserver` is the successor project by the same auther
+  - installable via `pip`, see https://github.com/unoconv/unoserver
+
+### Fixed
+
+- support recent @nextcloud/vue >= v8.26.0 versions properly.
+  - v-model was really broken as @nextcloud/vue seemingly prepares the move to Vue v3.
+- fix typo in side-bar menu stuff leading to readonly filename input
+- technical things like PHP warnings.
+
 ## [1.2.4] -- 2025-04-08
 
-## Added
+### Added
 
 - support Nextcloud 29 / 30 / 31
 
-## Removed
+### Removed
 
 - drop support for Nextcloud 28 and older
 
-## Changed
+### Changed
 
 - convert everything to Vue Composition API and Typescript
 
-- favour pandoc over wkhtmltopdf
+- favour `pandoc` over `wkhtmltopdf`
 
 ## [1.2.3-rc3] 2024-05-29
 
