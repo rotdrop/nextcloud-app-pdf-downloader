@@ -415,8 +415,8 @@ const fetchAvailableDownloads = async (silent?: boolean) => {
 }
 
 const cacheDownloadUrl = (cacheId: number) => {
-  return generateAppUrl('download/{sourceFileId}/{cacheId}', {
-    sourceFileId: sourceFileId.value!,
+  return generateAppUrl('download/{sourcePath}/{cacheId}', {
+    sourcePath: encodeURIComponent(sourcePath.value!),
     cacheId,
     requesttoken: getRequestToken(),
   })
@@ -584,7 +584,7 @@ const handleDownload = async () => {
     }
     downloading.value = false
   } else {
-    const url = generateAppUrl('download/{sourceFileId}', { ...urlParameters, ...queryParameters })
+    const url = generateAppUrl('download/{sourcePath}', { ...urlParameters, ...queryParameters })
     try {
       await fileDownload(url)
     } catch (e) {
