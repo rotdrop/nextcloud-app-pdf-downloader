@@ -85,6 +85,7 @@ OC.L10N.register(
     "pick a color" : "roghnaigh dath",
     "open" : "oscailte",
     "submit" : "cuir isteach",
+    "undo color choice" : "cealaigh rogha datha",
     "restore palette" : "pailéad a chur ar ais",
     "factory reset palette" : "pailéad athshocrú monarchan",
     "Custom Color" : "Dath an Chustaim",
