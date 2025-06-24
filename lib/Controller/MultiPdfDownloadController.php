@@ -168,7 +168,7 @@ class MultiPdfDownloadController extends Controller
    * Download the contents of the given folder as multi-page PDF after
    * converting everything to PDF.
    *
-   * @param int $sourceFileId The path to the file-system node to convert to
+   * @param string $sourcePath The path to the file-system node to convert to
    * PDF.
    *
    * @param null|int $cacheId The file-id of a cached file which had been
@@ -179,23 +179,21 @@ class MultiPdfDownloadController extends Controller
    * @param null|bool $useTemplate Wether to ignore $downloadFileName and use
    * the configured filename template.
    *
-   * @param null|string $sourcePath Optional path (relative to user
-   * file-space) of the source file-system node. Only used to generate a
-   * download filename suggestion.
-   *
    * @return Response
    *
    * @NoAdminRequired
    */
   public function get(
-    int $sourceFileId,
+    string $sourcePath,
     ?int $cacheId = null,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
-    ?string $sourcePath = null,
   ):Response {
+    $sourcePath = urldecode($sourcePath);
+    $sourceNode = $this->getUserFolder()->get($sourcePath);
     if ($cacheId !== null) {
-      $cacheFile = $this->fileSystemWalker->getCacheFile($sourceFileId, $cacheId);
+      $sourceNodeId = $sourceNode->getId();
+      $cacheFile = $this->fileSystemWalker->getCacheFile($sourceNodeId, $cacheId);
       if (empty($cacheFile)) {
         return self::grumble($this->l->t('Unable to find cached download file with id "%d".', $cacheId));
       }
@@ -205,13 +203,6 @@ class MultiPdfDownloadController extends Controller
     $dependencies = $this->checkRequirements();
     if ($dependencies !== true) {
       return $dependencies;
-    }
-
-    if (!empty($sourcePath)) {
-      $sourcePath = urldecode($sourcePath);
-      $sourceNode = $this->getUserFolder()->get($sourcePath);
-    } else {
-      list($sourceNode, ) = $this->getUserFolder()->getById($sourceFileId);
     }
 
     $sourcePath = $this->getUserFolder()->getRelativePath($sourceNode->getPath());

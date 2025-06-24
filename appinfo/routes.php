@@ -64,12 +64,8 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#get',
-      'url' => '/download/{sourceFileId}/{cacheId}',
+      'url' => '/download/{sourcePath}/{cacheId}',
       'verb' => 'GET',
-      'requirements' => [
-        'sourceFileId' => '^\d+$',
-        'cacheId' => '^\d*$',
-      ],
       'defaults' => [
         'cacheId' => null,
       ],

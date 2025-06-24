@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.2.7] -- unreleased
+
+Bugfix release.
+
+## [1.2.6] -- 2025-06-21
+
+### Fixed
+
+- the previous release (various small bugs)
+
+### Added
+
+- use a default filename template with is also valid on certain
+  non-Linux operating systems
+- sanitize the generated filename by the same method as is used with
+  `occ files:sanitize-filenames` (works probably only on NC >= v31)
+
 ## [1.2.5] -- 2025-06-21
 
 ### Added

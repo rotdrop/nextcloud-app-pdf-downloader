@@ -5,6 +5,8 @@
 
 - [Intro](#intro)
 - [Compatibility](#compatibility)
+  - [PHP, Nextcloud](#php-nextcloud)
+  - [TkPDF](#tkpdf)
 - [Working Conversions](#working-conversions)
   - [Builtin Converters](#builtin-converters)
   - [Custom Converters](#custom-converters)
@@ -18,6 +20,10 @@
   - [Archive Files](#archive-files)
   - [Conversion of Individual Files](#conversion-of-individual-files)
 - [Performance](#performance)
+- [Screenshots](#screenshots)
+  - [Preferences](#preferences)
+  - [Files-List](#files-list)
+  - [Details-View](#details-view)
 - [Other Nextcloud PDF Converters](#other-nextcloud-pdf-converters)
 - [Todo, some problems I am aware of](#todo-some-problems-i-am-aware-of)
 
@@ -57,8 +63,21 @@ after the job has been completed.
 
 ## Compatibility
 
-The app currently requires PHP >= 8.0. It should be usable with
-Nextcloud v23 and probably also with v24.
+### PHP, Nextcloud
+
+Please refer to the [app's meta data](appinfo/info.xml)
+
+### PDFTkJava
+
+This is a required dependency, it must be installed. It is available
+in most Linux distros. Unfortunately the [most recent
+release](https://gitlab.com/pdftk-java/pdftk/-/releases/v3.3.3) has
+some known issues. To my knowledge the version installed on Gentoo
+Linux just works fine. This means: if you encounter blank pages or
+pages with "strange" dimensions: accept the challenge to install PDFTk
+from its source distributions and then try again. On Gentoo seemingly
+the branch [`bc176`](https://gitlab.com/pdftk-java/pdftk/-/tree/bc176)
+is used.
 
 ## Working Conversions
 
@@ -68,10 +87,17 @@ Nextcloud v23 and probably also with v24.
 - office files via LibreOffice
   - this needs `unoserver` or `unoconv` to be installed
   - see https://github.com/unoconv/unoserver
-
+- HTML files via
+  - `wkhtmltopdf` if installed
+    - this program is no longer maintained but yields very good
+      results
+  - `weasyprint` if installed
+    - Python library, actively maintained, available in most Linux
+      distros.
+  - `pandoc`
+    - well, yields very poor results as any CSS attributes are ignored.
 - EML (RFC822) files, i.e. emails you saved to disk, via `mhonarc`
-  - then `pandoc` (if that is not installed try `wkthmltopdf`)
-- HTML files via `pandoc` (if that is not installed try `wkhtmltopf`)
+  - then run the HTML to PDF conversion chain
 - TIFF files via `tiff2pdf`
 - Postscript files via `ps2pdf`
 - everything else is passed to `unoconvert` (or `unoconv` if the newer

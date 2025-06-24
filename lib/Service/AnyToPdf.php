@@ -57,7 +57,7 @@ class AnyToPdf
    */
   const CONVERTERS = [
     'message/rfc822' => [
-      [ [ 'mhonarc', ], [ 'pandoc:pdf', 'wkhtmltopdf', self::FALLBACK, ], ],
+      [ [ 'mhonarc', ], [ 'wkhtmltopdf', 'weasyprint', 'pandoc:pdf', self::FALLBACK, ], ],
     ],
     'application/postscript' => [
       [ [ 'ps2pdf', ], ],
@@ -69,11 +69,11 @@ class AnyToPdf
       [ [ 'tiff2pdf', ], ],
     ],
     'text/html' => [
-      [ [ 'pandoc:pdf', 'wkhtmltopdf', self::FALLBACK, ], ],
+      [ [ 'wkhtmltopdf', 'weasyprint', 'pandoc:pdf', self::FALLBACK, ], ],
     ],
     'text/markdown' => [
       [ [ 'pandoc:pdf', ], ],
-      [ [ 'pandoc:html', ], [ 'pandoc:pdf', 'wkhtmltopdf', self::FALLBACK, ], ],
+      [ [ 'pandoc:html', ], [ 'wkhtmltopdf', 'weasyprint', 'pandoc:pdf', self::FALLBACK, ], ],
     ],
     'application/pdf' => [
       [ [ self::PASS_THROUGH, ], ],
@@ -569,6 +569,25 @@ m2h_text_plain::filter; nonfixed
   protected function ps2pdfConvert(string $data):string
   {
     $converterName = 'ps2pdf';
+    $converter = $this->findExecutable($converterName);
+    $process = new Process([
+      $converter,
+      '-', '-',
+    ]);
+    $process->setInput($data)->run();
+    return $process->getOutput();
+  }
+
+  /**
+   * Convert using weasyprint
+   *
+   * @param string $data Original data.
+   *
+   * @return string Converted-to-PDF data.
+   */
+  protected function weasyprintConvert(string $data):string
+  {
+    $converterName = 'weasyprint';
     $converter = $this->findExecutable($converterName);
     $process = new Process([
       $converter,

@@ -114,6 +114,7 @@ class SettingsController extends Controller
 
   public const PERSONAL_PDF_CLOUD_FOLDER_PATH = 'pdfCloudFolderPath';
   public const PERSONAL_PDF_FILE_NAME_TEMPLATE = 'pdfFileNameTemplate';
+  public const PERSONAL_EXAMPLE_FILE_PATH = 'exampleFilePath';
 
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT = 'useBackgroundJobsDefault';
   public const PERSONAL_USE_BACKGROUND_JOBS_DEFAULT_DEFAULT = false;
@@ -209,6 +210,10 @@ class SettingsController extends Controller
       'default' => null,
     ],
     self::PERSONAL_PDF_FILE_NAME_TEMPLATE => [
+      'rw' => true,
+      'default' => null,
+    ],
+    self::PERSONAL_EXAMPLE_FILE_PATH => [
       'rw' => true,
       'default' => null,
     ],
@@ -522,6 +527,13 @@ class SettingsController extends Controller
         }
         $newValue = $this->untranslateBracedTemplate($value, $l10nKeys);
         break;
+      case self::PERSONAL_EXAMPLE_FILE_PATH:
+        if (empty($value)) {
+          $newValue = $this->l->t('invoices/2022/october/invoice.fodt');
+        } else {
+          $newValue = $value;
+        }
+        break;
       case self::PERSONAL_PAGE_LABEL_TEMPLATE:
         if (empty($value)) {
           $value = $this->pdfCombiner->getOverlayTemplate();
@@ -820,6 +832,11 @@ class SettingsController extends Controller
           }
           $l10nKeys = $fileSystemWalker->getTemplateKeyTranslations();
           $value = $this->translateBracedTemplate($value, $l10nKeys);
+          break;
+        case self::PERSONAL_EXAMPLE_FILE_PATH:
+          if (empty($value)) {
+            $value = $this->l->t('invoices/2022/october/invoice.fodt');
+          }
           break;
         case self::PERSONAL_PDF_CLOUD_FOLDER_PATH:
         case self::PERSONAL_GROUPING:

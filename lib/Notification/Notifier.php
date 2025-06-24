@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2024 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ class Notifier implements INotifier
 
     // $this->logException(new \Exception('PREPARE ' . $notification->getSubject()));
 
-    switch ($notification->getSubject()) {
+    switch ((int)$notification->getSubject()) {
       case self::TYPE_SCHEDULED|self::TYPE_FILESYSTEM:
         $this->logInfo('PREPARE PENDING SAVE');
         $richSubstitutions['destination'] = [
@@ -169,7 +169,7 @@ class Notifier implements INotifier
           'name' => $parameters['destinationBaseName'],
           'path' => $parameters['destinationDirectory'],
           'link' => $this->urlGenerator->linkToRouteAbsolute($this->appName . '.multi_pdf_download.get', [
-            'sourceFileId' => $parameters['sourceId'],
+            'sourcePath' => urlencode($parameters['sourcePath']),
             'cacheId' => $parameters['destinationId'],
             'requesttoken' => \OCP\Util::callRegister(),
           ]),
@@ -278,7 +278,6 @@ class Notifier implements INotifier
         $replacements[] = $parameter['name'];
       }
     }
-
     $notification->setParsedSubject(str_replace($placeholders, $replacements, $notification->getRichSubject()));
   }
 

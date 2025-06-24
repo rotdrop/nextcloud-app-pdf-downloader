@@ -48,11 +48,12 @@ class DependenciesService
     'img2pdf',
     'mhonarc',
     'pandoc',
+    'pdf2svg',
     'tiff2pdf',
     'unoconv',
     'unoconvert',
+    'weasyprint',
     'wkhtmltopdf',
-    'pdf2svg',
   ];
 
   public const EXECUTABLES = [

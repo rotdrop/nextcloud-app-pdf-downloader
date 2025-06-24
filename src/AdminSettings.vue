@@ -25,10 +25,10 @@
     </h1>
     <NcSettingsSection v-if="settings.dependencies.missing.required + settings.dependencies.missing.suggested > 0"
                        id="missing-dependencies"
-                       :name="t(appName, 'Missing Dependencies')"
+                       :name="t(appName, 'List of Dependencies')"
     >
-      <div v-if="settings.dependencies.missing.required > 0" class="required-dependencies">
-        <div><label>{{ t(appName, 'Required Missing') }}</label></div>
+      <div class="required-dependencies">
+        <div><label>{{ t(appName, 'List of required Dependencies') }}</label></div>
         <ul>
           <ListItem v-for="(path, program) in settings.dependencies.required"
                     :key="program"
@@ -44,8 +44,8 @@
           </ListItem>
         </ul>
       </div>
-      <div v-if="settings.dependencies.missing.suggested > 0" class="suggested-dependencies">
-        <div><label>{{ t(appName, 'Suggested Missing') }}</label></div>
+      <div class="suggested-dependencies">
+        <div><label>{{ t(appName, 'List of suggested Dependencies') }}</label></div>
         <ul>
           <ListItem v-for="(path, program) in settings.dependencies.suggested"
                     :key="program"

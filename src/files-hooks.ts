@@ -97,12 +97,11 @@ registerFileAction(new FileAction({
   },
   async exec(node: Node/* , view: View, dir: string */) {
 
-    const fileId = node.fileid || null;
+    const encodedPath = encodeURIComponent(node.path);
 
     if (initialState?.useBackgroundJobsDefault) {
-      const encodedPath = encodeURIComponent(node.path);
-      const url = generateAppUrl('schedule/download/{encodedPath}', { encodedPath });
       try {
+        const url = generateAppUrl('schedule/download/{encodedPath}', { encodedPath });
         await axios.post(url);
         showSuccess(t(appName, 'Background PDF generation for {sourceFile} has been scheduled.', {
           sourceFile: node.path,
@@ -124,7 +123,7 @@ registerFileAction(new FileAction({
         });
       }
     } else {
-      const url = generateAppUrl('download/{fileId}', { fileId });
+      const url = generateAppUrl('download/{encodedPath}', { encodedPath });
       try {
         await fileDownload(url);
       } catch (e) {
