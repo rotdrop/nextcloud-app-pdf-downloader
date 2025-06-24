@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Ní féidir luach \"%1$s\" chun \"%2$s\" a shocrú go Boole.",
     "Unknown personal setting: \"%1$s\"" : "Socrú pearsanta anaithnid: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "Tá an socrú pearsanta \"%1$s\" inléite amháin",
+    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Is cosúil go bhfuil slonn rialta \"%1$s\" neamhbhailí, is é an cód earráide \"%d\".",
     "Did you forget the delimiters?" : "An ndearna tú dearmad ar na teorainneacha?",
     "Unknown personal setting: \"%s\"." : "Socrú pearsanta anaithnid: \"%s\".",
@@ -51,6 +52,8 @@ OC.L10N.register(
     "EXTENSION" : "EXTENSION",
     "DIRNAME" : "DIRNAME",
     "DATETIME" : "DATETIME",
+    "%1$s (renamed)" : "%1$s (athainmnithe)",
+    "renamed file" : "comhad athainmnithe",
     "Font sample could not be generated: %s" : "Níorbh fhéidir sampla cló a ghiniúint: %s",
     "Font sample could not be generated with \"%s\"." : "Níorbh fhéidir sampla cló a ghiniúint le \"%s\".",
     "Only RGB values without alpha channel are supported." : "Ní thacaítear ach le luachanna RGB gan cainéal alfa.",
@@ -127,7 +130,6 @@ OC.L10N.register(
     "single converter" : "tiontaire aonair",
     "alternatives" : "roghanna eile",
     "converter" : "tiontaire",
-    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Má dhéantar an réamhshocrú a sheiceáil le giniúint PDF sa chúlra. Is féidir é seo a shárú trí nascleanúint a dhéanamh chuig an bpainéal PDF sa bharra taoibh sonraí do gach fillteán foinse nó comhad cartlainne ar leith.",
     "Individual File Conversion" : "Tiontú Comhad Aonair",
     "Enable conversion of individual files in addition to folders and archives." : "Cumasaigh comhshó comhad aonair chomh maith le fillteáin agus cartlanna.",
@@ -169,7 +171,6 @@ OC.L10N.register(
     "Test Result:" : "Toradh Tástála:",
     "Default Download Options" : "Roghanna réamhshocraithe íoslódáil",
     "PDF Filename Template:" : "Teimpléad Ainm Comhad PDF:",
-    "Given Folder Example" : "Sampla Fillteán tugtha",
     "Generated Filename" : "Ainm Comhaid Ginte",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Roghnach go roghnach fillteán scríbe réamhshocraithe sa scamall. Má fhágtar bán iad ginfear PDFanna san eolaire reatha.",
     "Generate PDFs in the background by default." : "Gin PDFs sa chúlra de réir réamhshocraithe.",
@@ -320,6 +321,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "D'éirigh le socrú luach \"{settingsKey}\" go \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "D'éirigh le socrú \"{setting}\" a dhíshuiteáil.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Níorbh fhéidir luach a shocrú do \"{settingsKey}\" go \"{value}\": {message}",
-    "revert color" : "dath ar ais"
+    "Given Folder Example" : "Sampla Fillteán tugtha"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

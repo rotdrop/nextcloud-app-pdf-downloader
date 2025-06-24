@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "El valor \"%1$s\" para la configuración \"%2$s\" no se puede convertir a booleano.",
     "Unknown personal setting: \"%1$s\"" : "Configuración personal desconocida: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "La configuración personal \"%1$s\" es de solo lectura",
+    "invoices/2022/october/invoice.fodt" : "facturas/2022/octubre/factura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "La expresión regular \"%1$s\" parece ser inválida, el código de error es \"%d\".",
     "Did you forget the delimiters?" : "¿Olvidaste los delimitadores?",
     "Unknown personal setting: \"%s\"." : "Configuración personal desconocida: \"%s\".",
@@ -97,7 +98,6 @@
     "single converter" : "convertidor único",
     "alternatives" : "alternativas",
     "converter" : "convertidor",
-    "invoices/2022/october/invoice.fodt" : "facturas/2022/octubre/factura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Si está marcada, la generación de PDF en segundo plano será la predeterminada. Esto puede ser anulado navegando a la pestaña de PDF en la barra lateral de detalles para cada carpeta de origen o archivo de archivo en particular.",
     "Individual File Conversion" : "Conversión de archivo individual",
     "Enable conversion of individual files in addition to folders and archives." : "Habilitar la conversión de archivos individuales además de carpetas y archivos de archivo.",
@@ -135,7 +135,6 @@
     "Test Result:" : "Resultado de la prueba:",
     "Default Download Options" : "Opciones de descarga predeterminadas",
     "PDF Filename Template:" : "Plantilla de nombre de archivo PDF:",
-    "Given Folder Example" : "Ejemplo de carpeta dada",
     "Generated Filename" : "Nombre de archivo generado",
     "Generate PDFs in the background by default." : "Generar PDFs en segundo plano de forma predeterminada.",
     "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "Cuánto tiempo mantener los archivos PDF generados sin conexión. Después de este tiempo, eventualmente serán eliminados por un trabajo en segundo plano.",
@@ -275,6 +274,7 @@
     "Unconfirmed, reverting to old value." : "No confirmado, se vuelve al valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Se ha establecido correctamente el valor para \"{settingsKey}\" en \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "La configuración \"{setting}\" se ha desactivado correctamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No se pudo establecer el valor para \"{settingsKey}\" en \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No se pudo establecer el valor para \"{settingsKey}\" en \"{value}\": {message}",
+    "Given Folder Example" : "Ejemplo de carpeta dada"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

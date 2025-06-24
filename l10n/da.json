@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Værdien \"%1$s\" for indstilling \"%2$s\" kan ikke konverteres til boolsk.",
     "Unknown personal setting: \"%1$s\"" : "Ukendt personlig indstilling: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "Den personlige indstilling \"%1$s\" er skrivebeskyttet",
+    "invoices/2022/october/invoice.fodt" : "fakturaer/2022/oktober/faktura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Det regulære udtryk \"%1$s\" synes at være ugyldigt, fejlkode er \"%d\".",
     "Did you forget the delimiters?" : "Har du glemt afgrænsningerne?",
     "Unknown personal setting: \"%s\"." : "Ukendt personlig indstilling: \"%s\".",
@@ -124,7 +125,6 @@
     "single converter" : "enkeltkonverter",
     "alternatives" : "alternativer",
     "converter" : "konverter",
-    "invoices/2022/october/invoice.fodt" : "fakturaer/2022/oktober/faktura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Hvis markeret, så standard til baggrunds PDF generering. Dette kan tilsidesættes ved at navigere til PDF panelet i detaljesidebjælken for hver bestemt kildemappe eller arkivfil.",
     "Individual File Conversion" : "Individuel filkonvertering",
     "Enable conversion of individual files in addition to folders and archives." : "Aktiver konvertering af individuelle filer ud over mapper og arkiver.",
@@ -166,7 +166,6 @@
     "Test Result:" : "Testresultat:",
     "Default Download Options" : "Standardindstillinger for download",
     "PDF Filename Template:" : "PDF filnavneskabelon:",
-    "Given Folder Example" : "Givet mappe eksempel",
     "Generated Filename" : "Genereret filnavn",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Vælg en standard målmappe i skyen. Hvis efterladt tomt, så vil PDF filer blive genereret i den aktuelle mappe.",
     "Generate PDFs in the background by default." : "Generer PDF filer i baggrunden som standard.",
@@ -317,6 +316,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Værdi for \"{settingsKey}\" sat til \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Indstillingen \"{setting}\" er blevet ikke-markeret med succes.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kunne ikke sætte værdi for \"{settingsKey}\" til \"{value}\": {message}",
-    "revert color" : "omvend farve"
+    "Given Folder Example" : "Givet mappe eksempel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

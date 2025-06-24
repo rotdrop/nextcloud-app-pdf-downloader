@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Hodnota \"%1$s\" pre nastavenie \"%2$s\" nie je konvertibilná na boolovskú hodnotu.",
     "Unknown personal setting: \"%1$s\"" : "Neznáme osobné nastavenie: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "Osobné nastavenie \"%1$s\" je iba na čítanie",
+    "invoices/2022/october/invoice.fodt" : "faktury/2022/oktober/faktura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Regulárny výraz \"%1$s\" sa zdá byť neplatný, kód chyby je \"%d\".",
     "Did you forget the delimiters?" : "Zabudli ste oddeľovače?",
     "Unknown personal setting: \"%s\"." : "Neznáme osobné nastavenie: \"%s\".",
@@ -126,7 +127,6 @@ OC.L10N.register(
     "single converter" : "jeden prevodník",
     "alternatives" : "alternatívy",
     "converter" : "prevodník",
-    "invoices/2022/october/invoice.fodt" : "faktury/2022/oktober/faktura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Ak je začiarknuté, predvolene sa použije generovanie PDF na pozadí. Toto je možné prepísať prechodom na panel PDF na postrannom paneli podrobností pre každý konkrétny zdrojový adresár alebo archívny súbor.",
     "Individual File Conversion" : "Individuálny prevod súboru",
     "Enable conversion of individual files in addition to folders and archives." : "Povoliť konverziu jednotlivých súborov okrem adresárov a archívov.",
@@ -168,7 +168,6 @@ OC.L10N.register(
     "Test Result:" : "Testovacie výsledky:",
     "Default Download Options" : "Predvolené možnosti sťahovania",
     "PDF Filename Template:" : "Šablóna názvu súboru PDF:",
-    "Given Folder Example" : "Príklad zadaného názvu adresára",
     "Generated Filename" : "Názov vygenerovaného súboru",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Voliteľne vyberte predvolený cieľový adresár v cloude. Ak toto ponecháte prázdne, súbory PDF sa vygenerujú v aktuálnom adresári.",
     "Generate PDFs in the background by default." : "Predvolene generovať PDF na pozadí.",
@@ -319,6 +318,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Úspešne nastavená hodnota \"{settingsKey}\" na \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Nastavenie {setting} bolo úspešne zrušené.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nebolo možné nastaviť hodnotu \"{settingsKey}\" na \"{value}\": {message}",
-    "revert color" : "vrátiť farbu"
+    "Given Folder Example" : "Príklad zadaného názvu adresára"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
