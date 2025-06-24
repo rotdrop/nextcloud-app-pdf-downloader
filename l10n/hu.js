@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "A(z) „%2$s” beállítás „%1$s” értéke nem alakítható logikai értékké.",
     "Unknown personal setting: \"%1$s\"" : "Ismeretlen személyes beállítás: „%1$s”",
     "The personal setting \"%1$s\" is read-only" : "A(z) „%1$s” személyes beállítás csak olvasható",
+    "invoices/2022/october/invoice.fodt" : "szamlak/2022/oktober/szamla.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "A(z) „%1$s” reguláris kifejezés érvénytelennek tűnik, a hibakód a következő: „%d”.",
     "Did you forget the delimiters?" : "Elfelejtette az elválasztókat?",
     "Unknown personal setting: \"%s\"." : "Ismeretlen személyes beállítás: „%s”.",
@@ -117,7 +118,6 @@ OC.L10N.register(
     "single converter" : "egyes átalakítók",
     "alternatives" : "alternatívák",
     "converter" : "átalakító",
-    "invoices/2022/october/invoice.fodt" : "szamlak/2022/oktober/szamla.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Ha be van kapcsolva, akkor alapértelmezetten a háttérben fut a PDF előállítása. Ez felülbírálható az egyes forrásmappák és archívumfájlok esetén a részletek oldalsávon lévő PDF panelre történő navigálással.",
     "Individual File Conversion" : "Egyes fájlok átalakítása",
     "Enable conversion of individual files in addition to folders and archives." : "Az egyes fájlok átalakításának engedélyezése a mappák és archívumok mellett.",
@@ -157,7 +157,6 @@ OC.L10N.register(
     "Test Result:" : "Teszt eredménye:",
     "Default Download Options" : "Alapértelmezett letöltési beállítások",
     "PDF Filename Template:" : "PDF fájlnévsablon:",
-    "Given Folder Example" : "Megadott példamappa",
     "Generated Filename" : "Előállított fájlnév",
     "Generate PDFs in the background by default." : "PDF-ek előállítása a háttérben alapértelmezés szerint.",
     "Purge Timeout" : "Tisztítási időtúllépés",
@@ -298,6 +297,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "A(z) „{settingsKey}” értéke sikeresen beállítva erre: „{displayValue}”",
     "Setting \"{setting}\" has been unset successfully." : "A(z) „{setting}” beállítás értéke sikeresen törölve.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nem lehet beállítani a(z) „{settingsKey}” értékét erre: „{value}”: {message}",
-    "revert color" : "szín visszaállítása"
+    "Given Folder Example" : "Megadott példamappa"
 },
 "nplurals=2; plural=(n != 1);");

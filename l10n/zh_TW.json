@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "設定「%2$s」的值「%1$s」無法轉換為布林值。",
     "Unknown personal setting: \"%1$s\"" : "未知的個人設定：「%1$s」",
     "The personal setting \"%1$s\" is read-only" : "個人設定「%1$s」是唯讀的",
+    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "正規表示式「%1$s」似乎無效，錯誤代碼為「%d」。",
     "Did you forget the delimiters?" : "您忘記分隔字串了嗎？",
     "Unknown personal setting: \"%s\"." : "未知的個人設定：「%s」。",
@@ -32,6 +33,7 @@
     "Converting {source} to PDF has failed." : "轉換 {source} 為 PDF 失敗。",
     "irrelevant" : "不相關的",
     "The temporary download file {destination} has been removed. Its creation time was: {timespan}." : "已移除臨時下載檔案 {destination}。其建立時間為：{timespan}。",
+    "Unable to find any of the fallback converters \"%s\"." : "找不到任何汰退轉換器「%s」。",
     "not found" : "找不到",
     "pass through" : "穿越",
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "通用轉換器「%1$s」嘗試轉換 MIME 類型「%2$s」失敗",
@@ -49,6 +51,8 @@
     "EXTENSION" : "EXTENSION",
     "DIRNAME" : "DIRNAME",
     "DATETIME" : "DATETIME",
+    "%1$s (renamed)" : "%1$s（已重新命名）",
+    "renamed file" : "已重新命名檔案",
     "Font sample could not be generated: %s" : "無法產生字型範例：%s",
     "Font sample could not be generated with \"%s\"." : "無法使用「%s」產生字型範例。",
     "Only RGB values without alpha channel are supported." : "僅支援沒有 alpha 頻道的 RGB 值。",
@@ -125,7 +129,6 @@
     "single converter" : "單一轉換器",
     "alternatives" : "替代選項",
     "converter" : "轉換器",
-    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "若勾選，則預設為背景 PDF 產生。透過詳細資訊側邊欄中的 PDF 面板，可以為每個特定的原始資料夾或封存檔覆寫此設定。",
     "Individual File Conversion" : "獨立檔案轉換",
     "Enable conversion of individual files in addition to folders and archives." : "除了資料夾與封存檔以外，也啟用單一檔案轉換。",
@@ -167,7 +170,6 @@
     "Test Result:" : "測試結果：",
     "Default Download Options" : "預設下載選項",
     "PDF Filename Template:" : "PDF 檔案名稱範本：",
-    "Given Folder Example" : "指定的資料夾範例",
     "Generated Filename" : "已產生的檔案名稱",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "（選擇性）選擇雲端中的預設目標資料夾。若留空，將在目前目錄中產生 PDF。",
     "Generate PDFs in the background by default." : "預設在背景產生 PDF。",
@@ -318,6 +320,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "成功設定「{settingsKey}」的值為「{displayValue}」",
     "Setting \"{setting}\" has been unset successfully." : "設定「{setting}」已成功取消設定。",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "無法將「{settingsKey}」的值設定為「{value}」：{message}",
-    "revert color" : "還原顏色"
+    "Given Folder Example" : "指定的資料夾範例"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

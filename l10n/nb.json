@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Verdien \"%1$s\" for innstillingen \"%2$s\" kan ikke konverteres til boolsk.",
     "Unknown personal setting: \"%1$s\"" : "Ukjent personlig innstilling: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "Den personlige innstillingen \"%1$s\" er skrivebeskyttet",
+    "invoices/2022/october/invoice.fodt" : "fakturaer/2022/oktober/faktura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Det regulære uttrykket \"%1$s\" ser ut til å være ugyldig, feilkoden er \"%d\".",
     "Did you forget the delimiters?" : "Glemte du skilletegnene?",
     "Unknown personal setting: \"%s\"." : "Ukjent personlig innstilling: \"%s\".",
@@ -122,7 +123,6 @@
     "single converter" : "Enkel omformer",
     "alternatives" : "Alternativer",
     "converter" : "omformer",
-    "invoices/2022/october/invoice.fodt" : "fakturaer/2022/oktober/faktura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Hvis dette alternativet er valgt, brukes standard til generering av bakgrunns-PDF. Dette kan overstyres ved å navigere til PDF-panelet i detaljsidefeltet for hver enkelt kildemappe eller arkivfil.",
     "Individual File Conversion" : "Individuell filkonvertering",
     "Enable conversion of individual files in addition to folders and archives." : "Aktiver konvertering av individuelle filer i tillegg til mapper og arkiver.",
@@ -162,7 +162,6 @@
     "Test Result:" : "Testresultat:",
     "Default Download Options" : "Standard nedlastingsalternativer",
     "PDF Filename Template:" : "PDF Filnavn Mal:",
-    "Given Folder Example" : "Eksempel på gitt mappe",
     "Generated Filename" : "Generert filnavn",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Velg eventuelt en standard destinasjonsmappe i skyen. Hvis ikke valgt, vil PDF-filer genereres i gjeldende katalog.",
     "Generate PDFs in the background by default." : "Generer PDF-filer i bakgrunnen som standard.",
@@ -309,6 +308,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Angi verdien for \"{settingsKey}\" til \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Innstillingen {setting} er opphevet.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kan ikke sette verdien for \"{settingsKey}\" til \"{value}\": {message}",
-    "revert color" : "tilbakestill farge"
+    "Given Folder Example" : "Eksempel på gitt mappe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

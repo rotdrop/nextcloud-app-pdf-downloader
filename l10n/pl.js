@@ -7,6 +7,8 @@ OC.L10N.register(
     "Unknown admin setting: \"%1$s\"" : "Nieznane ustawienie administracyjne: \"%1$s\"",
     "PDF Downloader" : "Pobieracz PDFów",
     "FILENAME" : "NAZWA PLIKU",
+    "%1$s (renamed)" : "%1$s (zmieniona nazwa)",
+    "renamed file" : "zmieniona nazwa pliku",
     "Combining PDFs failed" : "Łączenie plików PDF nie powiodło się",
     "Installation instructions: " : "Instrukcje instalacji:",
     "There is no archive file associated with this archiver instance." : "Z tą instancją archiwizatora nie jest powiązany żaden plik archiwum.",

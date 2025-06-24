@@ -29,6 +29,8 @@
     "EXTENSION" : "РАСШИРЕНИЕ",
     "DIRNAME" : "ИМЯ КАТАЛОГА",
     "DATETIME" : "ДАТА ВРЕМЯ",
+    "%1$s (renamed)" : "%1$s (переименовано)",
+    "renamed file" : "переименованный файл",
     "Font sample could not be generated: %s" : "Не удалось создать образец шрифта: %s",
     "Font sample could not be generated with \"%s\"." : "Образец шрифта не может быть сгенерирован с помощью \"%s\".",
     "Only RGB values without alpha channel are supported." : "Поддерживаются только значения RGB без альфа-канала.",

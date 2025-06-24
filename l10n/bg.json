@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Стойността \"%1$s\" за настройка \"%2$s\" не може да се преобразува в булева.",
     "Unknown personal setting: \"%1$s\"" : "Неизвестна лична настройка: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "Личната настройка „%1$s“ е само за четене",
+    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt\n/фактури/2022/октомври/фактури.fodt/",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Изглежда, че регулярният израз „ %1$s“ е невалиден, кодът на грешката е „%d“.",
     "Did you forget the delimiters?" : "Забравихте ли разделителите?",
     "Unknown personal setting: \"%s\"." : "Неизвестна лична настройка: \"%s\".",
@@ -97,7 +98,6 @@
     "single converter" : "единичен конвертор",
     "alternatives" : "алтернативи",
     "converter" : "конвертор",
-    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt\n/фактури/2022/октомври/фактури.fodt/",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Ако е маркирано, по подразбиране да се генерират PDF файлове във фонов режим. Това може да бъде отменено, като се премине към панела PDF в страничната лента с подробности за всяка конкретна папка с източник или архивен файл.",
     "Individual File Conversion" : "Индивидуално конвертиране /преобразуване/ на файлове",
     "Enable conversion of individual files in addition to folders and archives." : "Активиране на конвертирането на отделни файлове в допълнение към папките и архивите.",
@@ -135,7 +135,6 @@
     "Test Result:" : "Резултат от теста:",
     "Default Download Options" : "Опции за изтегляне по подразбиране",
     "PDF Filename Template:" : "Шаблон за име на PDF файл:",
-    "Given Folder Example" : "Даден пример за папка",
     "Generated Filename" : "Генерирано име на файл",
     "Generate PDFs in the background by default." : "Генериране на PDF файлове във фонов режим по подразбиране.",
     "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "За колко време да се съхраняват генерираните офлайн PDF файлове. След изтичането на това време те евентуално ще бъдат изтрити от фонова задача.",
@@ -275,6 +274,7 @@
     "Unconfirmed, reverting to old value." : "Непотвърдено, връща се към старата стойност.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Успешно зададена стойност за \"{settingsKey}\" на \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Задаването на \"{setting}\" е отменено успешно.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Не може да се зададе стойност за \"{settingsKey}\" на \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Не може да се зададе стойност за \"{settingsKey}\" на \"{value}\": {message}",
+    "Given Folder Example" : "Даден пример за папка"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

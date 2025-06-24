@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "\"%1$s\" balioa \"%2$s\" ezarpenerako ezin da balio boolearrera aldatu.",
     "Unknown personal setting: \"%1$s\"" : "Ezarpen pertsonal ezezaguna: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "\"%1$s\" ezarpen pertsonala soilik irakutzeko da",
+    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Ohiko \"%1$s\" adierazpen erregularra baliogabea dela dirudi, errore kodea \"%d\" da.",
     "Did you forget the delimiters?" : "Bereizleak ahaztu dituzu?",
     "Unknown personal setting: \"%s\"." : "Ezarpen pertsonal ezezaguna: \"%s\".",
@@ -106,7 +107,6 @@ OC.L10N.register(
     "single converter" : "bihurgailu bakana",
     "alternatives" : "alternatibak",
     "converter" : "bihurgailua",
-    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "Individual File Conversion" : "Banakako fitxategi bihurketa",
     "Enable conversion of individual files in addition to folders and archives." : "Gaitu fitxategi bakanen bihurketa, karpeta eta artxibategiez gain.",
     "reason unknown" : "arrazoi ezezaguna",
@@ -144,7 +144,6 @@ OC.L10N.register(
     "Test Result:" : "Test emaitza:",
     "Default Download Options" : "Lehenetsitako dekarga aukerak",
     "PDF Filename Template:" : "PDF izen txantiloia:",
-    "Given Folder Example" : "Eskaintzen den karpeta adibidea",
     "Generated Filename" : "Sortutako fitxategi-izena",
     "Generate PDFs in the background by default." : "Sortu PDFak atzeko planoan lehenespenez.",
     "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "Zenbat denboraz mantendu lineaz kanpo sortutako PDF fitxategiak. Denbora hori igaro ondoren, atzeko planoko lan batek ezabatuko ditu.",
@@ -282,6 +281,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\" \"{displayValue}\" baliora ondo ezarri da",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ezarpena behar bezala baliogabetu da.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Ezin izan da \"{settingsKey}\" \"{value}\" baliora ezarri: {message}",
-    "revert color" : "Kolorea berrezarri"
+    "Given Folder Example" : "Eskaintzen den karpeta adibidea"
 },
 "nplurals=2; plural=(n != 1);");

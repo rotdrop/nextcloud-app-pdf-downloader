@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Der Wert \"%1$s\" für die Einstellung \"%2$s\" ist nicht in einen booleschen Wert konvertierbar.",
     "Unknown personal setting: \"%1$s\"" : "Unbekannte persönliche Einstellung: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "Die perönliche Einstellung \"%1$s\" kann nur gelesen werden.",
+    "invoices/2022/october/invoice.fodt" : "Rechnungen/2022/Oktober/Rechnung.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Der reguläre Ausdruck \"%1$s\" scheint ungültig zu sein, Fehlercode ist \"%d\".",
     "Did you forget the delimiters?" : "Haben Sie die Trennzeichen vergessen?",
     "Unknown personal setting: \"%s\"." : "Unbekannte persönliche Einstellung: \"%s\".",
@@ -32,6 +33,7 @@
     "Converting {source} to PDF has failed." : "{source} konnte nicht in PDF konvertiert werden.",
     "irrelevant" : "Irrelevant",
     "The temporary download file {destination} has been removed. Its creation time was: {timespan}." : "Die temporäre Download-Datei {destination} wurde entfernt. Ihr Erstellungszeitpunkt war: {timespan}.",
+    "Unable to find any of the fallback converters \"%s\"." : "Keiner der Fallback-Konverter \"%s\" konnte gefunden werden.",
     "not found" : "Nicht gefunden",
     "pass through" : "Passthrough",
     "Universal converter \"%1$s\" has failed trying to convert MIME type \"%2$s\"" : "Das Umwandlungsprogramm \"%1$s\" konnte eine Datei mit dem MIME-Typ \"%2$s\" nicht konvertieren",
@@ -49,6 +51,8 @@
     "EXTENSION" : "EXTENSION",
     "DIRNAME" : "DIRNAME",
     "DATETIME" : "DATETIME",
+    "%1$s (renamed)" : "%1$s (umbenannt)",
+    "renamed file" : "Umbenannte Datei",
     "Font sample could not be generated: %s" : "Schrift-Beispiel konnte nicht erstellt werden: %s",
     "Font sample could not be generated with \"%s\"." : "Schriftbeispiel konnte nicht erstellt werden mit \"%s\".",
     "Only RGB values without alpha channel are supported." : "Es werden nur RGB-Werte ohne Alphakanal unterstützt.",
@@ -83,6 +87,7 @@
     "pick a color" : "Farbe wählen",
     "open" : "öffnen",
     "submit" : "Übermitteln",
+    "undo color choice" : "Farbauswahl rückgängig machen",
     "restore palette" : "Farbenskala wiederherstellen",
     "factory reset palette" : "Werksreset der Farbenskala",
     "Custom Color" : "Benutzerdefinierte Farbe",
@@ -124,7 +129,6 @@
     "single converter" : "Einzelner Konverter",
     "alternatives" : "Alternativen",
     "converter" : "Konverter",
-    "invoices/2022/october/invoice.fodt" : "Rechnungen/2022/Oktober/Rechnung.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Wenn diese Option aktiviert ist, wird standardmäßig die PDF-Generierung im Hintergrund ausgeführt. Dies kann außer Kraft gesetzt werden, indem Sie für jeden einzelnen Quellordner oder jede Archivdatei zum PDF-Bedienfeld in der Seitenleiste mit den Details navigieren.",
     "Individual File Conversion" : "Individuelle Dateikonvertierung",
     "Enable conversion of individual files in addition to folders and archives." : "Konvertierung einzelner Dateien neben der Konvertierung von Ordnern und Archiven aktivieren.",
@@ -166,7 +170,6 @@
     "Test Result:" : "Testergebnis:",
     "Default Download Options" : "Standard-Download-Optionen",
     "PDF Filename Template:" : "Vorlage für PDF-Dateinamen:",
-    "Given Folder Example" : "Gegebenes Ordnerbeispiel",
     "Generated Filename" : "Erstellter Dateiname",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Wählen Sie optional einen Standardzielordner in der Cloud. Wenn Sie das Feld leer lassen, werden PDFs im aktuellen Ordner erstellt.",
     "Generate PDFs in the background by default." : "PDFs standardmäßig im Hintergrund generieren.",
@@ -317,6 +320,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Der Wert für die Einstellung \"{settingsKey}\" wurde auf \"{displayValue}\" gesetzt",
     "Setting \"{setting}\" has been unset successfully." : "Die Einstellung \"{setting}\" wurde gelöscht.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Wert für die Einstellung \"{settingsKey}\" konnte nicht auf den Wert \"{value}\" gesetzt werden: {message}",
-    "revert color" : "Farbe wiederherstellen"
+    "Given Folder Example" : "Gegebenes Ordnerbeispiel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

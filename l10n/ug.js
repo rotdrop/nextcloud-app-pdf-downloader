@@ -15,6 +15,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "\"%2 $ s\" نى تەڭشەشتىكى \"%1 $ s\" قىممىتى ئاق رەڭگە ئايلاندۇرغىلى بولمايدۇ.",
     "Unknown personal setting: \"%1$s\"" : "نامەلۇم شەخسىي تەڭشەك: \"%1 $ s\"",
     "The personal setting \"%1$s\" is read-only" : "شەخسىي تەڭشەك \"%1 $ s\" پەقەت ئوقۇشقىلا بولىدۇ",
+    "invoices/2022/october/invoice.fodt" : "تالون / 2022 / ئۆكتەبىر / تالون. fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "دائىملىق ئىپادىلەش \"%1 $ s\" ئىناۋەتسىزدەك قىلىدۇ ، خاتالىق كودى \"% d\".",
     "Did you forget the delimiters?" : "چەكلىگۈچىلەرنى ئۇنتۇپ قالدىڭىزمۇ؟",
     "Unknown personal setting: \"%s\"." : "نامەلۇم شەخسىي تەڭشەك: \"% s\".",
@@ -121,7 +122,6 @@ OC.L10N.register(
     "single converter" : "يەككە ئايلاندۇرغۇچ",
     "alternatives" : "alternatives",
     "converter" : "ئايلاندۇرغۇچ",
-    "invoices/2022/october/invoice.fodt" : "تالون / 2022 / ئۆكتەبىر / تالون. fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "تەگلىك PDF ئەۋلاد سۈكۈتتىكى ھالەتتە تەكشۈرۈلگەن بولسا. بۇنى ھەر بىر ئالاھىدە مەنبە ھۆججەت قىسقۇچ ياكى ئارخىپ ھۆججىتىنىڭ تەپسىلاتلار ستونىدىكى PDF تاختىسىغا يۆتكەش ئارقىلىق بېسىپ ئۆتكىلى بولىدۇ.",
     "Individual File Conversion" : "يەككە ھۆججەت ئۆزگەرتىش",
     "Enable conversion of individual files in addition to folders and archives." : "ھۆججەت قىسقۇچ ۋە ئارخىپتىن باشقا يەككە ھۆججەتلەرنى ئايلاندۇرۇشنى قوزغىتىڭ.",
@@ -161,7 +161,6 @@ OC.L10N.register(
     "Test Result:" : "سىناق نەتىجىسى:",
     "Default Download Options" : "كۆڭۈلدىكى چۈشۈرۈش تاللانمىلىرى",
     "PDF Filename Template:" : "PDF ھۆججەت ئىسمى قېلىپى:",
-    "Given Folder Example" : "ھۆججەت قىسقۇچ مىسالى",
     "Generated Filename" : "ھاسىل قىلىنغان ھۆججەت ئىسمى",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "خالىغانچە بۇلۇتتىكى كۆڭۈلدىكى نىشان ھۆججەت قىسقۇچىنى تاللاڭ. ئەگەر قۇرۇق PDF بولسا نۆۋەتتىكى مۇندەرىجىدە ھاسىل بولىدۇ.",
     "Generate PDFs in the background by default." : "سۈكۈتتىكى ھالەتتە ئارقا سۇپىدا PDF ھاسىل قىلىڭ.",
@@ -308,6 +307,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "مۇۋەپپەقىيەتلىك ھالدا \"{settingsKey}\" نىڭ قىممىتىنى \"{displayValue}\" قىلىپ بەلگىلەڭ.",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" نى تەڭشەش ئوڭۇشلۇق بولمىدى.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}",
-    "revert color" : "رەڭنى قايتۇرۇش"
+    "Given Folder Example" : "ھۆججەت قىسقۇچ مىسالى"
 },
 "nplurals=2; plural=(n != 1);");

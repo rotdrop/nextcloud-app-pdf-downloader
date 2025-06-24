@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Valor \"%1$s\" para a configuração \"%2$s\" não é convertível para boolean.",
     "Unknown personal setting: \"%1$s\"" : "Configuração pessoal não conhecida: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "A configuração pessoal \"%1$s\" é somente leitura",
+    "invoices/2022/october/invoice.fodt" : "faturas/2022/outubro/fatura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "A expressão regular \"%1$s\" parece ser inválida, o código de erro é \"%d\".",
     "Did you forget the delimiters?" : "Você esqueceu os delimitadores?",
     "Unknown personal setting: \"%s\"." : "Configuração pessoal desconhecida: \"%s\".",
@@ -51,6 +52,8 @@ OC.L10N.register(
     "EXTENSION" : "EXTENSÃO",
     "DIRNAME" : "NOME_DE_DIRETÓRIO",
     "DATETIME" : "DATA_HORA",
+    "%1$s (renamed)" : "%1$s (renomeado)",
+    "renamed file" : "arquivo renomeado",
     "Font sample could not be generated: %s" : "Não foi possível gerar uma amostra de fonte: %s",
     "Font sample could not be generated with \"%s\"." : "Não foi possível gerar uma amostra de fonte com \"%s\".",
     "Only RGB values without alpha channel are supported." : "Somente valores RGB sem canal alfa são suportados.",
@@ -127,7 +130,6 @@ OC.L10N.register(
     "single converter" : "conversor único",
     "alternatives" : "alternativas",
     "converter" : "conversor",
-    "invoices/2022/october/invoice.fodt" : "faturas/2022/outubro/fatura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Se marcado, o padrão é a geração de PDF em segundo plano. Isso pode ser substituído navegando até o painel PDF na barra lateral de detalhes para cada pasta de origem ou arquivo compactado específico.",
     "Individual File Conversion" : "Conversão de Arquivos Individuais",
     "Enable conversion of individual files in addition to folders and archives." : "Permitir a conversão de arquivos individuais, além de pastas e arquivos.",
@@ -169,7 +171,6 @@ OC.L10N.register(
     "Test Result:" : "Resultado do Teste:",
     "Default Download Options" : "Opções de Download Padrão",
     "PDF Filename Template:" : "Modelo de Nome de Arquivo PDF:",
-    "Given Folder Example" : "Exemplo de Pasta Fornecida",
     "Generated Filename" : "Nome do Arquivo Gerado",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Opcionalmente, escolha uma pasta de destino padrão na nuvem. Se deixado em branco, os PDFs serão gerados no diretório atual.",
     "Generate PDFs in the background by default." : "Gerar PDFs em segundo plano por padrão.",
@@ -320,6 +321,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Valor para \"{settingsKey}\" definido com sucesso como \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "A configuração \"{setting}\" foi desativada com sucesso.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Não foi possível definir o valor de \"{settingsKey}\" para \"{value}\": {message}",
-    "revert color" : "reverter cor"
+    "Given Folder Example" : "Exemplo de Pasta Fornecida"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

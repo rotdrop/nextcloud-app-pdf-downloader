@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Vrednost »%1$s« za nastavitev »%2$s« ni prevedljiva v logično vrednost.",
     "Unknown personal setting: \"%1$s\"" : "Neznana osebna nastavitev »%1$s«",
     "The personal setting \"%1$s\" is read-only" : "Uporabniška nastavitev »%1$s« je le za branje",
+    "invoices/2022/october/invoice.fodt" : "racuni/2022/oktober/racun.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "Logični izraz »%1$s« ni zapisan ustrezno. Koda napake je »%d«.",
     "Did you forget the delimiters?" : "Ali ste izpustili ločilnike?",
     "Unknown personal setting: \"%s\"." : "Neznana osebna nastavitev »%s«",
@@ -83,7 +84,6 @@ OC.L10N.register(
     "Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document." : "Polna pot do programa za filtriranje, ki se zažene, ko pretvorbe z drugimi filtri spodletijo. Če tudi ta pretvorba spodleti, se namesto pretvorjenega dokumenta odpre spletna stran z opisom napake.",
     "Converters" : "Pretvorniki",
     "Status of the configured Converters" : "Stanje nastavljenih pretvornikov",
-    "invoices/2022/october/invoice.fodt" : "racuni/2022/oktober/racun.fodt",
     "Individual File Conversion" : "Posamezna pretvorba datoteke",
     "reason unknown" : "razlog ni znan",
     "Unable to obtain page label template example: {message}" : "Ni mogoče pridobiti primera predloge oznake strani: {message}",
@@ -111,7 +111,6 @@ OC.L10N.register(
     "Test Result:" : "Rezultat:",
     "Default Download Options" : "Privzete možnosti prejema",
     "PDF Filename Template:" : "Predloga datoteke PDF:",
-    "Given Folder Example" : "Podan primer mape",
     "Generated Filename" : "Ustvarjeno ime datoteke",
     "When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time." : "Pri pretvarjanju številnih ali velikih datotek v zapis PDF lahko pride do izpadov, saj so postopki dolgi in spletni strežnik odpove. V teh primerih je mogoče ustvarjanje PDF izvajati v načinu brez povezave. S tem opravila ne bodo opravljena hitreje, vendar pa čas izvajanja opravila nima časovne omejitve spletnega strežnika. Ko bo opravilo končano, uporabnik prejme obvestilo. Pri shranjevanju v oblak, se na ciljnem mestu enostavno pojavi, pri prejemu na krajevno napravo pa bo prejem prikazan na tem mestu (poslano je tudi obvestilo). Povezave za prejem imajo sicer nastavljiv čas izteka veljavnosti.",
     "Choose a destination" : "Izbor ciljnega mesta",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "No" : "Ne",
     "Debug Information" : "Podrobnosti razhroščevanja",
     "unknown error" : "neznana napaka",
-    "true" : "prav"
+    "true" : "prav",
+    "Given Folder Example" : "Podan primer mape"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
