@@ -70,7 +70,14 @@ Please refer to the [app's meta data](appinfo/info.xml)
 ### PDFTkJava
 
 This is a required dependency, it must be installed. It is available
-in most Linux distros. Unfortunately the [most recent release](https://gitlab.com/pdftk-java/pdftk/-/releases/v3.3.3)
+in most Linux distros. Unfortunately the [most recent
+release](https://gitlab.com/pdftk-java/pdftk/-/releases/v3.3.3) has
+some known issues. To my knowledge the version installed on Gentoo
+Linux just works fine. This means: if you encounter blank pages or
+pages with "strange" dimensions: accept the challenge to install PDFTk
+from its source distributions and then try again. On Gentoo seemingly
+the branch [`bc176`](https://gitlab.com/pdftk-java/pdftk/-/tree/bc176)
+is used.
 
 ## Working Conversions
 
