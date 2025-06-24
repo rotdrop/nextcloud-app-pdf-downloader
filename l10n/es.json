@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "El valor \"%1$s\" para la configuración \"%2$s\" no es convertible a booleano.",
     "Unknown personal setting: \"%1$s\"" : "Ajuste personal desconocido: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "El ajuste personal \"%1$s\" is sólo lectura",
+    "invoices/2022/october/invoice.fodt" : "facturas/2022/octubre/factura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "La expresión regular \"%1$s\" parece ser inválida, el código de error es \"%d\".",
     "Did you forget the delimiters?" : "¿Olvidó los delimitadores?",
     "Unknown personal setting: \"%s\"." : "Ajuste personal desconocido: \"%s\".",
@@ -49,6 +50,8 @@
     "EXTENSION" : "EXTENSION",
     "DIRNAME" : "DIRNAME",
     "DATETIME" : "DATETIME",
+    "%1$s (renamed)" : "%1$s (renombrado)",
+    "renamed file" : "archivo renombrado",
     "Font sample could not be generated: %s" : "No pudo generarse la muestra de fuente: %s",
     "Font sample could not be generated with \"%s\"." : "No pudo generarse la muestra de fuente con: \"%s\".",
     "Only RGB values without alpha channel are supported." : "Sólo están soportados los valores RGB sin canal alfa.",
@@ -124,7 +127,6 @@
     "single converter" : "convertidor sencillo",
     "alternatives" : "alternativas",
     "converter" : "conversor",
-    "invoices/2022/october/invoice.fodt" : "facturas/2022/octubre/factura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Si está activo, la generación de PDFs se hará por defecto en segundo plano. Esto puede ser pasado por alto al navegar al panel PDF en la barra lateral de detalles para cada archivador o carpeta fuente particular.",
     "Individual File Conversion" : "Conversión Individual de Archivo",
     "Enable conversion of individual files in addition to folders and archives." : "Habilitar la conversión individual de archivos, además de directorios y archivadores.",
@@ -164,7 +166,6 @@
     "Test Result:" : "Resultado de la prueba:",
     "Default Download Options" : "Opciones de descarga por defecto",
     "PDF Filename Template:" : "Plantilla para el nombre de archivo PDF:",
-    "Given Folder Example" : "Ejemplo para carpeta dada",
     "Generated Filename" : "Nombre de archivo generado",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Opcionalmente, seleccione una carpeta destino por defecto en la nube. Si es dejado en blanco, los PDFs serán generados en el directorio actual.",
     "Generate PDFs in the background by default." : "Generar PDFs en segundo plano por defecto.",
@@ -311,6 +312,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Se estableció exitosamente el valor para \"{settingsKey}\" a \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "La configuración \"{setting}\" se reestableció exitosamente.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No fue posible establecer el valor de \"{settingsKey}\" a \"{value}\": {message}",
-    "revert color" : "revertir color"
+    "Given Folder Example" : "Ejemplo para carpeta dada"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean.",
     "Unknown personal setting: \"%1$s\"" : "Unknown personal setting: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "The personal setting \"%1$s\" is read-only",
+    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\".",
     "Did you forget the delimiters?" : "Did you forget the delimiters?",
     "Unknown personal setting: \"%s\"." : "Unknown personal setting: \"%s\".",
@@ -44,6 +45,8 @@ OC.L10N.register(
     "EXTENSION" : "EXTENSION",
     "DIRNAME" : "DIRNAME",
     "DATETIME" : "DATETIME",
+    "%1$s (renamed)" : "%1$s (تغییر نام داده شد)",
+    "renamed file" : "فایل تغییر نام داده شد",
     "Font sample could not be generated: %s" : "Font sample could not be generated: %s",
     "Font sample could not be generated with \"%s\"." : "Font sample could not be generated with \"%s\".",
     "Only RGB values without alpha channel are supported." : "Only RGB values without alpha channel are supported.",
@@ -98,7 +101,6 @@ OC.L10N.register(
     "single converter" : "single converter",
     "alternatives" : "alternatives",
     "converter" : "converter",
-    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file.",
     "Individual File Conversion" : "Individual File Conversion",
     "Enable conversion of individual files in addition to folders and archives." : "Enable conversion of individual files in addition to folders and archives.",
@@ -136,7 +138,6 @@ OC.L10N.register(
     "Test Result:" : "Test Result:",
     "Default Download Options" : "Default Download Options",
     "PDF Filename Template:" : "PDF Filename Template:",
-    "Given Folder Example" : "Given Folder Example",
     "Generated Filename" : "Generated Filename",
     "Generate PDFs in the background by default." : "Generate PDFs in the background by default.",
     "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.",
@@ -275,6 +276,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Unconfirmed, reverting to old value.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Setting \"{setting}\" has been unset successfully.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \"{settingsKey}\" to \"{value}\": {message}",
+    "Given Folder Example" : "Given Folder Example"
 },
 "nplurals=2; plural=(n > 1);");

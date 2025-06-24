@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "O valor «%1$s» para o axuste «%2$s» non é posíbel convertelo a booleano.",
     "Unknown personal setting: \"%1$s\"" : "Axuste persoal descoñecido: «%1$s»",
     "The personal setting \"%1$s\" is read-only" : "O axuste persoal «%1$s» é só de lectura",
+    "invoices/2022/october/invoice.fodt" : "facturas/2022/outubro/factura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "A expresión regular «%1$s» semella non ser válida, o código de erro é «%d».",
     "Did you forget the delimiters?" : "Esqueceu os delimitadores?",
     "Unknown personal setting: \"%s\"." : "Axuste persoal descoñecido: «%s»",
@@ -124,7 +125,6 @@ OC.L10N.register(
     "single converter" : "convertedor único",
     "alternatives" : "alternativas",
     "converter" : "convertedor",
-    "invoices/2022/october/invoice.fodt" : "facturas/2022/outubro/factura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Se está marcado, o predeterminado é a xeración de PDF en segundo plano. Isto pódese anular accedendo ao panel PDF da barra lateral de detalles de cada cartafol de orixe ou arquivador en particular.",
     "Individual File Conversion" : "Conversión de ficheiros individuais",
     "Enable conversion of individual files in addition to folders and archives." : "Activar a conversión de ficheiros individuais ademais de cartafoles e arquivos.",
@@ -164,7 +164,6 @@ OC.L10N.register(
     "Test Result:" : "Resultado da proba:",
     "Default Download Options" : "Opcións predeterminadas de descarga",
     "PDF Filename Template:" : "Modelo de nome de ficheiro PDF:",
-    "Given Folder Example" : "Exemplo de cartafol",
     "Generated Filename" : "Nome de ficheiro xerado",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Opcionalmente, escolla un cartafol de destino predeterminado na nube. Se se deixa en branco, o PDF xeraranse no directorio actual.",
     "Generate PDFs in the background by default." : "Xerar PDF en segundo plano de xeito predeterminado.",
@@ -311,6 +310,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Definiuse correctamente o valor para «{settingsKey}» a «{displayValue}»",
     "Setting \"{setting}\" has been unset successfully." : "O axuste «{setting}» foi desactivado correctamente.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}",
-    "revert color" : "reverter a cor"
+    "Given Folder Example" : "Exemplo de cartafol"
 },
 "nplurals=2; plural=(n != 1);");

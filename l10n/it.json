@@ -13,6 +13,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "Il valore \"%1$s\" per l'impostazione \"%2$s\" non può essere convertita in booleano.",
     "Unknown personal setting: \"%1$s\"" : "Impostazione personale sconosciuta: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "L'impostazione personale \"%1$s\" è in sola lettura",
+    "invoices/2022/october/invoice.fodt" : "documenti/2022/febbraio/fatture.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "L'espressione regolare \"%1$s\" sembra non essere valida, il codice di errore è \"%d\".",
     "Did you forget the delimiters?" : "Hai dimenticato i separatori?",
     "Unknown personal setting: \"%s\"." : "Impostazione personale sconosciuta: \"%s\".",
@@ -37,6 +38,8 @@
     "EXTENSION" : "EXTENSION",
     "DIRNAME" : "DIRNAME",
     "DATETIME" : "DATETIME",
+    "%1$s (renamed)" : "%1$s (rinominato)",
+    "renamed file" : "file rinominato",
     "Font sample could not be generated: %s" : "Non è stato possibile generare un esempio di carattere: %s",
     "Font sample could not be generated with \"%s\"." : "Non è stato possibile generare un esempio di carattere con \"%s\".",
     "Only RGB values without alpha channel are supported." : "Sono supportati solo valori RGB senza canali alpha",
@@ -90,7 +93,6 @@
     "single converter" : "convertitore singolo",
     "alternatives" : "alternative",
     "converter" : "convertitore",
-    "invoices/2022/october/invoice.fodt" : "documenti/2022/febbraio/fatture.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Se selezionata, l'impostazione predefinita per la generazione del PDF sarà in background. Può essere ignorata singolarmente accedendo al pannello PDF  presente nella barra laterale dei dettagli della cartella o dell'archivio che si intende utilizzare.",
     "reason unknown" : "motivo sconosciuto",
     "Unable to obtain page label template example: {message}" : "Impossibile recuperare l'esempio del modello di etichetta della pagina: {message}",
@@ -125,7 +127,6 @@
     "Test Result:" : "Risultato del test:",
     "Default Download Options" : "Opzioni predefinite di scaricamento",
     "PDF Filename Template:" : "Modello nome file PDF:",
-    "Given Folder Example" : "Esempio percorso cartelle",
     "Generated Filename" : "Nome del file generato",
     "Generate PDFs in the background by default." : "Genera i PDF in background per impostazione predefinita.",
     "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "Per quanto tempo conservare i file PDF generati offline. Trascorso questo tempo verranno eventualmente eliminati da un processo in background.",
@@ -246,6 +247,7 @@
     "Unconfirmed, reverting to old value." : "Non confermato, ripristino al precedente valore.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Valore impostato correttamente per \"{settingsKey}\" su \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "L'impostazione \"{setting}\" è stata annullata correttamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossibile impostare il valore per \"{settingsKey}\" su \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossibile impostare il valore per \"{settingsKey}\" su \"{value}\": {message}",
+    "Given Folder Example" : "Esempio percorso cartelle"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -1,6 +1,8 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "%1$s (renamed)" : "%1$s (pārdēvēta)",
+    "renamed file" : "pārdēvēja datni",
     "User" : "Lietotājs",
     "Password" : "Parole",
     "bytes" : "baiti",

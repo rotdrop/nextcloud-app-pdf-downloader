@@ -14,6 +14,7 @@
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "القيمة \"%1$s\"  في الإعداد \"%2$s\" لا يمكن تحويلها إلى قيمة بوليان \"منطقية\".",
     "Unknown personal setting: \"%1$s\"" : "إعدادات شخصية غير معلومة: \"%1$s\"",
     "The personal setting \"%1$s\" is read-only" : "الإعدادات الشخصية \"%1$s\" للقراءة فقط و لا يمكن تعديلها",
+    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "النمط التعبيري RegExp ـ \"%1$s\" يبدو غير صحيح؛ خطأ رقم: \"%d\".",
     "Did you forget the delimiters?" : "هل نسيت علامات الحدّ delimiters؟",
     "Unknown personal setting: \"%s\"." : "إعدادات شخصية غير معلومة: \"%s\".",
@@ -49,6 +50,7 @@
     "EXTENSION" : "الامتداد EXTENSION",
     "DIRNAME" : "اسم الدليل DIRNAME",
     "DATETIME" : "التاريخ و الوقت DATETIME",
+    "renamed file" : "ملف معاد تسميته",
     "Font sample could not be generated: %s" : "تعذّر توليد عينة الخط: %s",
     "Font sample could not be generated with \"%s\"." : "تعذّر توليد عينة الخط مع \"%s\".",
     "Only RGB values without alpha channel are supported." : "فقط قيم RGB بدون قنوات \"آلفا\" مدعومةٌ",
@@ -124,7 +126,6 @@
     "single converter" : "مُحوّل وحيد",
     "alternatives" : "بدائل",
     "converter" : "مُحوّل",
-    "invoices/2022/october/invoice.fodt" : "invoices/2022/october/invoice.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "إذا تمّ تحديده بشكل افتراضي لإنشاء ملفات PDF في الخلفية. يمكن تجاوز ذلك بالانتقال إلى لوحة PDF في الشريط الجانبي للتفاصيل لكل مجلد مصدر أو ملف أرشيف معين.",
     "Individual File Conversion" : "تحويل ملف فردي",
     "Enable conversion of individual files in addition to folders and archives." : "تمكين تحويل ملفات فردية بالإضافة إلى المجلدات و الأراشيف.",
@@ -166,7 +167,6 @@
     "Test Result:" : "إختبر النتيجة:",
     "Default Download Options" : "خيارات التنزيل التلقائية",
     "PDF Filename Template:" : "قالب اسم ملف PDF:",
-    "Given Folder Example" : "مثال لاسم مُجلّد",
     "Generated Filename" : "اسم ملف مُولّد",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "اختياريًا، اختر مجلد الوجهة الافتراضي في السحابة. إذا تركت ملفات PDF فارغة سيتم إنشاؤها في الدليل الحالي.",
     "Generate PDFs in the background by default." : "حوّل ملفات PDH في الخلفية كخيار تلقائي.",
@@ -317,6 +317,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "تمّ تعيين \"{settingKey}\" بــ \"{displayValue}\" بنجاح",
     "Setting \"{setting}\" has been unset successfully." : "تمّ إلغاء تعيين \"{setting}\" بنجاح.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "لم يُمكن تعيين \"{settingsKeys}\" بــ \"{value}\":{message}",
-    "revert color" : "أرجِع اللون"
+    "Given Folder Example" : "مثال لاسم مُجلّد"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

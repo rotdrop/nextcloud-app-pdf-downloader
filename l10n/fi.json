@@ -4,6 +4,7 @@
     "PDF file \"%s\" has been deleted." : "PDF-tiedosto \"%s\" on poistettu.",
     "Please install the \"%s\" program on the server." : "Asenna ohjelma \"%s\" palvelimelle.",
     "FILENAME" : "TIEDOSTONIMI",
+    "%1$s (renamed)" : "%1$s (nimetty uudelleen)",
     "Combining PDFs failed" : "PDF-tiedostojen yhdistäminen epäonnistui",
     "Unable to open archive file %s (%s)" : "Arkistotiedostoa %s ei voitu avata (%s)",
     "User" : "Käyttäjä",

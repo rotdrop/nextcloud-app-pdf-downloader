@@ -16,6 +16,7 @@ OC.L10N.register(
     "Value \"%1$s\" for setting \"%2$s\" is not convertible to boolean." : "\"%2$s\" ayarı için \"%1$s\" değeri boolean biçimine dönüştürülemez.",
     "Unknown personal setting: \"%1$s\"" : "\"%1$s\" kişisel ayarı bilinmiyor",
     "The personal setting \"%1$s\" is read-only" : "\"%1$s\" kişisel ayarı salt okunur",
+    "invoices/2022/october/invoice.fodt" : "faturalar/2022/ekim/fatura.fodt",
     "The regular expression \"%1$s\" seems to be invalid, error code is \"%d\"." : "\"%1$s\" kurallı ifadesi geçersiz grünüyor. Hata kodu: \"%d\".",
     "Did you forget the delimiters?" : "Alan sınırlayıcıları unuttunuz mu?",
     "Unknown personal setting: \"%s\"." : "\"%s\" kişisel ayarı bilinmiyor",
@@ -126,7 +127,6 @@ OC.L10N.register(
     "single converter" : "tek dönüştürücü",
     "alternatives" : "alternatifler",
     "converter" : "dönüştürücü",
-    "invoices/2022/october/invoice.fodt" : "faturalar/2022/ekim/fatura.fodt",
     "If checked default to background PDF generation. This can be overridden by navigating to the PDF panel in the details sidebar for each particular source folder or archive file." : "Bu seçenek etkinse, PDF varsayılan olarak arka planda oluşturulur. Bu seçenek, her bir kaynak klasör ya da arşiv dosyası için ayrıntılar kenar çubuğundaki PDF panosuna giderek değiştirilebilir.",
     "Individual File Conversion" : "Bireysel dosya dönüşümü",
     "Enable conversion of individual files in addition to folders and archives." : "Bu seçenek etkinse, klasörler ve arşivler dışında bireysel dosyaların dönüşümü yapılabilir.",
@@ -168,7 +168,6 @@ OC.L10N.register(
     "Test Result:" : "Sınama sonucu:",
     "Default Download Options" : "Varsayılan indirme ayarları",
     "PDF Filename Template:" : "PDF dosya adı kalıbı:",
-    "Given Folder Example" : "Belirtilen klasör örneği",
     "Generated Filename" : "Oluşturulan dosya adı",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "İsteğe bağlı olarak bulutta varsayılan bir hedef klasör seçin. Boş bırakılırsa geçerli PDF dosyaları ogeçerli klasörde oluşturulur.",
     "Generate PDFs in the background by default." : "PDF oluşturmayı varsayılan olarak arka planda yapın.",
@@ -319,6 +318,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\", \"{displayValue}\" değerine ayarlandı",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ayarı kaldırıldı.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}.",
-    "revert color" : "rengi öncekine döndür"
+    "Given Folder Example" : "Belirtilen klasör örneği"
 },
 "nplurals=2; plural=(n > 1);");
