@@ -102,10 +102,7 @@
     "Clear Selection" : "Limpar seleção",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Se não tiver certeza, mantenha isto desativado. Ativar esta opção leva a uma varredura de diretórios adicional antes de agendar uma operação em segundo plano. Se a verificação detectar um ponto de montagem no diretório que foi montado com a opção de montagem \"autenticada\", suas credenciais de login serão temporariamente promovidas para o trabalho em segundo plano. Isto é usado principalmente para lidar com casos especiais que devem interessar apenas ao autor deste pacote. Mantenha a opção desativada, a menos que você realmente saiba o que significa e realmente saiba que precisa dela.",
     "Choose a folder requiring authentication" : "Escolha uma pasta que exija autenticação",
-    "Missing Dependencies" : "Dependências Ausentes",
-    "Required Missing" : "Obrigatórias Ausentes",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "O aplicativo não funcionará a menos que você instale {program} de modo que possa ser encontrado pelo servidor web.",
-    "Suggested Missing" : "Sugeridas Ausentes",
     "The app will work without installing {program}, but the conversion results may be degraded." : "O aplicativo funcionará sem a instalação de {program}, mas os resultados da conversão podem ser prejudicadas.",
     "Archive Extraction" : "Extração de Arquivos Compactados",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Extração instantânea de arquivos compactados. Se ativado, os usuários podem controlar esta configuração por usuário.",
@@ -318,7 +315,6 @@
     "Unconfirmed, reverting to old value." : "Não confirmado, revertendo para valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Valor para \"{settingsKey}\" definido com sucesso como \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "A configuração \"{setting}\" foi desativada com sucesso.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Não foi possível definir o valor de \"{settingsKey}\" para \"{value}\": {message}",
-    "Given Folder Example" : "Exemplo de Pasta Fornecida"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Não foi possível definir o valor de \"{settingsKey}\" para \"{value}\": {message}"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

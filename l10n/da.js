@@ -101,10 +101,7 @@ OC.L10N.register(
     "Clear Selection" : "Ryd markering",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Hvis du er usikker, så behold dette deaktiveret. Aktivering af denne indstilling fører til en ekstra mappescanning før planlægning af en baggrundshandling. Hvis scanningen registrerer et monteringspunkt i mappen, som er blevet monteret med monteringsindstillingen \"autentificeret\" , så vil dine login legitimationsoplysninger blive midlertidigt promoveret til baggrundsjobbet. Dette bruges primært til at håndtere særlige tilfælde, som kun bør vedrøre forfatteren af denne pakke. Hold indstillingen deaktiveret, medmindre du virkelig ved, hvad det betyder, og du virkelig ved, at du har brug for det.",
     "Choose a folder requiring authentication" : "Vælg en mappe der kræver godkendelse",
-    "Missing Dependencies" : "Manglende afhængigheder",
-    "Required Missing" : "Krævet manglende",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "App 'en vil ikke virke, medmindre du installerer {program} sådan, at det kan findes af web- serveren.",
-    "Suggested Missing" : "Foreslåede mangler",
     "The app will work without installing {program}, but the conversion results may be degraded." : "App'en vil virke uden at installere {program}, men konverteringsresultaterne kan blive forringet.",
     "Archive Extraction" : "Arkivudtrækning",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "On-the.fly udtræk af arkivfiler. Hvis aktiveret, så kan brugere styre denne indstilling på en per bruger basis.",
@@ -317,7 +314,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Ubekræftet, tilbagefører til gammel værdi.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Værdi for \"{settingsKey}\" sat til \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Indstillingen \"{setting}\" er blevet ikke-markeret med succes.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kunne ikke sætte værdi for \"{settingsKey}\" til \"{value}\": {message}",
-    "Given Folder Example" : "Givet mappe eksempel"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kunne ikke sætte værdi for \"{settingsKey}\" til \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");

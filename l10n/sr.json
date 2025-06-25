@@ -103,10 +103,7 @@
     "Clear Selection" : "Уклони избор",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Ако нисте сигурни, оставите ово подешавање искључено. Укључивање ове опције изазива додатно скенирање директоријума пре заказивања позадинске операције. Ако скенирање открије таку монтирања у директоријуму који је био монтиран опцијом монтирања са „пријавом”, онда ће се ваши подаци за пријаву привремено проследити позадинском послу. Ово се првенствено користи за обраду специјалних случајева који би требало да се тичу само аутора овог пакета. Не укључујте опцију осим ако заиста знате шта она значи и у потпуности сте сигурни да вам је потребна.",
     "Choose a folder requiring authentication" : "Изаберите фолдер за који је потребна пријава",
-    "Missing Dependencies" : "Зависности које недостају",
-    "Required Missing" : "Недостаје неопходно",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Апликација неће функционисати ако не инсталирате {program} тако да веб сервер може да га пронађе.",
-    "Suggested Missing" : "Недостаје препоручено",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Апликација ће радити ако није инсталиран {program}, али резултати претварања могу бити лошијег квалитета.",
     "Archive Extraction" : "Распаковање архиве",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Распакивање фајлова архива у ходу. Ако је укључено, сваки корисник за себе може да контролише ово подеавање.",
@@ -170,6 +167,7 @@
     "Test Result:" : "Резултат теста:",
     "Default Download Options" : "Подразумеване опције преузимања",
     "PDF Filename Template:" : "Шаблон за PDF име фајла:",
+    "Try it out" : "Испробајте",
     "Generated Filename" : "Генерисано име фајла",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Подразумевани циљни фолдер можете да изаберете и у облаку. Ако се остави празно, PDF документи ће се генерисати у текућем директоријуму.",
     "Generate PDFs in the background by default." : "Подразумевано креирај PDF фајлове у позадини.",
@@ -319,7 +317,6 @@
     "Unconfirmed, reverting to old value." : "Није потврђено, враћа се стара вредност.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Вредност „{settingsKey}” је успешно постављена на „{displayValue}”",
     "Setting \"{setting}\" has been unset successfully." : "Подешавање „{setting}” је успешно обрисано.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Вредност „{settingsKey}” не може да се постави на „{value}”: {message}",
-    "Given Folder Example" : "Дати пример фолдера"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Вредност „{settingsKey}” не може да се постави на „{value}”: {message}"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

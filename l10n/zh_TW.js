@@ -105,10 +105,7 @@ OC.L10N.register(
     "Clear Selection" : "清除選取範圍",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "若不確定，請將其停用。啟用此選項會導致在安排背景操作之前進行額外的目錄掃描。如果掃描偵測到目錄中的掛載點已使用「已驗證」掛載選項掛載，則您的登入憑證將暫時提昇為背景作業。這主要用於處理僅與此包的作者有關的特殊情況。除非您真的知道其涵義，且您真的知道您需要它，否則請停用該選項。",
     "Choose a folder requiring authentication" : "選擇需要驗證的資料夾",
-    "Missing Dependencies" : "缺少依賴關係",
-    "Required Missing" : "找不到必要的",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "除非您安裝 {program} 讓網路伺服器可以找到該應用程式，否則該應用程式將無法運作。",
-    "Suggested Missing" : "找不到建議的",
     "The app will work without installing {program}, but the conversion results may be degraded." : "應用程式不需要安裝 {program} 即可運作，但轉換結果可能會較差。",
     "Archive Extraction" : "封存檔解壓縮",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "即時解壓縮封存檔。若啟用，每個使用者可以單獨控制此設定。",
@@ -172,6 +169,7 @@ OC.L10N.register(
     "Test Result:" : "測試結果：",
     "Default Download Options" : "預設下載選項",
     "PDF Filename Template:" : "PDF 檔案名稱範本：",
+    "Try it out" : "試試看",
     "Generated Filename" : "已產生的檔案名稱",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "（選擇性）選擇雲端中的預設目標資料夾。若留空，將在目前目錄中產生 PDF。",
     "Generate PDFs in the background by default." : "預設在背景產生 PDF。",
@@ -321,7 +319,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "未確認，還原至舊值。",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "成功設定「{settingsKey}」的值為「{displayValue}」",
     "Setting \"{setting}\" has been unset successfully." : "設定「{setting}」已成功取消設定。",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "無法將「{settingsKey}」的值設定為「{value}」：{message}",
-    "Given Folder Example" : "指定的資料夾範例"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "無法將「{settingsKey}」的值設定為「{value}」：{message}"
 },
 "nplurals=1; plural=0;");

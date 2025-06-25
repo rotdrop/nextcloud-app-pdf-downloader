@@ -97,10 +97,7 @@
     "Clear Selection" : "Limpar a selección",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Se non está seguro, manteña esta opción desactivada. A activación desta opción leva a unha exploración adicional do directorio antes de programar unha operación en segundo plano. Se a exploración detecta un punto de montaxe no directorio que foi montado coa opción de montaxe «autenticado», entón as súas credenciais de acceso ascenderán temporalmente ao traballo en segundo plano. Isto úsase principalmente para tratar casos especiais que só deberían afectar ao autor deste paquete. Manteña a opción desactivada a non ser que saiba realmente o que significa e sabe que a necesita.",
     "Choose a folder requiring authentication" : "Escolla un cartafol que precise autenticación",
-    "Missing Dependencies" : "Faltan dependencias",
-    "Required Missing" : "Dependencias necesarias",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "A aplicación non funcionará a non ser que instale {program} de xeito que o servidor web poida atopalo.",
-    "Suggested Missing" : "Suxestións non atopadas",
     "The app will work without installing {program}, but the conversion results may be degraded." : "A aplicación funcionará sen instalar {program}, mais os resultados da conversión poden estragarse.",
     "Archive Extraction" : "Extracción de arquivos",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Extracción ao voo de arquivadores. Se está activado, os usuarios poden controlar este axuste por cada usuario.",
@@ -307,7 +304,6 @@
     "Unconfirmed, reverting to old value." : "Sen confirmar, revertendo ao valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Definiuse correctamente o valor para «{settingsKey}» a «{displayValue}»",
     "Setting \"{setting}\" has been unset successfully." : "O axuste «{setting}» foi desactivado correctamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}",
-    "Given Folder Example" : "Exemplo de cartafol"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

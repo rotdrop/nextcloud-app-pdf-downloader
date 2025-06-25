@@ -53,6 +53,7 @@ OC.L10N.register(
     "EXTENSION" : "PŘÍPONA",
     "DIRNAME" : "NÁZEVSLOŽKY",
     "DATETIME" : "DATUMČAS",
+    "%1$s (renamed)" : "%1$s (přejmenované)",
     "renamed file" : "přejmenovaný soubor",
     "Font sample could not be generated: %s" : "Ukázku písma se nepodařilo vytvořit: %s",
     "Font sample could not be generated with \"%s\"." : "Ukázku písma se nepodařilo vytvořit s „%s“.",
@@ -104,10 +105,7 @@ OC.L10N.register(
     "Clear Selection" : "Vyčistit  výběr",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Pokud si nejste jistí, ponechte toto vypnuté. Zapnutí této volby vede k dalšímu skenování složek před naplánováním fungování na pozadí. Pokud sken zjistí přípojný bod ve složce, která byla připojena s volbou „ověřené“ připojení, pak budou vaše přihlašovací údaje dočasně poskytnuty úloze na pozadí. Toto je používáno hlavně k obsloužení speciálních případů, které by se měli týkat pouze autora této aplikace. Tuto volbu nezapínejte pokud opravdu dobře nevíte, co znamená a že opravdu víte, že ji potřebujete.",
     "Choose a folder requiring authentication" : "Zvolte složku, která vyžaduje ověření se",
-    "Missing Dependencies" : "Chybějící závislosti",
-    "Required Missing" : "Chybí vyžadované",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Dokud nenainstalujete {program} tak, aby byl dosažitelný pro webový server, aplikace nebude fungovat.",
-    "Suggested Missing" : "Chybí doporučené",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Bez instalace {program} sice aplikace bude fungovat, ale výsledky převodu tím mohou být zhoršené.",
     "Archive Extraction" : "Rozbalení archivu",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Rozbalování souborů s archivy za běhu. Pokud je to umožněno, jednotliví uživatelé si mohou toto nastavení pro sebe upravovat.",
@@ -171,6 +169,7 @@ OC.L10N.register(
     "Test Result:" : "Výsledek testu:",
     "Default Download Options" : "Výchozí předvolby pro stahování",
     "PDF Filename Template:" : "Šablona pro název PDF souboru:",
+    "Try it out" : "Vyzkoušet",
     "Generated Filename" : "Vytvořený název souboru",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Volitelně zvolte výchozí cílovou složku v cloudu. Pokud není vyplněno, PDF dokumenty budou vytvořeny ve složce, ve které se nacházíte.",
     "Generate PDFs in the background by default." : "Ve výchozím stavu vytvářet PDF soubory na pozadí.",
@@ -320,7 +319,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Nepotvrzeno – vrací se na původní hodnotu.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Úspěšně nastavena hodnota pro „{settingsKey}“ na „{displayValue}",
     "Setting \"{setting}\" has been unset successfully." : "Nastavení „{setting}“ bylo úspěšně zrušeno.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nedaří se nastavit hodnotu pro „{settingsKey}“ na „{value}“: {message}",
-    "Given Folder Example" : "Příklad dané složky"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nedaří se nastavit hodnotu pro „{settingsKey}“ na „{value}“: {message}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

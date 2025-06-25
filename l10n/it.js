@@ -73,10 +73,7 @@ OC.L10N.register(
     "Invalid path selected: \"{dir}\"." : "Selezionato percorso non valido: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Percorso selezionato: \"{dir}/{base}/\".",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "In caso di dubbi, tienilo disabilitato. L'abilitazione di questa opzione comporta un'ulteriore scansione della cartella prima della pianificazione di un'operazione in background. Se la scansione rileva un punto di montaggio nella directory con l'opzione di montaggio \"autenticato\", le tue credenziali di accesso saranno temporaneamente promosse al processo in background. Viene utilizzato principalmente per gestire casi speciali che dovrebbero riguardare solo l'autore di questo pacchetto. Mantieni l'opzione disabilitata a meno che tu non sappia davvero cosa significa e di averne effettivamente bisogno.",
-    "Missing Dependencies" : "Dipendenze mancanti",
-    "Required Missing" : "Obbligatorio mancante",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "L'applicazione non funzionerà a meno che non installi {program} in modo che possa essere trovato dal server web.",
-    "Suggested Missing" : "Suggerito mancante",
     "The app will work without installing {program}, but the conversion results may be degraded." : "L'applicazione funzionerà senza installare {program}, ma i risultati della conversione potrebbero essere degradati.",
     "Archive Extraction" : "Estrazione archivio",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Estrazione veloce dei file dall'archivio. Se abilitata gli utenti potranno selezionare questa opzione nella propria impostazione personale.",
@@ -249,7 +246,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Non confermato, ripristino al precedente valore.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Valore impostato correttamente per \"{settingsKey}\" su \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "L'impostazione \"{setting}\" è stata annullata correttamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossibile impostare il valore per \"{settingsKey}\" su \"{value}\": {message}",
-    "Given Folder Example" : "Esempio percorso cartelle"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossibile impostare il valore per \"{settingsKey}\" su \"{value}\": {message}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

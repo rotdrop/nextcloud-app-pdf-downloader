@@ -99,10 +99,7 @@
     "Clear Selection" : "Zrušiť výber",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Ak si nie ste istí, ponechajte toto vypnuté. Povolenie tejto možnosti vedie k ďalšej kontrole adresára pred naplánovaním operácie na pozadí. Ak skenovanie zistí pripojené úložisko v adresári, ktorý bol pripojený pomocou možnosti pripojenia „autentizované“, vaše prihlasovacie údaje budú dočasne povýšené na úlohu na pozadí. Používa sa predovšetkým na riešenie špeciálnych prípadov, ktoré by sa mali týkať iba autora tohto balíka. Ponechajte túto možnosť zakázanú, pokiaľ skutočne neviete, čo to znamená a naozaj neviete, že ju potrebujete.",
     "Choose a folder requiring authentication" : "Vybrať adresár vyžadujúci overenie",
-    "Missing Dependencies" : "Chýbajúce závislosti",
-    "Required Missing" : "Vyžadované chýbajú",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Aplikácia nebude fungovať, pokiaľ nenainštalujete {program} tak, aby ho mohol webový server nájsť.",
-    "Suggested Missing" : "Odporúčané chýbajú",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Aplikácia bude fungovať bez inštalácie {program}, ale výsledky konverzie môžu byť znížené.",
     "Archive Extraction" : "Rozbalenie archívu",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Extrakcia archívnych súborov za behu. Ak je táto možnosť povolená, užívatelia môžu toto nastavenie ovládať  jednotlivo.",
@@ -315,7 +312,6 @@
     "Unconfirmed, reverting to old value." : "Nepodarilo sa overiť, vraciam pôvodnú hodnotu.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Úspešne nastavená hodnota \"{settingsKey}\" na \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Nastavenie {setting} bolo úspešne zrušené.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nebolo možné nastaviť hodnotu \"{settingsKey}\" na \"{value}\": {message}",
-    "Given Folder Example" : "Príklad zadaného názvu adresára"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nebolo možné nastaviť hodnotu \"{settingsKey}\" na \"{value}\": {message}"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

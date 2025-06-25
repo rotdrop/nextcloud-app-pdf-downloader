@@ -92,10 +92,7 @@ OC.L10N.register(
     "Reset Changes" : "Változások visszaállítása",
     "Clear Selection" : "Kiválasztás törlése",
     "Choose a folder requiring authentication" : "Válasszon hitelesítést igénylő mappát",
-    "Missing Dependencies" : "Hiányzó függőségek",
-    "Required Missing" : "Hiányzó szükséges csomagok",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Az alkalmazás nem fog működni, ha nem telepíti a(z) {program} programot, hogy elérhető legyen a webkiszolgáló számára.",
-    "Suggested Missing" : "Hiányzó javasolt csomagok",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Az alkalmazás működni fog a(z) {program} telepítése nélkül, de az átalakítás eredménye rosszabb lehet.",
     "Archive Extraction" : "Archívum kibontása",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Az archívumfájlok menet közbeni kibontása. Ha engedélyezett, akkor a felhasználónként állítható be ez a beállítás.",
@@ -296,7 +293,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Nincs megerősítve, visszaállítás az eredeti értékre.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "A(z) „{settingsKey}” értéke sikeresen beállítva erre: „{displayValue}”",
     "Setting \"{setting}\" has been unset successfully." : "A(z) „{setting}” beállítás értéke sikeresen törölve.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nem lehet beállítani a(z) „{settingsKey}” értékét erre: „{value}”: {message}",
-    "Given Folder Example" : "Megadott példamappa"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nem lehet beállítani a(z) „{settingsKey}” értékét erre: „{value}”: {message}"
 },
 "nplurals=2; plural=(n != 1);");
