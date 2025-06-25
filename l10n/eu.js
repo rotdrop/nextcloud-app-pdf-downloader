@@ -86,10 +86,7 @@ OC.L10N.register(
     "Click to submit your changes." : "Egin klik zure aldaketak gordetzeko.",
     "Reset Changes" : "Berrezarri aldaketak",
     "Clear Selection" : "Garbitu hautapena",
-    "Missing Dependencies" : "Dependentziak faltan",
-    "Required Missing" : "Falta diren beharrezkoak",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Aplikazioa ez da ondo ibiliko, web-zerbitzariak aurkitzeko moduan {program} instalatu ezean.",
-    "Suggested Missing" : "Falta diren gomendatuak",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Aplikazioak funtzionatuko du {program} instalatu gabe, baina bihurketak degradatuta gera daitezke.",
     "Archive Extraction" : "Artxiboen erauzketa",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Artxibo-fitxategien berehalako erauzketa. Gaituta badago, erabiltzaileek ezarpen hau kontrola dezakete erabiltzaile bakoitzeko.",
@@ -280,7 +277,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Berretsi gabe, aurreko baliora itzultzen.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\" \"{displayValue}\" baliora ondo ezarri da",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ezarpena behar bezala baliogabetu da.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Ezin izan da \"{settingsKey}\" \"{value}\" baliora ezarri: {message}",
-    "Given Folder Example" : "Eskaintzen den karpeta adibidea"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Ezin izan da \"{settingsKey}\" \"{value}\" baliora ezarri: {message}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -94,10 +94,7 @@
     "Clear Selection" : "تاللاشنى تازىلاش",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "ئېنىق بولمىسا بۇ چەكلەنگەن. بۇ تاللاشنى قوزغىتىش تەگلىك مەشغۇلاتىنى ئورۇنلاشتۇرۇشتىن بۇرۇن قوشۇمچە مۇندەرىجە سايىلىشىنى كەلتۈرۈپ چىقىرىدۇ. ئەگەر سايىلەش مۇندەرىجىسىدىكى «دەلىللەنگەن» قاچىلاش تاللانمىسى بىلەن ئورنىتىلغان ئورۇننى بايقىسا ، كىرىش كىنىشكىڭىز ئارقا كۆرۈنۈش خىزمىتىگە ۋاقىتلىق ئۆستۈرۈلىدۇ. بۇ ئاساسلىقى ئالاھىدە ئەھۋاللارنى بىر تەرەپ قىلىشقا ئىشلىتىلىدۇ ، بۇ پەقەت بۇ بولاقنىڭ ئاپتورىغىلا مۇناسىۋەتلىك. ئۇنىڭ مەنىسىنى ھەقىقىي بىلمىسىڭىز ھەمدە ئۇنىڭغا ئېھتىياجلىق ئىكەنلىكىڭىزنى ھەقىقىي بىلمىسىڭىز ، تاللاشنى چەكلەڭ.",
     "Choose a folder requiring authentication" : "دەلىللەشنى تەلەپ قىلىدىغان ھۆججەت قىسقۇچنى تاللاڭ",
-    "Missing Dependencies" : "تايىنىشچانلىقى يوق",
-    "Required Missing" : "تەلەپ قىلىنغان يوقاپ كېتىش",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "بۇ پروگرامما web مۇلازىمېتىر تەرىپىدىن تاپقىلى بولىدىغان {program} نى قاچىلىمىسىڭىز ئىشلىمەيدۇ.",
-    "Suggested Missing" : "يوقالغان تەكلىپ",
     "The app will work without installing {program}, but the conversion results may be degraded." : "بۇ دېتال {program} نى ئورناتماي ئىشلەيدۇ ، ئەمما ئۆزگەرتىش نەتىجىسى ناچارلىشىشى مۇمكىن.",
     "Archive Extraction" : "ئارخىپ چىقىرىش",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "ئارخىپ ھۆججەتلىرىنى ئۇچۇش. ئەگەر قوزغىتىلغان ئىشلەتكۈچىلەر بۇ تەڭشەكنى ھەر بىر ئىشلەتكۈچىگە ئاساسەن كونترول قىلالايدۇ.",
@@ -304,7 +301,6 @@
     "Unconfirmed, reverting to old value." : "جەزملەشتۈرۈلمىگەن ، كونا قىممەتكە قايتقان.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "مۇۋەپپەقىيەتلىك ھالدا \"{settingsKey}\" نىڭ قىممىتىنى \"{displayValue}\" قىلىپ بەلگىلەڭ.",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" نى تەڭشەش ئوڭۇشلۇق بولمىدى.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}",
-    "Given Folder Example" : "ھۆججەت قىسقۇچ مىسالى"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

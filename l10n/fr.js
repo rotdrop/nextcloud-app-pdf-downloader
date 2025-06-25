@@ -104,10 +104,7 @@ OC.L10N.register(
     "Clear Selection" : "Effacer la sélection",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Si vous n'êtes pas certain·e·s, garder ceci désactivé. L'activation de cette option entraine un scan de répertoire supplémentaire avant de programmer une tâche en arrière-plan. Si le scan détecte un point de montage dans le répertoire ayant été monté avec l'option \"authentifié\", alors vos informations de connexion seront temporairement partagées avec la tâche en arrière-plan. Ceci est essentiellement utilisé pour la prise en charge de cas spéciaux qui ne devraient concerner que l'auteur de cette application. Laisser cette option désactivée à moins de réellement savoir ce qu'elle signifie, ce qu'elle implique, et de savoir que vous en avez besoin.",
     "Choose a folder requiring authentication" : "Choisissez un dossier nécessitant une authentification",
-    "Missing Dependencies" : "Dépendances manquantes",
-    "Required Missing" : "Manquants requis",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "L'application ne fonctionnera pas à moins que vous n'installiez {program} de manière à ce qu'il puisse être trouvé par le serveur Web.",
-    "Suggested Missing" : "Suggestions manquantes",
     "The app will work without installing {program}, but the conversion results may be degraded." : "L'application fonctionnera sans installer {program}, mais les résultats de conversion pourraient être dégradés.",
     "Archive Extraction" : "Extraction d'archive",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Extraction de fichiers archive à la volée. Lorsqu'elle est activée, les utilisateurs peuvent chacun contrôler cette option.",
@@ -314,7 +311,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Non confirmé, remis à sa valeur initiale.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Le paramètre \"{settingsKey}\" a maintenant comme valeur {value}.",
     "Setting \"{setting}\" has been unset successfully." : "Le paramètre \"{setting}\" a été désactivé avec succès.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossible de donner au paramètre \"{settingsKey}\" la valeur {value}: {message}.",
-    "Given Folder Example" : "Dossier exemple"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Impossible de donner au paramètre \"{settingsKey}\" la valeur {value}: {message}."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

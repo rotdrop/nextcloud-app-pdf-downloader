@@ -103,10 +103,7 @@
     "Clear Selection" : "Auswahl leeren",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Wenn Sie sich nicht sicher sind, lassen Sie dies deaktiviert. Die Aktivierung dieser Option führt zu einem zusätzlichen Durchsuchen des Verzeichnisses, bevor ein Hintergrundvorgang geplant wird. Wenn die Durchsuchung einen Einhängepunkt im Verzeichnis erkennt, der mit der Einhängeoption \"authentifiziert\" eingehängt wurde, werden Ihre Anmeldedaten vorübergehend in die Hintergrundaufgabe übernommen. Dies wird hauptsächlich verwendet, um Sonderfälle zu behandeln, die nur den Autor dieses Pakets betreffen sollten. Lassen Sie die Option deaktiviert, es sei denn, Sie wissen wirklich, was sie bedeutet, und Sie wissen wirklich, dass Sie sie brauchen.",
     "Choose a folder requiring authentication" : "Wählen Sie einen Ordner aus, der Authentifizierung erfordert",
-    "Missing Dependencies" : "Fehlende Abhängigkeiten",
-    "Required Missing" : "Erforderlich fehlt",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Die App funktioniert nur, wenn Sie {program} so installieren, dass es vom Webserver gefunden werden kann.",
-    "Suggested Missing" : "Vorgeschlagen fehlt",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Die App funktioniert auch ohne Installation von {program}, aber die Konvertierungsergebnisse können schlechter sein.",
     "Archive Extraction" : "Archiv entpacken",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Transparentes extrahieren von Archiv-Dateien. Falls aktiviert, können die einzelnen Benutzer die Einstellung für sich selbst ändern.",
@@ -170,6 +167,7 @@
     "Test Result:" : "Testergebnis:",
     "Default Download Options" : "Standard-Download-Optionen",
     "PDF Filename Template:" : "Vorlage für PDF-Dateinamen:",
+    "Try it out" : "Probieren Sie es aus",
     "Generated Filename" : "Erstellter Dateiname",
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "Wählen Sie optional einen Standardzielordner in der Cloud. Wenn Sie das Feld leer lassen, werden PDFs im aktuellen Ordner erstellt.",
     "Generate PDFs in the background by default." : "PDFs standardmäßig im Hintergrund generieren.",
@@ -319,7 +317,6 @@
     "Unconfirmed, reverting to old value." : "Unbestätigt, setze auf den alten Wert zurück.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Der Wert für die Einstellung \"{settingsKey}\" wurde auf \"{displayValue}\" gesetzt",
     "Setting \"{setting}\" has been unset successfully." : "Die Einstellung \"{setting}\" wurde gelöscht.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Wert für die Einstellung \"{settingsKey}\" konnte nicht auf den Wert \"{value}\" gesetzt werden: {message}",
-    "Given Folder Example" : "Gegebenes Ordnerbeispiel"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Wert für die Einstellung \"{settingsKey}\" konnte nicht auf den Wert \"{value}\" gesetzt werden: {message}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -62,7 +62,6 @@ OC.L10N.register(
     "Reset Changes" : "Lähtesta muudatused",
     "Clear Selection" : "Kustuta valik",
     "Choose a folder requiring authentication" : "Vali autentimist vajav kaust",
-    "Missing Dependencies" : "Sõltuvused on puudu",
     "Add a Folder" : "Lisa kaust",
     "Subfolders are taken into account, you only need to specify the top-most folders." : "Alamkaustad lähevad juba arvesse, pead vaid määratlema ülakaustad.",
     "Universal Converter" : "Üldine konverter",

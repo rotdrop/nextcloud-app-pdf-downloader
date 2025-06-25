@@ -103,10 +103,7 @@ OC.L10N.register(
     "Clear Selection" : "Limpiar selección",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Si no está seguro, mantenga esto deshabilitado. Habilitar esta opción llevará a un sondeo adicional de directorio antes de agendar una operación en segundo plano. Si el sondeo detecta un punto de montaje en el directorio que ha sido montado con la opción \"autenticada\", entonces, sus credenciales de inicio de sesión serán pasadas al trabajo en segundo plano. Esto se usa principalmente para lidiar con casos especiales que sólo atañen al autor de este paquete. Mantenga la opción deshabilitada a menos de que esté seguro de lo que significa y sepa que realmente lo necesita.",
     "Choose a folder requiring authentication" : "Escoja una carpeta que requiera autenticación",
-    "Missing Dependencies" : "Dependencias faltantes",
-    "Required Missing" : "Faltantes requeridos",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "La app no funcionará a menos de que instale {program} de manera que el servidor web pueda ubicarlo.",
-    "Suggested Missing" : "Sugeridos faltantes",
     "The app will work without installing {program}, but the conversion results may be degraded." : "La app funcionará sin que se haya instalado {program}, pero los resultados de la conversión podrían estar degradados.",
     "Archive Extraction" : "Extracción de Archivos",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Extracción al vuelo de archivadores. Si está activado, lo usuarios podrán controlar esta configuración individualmente por usuario.",
@@ -313,7 +310,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "No fue confirmado, revirtiendo a valor antiguo.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Se estableció exitosamente el valor para \"{settingsKey}\" a \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "La configuración \"{setting}\" se reestableció exitosamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No fue posible establecer el valor de \"{settingsKey}\" a \"{value}\": {message}",
-    "Given Folder Example" : "Ejemplo para carpeta dada"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No fue posible establecer el valor de \"{settingsKey}\" a \"{value}\": {message}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

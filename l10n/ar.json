@@ -100,10 +100,7 @@
     "Clear Selection" : "إلغاء التحديد",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "إذا لم تكن متأكدأً، أبقه غير مُفعّل. تفعيل هذا الخيار سيؤدي إلى فحص إضافي للدليل قبل جدولة عملية المهمة الخلفية. و إذا ماتبيّن خلال الفحص أن نقطة رفعٍ ما mount point في الدليل مرفوعةٌ mounted من قِبل خيار ارفعٍ غير مُحقّق الهوية، عندها سيتم تسليم حيثيات الدخول الخاصة بك login credentials مؤقّتاً إلى المهمة الخلفية. و قد تمّ هذا الترتيب لمعالجة حالات خاصة اختبرها مبرمجو هذه الرزمة. عموماً، أترك الخيار غير مُفعّل إلّا إذا كنت تعلم جيداً أنك تحتاج لتعديله.",
     "Choose a folder requiring authentication" : "إختَر مُجلّداً يحتاج إلى تصديق",
-    "Missing Dependencies" : "تبعيّات مفقودة",
-    "Required Missing" : "مطلوب مفقود",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "سوف لن يعمل التطبيق حتى تقوم بتنصيب {program} بحيث يُمكن إيجاده من قبل خادم الويب.",
-    "Suggested Missing" : "مقترح مفقود",
     "The app will work without installing {program}, but the conversion results may be degraded." : "يُمكن أن يعمل التطبيق بدون تنصيب {program} لكن نتائج التحويل ستكون مُتدنّيّة.",
     "Archive Extraction" : "استخراج الأرشيف",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "استخراج ملفات الأرشيف بسرعة فائقة. إذا تمّ تمكين المستخدمين، فيمكنهم التّحكم في هذا الإعداد لكل مستخدمٍ على حِده.",
@@ -316,7 +313,6 @@
     "Unconfirmed, reverting to old value." : "لم يتم التأكيد؛ و تمتّ استعادة القيمة القديمة.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "تمّ تعيين \"{settingKey}\" بــ \"{displayValue}\" بنجاح",
     "Setting \"{setting}\" has been unset successfully." : "تمّ إلغاء تعيين \"{setting}\" بنجاح.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "لم يُمكن تعيين \"{settingsKeys}\" بــ \"{value}\":{message}",
-    "Given Folder Example" : "مثال لاسم مُجلّد"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "لم يُمكن تعيين \"{settingsKeys}\" بــ \"{value}\":{message}"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

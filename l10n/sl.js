@@ -67,10 +67,7 @@ OC.L10N.register(
     "Invalid path selected: \"{dir}\"." : "Neveljavna izbrana pot: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Izbrana pot: \"{dir}/{base}/\".",
     "Clear Selection" : "Počisti izbor",
-    "Missing Dependencies" : "Manjkajoče odvisnosti",
-    "Required Missing" : "Zahtevane odvisnosti",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Program za delovanje zahteva namestitev programa {program} na spletni strežnik.",
-    "Suggested Missing" : "Priporočene odvisnosti",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Program deluje tudi brez nameščenega programa {program} a so pretvorbe vsebine lahko okrnjene.",
     "Archive Extraction" : "Razširjanje arhiva",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Omogočanje sprotnega razširjanja datotek arhivov razširi uporabnikom možnosti uporabe.",
@@ -158,7 +155,6 @@ OC.L10N.register(
     "No" : "Ne",
     "Debug Information" : "Podrobnosti razhroščevanja",
     "unknown error" : "neznana napaka",
-    "true" : "prav",
-    "Given Folder Example" : "Podan primer mape"
+    "true" : "prav"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

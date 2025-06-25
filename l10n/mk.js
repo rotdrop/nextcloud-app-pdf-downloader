@@ -2,7 +2,12 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "FILENAME" : "ДАТОТЕКА",
+    "User" : "Корисник",
     "Password" : "Лозинка",
+    "bytes" : "бајти",
+    "open" : "отвори",
+    "submit" : "испрати",
+    "Choose a folder" : "Избери папка",
     "Text" : "Текст",
     "Background" : "Позадина",
     "Copy to {target}" : "Копирај во {target}",

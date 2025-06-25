@@ -78,10 +78,7 @@ OC.L10N.register(
     "Invalid path selected: \"{dir}\"." : "Избран е невалиден път: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Избран път: \"{dir}/{base}/\".",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Ако не сте сигурни, оставете тази функция деактивирана. Активирането на тази опция води до допълнително сканиране на директорията преди планирането на фонова операция. Ако сканирането открие точка на монтиране в директорията, която е била монтирана с опцията за „удостоверено“ монтиране, тогава вашите идентификационни данни за вход ще бъдат временно повишени/разширени/ към фоновата операция. Това се използва предимно за справяне със специални случаи, които трябва да засягат само автора на този пакет. Дръжте опцията изключена, освен ако наистина знаете какво означава и наистина знаете, че ви е необходима.",
-    "Missing Dependencies" : "Липсващи зависимости",
-    "Required Missing" : "Липсваща необходимост",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "Приложението няма да работи, ако не инсталирате {program} така, че да може да бъде намерена от уеб сървъра.",
-    "Suggested Missing" : "Предложение за липсващата зависимост",
     "The app will work without installing {program}, but the conversion results may be degraded." : "Приложението ще работи, без инсталиране на {program}, но резултатите от преобразуването могат да бъдат понижени.",
     "Archive Extraction" : "Извличане на архив",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Извличане на архивни файлове в движение  Ако е разрешено, потребителите могат да контролират тази настройка за всеки отделен потребител.",
@@ -276,7 +273,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Непотвърдено, връща се към старата стойност.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Успешно зададена стойност за \"{settingsKey}\" на \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Задаването на \"{setting}\" е отменено успешно.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Не може да се зададе стойност за \"{settingsKey}\" на \"{value}\": {message}",
-    "Given Folder Example" : "Даден пример за папка"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Не може да се зададе стойност за \"{settingsKey}\" на \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");

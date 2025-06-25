@@ -76,10 +76,7 @@
     "Invalid path selected: \"{dir}\"." : "Ruta seleccionada no válida: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Ruta seleccionada: \"{dir}/{base}/\".",
     "If unsure keep this disabled. Enabling this option leads to an additional directory scan prior to scheduling a background operation. If the scan detects a mount point in the directory which has been mounted with the \"authenticated\" mount option then your login credentials will be temporarily promoted to the background job. This is primarily used to handle special cases which should only concern the author of this package. Keep the option disabled unless you really know what it means and you really known that you need it." : "Si no está seguro, mantenga esto deshabilitado. Habilitar esta opción conduce a un escaneo adicional del directorio antes de programar una operación en segundo plano. Si el escaneo detecta un punto de montaje en el directorio que se ha montado con la opción de montaje \"autenticado\", entonces las credenciales de inicio de sesión se promocionarán temporalmente para el trabajo en segundo plano. Esto se utiliza principalmente para manejar casos especiales que solo deberían preocupar al autor de este paquete. Mantenga desactivada la opción a menos que realmente sepa lo que significa y realmente sepa que lo necesita.",
-    "Missing Dependencies" : "Dependencias faltantes",
-    "Required Missing" : "Requerido faltante",
     "The app will not work unless you install {program} such that it can be found by the web-server." : "La aplicación no funcionará a menos que instales {program} para que pueda ser encontrado por el servidor web.",
-    "Suggested Missing" : "Sugerido faltante",
     "The app will work without installing {program}, but the conversion results may be degraded." : "La aplicación funcionará sin instalar {program}, pero los resultados de conversión pueden ser degradados.",
     "Archive Extraction" : "Extracción de archivo de archivo",
     "On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis." : "Extracción de archivos de archivo sobre la marcha. Si está habilitado, los usuarios pueden controlar esta configuración por usuario.",
@@ -274,7 +271,6 @@
     "Unconfirmed, reverting to old value." : "No confirmado, se vuelve al valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Se ha establecido correctamente el valor para \"{settingsKey}\" en \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "La configuración \"{setting}\" se ha desactivado correctamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No se pudo establecer el valor para \"{settingsKey}\" en \"{value}\": {message}",
-    "Given Folder Example" : "Ejemplo de carpeta dada"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No se pudo establecer el valor para \"{settingsKey}\" en \"{value}\": {message}"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
