@@ -1941,12 +1941,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wapmorgan/UnifiedArchive.git",
-                "reference": "6ab59c823d5a91ba32f922f98140d018f3d74e0d"
+                "reference": "e15c6a23af31514d1d786ca08caf5ea01659de1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wapmorgan/UnifiedArchive/zipball/6ab59c823d5a91ba32f922f98140d018f3d74e0d",
-                "reference": "6ab59c823d5a91ba32f922f98140d018f3d74e0d",
+                "url": "https://api.github.com/repos/wapmorgan/UnifiedArchive/zipball/e15c6a23af31514d1d786ca08caf5ea01659de1a",
+                "reference": "e15c6a23af31514d1d786ca08caf5ea01659de1a",
                 "shasum": ""
             },
             "require": {
@@ -1978,7 +1978,7 @@
                 "symfony/console": "Requirement for cam (Console Archive Manager)",
                 "wapmorgan/cab-archive": "[pure] native CAB support"
             },
-            "time": "2025-06-18T12:46:17+00:00",
+            "time": "2025-06-27T22:00:47+00:00",
             "default-branch": true,
             "bin": [
                 "bin/cam"

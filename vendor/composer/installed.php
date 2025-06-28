@@ -3,7 +3,7 @@
         'name' => 'rotdrop/nextcloud-app-pdf-downloader',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '69e02989dbeafee255bd4c0ab11c8235ff048721',
+        'reference' => '58756c2d0d8f0f4513070176839267e5038a57e7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -178,7 +178,7 @@
         'rotdrop/nextcloud-app-pdf-downloader' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '69e02989dbeafee255bd4c0ab11c8235ff048721',
+            'reference' => '58756c2d0d8f0f4513070176839267e5038a57e7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -331,7 +331,7 @@
         'wapmorgan/unified-archive' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6ab59c823d5a91ba32f922f98140d018f3d74e0d',
+            'reference' => 'e15c6a23af31514d1d786ca08caf5ea01659de1a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../wapmorgan/unified-archive',
             'aliases' => array(
