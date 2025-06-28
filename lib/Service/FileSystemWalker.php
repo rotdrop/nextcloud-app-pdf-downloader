@@ -53,10 +53,11 @@ use OCA\PdfDownloader\Toolkit\Exceptions as ToolkitExceptions;
  */
 class FileSystemWalker
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
   use \OCA\PdfDownloader\Toolkit\Traits\IncludeExcludeTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\SanitizeFilenameTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
   public const ERROR_PAGES_FONT_SIZE = '12';
@@ -670,7 +671,7 @@ __EOF__;
       $pdfFileName = $pathInfo['dirname'] . Constants::PATH_SEPARATOR . $pdfFileName;
     }
 
-    return $this->sanitizeFileName($pdfFileName);
+    return $this->sanitizeFilename($pdfFileName);
   }
 
   /**
@@ -697,43 +698,5 @@ __EOF__;
       }
     }
     return $contentType;
-  }
-
-  /**
-   * COmpute
-   */
-  private function sanitizeFileName(string $name): string
-  {
-    $oldName = $name;
-    try {
-      /** @var FilenameValidator $filenameValidator */
-      $filenameValidator = $this->appContainer->get(FilenameValidator::class);
-
-      $forbiddenCharacters = $filenameValidator->getForbiddenCharacters();
-      $charReplacement = array_diff(['_', ' ', '-'], $forbiddenCharacters);
-      $charReplacement = reset($charReplacement) ?: '';
-
-      foreach ($filenameValidator->getForbiddenExtensions() as $extension) {
-        if (str_ends_with($name, $extension)) {
-          $name = substr($name, 0, strlen($name) - strlen($extension));
-        }
-      }
-
-      $basename = substr($name, 0, strpos($name, '.', 1) ?: null);
-      if (in_array($basename, $filenameValidator->getForbiddenBasenames())) {
-        $name = str_replace($basename, $this->l->t('%1$s (renamed)', [$basename]), $name);
-      }
-
-      if ($name === '') {
-        $name = $this->l->t('renamed file');
-      }
-
-      $forbiddenCharacter = $filenameValidator->getForbiddenCharacters();
-      $name = str_replace($forbiddenCharacter, $charReplacement, $name);
-    } catch (Throwable $t) {
-      $this->logException($t, 'Unable to sanitize filename');
-      return $oldName;
-    }
-    return $name;
   }
 }
