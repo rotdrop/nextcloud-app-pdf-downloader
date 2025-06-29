@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -145,7 +145,7 @@ class FontService
    *
    * @param string $format One of PdfGenerator::FONT_SAMPLE_FORMATS.
    *
-   * @param string $hash Hash of the font-file. If given invalidates existing
+   * @param null|string $hash Hash of the font-file. If given invalidates existing
    * cache values on mismatch.
    *
    * @param null|array $sampleMetaData Optionally an array is filled with
@@ -167,7 +167,7 @@ class FontService
     int $fontSize = 12,
     string $rgbTextColor = '#000000',
     string $format = self::FONT_SAMPLE_FORMAT_SVG,
-    string $hash = null,
+    ?string $hash = null,
     ?array &$sampleMetaData = null,
   ):string {
     $fontFolder = $this->getSampleFolder($font);
