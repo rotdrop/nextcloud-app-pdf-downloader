@@ -35,11 +35,11 @@ use OCP\IRequest;
 use OCP\IConfig;
 use OCP\IL10N;
 
-use OCA\PdfDownloader\Service\PdfCombiner;
-use OCA\PdfDownloader\Service\AnyToPdf;
-use OCA\PdfDownloader\Service\FileSystemWalker;
-use OCA\PdfDownloader\Service\DependenciesService;
 use OCA\PdfDownloader\BackgroundJob\DownloadsCleanupJob;
+use OCA\PdfDownloader\Service\DependenciesService;
+use OCA\PdfDownloader\Service\FileSystemWalker;
+use OCA\PdfDownloader\Service\PdfCombiner;
+use OCA\PdfDownloader\Toolkit\Service\AnyToPdf;
 
 use OCA\PdfDownloader\Constants;
 
