@@ -2,10 +2,10 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "FILENAME" : "FILNAMN",
-    "%1$s (renamed)" : "%1$s (omdöpt)",
-    "renamed file" : "omdöpt fil",
     "User" : "Användare",
     "Password" : "Lösenord",
+    "%1$s (renamed)" : "%1$s (omdöpt)",
+    "renamed file" : "omdöpt fil",
     "bytes" : "byte",
     "Choose a folder" : "Välj en mapp",
     "Text" : "Text",
