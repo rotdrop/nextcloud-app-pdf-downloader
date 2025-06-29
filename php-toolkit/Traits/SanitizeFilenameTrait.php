@@ -22,14 +22,19 @@
 
 namespace OCA\RotDrop\Toolkit\Traits;
 
+use Throwable;
+
 use OCP\AppFramework\IAppContainer;
 use OC\Files\FilenameValidator;
 
+use OCA\RotDrop\Toolkit\Exceptions;
+
 /**
- * Cloned from OCP\Files\Command\SanitzeFilenames.
+ * Cloned from OCP\Files\Command\SanitzeFilenames and changed a bit.
  */
 trait SanitizeFilenameTrait
 {
+  use FakeTranslationTrait;
   use LoggerTrait;
 
   protected IAppContainer $appContainer;
@@ -40,10 +45,17 @@ trait SanitizeFilenameTrait
    *
    * @param string $name
    *
+   * @param null|string $mimeType
+   *
    * @return string
+   *
+   * @throws Exceptions\EnduserNotificationException
    */
-  protected function sanitizeFilename(string $name): string
+  protected function sanitizeFilename(string $name, ?string $mimeType = null): string
   {
+    if ($name === '') {
+      return $name; // root folder
+    }
     $oldName = $name;
     try {
       /** @var FilenameValidator $filenameValidator */
@@ -53,9 +65,14 @@ trait SanitizeFilenameTrait
       $charReplacement = array_diff(['_', ' ', '-'], $forbiddenCharacters);
       $charReplacement = reset($charReplacement) ?: '';
 
-      foreach ($filenameValidator->getForbiddenExtensions() as $extension) {
+      $forbiddenExtensions = $filenameValidator->getForbiddenExtensions();
+      foreach ($forbiddenExtensions as $extension) {
         if (str_ends_with($name, $extension)) {
           $name = substr($name, 0, strlen($name) - strlen($extension));
+          $extension = $this->fileExtensionFromMimeType($mimeType);
+          if ($extension && !in_array($extension, $forbiddenExtensions)) {
+            $name .= '.' . $extension;
+          }
         }
       }
 
@@ -71,9 +88,42 @@ trait SanitizeFilenameTrait
       $forbiddenCharacter = $filenameValidator->getForbiddenCharacters();
       $name = str_replace($forbiddenCharacter, $charReplacement, $name);
     } catch (Throwable $t) {
-      $this->logException($t, 'Unable to sanitize filename');
-      return $oldName;
+      throw new Exceptions\EnduserNotificationException(
+        self::t('Unable to sanitize filename "%s".', $oldName),
+        previous: $t,
+      );
     }
     return $name;
+  }
+
+  protected const FILE_EXTENSIONS_BY_MIME_TYPE = [
+    'image/png' => 'png',
+    'image/jpeg' => 'jpg',
+    'image/gif' => 'gif',
+    'image/vnd.microsoft.icon' => 'ico',
+    'image/svg+xml' => 'svg',
+    'application/pdf' => 'pdf',
+  ];
+
+  /**
+   * @param null|string $mimeType
+   *
+   * @return null|string
+   */
+  protected function fileExtensionFromMimeType(?string $mimeType):?string
+  {
+    if (!$mimeType) {
+      return null;
+    }
+    if (!empty(self::FILE_EXTENSIONS_BY_MIME_TYPE[$mimeType])) {
+      return self::FILE_EXTENSIONS_BY_MIME_TYPE[$mimeType];
+    }
+    // as a wild guess we return anything after the slash if it is at
+    // most 4 characters.
+    list(/* $first*/, $second) = explode('/', $mimeType);
+    if (strlen($second) <= 4) {
+      return $second;
+    }
+    return null;
   }
 }
