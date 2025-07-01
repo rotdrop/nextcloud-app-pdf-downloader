@@ -81,6 +81,7 @@ OC.L10N.register(
     "Caused by previous exception" : "Verursacht durch eine vorangegangene Ausnahme",
     "%1$s (renamed)" : "%1$s (umbenannt)",
     "renamed file" : "Umbenannte Datei",
+    "Unable to sanitize filename \"%s\"." : "Dateiname \"%s\" kann nicht bereinigt werden.",
     "bytes" : "Bytes",
     "The supplied color-string \"%s\" seems to be invalid." : "Die angegebene Farbzeichenfolge \"%s\" scheint ungültig zu sein.",
     "The input color values are invalid." : "Die eingegebenen Farbwerte sind ungültig.",
