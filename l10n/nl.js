@@ -41,6 +41,7 @@ OC.L10N.register(
     "Text" : "Tekst",
     "Background" : "Achtergrond",
     "Sorting Options" : "Sorteeropties",
+    "Options" : "Opties",
     "Download PDF" : "Download PDF",
     "PDF" : "PDF",
     "OK" : "OK",

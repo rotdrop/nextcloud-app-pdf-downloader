@@ -7,6 +7,7 @@ OC.L10N.register(
     "bytes" : "bæti",
     "Text" : "Texti",
     "Background" : "Background",
+    "Options" : "Valkostir",
     "PDF" : "PDF",
     "OK" : "Í lagi",
     "Created" : "Búið til þann",

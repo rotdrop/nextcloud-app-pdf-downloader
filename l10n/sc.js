@@ -7,6 +7,8 @@ OC.L10N.register(
     "bytes" : "bytes",
     "Text" : "Testu",
     "Background" : "Isfundu",
+    "Move" : "Tràmuda",
+    "Options" : "Optziones",
     "PDF" : "PDF",
     "OK" : "AB",
     "Created" : "Creadu",

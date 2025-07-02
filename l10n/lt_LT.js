@@ -15,6 +15,7 @@ OC.L10N.register(
     "Decorations and Fonts" : "Dekoracijos ir šriftai",
     "Text" : "Tekstas",
     "Background" : "Fonas",
+    "Options" : "Parinktys",
     "Download PDF" : "Atsisiųsti PDF",
     "OK" : "Gerai",
     "Created" : "Sukurta",

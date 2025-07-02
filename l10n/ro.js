@@ -9,6 +9,8 @@ OC.L10N.register(
     "Background" : "Fundal",
     "Precedence:" : "Precedență:",
     "Test Result:" : "Rezultat test:",
+    "Move" : "Mută",
+    "Options" : "Opțiuni",
     "OK" : "OK",
     "Created" : "A fost creat",
     "Forbidden" : "Interzis",

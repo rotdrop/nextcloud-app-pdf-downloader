@@ -10,6 +10,7 @@ OC.L10N.register(
     "Choose a folder" : "Избери папка",
     "Text" : "Текст",
     "Background" : "Позадина",
+    "Options" : "Опции",
     "OK" : "Добро",
     "Created" : "Креирано",
     "Unauthorized" : "Неавторизирано",
