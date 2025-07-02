@@ -12,6 +12,7 @@ OC.L10N.register(
     "Clear Selection" : "セッションクリア",
     "Text" : "テキスト",
     "Background" : "背景",
+    "Options" : "オプション",
     "PDF" : "PDF",
     "OK" : "OK",
     "Created" : "作成時刻",

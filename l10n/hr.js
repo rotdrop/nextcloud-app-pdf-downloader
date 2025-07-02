@@ -7,6 +7,7 @@ OC.L10N.register(
     "bytes" : "bajtova",
     "Text" : "Tekst",
     "Background" : "Pozadina",
+    "Options" : "Mogućnosti",
     "PDF" : "PDF",
     "OK" : "U redu",
     "Created" : "Stvoreno",

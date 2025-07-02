@@ -6,6 +6,7 @@ OC.L10N.register(
     "bytes" : "bytes",
     "Text" : "Texto",
     "Background" : "Fondo",
+    "Options" : "Opciones",
     "OK" : "OK",
     "Created" : "Creado",
     "Forbidden" : "Prohibido",
