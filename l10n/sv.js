@@ -10,6 +10,8 @@ OC.L10N.register(
     "Choose a folder" : "Välj en mapp",
     "Text" : "Text",
     "Background" : "Bakgrund",
+    "Copy to {target}" : "Kopiera till {target}",
+    "Copy" : "Kopiera",
     "Move to {target}" : "Flytta till {target}",
     "Move" : "Flytta",
     "Options" : "Alternativ",

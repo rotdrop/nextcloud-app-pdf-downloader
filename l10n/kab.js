@@ -2,6 +2,8 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "User" : "Aseqdac",
+    "Copy" : "Nɣel",
+    "Move" : "Senkez",
     "Options" : "Iɣewwaṛen",
     "OK" : "IH",
     "Created" : "Yettwarna.",

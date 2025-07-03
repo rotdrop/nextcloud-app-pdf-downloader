@@ -16,6 +16,8 @@ OC.L10N.register(
     "Text" : "Текст",
     "Background" : "Тло",
     "undefined" : "не визначено",
+    "Copy to {target}" : "Копіювати до {target}",
+    "Copy" : "Копіювати",
     "Move to {target}" : "Перемістити до {target}",
     "Move" : "Перемістити",
     "Options" : "Параметри",

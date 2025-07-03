@@ -1,0 +1,21 @@
+{ "translations": {
+    "User" : "Mtumiaji",
+    "Password" : "Nenosiri",
+    "%1$s (renamed)" : "%1$s (iliyopew jina jipya)",
+    "renamed file" : "Faili iliyopewa jina jipya",
+    "Text" : "Maandishi",
+    "Copy to {target}" : "Nakili kwenda {target}",
+    "Copy" : "Nakili",
+    "Move to {target}" : "Hamishia {target}",
+    "Move" : "Hamisha",
+    "Options" : "Machaguo",
+    "OK" : "OK",
+    "Created" : "Imetengenezwa",
+    "Forbidden" : "Imezuiliwa",
+    "Not Found" : "Haipatikani",
+    "Internal Server Error" : "Hitilafu ya ndani ya seva",
+    "Error" : "Hitilafu",
+    "Yes" : "Ndiyo",
+    "No" : "Hapana"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
