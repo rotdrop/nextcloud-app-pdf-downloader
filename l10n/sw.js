@@ -11,6 +11,7 @@ OC.L10N.register(
     "Move to {target}" : "Hamishia {target}",
     "Move" : "Hamisha",
     "Options" : "Machaguo",
+    "PDF" : "PDF",
     "OK" : "OK",
     "Created" : "Imetengenezwa",
     "Forbidden" : "Imezuiliwa",
