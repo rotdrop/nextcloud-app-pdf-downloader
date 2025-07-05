@@ -1,10 +1,10 @@
 {
   "publicPath": "",
   "js": [
-    "js/admin-settings-856a9a39bba4f546d330.js",
-    "js/personal-settings-496df9078b50b89ec2f7.js",
-    "js/files-hooks-2fcd3e43c1876aa6cf9b.js",
-    "js/files-sidebar-hooks-096474f36fab047919e5.js"
+    "js/admin-settings-a9c60172a3b7d1f5ca0c.js",
+    "js/personal-settings-d8eeeaa8ba3c1d4ee39c.js",
+    "js/files-hooks-144b279f5947c46c8b4b.js",
+    "js/files-sidebar-hooks-505203966d35799d8f9e.js"
   ],
   "css": [
     "css/admin-settings-0d4cdd185347791c5bfc.css",
