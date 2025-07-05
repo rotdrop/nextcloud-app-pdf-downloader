@@ -4,9 +4,9 @@
 ; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
 ;
 [subrepo]
-	remote = git@github.com:rotdrop/nextcloud-app-toolkit.git
+	remote = git@github.com:rotdrop/nextcloud-app-toolkit-js.git
 	branch = main
-	commit = ae0e90f554bb3a07c42664f90eb0a717e8a087c5
-	parent = 0b181cf0df31d156427cddb816f06a09226a4bfb
+	commit = fe6a3889d8e5231ee4f1b39dc73eb4398bbe14a3
+	parent = 9e61a55f252396fb4cf3dbba199de8af9dfde9d6
 	method = merge
 	cmdver = 0.4.9

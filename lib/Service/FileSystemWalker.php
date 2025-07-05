@@ -47,6 +47,7 @@ use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Controller\SettingsController;
 use OCA\PdfDownloader\Exceptions\EnduserNotificationException;
 use OCA\PdfDownloader\Toolkit\Exceptions as ToolkitExceptions;
+use OCA\PdfDownloader\Toolkit\Service\AnyToPdf;
 
 /**
  * Workhorse which finally combines the converter and merge services.

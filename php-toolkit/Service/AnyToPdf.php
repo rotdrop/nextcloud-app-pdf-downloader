@@ -1,9 +1,9 @@
 <?php
 /**
- * Recursive PDF Downloader App for Nextcloud
+ * Some PHP utility functions for Nextcloud apps.
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022-2025 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCA\PdfDownloader\Service;
+namespace OCA\RotDrop\Toolkit\Service;
 
 use Throwable;
 use RuntimeException;
@@ -33,7 +33,7 @@ use OCP\IL10N;
 use OCP\ITempManager;
 use Psr\Log\LoggerInterface as ILogger;
 
-use OCA\PdfDownloader\Exceptions;
+use OCA\RotDrop\Toolkit\Exceptions;
 
 /**
  * A class which can convert "any" (read: some) file-data to PDF format.
@@ -42,7 +42,7 @@ use OCA\PdfDownloader\Exceptions;
  */
 class AnyToPdf
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   const UNIVERSAL = '[universal]';
   const FALLBACK = '[fallback]';

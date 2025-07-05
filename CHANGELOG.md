@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.2.7] -- unreleased
+## [1.2.7] -- 2025-07-05
 
-Bugfix release.
+### Fixed
+
+- download urls for offline generated PDF files were wrong
+- wkhtmltopdf is deprecated on not available anymore on some distros,
+  also dead upstream, use weasyprint a replacement if it is not
+  available
+- inform in README.md about ptential problems with Ubuntu/Debian
+  outdated pdftk-java versions.
+- translations (a big thank you to the translations team)
 
 ## [1.2.6] -- 2025-06-21
 
