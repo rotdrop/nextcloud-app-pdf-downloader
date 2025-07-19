@@ -159,6 +159,7 @@ OC.L10N.register(
     "Yes" : "Ndiyo",
     "No" : "Hapana",
     "Debug Information" : "Debug Information",
+    "unknown error" : "unknown error",
     "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog.",
     "Unable to query the initial value of all settings: {message}" : "Unable to query the initial value of all settings: {message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "Unable to query the initial value of {settingsKey}: {message}",
