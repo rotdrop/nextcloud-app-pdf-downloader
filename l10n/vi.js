@@ -5,6 +5,7 @@ OC.L10N.register(
     "Password" : "Mật khẩu",
     "Text" : "Văn bản",
     "Background" : "Nền<br>",
+    "Copy to {target}" : "Copy to {target}",
     "Move to {target}" : "Di chuyển đến {target}",
     "Move" : "Chuyển",
     "OK" : "OK",
