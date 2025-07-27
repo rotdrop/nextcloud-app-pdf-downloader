@@ -30,6 +30,7 @@ OC.L10N.register(
     "\"%s\" could not be converted to PDF." : "„%s“ teisendamine PDF-failiks ei õnnestunud.",
     "Internal error, \"%1$s\" is neither a file nor a directory, but has type \"%2$s." : "Sisemine viga: „%1$s“ pole ei fail ega kaust, aga tema tüüp on „%2$s“",
     "PATH" : "ASUKOHT",
+    "FILENAME" : "FAILINIMI",
     "Combining PDFs failed" : "PDF-failide liitmine ei õnenstunud",
     "Unable to find any of the fallback converters \"%s\"." : "Ühtegi tagavarakonverterit ei leidu: „%s“.",
     "not found" : "ei leidu",
