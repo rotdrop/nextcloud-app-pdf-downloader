@@ -57,8 +57,8 @@ have the following meaning:
 - 'FILTER' can be either
   - a single character which is used to replace occurences of '/' in the
     replacement for KEY
-  - two characters, in which case the first character is used as replacement for
-    the second character in the replacement value of KEY
+  - A=[B] in which case occurences of A are replaced by B. If B is omitted
+    occurences of A are replaced by the empty string.
   - the hash-algo passed to the PHP hash($algo, $data) in which case the replacement value
     is the hash w.r.t. FILTER of the replacement data
 

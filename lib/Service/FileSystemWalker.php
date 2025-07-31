@@ -621,7 +621,7 @@ __EOF__;
     // old version
     // return '{' . $keys['DATETIME'] . '}-{' . $keys['DIRNAME'] . '@:/' . '}-{' . $keys['BASENAME'] . '}' . '.pdf';
     // new version without characters which are invalid on certain operating systems
-    return '{' . $keys['DATETIME'] . '@Y-m-d\THisO}-{' . $keys['DIRNAME'] . '@@/' . '}-{' . $keys['FILENAME'] . '}' . '.pdf';
+    return '{' . $keys['DATETIME'] . '@Y-m-d\THisO}-{' . $keys['DIRNAME'] . '@/=@' . '}-{' . $keys['FILENAME'] . '}' . '.pdf';
   }
 
   /**
