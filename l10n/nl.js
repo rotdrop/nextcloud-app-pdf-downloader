@@ -70,6 +70,7 @@ OC.L10N.register(
     "Missing data" : "Ontbrekende gegevens",
     "Yes" : "Ja",
     "No" : "Nee",
+    "Debug Information" : "Foutopsporingsinformatie",
     "unknown error" : "onbekende fout"
 },
 "nplurals=2; plural=(n != 1);");

@@ -68,6 +68,7 @@
     "Missing data" : "Ontbrekende gegevens",
     "Yes" : "Ja",
     "No" : "Nee",
+    "Debug Information" : "Foutopsporingsinformatie",
     "unknown error" : "onbekende fout"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
