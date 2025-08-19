@@ -221,7 +221,7 @@ import {
   // showInfo,
   // TOAST_PERMANENT_TIMEOUT,
 } from '@nextcloud/dialogs'
-import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.js'
+import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.ts'
 import {
   fetchSettings,
   fetchSetting,

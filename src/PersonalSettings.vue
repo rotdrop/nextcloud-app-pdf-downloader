@@ -401,7 +401,7 @@ import {
 } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { hexToCSSFilter } from 'hex-to-css-filter'
-import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.js'
+import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.ts'
 import {
   fetchSettings,
   saveConfirmedSetting,
