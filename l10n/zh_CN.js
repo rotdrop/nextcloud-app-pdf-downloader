@@ -43,6 +43,11 @@ OC.L10N.register(
     "Move" : "移动",
     "Options" : "选项",
     "PDF" : "PDF",
+    "Yes" : "是",
+    "No" : "否",
+    "true" : "真",
+    "Confirmation Required" : "需要确认",
+    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。",
     "OK" : "确定",
     "Created" : "已创建",
     "Accepted" : "已接受",
@@ -57,11 +62,6 @@ OC.L10N.register(
     "Internal Server Error" : "内部服务器错误",
     "Error" : "错误",
     "Missing data" : "数据丢失",
-    "Yes" : "是",
-    "No" : "否",
-    "Debug Information" : "调试信息",
-    "true" : "真",
-    "Confirmation Required" : "需要确认",
-    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。"
+    "Debug Information" : "调试信息"
 },
 "nplurals=1; plural=0;");

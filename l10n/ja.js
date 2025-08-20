@@ -18,6 +18,9 @@ OC.L10N.register(
     "Move" : "移動",
     "Options" : "オプション",
     "PDF" : "PDF",
+    "Yes" : "はい",
+    "No" : "いいえ",
+    "Confirmation Required" : "確認が必要",
     "OK" : "OK",
     "Created" : "作成時刻",
     "Unauthorized" : "権限がありません",
@@ -26,9 +29,6 @@ OC.L10N.register(
     "Conflict" : "競合",
     "Internal Server Error" : "サーバー内部エラー",
     "Error" : "エラー",
-    "Yes" : "はい",
-    "No" : "いいえ",
-    "unknown error" : "不明なエラー",
-    "Confirmation Required" : "確認が必要"
+    "unknown error" : "不明なエラー"
 },
 "nplurals=1; plural=0;");
