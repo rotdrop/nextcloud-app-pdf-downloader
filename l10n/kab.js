@@ -5,6 +5,10 @@ OC.L10N.register(
     "Copy" : "Nɣel",
     "Move" : "Senkez",
     "Options" : "Iɣewwaṛen",
+    "Yes" : "Oui",
+    "No" : "Uhu",
+    "true" : "idetti",
+    "Confirmation Required" : "Asentem ilaq",
     "OK" : "IH",
     "Created" : "Yettwarna.",
     "Accepted" : "Yettwaqbel",
@@ -17,10 +21,6 @@ OC.L10N.register(
     "Error" : "Erreur",
     "Something went wrong." : "Yella wacu ur neddi ara akken ilaq.",
     "Internal Error" : "Tuccḍa tadigant",
-    "Yes" : "Oui",
-    "No" : "Uhu",
-    "unknown error" : "Agul mačči d aḍahri",
-    "true" : "idetti",
-    "Confirmation Required" : "Asentem ilaq"
+    "unknown error" : "Agul mačči d aḍahri"
 },
 "nplurals=2; plural=(n != 1);");

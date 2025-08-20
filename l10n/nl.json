@@ -46,6 +46,8 @@
     "Options" : "Opties",
     "Download PDF" : "Download PDF",
     "PDF" : "PDF",
+    "Yes" : "Ja",
+    "No" : "Nee",
     "OK" : "OK",
     "Created" : "Gemaakt",
     "Accepted" : "Geaccepteerd",
@@ -66,8 +68,6 @@
     "Error" : "Fout",
     "Internal Error" : "Interne fout",
     "Missing data" : "Ontbrekende gegevens",
-    "Yes" : "Ja",
-    "No" : "Nee",
     "Debug Information" : "Foutopsporingsinformatie",
     "unknown error" : "onbekende fout"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

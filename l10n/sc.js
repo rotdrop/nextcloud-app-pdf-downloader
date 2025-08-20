@@ -13,6 +13,8 @@ OC.L10N.register(
     "Move" : "Tràmuda",
     "Options" : "Optziones",
     "PDF" : "PDF",
+    "Yes" : "Si",
+    "No" : "No",
     "OK" : "AB",
     "Created" : "Creadu",
     "Unauthorized" : "No autorizadu",
@@ -20,8 +22,6 @@ OC.L10N.register(
     "Not Found" : "No agatadu",
     "Conflict" : "Cuntierra",
     "Internal Server Error" : "Errore internu de su serbidore",
-    "Error" : "Errore",
-    "Yes" : "Si",
-    "No" : "No"
+    "Error" : "Errore"
 },
 "nplurals=2; plural=(n != 1);");

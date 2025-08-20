@@ -9,6 +9,8 @@
     "Move to {target}" : "Mover a {target}",
     "Move" : "Mover",
     "Options" : "Opciones",
+    "Yes" : "Sí",
+    "No" : "No",
     "OK" : "OK",
     "Created" : "Creado",
     "Forbidden" : "Prohibido",
@@ -16,8 +18,6 @@
     "Conflict" : "Conflicto",
     "Internal Server Error" : "Error Interno del Servidor",
     "Error" : "Error",
-    "Missing data" : "Faltan datos",
-    "Yes" : "Sí",
-    "No" : "No"
+    "Missing data" : "Faltan datos"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
