@@ -128,6 +128,11 @@ OC.L10N.register(
     "Download PDF" : "Laadi PDF-fail alla",
     "Convert the entry into a PDF document." : "Konverteeri kirje pdf-dokumendiks.",
     "PDF" : "PDF-fail",
+    "Yes" : "Jah",
+    "No" : "Ei",
+    "The quick brown fox jumps over the lazy dog." : "Põdur Zagrebi tšellomängija-följetonist Ciqo külmetas kehvas garaažis.",
+    "true" : "tõene",
+    "Confirmation Required" : "Kinnitus on vajalik",
     "OK" : "OK",
     "Created" : "Loodud",
     "Moved Permanently" : "Jäädavalt  teisaldatud",
@@ -174,11 +179,6 @@ OC.L10N.register(
     "Internal Error" : "Sisemine viga",
     "Field {RequiredField} not present in AJAX response." : "AJAX-i päringu vastuses puudub vajalik väli: {RequiredField}",
     "Missing data" : "Andmed puuduvad",
-    "Yes" : "Jah",
-    "No" : "Ei",
-    "Debug Information" : "Teave veaotsingu jaoks",
-    "The quick brown fox jumps over the lazy dog." : "Põdur Zagrebi tšellomängija-följetonist Ciqo külmetas kehvas garaažis.",
-    "true" : "tõene",
-    "Confirmation Required" : "Kinnitus on vajalik"
+    "Debug Information" : "Teave veaotsingu jaoks"
 },
 "nplurals=2; plural=(n != 1);");

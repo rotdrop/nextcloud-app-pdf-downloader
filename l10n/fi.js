@@ -38,6 +38,9 @@ OC.L10N.register(
     "delete PDF file" : "poista PDF-tiedosto",
     "Download PDF" : "Lataa PDF",
     "PDF" : "PDF",
+    "Yes" : "Kyllä",
+    "No" : "Ei",
+    "Confirmation Required" : "Vahvistus vaaditaan",
     "OK" : "OK",
     "Created" : "Luotu",
     "Accepted" : "Hyväksytty",
@@ -51,9 +54,6 @@ OC.L10N.register(
     "Feedback email: {AutoReport}" : "Palautteen sähköposti: {AutoReport}",
     "Something went wrong." : "Jokin meni pieleen.",
     "Internal Error" : "Sisäinen virhe",
-    "Yes" : "Kyllä",
-    "No" : "Ei",
-    "unknown error" : "tuntematon virhe",
-    "Confirmation Required" : "Vahvistus vaaditaan"
+    "unknown error" : "tuntematon virhe"
 },
 "nplurals=2; plural=(n != 1);");

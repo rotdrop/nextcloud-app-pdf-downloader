@@ -48,6 +48,8 @@ OC.L10N.register(
     "Options" : "Opties",
     "Download PDF" : "Download PDF",
     "PDF" : "PDF",
+    "Yes" : "Ja",
+    "No" : "Nee",
     "OK" : "OK",
     "Created" : "Gemaakt",
     "Accepted" : "Geaccepteerd",
@@ -68,8 +70,6 @@ OC.L10N.register(
     "Error" : "Fout",
     "Internal Error" : "Interne fout",
     "Missing data" : "Ontbrekende gegevens",
-    "Yes" : "Ja",
-    "No" : "Nee",
     "Debug Information" : "Foutopsporingsinformatie",
     "unknown error" : "onbekende fout"
 },

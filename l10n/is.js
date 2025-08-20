@@ -13,6 +13,8 @@ OC.L10N.register(
     "Move" : "Færa",
     "Options" : "Valkostir",
     "PDF" : "PDF",
+    "Yes" : "Já",
+    "No" : "Nei",
     "OK" : "Í lagi",
     "Created" : "Búið til þann",
     "Unauthorized" : "Ekki heimilað",
@@ -20,8 +22,6 @@ OC.L10N.register(
     "Not Found" : "Fannst ekki",
     "Conflict" : "Stangast á",
     "Internal Server Error" : "Innri villa",
-    "Error" : "Villa",
-    "Yes" : "Já",
-    "No" : "Nei"
+    "Error" : "Villa"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

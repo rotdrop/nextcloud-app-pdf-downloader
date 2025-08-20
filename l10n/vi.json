@@ -6,6 +6,8 @@
     "Copy to {target}" : "Copy to {target}",
     "Move to {target}" : "Di chuyển đến {target}",
     "Move" : "Chuyển",
+    "Yes" : "Có",
+    "No" : "Không",
     "OK" : "OK",
     "Created" : "Đã tạo",
     "Forbidden" : "Bị cấm",
@@ -14,8 +16,6 @@
     "Internal Server Error" : "Lỗi máy chủ.",
     "Error" : "Lỗi",
     "Missing data" : "Thiếu dữ liệu",
-    "Yes" : "Có",
-    "No" : "Không",
     "unknown error" : "Lỗi không xác định"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

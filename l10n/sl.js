@@ -124,6 +124,9 @@ OC.L10N.register(
     "filename template" : "predloga imena datoteke",
     "Download PDF" : "Prejem datoteke PDF",
     "PDF" : "PDF",
+    "Yes" : "Da",
+    "No" : "Ne",
+    "true" : "prav",
     "OK" : "V redu",
     "Created" : "Ustvarjeno",
     "Accepted" : "Sprejeto",
@@ -151,10 +154,7 @@ OC.L10N.register(
     "Something went wrong." : "Prišlo je do napake ...",
     "Internal Error" : "Notranja napaka",
     "Missing data" : "Manjkajoči podatki",
-    "Yes" : "Da",
-    "No" : "Ne",
     "Debug Information" : "Podrobnosti razhroščevanja",
-    "unknown error" : "neznana napaka",
-    "true" : "prav"
+    "unknown error" : "neznana napaka"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
