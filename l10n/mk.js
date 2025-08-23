@@ -13,6 +13,7 @@ OC.L10N.register(
     "Text" : "Текст",
     "Background" : "Позадина",
     "Copy to {target}" : "Копирај во {target}",
+    "Copy" : "Копирај",
     "Move to {target}" : "Премести во {target}",
     "Move" : "Премести",
     "Options" : "Опции",
