@@ -1,6 +1,10 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "BASENAME" : "БАЗАВАЯ_НАЗВА",
+    "FILENAME" : "НАЗВА_ФАЙЛА",
+    "DIRNAME" : "НАЗВА_КАТАЛОГА",
+    "DIR_BASENAME" : "БАЗАВАЯ_НАЗВА_КАТАЛОГА",
     "User" : "Карыстальнік",
     "Password" : "Пароль",
     "%1$s (renamed)" : "%1$s (перайменаваны)",
@@ -16,6 +20,7 @@ OC.L10N.register(
     "PDF" : "PDF",
     "Yes" : "Так",
     "No" : "Не",
+    "The quick brown fox jumps over the lazy dog." : "У рудога вераб'я ў сховішчы пад фатэлем ляжаць нейкія гаючыя зёлкі.",
     "OK" : "OK",
     "Internal Server Error" : "Унутраная памылка сервера",
     "Error" : "Памылка",
