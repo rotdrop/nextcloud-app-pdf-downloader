@@ -100,7 +100,7 @@ OC.L10N.register(
     "Invalid path selected: \"{dir}\"." : "Es wurde ein ungültiger Pfad ausgewählt: {dir}.",
     "Selected path: \"{dir}/{base}/\"." : "Ausgewählter Datei-Pfad: \"{dir}/{base}/\"",
     "Please select an item!" : "Bitte ein Element wählen!",
-    "An empty value is not allowed, please make your choice!" : "Ein leerer Wert ist unzulässig, bitte ein Wahl treffen!",
+    "An empty value is not allowed, please make your choice!" : "Ein leerer Wert ist unzulässig, bitte eine Wahl treffen!",
     "Click to submit your changes." : "Klicken, um deine Änderungen zu übermitteln.",
     "Reset Changes" : "Änderungen zurücksetzen",
     "Clear Selection" : "Auswahl leeren",
