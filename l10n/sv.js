@@ -7,6 +7,7 @@ OC.L10N.register(
     "%1$s (renamed)" : "%1$s (omdöpt)",
     "renamed file" : "omdöpt fil",
     "bytes" : "byte",
+    "submit" : "skicka",
     "Choose a folder" : "Välj en mapp",
     "Text" : "Text",
     "Background" : "Bakgrund",
