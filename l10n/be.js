@@ -5,6 +5,7 @@ OC.L10N.register(
     "FILENAME" : "НАЗВА_ФАЙЛА",
     "DIRNAME" : "НАЗВА_КАТАЛОГА",
     "DIR_BASENAME" : "БАЗАВАЯ_НАЗВА_КАТАЛОГА",
+    "Installation instructions:" : "Інструкцыя па ўсталяванні:",
     "User" : "Карыстальнік",
     "Password" : "Пароль",
     "%1$s (renamed)" : "%1$s (перайменаваны)",
