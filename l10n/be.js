@@ -19,6 +19,7 @@ OC.L10N.register(
     "Copy" : "Капіяваць",
     "Move to {target}" : "Перамясціць у {target}",
     "Move" : "Перамясціць",
+    "Options" : "Параметры",
     "Download PDF" : "Спампаваць PDF",
     "PDF" : "PDF",
     "Yes" : "Так",
