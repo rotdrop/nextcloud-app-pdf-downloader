@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s (renamed)" : "%1$s (リネーム済み)",
     "renamed file" : "リネーム済みファイル",
     "bytes" : "バイト",
+    "submit" : "送信",
     "Clear Selection" : "セッションクリア",
     "Text" : "テキスト",
     "Background" : "背景",
