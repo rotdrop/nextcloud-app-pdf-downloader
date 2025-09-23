@@ -2,6 +2,9 @@ OC.L10N.register(
     "pdf_downloader",
     {
     "File or folder could not be found." : "Nie można znaleźć pliku lub katalogu.",
+    "Post to endpoint \"%s\" not implemented." : "Post do endpointu \"%s\" niezaimplementowany.",
+    "Post to base URL of app \"%s\" not allowed." : "Post do bazowego adresu URL aplikacji \"%s\" niedozwolony.",
+    "Get from endpoint \"%s\" not implemented." : "Get z endpointu \"%s\" niezaimplementowany.",
     "PDF document saved as \"%s\"." : "Dokument PDF został zapisany jako \"%s\".",
     "PDF file \"%s\" has been deleted." : "Plik PDF \"%s\" został usunięty.",
     "Unknown admin setting: \"%1$s\"" : "Nieznane ustawienie administracyjne: \"%1$s\"",
