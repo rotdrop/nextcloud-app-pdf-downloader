@@ -50,6 +50,7 @@ OC.L10N.register(
     "The input color values are invalid." : "Введенные значения цвета недопустимы.",
     "Recursive PDF Downloader" : "Рекурсивный загрузчик PDF-файлов",
     "pick a color" : "выберите цвет",
+    "submit" : "Готово",
     "Choose a folder" : "Выберите папку",
     "Invalid path selected: \"{dir}\"." : "Выбран некорректный путь: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Выбраный путь: \"{dir}/{base}/\".",
