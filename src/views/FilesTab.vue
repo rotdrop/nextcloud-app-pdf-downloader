@@ -243,7 +243,7 @@ const downloading = ref(false)
 
 const activeLoaders = ref(-1)
 
-const downloads = reactive<FileInfoDTO[]>([])
+const downloads = ref<FileInfoDTO[]>([])
 
 const loading = computed(() => activeLoaders.value !== 0)
 
@@ -376,8 +376,8 @@ const fetchPdfFileNameFromTemplate = async (folderPath: string) => {
 
 const refreshAvailableDownloads = async () => {
   const newDownloads = await fetchAvailableDownloads()
-  downloads.splice(0, downloads.length, ...newDownloads)
-  showBackgroundDownloads.value = downloads.length > 0
+  downloads.value.splice(0, downloads.value.length, ...newDownloads)
+  showBackgroundDownloads.value = downloads.value.length > 0
 }
 
 const fetchAvailableDownloads = async (silent?: boolean) => {
@@ -472,12 +472,12 @@ const handleCacheFileSave = async (cacheId: number) => {
   }
   await handleSaveToCloud(cacheId, dir, mode === 'Move')
   if (mode === 'Move') {
-    const cacheIndex = downloads.findIndex((fileInfo: FileInfoDTO) => fileInfo.fileid === cacheId)
+    const cacheIndex = downloads.value.findIndex((fileInfo: FileInfoDTO) => fileInfo.fileid === cacheId)
     if (cacheIndex >= 0) {
-      downloads.splice(cacheIndex, 1)
+      downloads.value.splice(cacheIndex, 1)
     } else {
       logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED FROM DATA?', downloads)
-      fetchAvailableDownloads().then((newDownloads) => { downloads.splice(0, downloads.length, ...newDownloads) })
+      fetchAvailableDownloads().then((newDownloads) => { downloads.value.splice(0, downloads.value.length, ...newDownloads) })
     }
   }
 }
@@ -519,12 +519,12 @@ const handleCacheFileDelete = async (cacheId: number) => {
         showSuccess(message)
       }
     }
-    const cacheIndex = downloads.findIndex((fileInfo) => fileInfo.fileid === cacheId)
+    const cacheIndex = downloads.value.findIndex((fileInfo) => fileInfo.fileid === cacheId)
     if (cacheIndex >= 0) {
-      downloads.splice(cacheIndex, 1)
+      downloads.value.splice(cacheIndex, 1)
     } else {
       logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED?', downloads)
-      fetchAvailableDownloads().then((newDownloads) => { downloads.splice(0, downloads.length, ...newDownloads) })
+      fetchAvailableDownloads().then((newDownloads) => { downloads.value.splice(0, downloads.value.length, ...newDownloads) })
     }
   } catch (e) {
     let message = t(appName, 'reason unknown')
@@ -539,7 +539,7 @@ const handleCacheFileDelete = async (cacheId: number) => {
     }), {
       timeout: TOAST_PERMANENT_TIMEOUT,
     })
-    fetchAvailableDownloads().then((newDownloads) => { downloads.splice(0, downloads.length, ...newDownloads) })
+    fetchAvailableDownloads().then((newDownloads) => { downloads.value.splice(0, downloads.value.length, ...newDownloads) })
   }
   downloading.value = false
 }
@@ -694,13 +694,13 @@ subscribe('notifications:notification:received', (event) => {
   const pdfFile = destinationData.file
   const pdfFilePath = pdfFile.path // undefined for removal notification
   const pdfFileId = pdfFile.fileid
-  const downloadsIndex = downloads.findIndex((file) => file.fileid === pdfFileId)
+  const downloadsIndex = downloads.value.findIndex((file) => file.fileid === pdfFileId)
   if (downloadsIndex === -1 && pdfFilePath) {
     logger.info('*** Adding file to list of available downloads.', pdfFile)
-    downloads.push(destinationData.file)
+    downloads.value.push(destinationData.file)
   } else if (downloadsIndex >= 0 && !pdfFilePath) {
     logger.info('*** Removing file from list of available downloads.', pdfFile)
-    downloads.splice(downloadsIndex, 1)
+    downloads.value.splice(downloadsIndex, 1)
   }
 })
 
