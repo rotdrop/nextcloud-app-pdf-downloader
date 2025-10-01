@@ -181,6 +181,7 @@ OC.L10N.register(
     "Internal Error" : "Sisemine viga",
     "Field {RequiredField} not present in AJAX response." : "AJAX-i päringu vastuses puudub vajalik väli: {RequiredField}",
     "Missing data" : "Andmed puuduvad",
-    "Debug Information" : "Teave veaotsingu jaoks"
+    "Debug Information" : "Teave veaotsingu jaoks",
+    "unknown error" : "tundmatu viga"
 },
 "nplurals=2; plural=(n != 1);");
