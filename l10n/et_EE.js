@@ -99,6 +99,8 @@ OC.L10N.register(
     "Generated Filename" : "Loodud failinimi",
     "Generate PDFs in the background by default." : "Vaikimisi loo PDF-failid taustal.",
     "undefined" : "määratlemata",
+    "Unable to obtain the pdf-file template example: {message}" : "PDF-faili näidismalli laadimine ei õnnestu: {message}",
+    "Unable to obtain the list of available downloads: {message}" : "Saadavalolevate allalaadimiste loendi laadimine ei õnnestu: {message}",
     "Choose a destination" : "Vali sihtkaust",
     "Copy to {target}" : "Kopeeri kausta {target}",
     "Copy" : "Kopeeri",
