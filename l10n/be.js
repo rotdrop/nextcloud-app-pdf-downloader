@@ -22,6 +22,7 @@ OC.L10N.register(
     "Options" : "Параметры",
     "Download PDF" : "Спампаваць PDF",
     "PDF" : "PDF",
+    "close" : "закрыць",
     "No" : "Не",
     "Yes" : "Так",
     "The quick brown fox jumps over the lazy dog." : "У рудога вераб'я ў сховішчы пад фатэлем ляжаць нейкія гаючыя зёлкі.",
