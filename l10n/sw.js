@@ -72,6 +72,7 @@ OC.L10N.register(
     "basename" : "jina la msingi",
     "Options" : "Machaguo",
     "PDF" : "PDF",
+    "close" : "funga",
     "No" : "Hapana",
     "Yes" : "Ndiyo",
     "The quick brown fox jumps over the lazy dog." : "The quick brown fox jumps over the lazy dog.",
