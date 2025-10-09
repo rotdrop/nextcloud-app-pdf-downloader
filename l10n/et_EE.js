@@ -130,6 +130,7 @@ OC.L10N.register(
     "Download PDF" : "Laadi PDF-fail alla",
     "Convert the entry into a PDF document." : "Konverteeri kirje pdf-dokumendiks.",
     "PDF" : "PDF-fail",
+    "close" : "sulge",
     "No" : "Ei",
     "Yes" : "Jah",
     "The quick brown fox jumps over the lazy dog." : "Põdur Zagrebi tšellomängija-följetonist Ciqo külmetas kehvas garaažis.",
