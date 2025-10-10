@@ -223,6 +223,7 @@ OC.L10N.register(
     "Download PDF" : "Íoslódáil PDF",
     "Convert the entry into a PDF document." : "Tiontaigh an iontráil i doiciméad PDF.",
     "PDF" : "PDF",
+    "close" : "dún",
     "No" : "Níl",
     "Yes" : "Tá",
     "The quick brown fox jumps over the lazy dog." : "Léimeann an sionnach donn gasta thar an madra leisciúil.",
