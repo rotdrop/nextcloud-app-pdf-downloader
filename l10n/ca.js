@@ -34,6 +34,7 @@ OC.L10N.register(
     "Move" : "Mou",
     "Options" : "Opcions",
     "PDF" : "PDF",
+    "close" : "tanca",
     "No" : "No",
     "Yes" : "Sí",
     "Unable to query the initial value of all settings: {message}" : "No es pot consultar el valor inicial de totes les opcions de configuració: {message}",
