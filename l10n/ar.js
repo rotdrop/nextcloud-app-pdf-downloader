@@ -211,6 +211,7 @@ OC.L10N.register(
     "Download PDF" : "تنزيل ملف PDF",
     "Convert the entry into a PDF document." : "تحويل المدخل إلى مستند PDF",
     "PDF" : "PDF",
+    "close" : "إغلاق",
     "No" : "لا",
     "Yes" : "نعم",
     "The quick brown fox jumps over the lazy dog." : "الثعلب البني السريع قفز على الكلب الكسول The quick brown fox jumps over the lazy dog.",
