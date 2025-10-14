@@ -79,6 +79,10 @@ from its source distributions and then try again. On Gentoo seemingly
 the branch [`bc176`](https://gitlab.com/pdftk-java/pdftk/-/tree/bc176)
 is used.
 
+## Installation
+
+Please refer to the [installation instructions](doc/INSTALL.md).
+
 ## Working Conversions
 
 ### Builtin Converters
