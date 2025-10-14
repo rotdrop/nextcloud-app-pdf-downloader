@@ -9,6 +9,7 @@
 
 <!-- markdown-toc end -->
 
+
 ## "Official" Releases
 
 This app is available throught the
@@ -65,7 +66,6 @@ So:
 
 - get yourself terminal access to your Nextcloud instance, probably by ssh
   - don't know what this means? Then this section is not for you
-    - inkscape, imagemagick, 
 - `git clone https://github.com/rotdrop/nextcloud-app-pdf-downloader.git` into your apps directory
 - optionally change to a release-branch, but you **very probably**
   just want to build the app from the default branch (main or master)
@@ -73,10 +73,14 @@ So:
   - a recent version of `npm`
   - GNU make
   - a recent version of `composer`
-  - perhaps further utilities, watch out for error messages during the build process
+  - perhaps a lot of further utilities, watch out for error messages during the build process
+    - **pull request to improve this part of the documentation are very welcome**
 - build the app with
   - `make build` to generate a production version of the app
   - `make dev` to generate a development version debuging info
-    compiled in. This mostly affects the JavaScript assets generated.
-
-
+    compiled in. This mostly affects the generated JavaScript assets.
+  - in case you run `make` repeatedly (perhaps after adjusting things
+    to your liking) and it fails: try to run `make realclean` in order
+    to just remove every build artifact. Then try again.
+  - if you just edit individual files then `make` should just pick up
+    your changes and rebuild stuff as needed
