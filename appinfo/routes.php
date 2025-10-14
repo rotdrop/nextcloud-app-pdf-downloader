@@ -112,7 +112,7 @@ return [
     ],
     [
       'name' => 'multi_pdf_download#get_page_label_sample',
-      'url' => '/sample/page-label/{template}/{path}/{pageNumber}/{totalPages}',
+      'url' => '/sample/page-label/{template}/{path}', // /{pageNumber}/{totalPages}',
       'verb' => 'GET',
     ],
     [
