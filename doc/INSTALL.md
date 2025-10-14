@@ -1,5 +1,14 @@
 # Installation Instructions
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- ["Official" Releases](#official-releases)
+- [Release-Branches](#release-branches)
+- [Building from Source](#building-from-source)
+
+<!-- markdown-toc end -->
+
 ## "Official" Releases
 
 This app is available throught the
