@@ -296,7 +296,7 @@ OC.L10N.register(
     "Precondition Required" : "Precísase da condición previa",
     "Too Many Requests" : "Demasiadas solicitudes",
     "Request Header Fields Too Large" : "Os campos da cabeceira da solicitude son demasiado grandes",
-    "No Response (Nginx)" : "No Response (Nginx)",
+    "No Response (Nginx)" : "Sen resposta (Nginx)",
     "Retry With (Microsoft)" : "Volver tentar con (Microsoft)",
     "Blocked by Windows Parental Controls (Microsoft)" : "Bloqueado polos controis parentais de Windows (Microsoft)",
     "Unavailable For Legal Reasons" : "Non dispoñíbel por motivos legais",
