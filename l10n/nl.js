@@ -41,6 +41,7 @@ OC.L10N.register(
     "Text" : "Tekst",
     "Background" : "Achtergrond",
     "Sorting Options" : "Sorteeropties",
+    "undefined" : "ongedefinieerd",
     "Copy to {target}" : "Kopieer naar {target}",
     "Copy" : "Kopiëren",
     "Move to {target}" : "Verplaats naar {target}",
