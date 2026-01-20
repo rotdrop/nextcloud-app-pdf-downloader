@@ -8,6 +8,7 @@ OC.L10N.register(
     "Copy to {target}" : "Copy to {target}",
     "Move to {target}" : "Di chuyển đến {target}",
     "Move" : "Chuyển",
+    "Options" : "Tùy chọn",
     "close" : "đóng",
     "No" : "Không",
     "Yes" : "Có",
