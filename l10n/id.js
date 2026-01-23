@@ -5,6 +5,8 @@ OC.L10N.register(
     "Password" : "Kata sandi",
     "%1$s (renamed)" : "%1$s (diganti nama)",
     "renamed file" : "file diganti nama",
+    "submit" : "kirim",
+    "Clear Selection" : "Bersihkan Pilihan",
     "Text" : "Teks",
     "Copy to {target}" : "Salin ke {target}",
     "Copy" : "Salin",
@@ -23,6 +25,7 @@ OC.L10N.register(
     "Conflict" : "Konflik",
     "Internal Server Error" : "Galat Server Internal",
     "Error" : "Galat",
-    "Missing data" : "Data tidak ada"
+    "Missing data" : "Data tidak ada",
+    "unknown error" : "kesalahan tidak diketahui"
 },
 "nplurals=1; plural=0;");
