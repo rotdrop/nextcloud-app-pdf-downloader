@@ -41,6 +41,7 @@ OC.L10N.register(
     "Move to {target}" : "Pindah ke {target}",
     "Move" : "Pindah",
     "Options" : "Pilihan",
+    "PDF" : "PDF",
     "close" : "tutup",
     "No" : "Tidak",
     "Yes" : "Ya",
