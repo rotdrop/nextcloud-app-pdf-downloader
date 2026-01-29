@@ -4,6 +4,8 @@ OC.L10N.register(
     "FILENAME" : "NAZIV DATOTEKE",
     "User" : "@string/user_icon",
     "Password" : "Zaporka",
+    "%1$s (renamed)" : "%1$s (preimenovano)",
+    "renamed file" : "preimenovana datoteka",
     "bytes" : "bajtova",
     "Text" : "Tekst",
     "Background" : "Pozadina",
