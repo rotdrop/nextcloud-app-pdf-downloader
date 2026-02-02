@@ -1,6 +1,7 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "File or folder could not be found." : "Ova aplikacija omogućuje ograničavanje broja preuzimanja za dijeljenja putem vanjskih poveznica.",
     "FILENAME" : "NAZIV DATOTEKE",
     "User" : "@string/user_icon",
     "Password" : "Zaporka",
