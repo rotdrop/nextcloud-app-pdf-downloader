@@ -5,6 +5,8 @@ OC.L10N.register(
     "FILENAME" : "NAZIV DATOTEKE",
     "User" : "@string/user_icon",
     "Password" : "Zaporka",
+    "Login succeeded." : "Prijava je uspjela.",
+    "Login failed." : "Prijava nije uspjela.",
     "%1$s (renamed)" : "%1$s (preimenovano)",
     "renamed file" : "preimenovana datoteka",
     "bytes" : "bajtova",
