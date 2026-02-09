@@ -56,7 +56,7 @@
   },
   "extra": {
     "bamarni-bin": {
-      "bin-links": true,
+      "bin-links": false,
       "target-directory": "vendor-bin",
       "forward-command": true
     }

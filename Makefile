@@ -30,7 +30,7 @@ PHP = $(shell which php 2> /dev/null)
 NPM = $(shell which npm 2> /dev/null)
 WGET = $(shell which wget 2> /dev/null)
 OPENSSL = $(shell which openssl 2> /dev/null)
-PHPUNIT = ./vendor/bin/phpunit
+PHPUNIT = $(ABSSRCDIR)/vendor-bin/phpunit/vendor/bin/phpunit
 
 COMPOSER_SYSTEM = $(shell which composer 2> /dev/null)
 ifeq (, $(COMPOSER_SYSTEM))
