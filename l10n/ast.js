@@ -32,13 +32,6 @@ OC.L10N.register(
     "PDF" : "PDF",
     "No" : "Non",
     "Yes" : "Sí",
-    "true" : "true",
-    "OK" : "Normal",
-    "Forbidden" : "Prohíbese",
-    "Not Found" : "Nun s'atopó",
-    "Internal Server Error" : "Error internu del sirvidor",
-    "Error" : "Error",
-    "Missing data" : "Falten datos",
-    "unknown error" : "error desconocíu"
+    "true" : "true"
 },
 "nplurals=2; plural=(n != 1);");

@@ -43,20 +43,6 @@ OC.L10N.register(
     "close" : "sulje",
     "No" : "Ei",
     "Yes" : "Kyllä",
-    "Confirmation Required" : "Vahvistus vaaditaan",
-    "OK" : "OK",
-    "Created" : "Luotu",
-    "Accepted" : "Hyväksytty",
-    "No Content" : "Ei sisältöä",
-    "Unauthorized" : "Ei valtuuksia",
-    "Forbidden" : "Estetty",
-    "Not Found" : "Ei löytynyt",
-    "Conflict" : "Ristiriita",
-    "Internal Server Error" : "Sisäinen palvelinvirhe",
-    "Error" : "Virhe",
-    "Feedback email: {AutoReport}" : "Palautteen sähköposti: {AutoReport}",
-    "Something went wrong." : "Jokin meni pieleen.",
-    "Internal Error" : "Sisäinen virhe",
-    "unknown error" : "tuntematon virhe"
+    "Confirmation Required" : "Vahvistus vaaditaan"
 },
 "nplurals=2; plural=(n != 1);");

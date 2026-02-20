@@ -13,15 +13,6 @@ OC.L10N.register(
     "Move to {target}" : "Pārvietot uz {target}",
     "Move" : "Pārvietot",
     "No" : "Nē",
-    "Yes" : "Jā",
-    "OK" : "Labi",
-    "Created" : "Izveidots",
-    "Forbidden" : "Aizliegts",
-    "Not Found" : "Nav atrasts",
-    "Conflict" : "Konflikts",
-    "Internal Server Error" : "Iekšēja servera kļūda",
-    "Loop Detected (WebDAV)" : "Noteikta cilpa (WebDAV)",
-    "Error" : "Kļūda",
-    "Missing data" : "Iztrūkst dati"
+    "Yes" : "Jā"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

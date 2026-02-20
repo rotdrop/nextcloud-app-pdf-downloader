@@ -15,14 +15,6 @@ OC.L10N.register(
     "PDF" : "PDF",
     "close" : "serra",
     "No" : "No",
-    "Yes" : "Si",
-    "OK" : "AB",
-    "Created" : "Creadu",
-    "Unauthorized" : "No autorizadu",
-    "Forbidden" : "Proibidu",
-    "Not Found" : "No agatadu",
-    "Conflict" : "Cuntierra",
-    "Internal Server Error" : "Errore internu de su serbidore",
-    "Error" : "Errore"
+    "Yes" : "Si"
 },
 "nplurals=2; plural=(n != 1);");
