@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -785,7 +785,7 @@ class PdfCombiner
       }
       $pdfTk2->saveAs($fileName);
 
-      // then add the bookmared file to the outer pdftk instance
+      // then add the bookmarked file to the outer pdftk instance
       $pdfTk->addFile($fileName);
     }
   }
