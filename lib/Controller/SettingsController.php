@@ -30,7 +30,7 @@ use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\IAppContainer;
+use Psr\Container\ContainerInterface;
 use OCP\IRequest;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -260,7 +260,7 @@ class SettingsController extends Controller
     protected IL10N $l,
     private IConfig $config,
     private PdfCombiner $pdfCombiner,
-    protected IAppContainer $appContainer,
+    protected ContainerInterface $appContainer,
   ) {
     parent::__construct($appName, $request);
   }

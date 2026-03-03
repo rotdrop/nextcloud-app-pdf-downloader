@@ -25,7 +25,7 @@ namespace OCA\PdfDownloader\Service;
 use DateTimeImmutable;
 use Throwable;
 
-use OCP\AppFramework\IAppContainer;
+use Psr\Container\ContainerInterface;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -110,7 +110,7 @@ class FileSystemWalker
     private IDateTimeZone $dateTimeZone,
     private IMimeTypeDetector $mimeTypeDetector,
     private PdfCombiner $pdfCombiner,
-    protected IAppContainer $appContainer,
+    protected ContainerInterface $appContainer,
     protected IL10N $l,
     protected ILogger $logger,
     protected IRootFolder $rootFolder,

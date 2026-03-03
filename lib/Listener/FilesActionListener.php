@@ -27,7 +27,7 @@ use Throwable;
 use Psr\Log\LoggerInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\AppFramework\IAppContainer;
+use Psr\Container\ContainerInterface;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IUserSession;
 use OCP\Contacts\IManager as IContactsManager;
@@ -79,7 +79,7 @@ class FilesActionListener implements IEventListener
   private $initialStateEmitted = false;
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
-  public function __construct(protected IAppContainer $appContainer)
+  public function __construct(protected ContainerInterface $appContainer)
   {
   }
 
