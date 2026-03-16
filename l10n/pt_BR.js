@@ -88,6 +88,7 @@ OC.L10N.register(
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível modificar o gerenciador \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível definir as permissões para o grupo \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível mudar seu ponto de montagem para \"%2$s\".",
+    "Shared folder with ID \"%1$s\" does not exist." : "Pasta compartilhada com ID \"%1$s\" não existe.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Problema de instalação; o recurso necessário \"%1$s\" do tipo \"%2$s\" não está instalado no servidor, entre em contato com o administrador do sistema!",
     "User" : "Usuário",
     "Password" : "Senha",

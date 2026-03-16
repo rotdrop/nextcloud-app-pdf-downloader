@@ -86,6 +86,7 @@
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. \"%2$s\" yöneticisi değiştirilemedi.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. \"%2$s\" grubu için izinler ayarlanamadı.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. Bağlantı noktası \"%2$s\" olarak değiştirilemedi.",
+    "Shared folder with ID \"%1$s\" does not exist." : "\"%1$s\" kimlikli paylaşılmış klasör bulunamadı.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Kurulum sorunu. Gereken \"%2$s\" türündeki \"%1$s\" kaynağı sunucu üzerine kurulmamış.\nLütfen sistem yöneticisi ile görüşün!",
     "User" : "Kullanıcı adı",
     "Password" : "Parola",
