@@ -88,6 +88,7 @@ OC.L10N.register(
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "掛載點為「%1$s」的分享資料夾不存在，無法修改管理者「%2$s」。",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "掛載點為「%1$s」的分享資料夾不存在，無法設定「%2$s」群組的權限。",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "掛載點為「%1$s」的分享資料夾不存在，無法變更其掛載點為「%2$s」。",
+    "Shared folder with ID \"%1$s\" does not exist." : "ID 為「%1$s」的分享資料夾不存在。",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "安裝問題； 伺服器上沒有安裝所需的類型為「%2$s」的資源「%1$s」，請聯繫系統管理員！",
     "User" : "用户",
     "Password" : "密碼",
