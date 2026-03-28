@@ -9,6 +9,8 @@ OC.L10N.register(
     "not found" : "nerasta",
     "User" : "Naudotojas",
     "Password" : "Slaptažodis",
+    "%1$s (renamed)" : "%1$s (pervadinta)",
+    "renamed file" : "pervadintas failas",
     "bytes" : "baitų",
     "Custom Color" : "Tinkinta spalva",
     "reason unknown" : "priežastis nežinoma",
