@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine
+ * @copyright 2022, 2026 Claus-Justus Heine
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,9 @@
 
 namespace OCA\PdfDownloader;
 
-use OCA\PdfDownloader\Toolkit\Traits\Constants as TraitsConstants;
+use OCA\PdfDownloader\Toolkit\Constants as ToolkitConstants;
 
 /** A couple of constants in order to avoid string literals. */
-class Constants extends TraitsConstants
+class Constants extends ToolkitConstants
 {
 }
