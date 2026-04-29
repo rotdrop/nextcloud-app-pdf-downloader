@@ -1,6 +1,8 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "Unknown admin setting: \"%1$s\"" : "Okänd administratörsinställning: \"%1$s\"",
+    "The admin setting \"%1$s\" is read-only" : "Administratörsinställningen \"%1$s\" är skrivskyddad",
     "FILENAME" : "FILNAMN",
     "User" : "Användare",
     "Password" : "Lösenord",
