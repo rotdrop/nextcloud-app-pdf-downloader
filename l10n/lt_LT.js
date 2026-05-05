@@ -88,7 +88,7 @@ OC.L10N.register(
     "Move" : "Perkelti",
     "basename" : "pagrindinis pavadinimas",
     "Options" : "Parinktys",
-    "refresh" : "įkelti iš naujo",
+    "refresh" : "atnaujinti",
     "Download PDF" : "Atsisiųsti PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Nepavyko rasti objektų „{entityName}“ su identifikatoriumi „{criteria}“.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Nepavyko gauti objekto „{entityName}“ su identifikatoriumi „{identifier}“.",
