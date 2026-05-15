@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024, 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,14 +26,15 @@ use InvalidArgumentException;
 use Carbon\CarbonInterval;
 use Carbon;
 
-use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\DataResponse;
-use Psr\Container\ContainerInterface;
-use OCP\IRequest;
+use OCP\AppFramework\Http\Response;
+use OCP\Config\IUserConfig;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IRequest;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 use OCA\PdfDownloader\BackgroundJob\DownloadsCleanupJob;
 use OCA\PdfDownloader\Service\DependenciesService;
@@ -256,11 +257,12 @@ class SettingsController extends Controller
     string $appName,
     IRequest $request,
     private $userId,
-    protected LoggerInterface $logger,
-    protected IL10N $l,
     private IConfig $config,
+    private IUserConfig $userConfig,
     private PdfCombiner $pdfCombiner,
     protected ContainerInterface $appContainer,
+    protected IL10N $l,
+    protected LoggerInterface $logger,
   ) {
     parent::__construct($appName, $request);
   }
@@ -294,6 +296,7 @@ class SettingsController extends Controller
       case self::AUTHENTICATED_BACKGROUND_JOBS:
       case self::ADMIN_DISABLE_BUILTIN_CONVERTERS:
       case self::EXTRACT_ARCHIVE_FILES:
+        $oldValue = filter_var($oldValue, FILTER_VALIDATE_BOOLEAN);
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
         if ($newValue === null) {
           return self::grumble($this->l->t(
@@ -303,8 +306,6 @@ class SettingsController extends Controller
         }
         if ($newValue === (self::ADMIN_SETTINGS[$setting]['default'] ?? false)) {
           $newValue = null;
-        } else {
-          $newValue = (int)$newValue;
         }
         break;
       case self::ADMIN_FALLBACK_CONVERTER:
@@ -495,6 +496,7 @@ class SettingsController extends Controller
       case self::PERSONAL_PAGE_LABELS:
       case self::PERSONAL_GENERATE_ERROR_PAGES:
       case self::PERSONAL_INDIVIDUAL_FILE_CONVERSION:
+        $oldValue = filter_var($oldValue, FILTER_VALIDATE_BOOLEAN);
         $newValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
         if ($newValue === null) {
           return self::grumble(
@@ -504,8 +506,6 @@ class SettingsController extends Controller
         }
         if ($newValue === (self::PERSONAL_SETTINGS[$setting]['default'] ?? false)) {
           $newValue = null;
-        } else {
-          $newValue = (int)$newValue;
         }
         break;
       case self::PERSONAL_PAGE_LABEL_PAGE_WIDTH_FRACTION:
@@ -646,7 +646,13 @@ class SettingsController extends Controller
       $this->config->deleteUserValue($this->userId, $this->appName, $setting);
       $newValue = self::PERSONAL_SETTINGS[$setting]['default'] ?? null;
     } else {
-      $this->config->setUserValue($this->userId, $this->appName, $setting, $settingsValue ?? $newValue);
+      $settingsValue = $settingsValue ?? $newValue;
+      if (is_bool($settingsValue)) {
+        // bool is not accepted by the deprecated setUserValue()
+        $this->userConfig->setValueBool($this->userId, $this->appName, $setting, $settingsValue);
+      } else {
+        $this->config->setUserValue($this->userId, $this->appName, $setting, $settingsValue);
+      }
     }
 
     switch ($setting) {
@@ -783,7 +789,8 @@ class SettingsController extends Controller
                 $this->appName, $oneSetting, self::ADMIN_SETTINGS[$oneSetting]['default'] ?? false);
             }
           }
-          $value= (int)$value;
+          $value= !!$value;
+          $humanValue = $value;
           break;
         case self::PERSONAL_GENERATED_PAGES_FONT_SIZE:
           if (empty($value)) {

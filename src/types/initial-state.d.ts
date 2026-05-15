@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  *
@@ -20,12 +20,12 @@
  */
 
 export interface InitialState {
-  pdfCloudFolderPath?: string,
-  pageLabels: boolean,
-  useBackgroundJobsDefault: boolean,
-  pdfFileNameTemplate: string,
-  archiveMimeTypes: string[],
-  individualFileConversion: boolean,
-  extractArchiveFiles: boolean,
-  extractArchiveFilesAdmin: boolean,
+  pdfCloudFolderPath?: string;
+  pageLabels: boolean;
+  useBackgroundJobsDefault: boolean;
+  pdfFileNameTemplate: string;
+  archiveMimeTypes: string[];
+  individualFileConversion: boolean;
+  extractArchiveFiles: boolean;
+  extractArchiveFilesAdmin: boolean;
 }

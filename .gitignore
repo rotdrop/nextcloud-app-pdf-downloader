@@ -22,4 +22,6 @@ lib/Toolkit/[A-Z]*
 *-build-hash
 /vendor-bin/**/vendor/
 /vendor-bin/**/composer.lock
+/vendor-bin/**/.ac-php*
 statistics/**
+patches.lock.json

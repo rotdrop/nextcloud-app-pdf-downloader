@@ -1,6 +1,6 @@
 /**
  * @author Claus-Justus Heine
- * @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2024, 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,73 +17,43 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { appName } from './config.ts';
-import { translate as t } from '@nextcloud/l10n';
-import getInitialState from './toolkit/util/initial-state.ts';
-import type { LegacyFileInfo } from '@nextcloud/files';
 import type { InitialState } from './types/initial-state.d.ts';
 
-// eslint-disable-next-line
+import { registerSidebarTab } from '@nextcloud/files';
+import { translate as t } from '@nextcloud/l10n';
+import { defineAsyncComponent, defineCustomElement } from 'vue';
 import logoSvg from '../img/app.svg?raw';
+import { appName } from './config.ts';
+import getInitialState from './toolkit/util/initial-state.ts';
 
-require('./webpack-setup.ts');
+import './webpack-setup.ts';
 
-interface FilesTab extends Vue {
-   update(fileInfo: LegacyFileInfo): Promise<unknown>,
-}
+const sidebarTabTag = `${appName}-files-sidebar-tab` as const;
 
-let TabInstance: undefined|FilesTab;
+if (window.customElements.get(sidebarTabTag) === undefined) {
+  window.customElements.define(
+    sidebarTabTag,
+    defineCustomElement(defineAsyncComponent(() => import('./views/FilesTab.vue')), { shadowRoot: false }),
+  );
 
-const initialState = getInitialState<InitialState>();
+  const initialState = getInitialState<InitialState>();
 
-const mimeTypes = [
-  'httpd/unix-directory',
-];
+  const mimeTypes = [
+    'httpd/unix-directory',
+  ];
 
-if (!initialState?.individualFileConversion
+  if (!initialState?.individualFileConversion
     && initialState?.extractArchiveFiles
     && initialState?.extractArchiveFilesAdmin) {
-  mimeTypes.splice(0, 0, ...(initialState?.archiveMimeTypes || []));
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-
-  /**
-   * Register a new tab in the sidebar
-   */
-  if (OCA.Files && OCA.Files.Sidebar) {
-    OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
-      id: appName,
-      name: t(appName, 'PDF'),
-      iconSvg: logoSvg,
-
-      enabled(fileInfo: LegacyFileInfo) {
-        return initialState?.individualFileConversion || mimeTypes.indexOf(fileInfo.mimetype) >= 0;
-      },
-
-      async mount<VueType extends Vue>(el: HTMLElement, fileInfo: LegacyFileInfo, context: VueType) {
-        const FilesTabAsset = (await import('./files-tab.ts'));
-        const factory = FilesTabAsset.default;
-
-        if (TabInstance) {
-          TabInstance.$destroy();
-        }
-
-        TabInstance = factory(context);
-
-        // Only mount after we have all the info we need
-        await TabInstance.update(fileInfo);
-        TabInstance.$mount(el);
-      },
-      update(fileInfo: LegacyFileInfo) {
-        TabInstance!.update(fileInfo);
-      },
-      destroy() {
-        if (TabInstance !== undefined) {
-          TabInstance.$destroy();
-        }
-        TabInstance = undefined;
-      },
-    }));
+    mimeTypes.splice(0, 0, ...(initialState?.archiveMimeTypes || []));
   }
-});
+
+  registerSidebarTab({
+    id: appName,
+    order: 50,
+    displayName: t(appName, 'Archive'),
+    iconSvgInline: logoSvg,
+    tagName: sidebarTabTag,
+    enabled: (context) => initialState?.individualFileConversion || mimeTypes.indexOf(context.node.mime) >= 0,
+  });
+}

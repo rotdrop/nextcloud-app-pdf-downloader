@@ -1,5 +1,5 @@
 <!--
- - @copyright Copyright (c) 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright Copyright (c) 2022-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  -
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
  -
@@ -19,7 +19,7 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-  <div :class="['templateroot', ...cloudVersionClasses]">
+  <div class="templateroot" :class="[...cloudVersionClasses]">
     <h1 class="title">
       {{ t(appName, 'Recursive PDF Downloader') }}
     </h1>
@@ -30,42 +30,42 @@
       <div class="required-dependencies">
         <div><label>{{ t(appName, 'List of required Dependencies') }}</label></div>
         <ul>
-          <ListItem v-for="(path, program) in settings.dependencies.required"
-                    :key="program"
-                    :name="program"
-                    :details="path"
-                    :bold="false"
+          <NcListItem v-for="(path, program) in settings.dependencies.required"
+                      :key="program"
+                      :name="program"
+                      :details="path"
+                      :bold="false"
           >
             <template #subname>
               <div class="hint">
                 {{ t(appName, 'The app will not work unless you install {program} such that it can be found by the web-server.', { program }) }}
               </div>
             </template>
-          </ListItem>
+          </NcListItem>
         </ul>
       </div>
       <div class="suggested-dependencies">
         <div><label>{{ t(appName, 'List of suggested Dependencies') }}</label></div>
         <ul>
-          <ListItem v-for="(path, program) in settings.dependencies.suggested"
-                    :key="program"
-                    :name="program"
-                    :details="path"
-                    :bold="false"
+          <NcListItem v-for="(path, program) in settings.dependencies.suggested"
+                      :key="program"
+                      :name="program"
+                      :details="path"
+                      :bold="false"
           >
             <template #subname>
               <div v-if="path === 'missing'" class="hint">
                 {{ t(appName, 'The app will work without installing {program}, but the conversion results may be degraded.', { program }) }}
               </div>
             </template>
-          </ListItem>
+          </NcListItem>
         </ul>
       </div>
     </NcSettingsSection>
     <NcSettingsSection id="archive-extraction"
                        :name="t(appName, 'Archive Extraction')"
     >
-      <div :class="['flex-container', 'flex-center', { extractArchiveFiles: settings.extractArchiveFiles }]">
+      <div class="flex-container flex-center" :class="{ extractArchiveFiles: settings.extractArchiveFiles }">
         <input id="extract-archive files"
                v-model="settings.extractArchiveFiles"
                type="checkbox"
@@ -76,7 +76,7 @@
           {{ t(appName, 'On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis.') }}
         </label>
       </div>
-      <TextField :value.sync="settings.humanArchiveSizeLimit"
+      <TextField v-model:value="settings.humanArchiveSizeLimit"
                  :label="t(appName, 'Archive Size Limit')"
                  :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
                  :disabled="loading || !settings.extractArchiveFiles"
@@ -86,7 +86,7 @@
     <NcSettingsSection id="authenticated-background-jobs"
                        :name="t(appName, 'Authenticated Background Jobs')"
     >
-      <div :class="['flex-container', 'flex-center']">
+      <div class="flex-container flex-center">
         <input id="authenticated-background-jobs"
                v-model="settings.authenticatedBackgroundJobs"
                type="checkbox"
@@ -104,10 +104,10 @@
           {{ t(appName, 'List of additional folders needing authentication') }}
         </div>
         <ul>
-          <ListItem v-for="folder of settings.authenticatedFolders"
-                    :key="folder"
-                    :name="folder"
-                    :bold="false"
+          <NcListItem v-for="folder of settings.authenticatedFolders"
+                      :key="folder"
+                      :name="folder"
+                      :bold="false"
           >
             <template #icon>
               <FolderIcon />
@@ -119,10 +119,10 @@
                 </template>
               </NcActionButton>
             </template>
-          </ListItem>
+          </NcListItem>
         </ul>
         <NcButton aria-label="t(appName, 'Add a Folder')"
-                  type="primary"
+                  variant="primary"
                   @click="addAuthenticatedFolder"
         >
           <template #icon>
@@ -138,7 +138,7 @@
     <NcSettingsSection id="custom-converter-scripts"
                        :name="t(appName, 'Custom Converter Scripts')"
     >
-      <div :class="['flex-container', 'flex-center']">
+      <div class="flex-container flex-center">
         <input id="disable-builtin-converters"
                v-model="settings.disableBuiltinConverters"
                type="checkbox"
@@ -149,13 +149,13 @@
           {{ t(appName, 'Disable the builtin converters.') }}
         </label>
       </div>
-      <TextField :value.sync="settings.universalConverter"
+      <TextField v-model:value="settings.universalConverter"
                  :label="t(appName, 'Universal Converter')"
                  :hint="t(appName, 'Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
                  :disabled="loading"
                  @submit="saveTextInput('universalConverter')"
       />
-      <TextField :value.sync="settings.fallbackConverter"
+      <TextField v-model:value="settings.fallbackConverter"
                  :label="t(appName, 'Fallback Converter')"
                  :hint="t(appName, 'Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
                  :disabled="loading || !!settings.disableBuiltinConverters"
@@ -168,74 +168,75 @@
       <div class="converter-status">
         <div><label>{{ t(appName, 'Status of the configured Converters') }}</label></div>
         <ul>
-          <ListItem v-for="(chainAlternative, chainIndex) in settings.converters"
-                    :key="chainIndex"
-                    class="mime-type"
-                    :name="chainAlternative.mimeType"
-                    :details="chainAlternative.chain.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
-                    :bold="true"
+          <NcListItem v-for="(chainAlternative, chainIndex) in settings.converters"
+                      :key="chainIndex"
+                      class="mime-type"
+                      :name="chainAlternative.mimeType"
+                      :details="chainAlternative.chain.length > 1 ? t(appName, 'converter chain') : t(appName, 'single converter')"
+                      :bold="true"
           >
             <template #subname>
               <ul>
-                <ListItem v-for="(items, index) in chainAlternative.chain"
-                          :key="index"
-                          :name="Object.values(items).length > 1 ? t(appName, 'alternatives') : t(appName, 'converter')"
-                          :show-counter="chainAlternative.chain.length > 1"
-                          :counter-number="chainAlternative.chain.length > 1 ? index + 1 : 0"
+                <NcListItem v-for="(items, index) in chainAlternative.chain"
+                            :key="index"
+                            :name="Object.values(items).length > 1 ? t(appName, 'alternatives') : t(appName, 'converter')"
+                            :showCounter="chainAlternative.chain.length > 1"
+                            :counterNumber="chainAlternative.chain.length > 1 ? index + 1 : 0"
                 >
                   <template #subname>
-                    <ListItem v-for="(executable, converter) in items"
-                              :key="converter"
-                              name=""
-                              :details="Object.values(items).length > 1 ? t(appName, 'converter') : ''"
+                    <NcListItem v-for="(executable, converter) in items"
+                                :key="converter"
+                                name=""
+                                :details="Object.values(items).length > 1 ? t(appName, 'converter') : ''"
                     >
                       <template #subname>
                         <span>{{ converter }}: {{ executable }}</span>
                       </template>
-                    </ListItem>
+                    </NcListItem>
                   </template>
-                </ListItem>
+                </NcListItem>
               </ul>
             </template>
-          </ListItem>
+          </NcListItem>
         </ul>
       </div>
     </NcSettingsSection>
   </div>
 </template>
+
 <script setup lang="ts">
-import { appName } from './config.ts'
-import {
-  NcActionButton,
-  NcButton,
-  NcSettingsSection,
-  NcListItem as ListItem,
-} from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
-import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
 import {
   getFilePickerBuilder,
-  FilePickerType,
   // showError,
   // showSuccess,
   // showInfo,
   // TOAST_PERMANENT_TIMEOUT,
 } from '@nextcloud/dialogs'
-import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.ts'
+import { translate as t } from '@nextcloud/l10n'
+import { basename } from '@nextcloud/paths'
 import {
-  fetchSettings,
-  fetchSetting,
-  saveConfirmedSetting,
-  saveSimpleSetting,
-} from './toolkit/util/settings-sync.ts'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import DeleteIcon from 'vue-material-design-icons/Delete.vue'
-import FolderIcon from 'vue-material-design-icons/Folder.vue'
+  NcActionButton,
+  NcButton,
+  NcListItem,
+  NcSettingsSection,
+} from '@nextcloud/vue'
 import {
   computed,
   reactive,
   ref,
 } from 'vue'
+import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import { appName } from './config.ts'
+import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.ts'
+import {
+  fetchSetting,
+  fetchSettings,
+  saveConfirmedSetting,
+  saveSimpleSetting,
+} from './toolkit/util/settings-sync.ts'
 
 const cloudVersionClasses = computed<string[]>(() => cloudVersionClassesImport)
 const loading = ref(true)
@@ -248,7 +249,10 @@ const settings = reactive({
   fallbackConverter: '',
   authenticatedBackgroundJobs: false,
   authenticatedFolders: [] as string[],
-  converters: {} as Record<string, Record<string, string>[]>,
+  converters: [] as {
+    mimeType: string
+    chain: Record<string, string>[]
+  }[],
   dependencies: {
     missing: {
       required: 0,
@@ -294,7 +298,20 @@ const addAuthenticatedFolder = async () => {
   const picker = getFilePickerBuilder(t(appName, 'Choose a folder requiring authentication'))
     .startAt('/')
     .setMultiSelect(true)
-    .setType(FilePickerType.Choose)
+    .setButtonFactory(
+      (nodes, path) => {
+        const node = nodes[0]
+        const target = node?.displayname || basename(path)
+        const label = nodes.length === 1
+          ? t(appName, 'Choose {file}', { file: target })
+          : t(appName, 'Choose')
+        return [{
+          callback: () => {},
+          label,
+          variant: 'primary',
+        }]
+      },
+    )
     .setMimeTypeFilter(['httpd/unix-directory'])
     .allowDirectories()
     .build()
@@ -316,6 +333,7 @@ const removeAuthenticatedFolder = async (folder: string) => {
   await saveSetting('authenticatedFolders')
 }
 </script>
+
 <style lang="scss" scoped>
 .cloud-version {
   --cloud-theme-filter: var(--background-invert-if-dark);
@@ -323,7 +341,7 @@ const removeAuthenticatedFolder = async (folder: string) => {
     --cloud-theme-filter: none;
   }
 }
-.templateroot {
+.templateroot :deep() {
   .flex-container {
     display:flex;
     &.flex-center {

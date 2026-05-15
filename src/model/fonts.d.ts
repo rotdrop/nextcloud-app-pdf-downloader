@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright Copyright (c) 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
  *
@@ -21,10 +21,10 @@
  */
 
 export interface FontDescriptor {
-  family: string,
-  type: string,
-  fontName: string,
-  flag: number,
-  fontHash: string,
-  fontSize?: number,
+  family: string;
+  type: string;
+  fontName: string;
+  flag: number;
+  fontHash: string;
+  fontSize?: number;
 }

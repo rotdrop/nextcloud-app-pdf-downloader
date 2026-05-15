@@ -1,6 +1,6 @@
 /**
  * @author Claus-Justus Heine
- * @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import type { NotificationEvent } from './toolkit/types/event-bus.d.ts';
+import type { InitialState } from './types/initial-state.d.ts';
+import type { DestinationParameter } from './types/notification.d.ts';
+
+import axios from '@nextcloud/axios';
+import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
+import { emit, subscribe } from '@nextcloud/event-bus';
+import {
+  Permission,
+  registerFileAction,
+} from '@nextcloud/files';
+import { translate as t } from '@nextcloud/l10n';
+import logoSvg from '../img/app.svg?raw';
 import { appName } from './config.ts';
-import generateAppUrl from './toolkit/util/generate-url.ts';
+import logger from './logger.ts';
+import { isAxiosErrorResponse } from './toolkit/types/axios-type-guards.ts';
 import fileDownload from './toolkit/util/axios-file-download.ts';
 import { fileInfoToNode } from './toolkit/util/file-node-helper.ts';
-import { translate as t } from '@nextcloud/l10n';
-import { emit, subscribe } from '@nextcloud/event-bus';
-import type { NotificationEvent } from './toolkit/types/event-bus.d.ts';
-import axios from '@nextcloud/axios';
-import { registerFileAction, FileAction, Node, Permission } from '@nextcloud/files';
-import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
+import generateAppUrl from './toolkit/util/generate-url.ts';
 import getInitialState from './toolkit/util/initial-state.ts';
-import { isAxiosErrorResponse } from './toolkit/types/axios-type-guards.ts';
-import logoSvg from '../img/app.svg?raw';
-import logger from './logger.ts';
-import type { InitialState } from './types/initial-state.d.ts';
 
-require('./webpack-setup.ts');
+import './webpack-setup.ts';
 
 const initialState = getInitialState<InitialState>();
 
@@ -44,8 +49,8 @@ const mimeTypes: Array<string> = [
 ];
 
 if (!initialState?.individualFileConversion
-    && initialState?.extractArchiveFiles
-    && initialState?.extractArchiveFilesAdmin) {
+  && initialState?.extractArchiveFiles
+  && initialState?.extractArchiveFilesAdmin) {
   mimeTypes.splice(0, 0, ...(initialState?.archiveMimeTypes || []));
   logger.info('MIME TYPES', mimeTypes);
 }
@@ -54,7 +59,7 @@ subscribe('notifications:notification:received', (event: NotificationEvent) => {
   if (event?.notification?.app !== appName) {
     return;
   }
-  const destinationData = event.notification?.subjectRichParameters?.destination;
+  const destinationData = event.notification?.subjectRichParameters?.destination as DestinationParameter;
   if (!destinationData) {
     return;
   }
@@ -71,22 +76,22 @@ subscribe('notifications:notification:received', (event: NotificationEvent) => {
   emit('files:node:created', node);
 });
 
-registerFileAction(new FileAction({
+registerFileAction({
   id: appName,
-  displayName(/* nodes: Node[], view: View */) {
+  displayName(_context) {
     return t(appName, 'Download PDF');
   },
-  title(/* files: Node[], view: View */) {
+  title(_context) {
     return t(appName, 'Convert the entry into a PDF document.');
   },
-  iconSvgInline(/* files: Node[], view: View) */) {
+  iconSvgInline(_context) {
     return logoSvg;
   },
-  enabled(nodes: Node[]/* , view: View) */) {
-    if (nodes.length !== 1) {
+  enabled(context) {
+    if (context.nodes.length !== 1) {
       return false;
     }
-    const node = nodes[0];
+    const node = context.nodes[0];
     if (!(node.permissions & Permission.READ)) {
       return false;
     }
@@ -95,7 +100,8 @@ registerFileAction(new FileAction({
     }
     return true;
   },
-  async exec(node: Node/* , view: View, dir: string */) {
+  async exec(context) {
+    const node = context.nodes[0];
 
     const encodedPath = encodeURIComponent(node.path);
 
@@ -142,5 +148,4 @@ registerFileAction(new FileAction({
     }
     return null;
   },
-  inline: () => false,
-}));
+});

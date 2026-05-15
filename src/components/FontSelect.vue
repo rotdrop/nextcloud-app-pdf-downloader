@@ -1,5 +1,5 @@
  <!--
- - @copyright Copyright (c) 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright Copyright (c) 2022-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
  - @license AGPL-3.0-or-later
  -
@@ -17,7 +17,7 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-  <div :class="['font-select-container', ...cloudVersionClasses]">
+  <div class="font-select-container" :class="[...cloudVersionClasses]">
     <div class="label-container">
       <label v-if="label !== undefined" :for="id + '-font-select'">{{ label }}</label>
     </div>
@@ -28,14 +28,14 @@
                               v-bind="$attrs"
                               :options="fontsList"
                               class="fonts-select"
-                              :options-limit="100"
+                              :optionsLimit="100"
                               :placeholder="placeholder"
                               :multiple="false"
                               label="fontName"
                               :disabled="disabled || loading"
                               :clearable="true"
                               :searchable="true"
-                              :submit-button="false"
+                              :submitButton="false"
       >
         <template #option="option">
           <NcEllipsisedOption v-tooltip="fontInfoPopup(option, getFontSampleUri(option))"
@@ -75,45 +75,52 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import { appName } from '../config.ts'
+import type { NcSelect } from '@nextcloud/vue'
+import type { FontDescriptor } from '../model/fonts.d.ts'
+
 import { translate as t } from '@nextcloud/l10n'
-import SelectWithSubmitButton from '@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue'
-import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
-import { generateUrl as generateAppUrl } from '../toolkit/util/generate-url.ts'
-import pangram from '../toolkit/util/pangram.ts'
-import cloudVersionClassesImport from '../toolkit/util/cloud-version-classes.ts'
+import { NcEllipsisedOption } from '@nextcloud/vue'
+import { v4 as uuidv4 } from 'uuid'
 import {
   computed,
   ref,
   watch,
 } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-import type { FontDescriptor } from '../model/fonts.d.ts'
-import type { NcSelect } from '@nextcloud/vue'
+import SelectWithSubmitButton from '@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue'
+import { appName } from '../config.ts'
+import cloudVersionClassesImport from '../toolkit/util/cloud-version-classes.ts'
+import { generateUrl as generateAppUrl } from '../toolkit/util/generate-url.ts'
+import pangram from '../toolkit/util/pangram.ts'
+
+defineOptions({
+  name: 'FontSelect',
+  inheritAttrs: false,
+})
 
 const props = withDefaults(defineProps<{
-  modelValue?: FontDescriptor,
-  disabled?: boolean,
-  loading?: boolean,
-  label?: string,
-  hint?: string,
-  placeholder?: string,
-  fontsList?: FontDescriptor[],
-  fontSizeChooser?: boolean,
-  fontSampleText?: string,
-  fontSampleSize?: number,
-  fontSampleColor?: string,
-  fontSampleFormat?: 'svg'|'png',
+  modelValue?: FontDescriptor
+  disabled?: boolean
+  loading?: boolean
+  label?: string
+  hint?: string
+  placeholder?: string
+  fontsList?: FontDescriptor[]
+  fontSizeChooser?: boolean
+  fontSampleText?: string
+  fontSampleSize?: number
+  fontSampleColor?: string
+  fontSampleFormat?: 'svg'|'png'
 }>(), {
   modelValue: undefined,
   disabled: false,
-  loading: true,
+  loading: true, // eslint-disable-line vue/no-boolean-default
   label: undefined,
   hint: undefined,
   placeholder: t(appName, 'Select a Font'),
   fontsList: () => [],
-  fontSizeChooser: true,
+  fontSizeChooser: true, // eslint-disable-line vue/no-boolean-default
   fontSampleText: pangram,
   fontSampleSize: 12,
   fontSampleColor: '#000000',
@@ -137,13 +144,6 @@ const id = computed<string>(() => uuidv4())
 
 const cloudVersionClasses = computed<string[]>(() => cloudVersionClassesImport)
 
-const fontSampleSource = computed(() => {
-  if (!fontObject.value) {
-    return ''
-  }
-  return getFontSampleUri(fontObject.value)
-})
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fontInfoPopup = (fontOption: FontDescriptor|any, sampleUri: string) => {
   // console.info('FONT OPTION', fontOption, sampleUri);
@@ -159,10 +159,10 @@ const fontInfoPopup = (fontOption: FontDescriptor|any, sampleUri: string) => {
 }
 
 interface FontSampleOptions {
-  text?: string,
-  fontSize?: number,
-  textColor?: string,
-  format?: string,
+  text?: string
+  fontSize?: number
+  textColor?: string
+  format?: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -172,7 +172,8 @@ const getFontSampleUri = (fontObject: FontDescriptor|any, options?: FontSampleOp
   const textColor = options?.textColor || props.fontSampleColor
   const format = options?.format || props.fontSampleFormat
   return generateAppUrl(
-    'sample/font/{text}/{font}/{fontSize}', {
+    'sample/font/{text}/{font}/{fontSize}',
+    {
       text,
       fontSize,
       textColor,
@@ -184,11 +185,16 @@ const getFontSampleUri = (fontObject: FontDescriptor|any, options?: FontSampleOp
   )
 }
 
-const emitUpdate = (value) => {
+const fontSampleSource = computed(() => {
+  if (!fontObject.value) {
+    return ''
+  }
+  return getFontSampleUri(fontObject.value)
+})
+
+const emitUpdate = (value?: FontDescriptor) => {
   emit('input', value) // Vue 2
   emit('update:modelValue', value)
-  emit('update:model-value', value)
-  emit('update:value', value)
 }
 
 const emitFontSizeChange = () => {
@@ -200,9 +206,8 @@ const emitFontSizeChange = () => {
 
 watch(fontObject, (newValue, oldValue) => {
   if (newValue && oldValue
-      && newValue.family === oldValue.family
-      && newValue.fontSize === oldValue.fontSize
-  ) {
+    && newValue.family === oldValue.family
+    && newValue.fontSize === oldValue.fontSize) {
     return
   }
   const value = newValue ? { ...newValue, fontSize: fontSize.value } : undefined
@@ -234,16 +239,7 @@ if (props.modelValue) {
   fontSize.value = props.modelValue.fontSize
 }
 </script>
-<script lang="ts">
-export default {
-  name: 'FontSelect',
-  inheritAttrs: false,
-  model: {
-    prop: 'modelValue',
-    event: 'update:modelValue',
-  },
-}
-</script>
+
 <style lang="scss" scoped>
 .cloud-version {
   --cloud-icon-checkmark: var(--icon-checkmark-dark);
@@ -263,7 +259,7 @@ export default {
     --cloud-theme-filter: none;
   }
 }
-.font-select-container {
+.font-select-container :deep() {
   .flex-container {
     display:flex;
     &.flex-center {
@@ -312,6 +308,7 @@ export default {
   }
 }
 </style>
+
 <style lang="scss">
 [csstag="vue-tooltip-font-info-popup"].v-popper--theme-tooltip {
   .v-popper__inner {
