@@ -37,7 +37,7 @@
           >
             {{ t(appName, 'download locally') }}
           </NcActionButton>
-          <NcActionButton :model-value.sync="showCloudDestination"
+          <NcActionButton v-model="showCloudDestination"
                           :disabled="showCloudDestination"
                           @click.prevent.stop="showCloudDestination = !showCloudDestination"
           >
@@ -72,21 +72,21 @@
           </h5>
         </div>
         <NcActions ref="downloadOptionsElement">
-          <NcActionCheckbox v-tooltip="tooltips.pageLabels"
-                            :checked="!!downloadOptions.pageLabels"
-                            @update:checked="setDownloadOption('pageLabels', $event)"
+          <NcActionCheckbox v-model="downloadOptions.pageLabels"
+                            v-tooltip="tooltips.pageLabels"
+                            @update:modelValue="setDownloadOption('pageLabels', $event)"
           >
             {{ t(appName, 'page labels') }}
           </NcActionCheckbox>
-          <NcActionCheckbox v-tooltip="tooltips.useTemplate"
-                            :checked="!!downloadOptions.useTemplate"
-                            @update:checked="setDownloadOption('useTemplate', $event)"
+          <NcActionCheckbox v-model="downloadOptions.useTemplate"
+                            v-tooltip="tooltips.useTemplate"
+                            @update:modelValue="setDownloadOption('useTemplate', $event)"
           >
             {{ t(appName, 'filename template') }}
           </NcActionCheckbox>
-          <NcActionCheckbox v-tooltip="tooltips.offline"
-                            :checked="!!downloadOptions.offline"
-                            @update:checked="setDownloadOption('offline', $event)"
+          <NcActionCheckbox v-model="downloadOptions.offline"
+                            v-tooltip="tooltips.offline"
+                            @update:modelValue="setDownloadOption('offline', $event)"
           >
             {{ t(appName, 'offline') }}
           </NcActionCheckbox>
@@ -159,49 +159,73 @@
     </ul>
   </div>
 </template>
+
 <script setup lang="ts">
-import { appName } from '../config.ts'
+import type {
+  IFilePickerButton,
+} from '@nextcloud/dialogs'
+import type {
+  IFolder,
+  INode,
+  IView,
+} from '@nextcloud/files'
+import type { FileInfoDTO } from '../toolkit/util/file-node-helper.ts'
+import type { InitialState } from '../types/initial-state.d.ts'
+import type { DestinationParameter } from '../types/notification.d.ts'
+
+import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
+import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
+import { getRequestToken } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import {
+  getFilePickerBuilder,
+  showError,
+  showSuccess,
+  TOAST_PERMANENT_TIMEOUT,
+} from '@nextcloud/dialogs'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { translate as t } from '@nextcloud/l10n'
+import {
+  NcActionButton,
+  NcActionCheckbox,
+  NcActions,
+} from '@nextcloud/vue'
+import { basename as pathBasename } from 'path'
 import {
   computed,
   reactive,
   ref,
-  set as vueSet,
   watch,
 } from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
-import { emit, subscribe } from '@nextcloud/event-bus'
-import { fileInfoToNode } from '../toolkit/util/file-node-helper.ts'
-import type { FileInfoDTO } from '../toolkit/util/file-node-helper.ts'
-import {
-  NcActions,
-  NcActionButton,
-  NcActionCheckbox,
-} from '@nextcloud/vue'
-import {
-  getFilePickerBuilder,
-  TOAST_PERMANENT_TIMEOUT,
-  showError,
-  showSuccess,
-} from '@nextcloud/dialogs'
-import type {
-  IFilePickerButton,
-} from '@nextcloud/dialogs'
+import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
 import CloudUpload from 'vue-material-design-icons/CloudUpload.vue'
-import axios from '@nextcloud/axios'
-import { translate as t } from '@nextcloud/l10n'
-// import path, * as Path from 'path'
+import { appName } from '../config.ts'
+import logger from '../logger.ts'
+import { isAxiosErrorResponse } from '../toolkit/types/axios-type-guards.ts'
+import fileDownload from '../toolkit/util/axios-file-download.ts'
+import { setFileNodeBusy } from '../toolkit/util/file-node-busy-indicator.ts'
+import { fileInfoToNode } from '../toolkit/util/file-node-helper.ts'
 import generateAppUrl from '../toolkit/util/generate-url.ts'
 import getInitialState from '../toolkit/util/initial-state.ts'
-import fileDownload from '../toolkit/util/axios-file-download.ts'
-import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
-import { basename as pathBasename } from 'path'
-import { isAxiosErrorResponse } from '../toolkit/types/axios-type-guards.ts'
-import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
-import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
-import { setSidebarNodeBusy as setBusyState } from '../toolkit/util/nextcloud-sidebar-root.ts'
-import logger from '../logger.ts'
-import type { LegacyFileInfo } from '@nextcloud/files'
-import type { InitialState } from '../types/initial-state.d.ts'
+
+const props = withDefaults(defineProps<{
+  node: INode
+  folder?: IFolder
+  view?: IView
+}>(), {
+  folder: undefined,
+  view: undefined,
+})
+
+logger.info('PROPS', {
+  node: { ...props.node },
+  folder: { ...(props.folder ?? {}) },
+  view: { ...(props.view ?? {}) },
+})
+
+const setBusyState = (state: boolean) => {
+  setFileNodeBusy(props.node, state)
+}
 
 setBusyState(false) // needs to be called once synchronously inside setup
 
@@ -212,8 +236,6 @@ const tooltips = reactive({
   offline: t(appName, 'When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time.'),
   useTemplate: t(appName, 'Auto-generate the download filename from the given template. The default template can be configured in the personal settings for this app.'),
 })
-
-const fileInfo = ref<undefined|LegacyFileInfo>(undefined)
 
 const downloadOptions = reactive({
   offline: undefined as undefined|boolean,
@@ -230,7 +252,7 @@ const setDownloadOption = (key: string, value: any) => {
   downloadOptions[key] = value
 }
 
-const cloudDestinationFileInfo = reactive({
+const cloudDestinationFileInfo = ref({
   dirName: '',
   baseName: '',
 })
@@ -247,28 +269,28 @@ const downloads = ref<FileInfoDTO[]>([])
 
 const loading = computed(() => activeLoaders.value !== 0)
 
-const sourceFileId = computed(() => fileInfo.value?.id)
+const sourceFileId = computed(() => props.node.id)
 
 const sourcePath = computed(
-  () => fileInfo.value?.path + (fileInfo.value?.path === '/' ? '' : '/') + fileInfo.value?.name,
+  () => props.node.path + (props.node.path === '/' ? '' : '/') + props.node.basename,
 )
 
 const cloudDestinationBaseName = computed({
   get() {
-    return cloudDestinationFileInfo.baseName
+    return cloudDestinationFileInfo.value.baseName
   },
   set(value) {
-    vueSet(cloudDestinationFileInfo, 'baseName', value)
+    cloudDestinationFileInfo.value.baseName = value
     return value
   },
 })
 
 const cloudDestinationDirName = computed({
   get() {
-    return cloudDestinationFileInfo.dirName
+    return cloudDestinationFileInfo.value.dirName
   },
   set(value) {
-    vueSet(cloudDestinationFileInfo, 'dirName', value)
+    cloudDestinationFileInfo.value.dirName = value
     return value
   },
 })
@@ -290,21 +312,102 @@ watch(downloads, (newValue, oldValue) => {
   showBackgroundDownloads.value = newValue.length > 0
 })
 
+const fetchPdfFileNameFromTemplate = async (folderPath: string) => {
+  ++activeLoaders.value
+  try {
+    const response = await axios.get(generateAppUrl(
+      'sample/pdf-filename/{template}/{path}',
+      {
+        template: encodeURIComponent(initialState?.pdfFileNameTemplate || ''),
+        path: encodeURIComponent(folderPath),
+      },
+    ))
+    --activeLoaders.value
+    return response.data.pdfFileName
+  } catch (e) {
+    let message = t(appName, 'reason unknown')
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data as { messages?: string[] }
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
+      message,
+    }), {
+      timeout: TOAST_PERMANENT_TIMEOUT,
+    })
+    --activeLoaders.value
+    return undefined
+  }
+}
+
+const fetchAvailableDownloads = async (silent?: boolean) => {
+  if (silent !== true) {
+    ++activeLoaders.value
+  }
+  try {
+    const response = await axios.get(generateAppUrl(
+      'list/{sourcePath}',
+      {
+        sourcePath: encodeURIComponent(sourcePath.value),
+      },
+    ))
+    logger.info('DOWNLOADS RESPONSE', response)
+    if (silent !== true) {
+      --activeLoaders.value
+    }
+    return response.data
+  } catch (e) {
+    let message = t(appName, 'reason unknown')
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data as { messages?: string[] }
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    showError(t(appName, 'Unable to obtain the list of available downloads: {message}', {
+      message,
+    }), {
+      timeout: TOAST_PERMANENT_TIMEOUT,
+    })
+    if (silent !== true) {
+      --activeLoaders.value
+    }
+    return []
+  }
+}
+
+const refreshAvailableDownloads = async () => {
+  const newDownloads = await fetchAvailableDownloads()
+  downloads.value.splice(0, downloads.value.length, ...newDownloads)
+  showBackgroundDownloads.value = downloads.value.length > 0
+}
+
+watch(
+  props.node,
+  async () => {
+    logger.debug('Node has changed', {
+      node: { ...props.node },
+      folder: { ...(props.folder ?? {}) },
+      view: { ...(props.view ?? {}) },
+    })
+    await update()
+  },
+  { immediate: true },
+)
+
 /**
- * Update current fileInfo and fetch new data
- *
- * @param newFileInfo the current file FileInfo
+ * Update current fileInfo and fetch new data.
  */
-const update = async (newFileInfo: LegacyFileInfo) => {
+async function update() {
   logger.debug('UPDATE CALLED')
   activeLoaders.value = 1
 
-  fileInfo.value = newFileInfo
-
   setBusyState(true)
 
-  cloudDestinationDirName.value = initialState?.pdfCloudFolderPath || fileInfo.value.path
-  if (fileInfo.value.type === 'dir') {
+  cloudDestinationDirName.value = initialState?.pdfCloudFolderPath || props.node.path
+  if (props.node.type === 'folder') {
     // this.folderName = fileInfo.name
   } else {
     // archive file, split the relevant extensions
@@ -346,75 +449,7 @@ const toggleDownloadMenu = () => {
   }
 }
 
-const fetchPdfFileNameFromTemplate = async (folderPath: string) => {
-  ++activeLoaders.value
-  try {
-    const response = await axios.get(generateAppUrl(
-      'sample/pdf-filename/{template}/{path}', {
-        template: encodeURIComponent(initialState?.pdfFileNameTemplate || ''),
-        path: encodeURIComponent(folderPath),
-      }))
-    --activeLoaders.value
-    return response.data.pdfFileName
-  } catch (e) {
-    let message = t(appName, 'reason unknown')
-    if (isAxiosErrorResponse(e) && e.response.data) {
-      const responseData = e.response.data as { messages?: string[] }
-      if (Array.isArray(responseData.messages)) {
-        message = responseData.messages.join(' ')
-      }
-    }
-    showError(t(appName, 'Unable to obtain the pdf-file template example: {message}', {
-      message,
-    }), {
-      timeout: TOAST_PERMANENT_TIMEOUT,
-    })
-    --activeLoaders.value
-    return undefined
-  }
-}
-
-const refreshAvailableDownloads = async () => {
-  const newDownloads = await fetchAvailableDownloads()
-  downloads.value.splice(0, downloads.value.length, ...newDownloads)
-  showBackgroundDownloads.value = downloads.value.length > 0
-}
-
-const fetchAvailableDownloads = async (silent?: boolean) => {
-  if (silent !== true) {
-    ++activeLoaders.value
-  }
-  try {
-    const response = await axios.get(generateAppUrl(
-      'list/{sourcePath}', {
-        sourcePath: encodeURIComponent(sourcePath.value),
-      }))
-    logger.info('DOWNLOADS RESPONSE', response)
-    if (silent !== true) {
-      --activeLoaders.value
-    }
-    return response.data
-  } catch (e) {
-    let message = t(appName, 'reason unknown')
-    if (isAxiosErrorResponse(e) && e.response.data) {
-      const responseData = e.response.data as { messages?: string[] }
-      if (Array.isArray(responseData.messages)) {
-        message = responseData.messages.join(' ')
-      }
-    }
-    showError(t(appName, 'Unable to obtain the list of available downloads: {message}', {
-      message,
-    }), {
-      timeout: TOAST_PERMANENT_TIMEOUT,
-    })
-    if (silent !== true) {
-      --activeLoaders.value
-    }
-    return []
-  }
-}
-
-const cacheDownloadUrl = (cacheId: number) => {
+const cacheDownloadUrl = (cacheId: number|string) => {
   return generateAppUrl('download/{sourcePath}/{cacheId}', {
     sourcePath: encodeURIComponent(sourcePath.value!),
     cacheId,
@@ -422,7 +457,71 @@ const cacheDownloadUrl = (cacheId: number) => {
   })
 }
 
-const handleCacheFileSave = async (cacheId: number) => {
+const handleSaveToCloud = async (
+  cacheFileId?: number|string,
+  destinationFolder?: string,
+  move?: boolean,
+) => {
+  downloading.value = true
+  setBusyState(true)
+  const offline = cacheFileId === undefined && downloadOptions.offline
+  let urlTemplate = offline
+    ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
+    : 'save/{sourcePath}/{destinationPath}'
+  const destinationPathName = destinationFolder || cloudDestinationPathName.value
+  const requestParameters: Record<string, string|number> = {
+    sourcePath: encodeURIComponent(sourcePath.value),
+    destinationPath: encodeURIComponent(destinationPathName),
+  }
+  if (cacheFileId) {
+    urlTemplate += '/{cacheFileId}'
+    requestParameters.cacheFileId = cacheFileId
+  }
+  logger.info('TEMPLATE', urlTemplate, requestParameters)
+  try {
+    const response = await axios.post(
+      generateAppUrl(urlTemplate, requestParameters),
+      {
+        pageLabels: downloadOptions.pageLabels,
+        useTemplate: downloadOptions.useTemplate,
+        move,
+      },
+    )
+    if (offline) {
+      showSuccess(t(appName, 'Scheduled offline PDF generation to {path}.', { path: response.data.pdfFilePath }))
+    } else {
+      const pdfFilePath = response.data.pdfFilePath.substring('/files'.length)
+      showSuccess(t(appName, 'PDF saved as {path}.', { path: pdfFilePath }))
+
+      // Emit a birth signal over the event bus. We don't care
+      // whether the new node is located in the currently viewed
+      // directory.
+      const node = fileInfoToNode(response.data.fileInfo)
+      logger.info('NODE', node)
+
+      // Update files list
+      emit('files:node:created', node)
+    }
+  } catch (e) {
+    let message = t(appName, 'reason unknown')
+    if (isAxiosErrorResponse(e) && e.response.data) {
+      const responseData = e.response.data as { messages?: string[] }
+      if (Array.isArray(responseData.messages)) {
+        message = responseData.messages.join(' ')
+      }
+    }
+    const notice = t(appName, 'Unable to save the PDF generated from {sourceFile} to the cloud: {message}', {
+      sourceFile: sourcePath.value,
+      message,
+    })
+    showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT })
+    logger.error(notice, e)
+  }
+  setBusyState(false)
+  downloading.value = false
+}
+
+const handleCacheFileSave = async (cacheId: number|string) => {
   // This cannot work with CopyMove as the promise returned is
   // resolved with only the path-name, the information about the
   // chosen mode of operation is not available.
@@ -441,14 +540,14 @@ const handleCacheFileSave = async (cacheId: number) => {
       buttons.push({
         callback: () => { mode = 'Copy' },
         label: target ? t('core', 'Copy to {target}', { target }) : t('core', 'Copy'),
-        type: 'primary',
+        variant: 'primary',
         icon: IconCopy,
       })
 
       buttons.push({
         callback: () => { mode = 'Move' },
         label: target ? t('core', 'Move to {target}', { target }) : t('core', 'Move'),
-        type: 'secondary',
+        variant: 'secondary',
         icon: IconMove,
       })
 
@@ -462,7 +561,7 @@ const handleCacheFileSave = async (cacheId: number) => {
       dir = dir[0]
     }
     logger.info('PATH AND MODE', dir, mode)
-  } catch (e) {
+  } catch {
     return
   }
 
@@ -477,12 +576,14 @@ const handleCacheFileSave = async (cacheId: number) => {
       downloads.value.splice(cacheIndex, 1)
     } else {
       logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED FROM DATA?', downloads)
-      fetchAvailableDownloads().then((newDownloads) => { downloads.value.splice(0, downloads.value.length, ...newDownloads) })
+      fetchAvailableDownloads().then((newDownloads) => {
+        downloads.value.splice(0, downloads.value.length, ...newDownloads)
+      })
     }
   }
 }
 
-const handleCacheFileDownload = async (cacheId: number, baseName: string) => {
+const handleCacheFileDownload = async (cacheId: number|string, baseName: string) => {
   downloading.value = true
   setBusyState(true)
   try {
@@ -504,11 +605,12 @@ const handleCacheFileDownload = async (cacheId: number, baseName: string) => {
   setBusyState(false)
 }
 
-const handleCacheFileDelete = async (cacheId: number) => {
+const handleCacheFileDelete = async (cacheId: number|string) => {
   downloading.value = true
   try {
     const response = await axios.post(generateAppUrl(
-      'clean/{sourcePath}/{cacheId}', {
+      'clean/{sourcePath}/{cacheId}',
+      {
         sourcePath: encodeURIComponent(sourcePath.value),
         cacheId,
       },
@@ -524,7 +626,9 @@ const handleCacheFileDelete = async (cacheId: number) => {
       downloads.value.splice(cacheIndex, 1)
     } else {
       logger.info('DELETED DOWNLOAD ' + cacheId + ' HAS VANISHED?', downloads)
-      fetchAvailableDownloads().then((newDownloads) => { downloads.value.splice(0, downloads.value.length, ...newDownloads) })
+      fetchAvailableDownloads().then((newDownloads) => {
+        downloads.value.splice(0, downloads.value.length, ...newDownloads)
+      })
     }
   } catch (e) {
     let message = t(appName, 'reason unknown')
@@ -539,7 +643,9 @@ const handleCacheFileDelete = async (cacheId: number) => {
     }), {
       timeout: TOAST_PERMANENT_TIMEOUT,
     })
-    fetchAvailableDownloads().then((newDownloads) => { downloads.value.splice(0, downloads.value.length, ...newDownloads) })
+    fetchAvailableDownloads().then((newDownloads) => {
+      downloads.value.splice(0, downloads.value.length, ...newDownloads)
+    })
   }
   downloading.value = false
 }
@@ -605,80 +711,17 @@ const handleDownload = async () => {
   setBusyState(false)
 }
 
-const handleSaveToCloud = async (
-  cacheFileId?: number,
-  destinationFolder?: string,
-  move?: boolean,
-) => {
-  downloading.value = true
-  setBusyState(true)
-  const offline = cacheFileId === undefined && downloadOptions.offline
-  let urlTemplate = offline
-    ? 'schedule/filesystem/{sourcePath}/{destinationPath}'
-    : 'save/{sourcePath}/{destinationPath}'
-  const destinationPathName = destinationFolder || cloudDestinationPathName.value
-  const requestParameters: Record<string, string|number> = {
-    sourcePath: encodeURIComponent(sourcePath.value),
-    destinationPath: encodeURIComponent(destinationPathName),
-  }
-  if (cacheFileId) {
-    urlTemplate += '/{cacheFileId}'
-    requestParameters.cacheFileId = cacheFileId
-  }
-  logger.info('TEMPLATE', urlTemplate, requestParameters)
-  try {
-    const response = await axios.post(
-      generateAppUrl(urlTemplate, requestParameters), {
-        pageLabels: downloadOptions.pageLabels,
-        useTemplate: downloadOptions.useTemplate,
-        move,
-      },
-    )
-    if (offline) {
-      showSuccess(t(appName, 'Scheduled offline PDF generation to {path}.', { path: response.data.pdfFilePath }))
-    } else {
-      const pdfFilePath = response.data.pdfFilePath.substring('/files'.length)
-      showSuccess(t(appName, 'PDF saved as {path}.', { path: pdfFilePath }))
-
-      // Emit a birth signal over the event bus. We don't care
-      // whether the new node is located in the currently viewed
-      // directory.
-      const node = fileInfoToNode(response.data.fileInfo)
-      logger.info('NODE', node)
-
-      // Update files list
-      emit('files:node:created', node)
-    }
-  } catch (e) {
-    let message = t(appName, 'reason unknown')
-    if (isAxiosErrorResponse(e) && e.response.data) {
-      const responseData = e.response.data as { messages?: string[] }
-      if (Array.isArray(responseData.messages)) {
-        message = responseData.messages.join(' ')
-      }
-    }
-    const notice = t(appName, 'Unable to save the PDF generated from {sourceFile} to the cloud: {message}', {
-      sourceFile: sourcePath.value,
-      message,
-    })
-    showError(notice, { timeout: TOAST_PERMANENT_TIMEOUT })
-    logger.error(notice, e)
-  }
-  setBusyState(false)
-  downloading.value = false
-}
-
 subscribe('notifications:notification:received', (event) => {
   const notification = event?.notification
   if (notification?.app !== appName) {
     return
   }
   const richParameters = notification?.subjectRichParameters
-  if (richParameters.source?.id !== sourceFileId.value) {
+  if (richParameters?.source?.id !== sourceFileId.value) {
     logger.info('*** PDF generation notification for other file received', sourceFileId, richParameters)
     return
   }
-  const destinationData = richParameters?.destination
+  const destinationData = richParameters?.destination as DestinationParameter
   if (!destinationData) {
     return
   }
@@ -709,6 +752,7 @@ defineExpose({
 })
 
 </script>
+
 <style lang="scss" scoped>
 .files-tab {
   .flex {

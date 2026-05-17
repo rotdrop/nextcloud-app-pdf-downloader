@@ -1,5 +1,5 @@
 <!--
- - @copyright Copyright (c) 2022-2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ - @copyright Copyright (c) 2022-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
  - @license AGPL-3.0-or-later
  -
@@ -17,14 +17,14 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-  <div :class="['templateroot', appName, ...cloudVersionClasses]">
+  <div class="templateroot" :class="[appName, ...cloudVersionClasses]">
     <h1 class="title">
       {{ t(appName, 'Recursive PDF Downloader, Personal Settings') }}
     </h1>
     <NcSettingsSection id="decorations-and-fonts"
                        :name="t(appName, 'Decorations and Fonts')"
     >
-      <div :class="['flex-container', 'flex-center', { pageLabels: settings.pageLabels }]">
+      <div class="flex-container flex-center" :class="[{ pageLabels: settings.pageLabels }]">
         <input id="page-labels"
                v-model="settings.pageLabels"
                type="checkbox"
@@ -60,7 +60,8 @@
           <span v-if="pageLabelTemplateFontSampleUri !== ''" class="template-example-caption">
             {{ t(appName, 'as Image') }}:
           </span>
-          <span :class="['template-example-rendered', { 'set-minimum-height': !!settings.pageLabelPageWidthFraction }]"
+          <span class="template-example-rendered"
+                :class="[{ 'set-minimum-height': !!settings.pageLabelPageWidthFraction }]"
                 :style="{ 'background-color': settings.pageLabelBackgroundColor }"
           >
             <img :src="pageLabelTemplateFontSampleUri"
@@ -71,7 +72,7 @@
             {{ t(appName, 'as Text') }}:
           </span>
           <span class="template-example-plain-text"
-                :style="{ 'background-color': settings.pageLabelBackgroundColor, 'color': settings.pageLabelTextColor, 'font-style': 'normal' }"
+                :style="{ 'background-color': settings.pageLabelBackgroundColor, color: settings.pageLabelTextColor, 'font-style': 'normal' }"
           >
             {{ pageLabelTemplateExample }}
           </span>
@@ -85,24 +86,24 @@
         <ColorPicker ref="pageLabelTextColorPicker"
                      v-model="settings.pageLabelTextColor"
                      :label="t(appName, 'Text')"
-                     :color-palette="settings.pageLabelTextColorPalette"
-                     :advanced-fields="true"
+                     :colorPalette="settings.pageLabelTextColorPalette"
+                     :advancedFields="true"
                      @submit="saveSetting('pageLabelTextColor')"
-                     @update:color-palette="(palette) => { settings.pageLabelTextColorPalette = palette; saveSetting('pageLabelTextColorPalette'); }"
+                     @update:colorPalette="(palette) => { settings.pageLabelTextColorPalette = palette; saveSetting('pageLabelTextColorPalette'); }"
         />
         <ColorPicker ref="pageLabelBackgroundColorPicker"
                      v-model="settings.pageLabelBackgroundColor"
                      :label="t(appName, 'Background')"
-                     :color-palette="settings.pageLabelBackgroundColorPalette"
-                     :advanced-fields="true"
+                     :colorPalette="settings.pageLabelBackgroundColorPalette"
+                     :advancedFields="true"
                      @submit="saveSetting('pageLabelBackgroundColor')"
-                     @update:color-palette="(palette) => { settings.pageLabelBackgroundColorPalette = palette; saveSetting('pageLabelBackgroundColorPalette'); }"
+                     @update:colorPalette="(palette) => { settings.pageLabelBackgroundColorPalette = palette; saveSetting('pageLabelBackgroundColorPalette'); }"
         />
       </div>
       <div v-show="settings.pageLabels" class="horizontal-rule" />
-      <TextField :value.sync="settings.pageLabelPageWidthFraction"
+      <TextField v-model:value="settings.pageLabelPageWidthFraction"
                  :label="t(appName, 'Page label width fraction')"
-                 :helper-text="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
+                 :helperText="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
                  :disabled="loading > 0 || !settings.pageLabels"
                  type="number"
                  :placeholder="t(appName, 'e.g. 0.4')"
@@ -117,7 +118,7 @@
                   ref="pageLabelsFontSelect"
                   v-model="pageLabelsFontObject"
                   :placeholder="t(appName, 'Select a Font')"
-                  :fonts-list="fontsList"
+                  :fontsList="fontsList"
                   :label="t(appName, 'Font for generated PDF page annotations')"
                   :hint="t(appName, 'The font to use for the page labels: {font}', { font: settings.pageLabelsFont })"
                   :disabled="!settings.pageLabels || loading > 0"
@@ -125,7 +126,7 @@
                   :font-size-chooser="!settings.pageLabelPageWidthFraction"
       />
       <div class="horizontal-rule" />
-      <div :class="['flex-container', 'flex-center', { generateErrorPages: 'generate-error-pages' }]">
+      <div class="flex-container flex-center" :class="[{ generateErrorPages: 'generate-error-pages' }]">
         <input id="generate-error-pages"
                v-model="settings.generateErrorPages"
                type="checkbox"
@@ -140,7 +141,7 @@
       <FontSelect v-show="settings.generateErrorPages"
                   v-model="generatedPagesFontObject"
                   :placeholder="t(appName, 'Select a Font')"
-                  :fonts-list="fontsList"
+                  :fontsList="fontsList"
                   :label="t(appName, 'Font for generated PDF (error)pages')"
                   :hint="t(appName, 'The font to use for generated pages: {font}', { font: settings.generatedPagesFont })"
                   :disabled="loading > 0"
@@ -150,8 +151,8 @@
     <NcSettingsSection id="sorting-options"
                        :name="t(appName, 'Sorting Options')"
     >
-      <div :class="['flex-container', 'flex-center']">
-        <span :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
+      <div class="flex-container flex-center">
+        <span class="radio-option grouping-option flex-container flex-center">
           <input id="group-folders-first"
                  v-model="settings.grouping"
                  type="radio"
@@ -163,7 +164,7 @@
             {{ t(appName, 'Group Folders First') }}
           </label>
         </span>
-        <span :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
+        <span class="radio-option grouping-option flex-container flex-center">
           <input id="group-files-first"
                  v-model="settings.grouping"
                  type="radio"
@@ -175,7 +176,7 @@
             {{ t(appName, 'Group Files First') }}
           </label>
         </span>
-        <span v-if="false" :class="['radio-option', 'grouping-option', 'flex-container', 'flex-center']">
+        <span v-if="false" class="radio-option grouping-option flex-container flex-center">
           <input id="group-ungrouped"
                  v-model="settings.grouping"
                  type="radio"
@@ -202,9 +203,9 @@
                  :disabled="loading > 0"
                  @submit="(value) => saveTextInput('includePattern', value)"
       />
-      <div :class="['flex-container', 'flex-center']">
-        <span :class="['radio-option', 'label']">{{ t(appName, 'Precedence:') }}</span>
-        <span :class="['radio-option', 'include-exclude', 'flex-container', 'flex-center']">
+      <div class="flex-container flex-center">
+        <span class="radio-option label">{{ t(appName, 'Precedence:') }}</span>
+        <span class="radio-option include-exclude flex-container flex-center">
           <input id="include-has-precedence"
                  v-model="settings.patternPrecedence"
                  type="radio"
@@ -217,7 +218,7 @@
             {{ t(appName, 'Include Pattern') }}
           </label>
         </span>
-        <span :class="['radio-option', 'include-exclude', 'flex-container', 'flex-center']">
+        <span class="radio-option include-exclude flex-container flex-center">
           <input id="exclude-has-precedence"
                  v-model="settings.patternPrecedence"
                  type="radio"
@@ -240,7 +241,7 @@
             <span class="pattern-test-caption label">
               {{ t(appName, 'Test Result:') }}
             </span>
-            <span :class="['pattern-test-result', patternTestResult]">
+            <span class="pattern-test-result" :class="[patternTestResult]">
               {{ l10nPatternTestResult }}
             </span>
           </div>
@@ -273,10 +274,10 @@
       <!-- Here we should use the ordinary file-picker, the prefix picker does not make any sense here. -->
       <FilePrefixPicker v-model="pdfCloudFolderFileInfo"
                         :hint="t(appName, 'Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory.')"
-                        :only-dir-name="true"
+                        :onlyDirName="true"
       />
       <div class="horizontal-rule" />
-      <div :class="['flex-container', 'flex-center']">
+      <div class="flex-container flex-center">
         <input id="use-background-jobs-default"
                v-model="settings.useBackgroundJobsDefault"
                type="checkbox"
@@ -305,7 +306,7 @@
       <div class="horizontal-rule" />
       <TextField v-model="settings.humanDownloadsPurgeTimeout"
                  :label="t(appName, 'Purge Timeout')"
-                 :helper-text="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
+                 :helperText="t(appName, 'For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job.')"
                  :disabled="loading > 0"
                  @submit="(value) => saveTextInput('downloadsPurgeTimeout', value)"
       />
@@ -313,7 +314,7 @@
     <NcSettingsSection id="archive-extraction"
                        :name="t(appName, 'Archive Extraction')"
     >
-      <div :class="['flex-container', 'flex-center', { extractArchiveFiles: settings.extractArchiveFiles }]">
+      <div class="flex-container flex-center" :class="{ extractArchiveFiles: settings.extractArchiveFiles }">
         <input id="extract-archive-files"
                v-model="settings.extractArchiveFiles"
                type="checkbox"
@@ -330,13 +331,13 @@
       <TextField v-show="settings.extractArchiveFiles && settings.extractArchiveFilesAdmin"
                  v-model="settings.humanArchiveSizeLimit"
                  :label="t(appName, 'Archive Size Limit')"
-                 :helper-text="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
+                 :helperText="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
                  :disabled="loading > 0 || !settings.extractArchiveFiles || !settings.extractArchiveFilesAdmin"
                  @submit="(value) => saveTextInput('archiveSizeLimit', value)"
       />
       <div v-if="settings.extractArchiveFiles && settings.extractArchiveFilesAdmin && lt(0, settings.archiveSizeLimitAdmin)"
+           class="hint"
            :class="{
-             hint: true,
              'admin-limit-exceeded': lt(settings.archiveSizeLimitAdmin, settings.archiveSizeLimit),
              'icon-error': lt(settings.archiveSizeLimitAdmin, settings.archiveSizeLimit),
            }"
@@ -347,7 +348,7 @@
     <NcSettingsSection id="individual-conversion-title"
                        :name="l10nStrings.individualFileConversionTitle"
     >
-      <div :class="['flex-container', 'flex-center', { individualFileConversion: settings.individualFileConversion }]">
+      <div class="flex-container flex-center" :class="{ individualFileConversion: settings.individualFileConversion }">
         <input id="individual-file-conversion"
                v-model="settings.individualFileConversion"
                type="checkbox"
@@ -372,26 +373,11 @@
     </NcSettingsSection>
   </div>
 </template>
+
 <script setup lang="ts">
-import { appName } from './config.ts'
-import {
-  watch,
-  computed,
-  ref,
-  set as vueSet,
-  reactive,
-  onMounted,
-} from 'vue'
-import {
-  NcSettingsSection,
-} from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
-import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
-import ColorPicker from '@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue'
-import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
-import FontSelect from './components/FontSelect.vue'
-import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
-import getInitialState from './toolkit/util/initial-state.ts'
+import type { FontDescriptor } from './model/fonts.d.ts'
+
+import axios from '@nextcloud/axios'
 import {
   showError,
   // showSuccess,
@@ -399,21 +385,37 @@ import {
   // TOAST_DEFAULT_TIMEOUT,
   // TOAST_PERMANENT_TIMEOUT,
 } from '@nextcloud/dialogs'
-import axios from '@nextcloud/axios'
+import { translate as t } from '@nextcloud/l10n'
+import {
+  NcSettingsSection,
+} from '@nextcloud/vue'
 import { hexToCSSFilter } from 'hex-to-css-filter'
+import {
+  computed,
+  onMounted,
+  reactive,
+  ref,
+  watch,
+} from 'vue'
+import ColorPicker from '@rotdrop/nextcloud-vue-components/lib/components/ColorPickerExtension.vue'
+import FilePrefixPicker from '@rotdrop/nextcloud-vue-components/lib/components/FilePrefixPicker.vue'
+import TextField from '@rotdrop/nextcloud-vue-components/lib/components/TextFieldWithSubmitButton.vue'
+import FontSelect from './components/FontSelect.vue'
+import { appName } from './config.ts'
+import logger from './logger.ts'
 import cloudVersionClassesImport from './toolkit/util/cloud-version-classes.ts'
+import { generateUrl as generateAppUrl } from './toolkit/util/generate-url.ts'
+import getInitialState from './toolkit/util/initial-state.ts'
 import {
   fetchSettings,
   saveConfirmedSetting,
   saveSimpleSetting,
 } from './toolkit/util/settings-sync.ts'
-import logger from './logger.ts'
-import type { FontDescriptor } from './model/fonts.d.ts'
 // import type { AxiosResponse } from 'axios'
 
 interface PersonalSettingsInitialState {
-  defaultPageLabelTemplate: string,
-  defaultPdfFileNameTemplate: string,
+  defaultPageLabelTemplate: string
+  defaultPdfFileNameTemplate: string
 }
 
 const initialState = getInitialState<PersonalSettingsInitialState>()
@@ -434,10 +436,10 @@ const settings = reactive({
   //
   grouping: 'folders-first' as 'folders-first'|'files-first'|'ungrouped',
   //
-  includePattern: null as null|string,
-  excludePattern: null as null|string,
+  includePattern: undefined as undefined|string,
+  excludePattern: undefined as undefined|string,
   patternPrecedence: 'includeHasPrecedence' as 'includeHasPrecedence'|'excludeHasPrecedence',
-  patternTestString: null as null|string,
+  patternTestString: undefined as undefined|string,
   //
   fontSamples: [] as string[],
   //
@@ -473,12 +475,12 @@ watch(() => settings.pageLabelBackgroundColor, (value, oldValue) => {
 })
 
 const oldSettings: {
-  pageLabels?: boolean,
-  pageLabelsFont?: string,
-  pageLabelsFontSize?: number,
-  pageLabelsFontObject?: FontDescriptor,
-  generatedPagesFont?: string,
-  generatedPagesFontSize?: number,
+  pageLabels?: boolean
+  pageLabelsFont?: string
+  pageLabelsFontSize?: number
+  pageLabelsFontObject?: FontDescriptor
+  generatedPagesFont?: string
+  generatedPagesFontSize?: number
   generatedPagesFontObject?: FontDescriptor
 } = {}
 
@@ -489,7 +491,7 @@ const generatedPagesFontObject = ref<FontDescriptor|undefined>(undefined)
 const pageLabelTemplateExample = ref('')
 const pdfFileNameTemplateExample = ref('')
 
-const pdfCloudFolderFileInfo = reactive({
+const pdfCloudFolderFileInfo = ref({
   dirName: '',
   baseName: '',
 })
@@ -520,14 +522,16 @@ const pageLabelBackgroundColorPicker = ref<null|typeof ColorPicker>(null)
 const fetchPageLabelTemplateExample = async () => {
   try {
     const response = await axios.get<{ pageLabel: string }>(generateAppUrl(
-      'sample/page-label/{template}/{path}/{pageNumber}/{totalPages}', {
+      'sample/page-label/{template}/{path}/{pageNumber}/{totalPages}',
+      {
         template: encodeURIComponent(settings.pageLabelTemplate),
         path: encodeURIComponent(settings.exampleFilePath),
         dirPageNumber: 13,
         dirTotalPages: 197,
         filePageNumber: 3,
         fileTotalPages: 17,
-      }))
+      },
+    ))
     pageLabelTemplateExample.value = response.data.pageLabel
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
@@ -554,10 +558,12 @@ const fetchPdfFileNameTemplateExample = async () => {
   }
   try {
     const response = await axios.get(generateAppUrl(
-      'sample/pdf-filename/{template}/{path}', {
+      'sample/pdf-filename/{template}/{path}',
+      {
         template: encodeURIComponent(settings.pdfFileNameTemplate),
         path: encodeURIComponent(settings.exampleFilePath),
-      }))
+      },
+    ))
     pdfFileNameTemplateExample.value = response.data.pdfFileName
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
@@ -613,12 +619,12 @@ const getData = async () => {
       let fontIndex = fontsList.value.findIndex((x) => x.family === settings.pageLabelsFont)
       pageLabelsFontObject.value = fontIndex >= 0 ? { ...fontsList.value[fontIndex] } : undefined
       if (pageLabelsFontObject.value) {
-        vueSet(pageLabelsFontObject.value, 'fontSize', settings.pageLabelsFontSize)
+        pageLabelsFontObject.value.fontSize = settings.pageLabelsFontSize
       }
       fontIndex = fontsList.value.findIndex((x) => x.family === settings.generatedPagesFont)
       generatedPagesFontObject.value = fontIndex >= 0 ? { ...fontsList.value[fontIndex] } : undefined
       if (generatedPagesFontObject.value) {
-        vueSet(generatedPagesFontObject.value, 'fontSize', settings.generatedPagesFontSize)
+        generatedPagesFontObject.value.fontSize = settings.generatedPagesFontSize
       }
     },
   )
@@ -635,6 +641,17 @@ const getData = async () => {
 getData()
 
 const patternTestResult = ref('')
+
+const l10nPatternTestResult = computed(() => {
+  switch (patternTestResult.value) {
+    case 'included':
+      return t(appName, 'included')
+    case 'excluded':
+      return t(appName, 'excluded')
+    default:
+      return ''
+  }
+})
 
 const updatePatternTestResult = (responseData: { patternTestResult?: string }) => {
   if (responseData?.patternTestResult) {
@@ -678,7 +695,8 @@ const saveTextInput = async (settingsKey: string, value?: any, force?: boolean) 
   return saveConfirmedSetting({ value, section: 'personal', settingsKey, force, onSuccess: updatePatternTestResult, settings })
 }
 
-const saveSetting = async (settingsKey: string) => {
+/** @param settingsKey TBD */
+async function saveSetting(settingsKey: string) {
   if (loading.value > 0) {
     // avoid ping-pong by reactivity
     logger.info('SKIPPING SETTINGS-SAVE DURING LOAD', settingsKey)
@@ -738,17 +756,6 @@ watch(pdfCloudFolderFileInfo, (value) => {
   saveTextInput('pdfCloudFolderPath')
 })
 
-const l10nPatternTestResult = computed(() => {
-  switch (patternTestResult.value) {
-  case 'included':
-    return t(appName, 'included')
-  case 'excluded':
-    return t(appName, 'excluded')
-  default:
-    return ''
-  }
-})
-
 watch(() => settings.pageLabels, (_newValue, oldValue) => {
   oldSettings.pageLabels = oldValue
 })
@@ -796,6 +803,7 @@ onMounted(() => {
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .cloud-version {
   --cloud-icon-info: var(--icon-info-dark);
@@ -809,7 +817,7 @@ onMounted(() => {
     --cloud-theme-filter: none;
   }
 }
-.templateroot::v-deep {
+.templateroot :deep() {
   h1.title {
     margin: 30px 30px 0px;
     font-size:revert;
