@@ -60,6 +60,8 @@ OC.L10N.register(
     "Provided data is not a valid SVG image: \"{data}\"." : "Provided data is not a valid SVG image: \"{data}\".",
     "Choose a folder" : "Choose a folder",
     "Choose a prefix-folder" : "Choose a prefix-folder",
+    "Choose {file}" : "Chagua {file}",
+    "Choose" : "Chagua",
     "Invalid path selected: \"{dir}\"." : "Invalid path selected: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Selected path: \"{dir}/{base}/\".",
     "Please select an item!" : "Please select an item!",
@@ -79,7 +81,7 @@ OC.L10N.register(
     "Move" : "Hamisha",
     "basename" : "jina la msingi",
     "Options" : "Machaguo",
-    "PDF" : "PDF",
+    "Archive" : "Weka kumbukumbu",
     "close" : "funga",
     "No" : "Hapana",
     "Yes" : "Ndiyo",
@@ -95,6 +97,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Unconfirmed, reverting to old value.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Setting \"{setting}\" has been unset successfully.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \"{settingsKey}\" to \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \"{settingsKey}\" to \"{value}\": {message}",
+    "PDF" : "PDF"
 },
 "nplurals=2; plural=(n != 1);");

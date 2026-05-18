@@ -10,6 +10,8 @@ OC.L10N.register(
     "renamed file" : "リネーム済みファイル",
     "bytes" : "バイト",
     "submit" : "送信",
+    "Choose {file}" : "{file}を選択",
+    "Choose" : "選択",
     "Clear Selection" : "セッションクリア",
     "Text" : "テキスト",
     "Background" : "背景",
@@ -18,10 +20,11 @@ OC.L10N.register(
     "Move to {target}" : "{target} に移動",
     "Move" : "移動",
     "Options" : "オプション",
-    "PDF" : "PDF",
+    "Archive" : "アーカイブ",
     "close" : "閉じる",
     "No" : "いいえ",
     "Yes" : "はい",
-    "Confirmation Required" : "確認が必要"
+    "Confirmation Required" : "確認が必要",
+    "PDF" : "PDF"
 },
 "nplurals=1; plural=0;");

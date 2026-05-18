@@ -11,6 +11,8 @@ OC.L10N.register(
     "bytes" : "byte",
     "submit" : "skicka",
     "Choose a folder" : "Välj en mapp",
+    "Choose {file}" : "Välj {file}",
+    "Choose" : "Välj",
     "Text" : "Text",
     "Background" : "Bakgrund",
     "Copy to {target}" : "Kopiera till {target}",
@@ -18,9 +20,10 @@ OC.L10N.register(
     "Move to {target}" : "Flytta till {target}",
     "Move" : "Flytta",
     "Options" : "Alternativ",
-    "PDF" : "PDF",
+    "Archive" : "Arkiv",
     "close" : "stäng",
     "No" : "Nej",
-    "Yes" : "Ja"
+    "Yes" : "Ja",
+    "PDF" : "PDF"
 },
 "nplurals=2; plural=(n != 1);");

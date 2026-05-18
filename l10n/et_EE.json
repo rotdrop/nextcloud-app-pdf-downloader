@@ -75,6 +75,8 @@
     "Provided data is not a valid SVG image: \"{data}\"." : "Näidatud andmed pole korrektne svg-vormingus pilt: „{data}“.",
     "Choose a folder" : "Vali kaust",
     "Choose a prefix-folder" : "Vali eesliite kaust",
+    "Choose {file}" : "Vali „{file}“",
+    "Choose" : "Vali",
     "Invalid path selected: \"{dir}\"." : "Vigane asukoht on valitud: „{dir}“.",
     "Selected path: \"{dir}/{base}/\"." : "Valitud asukoht: „{dir}/{base}/“.",
     "Please select an item!" : "Palun vali objekt!",
@@ -111,6 +113,8 @@
     "undefined" : "määratlemata",
     "Unable to obtain the pdf-file template example: {message}" : "PDF-faili näidismalli laadimine ei õnnestu: {message}",
     "Unable to obtain the list of available downloads: {message}" : "Saadavalolevate allalaadimiste loendi laadimine ei õnnestu: {message}",
+    "PDF saved as {path}." : "PDF-fail on salvestatud kui „{path}“.",
+    "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "Lähtefailist „{sourceFile}“ loodud PDF-faili ei õnnestu pilve salvestada: {message}",
     "Choose a destination" : "Vali sihtkaust",
     "Copy to {target}" : "Kopeeri kausta {target}",
     "Copy" : "Kopeeri",
@@ -123,8 +127,6 @@
     "Unable to schedule background PDF generation for {sourceFile}: {message}" : "Lähtefailile „{sourceFile}“ ei õnnestu PDF-faili loomist ajastada: {message}",
     "Download of generated PDF failed: {message}." : "Loodud pdf-faili allalaadimine ei õnnestunud: {message}.",
     "Download of generated PDF failed." : "Loodud pdf-faili allalaadimine ei õnnestunud.",
-    "PDF saved as {path}." : "PDF-fail on salvestatud kui „{path}“.",
-    "Unable to save the PDF generated from {sourceFile} to the cloud: {message}" : "Lähtefailist „{sourceFile}“ loodud PDF-faili ei õnnestu pilve salvestada: {message}",
     "Generate PDF" : "Koosta PDF-fail",
     "download locally" : "laadi alla kohalikku seadmesse",
     "save to cloud" : "salvesta pilve",
@@ -139,12 +141,13 @@
     "delete PDF file" : "kustuta PDF-fail",
     "Download PDF" : "Laadi PDF-fail alla",
     "Convert the entry into a PDF document." : "Konverteeri kirje pdf-dokumendiks.",
-    "PDF" : "PDF-fail",
+    "Archive" : "Arhiveeri",
     "close" : "sulge",
     "No" : "Ei",
     "Yes" : "Jah",
     "The quick brown fox jumps over the lazy dog." : "Põdur Zagrebi tšellomängija-följetonist Ciqo külmetas kehvas garaažis.",
     "true" : "tõene",
-    "Confirmation Required" : "Kinnitus on vajalik"
+    "Confirmation Required" : "Kinnitus on vajalik",
+    "PDF" : "PDF-fail"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

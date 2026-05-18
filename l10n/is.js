@@ -7,6 +7,8 @@ OC.L10N.register(
     "%1$s (renamed)" : "%1$s (endurnefnd)",
     "renamed file" : "endurnefndi skrá",
     "bytes" : "bæti",
+    "Choose {file}" : "Veldu {file}",
+    "Choose" : "Velja",
     "Text" : "Texti",
     "Background" : "Background",
     "Copy to {target}" : "Afrita í {target}",
@@ -14,9 +16,10 @@ OC.L10N.register(
     "Move to {target}" : "Færa í {target}",
     "Move" : "Færa",
     "Options" : "Valkostir",
-    "PDF" : "PDF",
+    "Archive" : "Safn",
     "close" : "loka",
     "No" : "Nei",
-    "Yes" : "Já"
+    "Yes" : "Já",
+    "PDF" : "PDF"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

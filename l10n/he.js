@@ -5,15 +5,17 @@ OC.L10N.register(
     "User" : "משתמש",
     "Password" : "ססמה",
     "bytes" : "בתים",
+    "Choose" : "בחר",
     "Text" : "טקסט",
     "Copy to {target}" : "העתקה אל {target}",
     "Copy" : "העתקה",
     "Move to {target}" : "העברה אל {target}",
     "Move" : "העברה",
     "Options" : "אפשרויות",
-    "PDF" : "PDF",
+    "Archive" : "לארכיון",
     "close" : "סגירה",
     "No" : "לא",
-    "Yes" : "כן"
+    "Yes" : "כן",
+    "PDF" : "PDF"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

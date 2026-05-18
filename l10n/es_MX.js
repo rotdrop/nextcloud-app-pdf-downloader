@@ -4,6 +4,8 @@ OC.L10N.register(
     "User" : "Usuario",
     "Password" : "Contraseña",
     "bytes" : "bytes",
+    "Choose {file}" : "Elegir {file}",
+    "Choose" : "Elegir",
     "Text" : "Texto",
     "Background" : "Fondo",
     "Copy to {target}" : "Copiar a {target}",
@@ -11,6 +13,7 @@ OC.L10N.register(
     "Move to {target}" : "Mover a {target}",
     "Move" : "Mover",
     "Options" : "Opciones",
+    "Archive" : "Archivar",
     "close" : "cerrar",
     "No" : "No",
     "Yes" : "Sí"

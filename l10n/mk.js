@@ -10,6 +10,8 @@ OC.L10N.register(
     "open" : "отвори",
     "submit" : "испрати",
     "Choose a folder" : "Избери папка",
+    "Choose {file}" : "Избери {file}",
+    "Choose" : "Избери",
     "Text" : "Текст",
     "Background" : "Позадина",
     "Copy to {target}" : "Копирај во {target}",
@@ -17,6 +19,7 @@ OC.L10N.register(
     "Move to {target}" : "Премести во {target}",
     "Move" : "Премести",
     "Options" : "Опции",
+    "Archive" : "Архива",
     "close" : "затвори",
     "No" : "Не",
     "Yes" : "Да"

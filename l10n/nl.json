@@ -35,6 +35,8 @@
     "renamed file" : "bestand hernoemd",
     "bytes" : "bytes",
     "submit" : "versturen",
+    "Choose {file}" : "Kies {file}",
+    "Choose" : "Kies",
     "alternatives" : "alternatieven",
     "Text" : "Tekst",
     "Background" : "Achtergrond",
@@ -46,9 +48,10 @@
     "Move" : "Verplaatsen",
     "Options" : "Opties",
     "Download PDF" : "Download PDF",
-    "PDF" : "PDF",
+    "Archive" : "Archief",
     "close" : "sluiten",
     "No" : "Nee",
-    "Yes" : "Ja"
+    "Yes" : "Ja",
+    "PDF" : "PDF"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

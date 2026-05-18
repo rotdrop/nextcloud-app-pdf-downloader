@@ -64,6 +64,8 @@
     "Provided data is not a valid SVG image: \"{data}\"." : "Provided data is not a valid SVG image: \\{data}\\.",
     "Choose a folder" : "Choose a folder",
     "Choose a prefix-folder" : "Choose a prefix-folder",
+    "Choose {file}" : "Odaberi {file}",
+    "Choose" : "Odaberite",
     "Invalid path selected: \"{dir}\"." : "Invalid path selected: \\{dir}\\.",
     "Selected path: \"{dir}/{base}/\"." : "Selected path: \\{dir}/{base}/\\.",
     "Please select an item!" : "Please select an item!",
@@ -84,7 +86,7 @@
     "Move" : "Premjesti",
     "basename" : "basename",
     "Options" : "Mogućnosti",
-    "PDF" : "PDF",
+    "Archive" : "Arhiva",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Nije moguće search for entities \\{entityName}\\ with identifier \\{criteria}\\.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Nije moguće fetch entity \\{entityName}\\ with identifier \\{identifier}\\.",
     "close" : "zatvori",
@@ -102,6 +104,7 @@
     "Unconfirmed, reverting to old value." : "Nije potvrđeno, vraćanje na staru vrijednost.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Setting \\{setting}\\ has been unset successfully.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \\{settingsKey}\\ to \\{value}\\: {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \\{settingsKey}\\ to \\{value}\\: {message}",
+    "PDF" : "PDF"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

@@ -5,6 +5,8 @@ OC.L10N.register(
     "User" : "Utente",
     "Password" : "Crae",
     "bytes" : "bytes",
+    "Choose {file}" : "Sèbera {file}",
+    "Choose" : "Sèbera",
     "Text" : "Testu",
     "Background" : "Isfundu",
     "Copy to {target}" : "Còpia a {target}",
@@ -12,9 +14,10 @@ OC.L10N.register(
     "Move to {target}" : "Tràmuda a {target}",
     "Move" : "Tràmuda",
     "Options" : "Optziones",
-    "PDF" : "PDF",
+    "Archive" : "Archìviu",
     "close" : "serra",
     "No" : "No",
-    "Yes" : "Si"
+    "Yes" : "Si",
+    "PDF" : "PDF"
 },
 "nplurals=2; plural=(n != 1);");

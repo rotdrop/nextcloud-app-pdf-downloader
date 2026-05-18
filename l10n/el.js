@@ -53,6 +53,8 @@ OC.L10N.register(
     "Provided data is not a valid SVG image: \"{data}\"." : "Τα παρεχόμενα δεδομένα δεν είναι έγκυρη εικόνα SVG: \"{data}\".",
     "Choose a folder" : "Επιλογή φακέλου",
     "Choose a prefix-folder" : "Επιλογή προθέματος φακέλου",
+    "Choose {file}" : "Επιλέξτε {file}",
+    "Choose" : "Επιλογή",
     "Invalid path selected: \"{dir}\"." : "Επιλέχθηκε μη έγκυρη διαδρομή: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Επιλεγμένη διαδρομή: \"{dir}/{base}/\".",
     "Please select an item!" : "Παρακαλώ επιλέξτε ένα αντικείμενο!",
@@ -75,7 +77,7 @@ OC.L10N.register(
     "basename" : "βασικό όνομα",
     "Options" : "Επιλογές",
     "Download PDF" : "Λήψη PDF",
-    "PDF" : "PDF",
+    "Archive" : "Αρχείο",
     "close" : "κλείσιμο",
     "No" : "Όχι",
     "Yes" : "Ναι",
@@ -91,6 +93,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Μη επιβεβαιωμένο, επιστροφή στην παλιά τιμή.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Επιτυχής ρύθμιση της τιμής για \"{settingsKey}\" σε \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Η ρύθμιση \"{setting}\" έχει απενεργοποιηθεί με επιτυχία.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ρύθμισης της τιμής για \"{settingsKey}\" σε \"{value}\": {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ρύθμισης της τιμής για \"{settingsKey}\" σε \"{value}\": {message}",
+    "PDF" : "PDF"
 },
 "nplurals=2; plural=(n != 1);");
