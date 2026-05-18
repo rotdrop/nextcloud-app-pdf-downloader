@@ -16,6 +16,8 @@
     "undo color choice" : "kumoa värivalinta",
     "Custom Color" : "Mukautettu väri",
     "Choose a folder" : "Valitse kansio",
+    "Choose {file}" : "Valitse {file}",
+    "Choose" : "Valitse",
     "Invalid path selected: \"{dir}\"." : "Virheellinen polku valittu: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Valittu polku: \"{dir}/{base}/\".",
     "reason unknown" : "tuntematon syy",
@@ -23,12 +25,12 @@
     "Background" : "Tausta",
     "Select a Font" : "Valitse fontti",
     "Generate PDFs in the background by default." : "Luo PDF:t taustalla oletusarvoisesti.",
+    "PDF saved as {path}." : "PDF tallennettu nimellä {path}.",
     "Choose a destination" : "Valitse sijainti",
     "Copy to {target}" : "Kopioi kohteeseen {target}",
     "Copy" : "Kopioi",
     "Move to {target}" : "Siirrä kohteeseen {target}",
     "Move" : "Siirrä",
-    "PDF saved as {path}." : "PDF tallennettu nimellä {path}.",
     "Generate PDF" : "Luo PDF",
     "download locally" : "lataa paikallisesti",
     "save to cloud" : "tallenna pilveen",
@@ -37,10 +39,11 @@
     "No Downloads Yet" : "Ei latauksia vielä",
     "delete PDF file" : "poista PDF-tiedosto",
     "Download PDF" : "Lataa PDF",
-    "PDF" : "PDF",
+    "Archive" : "Arkisto",
     "close" : "sulje",
     "No" : "Ei",
     "Yes" : "Kyllä",
-    "Confirmation Required" : "Vahvistus vaaditaan"
+    "Confirmation Required" : "Vahvistus vaaditaan",
+    "PDF" : "PDF"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

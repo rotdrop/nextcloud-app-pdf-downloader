@@ -37,6 +37,8 @@ OC.L10N.register(
     "renamed file" : "bestand hernoemd",
     "bytes" : "bytes",
     "submit" : "versturen",
+    "Choose {file}" : "Kies {file}",
+    "Choose" : "Kies",
     "alternatives" : "alternatieven",
     "Text" : "Tekst",
     "Background" : "Achtergrond",
@@ -48,9 +50,10 @@ OC.L10N.register(
     "Move" : "Verplaatsen",
     "Options" : "Opties",
     "Download PDF" : "Download PDF",
-    "PDF" : "PDF",
+    "Archive" : "Archief",
     "close" : "sluiten",
     "No" : "Nee",
-    "Yes" : "Ja"
+    "Yes" : "Ja",
+    "PDF" : "PDF"
 },
 "nplurals=2; plural=(n != 1);");

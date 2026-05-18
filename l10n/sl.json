@@ -61,6 +61,8 @@
     "restore palette" : "obnovi paleto",
     "factory reset palette" : "povrni privzeto paleto",
     "Choose a folder" : "Izbor mape",
+    "Choose {file}" : "Izberite datoteko {file}",
+    "Choose" : "Izbor",
     "Invalid path selected: \"{dir}\"." : "Neveljavna izbrana pot: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Izbrana pot: \"{dir}/{base}/\".",
     "Clear Selection" : "Počisti izbor",
@@ -107,12 +109,12 @@
     "PDF Filename Template:" : "Predloga datoteke PDF:",
     "Generated Filename" : "Ustvarjeno ime datoteke",
     "When converting many or large files to PDF you will encounter timeouts because the request just lasts too long and the web server bails out. If this happens you can schedule offline generation of the PDF. This will not make things faster for you, but the execution time is not constrained by the web server limits. You will be notified when it is ready. If you chose to store the PDF in the cloud file system, then it will just show up there. If you chose to download to you local computer then the download will show up here (and in the notification). The download links have a configurable expiration time." : "Pri pretvarjanju številnih ali velikih datotek v zapis PDF lahko pride do izpadov, saj so postopki dolgi in spletni strežnik odpove. V teh primerih je mogoče ustvarjanje PDF izvajati v načinu brez povezave. S tem opravila ne bodo opravljena hitreje, vendar pa čas izvajanja opravila nima časovne omejitve spletnega strežnika. Ko bo opravilo končano, uporabnik prejme obvestilo. Pri shranjevanju v oblak, se na ciljnem mestu enostavno pojavi, pri prejemu na krajevno napravo pa bo prejem prikazan na tem mestu (poslano je tudi obvestilo). Povezave za prejem imajo sicer nastavljiv čas izteka veljavnosti.",
+    "PDF saved as {path}." : "Datoteka je shranjena na {path}.",
     "Choose a destination" : "Izbor ciljnega mesta",
     "Copy to {target}" : "Kopiraj na {target}",
     "Copy" : "Kopiraj",
     "Move to {target}" : "Premakni na {target}",
     "Move" : "Premakni",
-    "PDF saved as {path}." : "Datoteka je shranjena na {path}.",
     "Generate PDF" : "Ustvari PDF",
     "download locally" : "prejmi krajevno",
     "save to cloud" : "shrani v oblak",
@@ -120,10 +122,11 @@
     "Options" : "Možnosti",
     "filename template" : "predloga imena datoteke",
     "Download PDF" : "Prejem datoteke PDF",
-    "PDF" : "PDF",
+    "Archive" : "Arhiv",
     "close" : "zapri",
     "No" : "Ne",
     "Yes" : "Da",
-    "true" : "prav"
+    "true" : "prav",
+    "PDF" : "PDF"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

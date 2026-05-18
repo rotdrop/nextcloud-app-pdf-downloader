@@ -28,6 +28,8 @@ OC.L10N.register(
     "Provided data is not a valid SVG image: \"{data}\"." : "Data yang diberikan bukan gambar SVG yang valid: \"{data}\".",
     "Choose a folder" : "Pilih folder",
     "Choose a prefix-folder" : "Pilih folder awalan",
+    "Choose {file}" : "Pilih {file}",
+    "Choose" : "Pilih",
     "Invalid path selected: \"{dir}\"." : "Path yang dipilih tidak valid: \"{dir}\".",
     "Selected path: \"{dir}/{base}/\"." : "Path yang dipilih: \"{dir}/{base}/\".",
     "Please select an item!" : "Silakan pilih sebuah item!",
@@ -41,10 +43,11 @@ OC.L10N.register(
     "Move to {target}" : "Pindah ke {target}",
     "Move" : "Pindah",
     "Options" : "Pilihan",
-    "PDF" : "PDF",
+    "Archive" : "Arsipkan",
     "close" : "tutup",
     "No" : "Tidak",
     "Yes" : "Ya",
-    "true" : "benar"
+    "true" : "benar",
+    "PDF" : "PDF"
 },
 "nplurals=1; plural=0;");

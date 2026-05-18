@@ -5,14 +5,16 @@ OC.L10N.register(
     "PDF document saved as \"%s\"." : "document PDF enregistrat jos « %s ».",
     "User" : "User",
     "Password" : "Senhal",
+    "Choose" : "Causir",
     "Text" : "Tèxt",
     "Copy to {target}" : "Copiar a {target}",
     "Move to {target}" : "Desplaçar a {target}",
     "Move" : "Desplaçar",
     "Options" : "Opcions",
-    "PDF" : "PDF",
+    "Archive" : "Archiu",
     "No" : "Non",
     "Yes" : "Òc",
-    "true" : "verai"
+    "true" : "verai",
+    "PDF" : "PDF"
 },
 "nplurals=2; plural=(n > 1);");

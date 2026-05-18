@@ -32,6 +32,8 @@ OC.L10N.register(
     "open" : "打开",
     "submit" : "提交",
     "Choose a folder" : "选择一个文件夹",
+    "Choose {file}" : "选择 {file}",
+    "Choose" : "选择",
     "Invalid path selected: \"{dir}\"." : "选择了无效路径：“{dir}”。",
     "Selected path: \"{dir}/{base}/\"." : "选择的路径：\"{dir}/{base}/\"。",
     "Clear Selection" : "清除选择",
@@ -49,12 +51,13 @@ OC.L10N.register(
     "Move to {target}" : "移动到 {target}",
     "Move" : "移动",
     "Options" : "选项",
-    "PDF" : "PDF",
+    "Archive" : "存档",
     "close" : "关闭",
     "No" : "否",
     "Yes" : "是",
     "true" : "真",
     "Confirmation Required" : "需要确认",
-    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。"
+    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。",
+    "PDF" : "PDF"
 },
 "nplurals=1; plural=0;");

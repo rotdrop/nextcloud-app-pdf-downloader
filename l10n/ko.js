@@ -35,6 +35,8 @@ OC.L10N.register(
     "The input color values are invalid." : "입력 색상값이 유효하지 않습니다",
     "Choose a folder" : "폴더 선택",
     "Choose a prefix-folder" : "접두사 폴더 지정",
+    "Choose {file}" : "{file} 선택",
+    "Choose" : "선택",
     "Invalid path selected: \"{dir}\"." : "잘못된 경로가 지정됨: \"{dir}\"",
     "Selected path: \"{dir}/{base}/\"." : "지정한 경로: \"{dir}/{base}/\"",
     "Reset Changes" : "변경 사항 초기화",
@@ -58,7 +60,7 @@ OC.L10N.register(
     "Generate PDF" : "PDF 생성",
     "Options" : "옵션들",
     "Download PDF" : "PDF 다운로드",
-    "PDF" : "PDF",
+    "Archive" : "압축",
     "close" : "닫기",
     "No" : "아니오",
     "Yes" : "예",
@@ -72,6 +74,7 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "확인되지 않음, 이전 값으로 되돌림",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "{settingsKey}를 {displayValue}로 설정함",
     "Setting \"{setting}\" has been unset successfully." : "설정 {setting}이(가) 해제되었습니다",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\"을(를) \"{value}\"(으)로 설정할 수 없음: {message}"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\"을(를) \"{value}\"(으)로 설정할 수 없음: {message}",
+    "PDF" : "PDF"
 },
 "nplurals=1; plural=0;");
