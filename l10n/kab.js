@@ -10,6 +10,7 @@ OC.L10N.register(
     "Copy" : "Nɣel",
     "Move" : "Senkez",
     "Options" : "Iɣewwaṛen",
+    "Archive" : "Taṛcivt",
     "No" : "Uhu",
     "Yes" : "Ih",
     "true" : "idetti",
