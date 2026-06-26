@@ -104,6 +104,7 @@ OC.L10N.register(
     "Fallback Converter" : "Tagavarakonverter",
     "Converters" : "Konverterid",
     "Status of the configured Converters" : "Seadistatud konverterite olek",
+    "Individual File Conversion" : "Ühe faili teisendamine",
     "reason unknown" : "põhjus pole teada",
     "as Image" : "pildina",
     "as Text" : "tekstina",
