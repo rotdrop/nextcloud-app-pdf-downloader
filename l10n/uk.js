@@ -178,7 +178,7 @@ OC.L10N.register(
     "Optionally choose a default destination folder in the cloud. If left blank PDFs will be generated in the current directory." : "За бажанням виберіть папку призначення за замовчуванням у хмарі. Якщо залишити порожню, PDF-файли будуть згенеровані в поточній директорії.",
     "Generate PDFs in the background by default." : "За замовчуванням генерувати PDF у фоновому режимі.",
     "Purge Timeout" : "Тайм-аут очищення",
-    "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "Як довго зберігати згенеровані PDF-файли в автономному режимі. Після закінчення цього часу вони будуть видалені фоновим завданням.",
+    "For how long to keep the offline generated PDF files. After this time they will eventually be deleted by a background job." : "Як довго зберігати створені файли PDF в автономному режимі. Після закінчення цього часу їх буде вилучено у фонову завданні.",
     "On-the-fly extraction of archive files." : "Вилучення архівних файлів на льоту.",
     "On-the-fly extraction of archive files is disabled by the administrator." : "Видобування архівних файлів на льоту вимикається адміністратором.",
     "Administrative size limit: {value}" : "Обмеження адміністративного розміру: {value}",
