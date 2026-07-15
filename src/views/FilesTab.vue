@@ -1,6 +1,6 @@
 <!--
  - @author Claus-Justus Heine <himself@claus-justus-heine.de>
- - @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine
+ - @copyright 2022-2026 Claus-Justus Heine
  - @license AGPL-3.0-or-later
  -
  - This program is free software: you can redistribute it and/or modify
@@ -271,9 +271,7 @@ const loading = computed(() => activeLoaders.value !== 0)
 
 const sourceFileId = computed(() => props.node.id)
 
-const sourcePath = computed(
-  () => props.node.path + (props.node.path === '/' ? '' : '/') + props.node.basename,
-)
+const sourcePath = computed(() => props.node.path)
 
 const cloudDestinationBaseName = computed({
   get() {
