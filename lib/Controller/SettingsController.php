@@ -27,6 +27,7 @@ use Carbon\CarbonInterval;
 use Carbon;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute as CoreAttributes;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Config\IUserConfig;
@@ -276,9 +277,10 @@ class SettingsController extends Controller
    *
    * @return DataResponse
    *
-   * @AuthorizedAdminSetting(settings=OCA\PdfDownloader\Settings\Admin)
    * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
    */
+  #[CoreAttributes\AuthorizedAdminSetting(settings: \OCA\PdfDownloader\Settings\Admin::class)]
+  #[CoreAttributes\FrontpageRoute(verb: 'POST', url: '/settings/admin/{setting}')]
   public function setAdmin(string $setting, mixed $value, bool $force = false):DataResponse
   {
     if (!isset(self::ADMIN_SETTINGS[$setting])) {
@@ -365,9 +367,18 @@ class SettingsController extends Controller
    * @param string $setting
    *
    * @return DataResponse
-   *
-   * @AuthorizedAdminSetting(settings=OCA\PdfDownloader\Settings\Admin)
    */
+  #[CoreAttributes\AuthorizedAdminSetting(settings: \OCA\PdfDownloader\Settings\Admin::class)]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/settings/admin/{setting}',
+    requirements: [ 'setting' => '^.+$' ],
+  )]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/settings/admin',
+    postfix: '.all',
+  )]
   public function getAdmin(?string $setting = null):DataResponse
   {
     if ($setting === null) {
@@ -473,9 +484,9 @@ class SettingsController extends Controller
    * @param mixed $value
    *
    * @return Response
-   *
-   * @NoAdminRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\FrontpageRoute(verb: 'POST', url: '/settings/personal/{setting}')]
   public function setPersonal(string $setting, mixed $value):Response
   {
     if (!isset(self::PERSONAL_SETTINGS[$setting])) {
@@ -724,9 +735,18 @@ class SettingsController extends Controller
    * requested one.
    *
    * @return Response
-   *
-   * @NoAdminRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/settings/personal/{setting}',
+    requirements: [ 'setting' => '^.+$' ],
+  )]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/settings/personal',
+    postfix: '.all',
+  )]
   public function getPersonal(?string $setting = null):Response
   {
     if ($setting === null) {

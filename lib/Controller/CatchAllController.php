@@ -1,7 +1,7 @@
 <?php
 /**
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,11 @@ namespace OCA\PdfDownloader\Controller;
 
 use OCA\PdfDownloader\AppInfo\Application;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\Attribute as CoreAttributes;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IRequest;
+use OCP\AppFramework\Http\Response;
 use OCP\IL10N;
+use OCP\IRequest;
 
 /**
  * Catch-all controller in order to generate usable error messages.
@@ -53,12 +54,25 @@ class CatchAllController extends Controller
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.MissingParamTag
   /**
-   * @SuppressWarnings(PHPMD.ShortVariable)
-   * @NoAdminRequired
-   * @NoCSRFRequired
-   *
    * @return Response
+   *
+   * @SuppressWarnings(PHPMD.ShortVariable)
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\NoCSRFRequired]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'POST',
+    url: '/{a}/{b}/{c}/{d}/{e}/{f}/{g}',
+    defaults: [
+      'a' => '',
+      'b' => '',
+      'c' => '',
+      'd' => '',
+      'e' => '',
+      'f' => '',
+      'g' => '',
+    ],
+  )]
   public function post($a, $b, $c, $d, $e, $f, $g):Response
   {
     $parts = [ $a, $b, $c, $d, $e, $f, $g ];
@@ -74,13 +88,26 @@ class CatchAllController extends Controller
 
   // phpcs:ignore Squiz.Commenting.FunctionComment.MissingParamTag
   /**
-   * @SuppressWarnings(PHPMD.ShortVariable)
-   * @NoAdminRequired
-   * @NoCSRFRequired
-   *
    * @return Response
+   *
+   * @SuppressWarnings(PHPMD.ShortVariable)
    */
-  public function get($a, $b, $c, $d, $e, $f, $g):Response
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\NoCSRFRequired]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/{a}/{b}/{c}/{d}/{e}/{f}/{g}',
+    defaults: [
+      'a' => '',
+      'b' => '',
+      'c' => '',
+      'd' => '',
+      'e' => '',
+      'f' => '',
+      'g' => '',
+    ],
+  )]
+  public function get($a, $b, $c, $d, $e, $f, $g): Response
   {
     $parts = [ $a, $b, $c, $d, $e, $f, $g ];
     $request = implode('/', array_filter($parts));

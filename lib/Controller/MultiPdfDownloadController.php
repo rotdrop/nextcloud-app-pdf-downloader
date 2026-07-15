@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author    Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022-2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license   AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,18 +26,19 @@ use Throwable;
 use DateTimeImmutable;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute as CoreAttributes;
 use OCP\AppFramework\Http\DataDownloadResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\DataResponse;
-use Psr\Container\ContainerInterface;
-use OCP\IRequest;
-use OCP\IL10N;
+use OCP\AppFramework\Http\Response;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IL10N;
 use OCP\IPreview;
-use Psr\Log\LoggerInterface as ILogger;
+use OCP\IRequest;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
-use OCP\BackgroundJob\IJobList;
+use Psr\Log\LoggerInterface as ILogger;
 
 use OCP\IUser;
 use OCP\IUserSession;
@@ -180,15 +181,21 @@ class MultiPdfDownloadController extends Controller
    * the configured filename template.
    *
    * @return Response
-   *
-   * @NoAdminRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/download/{sourcePath}/{cacheId}',
+    defaults: [
+      'cacheId' => null,
+    ],
+  )]
   public function get(
     string $sourcePath,
     ?int $cacheId = null,
     ?bool $pageLabels = null,
     ?bool $useTemplate = null,
-  ):Response {
+  ): Response {
     $sourcePath = urldecode($sourcePath);
     $sourceNode = $this->getUserFolder()->get($sourcePath);
     if ($cacheId !== null) {
@@ -238,9 +245,16 @@ class MultiPdfDownloadController extends Controller
    * @param null|bool $move Move the cache file, ignore if $cacheId is null.
    *
    * @return Response
-   *
-   * @NoAdminRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'POST',
+    url: '/save/{sourcePath}/{destinationPath}/{cacheId}',
+    defaults: [
+      'destinationPath' => null,
+      'cacheId' => null,
+    ],
+  )]
   public function save(
     string $sourcePath,
     ?string $destinationPath = null,
@@ -248,7 +262,7 @@ class MultiPdfDownloadController extends Controller
     ?bool $useTemplate = null,
     ?int $cacheId = null,
     ?bool $move = null,
-  ):Response {
+  ): Response {
     $sourcePath = urldecode($sourcePath);
     if ($destinationPath !== null) {
       $destinationPath = urldecode($destinationPath);
@@ -330,9 +344,15 @@ class MultiPdfDownloadController extends Controller
    * the configured filename template.
    *
    * @return Response
-   *
-   * @NoAdminRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\FrontPageRoute(
+    verb: 'POST',
+    url: '/schedule/{jobType}/{sourcePath}/{destinationPath}',
+    defaults: [
+      'destinationPath' => null,
+    ],
+  )]
   public function schedule(
     string $jobType,
     string $sourcePath,
@@ -425,10 +445,10 @@ class MultiPdfDownloadController extends Controller
    * PDF.
    *
    * @return Response
-   *
-   * @NoAdminRequired
    */
-  public function list(string $sourcePath):Response
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\FrontpageRoute(verb: 'GET', url: '/list/{sourcePath}')]
+  public function list(string $sourcePath): Response
   {
     $sourcePath = urldecode($sourcePath);
     $sourceNode = $this->getUserFolder()->get($sourcePath);
@@ -465,13 +485,13 @@ class MultiPdfDownloadController extends Controller
    * @param int $cacheId
    *
    * @return Response
-   *
-   * @NoAdminRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\FrontpageRoute(verb: 'POST', url: '/clean/{sourcePath}/{cacheId}')]
   public function clean(
     string $sourcePath,
     int $cacheId,
-  ):Response {
+  ): Response {
     $sourcePath = urldecode($sourcePath);
     $sourceNode = $this->getUserFolder()->get($sourcePath);
     $sourceNodeId = $sourceNode->getId();
@@ -501,11 +521,11 @@ class MultiPdfDownloadController extends Controller
    * Get the list of available fonts.
    *
    * @return Response
-   *
-   * @NoAdminRequired
-   * @NoCSRFRequired
    */
-  public function getFonts():Response
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\NoCSRFRequired]
+  #[CoreAttributes\FrontpageRoute(verb: 'GET', url: '/fonts')]
+  public function getFonts(): Response
   {
     $fonts = $this->fontService->getFonts();
     return self::dataResponse($fonts);
@@ -530,10 +550,13 @@ class MultiPdfDownloadController extends Controller
    * be smaller or equal.
    *
    * @return DataResponse
-   *
-   * @NoAdminRequired
-   * @NoCSRFRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\NoCSRFRequired]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/sample/page-label/{template}/{path}', // /{pageNumber}/{totalPages}',
+  )]
   public function getPageLabelSample(
     string $template,
     string $path,
@@ -541,7 +564,7 @@ class MultiPdfDownloadController extends Controller
     int $dirTotalPages,
     int $filePageNumber,
     int $fileTotalPages,
-  ):DataResponse {
+  ): DataResponse {
     $template = urldecode($template);
     $path = urldecode($path);
     $this->pdfCombiner->setOverlayTemplate($template);
@@ -578,10 +601,16 @@ class MultiPdfDownloadController extends Controller
    * @return Response
    *
    * @see FONT_SAMPLE_OUTPUT_FORMATS
-   *
-   * @NoAdminRequired
-   * @NoCSRFRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\NoCSRFRequired]
+  #[CoreAttributes\FrontpageRoute(
+    verb: 'GET',
+    url: '/sample/font/{text}/{font}/{fontSize}',
+    defaults: [
+      'fontSize' => '12',
+    ],
+  )]
   public function getFontSample(
     string $text,
     string $font,
@@ -590,7 +619,7 @@ class MultiPdfDownloadController extends Controller
     string $format = FontService::FONT_SAMPLE_FORMAT_SVG,
     string $output = self::FONT_SAMPLE_OUTPUT_FORMAT_OBJECT,
     ?string $hash = null,
-  ):Response {
+  ): Response {
     $cache = true;
     $metaData = null;
     try {
@@ -643,10 +672,10 @@ EOF;
    * directory part.
    *
    * @return DataResponse
-   *
-   * @NoAdminRequired
-   * @NoCSRFRequired
    */
+  #[CoreAttributes\NoAdminRequired]
+  #[CoreAttributes\NoCSRFRequired]
+  #[CoreAttributes\FrontpageRoute(verb: 'GET', url: '/sample/pdf-filename/{template}/{path}')]
   public function getPdfFileNameSample(
     string $template,
     string $path,
