@@ -51,7 +51,7 @@ if (window.customElements.get(sidebarTabTag) === undefined) {
   registerSidebarTab({
     id: appName,
     order: 50,
-    displayName: t(appName, 'Archive'),
+    displayName: t(appName, 'PDF'),
     iconSvgInline: logoSvg,
     tagName: sidebarTabTag,
     enabled: (context) => initialState?.individualFileConversion || mimeTypes.indexOf(context.node.mime) >= 0,
