@@ -31,10 +31,9 @@ OC.L10N.register(
     "Move to {target}" : "Mover a {target}",
     "Move" : "Mover",
     "Options" : "Opciones",
-    "Archive" : "Archivar",
+    "PDF" : "PDF",
     "No" : "Non",
     "Yes" : "Sí",
-    "true" : "true",
-    "PDF" : "PDF"
+    "true" : "true"
 },
 "nplurals=2; plural=(n != 1);");

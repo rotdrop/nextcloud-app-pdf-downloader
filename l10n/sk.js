@@ -214,7 +214,7 @@ OC.L10N.register(
     "delete PDF file" : "zmazať súbor PDF",
     "Download PDF" : "Stiahnuť PDF",
     "Convert the entry into a PDF document." : "Previesť záznam do dokumentu PDF.",
-    "Archive" : "Archív",
+    "PDF" : "PDF",
     "close" : "Zatvoriť",
     "No" : "Nie",
     "Yes" : "Áno",
@@ -230,7 +230,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Nepodarilo sa overiť, vraciam pôvodnú hodnotu.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Úspešne nastavená hodnota \"{settingsKey}\" na \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Nastavenie {setting} bolo úspešne zrušené.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nebolo možné nastaviť hodnotu \"{settingsKey}\" na \"{value}\": {message}",
-    "PDF" : "PDF"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nebolo možné nastaviť hodnotu \"{settingsKey}\" na \"{value}\": {message}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

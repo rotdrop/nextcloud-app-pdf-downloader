@@ -82,14 +82,13 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "حجم فشرده‌نشده بایگانی \"%1$s\" بیش از حد بزرگ است: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "هیچ فایل بایگانی مرتبط با این نمونه بایگانی‌کننده وجود ندارد.",
     "Unknown search topic \"%1$s\"" : "موضوع جستجوی ناشناخته \"%1$s\"",
-    "Shared folder with id \"%1$s\" does not exist." : "پوشه اشتراکی با شناسه \"%1$s\" وجود ندارد.",
+    "Shared folder with ID \"%1$s\" does not exist." : "پوشه اشتراکی با شناسه \"%1$s\" وجود ندارد.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "پوشه اشتراکی برای نقطه اتصال \"%1$s\" از قبل وجود دارد، نمی‌توان آن را ایجاد کرد.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "پوشه اشتراکی برای نقطه اتصال \"%1$s\" وجود ندارد، نمی‌توان گروه \"%2$s\" را اضافه کرد.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "پوشه اشتراکی برای نقطه اتصال \"%1$s\" وجود ندارد، نمی‌توان گروه \"%2$s\" را حذف کرد.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "پوشه اشتراکی برای نقطه اتصال \"%1$s\" وجود ندارد، نمی‌توان مدیر \"%2$s\" را تغییر داد.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "پوشه اشتراکی برای نقطه اتصال \"%1$s\" وجود ندارد، نمی‌توان مجوزهای گروه \"%2$s\" را تنظیم کرد.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "پوشه اشتراکی برای نقطه اتصال \"%1$s\" وجود ندارد، نمی‌توان نقطه اتصال آن را به \"%2$s\" تغییر داد.",
-    "Shared folder with ID \"%1$s\" does not exist." : "پوشه اشتراکی با شناسه \"%1$s\" وجود ندارد.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "مشکل نصب؛ منبع مورد نیاز \"%1$s\" از نوع \"%2$s\" روی سرور نصب نشده است، لطفاً با مدیر سیستم تماس بگیرید!",
     "User" : "کاربر",
     "Password" : "رمز عبور",
@@ -239,7 +238,7 @@ OC.L10N.register(
     "delete PDF file" : "حذف فایل PDF",
     "Download PDF" : "دانلود PDF",
     "Convert the entry into a PDF document." : "ورودی را به یک سند PDF تبدیل کنید.",
-    "Archive" : "بایگانی",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "امکان جستجوی موجودیت‌های \"{entityName}\" با شناسه \"{criteria}\" وجود ندارد.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "امکان دریافت موجودیت \"{entityName}\" با شناسه \"{identifier}\" وجود ندارد.",
     "close" : "بستن",
@@ -258,6 +257,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "مقدار \"{settingsKey}\" با موفقیت به \"{displayValue}\" تنظیم شد",
     "Setting \"{setting}\" has been unset successfully." : "تنظیم \"{setting}\" با موفقیت حذف شد",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "امکان تنظیم مقدار \"{settingsKey}\" به {value} وجود ندارد: {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "پوشه اشتراکی با شناسه \"%1$s\" وجود ندارد."
 },
 "nplurals=2; plural=(n > 1);");

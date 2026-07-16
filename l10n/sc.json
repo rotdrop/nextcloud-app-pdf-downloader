@@ -12,10 +12,9 @@
     "Move to {target}" : "Tràmuda a {target}",
     "Move" : "Tràmuda",
     "Options" : "Optziones",
-    "Archive" : "Archìviu",
+    "PDF" : "PDF",
     "close" : "serra",
     "No" : "No",
-    "Yes" : "Si",
-    "PDF" : "PDF"
+    "Yes" : "Si"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

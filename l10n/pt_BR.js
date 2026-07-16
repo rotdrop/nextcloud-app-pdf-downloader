@@ -82,14 +82,13 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Tamanho descompactado do arquivo \"%1$s\" é muito grande: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Não há arquivo compactado associado com esta instância de compactador.",
     "Unknown search topic \"%1$s\"" : "Tópico de pesquisa \"%1$s\" desconhecido",
-    "Shared folder with id \"%1$s\" does not exist." : "A pasta compartilhada com o ID \"%1$s\" não existe.",
+    "Shared folder with ID \"%1$s\" does not exist." : "Pasta compartilhada com ID \"%1$s\" não existe.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "A pasta compartilhada para o ponto de montagem \"%1$s\" já existe. Não é possível criá-la.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível adicionar o grupo \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível remover o grupo \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível modificar o gerenciador \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível definir as permissões para o grupo \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "A pasta compartilhada para o ponto de montagem \"%1$s\" não existe. Não é possível mudar seu ponto de montagem para \"%2$s\".",
-    "Shared folder with ID \"%1$s\" does not exist." : "Pasta compartilhada com ID \"%1$s\" não existe.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Problema de instalação; o recurso necessário \"%1$s\" do tipo \"%2$s\" não está instalado no servidor, entre em contato com o administrador do sistema!",
     "User" : "Usuário",
     "Password" : "Senha",
@@ -239,7 +238,7 @@ OC.L10N.register(
     "delete PDF file" : "excluir arquivo PDF",
     "Download PDF" : "Baixar PDF",
     "Convert the entry into a PDF document." : "Converter a entrada em um documento PDF.",
-    "Archive" : "Arquivo",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Não foi possível pesquisar as entidades \"{entityName}\" com o identificador \"{criteria}\".",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Não foi possível obter a entidade \"{entityName}\" com o identificador \"{identifier}\".",
     "close" : "fechar",
@@ -258,6 +257,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Valor para \"{settingsKey}\" definido com sucesso como \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "A configuração \"{setting}\" foi desativada com sucesso.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Não foi possível definir o valor de \"{settingsKey}\" para \"{value}\": {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "A pasta compartilhada com o ID \"%1$s\" não existe."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

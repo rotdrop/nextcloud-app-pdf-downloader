@@ -19,7 +19,6 @@ OC.L10N.register(
     "Move to {target}" : "Премести во {target}",
     "Move" : "Премести",
     "Options" : "Опции",
-    "Archive" : "Архива",
     "close" : "затвори",
     "No" : "Не",
     "Yes" : "Да"

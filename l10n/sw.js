@@ -32,7 +32,6 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "There is no archive file associated with this archiver instance.",
     "Unknown search topic \"%1$s\"" : "Unknown search topic \"%1$s\"",
-    "Shared folder with id \"%1$s\" does not exist." : "Shared folder with id \"%1$s\" does not exist.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "Shared folder for mount-point \"%1$s\" already exists, cannot create it.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\".",
@@ -81,7 +80,7 @@ OC.L10N.register(
     "Move" : "Hamisha",
     "basename" : "jina la msingi",
     "Options" : "Machaguo",
-    "Archive" : "Weka kumbukumbu",
+    "PDF" : "PDF",
     "close" : "funga",
     "No" : "Hapana",
     "Yes" : "Ndiyo",
@@ -98,6 +97,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Setting \"{setting}\" has been unset successfully.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \"{settingsKey}\" to \"{value}\": {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "Shared folder with id \"%1$s\" does not exist."
 },
 "nplurals=2; plural=(n != 1);");

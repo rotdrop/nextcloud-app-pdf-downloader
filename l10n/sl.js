@@ -124,11 +124,10 @@ OC.L10N.register(
     "Options" : "Možnosti",
     "filename template" : "predloga imena datoteke",
     "Download PDF" : "Prejem datoteke PDF",
-    "Archive" : "Arhiv",
+    "PDF" : "PDF",
     "close" : "zapri",
     "No" : "Ne",
     "Yes" : "Da",
-    "true" : "prav",
-    "PDF" : "PDF"
+    "true" : "prav"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

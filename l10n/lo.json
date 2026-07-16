@@ -74,7 +74,6 @@
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "ຂະໜາດທີ່ຍັງບໍ່ໄດ້ບີບອັດຂອງໄຟລ໌ \"%1$s\" ໃຫຍ່ເກີນໄປ: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "ບໍ່ມີໄຟລ໌ບີບອັດທີ່ກ່ຽວຂ້ອງກັບໂຕຈັດການໄຟລ໌ບີບອັດນີ້.",
     "Unknown search topic \"%1$s\"" : "ຫົວຂໍ້ຄົ້ນຫາທີ່ບໍ່ຮູ້ຈັກ \"%1$s\"",
-    "Shared folder with id \"%1$s\" does not exist." : "ໂຟນເດີທີ່ແບ່ງປັນດ້ວຍໄອດີ \"%1$s\" ບໍ່ມີຢູ່.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "ໂຟນເດີທີ່ແບ່ງປັນສຳລັບຈຸດເຊື່ອມຕໍ່ \"%1$s\" ມີຢູ່ແລ້ວ, ບໍ່ສາມາດສ້າງໄດ້.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "ໂຟນເດີທີ່ແບ່ງປັນສຳລັບຈຸດເຊື່ອມຕໍ່ \"%1$s\" ບໍ່ມີຢູ່, ບໍ່ສາມາດເພີ່ມກຸ່ມ \"%2$s\" ໄດ້.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "ໂຟນເດີທີ່ແບ່ງປັນສຳລັບຈຸດເຊື່ອມຕໍ່ \"%1$s\" ບໍ່ມີຢູ່, ບໍ່ສາມາດລຶບກຸ່ມ \"%2$s\" ອອກໄດ້.",
@@ -230,7 +229,7 @@
     "delete PDF file" : "ລຶບໄຟລ໌ PDF",
     "Download PDF" : "ດາວໂຫຼດ PDF",
     "Convert the entry into a PDF document." : "ປ່ຽນລາຍການເປັນເອກະສານ PDF.",
-    "Archive" : "ບ່ອນເກັບ",
+    "PDF" : "PDF",
     "close" : "ປິດ",
     "No" : "ບໍ່",
     "Yes" : "ແມ່ນ",
@@ -247,6 +246,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "ຕັ້ງຄ່າສຳລັບ \"{settingsKey}\" ເປັນ \"{displayValue}\" ສຳເລັດແລ້ວ",
     "Setting \"{setting}\" has been unset successfully." : "ຍົກເລີກການຕັ້ງຄ່າ \"{setting}\" ສຳເລັດແລ້ວ.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "ບໍ່ສາມາດຕັ້ງຄ່າສຳລັບ \"{settingsKey}\" ເປັນ \"{value}\" ໄດ້: {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "ໂຟນເດີທີ່ແບ່ງປັນດ້ວຍໄອດີ \"%1$s\" ບໍ່ມີຢູ່."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

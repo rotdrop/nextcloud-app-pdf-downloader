@@ -20,10 +20,9 @@ OC.L10N.register(
     "Move to {target}" : "Flytta till {target}",
     "Move" : "Flytta",
     "Options" : "Alternativ",
-    "Archive" : "Arkiv",
+    "PDF" : "PDF",
     "close" : "stäng",
     "No" : "Nej",
-    "Yes" : "Ja",
-    "PDF" : "PDF"
+    "Yes" : "Ja"
 },
 "nplurals=2; plural=(n != 1);");

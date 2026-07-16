@@ -82,14 +82,13 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "\"%1$s\" arşiv dosyasının sıkıştırılmamış boyutu çok büyük: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Bu arşivleyici kopyası ile ilişkilendirilmiş bir arşiv dosyası bulunamadı.",
     "Unknown search topic \"%1$s\"" : "\"%1$s\" arama başlığı bilinmiyor",
-    "Shared folder with id \"%1$s\" does not exist." : "\"%1$s\" kimlikli paylaşılmış klasör bulunamadı.",
+    "Shared folder with ID \"%1$s\" does not exist." : "\"%1$s\" kimlikli paylaşılmış klasör bulunamadı.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör zaten var olduğundan oluşturulamadı.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. \"%2$s\" grubu eklenemedi.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. \"%2$s\" grubu kaldırılamadı.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. \"%2$s\" yöneticisi değiştirilemedi.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. \"%2$s\" grubu için izinler ayarlanamadı.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "\"%1$s\" bağlantı noktası için paylaşılmış klasör yok. Bağlantı noktası \"%2$s\" olarak değiştirilemedi.",
-    "Shared folder with ID \"%1$s\" does not exist." : "\"%1$s\" kimlikli paylaşılmış klasör bulunamadı.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Kurulum sorunu. Gereken \"%2$s\" türündeki \"%1$s\" kaynağı sunucu üzerine kurulmamış.\nLütfen sistem yöneticisi ile görüşün!",
     "User" : "Kullanıcı adı",
     "Password" : "Parola",
@@ -239,7 +238,7 @@ OC.L10N.register(
     "delete PDF file" : "PDF dosyasını sil",
     "Download PDF" : "PDF dosyasını indir",
     "Convert the entry into a PDF document." : "Kaydı PDF belgesine dönüştür.",
-    "Archive" : "Arşiv",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "\"{criteria}\" tanımlayıcısı ile \"{entityName}\" birimleri aranamadı.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "\"{identifier}\" tanımlayıcısı ile \"{entityName}\" birimi alınamadı.",
     "close" : "kapat",
@@ -258,6 +257,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\", \"{displayValue}\" değerine ayarlandı",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ayarı kaldırıldı.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}.",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "\"%1$s\" kimlikli paylaşılmış klasör bulunamadı."
 },
 "nplurals=2; plural=(n > 1);");

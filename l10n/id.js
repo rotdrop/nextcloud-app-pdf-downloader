@@ -43,11 +43,10 @@ OC.L10N.register(
     "Move to {target}" : "Pindah ke {target}",
     "Move" : "Pindah",
     "Options" : "Pilihan",
-    "Archive" : "Arsipkan",
+    "PDF" : "PDF",
     "close" : "tutup",
     "No" : "Tidak",
     "Yes" : "Ya",
-    "true" : "benar",
-    "PDF" : "PDF"
+    "true" : "benar"
 },
 "nplurals=1; plural=0;");
