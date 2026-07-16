@@ -41,11 +41,10 @@ OC.L10N.register(
     "No Downloads Yet" : "Ei latauksia vielä",
     "delete PDF file" : "poista PDF-tiedosto",
     "Download PDF" : "Lataa PDF",
-    "Archive" : "Arkisto",
+    "PDF" : "PDF",
     "close" : "sulje",
     "No" : "Ei",
     "Yes" : "Kyllä",
-    "Confirmation Required" : "Vahvistus vaaditaan",
-    "PDF" : "PDF"
+    "Confirmation Required" : "Vahvistus vaaditaan"
 },
 "nplurals=2; plural=(n != 1);");

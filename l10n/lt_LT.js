@@ -82,14 +82,13 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Nesuspausto archyvo „%1$s“ dydis yra per didelis: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Su šiuo archyvavimo egzemplioriumi nėra susieto archyvo failo.",
     "Unknown search topic \"%1$s\"" : "Nežinoma paieškos tema „%1$s“",
-    "Shared folder with id \"%1$s\" does not exist." : "Bendrinamas aplankas su ID „%1$s“ neegzistuoja.",
+    "Shared folder with ID \"%1$s\" does not exist." : "Bendrinamo aplanko su ID „%1$s“ nėra.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "Bendrasis aplankas, skirtas prijungimo taškui „%1$s“, jau egzistuoja, jo negalima sukurti.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "Bendrinamas aplankas prijungimo taškui „%1$s“ neegzistuoja, negalima pridėti grupės „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "Bendrinamas aplankas, skirtas prijungimo taškui „%1$s“, neegzistuoja, negalima pašalinti grupės „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "Bendrinamas aplankas, skirtas prijungimo taškui „%1$s“, neegzistuoja, negalima modifikuoti tvarkyklės „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "Bendrinamas aplankas, skirtas prijungimo taškui „%1$s“, neegzistuoja, negalima nustatyti leidimų grupei „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "Bendrinamas aplankas, skirtas prijungimo taškui „%1$s“, neegzistuoja, negalima pakeisti jo prijungimo taško į „%2$s“.",
-    "Shared folder with ID \"%1$s\" does not exist." : "Bendrinamo aplanko su ID „%1$s“ nėra.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Diegimo problema; serveryje neįdiegtas reikalingas resursas „%1$s“ tipo „%2$s“, susisiekite su sistemos administratoriumi!",
     "User" : "Naudotojas",
     "Password" : "Slaptažodis",
@@ -239,7 +238,7 @@ OC.L10N.register(
     "delete PDF file" : "Atsisiuntimų dar nėra",
     "Download PDF" : "Atsisiųsti PDF",
     "Convert the entry into a PDF document." : "Konvertuoti įrašą į PDF dokumentą.",
-    "Archive" : "Archyvas",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Nepavyko rasti objektų „{entityName}“ su identifikatoriumi „{criteria}“.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Nepavyko gauti objekto „{entityName}“ su identifikatoriumi „{identifier}“.",
     "close" : "užverti",
@@ -258,6 +257,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Sėkmingai nustatyta reikšmė nuo „{settingsKey}“ iki „{displayValue}“",
     "Setting \"{setting}\" has been unset successfully." : "Nustatymas „{setting}“ buvo sėkmingai panaikintas.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nepavyko nustatyti „{settingsKey}“ reikšmės į „{value}“: {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "Bendrinamas aplankas su ID „%1$s“ neegzistuoja."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

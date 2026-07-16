@@ -71,14 +71,13 @@
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "„%1$s“ fail on lahtipakituna liiga suur: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Selle arhiivifailiga pole seotud ühtegi arhiveerija tüüpi.",
     "Unknown search topic \"%1$s\"" : "Tundmatu otsinguteema: „%1$s“",
-    "Shared folder with id \"%1$s\" does not exist." : "Jagatud kausta tunnusega „%1$s“ pole olemas.",
+    "Shared folder with ID \"%1$s\" does not exist." : "Jagatud kausta tunnusega „%1$s“ pole olemas.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "Jagatud kaust on haakepunktis „%1$s“ juba olemas, selle loomine pole võimalik.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "Jagatud kausta haakepunktis „%1$s“ pole olemas, „%2$s“ grupi lisamine pole võimalik.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "Jagatud kausta haakepunktis „%1$s“ pole olemas, „%2$s“ grupi eemaldamine pole võimalik.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "Jagatud kausta haakepunktis „%1$s“ pole olemas, haldajat „%2$s“ pole võimalik muuta.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "Jagatud kausta haakepunktis „%1$s“ pole olemas, „%2$s“ grupi õigusi ei saa määrata.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "Jagatud kausta haakepunktis „%1$s“ pole olemas, „%2$s“ muutmine uueks haakepunktis pole võimalik.",
-    "Shared folder with ID \"%1$s\" does not exist." : "Jagatud kausta tunnusega „%1$s“ pole olemas.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Paigaldusviga: „%2$s“ tüüpi nõutav ressurss „%1$s“ pole serverisse paigaldatud. Palun võta ühendust süsteemi peakasutajaga!",
     "User" : "Kasutaja",
     "Password" : "Salasõna",
@@ -175,7 +174,7 @@
     "delete PDF file" : "kustuta PDF-fail",
     "Download PDF" : "Laadi PDF-fail alla",
     "Convert the entry into a PDF document." : "Konverteeri kirje pdf-dokumendiks.",
-    "Archive" : "Arhiveeri",
+    "PDF" : "PDF-fail",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Pole võimalik otsida andmeolemit „{entityName}“, mille tunnus on „{criteria}“.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Pole võimalik laadida andmeolemit „{entityName}“, mille tunnus on „{identifier}“.",
     "close" : "sulge",
@@ -194,6 +193,6 @@
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "„{settingsKey}“ seadistamine „{displayValue}“ väärtusega õnnestus.",
     "Setting \"{setting}\" has been unset successfully." : "„{setting}“ võtme väärtustuse eemaldamine õnnestus.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "„{settingsKey}“ võtme väärtustamine uue „{value}“ väärtusega ei õnnestunud: {message}",
-    "PDF" : "PDF-fail"
+    "Shared folder with id \"%1$s\" does not exist." : "Jagatud kausta tunnusega „%1$s“ pole olemas."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

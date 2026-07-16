@@ -10,9 +10,8 @@
     "Move to {target}" : " {target}ga o`tish",
     "Move" : "Ko'chirish",
     "Options" : "Variantlar",
-    "Archive" : "Arxiv",
+    "PDF" : "PDF",
     "No" : "No",
-    "Yes" : "Yes",
-    "PDF" : "PDF"
+    "Yes" : "Yes"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

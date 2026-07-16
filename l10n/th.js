@@ -10,9 +10,8 @@ OC.L10N.register(
     "Move to {target}" : "ย้ายไปยัง {target}",
     "Move" : "ย้าย",
     "Options" : "ตัวเลือก",
-    "Archive" : "ที่เก็บถาวร",
+    "PDF" : "PDF",
     "No" : "ไม่",
-    "Yes" : "ใช่",
-    "PDF" : "PDF"
+    "Yes" : "ใช่"
 },
 "nplurals=1; plural=0;");

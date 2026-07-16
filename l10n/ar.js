@@ -212,7 +212,7 @@ OC.L10N.register(
     "delete PDF file" : "حذف ملف PDF",
     "Download PDF" : "تنزيل ملف PDF",
     "Convert the entry into a PDF document." : "تحويل المدخل إلى مستند PDF",
-    "Archive" : "الأرشيف",
+    "PDF" : "PDF",
     "close" : "إغلاق",
     "No" : "لا",
     "Yes" : "نعم",
@@ -228,7 +228,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "لم يتم التأكيد؛ و تمتّ استعادة القيمة القديمة.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "تمّ تعيين \"{settingKey}\" بــ \"{displayValue}\" بنجاح",
     "Setting \"{setting}\" has been unset successfully." : "تمّ إلغاء تعيين \"{setting}\" بنجاح.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "لم يُمكن تعيين \"{settingsKeys}\" بــ \"{value}\":{message}",
-    "PDF" : "PDF"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "لم يُمكن تعيين \"{settingsKeys}\" بــ \"{value}\":{message}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

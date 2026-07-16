@@ -12,10 +12,9 @@ OC.L10N.register(
     "Move to {target}" : "העברה אל {target}",
     "Move" : "העברה",
     "Options" : "אפשרויות",
-    "Archive" : "לארכיון",
+    "PDF" : "PDF",
     "close" : "סגירה",
     "No" : "לא",
-    "Yes" : "כן",
-    "PDF" : "PDF"
+    "Yes" : "כן"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

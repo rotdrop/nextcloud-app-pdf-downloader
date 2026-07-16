@@ -76,7 +76,6 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "ئارخىپنىڭ پىرىسلانمىغان چوڭلۇقى \"%1$s\" بەك چوڭ: %2$s> %3$s",
     "There is no archive file associated with this archiver instance." : "بۇ ئارخىپ مىسالى بىلەن مۇناسىۋەتلىك ئارخىپ ھۆججىتى يوق.",
     "Unknown search topic \"%1$s\"" : "نامەلۇم ئىزدەش تىمىسى \"%1$s\"",
-    "Shared folder with id \"%1$s\" does not exist." : "\"%1$s\" id دىكى ئورتاقلاشقان قىسقۇچ مەۋجۇت ئەمەس.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "ئورنىتىش-نوقتىسى\"%1$s\" دىكى ئورتاقلاشقان قىسقۇچ ئاللىبۇرۇن مەۋجۇت، ئۇنى قۇرغىلى بولمايدۇ.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "\"%1$s\" ئورنىتىش نۇقتىسى ئۈچۈن ئورتاقلاشقان قىسقۇچ مەۋجۇت ئەمەس، \"%2$s\" گۇرۇپپىسىنى قوشقىلى بولمايدۇ.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "\"%1$s\" ئورنىتىش نۇقتىسى ئۈچۈن ئورتاقلاشقان قىسقۇچ مەۋجۇت ئەمەس، \"%2$s\" گۇرۇپپىسىنى ئۆچۈرەلمەيدۇ.",
@@ -232,7 +231,7 @@ OC.L10N.register(
     "delete PDF file" : "PDF ھۆججىتىنى ئۆچۈرۈڭ",
     "Download PDF" : "PDF نى چۈشۈرۈڭ",
     "Convert the entry into a PDF document." : "كىرگۈزۈشنى PDF ھۆججىتىگە ئايلاندۇرۇڭ.",
-    "Archive" : "ئارخىپ",
+    "PDF" : "PDF",
     "close" : "ياپ",
     "No" : "ياق",
     "Yes" : "ماقۇل",
@@ -249,6 +248,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "مۇۋەپپەقىيەتلىك ھالدا \"{settingsKey}\" نىڭ قىممىتىنى \"{displayValue}\" قىلىپ بەلگىلەڭ.",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" نى تەڭشەش ئوڭۇشلۇق بولمىدى.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "\"%1$s\" id دىكى ئورتاقلاشقان قىسقۇچ مەۋجۇت ئەمەس."
 },
 "nplurals=2; plural=(n != 1);");

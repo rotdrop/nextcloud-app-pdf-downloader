@@ -10,11 +10,10 @@ OC.L10N.register(
     "Copy" : "Nɣel",
     "Move" : "Senkez",
     "Options" : "Iɣewwaṛen",
-    "Archive" : "Taṛcivt",
+    "PDF" : "PDF",
     "No" : "Uhu",
     "Yes" : "Ih",
     "true" : "idetti",
-    "Confirmation Required" : "Asentem ilaq",
-    "PDF" : "PDF"
+    "Confirmation Required" : "Asentem ilaq"
 },
 "nplurals=2; plural=(n != 1);");

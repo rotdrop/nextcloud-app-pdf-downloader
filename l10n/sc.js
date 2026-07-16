@@ -14,10 +14,9 @@ OC.L10N.register(
     "Move to {target}" : "Tràmuda a {target}",
     "Move" : "Tràmuda",
     "Options" : "Optziones",
-    "Archive" : "Archìviu",
+    "PDF" : "PDF",
     "close" : "serra",
     "No" : "No",
-    "Yes" : "Si",
-    "PDF" : "PDF"
+    "Yes" : "Si"
 },
 "nplurals=2; plural=(n != 1);");

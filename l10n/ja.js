@@ -20,11 +20,10 @@ OC.L10N.register(
     "Move to {target}" : "{target} に移動",
     "Move" : "移動",
     "Options" : "オプション",
-    "Archive" : "アーカイブ",
+    "PDF" : "PDF",
     "close" : "閉じる",
     "No" : "いいえ",
     "Yes" : "はい",
-    "Confirmation Required" : "確認が必要",
-    "PDF" : "PDF"
+    "Confirmation Required" : "確認が必要"
 },
 "nplurals=1; plural=0;");

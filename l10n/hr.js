@@ -38,7 +38,6 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Zajednička mapa za točku montiranja „%1$s” ne postoji, nije moguće ukloniti grupu „%2$s”.",
     "There is no archive file associated with this archiver instance." : "Zajednička mapa za točku montiranja „%1$s” ne postoji, nije moguće izmijeniti upravitelja „%2$s”.",
     "Unknown search topic \"%1$s\"" : "Nepoznato search topic \\%1$s\\",
-    "Shared folder with id \"%1$s\" does not exist." : "Zajednička mapa with id \\%1$s\\ ne postoji.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "Zajednička mapa for mount-point \\%1$s\\ already postoji, ne može create it.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "Dijeljena mapa za točku montiranja „%1$s” ne postoji i nije moguće dodati grupu „%2$s”.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "Dijeljena mapa za točku montiranja „%1$s” ne postoji, nije moguće ukloniti grupu „%2$s”.",
@@ -88,7 +87,7 @@ OC.L10N.register(
     "Move" : "Premjesti",
     "basename" : "basename",
     "Options" : "Mogućnosti",
-    "Archive" : "Arhiva",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Nije moguće search for entities \\{entityName}\\ with identifier \\{criteria}\\.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Nije moguće fetch entity \\{entityName}\\ with identifier \\{identifier}\\.",
     "close" : "zatvori",
@@ -107,6 +106,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Setting \\{setting}\\ has been unset successfully.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \\{settingsKey}\\ to \\{value}\\: {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "Zajednička mapa with id \\%1$s\\ ne postoji."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

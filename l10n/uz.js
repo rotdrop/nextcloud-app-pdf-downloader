@@ -12,9 +12,8 @@ OC.L10N.register(
     "Move to {target}" : " {target}ga o`tish",
     "Move" : "Ko'chirish",
     "Options" : "Variantlar",
-    "Archive" : "Arxiv",
+    "PDF" : "PDF",
     "No" : "No",
-    "Yes" : "Yes",
-    "PDF" : "PDF"
+    "Yes" : "Yes"
 },
 "nplurals=1; plural=0;");

@@ -82,14 +82,13 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Tá méid neamh-chomhbhrúite na cartlainne \"%1$s\" rómhór: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Níl aon chomhad cartlainne bainteach leis an gcás cartlainne seo.",
     "Unknown search topic \"%1$s\"" : "Topaic chuardaigh anaithnid \"%1$s\"",
-    "Shared folder with id \"%1$s\" does not exist." : "Níl an fillteán comhroinnte leis an aitheantas \"%1$s\" ann.",
+    "Shared folder with ID \"%1$s\" does not exist." : "Níl fillteán comhroinnte leis an aitheantóir \"%1$s\" ann.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "Tá fillteán comhroinnte don phointe gléasta \"%1$s\" ann cheana féin, ní féidir é a chruthú.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "Níl an fillteán comhroinnte don phointe gléasta \"%1$s\" ann, ní féidir an grúpa \"%2$s\" a chur leis.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "Níl an fillteán comhroinnte don phointe gléasta \"%1$s\" ann, ní féidir an grúpa \"%2$s\" a bhaint.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "Níl an fillteán comhroinnte don phointe gléasta \"%1$s\" ann, ní féidir an bainisteoir \"%2$s\" a mhodhnú.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "Níl fillteán comhroinnte ann don phointe gléasta \"%1$s\", ní féidir ceadanna a shocrú don ghrúpa \"%2$s\".",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "Níl an fillteán comhroinnte don phointe gléasta \"%1$s\" ann, ní féidir a phointe gléasta a athrú go \"%2$s\".",
-    "Shared folder with ID \"%1$s\" does not exist." : "Níl fillteán comhroinnte leis an aitheantóir \"%1$s\" ann.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Fadhb suiteála; níl an acmhainn riachtanach \"%1$s\" de chineál \"%2$s\" suiteáilte ar an bhfreastalaí, téigh i dteagmháil le riarthóir an chórais!",
     "User" : "Úsáideoir",
     "Password" : "Pasfhocal",
@@ -239,7 +238,7 @@ OC.L10N.register(
     "delete PDF file" : "comhad PDF a scriosadh",
     "Download PDF" : "Íoslódáil PDF",
     "Convert the entry into a PDF document." : "Tiontaigh an iontráil i doiciméad PDF.",
-    "Archive" : "Cartlann",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Ní féidir cuardach a dhéanamh ar eintitis \"{entityName}\" leis an aitheantóir \"{criteria}\".",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Ní féidir an t-eintiteas \"{entityName}\" a fháil leis an aitheantóir \"{identifier}\".",
     "close" : "dún",
@@ -258,6 +257,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "D'éirigh le socrú luach \"{settingsKey}\" go \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "D'éirigh le socrú \"{setting}\" a dhíshuiteáil.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Níorbh fhéidir luach a shocrú do \"{settingsKey}\" go \"{value}\": {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "Níl an fillteán comhroinnte leis an aitheantas \"%1$s\" ann."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

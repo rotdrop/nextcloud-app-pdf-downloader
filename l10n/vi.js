@@ -11,7 +11,6 @@ OC.L10N.register(
     "Move to {target}" : "Di chuyển đến {target}",
     "Move" : "Chuyển",
     "Options" : "Tùy chọn",
-    "Archive" : "Lưu trữ",
     "close" : "đóng",
     "No" : "Không",
     "Yes" : "Có"

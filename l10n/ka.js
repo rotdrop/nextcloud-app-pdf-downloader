@@ -11,7 +11,6 @@ OC.L10N.register(
     "Copy" : "Copy",
     "Move to {target}" : "Move to {target}",
     "Move" : "Move",
-    "Archive" : "Archive",
     "No" : "No",
     "Yes" : "Yes"
 },

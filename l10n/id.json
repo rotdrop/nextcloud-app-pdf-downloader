@@ -41,11 +41,10 @@
     "Move to {target}" : "Pindah ke {target}",
     "Move" : "Pindah",
     "Options" : "Pilihan",
-    "Archive" : "Arsipkan",
+    "PDF" : "PDF",
     "close" : "tutup",
     "No" : "Tidak",
     "Yes" : "Ya",
-    "true" : "benar",
-    "PDF" : "PDF"
+    "true" : "benar"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

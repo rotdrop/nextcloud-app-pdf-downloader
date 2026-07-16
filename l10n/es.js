@@ -222,7 +222,7 @@ OC.L10N.register(
     "delete PDF file" : "borrar archivo PDF",
     "Download PDF" : "Descargar PDF",
     "Convert the entry into a PDF document." : "Convertir la entrada en un documento PDF.",
-    "Archive" : "Archivar",
+    "PDF" : "PDF",
     "close" : "cerrar",
     "No" : "No",
     "Yes" : "Sí",
@@ -238,7 +238,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "No fue confirmado, revirtiendo a valor antiguo.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Se estableció exitosamente el valor para \"{settingsKey}\" a \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "La configuración \"{setting}\" se restableció exitosamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No fue posible establecer el valor de \"{settingsKey}\" a \"{value}\": {message}",
-    "PDF" : "PDF"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "No fue posible establecer el valor de \"{settingsKey}\" a \"{value}\": {message}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

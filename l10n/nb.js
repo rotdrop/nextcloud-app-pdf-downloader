@@ -204,7 +204,7 @@ OC.L10N.register(
     "delete PDF file" : "slette PDF-fil",
     "Download PDF" : "Last ned PDF",
     "Convert the entry into a PDF document." : "Konverter oppføringen til et PDF-dokument.",
-    "Archive" : "Arkiv",
+    "PDF" : ".PDF",
     "close" : "lukk",
     "No" : "Nei",
     "Yes" : "Ja",
@@ -220,7 +220,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Ubekreftet, går tilbake til gammel verdi.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Angi verdien for \"{settingsKey}\" til \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Innstillingen {setting} er opphevet.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kan ikke sette verdien for \"{settingsKey}\" til \"{value}\": {message}",
-    "PDF" : ".PDF"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Kan ikke sette verdien for \"{settingsKey}\" til \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");

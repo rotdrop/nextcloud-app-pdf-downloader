@@ -77,7 +77,7 @@ OC.L10N.register(
     "basename" : "βασικό όνομα",
     "Options" : "Επιλογές",
     "Download PDF" : "Λήψη PDF",
-    "Archive" : "Αρχείο",
+    "PDF" : "PDF",
     "close" : "κλείσιμο",
     "No" : "Όχι",
     "Yes" : "Ναι",
@@ -93,7 +93,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Μη επιβεβαιωμένο, επιστροφή στην παλιά τιμή.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Επιτυχής ρύθμιση της τιμής για \"{settingsKey}\" σε \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Η ρύθμιση \"{setting}\" έχει απενεργοποιηθεί με επιτυχία.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ρύθμισης της τιμής για \"{settingsKey}\" σε \"{value}\": {message}",
-    "PDF" : "PDF"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ρύθμισης της τιμής για \"{settingsKey}\" σε \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");

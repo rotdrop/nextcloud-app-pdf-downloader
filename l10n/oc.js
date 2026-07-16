@@ -11,10 +11,9 @@ OC.L10N.register(
     "Move to {target}" : "Desplaçar a {target}",
     "Move" : "Desplaçar",
     "Options" : "Opcions",
-    "Archive" : "Archiu",
+    "PDF" : "PDF",
     "No" : "Non",
     "Yes" : "Òc",
-    "true" : "verai",
-    "PDF" : "PDF"
+    "true" : "verai"
 },
 "nplurals=2; plural=(n > 1);");

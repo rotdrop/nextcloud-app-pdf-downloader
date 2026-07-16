@@ -81,14 +81,13 @@ OC.L10N.register(
     "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "Velikost archivu po rozbalení „%1$s“ je přílišná: %2$s > %3$s",
     "There is no archive file associated with this archiver instance." : "Tomuto (typu) souboru s archivem není přiřazena žádná instance archivátoru.",
     "Unknown search topic \"%1$s\"" : "Neznámé téma hledání „%1$s“",
-    "Shared folder with id \"%1$s\" does not exist." : "Sdílená složka s identif. „%1$s“ neexistuje.",
+    "Shared folder with ID \"%1$s\" does not exist." : "Sdílená složka s identifikátorem „%1$s“ neexistuje.",
     "Shared folder for mount-point \"%1$s\" already exists, cannot create it." : "Sdílená složka pro přípojný bod „%1$s“ už existuje – není proto možné ji vytvořit.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot add group \"%2$s\"." : "Sdílená složka pro přípojný bod „%1$s“ neexistuje – není proto možné přidat skupinu „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot remove group \"%2$s\"." : "Sdílená složka pro přípojný bod „%1$s“ neexistuje – není proto možné odebrat skupinu „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot modify manager \"%2$s\"." : "Sdílená složka pro přípojný bod „%1$s“ neexistuje – není proto možné změnit nadřízeného „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot set permissions for group \"%2$s\"." : "Sdílená složka pro přípojný bod „%1$s“ neexistuje – není proto možné nastavit oprávnění pro skupinu „%2$s“.",
     "Shared folder for mount-point \"%1$s\" does not exist, cannot change its mount-point to \"%2$s\"." : "Sdílená složka pro přípojný bod „%1$s“ neexistuje – není proto možné změnit její přípojný bod na „%2$s“.",
-    "Shared folder with ID \"%1$s\" does not exist." : "Sdílená složka s identifikátorem „%1$s“ neexistuje.",
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Problém s instalací: potřebný prostředek „%1$s“ typu „%2$s“ není na serveru nainstalovaný – obraťte se na jeho správce!",
     "User" : "Uživatel",
     "Password" : "Heslo",
@@ -238,7 +237,7 @@ OC.L10N.register(
     "delete PDF file" : "smazat PDF soubor",
     "Download PDF" : "Stáhnout PDF",
     "Convert the entry into a PDF document." : "Převést položku na PDF dokument.",
-    "Archive" : "Archiv",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Nebylo možné hledat entity „{entityName}“ s identifikátorem „{criteria}“.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Nepodařilo se získat entitu „{entityName}“ s identifikátorem „{identifier}“.",
     "close" : "zavřít",
@@ -257,6 +256,6 @@ OC.L10N.register(
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Úspěšně nastavena hodnota pro „{settingsKey}“ na „{displayValue}",
     "Setting \"{setting}\" has been unset successfully." : "Nastavení „{setting}“ bylo úspěšně zrušeno.",
     "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Nedaří se nastavit hodnotu pro „{settingsKey}“ na „{value}“: {message}",
-    "PDF" : "PDF"
+    "Shared folder with id \"%1$s\" does not exist." : "Sdílená složka s identif. „%1$s“ neexistuje."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Move to {target}" : "Mută la {target}",
     "Move" : "Mută",
     "Options" : "Opțiuni",
-    "Archive" : "Arhivă",
     "close" : "închide",
     "No" : "Nu",
     "Yes" : "a"

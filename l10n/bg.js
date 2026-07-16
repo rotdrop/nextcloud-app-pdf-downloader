@@ -174,7 +174,7 @@ OC.L10N.register(
     "refresh" : "опресняване",
     "delete PDF file" : "изтриване на PDF файл",
     "Download PDF" : "Изтегляне на PDF",
-    "Archive" : "Архив",
+    "PDF" : "PDF",
     "close" : "затваряне",
     "No" : "Не",
     "Yes" : "Да",
@@ -190,7 +190,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Непотвърдено, връща се към старата стойност.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Успешно зададена стойност за \"{settingsKey}\" на \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Задаването на \"{setting}\" е отменено успешно.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Не може да се зададе стойност за \"{settingsKey}\" на \"{value}\": {message}",
-    "PDF" : "PDF"
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Не може да се зададе стойност за \"{settingsKey}\" на \"{value}\": {message}"
 },
 "nplurals=2; plural=(n != 1);");

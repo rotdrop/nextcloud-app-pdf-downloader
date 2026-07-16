@@ -16,10 +16,9 @@ OC.L10N.register(
     "Move to {target}" : "Færa í {target}",
     "Move" : "Færa",
     "Options" : "Valkostir",
-    "Archive" : "Safn",
+    "PDF" : "PDF",
     "close" : "loka",
     "No" : "Nei",
-    "Yes" : "Já",
-    "PDF" : "PDF"
+    "Yes" : "Já"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

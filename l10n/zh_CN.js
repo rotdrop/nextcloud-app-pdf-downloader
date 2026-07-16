@@ -51,13 +51,12 @@ OC.L10N.register(
     "Move to {target}" : "移动到 {target}",
     "Move" : "移动",
     "Options" : "选项",
-    "Archive" : "存档",
+    "PDF" : "PDF",
     "close" : "关闭",
     "No" : "否",
     "Yes" : "是",
     "true" : "真",
     "Confirmation Required" : "需要确认",
-    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。",
-    "PDF" : "PDF"
+    "Unconfirmed, reverting to old value." : "没有确认，回退到之前的值。"
 },
 "nplurals=1; plural=0;");

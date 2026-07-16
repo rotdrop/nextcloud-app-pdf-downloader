@@ -50,10 +50,9 @@ OC.L10N.register(
     "Move" : "Verplaatsen",
     "Options" : "Opties",
     "Download PDF" : "Download PDF",
-    "Archive" : "Archief",
+    "PDF" : "PDF",
     "close" : "sluiten",
     "No" : "Nee",
-    "Yes" : "Ja",
-    "PDF" : "PDF"
+    "Yes" : "Ja"
 },
 "nplurals=2; plural=(n != 1);");

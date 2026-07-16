@@ -16,7 +16,6 @@ OC.L10N.register(
     "Move to {target}" : "{target} руу зөөх",
     "Move" : "Зөөх",
     "Options" : "Сонголтууд",
-    "Archive" : "–∞—Ä—Ö–∏–≤",
     "No" : "Үгүй",
     "Yes" : "Тийм"
 },
