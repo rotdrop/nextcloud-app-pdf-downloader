@@ -83,7 +83,7 @@
     "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Paigaldusviga: „%2$s“ tüüpi nõutav ressurss „%1$s“ pole serverisse paigaldatud. Palun võta ühendust süsteemi peakasutajaga!",
     "User" : "Kasutaja",
     "Password" : "Salasõna",
-    "Login succeeded." : "Sisselogimine õnnestud",
+    "Login succeeded." : "Sisselogimine õnnestus",
     "Login failed." : "Sisselogimine ei õnnestunud.",
     "%1$s (renamed)" : "%1$s (nimi on muudetud)",
     "renamed file" : "muudetud nimega fail",
