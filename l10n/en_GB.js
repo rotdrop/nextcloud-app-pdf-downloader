@@ -166,7 +166,7 @@ OC.L10N.register(
     "Generated Label" : "Generated Label",
     "as Image" : "as Image",
     "as Text" : "as Text",
-    "Page label colors" : "Page label colors",
+    "Page label colors" : "Page label colours",
     "Text" : "Text",
     "Background" : "Background",
     "Page label width fraction" : "Page label width fraction",
