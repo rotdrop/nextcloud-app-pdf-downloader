@@ -436,10 +436,10 @@ const settings = reactive({
   //
   grouping: 'folders-first' as 'folders-first'|'files-first'|'ungrouped',
   //
-  includePattern: undefined as undefined|string,
-  excludePattern: undefined as undefined|string,
+  includePattern: '',
+  excludePattern: '',
   patternPrecedence: 'includeHasPrecedence' as 'includeHasPrecedence'|'excludeHasPrecedence',
-  patternTestString: undefined as undefined|string,
+  patternTestString: '',
   //
   fontSamples: [] as string[],
   //
@@ -463,7 +463,7 @@ const settings = reactive({
   //
   exampleFilePath: t(appName, 'invoices/2022/october/invoice.fodt'),
   //
-  pdfCloudFolderPath: undefined as undefined|string,
+  pdfCloudFolderPath: '',
 })
 
 watch(() => settings.pageLabelTextColor, (value, oldValue) => {

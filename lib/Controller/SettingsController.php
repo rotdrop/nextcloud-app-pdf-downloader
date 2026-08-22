@@ -172,7 +172,7 @@ class SettingsController extends Controller
     ],
     self::PERSONAL_PAGE_LABEL_TEMPLATE => [
       'rw' => true,
-      'default' => null, // dynamic from PdfCombiner
+      'default' => '', // dynamic from PdfCombiner
     ],
     self::PERSONAL_GENERATE_ERROR_PAGES => [
       'rw' => true,
@@ -196,44 +196,44 @@ class SettingsController extends Controller
     ],
     self::PERSONAL_PATTERN_PRECEDENCE => [
       'rw' => true,
-      self::PERSONAL_PATTERN_PRECEDENCE_DEFAULT,
+      'default' => self::PERSONAL_PATTERN_PRECEDENCE_DEFAULT,
     ],
     self::PERSONAL_PATTERN_TEST_STRING => [
       'rw' => true,
-      self::PERSONAL_PATTERN_TEST_STRING_DEFAULT,
+      'default' => self::PERSONAL_PATTERN_TEST_STRING_DEFAULT,
     ],
     self::PERSONAL_PATTERN_TEST_RESULT => [
       'rw' => false,
-      'default' => null,
+      'default' => '',
     ],
     self::PERSONAL_GROUPING => [ 'rw' => true, 'default' => self::PERSONAL_GROUP_FOLDERS_FIRST, ],
     self::PERSONAL_PDF_CLOUD_FOLDER_PATH => [
       'rw' => true,
-      'default' => null,
+      'default' => '',
     ],
     self::PERSONAL_PDF_FILE_NAME_TEMPLATE => [
       'rw' => true,
-      'default' => null,
+      'default' => '',
     ],
     self::PERSONAL_EXAMPLE_FILE_PATH => [
       'rw' => true,
-      'default' => null,
+      'default' => '',
     ],
     self::PERSONAL_PAGE_LABEL_TEXT_COLOR => [
       'rw' => true,
-      'default' => null,
+      'default' => '',
     ],
     self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE => [
       'rw' => true,
-      'default' => null
+      'default' => '',
     ],
     self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR => [
       'rw' => true,
-      'default' => null,
+      'default' => '',
     ],
     self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE => [
       'rw' => true,
-      'default' => null
+      'default' => '',
     ],
     self::PERSONAL_USE_BACKGROUND_JOBS_DEFAULT => [
       'rw' => true,
