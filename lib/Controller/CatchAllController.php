@@ -72,11 +72,14 @@ class CatchAllController extends Controller
       'f' => '',
       'g' => '',
     ],
+    requirements: [
+      'a' => '^(?!settings|fonts|sample).*$',
+    ],
   )]
   public function post($a, $b, $c, $d, $e, $f, $g):Response
   {
     $parts = [ $a, $b, $c, $d, $e, $f, $g ];
-    $request = implode('/', array_filter($parts));
+    $request = print_r($parts, true); // implode('/', array_filter($parts));
     if (!empty($request)) {
       return self::grumble(
         $this->l->t('Post to endpoint "%s" not implemented.', $request));
@@ -105,6 +108,9 @@ class CatchAllController extends Controller
       'e' => '',
       'f' => '',
       'g' => '',
+    ],
+    requirements: [
+      'a' => '^(?!settings|fonts|sample).*$',
     ],
   )]
   public function get($a, $b, $c, $d, $e, $f, $g): Response
