@@ -82,10 +82,12 @@ import type { FontDescriptor } from '../model/fonts.d.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { NcEllipsisedOption } from '@nextcloud/vue'
+import vTooltip, { options as tooltipOptions } from '@rotdrop/nextcloud-vue-components/lib/directives/Tooltip'
 import { v4 as uuidv4 } from 'uuid'
 import {
   computed,
   ref,
+  useTemplateRef,
   watch,
 } from 'vue'
 import SelectWithSubmitButton from '@rotdrop/nextcloud-vue-components/lib/components/SelectWithSubmitButton.vue'
@@ -136,13 +138,17 @@ const fontObject = ref<undefined|FontDescriptor>(undefined)
 
 const fontSize = ref<undefined|number>(undefined)
 
-const select = ref<null | typeof SelectWithSubmitButton>(null)
+const select = useTemplateRef<typeof SelectWithSubmitButton>('select')
 
 const ncSelect = computed(() => select.value?.ncSelect as (typeof NcSelect | null))
 
 const id = computed<string>(() => uuidv4())
 
 const cloudVersionClasses = computed<string[]>(() => cloudVersionClassesImport)
+
+tooltipOptions.themes['font-info'] = {
+  $extend: 'tooltip',
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fontInfoPopup = (fontOption: FontDescriptor|any, sampleUri: string) => {
@@ -154,7 +160,7 @@ const fontInfoPopup = (fontOption: FontDescriptor|any, sampleUri: string) => {
     html: true,
     // shown: true,
     // triggers: [],
-    csstag: ['vue-tooltip-font-info-popup'],
+    theme: 'font-info',
   }
 }
 
@@ -238,6 +244,7 @@ fontObject.value = props.modelValue
 if (props.modelValue) {
   fontSize.value = props.modelValue.fontSize
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -310,7 +317,7 @@ if (props.modelValue) {
 </style>
 
 <style lang="scss">
-[csstag="vue-tooltip-font-info-popup"].v-popper--theme-tooltip {
+.v-popper--theme-font-info.v-popper--theme-tooltip {
   .v-popper__inner {
     max-width:unset!important;
     // min-width:1024px!important;
