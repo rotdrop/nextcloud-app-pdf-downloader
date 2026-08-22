@@ -39,7 +39,7 @@
       <!-- avoid v-model here as the update of pageLabelTemplate causes instant font-sample generation -->
       <!-- v-tooltip="unclippedPopup(settings.pageLabelTemplate)" -->
       <TextField v-show="settings.pageLabels"
-                 :value="settings.pageLabelTemplate"
+                 v-model="settings.pageLabelTemplate"
                  :label="t(appName, 'Template for the page labels')"
                  :disabled="loading > 0"
                  @submit="(value) => { settings.pageLabelTemplate = value; saveSetting('pageLabelTemplate'); }"
@@ -101,7 +101,7 @@
         />
       </div>
       <div v-show="settings.pageLabels" class="horizontal-rule" />
-      <TextField v-model:value="settings.pageLabelPageWidthFraction"
+      <TextField v-model="settings.pageLabelPageWidthFraction"
                  :label="t(appName, 'Page label width fraction')"
                  :helperText="t(appName, 'Page label width as decimal fraction of the page width. Leave empty to use a fixed font size.')"
                  :disabled="loading > 0 || !settings.pageLabels"
