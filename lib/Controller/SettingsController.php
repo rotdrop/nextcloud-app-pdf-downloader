@@ -646,6 +646,7 @@ class SettingsController extends Controller
             return self::grumble($e->getMessage());
           }
         }
+        $this->logInfo('PURGE VALUE SECONDS "' . $newValue . '"');
         if (empty($newValue)) {
           $newValue = null;
         }
@@ -661,7 +662,10 @@ class SettingsController extends Controller
       if (is_bool($settingsValue)) {
         // bool is not accepted by the deprecated setUserValue()
         $this->userConfig->setValueBool($this->userId, $this->appName, $setting, $settingsValue);
+      } elseif (is_int($settingsValue)) {
+        $this->userConfig->setValueInt($this->userId, $this->appName, $setting, $settingsValue);
       } else {
+        $this->logInfo('SET PURGE VALUE SECONDS "' . $newValue . '" "' . $settingsValue . '"');
         $this->config->setUserValue($this->userId, $this->appName, $setting, $settingsValue);
       }
     }
@@ -673,23 +677,24 @@ class SettingsController extends Controller
       case self::PERSONAL_DOWNLOADS_PURGE_TIMEOUT:
         // adjust the background-job interval such that this can possible
         // more-or-less happen ...
-        $users = $this->config->getUsersForUserValue($this->appName, $setting);
-        $purgeInterval = max(
-          0,
-          min(
-            DownloadsCleanupJob::DEFAULT_CLEANUP_INTERVAL,
-            (int)min(array_values(
-              $this->config->getUserValueForUsers($this->appName, $setting, $users),
-            ))
-          ));
-        $this->config->setAppValue($this->appName, DownloadsCleanupJob::CLEANUP_INTERVAL_KEY, $purgeInterval);
-        if ($newValue === null) {
-          $humanValue = '';
-          break;
+        $userValues = $this->userConfig->getValuesByUsers($this->appName, $setting);
+        if (!empty($userValues)) {
+          $purgeInterval = max(
+            0,
+            min(
+              DownloadsCleanupJob::DEFAULT_CLEANUP_INTERVAL,
+              (int)min(array_values($userValues)),
+            ),
+          );
+          $this->config->setAppValue($this->appName, DownloadsCleanupJob::CLEANUP_INTERVAL_KEY, $purgeInterval);
+          if ($newValue === null) {
+            $humanValue = '';
+            break;
+          }
+          $interval = CarbonInterval::seconds($newValue);
+          CarbonInterval::setLocale($this->l->getLanguageCode());
+          $humanValue = $interval->cascade()->forHumans();
         }
-        $interval = CarbonInterval::seconds($newValue);
-        CarbonInterval::setLocale($this->l->getLanguageCode());
-        $humanValue = $interval->cascade()->forHumans();
         break;
       case self::PERSONAL_PAGE_LABEL_TEXT_COLOR_PALETTE:
       case self::PERSONAL_PAGE_LABEL_BACKGROUND_COLOR_PALETTE:
