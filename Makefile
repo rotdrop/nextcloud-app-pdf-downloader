@@ -256,7 +256,7 @@ clean: ## Tidy up local environment
 distclean: clean ## Clean even more, calls clean
 	rm -rf vendor
 	rm -rf vendor-bin/**/vendor
-	find . -name node_modules -exec rm -rf {} \;
+	find . -name node_modules -exec rm -rf {} \; 2> /dev/null || true
 	rm -rf lib/Toolkit/*
 .PHONY: distclean
 
