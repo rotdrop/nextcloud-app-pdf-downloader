@@ -38,6 +38,7 @@ OC.L10N.register(
     "Reset Changes" : "Reset Perubahan",
     "Clear Selection" : "Bersihkan Pilihan",
     "Text" : "Teks",
+    "Background" : "Latar belakang",
     "Copy to {target}" : "Salin ke {target}",
     "Copy" : "Salin",
     "Move to {target}" : "Pindah ke {target}",
