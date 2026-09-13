@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "File or folder could not be found." : "Súbor alebo adresár sa nepodarilo nájisť.",
     "Post to endpoint \"%s\" not implemented." : "Odosielanie na koncový bod \"%s\" nie je implementované.",
-    "Post to base URL of app \"%s\" not allowed." : "Ososielanie na základné URL aplikácie \"%s\" nie je povolené.",
+    "Post to base URL of app \"%s\" not allowed." : "Odosielanie na základné URL aplikácie \"%s\" nie je povolené.",
     "Get from endpoint \"%s\" not implemented." : "Príjem z koncového bodu \"%s\" nie je implementované.",
     "Unable to find cached download file with id \"%d\"." : "Nepodarilo sa nájsť súbor pre stiahnutie vo vyrovnávacej pamäti s ID \"%d\".",
     "Unable to open the destination folder \"%s\"." : "Nepodarilo sa otvoriť cieľový adresár \"%s\".",
