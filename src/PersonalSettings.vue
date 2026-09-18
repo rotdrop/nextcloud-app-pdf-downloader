@@ -378,13 +378,6 @@
 import type { FontDescriptor } from './model/fonts.d.ts'
 
 import axios from '@nextcloud/axios'
-import {
-  showError,
-  // showSuccess,
-  showInfo,
-  // TOAST_DEFAULT_TIMEOUT,
-  // TOAST_PERMANENT_TIMEOUT,
-} from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import {
   NcSettingsSection,
@@ -411,6 +404,13 @@ import {
   saveConfirmedSetting,
   saveSimpleSetting,
 } from './toolkit/util/settings-sync.ts'
+import {
+  showError,
+  // showSuccess,
+  showInfo,
+  // TOAST_DEFAULT_TIMEOUT,
+  // TOAST_PERMANENT_TIMEOUT,
+} from './toolkit/util/toasts.ts'
 // import type { AxiosResponse } from 'axios'
 
 interface PersonalSettingsInitialState {

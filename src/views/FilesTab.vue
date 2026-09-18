@@ -177,12 +177,6 @@ import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
 import { getRequestToken } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-import {
-  getFilePickerBuilder,
-  showError,
-  showSuccess,
-  TOAST_PERMANENT_TIMEOUT,
-} from '@nextcloud/dialogs'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 import {
@@ -207,6 +201,12 @@ import { setFileNodeBusy } from '../toolkit/util/file-node-busy-indicator.ts'
 import { fileInfoToNode } from '../toolkit/util/file-node-helper.ts'
 import generateAppUrl from '../toolkit/util/generate-url.ts'
 import getInitialState from '../toolkit/util/initial-state.ts'
+import {
+  getFilePickerBuilder,
+  showError,
+  showSuccess,
+  TOAST_PERMANENT_TIMEOUT,
+} from '../toolkit/util/toasts.ts'
 
 const props = withDefaults(defineProps<{
   node: INode

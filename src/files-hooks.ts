@@ -22,7 +22,6 @@ import type { InitialState } from './types/initial-state.d.ts';
 import type { DestinationParameter } from './types/notification.d.ts';
 
 import axios from '@nextcloud/axios';
-import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs';
 import { emit, subscribe } from '@nextcloud/event-bus';
 import {
   Permission,
@@ -37,6 +36,7 @@ import fileDownload from './toolkit/util/axios-file-download.ts';
 import { fileInfoToNode } from './toolkit/util/file-node-helper.ts';
 import generateAppUrl from './toolkit/util/generate-url.ts';
 import getInitialState from './toolkit/util/initial-state.ts';
+import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from './toolkit/util/toasts.ts';
 
 import './webpack-setup.ts';
 
