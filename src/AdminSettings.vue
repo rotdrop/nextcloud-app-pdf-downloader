@@ -220,6 +220,7 @@ import {
   NcListItem,
   NcSettingsSection,
 } from '@nextcloud/vue'
+import vTooltip from '@rotdrop/nextcloud-vue-components/lib/directives/Tooltip'
 import {
   computed,
   reactive,

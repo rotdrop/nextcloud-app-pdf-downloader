@@ -382,6 +382,7 @@ import { translate as t } from '@nextcloud/l10n'
 import {
   NcSettingsSection,
 } from '@nextcloud/vue'
+import vTooltip from '@rotdrop/nextcloud-vue-components/lib/directives/Tooltip'
 import { hexToCSSFilter } from 'hex-to-css-filter'
 import {
   computed,

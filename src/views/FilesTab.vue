@@ -184,6 +184,7 @@ import {
   NcActionCheckbox,
   NcActions,
 } from '@nextcloud/vue'
+import vTooltip from '@rotdrop/nextcloud-vue-components/lib/directives/Tooltip'
 import { basename as pathBasename } from 'path'
 import {
   computed,

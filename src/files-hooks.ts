@@ -38,8 +38,6 @@ import generateAppUrl from './toolkit/util/generate-url.ts';
 import getInitialState from './toolkit/util/initial-state.ts';
 import { showError, showSuccess, TOAST_PERMANENT_TIMEOUT } from './toolkit/util/toasts.ts';
 
-import './webpack-setup.ts';
-
 const initialState = getInitialState<InitialState>();
 
 logger.info('INITIAL STATE PDF DOWNLOADER', initialState);

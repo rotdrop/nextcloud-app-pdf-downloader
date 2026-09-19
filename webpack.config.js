@@ -1,15 +1,15 @@
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CssoWebpackPlugin = require('csso-webpack-plugin').default;
-const DeadCodePlugin = require('webpack-deadcode-plugin');
+const webpackConfig = require('@nextcloud/webpack-vue-config');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Visualizer = require('webpack-visualizer-plugin2');
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const webpackConfig = require('@nextcloud/webpack-vue-config');
+const DeadCodePlugin = require('webpack-deadcode-plugin');
+const Visualizer = require('webpack-visualizer-plugin2');
 const xml2js = require('xml2js');
 
 const infoFile = path.join(__dirname, 'appinfo/info.xml');
@@ -23,12 +23,21 @@ xml2js.parseString(fs.readFileSync(infoFile), function(err, result) {
 const appName = appInfo.info.id[0];
 const productionMode = process.env.NODE_ENV === 'production';
 
-webpackConfig.entry = {
-  'admin-settings': path.join(__dirname, 'src', 'admin-settings.ts'),
-  'personal-settings': path.join(__dirname, 'src', 'personal-settings.ts'),
-  'files-hooks': path.join(__dirname, 'src', 'files-hooks.ts'),
-  'files-sidebar-hooks': path.join(__dirname, 'src', 'files-sidebar-hooks.ts'),
-};
+const webpackSetup = path.join('toolkit', 'util', 'webpack-setup');
+const entryPoints = [
+  'admin-settings',
+  'personal-settings',
+  'files-hooks',
+  'files-sidebar-hooks',
+];
+
+webpackConfig.entry = entryPoints.reduce((acc, key) => {
+  acc[key] = [
+    path.join(__dirname, 'src', `${webpackSetup}.ts`),
+    path.join(__dirname, 'src', `${key}.ts`),
+  ];
+  return acc;
+}, {});
 
 webpackConfig.output = {
   // path: path.resolve(__dirname, 'js'),
