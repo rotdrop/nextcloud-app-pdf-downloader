@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,7 +61,7 @@ class FilesActionListener implements IEventListener
   const ASSET_BASENAME = [
     LoadAdditionalScriptsEvent::class => [
       Constants::JS => 'files-hooks',
-      Constants::CSS => null,
+      Constants::CSS => 'files-hooks',
     ],
     LoadSidebar::class => [
       Constants::JS => 'files-sidebar-hooks',
@@ -200,8 +200,7 @@ class FilesActionListener implements IEventListener
     $assetBasename = self::ASSET_BASENAME[$eventClass][Constants::JS];
     if ($assetBasename) {
       try {
-        $this->logInfo('Adding script ' . $assetBasename);
-        list('asset' => $scriptAsset,) = $this->getJSAsset($assetBasename);
+        $scriptAsset = $this->getJSAsset($assetBasename);
         \OCP\Util::addScript($appName, $scriptAsset);
       } catch (Throwable $t) {
         $this->logException($t, 'Unable to add script asset ' . $assetBasename);
@@ -210,7 +209,7 @@ class FilesActionListener implements IEventListener
     $assetBasename = self::ASSET_BASENAME[$eventClass][Constants::CSS];
     if ($assetBasename) {
       try {
-        list('asset' => $styleAsset,) = $this->getCSSAsset($assetBasename);
+        $styleAsset = $this->getCSSAsset($assetBasename);
         \OCP\Util::addStyle($appName, $styleAsset);
       } catch (Throwable $t) {
         $this->logException($t, 'Unable to add style asset ' . $assetBasename);
