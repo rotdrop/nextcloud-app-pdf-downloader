@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,12 @@
 
 namespace OCA\PdfDownloader\Notification;
 
-use InvalidArgumentException;
-
-use Psr\Log\LoggerInterface as ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
+use Psr\Log\LoggerInterface as ILogger;
 
 use OCA\PdfDownloader\Service\DependenciesService;
 
@@ -86,7 +85,7 @@ class DependenciesNotifier implements INotifier
   public function prepare(INotification $notification, string $languageCode):INotification
   {
     if ($notification->getApp() !== $this->appName) {
-      throw new InvalidArgumentException('Application should be ' . $this->appName . ' instead of ' . $notification->getApp());
+      throw new UnknownNotificationException('Application should be ' . $this->appName . ' instead of ' . $notification->getApp());
     }
 
     $l = $this->l10nFactory->get($this->appName, $languageCode);
@@ -133,7 +132,7 @@ class DependenciesNotifier implements INotifier
             ]);
         break;
       default:
-        throw new InvalidArgumentException($l->t('Unsupported subject: "%s".', $notification->getSubject()));
+        throw new UnknownNotificationException($l->t('Unsupported subject: "%s".', $notification->getSubject()));
     }
     $notification->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath($this->appName, 'app-dark.svg')));
     $this->setParsedSubjectFromRichSubject($notification);

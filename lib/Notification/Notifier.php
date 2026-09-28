@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2024, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2024-2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,19 +22,18 @@
 
 namespace OCA\PdfDownloader\Notification;
 
-use InvalidArgumentException;
-
-use Psr\Log\LoggerInterface as ILogger;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\IDateTimeFormatter;
+use OCP\IPreview;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
-use OCP\IUserSession;
-use OCP\IPreview;
-use OCP\Files\IRootFolder;
-use OCP\Files\Folder;
-use OCP\Files\NotFoundException;
-use OCP\IDateTimeFormatter;
+use OCP\Notification\UnknownNotificationException;
+use Psr\Log\LoggerInterface;
 
 use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
 
@@ -60,12 +59,12 @@ class Notifier implements INotifier
   // phpcs:ignore Squiz.Commenting.FunctionComment.Missing
   public function __construct(
     protected $appName,
-    protected ILogger $logger,
-    protected IL10NFactory $l10nFactory,
-    protected IURLGenerator $urlGenerator,
-    protected IRootFolder $rootFolder,
-    protected IPreview $previewManager,
     protected IDateTimeFormatter $dateTimeFormatter,
+    protected IL10NFactory $l10nFactory,
+    protected IPreview $previewManager,
+    protected IRootFolder $rootFolder,
+    protected IURLGenerator $urlGenerator,
+    protected LoggerInterface $logger,
     IUserSession $userSession,
   ) {
     $user = $userSession->getUser();
@@ -91,7 +90,7 @@ class Notifier implements INotifier
   public function prepare(INotification $notification, string $languageCode):INotification
   {
     if ($notification->getApp() !== $this->appName) {
-      throw new InvalidArgumentException('Application should be ' . $this->appName . ' instead of ' . $notification->getApp());
+      throw new UnknownNotificationException('Application should be ' . $this->appName . ' instead of ' . $notification->getApp());
     }
 
     $l = $this->l10nFactory->get($this->appName, $languageCode);
@@ -251,7 +250,7 @@ class Notifier implements INotifier
         );
         break;
       default:
-        throw new InvalidArgumentException($l->t('Unsupported subject: "%s".', $notification->getSubject()));
+        throw new UnknownNotificationException($l->t('Unsupported subject: "%s".', $notification->getSubject()));
     }
     $notification->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath($this->appName, 'app-dark.svg')));
     $this->setParsedSubjectFromRichSubject($notification);
