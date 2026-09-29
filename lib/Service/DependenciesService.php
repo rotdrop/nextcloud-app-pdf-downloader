@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright Copyright (c) 2023, 2025 Claus-Justus Heine
+ * @copyright Copyright (c) 2023, 2025, 2026 Claus-Justus Heine
  * @license GNU AGPL version 3 or any later version
  *
  * "stolen" from files_zip Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
@@ -24,7 +24,7 @@ namespace OCA\PdfDownloader\Service;
 
 use Psr\Log\LoggerInterface as ILogger;
 
-use OCA\PdfDownloader\Exceptions;
+use OCA\PdfDownloader\Toolkit\Exceptions;
 
 /** Check for and (later perhaps) install missing external dependencies. */
 class DependenciesService

@@ -45,8 +45,7 @@ use Psr\Log\LoggerInterface as ILogger;
 use OCA\PdfDownloader\Constants;
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Controller\SettingsController;
-use OCA\PdfDownloader\Exceptions\EnduserNotificationException;
-use OCA\PdfDownloader\Toolkit\Exceptions as ToolkitExceptions;
+use OCA\PdfDownloader\Toolkit\Exceptions;
 use OCA\PdfDownloader\Toolkit\Service\AnyToPdf;
 use OCA\PdfDownloader\Toolkit\Service\ArchiveService;
 
@@ -344,11 +343,11 @@ __EOF__;
       }
 
       return self::ARCHIVE_HANDLED; // success
-    } catch (ToolkitExceptions\ArchiveCannotOpenException $oe) {
+    } catch (Exceptions\ArchiveCannotOpenException $oe) {
       $this->logException($oe, level: LogLevel::DEBUG);
 
       return self::ARCHIVE_IGNORED; // process as ordinary file
-    } catch (ToolkitExceptions\ArchiveTooLargeException $se) {
+    } catch (Exceptions\ArchiveTooLargeException $se) {
       if ($this->generateErrorPages) {
         $pdfData = $this->generateErrorPage($fileData, $path, $se);
         $this->pdfCombiner->addDocument($pdfData, $path);
@@ -450,7 +449,7 @@ __EOF__;
         break;
       case FileInfo::TYPE_FILE:
         if (!$this->addFile($node, parentName: '', ignoreExcludes: true)) {
-          throw new EnduserNotificationException(
+          throw new Exceptions\EnduserNotificationException(
             $this->l->t('"%s" could not be converted to PDF.', $nodePath));
         }
         break;
@@ -499,14 +498,14 @@ __EOF__;
     try {
       $destinationFolder = $this->rootFolder->get($destinationDirName);
       if ($destinationFolder->getType() != FileInfo::TYPE_FOLDER) {
-        throw new EnduserNotificationException(
+        throw new Exceptions\EnduserNotificationException(
           $this->l->t('Destination parent folder conflicts with existing file "%s".', $destinationDirName));
       }
     } catch (FileNotFoundException $e) {
       try {
         $destinationFolder = $this->rootFolder->newFolder($destinationDirName);
       } catch (Throwable $t) {
-        throw new EnduserNotificationException(
+        throw new Exceptions\EnduserNotificationException(
           $this->l->t('Unable to create the parent folder "%s".', $destinationDirName));
       }
     }

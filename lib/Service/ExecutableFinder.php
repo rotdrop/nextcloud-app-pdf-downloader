@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,12 @@ namespace OCA\PdfDownloader\Service;
 
 use Symfony\Component\Process\ExecutableFinder as ExecutableFinderBackend;
 
-use Psr\Log\LoggerInterface as ILogger;
+use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IMemcacheTTL;
-use OCP\ICacheFactory;
+use Psr\Log\LoggerInterface as ILogger;
 
-use OCA\PdfDownloader\Exceptions;
+use OCA\PdfDownloader\Toolkit\Exceptions;
 
 /**
  * Find an executable and cache the result.

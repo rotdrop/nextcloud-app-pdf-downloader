@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022, 2023, 2025 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2023, 2025, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,16 +28,16 @@ use Throwable;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception as ProcessExceptions;
 
-use Psr\Log\LoggerInterface as ILogger;
-use OCP\IL10N;
-use OCP\ITempManager;
 use OCP\Files\IAppData;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Files\NotFoundException as FileNotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\Files\NotFoundException as FileNotFoundException;
-use OCP\Files\IMimeTypeDetector;
+use OCP\IL10N;
+use OCP\ITempManager;
+use Psr\Log\LoggerInterface as ILogger;
 
-use OCA\PdfDownloader\Exceptions;
+use OCA\PdfDownloader\Toolkit\Exceptions;
 
 /** Some font stuff support things. */
 class FontService
