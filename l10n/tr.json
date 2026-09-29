@@ -60,6 +60,7 @@
     "Unable to determine the identifier values for an instance of \"%s\"." : "\"%s\" kopyasının tanımlayıcı değerleri belirlenemedi.",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "Birimde \"%2$s\" türündeki \"%1$s\" derlemesi null.",
     "Unable to compute a serialization for an instance of \"%s\"." : "\"%s\" kopyasının serileştirmesi hesaplanamadı.",
+    "Unable to serve request to \"%1$s\": %2$s" : "İstek \"%1$s\" üzerine sunulamadı: %2$s",
     "Unable to find any of the fallback converters \"%s\"." : "Kullanılabilecek dönüştürülerden hiçbiri bulunamadı \"%s\".",
     "not found" : "bulunamadı",
     "pass through" : "doğrudan geçiş",
