@@ -266,7 +266,7 @@ if (props.modelValue) {
     --cloud-theme-filter: none;
   }
 }
-.font-select-container :deep() {
+.font-select-container {
   .flex-container {
     display:flex;
     &.flex-center {
@@ -278,7 +278,7 @@ if (props.modelValue) {
       background-color: var(--color-background-dark) !important;
     }
   }
-  .multiselect-wrapper {
+  :deep(.multiselect-wrapper) {
     display: flex;
     flex-wrap: wrap;
     width: 100%;

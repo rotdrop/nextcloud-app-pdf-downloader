@@ -335,14 +335,14 @@ const removeAuthenticatedFolder = async (folder: string) => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .cloud-version {
   --cloud-theme-filter: var(--background-invert-if-dark);
   &.cloud-version-major-24 {
     --cloud-theme-filter: none;
   }
 }
-.templateroot :deep() {
+.templateroot {
   .flex-container {
     display:flex;
     &.flex-center {
