@@ -258,6 +258,7 @@ APPSTORE_FILES =\
  templates\
  lib\
  vendor\
+ vendor-scoped\
  config\
  contrib\
  CHANGELOG.md\
@@ -267,10 +268,9 @@ APPSTORE_FILES =\
 # .htaccess is blacklisted by the app-store installer, so we have to remove it
 APPSTORE_BLACKLISTED = foobar .htaccess .git* .*keep *~
 
-#@private
-appstore: COMPOSER_OPTIONS := $(COMPOSER_OPTIONS) --no-dev
 #@@ Prepare appstore archive
 appstore: clean dev-setup npm-build
+	$(COMPOSER) update --no-dev
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	mkdir -p $(BUILD_CERT_DIR)
