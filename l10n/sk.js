@@ -62,6 +62,7 @@ OC.L10N.register(
     "Unable to determine the identifier values for an instance of \"%s\"." : "Nepodarilo sa určiť hodnoty identifikátora pre inštanciu „%s“.",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "Kolekcia „%1$s“ v entite typu „%2$s“ má hodnotu null.",
     "Unable to compute a serialization for an instance of \"%s\"." : "Nepodarilo sa vypočítať serializáciu pre inštanciu „%s“.",
+    "Unable to serve request to \"%1$s\": %2$s" : "Nie je možné obslúžiť požiadavku na \"%1$s\": %2$s",
     "Unable to find any of the fallback converters \"%s\"." : "Nepodarilo sa nájsť žiadny zo záložných konvertorov „%s“.",
     "not found" : "nenájdené",
     "pass through" : "priechod",
