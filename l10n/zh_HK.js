@@ -62,6 +62,7 @@ OC.L10N.register(
     "Unable to determine the identifier values for an instance of \"%s\"." : "無法確定「%s」實例的識別值。",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "類型為「%2$s」的實體中，集合「%1$s」為空值。",
     "Unable to compute a serialization for an instance of \"%s\"." : "無法為「%s」的實例產生序列化資料。",
+    "Unable to serve request to \"%1$s\": %2$s" : "無法處理對「%1$s」的請求：%2$s",
     "Unable to find any of the fallback converters \"%s\"." : "無法找到任何後備轉換器 「%s」。",
     "not found" : "找不到",
     "pass through" : "穿越",

@@ -55,6 +55,7 @@ OC.L10N.register(
     "Unable to determine the identifier values for an instance of \"%s\"." : "„%s“ instantsi jaoks pole võimalik tuvastada tunnuste väärtusi.",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "„%2$s“ tüüpi andmeolemi kogumik „%1$s“ on tühi.",
     "Unable to compute a serialization for an instance of \"%s\"." : "Jadastamist pole võimalik arvutada „%s“ serveri jaoks.",
+    "Unable to serve request to \"%1$s\": %2$s" : "„%1$s“ asukohta päringu tegemine pole võimalik: %2$s",
     "Unable to find any of the fallback converters \"%s\"." : "Ühtegi tagavarakonverterit ei leidu: „%s“.",
     "not found" : "ei leidu",
     "pass through" : "ilma teisenduseta",

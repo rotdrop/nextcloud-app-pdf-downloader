@@ -62,6 +62,7 @@ OC.L10N.register(
     "Unable to determine the identifier values for an instance of \"%s\"." : "Ní féidir luachanna aitheantais an sampla \"%s\" a chinneadh.",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "Tá an bailiúchán \"%1$s\" san eintiteas de chineál \"%2$s\" neamhní.",
     "Unable to compute a serialization for an instance of \"%s\"." : "Ní féidir sraithiú a ríomh le haghaidh sampla de \"%s\".",
+    "Unable to serve request to \"%1$s\": %2$s" : "Ní féidir freastal ar an iarratas chuig \"%1$s\": %2$s",
     "Unable to find any of the fallback converters \"%s\"." : "Ní féidir aon cheann de na tiontairí cúltaca \"%s\" a aimsiú.",
     "not found" : "ní bhfuarthas",
     "pass through" : "pas a fháil tríd",

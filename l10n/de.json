@@ -60,6 +60,7 @@
     "Unable to determine the identifier values for an instance of \"%s\"." : "Die Bezeichnerwerte für eine Instanz von \"%s\" konnten nicht ermittelt werden.",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "Sammlung \"%1$s\" in der Entität vom Typ \"%2$s\" ist null.",
     "Unable to compute a serialization for an instance of \"%s\"." : "Eine Serialisierung für eine Instanz von \"%s\" kann nicht berechnet werden.",
+    "Unable to serve request to \"%1$s\": %2$s" : "Anfrage an \"%1$s\" konnte nicht bearbeitet werden: %2$s",
     "Unable to find any of the fallback converters \"%s\"." : "Keiner der Fallback-Konverter \"%s\" konnte gefunden werden.",
     "not found" : "nicht gefunden",
     "pass through" : "durchwinken",

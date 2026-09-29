@@ -62,6 +62,7 @@ OC.L10N.register(
     "Unable to determine the identifier values for an instance of \"%s\"." : "Impossible de déterminer les valeurs d’identifiant pour une instance de « %s ».",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "La collection « %1$s » de l’entité de type « %2$s » est nulle.",
     "Unable to compute a serialization for an instance of \"%s\"." : "Impossible de calculer une sérialisation pour une instance de « %s ».",
+    "Unable to serve request to \"%1$s\": %2$s" : "Impossible de répondre à la requête pour « %1$s » : %2$s",
     "Unable to find any of the fallback converters \"%s\"." : "Impossible de trouver l'un des convertisseurs de secours « %s».",
     "not found" : "non trouvé",
     "pass through" : "passant",
