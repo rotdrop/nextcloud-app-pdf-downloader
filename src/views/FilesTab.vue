@@ -384,7 +384,7 @@ const refreshAvailableDownloads = async () => {
 }
 
 watch(
-  props.node,
+  () => props.node.id,
   async () => {
     logger.debug('Node has changed', {
       node: { ...props.node },
@@ -665,7 +665,7 @@ const handleDownload = async () => {
   setBusyState(true)
   if (downloadOptions.offline) {
     try {
-      axios.post(
+      await axios.post(
         generateAppUrl('schedule/download/{sourcePath}/{destinationPath}', urlParameters),
         queryParameters,
       )
