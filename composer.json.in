@@ -10,17 +10,10 @@
     }
   ],
   "require": {
-    "rotdrop/alchemy-zippy": "*",
-    "gemorroj/archive7z": "^5.4",
     "mikehaertl/php-pdftk": "^0.12.1",
-    "nelexa/zip": "^4.0",
-    "nesbot/carbon": "^2.64",
-    "pear/archive_tar": "^1.4",
-    "phpclasses/php-iso-file": "^0.5.1",
+    "nesbot/carbon": "^3.0.0",
     "symfony/finder": "^6.0",
-    "tecnickcom/tcpdf": "^6.3",
-    "wapmorgan/cab-archive": "^0.0.7",
-    "wapmorgan/unified-archive": "dev-master"
+    "tecnickcom/tcpdf": "^6.3"
   },
   "provide": {
     "symfony/console": "*",
@@ -29,8 +22,7 @@
     "symfony/process": "*"
   },
   "require-dev": {
-    "bamarni/composer-bin-plugin": "^1.8",
-    "cweagans/composer-patches": "^2.0"
+    "bamarni/composer-bin-plugin": "^1.8"
   },
   "config": {
     "optimize-autoloader": true,
@@ -39,8 +31,7 @@
       "php": "8.4.0"
     },
     "allow-plugins": {
-      "bamarni/composer-bin-plugin": true,
-      "cweagans/composer-patches": true
+      "bamarni/composer-bin-plugin": true
     }
   },
   "repositories": [

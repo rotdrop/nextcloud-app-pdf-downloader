@@ -1,0 +1,38 @@
+{
+  "name": "rotdrop/nextcloud-app-files-archive",
+  "description": "Inspect, mount and extract file-archives",
+  "type": "project",
+  "license": "AGPL",
+  "authors": [
+    {
+      "name": "Claus-Justus Heine",
+      "email": "himself@claus-justus-heine.de"
+    }
+  ],
+  "require": {
+    "rotdrop/alchemy-zippy": "*",
+    "gemorroj/archive7z": "^5.4",
+    "nelexa/zip": "^4.0",
+    "pear/archive_tar": "1.6.0",
+    "phpclasses/php-iso-file": "^0.5.1",
+    "symfony/console": "^6.0.0",
+    "wapmorgan/cab-archive": "^0.0.7",
+    "wapmorgan/unified-archive": "dev-master"
+  },
+  "config": {
+    "vendor-dir": "vendor-scoped",
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
+    "platform": {
+      "php": "8.4"
+    }
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/rotdrop/alchemy-zippy.git"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

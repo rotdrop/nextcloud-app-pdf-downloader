@@ -1,6 +1,6 @@
 .idea
 *.iml
-/vendor/
+/vendor*/
 /build/
 /downloads/
 node_modules/
@@ -10,7 +10,7 @@ js/*hot-update.*
 **~
 stamp*
 /composer.json
-composer.lock
+composer*.lock
 package-lock.json
 js/**
 css/**

@@ -2,6 +2,20 @@
 # later. See the COPYING file.
 SRCDIR = .
 ABSSRCDIR = $(CURDIR)
+#
+# try to parse the info.xml if we can, only then fall-back to the directory name
+#
+APP_INFO = $(SRCDIR)/appinfo/info.xml
+XPATH = $(shell which xpath 2> /dev/null)
+ifneq ($(XPATH),)
+APP_NAME = $(shell $(XPATH) -q -e '/info/id/text()' $(APP_INFO))
+APP_VERSION = $(shell $(XPATH) -q -e '/info/version/text()' $(APP_INFO))
+APP_NAMESPACE = $(shell $(XPATH) -q -e '/info/namespace/text()' $(APP_INFO))
+SCOPED_NAMESPACE_POSTFIX = $(shell $(XPATH) -q -e '/info/scopednamespace/text()' $(APP_INFO))
+else
+$(error The xpath binary could not be found)
+endif
+
 DEV_LIB_DIR = $(ABSSRCDIR)/dev-scripts/lib
 BUILDDIR = ./build
 ABSBUILDDIR = $(ABSSRCDIR)/build
@@ -22,6 +36,7 @@ NPM = $(shell which npm 2> /dev/null)
 WGET = $(shell which wget 2> /dev/null)
 OPENSSL = $(shell which openssl 2> /dev/null)
 PHPUNIT = $(ABSSRCDIR)/vendor-bin/phpunit/vendor/bin/phpunit
+PHP_SCOPER = $(ABSSRCDIR)/vendor-bin/php-scoper/vendor/bin/php-scoper
 
 COMPOSER_SYSTEM = $(shell which composer 2> /dev/null)
 ifeq (, $(COMPOSER_SYSTEM))
@@ -78,9 +93,45 @@ dev-setup: app-toolkit composer build-fonts $(FONTS_LIST_FILE) ts-app-config
 
 include $(DEV_LIB_DIR)/makefile/composer.mk
 
+#@private
+php-scoper-install: $(PHP_SCOPER)
+.PHONY: php-scoper-install
+
+$(PHP_SCOPER): composer.lock
+	if ! [ -x "$@" ]; then $(COMPOSER) bin php-scoper install; else touch "$@"; fi
+
+composer-scoped.lock: composer-scoped.json Makefile
+	rm -f composer-scoped.lock
+
+$(BUILDDIR)/vendor-scoped: composer-scoped.lock
+	mkdir -p $(BUILDDIR)
+	ln -fs ../vendor $(BUILDDIR)
+	rm -rf $(BUILDDIR)/vendor-scoped
+	ln -sf ../composer-patches $(BUILDDIR)
+	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) -d$(BUILDDIR) install $(COMPOSER_OPTIONS)
+	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) -d$(BUILDDIR) update $(COMPOSER_OPTIONS) --no-dev
+
+$(BUILDDIR)/vendor-scoped/autoload.php: $(BUILDDIR)/vendor-scoped composer-scoped.json $(MAKEFILE_DEP)
+	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) -d$(BUILDDIR) dump-autoload
+
+vendor-scoped: $(MAKEFILE_DEP) $(PHP_SCOPER) scoper.inc.php $(BUILDDIR)/vendor-scoped
+	$(PHP_SCOPER) add-prefix -d$(BUILDDIR) --config=$(ABSSRCDIR)/scoper.inc.php --output-dir=$(ABSSRCDIR)/vendor-scoped --force
+# scoper does not handle symlinks
+#	cp -a $(BUILDDIR)/vendor-scoped/bin $(ABSSRCDIR)/vendor-scoped/
+# scoper does not preserve executable bits
+#	find $(ABSSRCDIR)/vendor-scoped -name bin -a -type d -exec chmod -R gu+x {} \;
+
+vendor-scoped/autoload.php: vendor-scoped
+	env COMPOSER="$(ABSSRCDIR)/composer-scoped.json" $(COMPOSER) dump-autoload
+	cd vendor-scoped; sed -e 's/@FILE_IDENTIFIER_PREFIX@/OCA_$(APP_NAMESPACE)_$(SCOPED_NAMESPACE_POSTFIX)/g' $(ABSSRCDIR)/composer-patches/composer/scoped_autoload_real.patch|patch -p1
+
+namespace-wrapper: php-scoper-install vendor-scoped/autoload.php
+.PHONY: namespace-wrapper
+
 APP_TOOLKIT_DIR = $(ABSSRCDIR)/php-toolkit
 APP_TOOLKIT_DEST = $(ABSSRCDIR)/lib/Toolkit
 APP_TOOLKIT_NS = PdfDownloader
+APP_WRAPPER_NS = $(SCOPED_NAMESPACE_POSTFIX)
 
 include $(APP_TOOLKIT_DIR)/tools/scopeme.mk
 include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
