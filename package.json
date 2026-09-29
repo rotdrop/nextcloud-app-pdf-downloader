@@ -44,7 +44,6 @@
     "@rotdrop/nextcloud-vue-components": "file:repositories/nextcloud-vue-components",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "axios": "*",
-    "babel-loader-exclude-node-modules-except": "^1.2.4",
     "content-disposition": "*",
     "deep-equal": "^2.2.3",
     "floating-vue": "^5.2.2",
