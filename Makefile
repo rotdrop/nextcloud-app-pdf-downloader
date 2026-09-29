@@ -196,7 +196,7 @@ DEJAVU_DOWNLOAD_URL = $(DEJAVU_BASEURL)/$(DEJAVU_VERSION)/$(DEJAVU_ARCHIVE)
 FONTS_SRC_DIR = $(BUILDDIR)/fonts
 DEJAVU_SRC_DIR = $(FONTS_SRC_DIR)/$(DEJAVU_ARCHIVE_BASE)-$(DEJAVU_VERSION)/ttf
 FONTS_DST_DIR = vendor/tecnickcom/tcpdf/fonts
-TCPDF_ADDFONT = $(ABSSRCDIR)/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php
+TCPDF_ADDFONT = $(ABSSRCDIR)/vendor-scoped/tecnickcom/tcpdf/tools/tcpdf_addfont.php
 
 #@private
 stamp.tcpdf-dejavu-fonts: composer.lock Makefile $(DEJAVU_SRC_DIR)

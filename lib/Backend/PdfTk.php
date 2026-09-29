@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,9 @@
 
 namespace OCA\PdfDownloader\Backend;
 
-use mikehaertl\pdftk\Pdf as PdfTkUpstream;
-
+use OCA\PdfDownloader\Scoped\mikehaertl\pdftk\Pdf as PdfTkUpstream;
+use OCA\PdfDownloader\Scoped\mikehaertl\pdftk\InfoFields;
+use OCA\PdfDownloader\Scoped\mikehaertl\pdftk\InfoFile as InfoFileUpstream;
 use OCA\PdfDownloader\Backend\PdfTkInfoFile as InfoFile;
 
 /**
@@ -76,7 +77,7 @@ class PdfTk extends PdfTkUpstream
    * @note This is here because the upstream version as of now is not able to
    * parse the output of getData() back into an array.
    */
-  public function updateInfo($data, $encoding = 'UTF-8')
+  public function updateInfo(InfoFields|InfoFileUpstream|array|string $data, string $encoding = 'UTF-8'): PdfTkUpstream
   {
     $this->constrainSingleFile();
     if (is_array($data)) {

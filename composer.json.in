@@ -10,10 +10,6 @@
     }
   ],
   "require": {
-    "mikehaertl/php-pdftk": "^0.12.1",
-    "nesbot/carbon": "^3.0.0",
-    "symfony/finder": "^6.0",
-    "tecnickcom/tcpdf": "^6.3"
   },
   "provide": {
     "symfony/console": "*",

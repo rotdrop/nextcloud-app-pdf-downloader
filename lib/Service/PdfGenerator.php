@@ -3,7 +3,7 @@
  * Recursive PDF Downloader App for Nextcloud
  *
  * @author Claus-Justus Heine <himself@claus-justus-heine.de>
- * @copyright 2022 Claus-Justus Heine <himself@claus-justus-heine.de>
+ * @copyright 2022, 2026 Claus-Justus Heine <himself@claus-justus-heine.de>
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,16 +23,18 @@
 namespace OCA\PdfDownloader\Service;
 
 use Imagick;
-use TCPDF_FONTS;
-use Symfony\Component\Finder\Finder as FileNodeFinder;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Exception as ProcessExceptions;
 
+use OCA\PdfDownloader\Scoped\Symfony\Component\Finder\Finder as FileNodeFinder;
+use OCA\PdfDownloader\Scoped\TCPDF;
+use OCA\PdfDownloader\Scoped\TCPDF_FONTS;
+
 /**
  * Abstraction for currently used PDF generator PHP class.
  */
-class PdfGenerator extends \TCPDF
+class PdfGenerator extends TCPDF
 {
   /** @var int */
   public const FONT_FLAG_MONOSPACE = (1 << 0);

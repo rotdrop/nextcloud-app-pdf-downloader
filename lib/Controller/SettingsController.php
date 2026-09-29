@@ -23,8 +23,6 @@
 namespace OCA\PdfDownloader\Controller;
 
 use InvalidArgumentException;
-use Carbon\CarbonInterval;
-use Carbon;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute as CoreAttributes;
@@ -38,12 +36,13 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 use OCA\PdfDownloader\BackgroundJob\DownloadsCleanupJob;
+use OCA\PdfDownloader\Constants;
+use OCA\PdfDownloader\ScopedCarbon;
+use OCA\PdfDownloader\Scoped\Carbon\CarbonInterval;
 use OCA\PdfDownloader\Service\DependenciesService;
 use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Toolkit\Service\AnyToPdf;
-
-use OCA\PdfDownloader\Constants;
 
 /**
  * Settings-controller for both, personal and admin, settings.
