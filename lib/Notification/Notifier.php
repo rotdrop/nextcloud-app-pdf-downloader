@@ -102,7 +102,7 @@ class Notifier implements INotifier
     if (($parameters['sourceId']??0) > 0) {
       $richSubstitutions['source'] = [
         'type' => 'file',
-        'id' => $parameters['sourceId'],
+        'id' => (string)$parameters['sourceId'],
         'name' => $parameters['sourceBaseName'],
         'path' => $parameters['sourcePath'],
         'link' => $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [
@@ -119,7 +119,7 @@ class Notifier implements INotifier
         $this->logInfo('PREPARE PENDING SAVE');
         $richSubstitutions['destination'] = [
           'type' => 'highlight',
-          'id' => $notification->getObjectId(),
+          'id' => (string)$notification->getObjectId(),
           'name' => $parameters['destinationBaseName'],
         ];
         $notification->setRichSubject($l->t('A PDF file {destination} will be created from the sources at {source}.'), $richSubstitutions);
@@ -132,7 +132,7 @@ class Notifier implements INotifier
         $this->logInfo('PREPARE SUCCESS SAVE');
         $richSubstitutions['destination'] = [
           'type' => 'file',
-          'id' => $parameters['destinationId'],
+          'id' => (string)$parameters['destinationId'],
           'name' => $parameters['destinationBaseName'],
           'path' => $parameters['destinationDirectory'],
           'link' => $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [
@@ -148,7 +148,7 @@ class Notifier implements INotifier
             throw new NotFoundException('Unable to find file in user folder ' . $parameters['destinationPath']);
           }
           $destination = reset($destinations);
-          $richSubstitutions['destination']['file'] = $this->formatNode($destination);
+          $richSubstitutions['destination']['file'] = $this->formatNode($destination)->toArray();
         } catch (NotFoundException $e) {
           $this->logException($e, 'SUCCESS, but no pdf-file BY PATH ' . print_r($parameters, true));
         }
@@ -164,14 +164,19 @@ class Notifier implements INotifier
         $this->logInfo('PREPARE SUCCESS DOWNLOAD');
         $richSubstitutions['destination'] = [
           'type' => 'file',
-          'id' => $parameters['destinationId'],
+          'id' => (string)$parameters['destinationId'],
           'name' => $parameters['destinationBaseName'],
           'path' => $parameters['destinationDirectory'],
-          'link' => $this->urlGenerator->linkToRouteAbsolute($this->appName . '.multi_pdf_download.get', [
-            'sourcePath' => urlencode($parameters['sourcePath']),
-            'cacheId' => $parameters['destinationId'],
-            'requesttoken' => \OCP\Util::callRegister(),
-          ]),
+          // linkToRoutAbsolute() seemingly does strange things ...
+          'link' => str_replace(
+            '::::REPLACE::::',
+            urlencode(urlencode($parameters['sourcePath'])),
+            $this->urlGenerator->linkToRouteAbsolute($this->appName . '.MultiPdfDownload.get', [
+              'sourcePath' => '::::REPLACE::::',
+              'cacheId' => $parameters['destinationId'],
+              'requesttoken' => \OCP\Util::callRegister(),
+            ]),
+          ),
           'status' => 'download',
         ];
 
@@ -181,7 +186,7 @@ class Notifier implements INotifier
             throw new NotFoundException('Unable to find download-file ' . $parameters['destinationPath']);
           }
           $destination = reset($destinations);
-          $richSubstitutions['destination']['file'] = $this->formatNode($destination);
+          $richSubstitutions['destination']['file'] = $this->formatNode($destination)->toArray();
         } catch (NotFoundException $e) {
           $this->logException($e, 'SUCCESS, but no pdf-file BY PATH ' . print_r($parameters, true));
         }
@@ -210,7 +215,7 @@ class Notifier implements INotifier
         }
         $richSubstitutions['message'] = [
           'type' => 'highlight',
-          'id' => $notification->getObjectId(),
+          'id' => (string)$notification->getObjectId(),
           'name' => $l->t($errorMessage),
         ];
         $notification->setRichSubject($subjectTemplate, $richSubstitutions);
@@ -221,12 +226,12 @@ class Notifier implements INotifier
         $this->logInfo('PREPARE CLEANED DOWNLOAD');
         $richSubstitutions['source'] = [
           'type' => 'highlight',
-          'id' => $parameters['sourceId'],
+          'id' => (string)$parameters['sourceId'],
           'name' => $l->t('irrelevant'),
         ];
         $richSubstitutions['destination'] = [
           'type' => 'highlight',
-          'id' => $notification->getObjectId(),
+          'id' => (string)$notification->getObjectId(),
           'name' => $parameters['destinationBaseName'],
           'status' => 'download',
           'file' => [
@@ -235,7 +240,7 @@ class Notifier implements INotifier
         ];
         $richSubstitutions['timespan'] = [
           'type' => 'highlight',
-          'id' => $notification->getObjectId(),
+          'id' => (string)$notification->getObjectId(),
           'name' => lcfirst($this->dateTimeFormatter->formatTimeSpan($parameters['destinationMTime'], l: $l)),
         ];
 
