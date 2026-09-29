@@ -717,7 +717,10 @@ subscribe('notifications:notification:received', (event) => {
   }
   const richParameters = notification?.subjectRichParameters
   if (richParameters?.source?.id !== sourceFileId.value) {
-    logger.info('*** PDF generation notification for other file received', sourceFileId, richParameters)
+    logger.info('*** PDF generation notification for other file received', {
+      sourceFileId: sourceFileId.value,
+      richParameters,
+    })
     return
   }
   const destinationData = richParameters?.destination as DestinationParameter
@@ -725,7 +728,7 @@ subscribe('notifications:notification:received', (event) => {
     return
   }
   if (destinationData?.status !== 'download' || !destinationData?.file) {
-    logger.info('*** PDF generation notification received, but not for for download.', destinationData)
+    logger.info('*** PDF generation notification received, but not for download.', destinationData)
     return
   }
   if (!destinationData?.file) {
