@@ -73,7 +73,7 @@ class CatchAllController extends Controller
       'g' => '',
     ],
     requirements: [
-      'a' => '^(?!schedule|fonts|list|sample|settings).*$',
+      'a' => '^(?!clean|download|fonts|list|sample|save|schedule|settings).*$',
     ],
   )]
   public function post($a, $b, $c, $d, $e, $f, $g):Response
@@ -110,7 +110,7 @@ class CatchAllController extends Controller
       'g' => '',
     ],
     requirements: [
-      'a' => '^(?!schedule|fonts|list|sample|settings).*$',
+      'a' => '^(?!clean|download|fonts|list|sample|save|schedule|settings).*$',
     ],
   )]
   public function get($a, $b, $c, $d, $e, $f, $g): Response
