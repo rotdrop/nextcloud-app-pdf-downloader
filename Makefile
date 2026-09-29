@@ -22,6 +22,9 @@ ABSBUILDDIR = $(ABSSRCDIR)/build
 BUILD_TOOLS_DIR = $(BUILDDIR)/tools
 DOWNLOADS_DIR = ./downloads
 CONFIG_DIR = ./config
+TYPESCRIPT_CONVERTER = $(ABSSRCDIR)/dev-scripts/php-to-typescript.php
+TS_TYPES_DIR = $(ABSBUILDDIR)/ts-types
+TS_PHP_SOURCE_DIRS = lib
 
 include $(DEV_LIB_DIR)/makefile/setup.mk
 
@@ -33,6 +36,7 @@ SILENT = @
 RSYNC = $(shell which rsync 2> /dev/null)
 PHP = $(shell which php 2> /dev/null)
 NPM = $(shell which npm 2> /dev/null)
+BUNDLER_CONFIG = vite.config.ts
 WGET = $(shell which wget 2> /dev/null)
 OPENSSL = $(shell which openssl 2> /dev/null)
 PHPUNIT = $(ABSSRCDIR)/vendor-bin/phpunit/vendor/bin/phpunit
@@ -136,6 +140,7 @@ APP_WRAPPER_NS = $(SCOPED_NAMESPACE_POSTFIX)
 include $(APP_TOOLKIT_DIR)/tools/scopeme.mk
 include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
 include $(DEV_LIB_DIR)/makefile/ts-notification-api.mk
+include $(DEV_LIB_DIR)/makefile/ts-types-files.mk
 
 L10N_FILES = $(wildcard l10n/*.js l10n/*.json)
 JS_FILES = $(shell find $(ABSSRCDIR)/src -name "*.js" -o -name "*.vue" -o -name "*.ts")\
@@ -143,7 +148,7 @@ JS_FILES = $(shell find $(ABSSRCDIR)/src -name "*.js" -o -name "*.vue" -o -name 
 IMG_FILES = $(shell find $(ABSSRCDIR)/img -name "*.svg")
 
 NPM_INIT_DEPS =\
- Makefile package-lock.json package.json webpack.config.js .eslintrc.js
+ Makefile package-lock.json package.json $(BUNDLER_CONFIG) .eslintrc.js
 
 WEBPACK_DEPS =\
  $(NPM_INIT_DEPS)\
@@ -151,6 +156,7 @@ WEBPACK_DEPS =\
  $(IMG_FILES)\
  $(L10N_FILES)\
  $(TS_APP_CONFIG)\
+ ts-types-files\
  $(TS_NOTIFICATION_API)
 
 include $(DEV_LIB_DIR)/makefile/npm.mk
@@ -344,3 +350,12 @@ unit-tests:
 integration-tests:
 	$(PHPUNIT) -c phpunit.integration.xml
 .PHONY: integration-tests
+
+#@private
+run-tide:
+	$(EMACS) --batch --file $(SRCDIR)/src/vue-app.ts  -l $(DEV_LIB_DIR)/scripts/tide-project-errors.el|tee tide-errors.log
+.PHONY: run-tide
+
+#@@ Runs the Emacs Tide IDE in batch mode and diagnoses TypeScript errors.
+tide: dev-setup ts-app-config ts-types-files run-tide
+.PHONY: tide

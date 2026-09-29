@@ -1,6 +1,7 @@
 .idea
 *.iml
 /vendor*/
+!/vendor-bin/*/composer.json
 /build/
 /downloads/
 node_modules/
@@ -25,3 +26,4 @@ lib/Toolkit/[A-Z]*
 /vendor-bin/**/.ac-php*
 statistics/**
 patches.lock.json
+.vite

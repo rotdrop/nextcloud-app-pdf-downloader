@@ -7,6 +7,14 @@ import {
 const configOptions = [
   ...recommended,
   {
+    name: 'undo gitignores',
+    ignores: [
+      '!build',
+      'build/*',
+      '!build/ts-types/',
+    ],
+  },
+  {
     files: ['**/*.vue'],
     rules: {
       'vue/attribute-hyphenation': ['error', 'never'],
