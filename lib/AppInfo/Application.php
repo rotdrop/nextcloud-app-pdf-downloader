@@ -41,8 +41,6 @@ use OCA\FilesArchive\Toolkit\Middleware\ExceptionMiddleware;
 
 include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
 
-include_once __DIR__ . '/../../vendor/autoload.php';
-
 /**
  * App entry point.
  */
