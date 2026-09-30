@@ -37,7 +37,6 @@ use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Notification;
 use OCA\PdfDownloader\Service\MimeTypeService;
 use OCA\PdfDownloader\Toolkit\AppInfo\AbstractApplication;
-use OCA\FilesArchive\Toolkit\Middleware\ExceptionMiddleware;
 
 include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
 
@@ -71,9 +70,6 @@ class Application extends AbstractApplication
   public function register(IRegistrationContext $context): void
   {
     parent::register($context);
-    if ((include_once __DIR__ . '/../../vendor-scoped/autoload.php') === false) {
-      throw new Exception('Cannot include scoped autoload. The app has not been installed properly.');
-    }
 
     // Register listeners
     ListenerRegistration::register($context);
