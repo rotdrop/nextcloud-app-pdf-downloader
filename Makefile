@@ -199,7 +199,7 @@ FONTS_DST_DIR = vendor/tecnickcom/tcpdf/fonts
 TCPDF_ADDFONT = $(ABSSRCDIR)/vendor-scoped/tecnickcom/tcpdf/tools/tcpdf_addfont.php
 
 #@private
-stamp.tcpdf-dejavu-fonts: composer.lock Makefile $(DEJAVU_SRC_DIR)
+stamp.tcpdf-dejavu-fonts: vendor-scoped/autoload.php composer.lock Makefile $(DEJAVU_SRC_DIR)
 	rm -f $(FONTS_DST_DIR)/dejavu*.php
 	rm -f $(FONTS_DST_DIR)/dejavu*.z
 	cd $(DEJAVU_SRC_DIR); $(PHP) $(TCPDF_ADDFONT) -b -t TrueTypeUnicode -f 32 -i DejaVuSans.ttf,DejaVuSans-Bold.ttf,DejaVuSansCondensed.ttf,DejaVuSansCondensed-Bold.ttf,DejaVuSans-ExtraLight.ttf,DejaVuSerif.ttf,DejaVuSerif-Bold.ttf,DejaVuSerifCondensed.ttf,DejaVuSerifCondensed-Bold.ttf
