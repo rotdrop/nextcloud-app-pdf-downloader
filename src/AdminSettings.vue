@@ -76,7 +76,7 @@
           {{ t(appName, 'On-the-fly extraction of archive files. If enabled users can control this setting on a per-user basis.') }}
         </label>
       </div>
-      <TextField v-model:value="settings.humanArchiveSizeLimit"
+      <TextField v-model="settings.humanArchiveSizeLimit"
                  :label="t(appName, 'Archive Size Limit')"
                  :hint="t(appName, 'Disallow archive extraction for archives with decompressed size larger than this limit.')"
                  :disabled="loading || !settings.extractArchiveFiles"
@@ -149,13 +149,13 @@
           {{ t(appName, 'Disable the builtin converters.') }}
         </label>
       </div>
-      <TextField v-model:value="settings.universalConverter"
+      <TextField v-model="settings.universalConverter"
                  :label="t(appName, 'Universal Converter')"
                  :hint="t(appName, 'Full path to a filter program to be executed first for all files. If it fails, the other converters will be tried in turn.')"
                  :disabled="loading"
                  @submit="saveTextInput('universalConverter')"
       />
-      <TextField v-model:value="settings.fallbackConverter"
+      <TextField v-model="settings.fallbackConverter"
                  :label="t(appName, 'Fallback Converter')"
                  :hint="t(appName, 'Full path to a filter program to be run when all other filters have failed. If it fails an error page will be substituted for the failing document.')"
                  :disabled="loading || !!settings.disableBuiltinConverters"
