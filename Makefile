@@ -329,7 +329,7 @@ mostlyclean: webpack-clean distclean
 	rm -f $(FONTS_LIST_FILE)
 
 #@@ Really delete everything but the bare source files
-realclean: mostlyclean downloadsclean
+realclean: mostlyclean downloadsclean dev-scripts-real-clean
 .PHONY: realclean
 
 #@@ Remove non-npm non-composer downloads
