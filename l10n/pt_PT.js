@@ -255,7 +255,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Não confirmado; a reverter para o valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Valor de \"{settingsKey}\" definido com sucesso para \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "A definição \"{setting}\" foi removida com sucesso.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Não foi possível definir o valor de \"{settingsKey}\" para \"{value}\": {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "A pasta compartilhada com o ID \"%1$s\" não existe."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Não foi possível definir o valor de \"{settingsKey}\" para \"{value}\": {message}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -257,7 +257,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Unbestätigt, setze auf den alten Wert zurück.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Der Wert für die Einstellung \"{settingsKey}\" wurde auf \"{displayValue}\" gesetzt",
     "Setting \"{setting}\" has been unset successfully." : "Die Einstellung \"{setting}\" wurde gelöscht.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Wert für die Einstellung \"{settingsKey}\" konnte nicht auf den Wert \"{value}\" gesetzt werden: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "Geteilter Ordner mit der ID \"%1$s\" existiert nicht."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Wert für die Einstellung \"{settingsKey}\" konnte nicht auf den Wert \"{value}\" gesetzt werden: {message}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -256,7 +256,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "تأیید نشده، بازگشت به مقدار قبلی.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "مقدار \"{settingsKey}\" با موفقیت به \"{displayValue}\" تنظیم شد",
     "Setting \"{setting}\" has been unset successfully." : "تنظیم \"{setting}\" با موفقیت حذف شد",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "امکان تنظیم مقدار \"{settingsKey}\" به {value} وجود ندارد: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "پوشه اشتراکی با شناسه \"%1$s\" وجود ندارد."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "امکان تنظیم مقدار \"{settingsKey}\" به {value} وجود ندارد: {message}"
 },
 "nplurals=2; plural=(n > 1);");

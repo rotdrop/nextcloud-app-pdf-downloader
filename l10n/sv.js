@@ -257,7 +257,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Inte bekräftat. Det tidigare värdet återställs.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Värdet för ”{settingsKey}” angavs till ”{displayValue}”",
     "Setting \"{setting}\" has been unset successfully." : "Inställningen ”{setting}” har återställts.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Det gick inte att ange värdet för ”{settingsKey}” till ”{value}”: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "Den delade mappen med ID ”%1$s” finns inte."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Det gick inte att ange värdet för ”{settingsKey}” till ”{value}”: {message}"
 },
 "nplurals=2; plural=(n != 1);");

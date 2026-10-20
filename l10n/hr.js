@@ -105,7 +105,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Nije potvrđeno, vraćanje na staru vrijednost.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Setting \\{setting}\\ has been unset successfully.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \\{settingsKey}\\ to \\{value}\\: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "Zajednička mapa with id \\%1$s\\ ne postoji."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Could not set value for \\{settingsKey}\\ to \\{value}\\: {message}"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

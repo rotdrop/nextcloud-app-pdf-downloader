@@ -218,7 +218,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Kinnitamata, kasutame edasi vana väärtust.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "„{settingsKey}“ seadistamine „{displayValue}“ väärtusega õnnestus.",
     "Setting \"{setting}\" has been unset successfully." : "„{setting}“ võtme väärtustuse eemaldamine õnnestus.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "„{settingsKey}“ võtme väärtustamine uue „{value}“ väärtusega ei õnnestunud: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "Jagatud kausta tunnusega „%1$s“ pole olemas."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "„{settingsKey}“ võtme väärtustamine uue „{value}“ väärtusega ei õnnestunud: {message}"
 },
 "nplurals=2; plural=(n != 1);");

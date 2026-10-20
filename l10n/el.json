@@ -254,7 +254,6 @@
     "Unconfirmed, reverting to old value." : "Μη επιβεβαιωμένο, επαναφορά στην παλιά τιμή.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Επιτυχής ορισμός τιμής για το \"{settingsKey}\" σε \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "Η ρύθμιση \"{setting}\" καταργήθηκε (unset) με επιτυχία.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ορισμού τιμής για το \"{settingsKey}\" σε \"{value}\": {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "Ο κοινόχρηστος φάκελος με id \"%1$s\" δεν υπάρχει."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Αδυναμία ορισμού τιμής για το \"{settingsKey}\" σε \"{value}\": {message}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

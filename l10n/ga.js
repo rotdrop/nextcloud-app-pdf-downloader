@@ -257,7 +257,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Neamhdhearbhaithe, ag filleadh ar an seanluach.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "D'éirigh le socrú luach \"{settingsKey}\" go \"{displayValue}\"",
     "Setting \"{setting}\" has been unset successfully." : "D'éirigh le socrú \"{setting}\" a dhíshuiteáil.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Níorbh fhéidir luach a shocrú do \"{settingsKey}\" go \"{value}\": {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "Níl an fillteán comhroinnte leis an aitheantas \"%1$s\" ann."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Níorbh fhéidir luach a shocrú do \"{settingsKey}\" go \"{value}\": {message}"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

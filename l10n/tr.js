@@ -257,7 +257,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Onaylanmadı. Eski değere geri dönülüyor.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "\"{settingsKey}\", \"{displayValue}\" değerine ayarlandı",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" ayarı kaldırıldı.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}.",
-    "Shared folder with id \"%1$s\" does not exist." : "\"%1$s\" kimlikli paylaşılmış klasör bulunamadı."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\", {value} değerine ayarlanamadı: {message}."
 },
 "nplurals=2; plural=(n > 1);");

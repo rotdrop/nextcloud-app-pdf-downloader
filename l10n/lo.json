@@ -245,7 +245,6 @@
     "Unconfirmed, reverting to old value." : "ບໍ່ໄດ້ຢືນຢັນ, ກັບຄືນສູ່ຄ່າເກົ່າ.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "ຕັ້ງຄ່າສຳລັບ \"{settingsKey}\" ເປັນ \"{displayValue}\" ສຳເລັດແລ້ວ",
     "Setting \"{setting}\" has been unset successfully." : "ຍົກເລີກການຕັ້ງຄ່າ \"{setting}\" ສຳເລັດແລ້ວ.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "ບໍ່ສາມາດຕັ້ງຄ່າສຳລັບ \"{settingsKey}\" ເປັນ \"{value}\" ໄດ້: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "ໂຟນເດີທີ່ແບ່ງປັນດ້ວຍໄອດີ \"%1$s\" ບໍ່ມີຢູ່."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "ບໍ່ສາມາດຕັ້ງຄ່າສຳລັບ \"{settingsKey}\" ເປັນ \"{value}\" ໄດ້: {message}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

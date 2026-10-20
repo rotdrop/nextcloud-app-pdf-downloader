@@ -256,7 +256,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "Sen confirmar, revertendo ao valor anterior.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "Definiuse correctamente o valor para «{settingsKey}» a «{displayValue}»",
     "Setting \"{setting}\" has been unset successfully." : "O axuste «{setting}» foi desactivado correctamente.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "O cartafol compartido co identificador «%1$s» non existe."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "Non foi posíbel definir o valor para «{settingsKey}» a {value}: {message}"
 },
 "nplurals=2; plural=(n != 1);");

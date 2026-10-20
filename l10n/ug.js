@@ -247,7 +247,6 @@ OC.L10N.register(
     "Unconfirmed, reverting to old value." : "جەزملەشتۈرۈلمىگەن ، كونا قىممەتكە قايتقان.",
     "Successfully set value for \"{settingsKey}\" to \"{displayValue}\"" : "مۇۋەپپەقىيەتلىك ھالدا \"{settingsKey}\" نىڭ قىممىتىنى \"{displayValue}\" قىلىپ بەلگىلەڭ.",
     "Setting \"{setting}\" has been unset successfully." : "\"{setting}\" نى تەڭشەش ئوڭۇشلۇق بولمىدى.",
-    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}",
-    "Shared folder with id \"%1$s\" does not exist." : "\"%1$s\" id دىكى ئورتاقلاشقان قىسقۇچ مەۋجۇت ئەمەس."
+    "Could not set value for \"{settingsKey}\" to \"{value}\": {message}" : "\"{settingsKey}\" نىڭ قىممىتىنى \"{value}\" گە تەڭشىيەلمىدى: {message}"
 },
 "nplurals=2; plural=(n != 1);");
