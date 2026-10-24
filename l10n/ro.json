@@ -87,6 +87,7 @@
     "Move" : "Mută",
     "basename" : "nume de bază",
     "Options" : "Opțiuni",
+    "PDF" : "PDF",
     "Unable to search for entities \"{entityName}\" with identifier \"{criteria}\"." : "Nu s-au putut căuta entitățile „{entityName}” cu identificatorul „{criteria}”.",
     "Unable to fetch entity \"{entityName}\" with identifier \"{identifier}\"." : "Entitatea „{entityName}” cu identificatorul „{identifier}” nu a putut fi preluată.",
     "close" : "închide",
