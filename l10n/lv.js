@@ -13,6 +13,7 @@ OC.L10N.register(
     "Copy" : "Kopēt",
     "Move to {target}" : "Pārvietot uz {target}",
     "Move" : "Pārvietot",
+    "Options" : "Iespējas",
     "No" : "Nē",
     "Yes" : "Jā"
 },
