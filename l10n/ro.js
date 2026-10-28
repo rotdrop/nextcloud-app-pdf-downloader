@@ -11,6 +11,8 @@ OC.L10N.register(
     "excluded" : "exclus",
     "Unable to parse memory size limit \"%s\"" : "Limita de memorie „%s” nu a putut fi interpretată",
     "Please install the \"%s\" program on the server." : "Instalează programul „%s” pe server.",
+    "Exactly one of query-parameters \"%1$s\" and \"%2$s\" have to be specified." : "Trebuie specificat exact unul dintre parametrii de interogare „%1$s” și „%2$s”.",
+    "Unable to find the entity \"%1$s\" identified by \"%2$s\"." : "Entitatea „%1$s” identificată prin „%2$s” nu a putut fi găsită.",
     "Unable to register types with DBAL." : "Tipurile nu au putut fi înregistrate în DBAL.",
     "Unable to determine the identifier values for an instance of \"%s\"." : "Valorile identificatorului pentru o instanță „%s” nu au putut fi determinate.",
     "Collection \"%1$s\" in entity of type \"%2$s\" is null." : "Colecția „%1$s” din entitatea de tip „%2$s” este nulă.",
