@@ -71,5 +71,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.APP_NAME }}-appstore
-          path: server/apps/${{ env.APP_NAME }}/build/artifacts/*.tar.gz
+          path: server/apps/${{ env.APP_NAME }}/build/artifacts/appstore/*.tar.*
           if-no-files-found: warn
