@@ -22,12 +22,12 @@
 
 namespace OCA\PdfDownloader;
 
-use Spatie\TypeScriptTransformer\Attributes as TSAttributes;
+use OCA\RotDrop\DevScripts\PhpToTypeScript;
 
 use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Constants as ToolkitConstants;
 
 /** A couple of constants in order to avoid string literals. */
-#[TSAttributes\Typescript]
+#[PhpToTypeScript\Attributes\TypeScript]
 class Constants extends ToolkitConstants
 {
 }

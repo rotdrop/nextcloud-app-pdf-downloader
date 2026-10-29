@@ -51,6 +51,7 @@ use Spatie\TypeScriptTransformer\Collectors\EnumCollector;
 use Spatie\TypeScriptTransformer\Transformers\DtoTransformer;
 use Spatie\TypeScriptTransformer\TypeReflectors\ClassTypeReflector;
 use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DTOCollector as BaseDTOCollector;
+use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DefaultCollector;
 
 // The upstream DTO collector expects the toolkit at OCA\<App>\Toolkit, however
 // the toolkit lives in the scoped namespace OCA\<App>\Scoped\OCA\RotDrop\Toolkit.
@@ -88,6 +89,7 @@ $scopedNamespaces = [
 $phpToTypeScript = new PhpToTypeScript\PhpToTypeScript(
   collectors: [
     ScopedToolkitDTOCollector::class,
+    DefaultCollector::class,
     EnumCollector::class,
   ],
   devScriptsFolder: __DIR__,
