@@ -34,13 +34,13 @@ use Psr\Log\LoggerInterface as ILogger;
 
 use OCA\PdfDownloader\Notification\DependenciesNotifier;
 use OCA\PdfDownloader\Service\DependenciesService;
-use OCA\PdfDownloader\Toolkit\Exceptions;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Exceptions;
 
 /** Check for and (later perhaps) install missing external dependencies. */
 class CheckDependencies implements IRepairStep
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\CloudAdminTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\CloudAdminTrait;
 
   /** @var string */
   protected $appName;

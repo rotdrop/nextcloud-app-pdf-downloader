@@ -57,9 +57,9 @@ use OCA\PdfDownloader\Service\FontService;
 use OCA\PdfDownloader\Service\NotificationService;
 use OCA\PdfDownloader\Service\PdfCombiner;
 use OCA\PdfDownloader\Service\PdfGenerator;
-use OCA\PdfDownloader\Toolkit\Exceptions;
-use OCA\PdfDownloader\Toolkit\Exceptions\AuthorizationException;
-use OCA\PdfDownloader\Toolkit\Service\UserScopeService;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Exceptions;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Exceptions\AuthorizationException;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Service\UserScopeService;
 
 /**
  * Walk through a directory tree, convert all files to PDF and combine the
@@ -69,11 +69,11 @@ use OCA\PdfDownloader\Toolkit\Service\UserScopeService;
  */
 class MultiPdfDownloadController extends Controller
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\ResponseTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\NodeTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UtilTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\ResponseTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\NodeTrait;
 
   /**
    * @var string

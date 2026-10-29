@@ -24,7 +24,7 @@ namespace OCA\PdfDownloader;
 
 use Spatie\TypeScriptTransformer\Attributes as TSAttributes;
 
-use OCA\PdfDownloader\Toolkit\Constants as ToolkitConstants;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Constants as ToolkitConstants;
 
 /** A couple of constants in order to avoid string literals. */
 #[TSAttributes\Typescript]

@@ -45,8 +45,8 @@ use OCA\PdfDownloader\Service\NotificationService;
  */
 class DownloadsCleanupJob extends TimedJob
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
 
   public const DEFAULT_CLEANUP_INTERVAL = 24 * 3600 * 1; // check once a day
   public const DEFAULT_TIME_TO_KEEP = SettingsController::PERSONAL_DOWNLOADS_PURGE_TIMEOUT_DEFAULT;

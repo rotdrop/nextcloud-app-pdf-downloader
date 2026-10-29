@@ -35,13 +35,22 @@ return [
   'prefix' => $prefix,
   'exclude-classes' => [
     'OC',
+    // aliased as a namespace, e.g. "use Symfony\\Component\\Console;"
+    'Symfony\\Component\\Console',
   ],
   'expose-global-classes' => false,
   'exclude-namespaces' => [
     '/^PHPUnit/',
     'Psr\\Clock',
     'Psr\\Log',
-    // 'Symfony\\Component\\Console',
+    '/^Symfony\\\\Component\\\\(Console|Process)(\\\\|$)/',
+    '/^Psr\\\\Container(\\\\|$)/',
+    '/^GuzzleHttp(\\\\|$)/',
+    // Needed by the nextcloud-app-toolkit, provided by the cloud or the app itself
+    '/^(OC|OCP|NCU)(\\\\|$)/',
+    '/^OCA\\\\(GroupFolders|RotDrop\\\\DevScripts)(\\\\|$)/',
+    '/^MathPHP(\\\\|$)/',
+    '/^Spatie\\\\TypeScriptTransformer(\\\\|$)/',
   ],
   'finders' => [
     Finder::create()

@@ -29,14 +29,14 @@ use OCP\IL10N;
 use OCP\IMemcacheTTL;
 use Psr\Log\LoggerInterface as ILogger;
 
-use OCA\PdfDownloader\Toolkit\Exceptions;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Exceptions;
 
 /**
  * Find an executable and cache the result.
  */
 class ExecutableFinder
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   /**
    * @var int

@@ -33,7 +33,7 @@ use OCA\PdfDownloader\Constants;
  */
 class Admin implements IDelegatedSettings
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\AssetTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\AssetTrait;
 
   const TEMPLATE = "admin-settings";
 

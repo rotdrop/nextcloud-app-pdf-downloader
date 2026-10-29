@@ -36,7 +36,7 @@ use OCA\PdfDownloader\Service\DependenciesService;
  */
 class DependenciesNotifier implements INotifier
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   public const REQUIRED_DEPENDENCIES = 'required dependencies';
   public const SUGGESTED_DEPENDENCIES = 'suggested dependencies';

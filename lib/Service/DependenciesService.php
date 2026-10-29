@@ -24,12 +24,12 @@ namespace OCA\PdfDownloader\Service;
 
 use Psr\Log\LoggerInterface as ILogger;
 
-use OCA\PdfDownloader\Toolkit\Exceptions;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Exceptions;
 
 /** Check for and (later perhaps) install missing external dependencies. */
 class DependenciesService
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
 
   public const REQUIRED = 'required';
   public const SUGGESTED = 'suggested';

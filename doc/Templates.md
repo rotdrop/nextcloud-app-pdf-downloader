@@ -26,7 +26,7 @@ directory or archive file being worked on.
 
 The substitutions allow some sort of filtering or padding, detailed
 further below. The substitution backend can be found in the traits class
-[`UtilTrait::replaceBracedPlaceholders()`](../php-toolkit/Traits/UtilTrait.php#L403).
+[`UtilTrait::replaceBracedPlaceholders()`](https://github.com/rotdrop/nextcloud-app-toolkit/blob/main/src/Traits/UtilTrait.php).
 
 It is possible to use localized placeholders if they have already been
 provided by the translation teams. The translations can be found in the

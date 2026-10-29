@@ -45,20 +45,20 @@ use Psr\Log\LoggerInterface as ILogger;
 use OCA\PdfDownloader\Constants;
 use OCA\PdfDownloader\Controller\MultiPdfDownloadController;
 use OCA\PdfDownloader\Controller\SettingsController;
-use OCA\PdfDownloader\Toolkit\Exceptions;
-use OCA\PdfDownloader\Toolkit\Service\AnyToPdf;
-use OCA\PdfDownloader\Toolkit\Service\ArchiveService;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Exceptions;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Service\AnyToPdf;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Service\ArchiveService;
 
 /**
  * Workhorse which finally combines the converter and merge services.
  */
 class FileSystemWalker
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\IncludeExcludeTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\SanitizeFilenameTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\IncludeExcludeTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\SanitizeFilenameTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UtilTrait;
 
   public const ERROR_PAGES_FONT = 'dejavusans';
   public const ERROR_PAGES_FONT_SIZE = '12';

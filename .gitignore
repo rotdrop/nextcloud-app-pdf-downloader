@@ -19,10 +19,10 @@ lib/Database/ORM/Proxies/**
 build-flavour
 .php-cs-fixer.cache
 config/fonts-list.json
-lib/Toolkit/[A-Z]*
 *-build-hash
 /vendor-bin/**/vendor/
 /vendor-bin/**/composer.lock
+!/vendor-bin/php-to-typescript/composer.lock
 /vendor-bin/**/.ac-php*
 statistics/**
 patches.lock.json

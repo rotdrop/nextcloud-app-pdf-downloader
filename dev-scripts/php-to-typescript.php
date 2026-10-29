@@ -31,7 +31,7 @@ try {
   $autoloader = require_once(__DIR__ . '/lib/scripts/vendor/autoload.php');
   require_once($appDir . '/vendor/autoload.php');
   require_once($appDir . '/vendor-scoped/autoload.php');
-  require_once($appDir . '/vendor-bin/typescript-transformer/vendor/autoload.php');
+  require_once($appDir . '/vendor-bin/php-to-typescript/vendor/autoload.php');
 } catch (\Throwable $t) {
   fwrite(STDERR, 'Composer autoloads not set up: ' . $t->getMessage() . PHP_EOL);
   exit(1);
@@ -43,18 +43,29 @@ $autoloader->addPsr4(
   __DIR__ . '/../lib',
   true,
 );
-$autoloader->addPsr4(
-  \OCA\RotDrop\DevScripts\PhpToTypeScript::class . '\\',
-  __DIR__ . '/lib/scripts/php-to-typescript',
-  true,
-);
-$autoloader->addPsr4(
-  \OCA\RotDrop\Toolkit::class . '\\',
-  $appDir . '/php-toolkit/',
-  true,
-);
 
-use OCA\PdfDownloader\Toolkit\Console\ConsoleOutput;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\DTO\AbstractDTO;
+use Spatie\TypeScriptTransformer\Collectors\EnumCollector;
+use Spatie\TypeScriptTransformer\Transformers\DtoTransformer;
+use Spatie\TypeScriptTransformer\TypeReflectors\ClassTypeReflector;
+use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DTOCollector as BaseDTOCollector;
+
+// The upstream DTO collector expects the toolkit at OCA\<App>\Toolkit, however
+// the toolkit lives in the scoped namespace OCA\<App>\Scoped\OCA\RotDrop\Toolkit.
+class ScopedToolkitDTOCollector extends BaseDTOCollector
+{
+  protected function shouldCollect(ClassTypeReflector $reflector): bool
+  {
+    $transformers = array_map('get_class', $this->config->getTransformers());
+    $hasTransformer = array_filter(
+      $transformers,
+      fn(string $transformer) => $transformer === DtoTransformer::class || is_subclass_of($transformer, DtoTransformer::class),
+    ) !== [];
+
+    return $hasTransformer && $reflector->getReflectionClass()->isSubclassOf(AbstractDTO::class);
+  }
+}
+
 use OCA\RotDrop\DevScripts\PhpToTypeScript;
 
 // store output of different transformers in different files
@@ -62,8 +73,8 @@ use OCA\RotDrop\DevScripts\PhpToTypeScript;
 $excludes = [
   'lib/Mount', // there is nothing to convert, and code diversion between NC versions triggers errors.
   'lib/Storage',
-  'lib/Toolkit/Common',
-  'lib/Toolkit/Doctrine',
+  'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Common',
+  'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Doctrine',
 ];
 
 $scopedNamespaces = [
@@ -72,19 +83,14 @@ $scopedNamespaces = [
   // \Ramsey\Uuid::class,
 ];
 
-use Spatie\TypeScriptTransformer\Collectors\EnumCollector;
-use OCA\RotDrop\DevScripts\PhpToTypeScript\DTOCollector;
-
-$collectors = [
-  EnumCollector::class,
-  DTOCollector::class,
-];
-
 $phpToTypeScript = new PhpToTypeScript\PhpToTypeScript(
+  collectors: [
+    ScopedToolkitDTOCollector::class,
+    EnumCollector::class,
+  ],
   devScriptsFolder: __DIR__,
   excludes: $excludes,
   scopedNamespaces: $scopedNamespaces,
-  collectors: $collectors,
 );
 
 try {

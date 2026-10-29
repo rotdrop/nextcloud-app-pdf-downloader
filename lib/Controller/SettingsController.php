@@ -42,17 +42,17 @@ use OCA\PdfDownloader\Scoped\Carbon\CarbonInterval;
 use OCA\PdfDownloader\Service\DependenciesService;
 use OCA\PdfDownloader\Service\FileSystemWalker;
 use OCA\PdfDownloader\Service\PdfCombiner;
-use OCA\PdfDownloader\Toolkit\Service\AnyToPdf;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Service\AnyToPdf;
 
 /**
  * Settings-controller for both, personal and admin, settings.
  */
 class SettingsController extends Controller
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\ResponseTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\IncludeExcludeTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UtilTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\ResponseTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\IncludeExcludeTrait;
 
   public const ADMIN_DISABLE_BUILTIN_CONVERTERS = 'disableBuiltinConverters';
   public const ADMIN_FALLBACK_CONVERTER = 'fallbackConverter';

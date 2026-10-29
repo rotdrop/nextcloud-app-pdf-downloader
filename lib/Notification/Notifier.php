@@ -43,9 +43,9 @@ use OCA\PdfDownloader\BackgroundJob\PdfGeneratorJob;
  */
 class Notifier implements INotifier
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\NodeTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\UserRootFolderTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\NodeTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UserRootFolderTrait;
 
   public const TYPE_ANY = 0;
   public const TYPE_DOWNLOAD = (1 << 0);
