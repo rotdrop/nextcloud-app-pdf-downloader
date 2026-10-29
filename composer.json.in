@@ -30,12 +30,6 @@
       "bamarni/composer-bin-plugin": true
     }
   },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/rotdrop/alchemy-zippy.git"
-    }
-  ],
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {

@@ -16,7 +16,6 @@
     "nesbot/carbon": "^3.0.0",
     "pear/archive_tar": "1.6.0",
     "phpclasses/php-iso-file": "^0.5.1",
-    "rotdrop/alchemy-zippy": "*",
     "rotdrop/nextcloud-app-toolkit": "dev-main",
     "symfony/console": "^6.0.0",
     "symfony/finder": "^6.0",
@@ -36,10 +35,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/rotdrop/nextcloud-app-toolkit"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/rotdrop/alchemy-zippy.git"
     }
   ],
   "minimum-stability": "dev",
