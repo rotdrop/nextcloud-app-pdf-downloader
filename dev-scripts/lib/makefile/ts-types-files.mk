@@ -26,9 +26,8 @@ PHP_SOURCES=$(TS_PHP_SOURCE_DIRS:%=--source-dir %)
 TS_TYPES_FILES_DEPS = $(foreach dir,$(TS_PHP_SOURCE_DIRS),$(shell find $(dir) -name "*.php"))
 
 #@private
-$(TS_TYPES_FILES): $(TS_TYPES_FILES_DEPS) $(TYPESCRIPT_CONVERTER) $(TS_TYPES_COMPOSER_DEPS) $(TS_TYPES_PACKAGE_DEPS) $(TS_TYPES_AUTOLOAD) $(DEV_LIB_DIR)/scripts/composer.json $(MAKEFILE_DEP)
+$(TS_TYPES_FILES): $(TS_TYPES_FILES_DEPS) $(TYPESCRIPT_CONVERTER) $(TS_TYPES_COMPOSER_DEPS) $(TS_TYPES_PACKAGE_DEPS) $(TS_TYPES_AUTOLOAD) $(MAKEFILE_DEP)
 	$(MAKE) dev-setup
-	env COMPOSER=$(DEV_LIB_DIR)/scripts/composer.json $(COMPOSER) -d$(DEV_LIB_DIR)/scripts install
 	$(TYPESCRIPT_CONVERTER) --output-prefix=$(TS_TYPES_DIR) $(PHP_SOURCES) --as-modules --ns-prefix='OCA\$(APP_NAMESPACE)' --scoped-ns-prefix=$(WRAPPER_NAMESPACE_POSTFIX)
 	$(PRETTIER_FORMATTER) --write --ignore-path /dev/null $(TS_TYPES_DIR)
 	[ -x "$(ESLINT)" ] && $(ESLINT) --fix $(TS_TYPES_DIR) && $(ESLINT) $(TS_TYPES_DIR)
