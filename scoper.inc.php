@@ -28,6 +28,7 @@ return [
   'prefix' => 'OCA\\PdfDownloader\\Scoped',
   'exclude-classes' => [
     'OC',
+    'Symfony\\Component\\Console',
   ],
   'expose-global-classes' => false,
   'exclude-namespaces' => [
