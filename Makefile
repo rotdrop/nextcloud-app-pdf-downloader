@@ -259,7 +259,6 @@ APPSTORE_FILES =\
  lib\
  vendor\
  vendor-scoped\
- config\
  contrib\
  CHANGELOG.md\
  COPYING\
@@ -273,6 +272,8 @@ appstore: clean dev-setup npm-build
 	$(COMPOSER) update --no-dev
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
+	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)/config
+	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') vendor-scoped/rotdrop/nextcloud-app-toolkit/config/ $(FONTS_LIST_FILE) $(APPSTORE_SIGN_DIR)/$(APP_NAME)/config/
 	mkdir -p $(BUILD_CERT_DIR)
 	$(SILENT)if [ -n "$$APP_PRIVATE_KEY" ]; then\
   echo "$$APP_PRIVATE_KEY" > $(BUILD_CERT_DIR)/$(APP_NAME).key;\
