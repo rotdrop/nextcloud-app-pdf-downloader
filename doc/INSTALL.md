@@ -79,8 +79,15 @@ So:
   - `make build` to generate a production version of the app
   - `make dev` to generate a development version debuging info
     compiled in. This mostly affects the generated JavaScript assets.
+  - `make appstore` to perform a clean production build and create an
+    app-store archive in `build/artifacts/appstore/`.
   - in case you run `make` repeatedly (perhaps after adjusting things
     to your liking) and it fails: try to run `make realclean` in order
     to just remove every build artifact. Then try again.
   - if you just edit individual files then `make` should just pick up
     your changes and rebuild stuff as needed
+
+The `build` and `dev` targets select the build flavour before preparing
+dependencies, so switching flavours does not discard freshly scoped PHP
+dependencies. The cleanup, setup, and asset-build phases run in sequence,
+including when using `make -j`.

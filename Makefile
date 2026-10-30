@@ -86,11 +86,17 @@ all: help
 .PHONY: all
 
 #@@ Build the distribution assets (minified, without debugging info)
-build: dev-setup npm-build
+build:
+	$(MAKE) build-flavour-build
+	$(MAKE) dev-setup
+	$(MAKE) npm-build
 .PHONY: build
 
 #@@ Build the development assets (include debugging information)
-dev: dev-setup npm-dev
+dev:
+	$(MAKE) build-flavour-dev
+	$(MAKE) dev-setup
+	$(MAKE) npm-dev
 .PHONY: dev
 
 #@private
@@ -265,7 +271,9 @@ APPSTORE_FILES =\
 APPSTORE_BLACKLISTED = foobar .htaccess .git* .*keep *~
 
 #@@ Prepare appstore archive
-appstore: clean dev-setup npm-build
+appstore:
+	$(MAKE) clean
+	$(MAKE) build
 	$(COMPOSER) update --no-dev
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
