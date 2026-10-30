@@ -221,6 +221,7 @@ $(DOWNLOADS_DIR)/$(DEJAVU_ARCHIVE):
 
 #@private
 $(FONTS_LIST_FILE): $(wildcard $(FONTS_DEST_DIR)/*.php)
+	mkdir -p $(dir $@)
 	( echo '{';\
 FONTS_LIST="$$(ls -C1 $(FONTS_DST_DIR)/*.php)";\
 FONTS_COUNT=$$(echo -n "$$FONTS_LIST"|wc -l);\
