@@ -29,11 +29,10 @@ $appDir = realpath(__DIR__) . '/..';
 define('ROT_DROP_DEV_SCRIPTS_APP_DIR', $appDir);
 
 try {
-  $autoloader = require_once(__DIR__ . '/lib/scripts/vendor/autoload.php');
+  $autoloader = require_once($appDir . '/vendor-bin/php-to-typescript/vendor/autoload.php');
   require_once(__DIR__ . '/lib/scripts/console-setup.php');
   require_once($appDir . '/vendor/autoload.php');
   require_once($appDir . '/vendor-scoped/autoload.php');
-  require_once($appDir . '/vendor-bin/php-to-typescript/vendor/autoload.php');
 } catch (\Throwable $t) {
   fwrite(STDERR, 'Composer autoloads not set up: ' . $t->getMessage() . PHP_EOL);
   exit(1);
