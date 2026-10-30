@@ -36,7 +36,7 @@ use OCA\PdfDownloader\Constants;
  */
 class Personal implements ISettings
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\AssetTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\AssetTrait;
 
   const TEMPLATE = "personal-settings";
 

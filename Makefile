@@ -24,9 +24,11 @@ DOWNLOADS_DIR = ./downloads
 CONFIG_DIR = ./config
 TYPESCRIPT_CONVERTER = $(ABSSRCDIR)/dev-scripts/php-to-typescript.php
 TS_TYPES_DIR = $(ABSBUILDDIR)/ts-types
-TS_PHP_SOURCE_DIRS = lib
+TS_PHP_SOURCE_DIRS = lib vendor-scoped/rotdrop/nextcloud-app-toolkit/src
 
 include $(DEV_LIB_DIR)/makefile/setup.mk
+
+WRAPPER_NAMESPACE_POSTFIX = $(SCOPED_NAMESPACE_POSTFIX)
 
 FONTS_LIST_FILE = $(CONFIG_DIR)/fonts-list.json
 
@@ -92,7 +94,7 @@ dev: dev-setup npm-dev
 .PHONY: dev
 
 #@private
-dev-setup: app-toolkit composer build-fonts $(FONTS_LIST_FILE) ts-app-config
+dev-setup: composer build-fonts $(FONTS_LIST_FILE) ts-app-config
 .PHONY: dev-setup
 
 include $(DEV_LIB_DIR)/makefile/composer.mk
@@ -132,12 +134,6 @@ vendor-scoped/autoload.php: vendor-scoped
 namespace-wrapper: php-scoper-install vendor-scoped/autoload.php
 .PHONY: namespace-wrapper
 
-APP_TOOLKIT_DIR = $(ABSSRCDIR)/php-toolkit
-APP_TOOLKIT_DEST = $(ABSSRCDIR)/lib/Toolkit
-APP_TOOLKIT_NS = PdfDownloader
-APP_WRAPPER_NS = $(SCOPED_NAMESPACE_POSTFIX)
-
-include $(APP_TOOLKIT_DIR)/tools/scopeme.mk
 include $(DEV_LIB_DIR)/makefile/ts-app-config.mk
 include $(DEV_LIB_DIR)/makefile/ts-notification-api.mk
 include $(DEV_LIB_DIR)/makefile/ts-types-files.mk
@@ -225,6 +221,7 @@ $(DOWNLOADS_DIR)/$(DEJAVU_ARCHIVE):
 
 #@private
 $(FONTS_LIST_FILE): $(wildcard $(FONTS_DEST_DIR)/*.php)
+	mkdir -p $(dir $@)
 	( echo '{';\
 FONTS_LIST="$$(ls -C1 $(FONTS_DST_DIR)/*.php)";\
 FONTS_COUNT=$$(echo -n "$$FONTS_LIST"|wc -l);\
@@ -259,7 +256,6 @@ APPSTORE_FILES =\
  lib\
  vendor\
  vendor-scoped\
- config\
  contrib\
  CHANGELOG.md\
  COPYING\
@@ -273,6 +269,8 @@ appstore: clean dev-setup npm-build
 	$(COMPOSER) update --no-dev
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
+	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)/config
+	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') vendor-scoped/rotdrop/nextcloud-app-toolkit/config/ $(FONTS_LIST_FILE) $(APPSTORE_SIGN_DIR)/$(APP_NAME)/config/
 	mkdir -p $(BUILD_CERT_DIR)
 	$(SILENT)if [ -n "$$APP_PRIVATE_KEY" ]; then\
   echo "$$APP_PRIVATE_KEY" > $(BUILD_CERT_DIR)/$(APP_NAME).key;\
@@ -314,7 +312,6 @@ distclean: clean ## Clean even more, calls clean
 	rm -rf vendor
 	rm -rf vendor-bin/**/vendor
 	find . -name node_modules -exec rm -rf {} \; 2> /dev/null || true
-	rm -rf lib/Toolkit/*
 .PHONY: distclean
 
 #@@ Almost everything but downloads

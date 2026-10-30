@@ -25,7 +25,7 @@ namespace OCA\PdfDownloader\Service;
 use Psr\Log\LoggerInterface;
 use OCP\Files\IMimeTypeDetector;
 
-use OCA\PdfDownloader\Toolkit\Service\MimeTypeService as ToolkitService;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Service\MimeTypeService as ToolkitService;
 
 /**
  * Just a wrapper around the toolkit service in order to get some specific

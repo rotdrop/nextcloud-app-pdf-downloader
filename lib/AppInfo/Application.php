@@ -36,9 +36,12 @@ use OCP\IConfig;
 use OCA\PdfDownloader\Listener\Registration as ListenerRegistration;
 use OCA\PdfDownloader\Notification;
 use OCA\PdfDownloader\Service\MimeTypeService;
-use OCA\PdfDownloader\Toolkit\AppInfo\AbstractApplication;
+use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\AppInfo\AbstractApplication;
 
-include_once __DIR__ . '/../Toolkit/AppInfo/AbstractApplication.php';
+// The app-toolkit lives in the scoped vendor tree and must be autoloadable
+// before the base class can be resolved.
+include_once __DIR__ . '/../../vendor/autoload.php';
+include_once __DIR__ . '/../../vendor-scoped/autoload.php';
 
 /**
  * App entry point.

@@ -49,9 +49,9 @@ use OCA\PdfDownloader\Constants;
  */
 class FilesActionListener implements IEventListener
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\LoggerTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\CloudAdminTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\AssetTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\LoggerTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\CloudAdminTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\AssetTrait;
 
   const EVENT = [
     LoadAdditionalScriptsEvent::class,

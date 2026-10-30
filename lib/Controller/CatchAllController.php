@@ -33,8 +33,8 @@ use OCP\IRequest;
  */
 class CatchAllController extends Controller
 {
-  use \OCA\PdfDownloader\Toolkit\Traits\UtilTrait;
-  use \OCA\PdfDownloader\Toolkit\Traits\ResponseTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\UtilTrait;
+  use \OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\Traits\ResponseTrait;
 
   /**
    * @param string $appName

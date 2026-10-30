@@ -2,6 +2,3 @@ vendor/
 build/
 doc/
 js/
-lib/Toolkit/
-php-toolkit/Service/RequestService.php
-php-toolkit/Service/GroupFoldersService.php

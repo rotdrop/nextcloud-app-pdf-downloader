@@ -4,4 +4,10 @@
             <directory>./tests/phpunit/Unit</directory>
         </testsuite>
     </testsuites>
+      <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>lib</directory>
+            <directory>vendor-scoped/rotdrop/nextcloud-app-toolkit/src</directory>
+        </include>
+    </source>
 </phpunit>
