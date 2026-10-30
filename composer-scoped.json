@@ -17,11 +17,17 @@
     "pear/archive_tar": "1.6.0",
     "phpclasses/php-iso-file": "^0.5.1",
     "rotdrop/nextcloud-app-toolkit": "dev-main",
-    "symfony/console": "^6.0.0",
     "symfony/finder": "^6.0",
     "tecnickcom/tcpdf": "^6.3",
     "wapmorgan/cab-archive": "^0.0.7",
     "wapmorgan/unified-archive": "dev-master"
+  },
+  "provide": {
+    "psr/cache": "*",
+    "psr/clock": "*",
+    "psr/container": "*",
+    "psr/log": "*",
+    "symfony/console": "*"
   },
   "config": {
     "vendor-dir": "vendor-scoped",

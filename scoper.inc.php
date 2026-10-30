@@ -20,43 +20,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 use Isolated\Symfony\Component\Finder\Finder;
 
-$infoXml = file_get_contents(__DIR__ . '/appinfo/info.xml');
-$matches = null;
-preg_match('|<namespace>([^<]+)</namespace>|', $infoXml, $matches);
-$nameSpace = $matches[1];
-preg_match('|<scopednamespace>([^<]+)</scopednamespace>|', $infoXml, $matches);
-$scopedNameSpace = $matches[1];
-
-$prefix = 'OCA\\' . $nameSpace . '\\' . $scopedNameSpace;
-
 return [
-  'prefix' => $prefix,
+  'prefix' => 'OCA\\PdfDownloader\\Scoped',
   'exclude-classes' => [
     'OC',
-    // aliased as a namespace, e.g. "use Symfony\\Component\\Console;"
     'Symfony\\Component\\Console',
   ],
   'expose-global-classes' => false,
   'exclude-namespaces' => [
-    '/^PHPUnit/',
-    'Psr\\Clock',
-    'Psr\\Log',
-    '/^Symfony\\\\Component\\\\(Console|Process)(\\\\|$)/',
-    '/^Psr\\\\Container(\\\\|$)/',
-    '/^GuzzleHttp(\\\\|$)/',
-    // Needed by the nextcloud-app-toolkit, provided by the cloud or the app itself
     '/^(OC|OCP|NCU)(\\\\|$)/',
-    '/^OCA\\\\(GroupFolders|RotDrop\\\\DevScripts)(\\\\|$)/',
-    '/^MathPHP(\\\\|$)/',
-    '/^Spatie\\\\TypeScriptTransformer(\\\\|$)/',
+    '/^Psr(\\\\|$)/',
   ],
   'finders' => [
     Finder::create()
       ->files()
       ->ignoreVCS(true)
-      ->followLinks(true)
       ->in('vendor-scoped'),
   ],
   'patchers' => [

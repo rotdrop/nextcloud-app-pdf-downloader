@@ -30,7 +30,6 @@ define('ROT_DROP_DEV_SCRIPTS_APP_DIR', $appDir);
 
 try {
   $autoloader = require_once($appDir . '/vendor-bin/php-to-typescript/vendor/autoload.php');
-  require_once(__DIR__ . '/lib/scripts/console-setup.php');
   require_once($appDir . '/vendor/autoload.php');
   require_once($appDir . '/vendor-scoped/autoload.php');
 } catch (\Throwable $t) {
@@ -45,38 +44,15 @@ $autoloader->addPsr4(
   true,
 );
 
-use OCA\PdfDownloader\Scoped\OCA\RotDrop\Toolkit\DTO\AbstractDTO;
-use Spatie\TypeScriptTransformer\Collectors\EnumCollector;
-use Spatie\TypeScriptTransformer\Transformers\DtoTransformer;
-use Spatie\TypeScriptTransformer\TypeReflectors\ClassTypeReflector;
-use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DTOCollector as BaseDTOCollector;
-use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DefaultCollector;
-
-// The upstream DTO collector expects the toolkit at OCA\<App>\Toolkit, however
-// the toolkit lives in the scoped namespace OCA\<App>\Scoped\OCA\RotDrop\Toolkit.
-class ScopedToolkitDTOCollector extends BaseDTOCollector
-{
-  protected function shouldCollect(ClassTypeReflector $reflector): bool
-  {
-    $transformers = array_map('get_class', $this->config->getTransformers());
-    $hasTransformer = array_filter(
-      $transformers,
-      fn(string $transformer) => $transformer === DtoTransformer::class || is_subclass_of($transformer, DtoTransformer::class),
-    ) !== [];
-
-    return $hasTransformer && $reflector->getReflectionClass()->isSubclassOf(AbstractDTO::class);
-  }
-}
-
 use OCA\RotDrop\DevScripts\PhpToTypeScript;
-
-// store output of different transformers in different files
+use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DTOCollector;
+use OCA\RotDrop\DevScripts\PhpToTypeScript\Collectors\DefaultCollector;
+use Spatie\TypeScriptTransformer\Collectors\EnumCollector;
 
 $excludes = [
-  'lib/Mount', // there is nothing to convert, and code diversion between NC versions triggers errors.
-  'lib/Storage',
   'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Common',
   'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Doctrine',
+  'vendor-scoped/rotdrop/nextcloud-app-toolkit/src/Service/GroupFoldersService.php',
 ];
 
 $scopedNamespaces = [
@@ -85,12 +61,14 @@ $scopedNamespaces = [
   // \Ramsey\Uuid::class,
 ];
 
+$collectors = [
+  DTOCollector::class,
+  DefaultCollector::class,
+  EnumCollector::class,
+];
+
 $phpToTypeScript = new PhpToTypeScript\PhpToTypeScript(
-  collectors: [
-    ScopedToolkitDTOCollector::class,
-    DefaultCollector::class,
-    EnumCollector::class,
-  ],
+  collectors: $collectors,
   devScriptsFolder: __DIR__,
   excludes: $excludes,
   scopedNamespaces: $scopedNamespaces,
