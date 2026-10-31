@@ -230,6 +230,7 @@ echo '}'; ) > $(FONTS_LIST_FILE)
 # what has to be copied to the appstore archive
 APPSTORE_FILES =\
  appinfo\
+ composer\
  css\
  js\
  img\
