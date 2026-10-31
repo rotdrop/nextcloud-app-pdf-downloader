@@ -97,3 +97,7 @@ The `build` and `dev` targets select the build flavour before preparing
 dependencies, so switching flavours does not discard freshly scoped PHP
 dependencies. The cleanup, setup, and asset-build phases run in sequence,
 including when using `make -j`.
+
+The files in `config/nextcloud/` are tracked symlinks to the scoped toolkit's
+MIME-type configuration, so source checkouts require symlink support. App-store
+packaging copies the configuration as regular files.
