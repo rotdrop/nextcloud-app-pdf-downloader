@@ -46,6 +46,9 @@ jobs:
           tools: composer:v2
           ini-values: apc.enable_cli=1, memory_limit=1G
 
+      - name: Lint PHP files
+        run: find lib appinfo templates composer -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24'

@@ -72,6 +72,9 @@ So:
 - run `git submodule update --init --recursive` after switching branches or
   updating an existing checkout to initialize the pinned build helpers in
   `dev-scripts/lib`
+- `composer/autoload.php` registers the scoped toolkit during Nextcloud app
+  updates and keeps old toolkit namespace references working while earlier
+  app code is still loaded
 - install all needed dependencies
   - a recent version of `npm`
   - GNU make
