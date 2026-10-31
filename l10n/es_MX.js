@@ -1,9 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "User" : "Usuario",
-    "Password" : "Contraseña",
-    "bytes" : "bytes",
     "Choose {file}" : "Elegir {file}",
     "Choose" : "Elegir",
     "Text" : "Texto",

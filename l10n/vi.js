@@ -1,8 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "User" : "Người dùng",
-    "Password" : "Mật khẩu",
     "Choose {file}" : "Chọn {file}",
     "Choose" : "Chọn",
     "Text" : "Văn bản",

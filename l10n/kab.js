@@ -1,8 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "User" : "Aseqdac",
-    "Password" : "Awal n uɛeddi",
     "Choose {file}" : "Fren {file}",
     "Choose" : "Fren",
     "Text" : "Aḍris",

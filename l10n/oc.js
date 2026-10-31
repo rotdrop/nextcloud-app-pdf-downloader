@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "File or folder could not be found." : "Fichièr o dossièr pas trobat.",
     "PDF document saved as \"%s\"." : "document PDF enregistrat jos « %s ».",
-    "User" : "User",
-    "Password" : "Senhal",
     "Choose" : "Causir",
     "Text" : "Tèxt",
     "Copy to {target}" : "Copiar a {target}",

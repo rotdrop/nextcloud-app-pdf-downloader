@@ -1,8 +1,6 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "User" : "Foydalanuvchi",
-    "Password" : "Password",
     "open" : "Ochish",
     "Choose {file}" : " {file}ta tanlash",
     "Choose" : "Tanlang",
