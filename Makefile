@@ -104,6 +104,8 @@ $(BUILDDIR)/vendor-scoped/autoload.php: $(BUILDDIR)/vendor-scoped composer-scope
 
 vendor-scoped: $(MAKEFILE_DEP) $(PHP_SCOPER) scoper.inc.php $(BUILDDIR)/vendor-scoped
 	$(PHP_SCOPER) add-prefix -d$(BUILDDIR) --config=$(ABSSRCDIR)/scoper.inc.php --output-dir=$(ABSSRCDIR)/vendor-scoped --force
+	mkdir -p $(CONFIG_DIR)
+	$(RSYNC) -a -L vendor-scoped/rotdrop/nextcloud-app-toolkit/config/ $(CONFIG_DIR)/
 # scoper does not handle symlinks
 #	cp -a $(BUILDDIR)/vendor-scoped/bin $(ABSSRCDIR)/vendor-scoped/
 # scoper does not preserve executable bits
@@ -231,6 +233,7 @@ echo '}'; ) > $(FONTS_LIST_FILE)
 APPSTORE_FILES =\
  appinfo\
  composer\
+ config\
  css\
  js\
  img\
@@ -254,8 +257,6 @@ appstore:
 	$(COMPOSER) update --no-dev
 	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)
 	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') $(APPSTORE_FILES) $(APPSTORE_SIGN_DIR)/$(APP_NAME)
-	mkdir -p $(APPSTORE_SIGN_DIR)/$(APP_NAME)/config
-	$(RSYNC) -a -L $(APPSTORE_BLACKLISTED:%=--exclude '%') vendor-scoped/rotdrop/nextcloud-app-toolkit/config/ $(FONTS_LIST_FILE) $(APPSTORE_SIGN_DIR)/$(APP_NAME)/config/
 	mkdir -p $(BUILD_CERT_DIR)
 	$(SILENT)if [ -n "$$APP_PRIVATE_KEY" ]; then\
   echo "$$APP_PRIVATE_KEY" > $(BUILD_CERT_DIR)/$(APP_NAME).key;\

@@ -97,3 +97,7 @@ The `build` and `dev` targets select the build flavour before preparing
 dependencies, so switching flavours does not discard freshly scoped PHP
 dependencies. The cleanup, setup, and asset-build phases run in sequence,
 including when using `make -j`.
+
+PHP dependency scoping also copies the toolkit's `config/` directory to the
+app's top-level `config/`, including the Nextcloud MIME-type mappings. This
+generated directory is used by local builds and included in app-store archives.
