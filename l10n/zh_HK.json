@@ -198,7 +198,7 @@
     "close" : "關閉",
     "No" : "否",
     "Yes" : "是",
-    "The quick brown fox jumps over the lazy dog." : "敏捷的棕色狐狸跳過懶狗。",
+    "The quick brown fox jumps over the lazy dog." : "今日天氣晴朗，阿明搭港鐵去旺角買嘢，點知落車嗰陣唔見咗銀包，真係激死佢！幸好有位靚女幫手搵返，仲請佢飲杯凍檸茶。",
     "Unable to query the initial value of all settings: {message}" : "無法查詢所有設定的初始值：{message}",
     "Unable to query the initial value of {settingsKey}: {message}" : "無法查詢 {settingsKey} 的初始值：{message}",
     "true" : "對",
