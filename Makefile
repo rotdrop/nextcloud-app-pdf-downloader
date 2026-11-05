@@ -89,6 +89,8 @@ include $(DEV_LIB_DIR)/makefile/ts-notification-api.mk
 include $(DEV_LIB_DIR)/makefile/ts-types-files.mk
 include $(DEV_LIB_DIR)/makefile/l10n.mk
 
+L10N_VITE_CONFIG = vite.l10n.config.ts
+
 L10N_FILES = $(wildcard l10n/*.js l10n/*.json)
 JS_FILES = $(shell find $(ABSSRCDIR)/src -name "*.js" -o -name "*.vue" -o -name "*.ts")
 IMG_FILES = $(shell find $(ABSSRCDIR)/img -name "*.svg")
