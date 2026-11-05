@@ -264,7 +264,7 @@ clean: ## Tidy up local environment
 
 #@@ Same as clean but also removes dependencies installed by composer, bower and npm
 distclean: clean ## Clean even more, calls clean
-	rm -rf vendor
+	rm -rf vendor $(SCOPED_VENDOR_DIR)
 	rm -rf vendor-bin/**/vendor
 	find . -name node_modules -exec rm -rf {} \; 2> /dev/null || true
 .PHONY: distclean
@@ -274,7 +274,11 @@ mostlyclean: webpack-clean distclean
 	rm -f composer*.lock
 	rm -f composer.json
 	rm -f vendor-bin/**/composer.lock
+	rm -f vendor-bin/**/patches.lock.json
 	rm -f stamp.composer-core-versions
+	rm -f stamp.tcpdf-fonts stamp.tcpdf-dejavu-fonts
+	rm -f $(BUILD_FLAVOUR_FILE)
+	rm -rf .vite
 	rm -f package-lock.json
 	rm -f *.html
 	rm -f stats.json
