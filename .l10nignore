@@ -2,3 +2,8 @@ vendor/
 build/
 doc/
 js/
+# BEGIN generated nextcloud-vue-components exclusions
+node_modules/@rotdrop/nextcloud-vue-components/lib/components/DynamicSvgIcon.vue
+node_modules/@rotdrop/nextcloud-vue-components/lib/index.ts
+node_modules/@rotdrop/nextcloud-vue-components/lib/util/sanitize-inline-svg.ts
+# END generated nextcloud-vue-components exclusions
