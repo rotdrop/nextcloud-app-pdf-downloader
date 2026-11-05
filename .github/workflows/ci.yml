@@ -15,6 +15,29 @@ env:
   APP_NAME: pdf_downloader
 
 jobs:
+  realclean-bare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use https for submodules
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
+
+      - name: Checkout app
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install xpath
+        run: sudo apt-get install -y --no-install-recommends libxml-xpath-perl
+
+      - name: Make realclean on bare checkout
+        run: make realclean
+
+      - name: Make realclean again (idempotency)
+        run: make realclean
+
+      - name: Verify nothing changed
+        run: test -z "$(git status --porcelain --ignored)" || { git status --porcelain --ignored; exit 1; }
+
   appstore:
     runs-on: ubuntu-latest
     env:
@@ -76,3 +99,15 @@ jobs:
           name: ${{ env.APP_NAME }}-appstore
           path: server/apps/${{ env.APP_NAME }}/build/artifacts/appstore/*.tar.*
           if-no-files-found: warn
+
+      - name: Make realclean after full build
+        working-directory: server/apps/${{ env.APP_NAME }}
+        run: make realclean
+
+      - name: Make realclean again (idempotency)
+        working-directory: server/apps/${{ env.APP_NAME }}
+        run: make realclean
+
+      - name: Verify no build artifacts remain
+        working-directory: server/apps/${{ env.APP_NAME }}
+        run: test -z "$(git status --porcelain --ignored)" || { git status --porcelain --ignored; exit 1; }
