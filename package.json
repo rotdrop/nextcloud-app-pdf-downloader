@@ -43,6 +43,7 @@
     "@prettier/plugin-php": "^0.25.0",
     "@rotdrop/nextcloud-vue-components": "git+https://github.com/rotdrop/nextcloud-vue-components.git#6a871780591dc19e3ac3299a856b24eebb8f0e53",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@vue/tsconfig": "^0.9.1",
     "axios": "*",
     "content-disposition": "*",
     "deep-equal": "^2.2.3",
