@@ -1,9 +1,9 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "FILENAME" : "NÙMENEARCHÎVIU",
     "Choose {file}" : "Sèbera {file}",
     "Choose" : "Sèbera",
+    "FILENAME" : "NÙMENEARCHÎVIU",
     "Text" : "Testu",
     "Background" : "Isfundu",
     "Copy to {target}" : "Còpia a {target}",

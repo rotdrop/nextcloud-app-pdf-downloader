@@ -1,7 +1,7 @@
 { "translations": {
-    "FILENAME" : "SKRÁARHEITI",
     "Choose {file}" : "Veldu {file}",
     "Choose" : "Velja",
+    "FILENAME" : "SKRÁARHEITI",
     "Text" : "Texti",
     "Background" : "Background",
     "Copy to {target}" : "Afrita í {target}",

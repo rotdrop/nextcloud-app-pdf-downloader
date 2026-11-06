@@ -1,9 +1,9 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "FILENAME" : "SKRÁARHEITI",
     "Choose {file}" : "Veldu {file}",
     "Choose" : "Velja",
+    "FILENAME" : "SKRÁARHEITI",
     "Text" : "Texti",
     "Background" : "Background",
     "Copy to {target}" : "Afrita í {target}",

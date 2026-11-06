@@ -1,13 +1,13 @@
 OC.L10N.register(
     "pdf_downloader",
     {
-    "Unknown admin setting: \"%1$s\"" : " 不明な管理者設定:\"%1$s\"",
-    "The admin setting \"%1$s\" is read-only" : " 管理者設定\"%1$s\"は読み取り専用です",
-    "FILENAME" : "ファイル名",
     "submit" : "送信",
     "Choose {file}" : "{file}を選択",
     "Choose" : "選択",
     "Clear Selection" : "セッションクリア",
+    "Unknown admin setting: \"%1$s\"" : " 不明な管理者設定:\"%1$s\"",
+    "The admin setting \"%1$s\" is read-only" : " 管理者設定\"%1$s\"は読み取り専用です",
+    "FILENAME" : "ファイル名",
     "Text" : "テキスト",
     "Background" : "背景",
     "Copy to {target}" : "{target} にコピー",
