@@ -1,3 +1,10 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Basic checks on pull requests and pushes to main via the shared CI
+# workflow of the build system (eslint, php -l, realclean idempotency and a
+# full build of the unsigned app archive). No Nextcloud server tree is
+# needed: the TypeScript type generation only needs xpath and
+# memory_limit=1G, both provided by the shared workflow.
 name: CI
 
 on:
@@ -6,108 +13,19 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
-env:
-  NC_REPO: rotdrop/nextcloud-server
-  NC_BRANCH: cjh-stable35
-  APP_NAME: pdf_downloader
-
 jobs:
-  realclean-bare:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Use https for submodules
-        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
-
-      - name: Checkout app
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Install xpath
-        run: sudo apt-get install -y --no-install-recommends libxml-xpath-perl
-
-      - name: Make realclean on bare checkout
-        run: make realclean
-
-      - name: Make realclean again (idempotency)
-        run: make realclean
-
-      - name: Verify nothing changed
-        run: test -z "$(git status --porcelain --ignored)" || { git status --porcelain --ignored; exit 1; }
-
-  appstore:
-    runs-on: ubuntu-latest
-    env:
-      PHP_VERSION: '8.5'
-    steps:
-      - name: Use https for submodules
-        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
-
-      # The TypeScript type generation boots Nextcloud, so the app has to be
-      # built inside a server tree.
-      - name: Checkout modified Nextcloud server
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ env.NC_REPO }}
-          ref: ${{ env.NC_BRANCH }}
-          submodules: recursive
-          path: server
-
-      - name: Checkout app
-        uses: actions/checkout@v4
-        with:
-          path: server/apps/${{ env.APP_NAME }}
-          submodules: recursive
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-          extensions: ctype, curl, dom, gd, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite3, xml, zip, apcu, bcmath, gmp, imagick, fileinfo
-          tools: composer:v2
-          ini-values: apc.enable_cli=1, memory_limit=1G
-
-      - name: Lint PHP files
-        run: find lib appinfo templates composer -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-
-      - name: Install Nextcloud (sqlite)
-        working-directory: server
-        run: |
-          composer install --no-interaction --no-progress
-          php occ maintenance:install --database=sqlite \
-            --admin-user=admin --admin-pass=admin --no-interaction
-
-      - name: Install xpath
-        # the Makefile needs xpath to read the app name and the scoped namespace from info.xml
-        run: sudo apt-get install -y --no-install-recommends libxml-xpath-perl
-
-      - name: Make appstore
-        working-directory: server/apps/${{ env.APP_NAME }}
-        env:
-          COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ github.token }}"}}'
-        run: make appstore
-
-      - name: Upload app archive
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.APP_NAME }}-appstore
-          path: server/apps/${{ env.APP_NAME }}/build/artifacts/appstore/*.tar.*
-          if-no-files-found: warn
-
-      - name: Make realclean after full build
-        working-directory: server/apps/${{ env.APP_NAME }}
-        run: make realclean
-
-      - name: Make realclean again (idempotency)
-        working-directory: server/apps/${{ env.APP_NAME }}
-        run: make realclean
-
-      - name: Verify no build artifacts remain
-        working-directory: server/apps/${{ env.APP_NAME }}
-        run: test -z "$(git status --porcelain --ignored)" || { git status --porcelain --ignored; exit 1; }
+  ci:
+    uses: rotdrop/nextcloud-app-build-system/.github/workflows/ci.yml@main
+    with:
+      php-version: '8.5'
+      php-versions: '["8.4", "8.5"]'
+      php-lint-dirs: lib appinfo templates composer
+      # the font pipeline downloads the DejaVu fonts
+      apt-packages: wget
