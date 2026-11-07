@@ -1,7 +1,13 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "%1$s (renamed)" : "%1$s (umbenannt)",
+    "Installation instructions:" : "Installationsanleitung:",
     "Please install the \"%s\" program on the server." : "Bitte das \"%s\"-Programm auf dem Server installieren.",
+    "Unable to serve request to \"%1$s\": %2$s" : "Anfrage an \"%1$s\" konnte nicht bearbeitet werden: %2$s",
+    "not found" : "Nicht gefunden",
+    "pass through" : "Passthrough",
+    "renamed file" : "Umbenannte Datei",
     "pick a color" : "Farbe wählen",
     "open" : "öffnen",
     "submit" : "Übermitteln",

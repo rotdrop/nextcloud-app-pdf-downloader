@@ -1,4 +1,11 @@
 { "translations": {
+    "%1$s (renamed)" : "%1$s (diganti nama)",
+    "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Masalah instalasi; sumber daya yang diperlukan \"%1$s\" dengan tipe \"%2$s\" tidak terinstal di server, silakan hubungi administrator sistem!",
+    "The input color values are invalid." : "Nilai warna masukan tidak valid.",
+    "The supplied color-string \"%s\" seems to be invalid." : "String warna yang diberikan \"%s\" tampaknya tidak valid.",
+    "Unable to sanitize filename \"%s\"." : "Tidak dapat menyanitasi nama file \"%s\".",
+    "bytes" : "byte",
+    "renamed file" : "file yang diganti nama",
     "pick a color" : "pilih warna",
     "open" : "buka",
     "submit" : "kirim",

@@ -1,7 +1,11 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "%1$s (renamed)" : "%1$s (nimetty uudelleen)",
     "Please install the \"%s\" program on the server." : "Asenna ohjelma \"%s\" palvelimelle.",
+    "Unable to open archive file %s (%s)" : "Arkistotiedostoa %s ei voitu avata (%s)",
+    "bytes" : "tavua",
+    "renamed file" : "uudelleennimetty tiedosto",
     "pick a color" : "valitse väri",
     "undo color choice" : "kumoa värivalinta",
     "Custom Color" : "Mukautettu väri",

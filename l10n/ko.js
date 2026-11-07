@@ -1,6 +1,13 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "Installation instructions:" : "설치 방법:",
+    "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "설치 문제; \"%2$s\"의 필요한 자원 \"%1$s\"이(가) 서버에 설치되지 않았습니다. 시스템 관리자에게 문의하십시오",
+    "The input color values are invalid." : "입력 색상값이 유효하지 않습니다",
+    "The supplied color-string \"%s\" seems to be invalid." : "제공된 color-string \"%s\"이(가) 잘못된 것 같습니다",
+    "Unable to open archive file %s (%s)" : "압축 파일 %s을(를) 열 수 없음 (%s)",
+    "Uncompressed size of archive \"%1$s\" is too large: %2$s > %3$s" : "압축 파일 \"%1$s\"의 압축 전 원본 크기가 너무 큽니다: %2$s > %3$s",
+    "bytes" : "바이트",
     "Choose a folder" : "폴더 선택",
     "Choose a prefix-folder" : "접두사 폴더 지정",
     "Choose {file}" : "{file} 선택",

@@ -1,6 +1,9 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "%1$s (renamed)" : "%1$s (endurnefnd)",
+    "bytes" : "bæti",
+    "renamed file" : "endurnefndi skrá",
     "Choose {file}" : "Veldu {file}",
     "Choose" : "Velja",
     "FILENAME" : "SKRÁARHEITI",

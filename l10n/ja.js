@@ -1,6 +1,9 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "%1$s (renamed)" : "%1$s (リネーム済み)",
+    "bytes" : "バイト",
+    "renamed file" : "リネーム済みファイル",
     "submit" : "送信",
     "Choose {file}" : "{file}を選択",
     "Choose" : "選択",

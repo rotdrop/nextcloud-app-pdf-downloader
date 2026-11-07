@@ -1,6 +1,13 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "%1$s (renamed)" : "%1$s (zmieniona nazwa)",
+    "Installation problem; the required resource \"%1$s\" of type \"%2$s\" is not installed on the server, please contact the system administrator!" : "Problem z instalacją: wymagany zasób „%1$s” typu „%2$s” nie jest zainstalowany na serwerze, skontaktuj się z administratorem!",
+    "The input color values are invalid." : "Wprowadzone wartości kolorów są nieprawidłowe.",
+    "There is no archive file associated with this archiver instance." : "Z tą instancją archiwizatora nie jest powiązany żaden plik archiwum.",
+    "Unable to sanitize filename \"%s\"." : "Nie można oczyścić nazwy pliku \"%s\".",
+    "bytes" : "bajtów",
+    "renamed file" : "zmieniona nazwa pliku",
     "pick a color" : "wybierz kolor",
     "submit" : "zatwierdź",
     "Choose a folder" : "Wybierz katalog",

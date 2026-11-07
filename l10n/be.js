@@ -1,6 +1,9 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "%1$s (renamed)" : "%1$s (перайменаваны)",
+    "Installation instructions:" : "Інструкцыя па ўсталяванні:",
+    "renamed file" : "перайменаваны файл",
     "submit" : "адправіць",
     "Choose a folder" : "Выберыце папку",
     "Choose {file}" : "Выбраць {file}",

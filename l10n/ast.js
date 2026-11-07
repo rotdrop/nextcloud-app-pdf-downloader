@@ -1,6 +1,8 @@
 OC.L10N.register(
     "pdf_downloader",
     {
+    "bytes" : "bytes",
+    "not found" : "nun s'atopó",
     "open" : "abrir",
     "submit" : "unviar",
     "restore palette" : "restaurar la paleta",

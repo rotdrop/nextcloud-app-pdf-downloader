@@ -1,4 +1,6 @@
 { "translations": {
+    "bytes" : "bytes",
+    "not found" : "nun s'atopó",
     "open" : "abrir",
     "submit" : "unviar",
     "restore palette" : "restaurar la paleta",
