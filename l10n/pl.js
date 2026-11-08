@@ -9,6 +9,7 @@ OC.L10N.register(
     "bytes" : "bajtów",
     "renamed file" : "zmieniona nazwa pliku",
     "pick a color" : "wybierz kolor",
+    "open" : "otwórz",
     "submit" : "zatwierdź",
     "Choose a folder" : "Wybierz katalog",
     "Choose {file}" : "Wybierz {file}",
