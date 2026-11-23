@@ -207,7 +207,7 @@ import {
   showError,
   showSuccess,
   TOAST_PERMANENT_TIMEOUT,
-} from '../toolkit/util/toasts.ts'
+} from '@nextcloud/dialogs'
 
 const props = withDefaults(defineProps<{
   node: INode
